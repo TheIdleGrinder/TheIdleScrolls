@@ -1,13 +1,15 @@
 {
-  "Weapons": [
+  "Families": [
     {
       "Name": "Short Blade",
       "Id":  "SBL",
       "Genera": [
         {
           "Name": "Short Sword",
-          "BaseDamage": 4.0,
-          "BaseCooldown": 1.0
+          "Weapon": {
+            "BaseDamage": 4.0,
+            "BaseCooldown": 1.0
+          }
         }
       ]
     },
@@ -17,8 +19,10 @@
       "Genera": [
         {
           "Name": "Long Sword",
-          "BaseDamage": 6.0,
-          "BaseCooldown": 1.45
+          "Weapon": {
+            "BaseDamage": 6.0,
+            "BaseCooldown": 1.45
+          }
         }
       ]
     },
@@ -28,8 +32,10 @@
       "Genera": [
         {
           "Name": "Hatchet",
-          "BaseDamage": 5.0,
-          "BaseCooldown": 1.25
+          "Weapon": {
+            "BaseDamage": 5.0,
+            "BaseCooldown": 1.25
+          }
         }
       ]
     },
@@ -39,8 +45,10 @@
       "Genera": [
         {
           "Name": "Club",
-          "BaseDamage": 7.0,
-          "BaseCooldown": 1.65
+          "Weapon": {
+            "BaseDamage": 7.0,
+            "BaseCooldown": 1.65
+          }
         }
       ]
     },
@@ -50,8 +58,10 @@
       "Genera": [
         {
           "Name": "Spear",
-          "BaseDamage": 9.0,
-          "BaseCooldown": 2.0
+          "Weapon": {
+            "BaseDamage": 9.0,
+            "BaseCooldown": 2.0
+          }
         }
       ]
     }

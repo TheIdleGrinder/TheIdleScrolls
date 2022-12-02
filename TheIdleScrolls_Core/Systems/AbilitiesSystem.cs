@@ -37,8 +37,8 @@ namespace TheIdleScrolls_Core.Systems
                 if (equipmentComp == null)
                     return; // CornerCut: Assumes that all abilities are tied to items
                 m_weaponFamilies = equipmentComp.GetItems()
-                    .Where(i => i.HasComponent<ItemComponent>() && i.HasComponent<WeaponComponent>())
-                    .Select(i => itemFactory.GetItemFamilyIdFromName(i.GetComponent<ItemComponent>()!.ClassName)!)
+                    .Where(i => i.IsItem() && i.IsWeapon())
+                    .Select(i => itemFactory.GetItemFamilyIdFromName(i.GetComponent<ItemComponent>()!.FamilyName)!)
                     .ToList();
             }
 

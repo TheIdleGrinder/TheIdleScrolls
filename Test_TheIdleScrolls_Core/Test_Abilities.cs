@@ -73,8 +73,8 @@ namespace Test_TheIdleScrolls_Core
         [Test]
         public void Adding_XP_to_ability_not_in_component_returns_false()
         {
-            bool result = component.AddXP(Key, 50);
-            Assert.That(result, Is.False);
+            var result = component.AddXP(Key, 50);
+            Assert.That(result, Is.EqualTo(AbilitiesComponent.AddXPResult.NotFound));
             Assert.That(component.GetAbilities(), Has.Count.EqualTo(0));
         }
 
@@ -84,8 +84,8 @@ namespace Test_TheIdleScrolls_Core
         public void Adding_XP_to_ability_in_component_works(int amount)
         {
             component.AddAbility(ability);
-            bool result = component.AddXP(Key, amount);
-            Assert.That(result, Is.True);
+            var result = component.AddXP(Key, amount);
+            Assert.That(result, Is.EqualTo(AbilitiesComponent.AddXPResult.Added));
             Assert.That(ability.XP, Is.EqualTo(amount));
         }
 

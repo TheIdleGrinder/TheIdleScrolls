@@ -64,9 +64,9 @@ namespace TheIdleScrolls_Core
                 var inventoryComp = player.GetComponent<InventoryComponent>();
                 if (inventoryComp != null && inventoryComp.ItemCount == 0)
                 {
-                    foreach (var item in ItemFactory.GetAllWeaponDescriptions(items))
+                    foreach (var item in ItemFactory.GetAllItemDescriptions(items))
                     {
-                        var weapon = ItemFactory.MakeWeapon(item);
+                        var weapon = ItemFactory.MakeItem(item);
                         inventoryComp.AddItem(weapon);
                         m_coordinator.AddEntity(weapon);
                     }

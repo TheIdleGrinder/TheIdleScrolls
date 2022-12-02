@@ -29,47 +29,50 @@ namespace TheIdleScrolls_Core.Items
             }
         }
 
-        public static List<WeaponDescription> GetAllWeaponDescriptions(ItemKingdomDescription items)
+        public static List<ItemDescription> GetAllItemDescriptions(ItemKingdomDescription items)
         {
-            List<WeaponDescription> weapons = new();
-            foreach (var family in items.Weapons)
+            List<ItemDescription> weapons = new();
+            foreach (var family in items.Families)
             {
                 foreach (var genus in family.Genera)
                 {
-                    weapons.Add(new WeaponDescription
+                    weapons.Add(new ItemDescription
                     {
                         Family = family.Name,
                         Genus = genus.Name,
-                        BaseDamage = genus.BaseDamage,
-                        BaseCooldown = genus.BaseCooldown
+                        Weapon = genus.Weapon,
+                        Armor = genus.Armor
                     });
                 }
             }
             return weapons;
         }
 
-        public static Entity MakeWeapon(WeaponDescription description)
+        public static Entity MakeItem(ItemDescription description)
         {
             Entity weapon = new();
             weapon.AddComponent(new NameComponent(description.Genus));
-            weapon.AddComponent(new ItemComponent(ItemPhylum.Weapon, description.Family));
-            weapon.AddComponent(new WeaponComponent(
-                description.Family,
-                description.Genus,
-                description.BaseDamage,
-                description.BaseCooldown));
+            weapon.AddComponent(new ItemComponent(description.Family, description.Genus));
+            if (description.Weapon != null)
+            {
+                weapon.AddComponent(new WeaponComponent(
+                    description.Family,
+                    description.Genus,
+                    description.Weapon.BaseDamage,
+                    description.Weapon.BaseCooldown));
+            }
             return weapon;
         }
 
-        public static Entity? MakeWeapon(string fullId, ItemKingdomDescription items)
+        public static Entity? MakeItem(string fullId, ItemKingdomDescription items)
         {
             string familyId = fullId.Substring(0, 3);
             int genusIndex = int.Parse(fullId.Substring(3));
-            var description = items.GetDescriptionByIdAndIndex<WeaponDescription>(familyId, genusIndex);
+            var description = items.GetDescriptionByIdAndIndex<ItemDescription>(familyId, genusIndex);
             if (description == null)
                 return null;
 
-            return MakeWeapon(description);
+            return MakeItem(description);
         }
 
         public static string? GetIdString(Entity item, ItemKingdomDescription items)
@@ -79,7 +82,7 @@ namespace TheIdleScrolls_Core.Items
                 return null;
             string familyName = weaponComp.Family;
             string genusName = weaponComp.Genus;
-            foreach (var family in items.Weapons)
+            foreach (var family in items.Families)
             {
                 if (family.Name != familyName)
                     continue;
@@ -93,39 +96,39 @@ namespace TheIdleScrolls_Core.Items
             return null;
         }
 
-        public List<WeaponDescription> GetAllWeaponDescriptions()
+        public List<ItemDescription> GetAllItemDescriptions()
         {
             if (s_itemKingdom == null)
                 return new();
-            return GetAllWeaponDescriptions(s_itemKingdom);
+            return GetAllItemDescriptions(s_itemKingdom);
         }
 
         public List<string> GetAllItemFamilyIds()
         {
             if (s_itemKingdom == null)
                 return new();
-            return s_itemKingdom.Weapons.Select(w => w.Id).ToList(); // CornerCut: Assumes single phylum
+            return s_itemKingdom.Families.Select(w => w.Id).ToList();
         }
 
         public string? GetItemFamilyName(string id)
         {
             if (s_itemKingdom == null)
                 return null;
-            return s_itemKingdom.Weapons.Where(w => w.Id == id).FirstOrDefault()?.Name; // CornerCut: Assumes single phylum
+            return s_itemKingdom.Families.Where(w => w.Id == id).FirstOrDefault()?.Name;
         }
 
         public string? GetItemFamilyIdFromName(string name)
         {
             if (s_itemKingdom == null)
                 return null;
-            return s_itemKingdom.Weapons.Where(w => w.Name == name).FirstOrDefault()?.Id; // CornerCut: Assumes single phylum
+            return s_itemKingdom.Families.Where(w => w.Name == name).FirstOrDefault()?.Id;
         }
 
         public Entity? ExpandCode(string code)
         {
             if (s_itemKingdom == null)
                 return null;
-            return MakeWeapon(code, s_itemKingdom);
+            return MakeItem(code, s_itemKingdom);
         }
 
         public string? GenerateItemCode(Entity item)
@@ -133,103 +136,6 @@ namespace TheIdleScrolls_Core.Items
             if (s_itemKingdom == null)
                 return null;
             return GetIdString(item, s_itemKingdom);
-        }
-    }
-
-    public class WeaponDescription
-    {
-        public string Family { get; set; }
-        public string Genus { get; set; }
-        public double BaseDamage { get; set; }
-        public double BaseCooldown { get; set; }
-
-        public WeaponDescription()
-        {
-            Family = "";
-            Genus = "";
-            BaseDamage = 1.0;
-            BaseCooldown = 1.0;
-        }
-    }
-
-    public class WeaponGenusDescription
-    {
-        public string Name { get; set; }
-
-        public double BaseDamage { get; set; }
-
-        public double BaseCooldown { get; set; }
-
-        public WeaponGenusDescription()
-        {
-            Name = "";
-            BaseDamage = 1.0;
-            BaseCooldown = 1.0;
-        }
-    }
-
-    public class ItemFamilyDescription<T> where T : WeaponGenusDescription
-    {
-        public string Name { get; set; }
-
-        public string Id { get; set; }
-
-        public List<T> Genera { get; set; }
-
-        public ItemFamilyDescription()
-        {
-            Name = "";
-            Id = "";
-            Genera = new();
-        }
-
-        public T? GetGenusAt(int index)
-        {
-            return Genera.ElementAtOrDefault(index) ?? null;
-        }
-    }
-
-    public class ItemKingdomDescription
-    {
-        public List<ItemFamilyDescription<WeaponGenusDescription>> Weapons { get; set; }
-
-        public ItemKingdomDescription()
-        {
-            Weapons = new();
-        }
-
-        public T? GetDescriptionByIdAndIndex<T>(string idString, int index) where T : WeaponDescription
-        {
-            if (typeof(T) == typeof(WeaponDescription)) // CornerCut: Let's see how well this scales with other item types...
-            {
-                foreach (var family in Weapons)
-                {
-                    if (family.Id == idString)
-                    {
-                        var genus = family.GetGenusAt(index);
-                        if (genus == null)
-                            return null;
-                        return (T)new WeaponDescription()
-                        {
-                            Family = family.Name,
-                            Genus = genus.Name,
-                            BaseCooldown = genus.BaseCooldown,
-                            BaseDamage = genus.BaseDamage
-                        };
-                    }
-                }
-            }
-            return null;
-        }
-
-        public string? GetFamilyIdFromItemFamilyName(string familyName)
-        {
-            foreach (var weapon in Weapons)
-            {
-                if (weapon.Name == familyName)
-                    return weapon.Id;
-            }
-            return null;
         }
     }
 }

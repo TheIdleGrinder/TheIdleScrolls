@@ -100,18 +100,25 @@ namespace TheIdleScrolls_Core.Components
         }
     }
 
-    public enum ItemPhylum { Weapon }
-
     public class ItemComponent : IComponent
     {
-        public ItemPhylum Phylum { get; set; }
+        public string FamilyName { get; set; }
+        public string GenusName { get; set; }
 
-        public string ClassName { get; set; }
-
-        public ItemComponent(ItemPhylum phylum, string className)
+        public ItemComponent(string familyName, string genusName)
         {
-            Phylum = phylum;
-            ClassName = className;
+            FamilyName = familyName;
+            GenusName = genusName;
+        }
+    }
+
+    public class EquippableComponent : IComponent
+    {
+        public string Slot { get; set; }
+
+        public EquippableComponent(string slot)
+        { 
+            Slot = slot;
         }
     }
 
