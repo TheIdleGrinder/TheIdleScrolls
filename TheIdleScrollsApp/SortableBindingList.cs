@@ -13,7 +13,9 @@ public class SortableBindingList<T> : BindingList<T>
     private ListSortDirection _sortDirection;
     private PropertyDescriptor _sortProperty;
 
+#pragma warning disable CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
     public SortableBindingList(List<T> list)
+#pragma warning restore CS8618 // Ein Non-Nullable-Feld muss beim Beenden des Konstruktors einen Wert ungleich NULL enthalten. Erwägen Sie die Deklaration als Nullable.
         : base(list)
     {
     }
@@ -31,7 +33,9 @@ public class SortableBindingList<T> : BindingList<T>
     protected override void RemoveSortCore()
     {
         _isSorted = false;
+#pragma warning disable CS8625 // Ein NULL-Literal kann nicht in einen Non-Nullable-Verweistyp konvertiert werden.
         _sortProperty = null;
+#pragma warning restore CS8625 // Ein NULL-Literal kann nicht in einen Non-Nullable-Verweistyp konvertiert werden.
     }
 
     protected override bool IsSortedCore
