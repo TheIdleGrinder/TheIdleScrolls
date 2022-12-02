@@ -1,0 +1,26 @@
+[
+    {
+      "Name": "Dummy",
+      "MinLevel": 0,
+      "MaxLevel": 1,
+      "HP": 0.5
+    },
+    {
+      "Name": "Goblin",
+      "MinLevel": 2,
+      "MaxLevel": 15,
+      "HP": 1.0
+    },
+    {
+      "Name": "Orc",
+      "MinLevel": 8,
+      "MaxLevel": 30,
+      "HP": 1.2
+    },
+    {
+      "Name": "Dragon",
+      "MinLevel": 25,
+      "MaxLevel": 100,
+      "HP": 2.5
+    }
+]

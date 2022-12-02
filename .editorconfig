@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS8765: Die NULL-Zulässigkeit des Typs des Parameters entspricht (möglicherweise aufgrund von Attributen für die NULL-Zulässigkeit) nicht dem überschriebenen Member.
+dotnet_diagnostic.CS8765.severity = silent

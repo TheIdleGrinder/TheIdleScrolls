@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>False</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MiniECS\MiniECS.csproj" />
+    <ProjectReference Include="..\TheIdleScrolls_Core\TheIdleScrolls_Core.csproj" />
+    <ProjectReference Include="..\TheIdleScrolls_Storage\TheIdleScrolls_JSON.csproj" />
+  </ItemGroup>
+
+</Project>

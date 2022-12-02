@@ -1,0 +1,138 @@
+﻿using MiniECS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TheIdleScrolls_Core.Utility;
+
+namespace TheIdleScrolls_Core.Components
+{
+    public class LifePoolComponent : IComponent
+    {
+        public int Current = 1;
+        public int Maximum = 1;
+
+        public LifePoolComponent(int maximum = 1)
+        {
+            Current = maximum;
+            Maximum = maximum;
+        }
+
+        public void AddPoints(int points)
+        {
+            Current = Math.Clamp(Current + points, 0, Maximum);
+        }
+
+        public void ApplyDamage(int points)
+        {
+            AddPoints(-points);
+        }
+    }
+
+    public class LevelComponent : IComponent
+    {
+        public int Level = 1;
+
+        public void IncreaseLevel()
+        {
+            Level++;
+        }
+    }
+
+    public class NameComponent : IComponent
+    {
+        public string Name = "";
+
+        public NameComponent(string name)
+        {
+            Name = name;
+        }
+    }
+
+    public class MobComponent : IComponent
+    {
+
+    }
+
+    public class PlayerComponent : IComponent
+    {
+
+    }
+
+    public class AttackComponent : IComponent
+    {
+        public uint Target = 0;
+        public double RawDamage = 1;
+        public Cooldown Cooldown = new(1.0);
+
+        public bool InCombat { get { return Target != 0; } }
+    }
+
+    public class KilledComponent : IComponent
+    {
+        public uint Killer = 0;
+    }
+
+    public class XpGiverComponent : IComponent
+    {
+        public int Amount = 0;
+    }
+
+    public class XpGainerComponent : IComponent
+    {
+        public int Current = 0;
+        public Func<int, int> TargetFunction; // Calculates XP required to go from level n to n+1
+
+        public XpGainerComponent()
+        {
+            TargetFunction = lvl => (int)Math.Round(5 * Math.Pow(lvl + 1, 3.5));
+        }
+
+        public XpGainerComponent(Func<int, int> targetFunction)
+        {
+            TargetFunction = targetFunction;
+        }
+
+        public void AddXp(int amount)
+        {
+            Current += amount;
+        }
+    }
+
+    public enum ItemPhylum { Weapon }
+
+    public class ItemComponent : IComponent
+    {
+        public ItemPhylum Phylum { get; set; }
+
+        public string ClassName { get; set; }
+
+        public ItemComponent(ItemPhylum phylum, string className)
+        {
+            Phylum = phylum;
+            ClassName = className;
+        }
+    }
+
+    public class WeaponComponent : IComponent
+    {
+        public string Class = "";
+        public string Family = "";
+        public double Damage = 1.0;
+        public double Cooldown = 1.0;
+
+        public WeaponComponent()
+        {
+
+        }
+
+        public WeaponComponent(string weaponClass, string weaponFamily, double baseDamage, double baseCooldown)
+        {
+            Class = weaponClass;
+            Family = weaponFamily;
+            Damage = baseDamage;
+            Cooldown = baseCooldown;
+        }
+    }
+}

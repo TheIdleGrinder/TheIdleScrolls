@@ -1,0 +1,59 @@
+{
+  "Weapons": [
+    {
+      "Name": "Short Blade",
+      "Id":  "SBL",
+      "Families": [
+        {
+          "Name": "Short Sword",
+          "BaseDamage": 4.0,
+          "BaseCooldown": 1.0
+        }
+      ]
+    },
+    {
+      "Name": "Long Blade",
+      "Id": "LBL",
+      "Families": [
+        {
+          "Name": "Long Sword",
+          "BaseDamage": 6.0,
+          "BaseCooldown": 1.45
+        }
+      ]
+    },
+    {
+      "Name": "Axe",
+      "Id": "AXE",
+      "Families": [
+        {
+          "Name": "Hatchet",
+          "BaseDamage": 5.0,
+          "BaseCooldown": 1.25
+        }
+      ]
+    },
+    {
+      "Name": "Blunt",
+      "Id": "BLN",
+      "Families": [
+        {
+          "Name": "Club",
+          "BaseDamage": 7.0,
+          "BaseCooldown": 1.65
+        }
+      ]
+    },
+    {
+      "Name": "Polearm",
+      "Id": "POL",
+      "Families": [
+        {
+          "Name": "Spear",
+          "BaseDamage": 9.0,
+          "BaseCooldown": 2.0
+        }
+      ]
+    }
+  ]
+}
