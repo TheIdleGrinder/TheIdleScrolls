@@ -90,8 +90,8 @@ namespace TheIdleScrolls_Storage
         {
             JsonObject json = new()
             {
-                { "Class", component.Class },
-                { "Family", component.Family },
+                { "Class", component.Family },
+                { "Family", component.Genus },
                 { "Damage", component.Damage },
                 { "Cooldown", component.Cooldown }
             };

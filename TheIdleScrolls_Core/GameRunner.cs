@@ -88,7 +88,7 @@ namespace TheIdleScrolls_Core
 
         public void ExecuteTick(double dt)
         {
-            var tickStart = DateTime.Now;
+/*            var tickStart = DateTime.Now;*/
 
             dt *= m_world.SpeedMultiplier;
             m_ticks++;
@@ -99,8 +99,8 @@ namespace TheIdleScrolls_Core
                 system.Update(m_world, m_coordinator, dt);
             }
 
-            var tickDuration = DateTime.Now - tickStart;
-            Console.WriteLine($"Tick duration: {tickDuration.TotalMilliseconds}");
+/*            var tickDuration = DateTime.Now - tickStart;
+            Console.WriteLine($"Tick duration: {tickDuration.TotalMilliseconds}");*/
         }
 
         public void AddSystem(AbstractSystem system)

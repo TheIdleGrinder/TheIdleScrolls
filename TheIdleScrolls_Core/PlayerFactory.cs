@@ -27,9 +27,9 @@ namespace TheIdleScrolls_Core
 
             AbilitiesComponent abilitiesComp = new();
             ItemFactory itemFactory = new();
-            foreach (string key in itemFactory.GetAllItemClassIds())
+            foreach (string key in itemFactory.GetAllItemFamilyIds())
             {
-                string? className = itemFactory.GetItemClassName(key);
+                string? className = itemFactory.GetItemFamilyName(key);
                 if (className == null)
                 {
                     Debug.WriteLine($"Failed to retrieve class name for {key}");

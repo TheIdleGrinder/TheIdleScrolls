@@ -117,7 +117,7 @@ namespace TheIdleScrollsApp
         List<InventoryItem> OrderItemList(List<InventoryItem> items)
         {
             //CornerCut: Magic strings :(, how does one ensure a nice order here?
-            Func<string, string> classOrder = new(c => c switch
+            Func<string, string> familyOrder = new(c => c switch
             {
                 "Short Blade" => "A",
                 "Long Blade" => "B",
@@ -127,7 +127,7 @@ namespace TheIdleScrollsApp
                 _ => c
             });
 
-            return items.OrderBy(i => classOrder(i.Class) + i.Name).ToList();
+            return items.OrderBy(i => familyOrder(i.Family) + i.Name).ToList();
         }
 
         public void SetInventory(List<InventoryItem> items)
@@ -149,7 +149,7 @@ namespace TheIdleScrollsApp
             }
             else
             {
-                toolTip.SetToolTip(lblEqWeapon, $"{item.Name} ({item.Class})\n{item.Damage} DMG\n{item.Speed} s/A");
+                toolTip.SetToolTip(lblEqWeapon, $"{item.Name} ({item.Family})\n{item.Damage} DMG\n{item.Speed} s/A");
                 lblAttack.Text += $"\n({item.Name})";
             }
         }
@@ -182,22 +182,22 @@ namespace TheIdleScrollsApp
         public string Slot { get; set; }
         public string Damage { get; set; }
         public string Speed { get; set; }
-        public string Class { get; set; }
+        public string Family { get; set; }
 
-        public InventoryItem(uint id, string name, string slot, string stat1, string stat2, string @class)
+        public InventoryItem(uint id, string name, string slot, string stat1, string stat2, string family)
         {
             Id = id;
             Name = name;
             Slot = slot;
             Damage = stat1;
             Speed = stat2;
-            Class = @class;
+            Family = family;
         }
 
         public InventoryItem()
         {
             Id = 0;
-            Name = Slot = Damage = Speed = Class = "";
+            Name = Slot = Damage = Speed = Family = "";
         }
     }
 

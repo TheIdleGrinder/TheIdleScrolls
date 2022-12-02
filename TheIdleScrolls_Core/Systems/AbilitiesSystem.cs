@@ -11,7 +11,7 @@ namespace TheIdleScrolls_Core.Systems
         // CornerCut: Assume only the player entity has abilities
         Entity? m_player = null;
 
-        List<string> m_weaponClasses = new();
+        List<string> m_weaponFamilies = new();
 
         Dictionary<string, double> m_timePerItemClass = new();
 
@@ -36,15 +36,15 @@ namespace TheIdleScrolls_Core.Systems
                 var equipmentComp = m_player.GetComponent<EquipmentComponent>();
                 if (equipmentComp == null)
                     return; // CornerCut: Assumes that all abilities are tied to items
-                m_weaponClasses = equipmentComp.GetItems()
+                m_weaponFamilies = equipmentComp.GetItems()
                     .Where(i => i.HasComponent<ItemComponent>() && i.HasComponent<WeaponComponent>())
-                    .Select(i => itemFactory.GetItemClassIdFromName(i.GetComponent<ItemComponent>()!.ClassName)!)
+                    .Select(i => itemFactory.GetItemFamilyIdFromName(i.GetComponent<ItemComponent>()!.ClassName)!)
                     .ToList();
             }
 
             var multiplier = world.XpMultiplier * Math.Sqrt(world.AreaLevel);
-            var share = dt / m_weaponClasses.Count;
-            foreach (var weapon in m_weaponClasses)
+            var share = dt / m_weaponFamilies.Count;
+            foreach (var weapon in m_weaponFamilies)
             {
                 if (!m_timePerItemClass.ContainsKey(weapon))
                 {

@@ -133,8 +133,8 @@ namespace TheIdleScrolls_JSON
         {
             try
             {
-                component.Class = json["Class"]!.GetValue<string>();
-                component.Family = json["Family"]!.GetValue<string>();
+                component.Family = json["Class"]!.GetValue<string>();
+                component.Genus = json["Family"]!.GetValue<string>();
                 component.Damage = json["Damage"]!.GetValue<double>();
                 component.Cooldown = json["Cooldown"]!.GetValue<double>();
                 return true;

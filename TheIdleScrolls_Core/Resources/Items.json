@@ -3,7 +3,7 @@
     {
       "Name": "Short Blade",
       "Id":  "SBL",
-      "Families": [
+      "Genera": [
         {
           "Name": "Short Sword",
           "BaseDamage": 4.0,
@@ -14,7 +14,7 @@
     {
       "Name": "Long Blade",
       "Id": "LBL",
-      "Families": [
+      "Genera": [
         {
           "Name": "Long Sword",
           "BaseDamage": 6.0,
@@ -25,7 +25,7 @@
     {
       "Name": "Axe",
       "Id": "AXE",
-      "Families": [
+      "Genera": [
         {
           "Name": "Hatchet",
           "BaseDamage": 5.0,
@@ -36,7 +36,7 @@
     {
       "Name": "Blunt",
       "Id": "BLN",
-      "Families": [
+      "Genera": [
         {
           "Name": "Club",
           "BaseDamage": 7.0,
@@ -47,7 +47,7 @@
     {
       "Name": "Polearm",
       "Id": "POL",
-      "Families": [
+      "Genera": [
         {
           "Name": "Spear",
           "BaseDamage": 9.0,

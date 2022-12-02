@@ -59,7 +59,7 @@ namespace TheIdleScrolls_Core.Systems
                         combinedCD += weaponComp.Cooldown;
                         weaponCount++;
 
-                        string? classId = world.ItemKingdom.GetClassIdFromItemClassName(weaponComp.Class);
+                        string? classId = world.ItemKingdom.GetFamilyIdFromItemFamilyName(weaponComp.Family);
                         if (classId != null)
                         {
                             var abilityValue = player.GetComponent<AbilitiesComponent>()?.GetAbility(classId)?.Level ?? -1;
@@ -96,7 +96,7 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
-    record AttackStats(double Damage, double Cooldwon, List<string> WeaponClasses);
+    record AttackStats(double Damage, double Cooldwon, List<string> WeaponFamilyIds);
 
     public class StatsUpdatedMessage : IMessage
     {

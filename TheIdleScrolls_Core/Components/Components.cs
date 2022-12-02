@@ -117,8 +117,8 @@ namespace TheIdleScrolls_Core.Components
 
     public class WeaponComponent : IComponent
     {
-        public string Class = "";
         public string Family = "";
+        public string Genus = "";
         public double Damage = 1.0;
         public double Cooldown = 1.0;
 
@@ -127,10 +127,10 @@ namespace TheIdleScrolls_Core.Components
 
         }
 
-        public WeaponComponent(string weaponClass, string weaponFamily, double baseDamage, double baseCooldown)
+        public WeaponComponent(string weaponFamily, string weaponGenus, double baseDamage, double baseCooldown)
         {
-            Class = weaponClass;
             Family = weaponFamily;
+            Genus = weaponGenus;
             Damage = baseDamage;
             Cooldown = baseCooldown;
         }

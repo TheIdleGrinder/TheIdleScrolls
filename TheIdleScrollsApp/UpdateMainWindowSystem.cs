@@ -144,7 +144,7 @@ namespace TheIdleScrollsApp
                 Slot = "Hand",
                 Damage = weaponComp.Damage.ToString(),
                 Speed = weaponComp.Cooldown.ToString(),
-                Class = weaponComp.Class,
+                Family = weaponComp.Family,
                 Name = item.GetName()
             };
         }
