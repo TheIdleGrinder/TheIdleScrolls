@@ -14,5 +14,25 @@ namespace TheIdleScrolls_Core
         {
             return entity.GetComponent<NameComponent>()?.Name ?? $"#{entity.Id}";
         }
+
+        public static bool IsPlayer(this Entity entity)
+        {
+            return entity.HasComponent<PlayerComponent>();
+        }
+
+        public static bool IsMob(this Entity entity)
+        {
+            return entity.HasComponent<MobComponent>();
+        }
+
+        public static bool IsItem(this Entity entity)
+        {
+            return entity.HasComponent<ItemComponent>();
+        }
+
+        public static bool IsWeapon(this Entity entity)
+        {
+            return entity.HasComponent<WeaponComponent>();
+        }
     }
 }
