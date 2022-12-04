@@ -29,14 +29,14 @@ namespace TheIdleScrolls_Core.Items
             }
         }
 
-        public static List<ItemDescription> GetAllItemDescriptions(ItemKingdomDescription items)
+        public static List<ItemDescription> GetAllItemDescriptions(ItemKingdomDescription itemKingdom)
         {
-            List<ItemDescription> weapons = new();
-            foreach (var family in items.Families)
+            List<ItemDescription> items = new();
+            foreach (var family in itemKingdom.Families)
             {
                 foreach (var genus in family.Genera)
                 {
-                    weapons.Add(new ItemDescription
+                    items.Add(new ItemDescription
                     {
                         Family = family.Name,
                         Genus = genus.Name,
@@ -45,23 +45,31 @@ namespace TheIdleScrolls_Core.Items
                     });
                 }
             }
-            return weapons;
+            return items;
         }
 
         public static Entity MakeItem(ItemDescription description)
         {
-            Entity weapon = new();
-            weapon.AddComponent(new NameComponent(description.Genus));
-            weapon.AddComponent(new ItemComponent(description.Family, description.Genus));
+            Entity item = new();
+            item.AddComponent(new NameComponent(description.Genus));
+            item.AddComponent(new ItemComponent(description.Family, description.Genus));
+            if (description.Slot != null)
+            {
+                item.AddComponent(new EquippableComponent(description.Slot.Slot));
+            }
             if (description.Weapon != null)
             {
-                weapon.AddComponent(new WeaponComponent(
+                item.AddComponent(new WeaponComponent(
                     description.Family,
                     description.Genus,
                     description.Weapon.BaseDamage,
                     description.Weapon.BaseCooldown));
             }
-            return weapon;
+            if (description.Armor != null)
+            {
+                item.AddComponent(new ArmorComponent(description.Armor.BaseArmor));
+            }
+            return item;
         }
 
         public static Entity? MakeItem(string fullId, ItemKingdomDescription items)

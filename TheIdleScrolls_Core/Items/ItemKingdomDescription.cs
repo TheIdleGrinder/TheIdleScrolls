@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Components;
 
 namespace TheIdleScrolls_Core.Items
 {
@@ -10,8 +11,14 @@ namespace TheIdleScrolls_Core.Items
     {
         public string Family { get; set; } = "??";
         public string Genus { get; set; } = "??";
+        public EquipmentSlotDescription? Slot { get; set; } = null;
         public WeaponGenus? Weapon { get; set; } = null;
         public ArmorGenus? Armor { get; set; } = null;
+    }
+
+    public class EquipmentSlotDescription
+    {
+        public EquipmentSlot Slot { get; set; } = EquipmentSlot.Hand;
     }
 
     public class WeaponGenus
@@ -29,6 +36,8 @@ namespace TheIdleScrolls_Core.Items
     public class ItemGenusDescription
     {
         public string Name { get; set; } = "??";
+
+        public EquipmentSlotDescription? Equippable { get; set; } = null;
 
         public WeaponGenus? Weapon { get; set; } = null;
 

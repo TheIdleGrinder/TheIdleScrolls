@@ -114,9 +114,9 @@ namespace TheIdleScrolls_Core.Components
 
     public class EquippableComponent : IComponent
     {
-        public string Slot { get; set; }
+        public EquipmentSlot Slot { get; set; }
 
-        public EquippableComponent(string slot)
+        public EquippableComponent(EquipmentSlot slot)
         { 
             Slot = slot;
         }
@@ -140,6 +140,16 @@ namespace TheIdleScrolls_Core.Components
             Genus = weaponGenus;
             Damage = baseDamage;
             Cooldown = baseCooldown;
+        }
+    }
+
+    public class ArmorComponent : IComponent
+    {
+        public double Armor { get; set; }
+
+        public ArmorComponent(double armor)
+        {
+            Armor = armor;
         }
     }
 }

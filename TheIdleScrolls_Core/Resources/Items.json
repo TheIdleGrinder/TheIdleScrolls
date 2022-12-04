@@ -6,6 +6,9 @@
       "Genera": [
         {
           "Name": "Short Sword",
+          "Equippable": {
+            "Slot":  "Hand"
+          },
           "Weapon": {
             "BaseDamage": 4.0,
             "BaseCooldown": 1.0
@@ -19,6 +22,9 @@
       "Genera": [
         {
           "Name": "Long Sword",
+          "Equippable": {
+            "Slot": "Hand"
+          },
           "Weapon": {
             "BaseDamage": 6.0,
             "BaseCooldown": 1.45
@@ -32,6 +38,9 @@
       "Genera": [
         {
           "Name": "Hatchet",
+          "Equippable": {
+            "Slot": "Hand"
+          },
           "Weapon": {
             "BaseDamage": 5.0,
             "BaseCooldown": 1.25
@@ -45,6 +54,9 @@
       "Genera": [
         {
           "Name": "Club",
+          "Equippable": {
+            "Slot": "Hand"
+          },
           "Weapon": {
             "BaseDamage": 7.0,
             "BaseCooldown": 1.65
@@ -58,6 +70,9 @@
       "Genera": [
         {
           "Name": "Spear",
+          "Equippable": {
+            "Slot": "Hand"
+          },
           "Weapon": {
             "BaseDamage": 9.0,
             "BaseCooldown": 2.0
