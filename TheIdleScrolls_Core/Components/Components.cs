@@ -157,4 +157,14 @@ namespace TheIdleScrolls_Core.Components
             Armor = armor;
         }
     }
+
+    public class MobDamageComponent : IComponent
+    {
+        public double Multiplier { get; set; }
+
+        public MobDamageComponent(double multiplier)
+        {
+            Multiplier = multiplier;
+        }
+    }
 }

@@ -13,6 +13,8 @@ namespace TheIdleScrolls_Core.Utility
 
         public double Duration { get { return m_duration; } }
         public double Remaining { get { return m_remaining; } }
+        public bool SingleShot { get; set; } = false;
+        public bool HasFinished { get { return Remaining <= 0.0; } }
 
         public Cooldown(double duration, bool startReady = false)
         {
@@ -22,14 +24,35 @@ namespace TheIdleScrolls_Core.Utility
 
         public int Update(double dt)
         {
-            int triggers = 0;
-            m_remaining -= dt;
-            while (m_remaining <= 0.0)
+            if (SingleShot && HasFinished)
             {
-                triggers++;
-                m_remaining += m_duration;
+                m_remaining = 0.0;
+                return 0;
             }
-            return triggers;
+            m_remaining -= dt;
+            if (!HasFinished)
+                return 0;
+
+            if (SingleShot)
+            {
+                m_remaining = 0.0;
+                return 1;
+            }
+            else
+            {
+                int triggers = 0;
+                while (HasFinished)
+                {
+                   triggers++;
+                   m_remaining += m_duration;
+                }
+                return triggers;
+            }
+        }
+
+        public void Reset()
+        {
+            m_remaining = m_duration;
         }
     }
 }

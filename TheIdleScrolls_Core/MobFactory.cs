@@ -14,6 +14,7 @@ namespace TheIdleScrolls_Core
         public int MinLevel { get; set; }
         public int MaxLevel { get; set; }
         public double HP { get; set; }
+        public double Damage { get; set; } = 1.0;
 
         public MobDescription()
         {
@@ -38,6 +39,12 @@ namespace TheIdleScrolls_Core
             mob.AddComponent(new LevelComponent { Level = level });
             mob.AddComponent(new LifePoolComponent((int)(level * description.HP * 10)));
             mob.AddComponent(new XpGiverComponent { Amount = CalculateXpValue(description, level) });
+
+            if (description.Damage > 0.0)
+            {
+                mob.AddComponent(new MobDamageComponent(description.Damage));
+            }
+
             return mob;
         }
 
