@@ -1,3 +1,3 @@
 # TheIdleScrolls
 
-my readme
+A fantasy idle game that is all about grinding and collecting achievements
