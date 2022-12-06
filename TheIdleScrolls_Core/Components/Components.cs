@@ -44,6 +44,11 @@ namespace TheIdleScrolls_Core.Components
     {
         public string Name = "";
 
+        public NameComponent()
+        {
+            Name = "??";
+        }
+
         public NameComponent(string name)
         {
             Name = name;

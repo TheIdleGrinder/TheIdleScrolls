@@ -36,13 +36,7 @@ namespace TheIdleScrolls_Core.Items
             {
                 foreach (var genus in family.Genera)
                 {
-                    items.Add(new ItemDescription
-                    {
-                        Family = family.Name,
-                        Genus = genus.Name,
-                        Weapon = genus.Weapon,
-                        Armor = genus.Armor
-                    });
+                    items.Add(new ItemDescription(family.Name, genus));
                 }
             }
             return items;
@@ -53,9 +47,9 @@ namespace TheIdleScrolls_Core.Items
             Entity item = new();
             item.AddComponent(new NameComponent(description.Genus));
             item.AddComponent(new ItemComponent(description.Family, description.Genus));
-            if (description.Slot != null)
+            if (description.Equippable != null)
             {
-                item.AddComponent(new EquippableComponent(description.Slot.Slot));
+                item.AddComponent(new EquippableComponent(EquipSlot.Parse(description.Equippable.Slot)));
             }
             if (description.Weapon != null)
             {

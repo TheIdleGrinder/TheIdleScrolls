@@ -11,14 +11,25 @@ namespace TheIdleScrolls_Core.Items
     {
         public string Family { get; set; } = "??";
         public string Genus { get; set; } = "??";
-        public EquipmentSlotDescription? Slot { get; set; } = null;
+        public EquippableDescription? Equippable { get; set; } = null;
         public WeaponGenus? Weapon { get; set; } = null;
         public ArmorGenus? Armor { get; set; } = null;
+
+        public ItemDescription() { }
+
+        public ItemDescription(string familyName, ItemGenusDescription genus)
+        {
+            Family = familyName;
+            Genus = genus.Name;
+            Weapon = genus.Weapon;
+            Armor = genus.Armor;
+            Equippable = genus.Equippable;
+        }
     }
 
-    public class EquipmentSlotDescription
+    public class EquippableDescription
     {
-        public EquipmentSlot Slot { get; set; } = EquipmentSlot.Hand;
+        public string Slot { get; set; } = "";
     }
 
     public class WeaponGenus
@@ -37,7 +48,7 @@ namespace TheIdleScrolls_Core.Items
     {
         public string Name { get; set; } = "??";
 
-        public EquipmentSlotDescription? Equippable { get; set; } = null;
+        public EquippableDescription? Equippable { get; set; } = null;
 
         public WeaponGenus? Weapon { get; set; } = null;
 
@@ -83,13 +94,7 @@ namespace TheIdleScrolls_Core.Items
                     var genus = family.GetGenusAt(index);
                     if (genus == null)
                         return null;
-                    return new ItemDescription()
-                    {
-                        Family = family.Name,
-                        Genus = genus.Name,
-                        Weapon = genus.Weapon,
-                        Armor = genus.Armor
-                    };
+                    return new ItemDescription(family.Name, genus);
                 }
             }
             return null;

@@ -12,6 +12,14 @@ namespace TheIdleScrolls_Core.Components
         Hand
     }
 
+    public static class EquipSlot
+    {
+        public static EquipmentSlot Parse(string serialized)
+        {
+            return (EquipmentSlot)Enum.Parse(typeof(EquipmentSlot), serialized, true);
+        }
+    }
+
     public class EquipmentComponent : IComponent
     {
         List<EquipmentSlot> m_freeSlots;
@@ -30,14 +38,15 @@ namespace TheIdleScrolls_Core.Components
         public bool EquipItem(Entity item)
         {
             if (!item.HasComponent<ItemComponent>())
-            {
-                throw new Exception($"Entity {item.GetName()} has no 'Item' component");
-            }
+                throw new Exception($"Entity {item.GetName()} is not an item");
+
+            if (!item.HasComponent<EquippableComponent>())
+                throw new Exception($"Entity {item.GetName()} is not equippable");
 
             if (!CanEquipItem(item))
                 return false;
 
-            List<EquipmentSlot> requiredSlots = new() { EquipmentSlot.Hand }; // TODO: Hardcoded for now
+            List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
             requiredSlots.ForEach(s => m_freeSlots.Remove(s));
             m_items.Add(item);
             return true;
@@ -48,7 +57,7 @@ namespace TheIdleScrolls_Core.Components
             bool removed = m_items.Remove(item);
             if (removed)
             {
-                List<EquipmentSlot> requiredSlots = new() { EquipmentSlot.Hand }; // TODO: Hardcoded for now
+                List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
                 requiredSlots.ForEach(s => m_freeSlots.Add(s));
             }
             return removed;
@@ -59,7 +68,7 @@ namespace TheIdleScrolls_Core.Components
             var itemComp = item.GetComponent<ItemComponent>();
             if (itemComp == null)
                 return false;
-            List<EquipmentSlot> requiredSlots = new() { EquipmentSlot.Hand }; // TODO: Hardcoded for now
+            List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
             foreach (var slot in requiredSlots)
             {
                 if (requiredSlots.Count(s => s == slot) > m_freeSlots.Count(s => s == slot))
