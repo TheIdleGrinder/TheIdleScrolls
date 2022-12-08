@@ -54,5 +54,11 @@ namespace TheIdleScrolls_Core.Utility
         {
             m_remaining = m_duration;
         }
+
+        public void Reset(double newDuration)
+        {
+            m_duration = newDuration;
+            Reset();
+        }
     }
 }

@@ -50,8 +50,9 @@ namespace TheIdleScrolls_Core
 
         int CalculateXpValue(MobDescription description, int level)
         {
+            double dmgMulti = 0.5 + 0.5 * description.Damage;
             return (int)Math.Round(
-                5.0 * Math.Pow(level, 2) * description.HP
+                5.0 * Math.Pow(level, 2) * description.HP * dmgMulti
             );
         }
     }

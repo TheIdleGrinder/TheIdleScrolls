@@ -3,7 +3,8 @@
       "Name": "Dummy",
       "MinLevel": 0,
       "MaxLevel": 1,
-      "HP": 0.5
+      "HP": 0.5,
+      "Damage":  0.0
     },
     {
       "Name": "Goblin",

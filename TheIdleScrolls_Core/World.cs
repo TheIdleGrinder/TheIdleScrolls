@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core
 {
@@ -15,5 +16,12 @@ namespace TheIdleScrolls_Core
         public double SpeedMultiplier = 1.0;
 
         public ItemKingdomDescription ItemKingdom = new();
+
+        public Cooldown TimeLimit = new(10.0);
+
+        public World()
+        {
+            TimeLimit.SingleShot = true;
+        }
     }
 }

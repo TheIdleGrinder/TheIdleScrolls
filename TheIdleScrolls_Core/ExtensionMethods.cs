@@ -25,6 +25,11 @@ namespace TheIdleScrolls_Core
             return entity.HasComponent<MobComponent>();
         }
 
+        public static int GetLevel(this Entity entity)
+        {
+            return entity.GetComponent<LevelComponent>()?.Level ?? 0;
+        }
+
         public static bool IsItem(this Entity entity)
         {
             return entity.HasComponent<ItemComponent>();

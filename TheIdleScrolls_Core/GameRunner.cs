@@ -29,6 +29,7 @@ namespace TheIdleScrolls_Core
             m_ticks = 0;
             m_dataHandler = dataHandler;
 
+            m_systems.Add(new TimeLimitSystem());
             m_systems.Add(new TravelSystem());
             m_systems.Add(new MobSpawnerSystem());
             m_systems.Add(new TargetSelectorSystem());
