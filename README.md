@@ -1,4 +1,4 @@
-# TheIdleScrolls
+# The Idle Scrolls
 
 ## Fight monsters, get stronger, fight stronger monsters
 
