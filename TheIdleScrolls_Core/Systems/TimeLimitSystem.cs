@@ -29,6 +29,7 @@ namespace TheIdleScrolls_Core.Systems
                 int level = m_player.GetLevel();
                 double duration = 10.0 * level / world.AreaLevel;
                 world.TimeLimit.Reset(duration);
+                coordinator.PostMessage(this, new TextMessage($"New time limit: {duration:0.###} s"));
             }
 
             if (m_inCombat)
@@ -42,6 +43,9 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     var mobName = coordinator.GetEntities<MobComponent>().FirstOrDefault()?.GetName() ?? "??";
                     coordinator.PostMessage(this, new BattleLostMessage(m_player, mobName, world.AreaLevel));
+
+                    coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id)); // Despawn all mobs
+                    m_inCombat = false;
                 }
             }
         }

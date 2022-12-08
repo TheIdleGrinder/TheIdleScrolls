@@ -160,6 +160,12 @@ namespace TheIdleScrollsApp
             gridAbilities.DataSource = m_abilities;
         }
 
+        public void UpdateTimeLimit(double remaining, double limit)
+        {
+            lblTimeLimit.Visible = limit > 0.0;
+            lblTimeLimit.Text = $"{remaining:0.000} s";
+        }
+
         private void gridInventory_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= gridInventory.Rows.Count)

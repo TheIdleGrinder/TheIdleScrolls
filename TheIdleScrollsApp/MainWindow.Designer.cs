@@ -56,6 +56,7 @@
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.timerTick = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.lblTimeLimit = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -78,6 +79,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.lblTimeLimit);
             this.splitContainer1.Panel1.Controls.Add(this.lblMobName);
             this.splitContainer1.Panel1.Controls.Add(this.lblMobHP);
             this.splitContainer1.Panel1.Controls.Add(this.lblArea);
@@ -420,6 +422,19 @@
             this.toolTip.ReshowDelay = 20;
             this.toolTip.ShowAlways = true;
             // 
+            // lblTimeLimit
+            // 
+            this.lblTimeLimit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTimeLimit.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblTimeLimit.ForeColor = System.Drawing.Color.LimeGreen;
+            this.lblTimeLimit.Location = new System.Drawing.Point(3, 275);
+            this.lblTimeLimit.Name = "lblTimeLimit";
+            this.lblTimeLimit.Size = new System.Drawing.Size(349, 21);
+            this.lblTimeLimit.TabIndex = 2;
+            this.lblTimeLimit.Text = "10.00";
+            this.lblTimeLimit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -476,5 +491,6 @@
         private Label lblEqWeapon;
         private TabPage tabAbilities;
         private DataGridView gridAbilities;
+        private Label lblTimeLimit;
     }
 }

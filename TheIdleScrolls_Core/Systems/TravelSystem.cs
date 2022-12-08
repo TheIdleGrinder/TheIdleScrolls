@@ -37,7 +37,6 @@ namespace TheIdleScrolls_Core.Systems
             {
                 if (world.AreaLevel > 1)
                     Travel(world.AreaLevel - 1, world, coordinator);
-                world.TimeLimit.Reset();
             }
             else if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProgress)
             {

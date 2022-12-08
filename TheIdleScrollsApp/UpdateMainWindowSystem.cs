@@ -128,6 +128,13 @@ namespace TheIdleScrollsApp
                 var mobHpMax = mob.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
                 mainWindow.SetMob(mobName, mobLevel);
                 mainWindow.SetMobHP(mobHp, mobHpMax);
+
+                // Update time limit
+                mainWindow.UpdateTimeLimit(world.TimeLimit.Remaining, world.TimeLimit.Duration);
+            }
+            else
+            {
+                mainWindow.UpdateTimeLimit(0.0, 0.0);
             }
 
             m_firstUpdate = false;

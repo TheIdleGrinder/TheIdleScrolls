@@ -1,27 +1,33 @@
 [
-    {
-      "Name": "Dummy",
-      "MinLevel": 0,
-      "MaxLevel": 1,
-      "HP": 0.5,
-      "Damage":  0.0
-    },
-    {
-      "Name": "Goblin",
-      "MinLevel": 2,
-      "MaxLevel": 15,
-      "HP": 1.0
-    },
-    {
-      "Name": "Orc",
-      "MinLevel": 8,
-      "MaxLevel": 30,
-      "HP": 1.2
-    },
-    {
-      "Name": "Dragon",
-      "MinLevel": 25,
-      "MaxLevel": 100,
-      "HP": 2.5
-    }
+  {
+    "Name": "Dummy",
+    "MinLevel": 0,
+    "MaxLevel": 1,
+    "HP": 0.5,
+    "Damage": 0.0
+  },
+  {
+    "Name": "Goblin",
+    "MinLevel": 2,
+    "MaxLevel": 15,
+    "HP": 1.0
+  },
+  {
+    "Name": "Orc",
+    "MinLevel": 8,
+    "MaxLevel": 30,
+    "HP": 1.2
+  },
+  {
+    "Name": "Dragon",
+    "MinLevel": 25,
+    "MaxLevel": 100,
+    "HP": 2.5
+  },
+  {
+    "Name": "Super Dragon",
+    "MinLevel": 101,
+    "MaxLevel": 1000,
+    "HP": 3.0
+  }
 ]
