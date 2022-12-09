@@ -16,6 +16,7 @@ namespace TheIdleScrollsApp
         GameRunner m_runner;
 
         List<ItemMove> m_commands = new();
+        List<IMessage> m_requests = new();
 
         public CommandProcessingSystem(MainWindow mainWindow, GameRunner runner)
         {
@@ -29,6 +30,16 @@ namespace TheIdleScrollsApp
         public void EquipItem(uint playerId, uint itemId)
         {
             m_commands.Add(new ItemMove(playerId, itemId, true));
+        }
+
+        public void SetAutoProceed(bool autoProceed)
+        {
+            m_requests.Add(new AutoProceedRequest(autoProceed));
+        }
+
+        public void TravelToArea(int areaLevel)
+        {
+            m_requests.Add(new TravelRequest(areaLevel));
         }
 
         public void UnequipItem(uint playerId, uint itemId)
@@ -45,6 +56,12 @@ namespace TheIdleScrollsApp
                 processed.Add(move);
             }
             processed.ForEach(m => m_commands.Remove(m));
+
+            foreach (var request in m_requests)
+            {
+                coordinator.PostMessage(this, request as dynamic);
+            }
+            m_requests.Clear();
         }
 
         class ItemMove

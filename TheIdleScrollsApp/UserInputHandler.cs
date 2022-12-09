@@ -12,5 +12,9 @@ namespace TheIdleScrollsApp
         public void EquipItem(uint playerId, uint itemId);
 
         public void UnequipItem(uint playerId, uint itemId);
+
+        public void TravelToArea(int areaLevel);
+
+        public void SetAutoProceed(bool autoProceed);
     }
 }

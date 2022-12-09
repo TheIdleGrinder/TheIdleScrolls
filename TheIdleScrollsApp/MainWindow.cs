@@ -19,6 +19,7 @@ namespace TheIdleScrollsApp
 
 
         uint m_playerId = 0;
+        int m_areaLevel = 0;
         SortableBindingList<InventoryItem> m_Inventory { get; set; }
         Equipment m_Equipment { get; set; }
         SortableBindingList<AbilityRepresentation> m_abilities { get; set; }
@@ -90,6 +91,7 @@ namespace TheIdleScrollsApp
 
         public void SetAreaLevel(int level)
         {
+            m_areaLevel = level;
             lblArea.Text = $"Wilderness - Level {level}";
         }
 
@@ -178,6 +180,21 @@ namespace TheIdleScrollsApp
         {
             if (m_Equipment.Hand != null)
                 m_userInputHandler.UnequipItem(m_playerId, m_Equipment.Hand.Id);
+        }
+
+        private void btnAreaPrev_Click(object sender, EventArgs e)
+        {
+            m_userInputHandler.TravelToArea(m_areaLevel - 1);
+        }
+
+        private void btnAreaNext_Click(object sender, EventArgs e)
+        {
+            m_userInputHandler.TravelToArea(m_areaLevel + 1);
+        }
+
+        private void cbNextAfterWin_MouseClick(object sender, MouseEventArgs e)
+        {
+            m_userInputHandler.SetAutoProceed(cbNextAfterWin.Checked);
         }
     }
 

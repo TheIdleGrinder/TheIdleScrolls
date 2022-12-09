@@ -11,7 +11,7 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class TravelSystem : AbstractSystem
     {
-        bool m_autoProgress = true;
+        bool m_autoProceed = false;
 
         bool m_firstUpdate = true;
 
@@ -32,13 +32,26 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
 
+            var autoProcRequest = coordinator.FetchMessagesByType<AutoProceedRequest>().LastOrDefault(); // Consider only most recent
+            if (autoProcRequest != null)
+            {
+                m_autoProceed = autoProcRequest.AutoProceed;
+            }
+
+            var travelRequest = coordinator.FetchMessagesByType<TravelRequest>().LastOrDefault();
+            if (travelRequest != null)
+            {
+                Travel(travelRequest.AreaLevel, world, coordinator);
+                return;
+            }
+
             // Player lost battle
             if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>()) 
             {
                 if (world.AreaLevel > 1)
                     Travel(world.AreaLevel - 1, world, coordinator);
             }
-            else if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProgress)
+            else if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed)
             {
                 Travel(world.AreaLevel + 1, world, coordinator);
             }
@@ -49,9 +62,54 @@ namespace TheIdleScrolls_Core.Systems
             coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id));
             world.AreaLevel = areaLevel;
             world.TimeLimit.Reset();
-            coordinator.PostMessage(this, new TextMessage($"Travelled to new area with level {areaLevel}"));
+            coordinator.PostMessage(this, new TravelMessage("Wilderness", areaLevel));
         }
     }
 
-    
+    public class TravelMessage : IMessage 
+    { 
+        public string AreaName { get; set; }
+        public int AreaLevel { get; set; }
+
+        public TravelMessage(string areaName, int areaLevel)
+        {
+            AreaName = areaName;
+            AreaLevel = areaLevel;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Travelled to {AreaName} (Level {AreaLevel})";
+        }
+    }
+
+    public class TravelRequest : IMessage
+    {
+        public int AreaLevel { get; set; }
+
+        public TravelRequest(int areaLevel)
+        {
+            AreaLevel = areaLevel;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Request: Travel to area with level {AreaLevel}";
+        }
+    }
+
+    public class AutoProceedRequest : IMessage
+    {
+        public bool AutoProceed { get; set; }
+
+        public AutoProceedRequest(bool autoProceed)
+        {
+            AutoProceed = autoProceed;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Request: {(AutoProceed ? "A" : "Dea")}ctivate automatic proceeding";
+        }
+    }
 }

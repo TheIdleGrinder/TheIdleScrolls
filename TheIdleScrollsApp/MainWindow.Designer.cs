@@ -30,6 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.cbNextAfterWin = new System.Windows.Forms.CheckBox();
+            this.btnAreaNext = new System.Windows.Forms.Button();
+            this.btnAreaPrev = new System.Windows.Forms.Button();
+            this.lblTimeLimit = new System.Windows.Forms.Label();
             this.lblMobName = new System.Windows.Forms.Label();
             this.lblMobHP = new System.Windows.Forms.Label();
             this.lblArea = new System.Windows.Forms.Label();
@@ -56,7 +60,6 @@
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.timerTick = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.lblTimeLimit = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,6 +82,9 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.cbNextAfterWin);
+            this.splitContainer1.Panel1.Controls.Add(this.btnAreaNext);
+            this.splitContainer1.Panel1.Controls.Add(this.btnAreaPrev);
             this.splitContainer1.Panel1.Controls.Add(this.lblTimeLimit);
             this.splitContainer1.Panel1.Controls.Add(this.lblMobName);
             this.splitContainer1.Panel1.Controls.Add(this.lblMobHP);
@@ -90,6 +96,53 @@
             this.splitContainer1.Size = new System.Drawing.Size(772, 366);
             this.splitContainer1.SplitterDistance = 357;
             this.splitContainer1.TabIndex = 0;
+            // 
+            // cbNextAfterWin
+            // 
+            this.cbNextAfterWin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbNextAfterWin.AutoSize = true;
+            this.cbNextAfterWin.Location = new System.Drawing.Point(273, 40);
+            this.cbNextAfterWin.Name = "cbNextAfterWin";
+            this.cbNextAfterWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.cbNextAfterWin.Size = new System.Drawing.Size(79, 19);
+            this.cbNextAfterWin.TabIndex = 8;
+            this.cbNextAfterWin.Text = "Auto Proc";
+            this.cbNextAfterWin.UseVisualStyleBackColor = true;
+            this.cbNextAfterWin.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbNextAfterWin_MouseClick);
+            // 
+            // btnAreaNext
+            // 
+            this.btnAreaNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAreaNext.Location = new System.Drawing.Point(312, 11);
+            this.btnAreaNext.Name = "btnAreaNext";
+            this.btnAreaNext.Size = new System.Drawing.Size(40, 23);
+            this.btnAreaNext.TabIndex = 7;
+            this.btnAreaNext.Text = "==>";
+            this.btnAreaNext.UseVisualStyleBackColor = true;
+            this.btnAreaNext.Click += new System.EventHandler(this.btnAreaNext_Click);
+            // 
+            // btnAreaPrev
+            // 
+            this.btnAreaPrev.Location = new System.Drawing.Point(12, 9);
+            this.btnAreaPrev.Name = "btnAreaPrev";
+            this.btnAreaPrev.Size = new System.Drawing.Size(40, 23);
+            this.btnAreaPrev.TabIndex = 6;
+            this.btnAreaPrev.Text = "<==";
+            this.btnAreaPrev.UseVisualStyleBackColor = true;
+            this.btnAreaPrev.Click += new System.EventHandler(this.btnAreaPrev_Click);
+            // 
+            // lblTimeLimit
+            // 
+            this.lblTimeLimit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTimeLimit.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.lblTimeLimit.ForeColor = System.Drawing.Color.LimeGreen;
+            this.lblTimeLimit.Location = new System.Drawing.Point(3, 275);
+            this.lblTimeLimit.Name = "lblTimeLimit";
+            this.lblTimeLimit.Size = new System.Drawing.Size(349, 21);
+            this.lblTimeLimit.TabIndex = 2;
+            this.lblTimeLimit.Text = "10.00";
+            this.lblTimeLimit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblMobName
             // 
@@ -422,19 +475,6 @@
             this.toolTip.ReshowDelay = 20;
             this.toolTip.ShowAlways = true;
             // 
-            // lblTimeLimit
-            // 
-            this.lblTimeLimit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTimeLimit.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblTimeLimit.ForeColor = System.Drawing.Color.LimeGreen;
-            this.lblTimeLimit.Location = new System.Drawing.Point(3, 275);
-            this.lblTimeLimit.Name = "lblTimeLimit";
-            this.lblTimeLimit.Size = new System.Drawing.Size(349, 21);
-            this.lblTimeLimit.TabIndex = 2;
-            this.lblTimeLimit.Text = "10.00";
-            this.lblTimeLimit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -445,6 +485,7 @@
             this.Text = "The Idle Scrolls";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -492,5 +533,8 @@
         private TabPage tabAbilities;
         private DataGridView gridAbilities;
         private Label lblTimeLimit;
+        private CheckBox cbNextAfterWin;
+        private Button btnAreaNext;
+        private Button btnAreaPrev;
     }
 }
