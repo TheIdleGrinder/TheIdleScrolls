@@ -168,6 +168,11 @@ namespace TheIdleScrollsApp
             lblTimeLimit.Text = $"{remaining:0.000} s";
         }
 
+        public void SetAutoProceed(bool autoProceed)
+        {
+            cbNextAfterWin.Checked = autoProceed;
+        }
+
         private void gridInventory_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= gridInventory.Rows.Count)

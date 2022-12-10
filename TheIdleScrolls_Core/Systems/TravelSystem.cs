@@ -30,30 +30,31 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     m_firstUpdate = false;
                 }
-            }
 
-            var autoProcRequest = coordinator.FetchMessagesByType<AutoProceedRequest>().LastOrDefault(); // Consider only most recent
-            if (autoProcRequest != null)
-            {
-                m_autoProceed = autoProcRequest.AutoProceed;
+                coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed)); // CornerCut: make info accessible to app
             }
 
             var travelRequest = coordinator.FetchMessagesByType<TravelRequest>().LastOrDefault();
             if (travelRequest != null)
             {
                 Travel(travelRequest.AreaLevel, world, coordinator);
-                return;
             }
-
-            // Player lost battle
-            if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>()) 
+            else if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>()) // Player lost battle
             {
                 if (world.AreaLevel > 1)
                     Travel(world.AreaLevel - 1, world, coordinator);
+                coordinator.PostMessage(this, new AutoProceedRequest(false));
             }
             else if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed)
             {
                 Travel(world.AreaLevel + 1, world, coordinator);
+            }
+
+            var autoProcRequest = coordinator.FetchMessagesByType<AutoProceedRequest>().LastOrDefault(); // Consider only most recent
+            if (autoProcRequest != null)
+            {
+                m_autoProceed = autoProcRequest.AutoProceed;
+                coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed));
             }
         }
 
@@ -80,6 +81,21 @@ namespace TheIdleScrolls_Core.Systems
         string IMessage.BuildMessage()
         {
             return $"Travelled to {AreaName} (Level {AreaLevel})";
+        }
+    }
+
+    public class AutoProceedStatusMessage : IMessage
+    {
+        public bool AutoProceed { get; set; }
+
+        public AutoProceedStatusMessage(bool autoProceed)
+        {
+            AutoProceed = autoProceed;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Auto proceed status changed: {(AutoProceed ? "Enabled" : "Disabled")}";
         }
     }
 

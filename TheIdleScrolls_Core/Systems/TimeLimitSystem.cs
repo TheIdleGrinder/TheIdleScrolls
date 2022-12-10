@@ -24,7 +24,7 @@ namespace TheIdleScrolls_Core.Systems
             bool previouslyInCombat = m_inCombat;
             m_inCombat = coordinator.GetEntities<MobComponent>().Count > 0;
 
-            if (m_inCombat && !previouslyInCombat) // Combat just started, prepare time limit
+            if (coordinator.MessageTypeIsOnBoard<MobSpawnMessage>()) // Combat just started, prepare time limit
             {
                 int level = m_player.GetLevel();
                 double duration = 10.0 * level / world.AreaLevel;

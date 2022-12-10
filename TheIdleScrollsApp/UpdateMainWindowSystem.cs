@@ -111,6 +111,13 @@ namespace TheIdleScrollsApp
                 m_abilitiesUpdateTimer = 0.0;
             }
 
+            // Update auto proceed state
+            var autoProceed = coordinator.FetchMessagesByType<AutoProceedStatusMessage>().LastOrDefault();
+            if (autoProceed != null)
+            {
+                mainWindow.SetAutoProceed(autoProceed.AutoProceed);
+            }
+
             // React to tutorial messages
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TutorialMessage>())
             {
