@@ -1,0 +1,49 @@
+﻿using MiniECS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TheIdleScrolls_Core;
+using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Systems;
+
+namespace TheIdleScrollsApp
+{
+    internal class UserInputSystem : AbstractSystem, IUserInputHandler
+    {
+
+        List<IMessage> m_requests = new();
+
+        public void EquipItem(uint playerId, uint itemId)
+        {
+            m_requests.Add(new ItemMoveRequest(playerId, itemId, true));
+        }
+
+        public void SetAutoProceed(bool autoProceed)
+        {
+            m_requests.Add(new AutoProceedRequest(autoProceed));
+        }
+
+        public void TravelToArea(int areaLevel)
+        {
+            m_requests.Add(new TravelRequest(areaLevel));
+        }
+
+        public void UnequipItem(uint playerId, uint itemId)
+        {
+            m_requests.Add(new ItemMoveRequest(playerId, itemId, false));
+        }
+
+        public override void Update(World world, Coordinator coordinator, double dt)
+        {
+            List<IMessage> processed = new();
+            foreach (var request in m_requests)
+            {
+                coordinator.PostMessage(this, request as dynamic);
+                processed.Add(request);
+            }
+            processed.ForEach(m => m_requests.Remove(m)); // Don't use Clear to prevent (unlikely) timing issues
+        }
+    }
+}

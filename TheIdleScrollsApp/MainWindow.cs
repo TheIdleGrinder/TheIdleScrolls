@@ -15,7 +15,7 @@ namespace TheIdleScrollsApp
         const int TimePerTick = 100;
         GameRunner m_runner;
         DateTime m_lastTickStart;
-        IUserInputHandler m_userInputHandler;
+        IUserInputHandler m_inputHandler;
 
 
         uint m_playerId = 0;
@@ -30,7 +30,8 @@ namespace TheIdleScrollsApp
 
             m_runner = runner;
             m_runner.Initialize(name);
-            m_userInputHandler = new CommandProcessingSystem(this, m_runner);
+            //m_inputHandler = new CommandProcessingSystem(this, m_runner);
+            m_inputHandler = m_runner.GetUserInputHandler();
 
             timerTick.Interval = TimePerTick;
             timerTick.Enabled = true;
@@ -178,28 +179,28 @@ namespace TheIdleScrollsApp
             if (e.RowIndex < 0 || e.RowIndex >= gridInventory.Rows.Count)
                 return;
             InventoryItem item = m_Inventory[e.RowIndex];
-            m_userInputHandler.EquipItem(m_playerId, item.Id);
+            m_inputHandler.EquipItem(m_playerId, item.Id);
         }
 
         private void lblEqWeapon_DoubleClick(object sender, EventArgs e)
         {
             if (m_Equipment.Hand != null)
-                m_userInputHandler.UnequipItem(m_playerId, m_Equipment.Hand.Id);
+                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Hand.Id);
         }
 
         private void btnAreaPrev_Click(object sender, EventArgs e)
         {
-            m_userInputHandler.TravelToArea(m_areaLevel - 1);
+            m_inputHandler.TravelToArea(m_areaLevel - 1);
         }
 
         private void btnAreaNext_Click(object sender, EventArgs e)
         {
-            m_userInputHandler.TravelToArea(m_areaLevel + 1);
+            m_inputHandler.TravelToArea(m_areaLevel + 1);
         }
 
         private void cbNextAfterWin_MouseClick(object sender, MouseEventArgs e)
         {
-            m_userInputHandler.SetAutoProceed(cbNextAfterWin.Checked);
+            m_inputHandler.SetAutoProceed(cbNextAfterWin.Checked);
         }
     }
 

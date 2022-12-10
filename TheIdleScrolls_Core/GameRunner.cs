@@ -5,6 +5,7 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Utility;
+using TheIdleScrollsApp;
 
 namespace TheIdleScrolls_Core
 {
@@ -20,7 +21,7 @@ namespace TheIdleScrolls_Core
 
         DataAccessHandler m_dataHandler;
 
-        Entity? m_player = null;
+        IUserInputHandler m_userInputHandler;
 
         public ulong Ticks { get { return m_ticks; } }
 
@@ -28,7 +29,9 @@ namespace TheIdleScrolls_Core
         {
             m_ticks = 0;
             m_dataHandler = dataHandler;
+            m_userInputHandler = new UserInputSystem();
 
+            m_systems.Add(m_userInputHandler as dynamic);
             m_systems.Add(new TimeLimitSystem());
             m_systems.Add(new TravelSystem());
             m_systems.Add(new MobSpawnerSystem());
@@ -50,7 +53,6 @@ namespace TheIdleScrolls_Core
 
             var player = PlayerFactory.MakeOrLoadPlayer(playerName, m_dataHandler);
             AddPlayerToCoordinator(player);
-            m_player = player;
 
             Logger.LogMessage($"Player '{player.GetName()}' (Level {player.GetComponent<LevelComponent>()?.Level ?? 0}) spawned (#{player.Id})");
 
@@ -77,6 +79,11 @@ namespace TheIdleScrolls_Core
             {
                 Logger.LogMessage(e.Message);
             }
+        }
+
+        public IUserInputHandler GetUserInputHandler()
+        {
+            return m_userInputHandler;
         }
 
         void AddPlayerToCoordinator(Entity player)
