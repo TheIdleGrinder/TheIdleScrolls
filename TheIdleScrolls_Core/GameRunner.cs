@@ -23,6 +23,8 @@ namespace TheIdleScrolls_Core
 
         IUserInputHandler m_userInputHandler;
 
+        ApplicationUpdateSystem m_appUpdateSystem;
+
         public ulong Ticks { get { return m_ticks; } }
 
         public GameRunner(DataAccessHandler dataHandler, bool useConsole = false)
@@ -30,6 +32,7 @@ namespace TheIdleScrolls_Core
             m_ticks = 0;
             m_dataHandler = dataHandler;
             m_userInputHandler = new UserInputSystem();
+            m_appUpdateSystem = new ApplicationUpdateSystem();
 
             m_systems.Add(m_userInputHandler as dynamic);
             m_systems.Add(new TimeLimitSystem());
@@ -44,6 +47,7 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new AbilitiesSystem());
             m_systems.Add(new StatUpdateSystem());
             m_systems.Add(new SaveSystem(dataHandler));
+            m_systems.Add(m_appUpdateSystem);
             if (useConsole)
                 m_systems.Add(new ConsoleLoggerSystem());
         }
@@ -84,6 +88,11 @@ namespace TheIdleScrolls_Core
         public IUserInputHandler GetUserInputHandler()
         {
             return m_userInputHandler;
+        }
+
+        public void SetAppInterface(IApplicationModel model)
+        {
+            m_appUpdateSystem.SetApplicationInterface(model);
         }
 
         void AddPlayerToCoordinator(Entity player)
