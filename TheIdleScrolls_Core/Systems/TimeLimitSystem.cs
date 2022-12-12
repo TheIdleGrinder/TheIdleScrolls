@@ -34,18 +34,21 @@ namespace TheIdleScrolls_Core.Systems
 
             if (m_inCombat)
             {
-                var multi = coordinator.GetEntities<MobDamageComponent>()
-                    .Select(m => m.GetComponent<MobDamageComponent>()?.Multiplier ?? 1.0)
-                    .Average();
-                world.TimeLimit.Update(multi * dt);
-
-                if (world.TimeLimit.HasFinished) // Player lost the fight
+                var attackers = coordinator.GetEntities<MobDamageComponent>()
+                    .Select(m => m.GetComponent<MobDamageComponent>()?.Multiplier ?? 1.0);
+                if (attackers.Any())
                 {
-                    var mobName = coordinator.GetEntities<MobComponent>().FirstOrDefault()?.GetName() ?? "??";
-                    coordinator.PostMessage(this, new BattleLostMessage(m_player, mobName, world.AreaLevel));
+                    var multi = attackers.Average();
+                    world.TimeLimit.Update(multi * dt);
 
-                    coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id)); // Despawn all mobs
-                    m_inCombat = false;
+                    if (world.TimeLimit.HasFinished) // Player lost the fight
+                    {
+                        var mobName = coordinator.GetEntities<MobComponent>().FirstOrDefault()?.GetName() ?? "??";
+                        coordinator.PostMessage(this, new BattleLostMessage(m_player, mobName, world.AreaLevel));
+
+                        coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id)); // Despawn all mobs
+                        m_inCombat = false;
+                    }
                 }
             }
         }

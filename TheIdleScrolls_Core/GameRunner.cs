@@ -27,7 +27,7 @@ namespace TheIdleScrolls_Core
 
         public ulong Ticks { get { return m_ticks; } }
 
-        public GameRunner(DataAccessHandler dataHandler, bool useConsole = false)
+        public GameRunner(DataAccessHandler dataHandler)
         {
             m_ticks = 0;
             m_dataHandler = dataHandler;
@@ -48,8 +48,6 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new StatUpdateSystem());
             m_systems.Add(new SaveSystem(dataHandler));
             m_systems.Add(m_appUpdateSystem);
-            if (useConsole)
-                m_systems.Add(new ConsoleLoggerSystem());
         }
 
         public void Initialize(string playerName = "Leeroy")

@@ -28,16 +28,21 @@ namespace TheIdleScrolls_Core
 
         public void SetAutoProceedStatus(bool enabled);
 
+        public void SetFeatureAvailable(GameFeature feature, bool available);
+
         public void AddLogMessages(List<string> messages);
 
-        public uint GetLogSettings();
+        public LoggerFlags GetLogSettings();
     }
 
-    enum LoggerFlag
+    [Flags]
+    public enum LoggerFlags
     {
         NoDamage = 1 << 0,
         NoXp = 1 << 1,
     }
+
+    public enum GameFeature { Inventory }
 
     public record ItemRepresentation(uint id, string name, string description, List<EquipmentSlot> slots);
     public record AbilityRepresentation(string key, string name, int level, int xp, int targetXp);
