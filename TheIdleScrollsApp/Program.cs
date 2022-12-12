@@ -26,7 +26,7 @@ namespace TheIdleScrollsApp
             IEntityConverter converter = new EntityJsonConverter(new ItemFactory());
 
             var dataHandler = new DataAccessHandler(converter, new BasicFileStorageHandler());
-            var gameRunner = new GameRunner(dataHandler, false);
+            var gameRunner = new GameRunner(dataHandler);
 
             Application.Run(new MainWindow(gameRunner, playerName));
         }

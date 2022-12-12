@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using ConsoleRunner;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.Items;
@@ -13,8 +14,9 @@ if (playerName == null || playerName == "")
     playerName = "Leeroy";
 
 var dataHandler = new DataAccessHandler(new EntityJsonConverter(new ItemFactory()), new BasicFileStorageHandler());
-var runner = new GameRunner(dataHandler, true);
+var runner = new GameRunner(dataHandler);
 runner.Initialize(playerName);
+runner.SetAppInterface(new ConsoleUpdater());
 
 var startTime = DateTime.Now;
 var tickStart = startTime;
