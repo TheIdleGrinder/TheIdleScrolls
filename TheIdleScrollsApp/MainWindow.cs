@@ -189,7 +189,8 @@ namespace TheIdleScrollsApp
 
         public void SetAutoProceed(bool autoProceed)
         {
-            cbNextAfterWin.Checked = autoProceed;
+            if (autoProceed != cbNextAfterWin.Checked)
+                cbNextAfterWin.Checked = autoProceed;
         }
 
         private void gridInventory_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -216,7 +217,7 @@ namespace TheIdleScrollsApp
             m_inputHandler.TravelToArea(m_areaLevel + 1);
         }
 
-        private void cbNextAfterWin_MouseClick(object sender, MouseEventArgs e)
+        private void cbNextAfterWin_CheckedChanged(object sender, EventArgs e)
         {
             m_inputHandler.SetAutoProceed(cbNextAfterWin.Checked);
         }

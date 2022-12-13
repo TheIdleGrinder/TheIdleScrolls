@@ -108,7 +108,7 @@
             this.cbNextAfterWin.TabIndex = 8;
             this.cbNextAfterWin.Text = "Auto Proc";
             this.cbNextAfterWin.UseVisualStyleBackColor = true;
-            this.cbNextAfterWin.MouseClick += new System.Windows.Forms.MouseEventHandler(this.cbNextAfterWin_MouseClick);
+            this.cbNextAfterWin.CheckedChanged += new System.EventHandler(this.cbNextAfterWin_CheckedChanged);
             // 
             // btnAreaNext
             // 
