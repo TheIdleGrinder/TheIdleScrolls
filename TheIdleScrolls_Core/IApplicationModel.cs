@@ -44,7 +44,7 @@ namespace TheIdleScrolls_Core
 
     public enum GameFeature { Inventory }
 
-    public record ItemRepresentation(uint id, string name, string description, List<EquipmentSlot> slots);
-    public record AbilityRepresentation(string key, string name, int level, int xp, int targetXp);
-    public record MobRepresentation(uint id, string name, int level, int hp, int hpMax);
+    public record ItemRepresentation(uint Id, string Name, string Description, List<EquipmentSlot> Slots);
+    public record AbilityRepresentation(string Key, string Name, int Level, int XP, int TargetXP);
+    public record MobRepresentation(uint Id, string Name, int Level, int HP, int HpMax);
 }

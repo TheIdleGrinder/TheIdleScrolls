@@ -5,6 +5,7 @@ using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.Storage;
 using TheIdleScrolls_Core.Systems;
+using TheIdleScrolls_Core.Components;
 
 namespace TheIdleScrollsApp
 {
@@ -20,7 +21,7 @@ namespace TheIdleScrollsApp
 
         uint m_playerId = 0;
         int m_areaLevel = 0;
-        SortableBindingList<InventoryItem> m_Inventory { get; set; }
+        SortableBindingList<ItemRepresentation> m_Inventory { get; set; }
         Equipment m_Equipment { get; set; }
         SortableBindingList<AbilityRepresentation> m_abilities { get; set; }
 
@@ -30,8 +31,8 @@ namespace TheIdleScrollsApp
 
             m_runner = runner;
             m_runner.Initialize(name);
-            //m_inputHandler = new CommandProcessingSystem(this, m_runner);
             m_inputHandler = m_runner.GetUserInputHandler();
+            m_runner.SetAppInterface(new MainWindowUpdater(this));
 
             timerTick.Interval = TimePerTick;
             timerTick.Enabled = true;
@@ -63,9 +64,9 @@ namespace TheIdleScrollsApp
             m_runner.ExecuteTick(lastTickDuration / 1000);
         }
 
-        public void SetAreaAvailable(Area area, bool available)
+        public void SetFeatureAvailable(GameFeature area, bool available)
         {
-            if (Area.Inventory == area)
+            if (GameFeature.Inventory == area)
             {
                 tabControl1.TabPages["tabInventory"].Text = available ? "Inventory" : "";
                 hdrEqWeapon.Visible = available;
@@ -133,16 +134,33 @@ namespace TheIdleScrollsApp
             return items.OrderBy(i => familyOrder(i.Family) + i.Name).ToList();
         }
 
-        public void SetInventory(List<InventoryItem> items)
+        public void SetInventory(List<ItemRepresentation> items)
         {
-            m_Inventory = new(OrderItemList(items));
+            m_Inventory = new(items);
             gridInventory.DataSource = m_Inventory;
         }
 
-        public void SetEquipment(Dictionary<string, InventoryItem> items)
+        public void SetEquipment(List<ItemRepresentation> items)
         {
             m_Equipment.Clear();
-            var item = items.GetValueOrDefault("Hand");
+            foreach (var item in items)
+            {
+                foreach (var slot in item.Slots)
+                {
+                    switch (slot)
+                    {
+                        case EquipmentSlot.Hand: m_Equipment.Hand = item; break;
+                    }
+                }
+            }
+
+            lblEqWeapon.Text = m_Equipment.Hand?.Name ?? "";
+
+            toolTip.SetToolTip(lblEqWeapon, m_Equipment.Hand?.Description?.Replace("; ", "\n") ?? "");
+
+            lblAttack.Text = "Attack" + ((m_Equipment.Hand != null) ? $"\n({m_Equipment.Hand?.Name})" : "");
+
+/*            var item = items.GetValueOrDefault("Hand");
             m_Equipment.Hand = item;
             lblEqWeapon.Text = item?.Name ?? "";
             lblAttack.Text = "Attack";
@@ -154,7 +172,7 @@ namespace TheIdleScrollsApp
             {
                 toolTip.SetToolTip(lblEqWeapon, $"{item.Name} ({item.Family})\n{item.Damage} DMG\n{item.Speed} s/A");
                 lblAttack.Text += $"\n({item.Name})";
-            }
+            }*/
         }
 
         public void SetAbilities(List<AbilityRepresentation> abilities)
@@ -178,7 +196,7 @@ namespace TheIdleScrollsApp
         {
             if (e.RowIndex < 0 || e.RowIndex >= gridInventory.Rows.Count)
                 return;
-            InventoryItem item = m_Inventory[e.RowIndex];
+            ItemRepresentation item = m_Inventory[e.RowIndex];
             m_inputHandler.EquipItem(m_playerId, item.Id);
         }
 
@@ -232,7 +250,7 @@ namespace TheIdleScrollsApp
 
     class Equipment
     {
-        public InventoryItem? Hand { get; set; }
+        public ItemRepresentation? Hand { get; set; }
 
         public Equipment()
         {

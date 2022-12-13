@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -14,6 +15,8 @@ namespace TheIdleScrolls_Core.Systems
         IApplicationModel? m_appModel = null;
         bool m_firstUpdate = true;
         uint m_playerId = 0;
+
+        Cooldown m_abilityUpdate = new(1.0);
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -25,7 +28,10 @@ namespace TheIdleScrolls_Core.Systems
             var player = coordinator.GetEntity(m_playerId);
             if (player == null)
                 return;
-            m_appModel?.SetPlayerCharacter(m_playerId, player.GetName());
+            if (m_firstUpdate)
+            {
+                m_appModel?.SetPlayerCharacter(m_playerId, player.GetName());
+            }
 
             // Update XP
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<XpGainMessage>() || coordinator.MessageTypeIsOnBoard<LevelUpSystem.LevelUpMessage>())
@@ -59,9 +65,9 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     foreach (var item in equipmentComp.GetItems())
                     {
-                        var invItem = GenerateItemRepresentation(item);
-                        if (invItem != null)
-                            invItems.Add(invItem);
+                        var eItem = GenerateItemRepresentation(item);
+                        if (eItem != null)
+                            equipItems.Add(eItem);
                     }
                 }
 
@@ -76,7 +82,7 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Update Abilities
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AbilityImprovedMessage>())
+            if (m_firstUpdate || m_abilityUpdate.Update(dt) > 0 || coordinator.MessageTypeIsOnBoard<AbilityImprovedMessage>())
             {
                 var abilityComp = player.GetComponent<AbilitiesComponent>();
                 if (abilityComp != null)
@@ -126,6 +132,8 @@ namespace TheIdleScrolls_Core.Systems
             // Add log messages
             LoggerFlags filterFlags = m_appModel?.GetLogSettings() ?? 0;
             m_appModel?.AddLogMessages(FilterMessages(filterFlags, coordinator.FetchAllMessages()).Select(m => m.Message).ToList());
+
+            m_firstUpdate = false;
         }
 
         public void SetApplicationInterface(IApplicationModel? appInterface)
@@ -147,17 +155,19 @@ namespace TheIdleScrolls_Core.Systems
 
         static ItemRepresentation? GenerateItemRepresentation(Entity item)
         {
+            var itemComp = item.GetComponent<ItemComponent>();
+            var equipComp = item.GetComponent<EquippableComponent>();
             var weaponComp = item.GetComponent<WeaponComponent>();
-            string description = "<description>";
+            string description = $"[{itemComp?.FamilyName ?? "??"}]";
             if (weaponComp != null)
             {
-                description = $"{weaponComp.Damage} Damage, {weaponComp.Cooldown} s/A";
+                description += $"; {weaponComp.Damage} Damage; {weaponComp.Cooldown} s/A";
             }
             return new ItemRepresentation(
                 item.Id,
                 item.GetName(),
                 description,
-                new() { EquipmentSlot.Hand }
+                new() { equipComp?.Slot ?? EquipmentSlot.Hand }
                 );
         }
 
