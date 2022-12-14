@@ -2,12 +2,12 @@
   "Families": [
     {
       "Name": "Short Blade",
-      "Id":  "SBL",
+      "Id": "SBL",
       "Genera": [
         {
           "Name": "Short Sword",
           "Equippable": {
-            "Slot":  "Hand"
+            "Slot": "Hand"
           },
           "Weapon": {
             "BaseDamage": 4.0,
@@ -76,6 +76,38 @@
           "Weapon": {
             "BaseDamage": 9.0,
             "BaseCooldown": 2.0
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Light Armor",
+      "Id": "LAR",
+      "Genera": [
+        {
+          "Name": "Padded Armor",
+          "Equippable": {
+            "Slot": "Armor"
+          },
+          "Armor": {
+            "BaseArmor": 0.0,
+            "BaseEvasion": 10.0
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Heavy Armor",
+      "Id": "HAR",
+      "Genera": [
+        {
+          "Name": "Plate Armor",
+          "Equippable": {
+            "Slot": "Armor"
+          },
+          "Armor": {
+            "BaseArmor": 10.0,
+            "BaseEvasion":  0.0
           }
         }
       ]

@@ -42,6 +42,7 @@ namespace TheIdleScrolls_Core.Items
     public class ArmorGenus
     {
         public double BaseArmor { get; set; }
+        public double BaseEvasion { get; set; }
     }
 
     public class ItemGenusDescription

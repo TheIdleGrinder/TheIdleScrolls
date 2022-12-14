@@ -51,6 +51,8 @@
             this.lblCharLevel = new System.Windows.Forms.Label();
             this.lblCharName = new System.Windows.Forms.Label();
             this.tabInventory = new System.Windows.Forms.TabPage();
+            this.lblEqArmor = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.lblEqWeapon = new System.Windows.Forms.Label();
             this.hdrEqWeapon = new System.Windows.Forms.Label();
             this.gridInventory = new System.Windows.Forms.DataGridView();
@@ -60,6 +62,10 @@
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.timerTick = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblDefArmor = new System.Windows.Forms.Label();
+            this.lblDefEvasion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -137,11 +143,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTimeLimit.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblTimeLimit.ForeColor = System.Drawing.Color.LimeGreen;
-            this.lblTimeLimit.Location = new System.Drawing.Point(3, 275);
+            this.lblTimeLimit.Location = new System.Drawing.Point(3, 245);
             this.lblTimeLimit.Name = "lblTimeLimit";
-            this.lblTimeLimit.Size = new System.Drawing.Size(349, 21);
+            this.lblTimeLimit.Size = new System.Drawing.Size(349, 42);
             this.lblTimeLimit.TabIndex = 2;
-            this.lblTimeLimit.Text = "10.00";
+            this.lblTimeLimit.Text = "10.00\r\n##############################";
             this.lblTimeLimit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblMobName
@@ -150,7 +156,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMobName.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblMobName.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblMobName.Location = new System.Drawing.Point(3, 306);
+            this.lblMobName.Location = new System.Drawing.Point(5, 299);
             this.lblMobName.Name = "lblMobName";
             this.lblMobName.Size = new System.Drawing.Size(349, 21);
             this.lblMobName.TabIndex = 1;
@@ -163,11 +169,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMobHP.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblMobHP.ForeColor = System.Drawing.Color.Red;
-            this.lblMobHP.Location = new System.Drawing.Point(3, 336);
+            this.lblMobHP.Location = new System.Drawing.Point(3, 320);
             this.lblMobHP.Name = "lblMobHP";
-            this.lblMobHP.Size = new System.Drawing.Size(349, 17);
+            this.lblMobHP.Size = new System.Drawing.Size(349, 37);
             this.lblMobHP.TabIndex = 1;
-            this.lblMobHP.Text = "HP: 100 / 100";
+            this.lblMobHP.Text = "HP: 100 / 100\r\n###################################";
             this.lblMobHP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblArea
@@ -217,10 +223,14 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 4;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 90F));
+            this.tableLayoutPanel1.Controls.Add(this.lblDefEvasion, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.lblDefArmor, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.hdrRawDmg, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.hdrDps, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblAttackDps, 2, 1);
@@ -230,10 +240,13 @@
             this.tableLayoutPanel1.Controls.Add(this.lblAttack, 0, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(6, 109);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 34F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 66F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(385, 85);
+            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(385, 164);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // hdrRawDmg
@@ -243,7 +256,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hdrRawDmg.Location = new System.Drawing.Point(101, 1);
             this.hdrRawDmg.Name = "hdrRawDmg";
-            this.hdrRawDmg.Size = new System.Drawing.Size(90, 27);
+            this.hdrRawDmg.Size = new System.Drawing.Size(90, 31);
             this.hdrRawDmg.TabIndex = 0;
             this.hdrRawDmg.Text = "Raw Damage";
             this.hdrRawDmg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -256,7 +269,7 @@
             this.hdrDps.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.hdrDps.Location = new System.Drawing.Point(198, 1);
             this.hdrDps.Name = "hdrDps";
-            this.hdrDps.Size = new System.Drawing.Size(90, 27);
+            this.hdrDps.Size = new System.Drawing.Size(90, 31);
             this.hdrDps.TabIndex = 0;
             this.hdrDps.Text = "DPS";
             this.hdrDps.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -267,9 +280,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAttackDps.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblAttackDps.Location = new System.Drawing.Point(198, 29);
+            this.lblAttackDps.Location = new System.Drawing.Point(198, 33);
             this.lblAttackDps.Name = "lblAttackDps";
-            this.lblAttackDps.Size = new System.Drawing.Size(90, 55);
+            this.lblAttackDps.Size = new System.Drawing.Size(90, 35);
             this.lblAttackDps.TabIndex = 0;
             this.lblAttackDps.Text = "1.0";
             this.lblAttackDps.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -281,7 +294,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hdrCooldown.Location = new System.Drawing.Point(295, 1);
             this.hdrCooldown.Name = "hdrCooldown";
-            this.hdrCooldown.Size = new System.Drawing.Size(86, 27);
+            this.hdrCooldown.Size = new System.Drawing.Size(86, 31);
             this.hdrCooldown.TabIndex = 0;
             this.hdrCooldown.Text = "Cooldown";
             this.hdrCooldown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -291,9 +304,9 @@
             this.lblAttackCooldown.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblAttackCooldown.Location = new System.Drawing.Point(295, 29);
+            this.lblAttackCooldown.Location = new System.Drawing.Point(295, 33);
             this.lblAttackCooldown.Name = "lblAttackCooldown";
-            this.lblAttackCooldown.Size = new System.Drawing.Size(86, 55);
+            this.lblAttackCooldown.Size = new System.Drawing.Size(86, 35);
             this.lblAttackCooldown.TabIndex = 0;
             this.lblAttackCooldown.Text = "1.0";
             this.lblAttackCooldown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -303,9 +316,9 @@
             this.lblAttackRawDmg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblAttackRawDmg.Location = new System.Drawing.Point(101, 29);
+            this.lblAttackRawDmg.Location = new System.Drawing.Point(101, 33);
             this.lblAttackRawDmg.Name = "lblAttackRawDmg";
-            this.lblAttackRawDmg.Size = new System.Drawing.Size(90, 55);
+            this.lblAttackRawDmg.Size = new System.Drawing.Size(90, 35);
             this.lblAttackRawDmg.TabIndex = 0;
             this.lblAttackRawDmg.Text = "1.0";
             this.lblAttackRawDmg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -315,9 +328,9 @@
             this.lblAttack.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblAttack.Location = new System.Drawing.Point(4, 29);
+            this.lblAttack.Location = new System.Drawing.Point(4, 33);
             this.lblAttack.Name = "lblAttack";
-            this.lblAttack.Size = new System.Drawing.Size(90, 55);
+            this.lblAttack.Size = new System.Drawing.Size(90, 35);
             this.lblAttack.TabIndex = 0;
             this.lblAttack.Text = "Attack";
             this.lblAttack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -362,6 +375,8 @@
             // 
             // tabInventory
             // 
+            this.tabInventory.Controls.Add(this.lblEqArmor);
+            this.tabInventory.Controls.Add(this.label2);
             this.tabInventory.Controls.Add(this.lblEqWeapon);
             this.tabInventory.Controls.Add(this.hdrEqWeapon);
             this.tabInventory.Controls.Add(this.gridInventory);
@@ -372,6 +387,25 @@
             this.tabInventory.TabIndex = 2;
             this.tabInventory.Text = "Inventory";
             this.tabInventory.UseVisualStyleBackColor = true;
+            // 
+            // lblEqArmor
+            // 
+            this.lblEqArmor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEqArmor.Location = new System.Drawing.Point(254, 30);
+            this.lblEqArmor.Name = "lblEqArmor";
+            this.lblEqArmor.Size = new System.Drawing.Size(106, 23);
+            this.lblEqArmor.TabIndex = 5;
+            this.lblEqArmor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblEqArmor.DoubleClick += new System.EventHandler(this.lblEqArmor_DoubleClick);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(207, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 15);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Armor";
             // 
             // lblEqWeapon
             // 
@@ -475,6 +509,54 @@
             this.toolTip.ReshowDelay = 20;
             this.toolTip.ShowAlways = true;
             // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Location = new System.Drawing.Point(4, 90);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(90, 35);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Armor";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.Location = new System.Drawing.Point(4, 126);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(90, 37);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Evasion";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblDefArmor
+            // 
+            this.lblDefArmor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDefArmor.Location = new System.Drawing.Point(101, 90);
+            this.lblDefArmor.Name = "lblDefArmor";
+            this.lblDefArmor.Size = new System.Drawing.Size(90, 35);
+            this.lblDefArmor.TabIndex = 6;
+            this.lblDefArmor.Text = "0.0";
+            this.lblDefArmor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblDefEvasion
+            // 
+            this.lblDefEvasion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDefEvasion.Location = new System.Drawing.Point(101, 126);
+            this.lblDefEvasion.Name = "lblDefEvasion";
+            this.lblDefEvasion.Size = new System.Drawing.Size(90, 37);
+            this.lblDefEvasion.TabIndex = 7;
+            this.lblDefEvasion.Text = "1.0";
+            this.lblDefEvasion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -536,5 +618,11 @@
         private CheckBox cbNextAfterWin;
         private Button btnAreaNext;
         private Button btnAreaPrev;
+        private Label lblEqArmor;
+        private Label label2;
+        private Label lblDefEvasion;
+        private Label lblDefArmor;
+        private Label label3;
+        private Label label1;
     }
 }

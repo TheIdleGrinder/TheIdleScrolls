@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -32,11 +34,12 @@ namespace TheIdleScrolls_Core.Systems
             if (player == null)
                 return;
 
-            var attackComp = player.GetComponent<AttackComponent>();
-            if (attackComp == null)
-                return;
-
             int level = player.GetComponent<LevelComponent>()?.Level ?? 1;
+
+            var equipComp = player.GetComponent<EquipmentComponent>();
+
+            double armor = 0.0;
+            double evasion = 0.0;
 
             double baseDamage = 2.0;
             double cooldown = 1.0;
@@ -44,30 +47,48 @@ namespace TheIdleScrolls_Core.Systems
             double dmgMulti = 1.0;
             double apsMulti = 1.0;
 
-            var equipComp = player.GetComponent<EquipmentComponent>();
+
             if (equipComp != null)
             {
                 double combinedDmg = 0.0;
                 double combinedCD = 0.0;
                 int weaponCount = 0;
+                int armorCount = 0;
                 foreach (var item in equipComp.GetItems())
                 {
+                    var itemComp = item.GetComponent<ItemComponent>();
                     var weaponComp = item.GetComponent<WeaponComponent>();
-                    if (weaponComp != null)
+                    var armorComp = item.GetComponent<ArmorComponent>();
+
+                    if (itemComp != null && weaponComp != null)
                     {
                         combinedDmg += weaponComp.Damage;
                         combinedCD += weaponComp.Cooldown;
                         weaponCount++;
 
-                        string? classId = world.ItemKingdom.GetFamilyIdFromItemFamilyName(weaponComp.Family);
-                        if (classId != null)
+                        int abilityLvl = GetAbilityLevel(player, itemComp.FamilyName, world.ItemKingdom);
+                        if (abilityLvl != -1)
                         {
-                            var abilityValue = player.GetComponent<AbilitiesComponent>()?.GetAbility(classId)?.Level ?? -1;
-                            if (abilityValue != -1)
-                            {
-                                apsMulti *= (0.5 + 0.02 * abilityValue); // CornerCut: Make this less 'hidden'
-                            }
+                            apsMulti *= (0.5 + 0.02 * abilityLvl); // CornerCut: Make this less 'hidden'
                         }
+                    }
+
+                    if (itemComp != null && armorComp != null)
+                    {
+                        var localArmor = armorComp.Armor;
+                        var localEvasion = armorComp.Evasion;
+                        armorCount++;
+
+                        int abilityLvl = GetAbilityLevel(player, itemComp.FamilyName, world.ItemKingdom);
+                        if (abilityLvl != -1)
+                        {
+                            var multi = 0.5 + 0.02 * abilityLvl;
+                            localArmor *= multi;
+                            localEvasion *= multi;
+                        }
+
+                        armor += localArmor;
+                        evasion += localEvasion;
                     }
                 }
                 if (weaponCount > 0)
@@ -80,19 +101,43 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
             }
-      
-            dmgMulti *= level; // level bonus
 
-            var rawDamage = baseDamage * dmgMulti;
-            cooldown /= apsMulti;
-            attackComp.RawDamage = rawDamage;
-            // CornerCut(?): Reset cooldown if the duration changed
-            // implies weapon change => what if other items change the cooldown? A single "skipped" attack is probably fine
-            if (cooldown != attackComp.Cooldown.Duration)
-                attackComp.Cooldown = new Utility.Cooldown(cooldown);
+            var attackComp = player.GetComponent<AttackComponent>();
+            if (attackComp != null)
+            {
+                dmgMulti *= level; // level bonus
+
+                var rawDamage = baseDamage * dmgMulti;
+                cooldown /= apsMulti;
+                attackComp.RawDamage = rawDamage;
+                // CornerCut(?): Reset cooldown if the duration changed
+                // implies weapon change => what if other items change the cooldown? A single "skipped" attack is probably fine
+                if (cooldown != attackComp.Cooldown.Duration)
+                    attackComp.Cooldown = new Utility.Cooldown(cooldown);
+            }
+
+            var defenseComp = player.GetComponent<DefenseComponent>();
+            if (defenseComp != null)
+            {
+                if (equipComp != null)
+                {
+                    defenseComp.TimeMulti = 1.0 + evasion / 100.0; // 1% bonus per evasion
+                    defenseComp.Slowdown = 1.0 + armor / 100.0; // 1% bonus per armor
+                }
+            }
             
             coordinator.PostMessage(this, new StatsUpdatedMessage());
             m_firstUpdate = false;
+        }
+
+        int GetAbilityLevel(Entity entity, string itemFamilyName, ItemKingdomDescription itemKingdom)
+        {
+            string? familyId = itemKingdom.GetFamilyIdFromItemFamilyName(itemFamilyName);
+            if (familyId != null)
+            {
+                return entity.GetComponent<AbilitiesComponent>()?.GetAbility(familyId)?.Level ?? -1;
+            }
+            return -1;
         }
     }
 

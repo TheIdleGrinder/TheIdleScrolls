@@ -40,6 +40,11 @@ namespace TheIdleScrolls_Core
             return entity.HasComponent<WeaponComponent>();
         }
 
+        public static bool IsArmor(this Entity entity)
+        {
+            return entity.HasComponent<ArmorComponent>();
+        }
+
         public static List<EquipmentSlot> GetRequiredSlots(this Entity entity)
         {
             var equipComp = entity.GetComponent<EquippableComponent>();

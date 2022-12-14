@@ -6,6 +6,7 @@ using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.Storage;
 using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Core.Components;
+using System.Collections.Generic;
 
 namespace TheIdleScrollsApp
 {
@@ -104,7 +105,8 @@ namespace TheIdleScrollsApp
 
         public void SetMobHP(int current, int max)
         {
-            lblMobHP.Text = $"HP: {current} / {max}";
+            var barString = new String('=', (int)Math.Ceiling(30.0 * current / max));
+            lblMobHP.Text = $"HP: {current} / {max}\n{barString}";
         }
 
         public void SetAttackDamage(double raw, double dps)
@@ -118,21 +120,21 @@ namespace TheIdleScrollsApp
             lblAttackCooldown.Text = $"{remaining:0.00} / {duration:0.00}";
         }
 
-        List<InventoryItem> OrderItemList(List<InventoryItem> items)
-        {
-            //CornerCut: Magic strings :(, how does one ensure a nice order here?
-            Func<string, string> familyOrder = new(c => c switch
-            {
-                "Short Blade" => "A",
-                "Long Blade" => "B",
-                "Axe" => "C",
-                "Blunt" => "D",
-                "Polearm" => "E",
-                _ => c
-            });
+        //List<InventoryItem> OrderItemList(List<InventoryItem> items)
+        //{
+        //    //CornerCut: Magic strings :(, how does one ensure a nice order here?
+        //    Func<string, string> familyOrder = new(c => c switch
+        //    {
+        //        "Short Blade" => "A",
+        //        "Long Blade" => "B",
+        //        "Axe" => "C",
+        //        "Blunt" => "D",
+        //        "Polearm" => "E",
+        //        _ => c
+        //    });
 
-            return items.OrderBy(i => familyOrder(i.Family) + i.Name).ToList();
-        }
+        //    return items.OrderBy(i => familyOrder(i.Family) + i.Name).ToList();
+        //}
 
         public void SetInventory(List<ItemRepresentation> items)
         {
@@ -150,29 +152,18 @@ namespace TheIdleScrollsApp
                     switch (slot)
                     {
                         case EquipmentSlot.Hand: m_Equipment.Hand = item; break;
+                        case EquipmentSlot.Armor: m_Equipment.Armor = item; break;
                     }
                 }
             }
 
             lblEqWeapon.Text = m_Equipment.Hand?.Name ?? "";
+            lblEqArmor.Text = m_Equipment.Armor?.Name ?? "";
 
             toolTip.SetToolTip(lblEqWeapon, m_Equipment.Hand?.Description?.Replace("; ", "\n") ?? "");
+            toolTip.SetToolTip(lblEqArmor, m_Equipment.Armor?.Description?.Replace("; ", "\n") ?? "");
 
             lblAttack.Text = "Attack" + ((m_Equipment.Hand != null) ? $"\n({m_Equipment.Hand?.Name})" : "");
-
-/*            var item = items.GetValueOrDefault("Hand");
-            m_Equipment.Hand = item;
-            lblEqWeapon.Text = item?.Name ?? "";
-            lblAttack.Text = "Attack";
-            if (item == null)
-            {
-                toolTip.SetToolTip(lblEqWeapon, "");
-            }
-            else
-            {
-                toolTip.SetToolTip(lblEqWeapon, $"{item.Name} ({item.Family})\n{item.Damage} DMG\n{item.Speed} s/A");
-                lblAttack.Text += $"\n({item.Name})";
-            }*/
         }
 
         public void SetAbilities(List<AbilityRepresentation> abilities)
@@ -184,7 +175,8 @@ namespace TheIdleScrollsApp
         public void UpdateTimeLimit(double remaining, double limit)
         {
             lblTimeLimit.Visible = limit > 0.0;
-            lblTimeLimit.Text = $"{remaining:0.000} s";
+            var barString = new String('=', (int)Math.Ceiling(25 * remaining / limit));
+            lblTimeLimit.Text = $"{remaining:0.000} s\n{barString}";
         }
 
         public void SetAutoProceed(bool autoProceed)
@@ -207,6 +199,12 @@ namespace TheIdleScrollsApp
                 m_inputHandler.UnequipItem(m_playerId, m_Equipment.Hand.Id);
         }
 
+        private void lblEqArmor_DoubleClick(object sender, EventArgs e)
+        {
+            if (m_Equipment.Armor != null)
+                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Armor.Id);
+        }
+
         private void btnAreaPrev_Click(object sender, EventArgs e)
         {
             m_inputHandler.TravelToArea(m_areaLevel - 1);
@@ -223,35 +221,36 @@ namespace TheIdleScrollsApp
         }
     }
 
-    public class InventoryItem
-    {
-        public uint Id { get; set; }
-        public string Name { get; set; }
-        public string Slot { get; set; }
-        public string Damage { get; set; }
-        public string Speed { get; set; }
-        public string Family { get; set; }
+    //public class InventoryItem
+    //{
+    //    public uint Id { get; set; }
+    //    public string Name { get; set; }
+    //    public string Slot { get; set; }
+    //    public string Damage { get; set; }
+    //    public string Speed { get; set; }
+    //    public string Family { get; set; }
 
-        public InventoryItem(uint id, string name, string slot, string stat1, string stat2, string family)
-        {
-            Id = id;
-            Name = name;
-            Slot = slot;
-            Damage = stat1;
-            Speed = stat2;
-            Family = family;
-        }
+    //    public InventoryItem(uint id, string name, string slot, string stat1, string stat2, string family)
+    //    {
+    //        Id = id;
+    //        Name = name;
+    //        Slot = slot;
+    //        Damage = stat1;
+    //        Speed = stat2;
+    //        Family = family;
+    //    }
 
-        public InventoryItem()
-        {
-            Id = 0;
-            Name = Slot = Damage = Speed = Family = "";
-        }
-    }
+    //    public InventoryItem()
+    //    {
+    //        Id = 0;
+    //        Name = Slot = Damage = Speed = Family = "";
+    //    }
+    //}
 
     class Equipment
     {
         public ItemRepresentation? Hand { get; set; }
+        public ItemRepresentation? Armor { get; set; }
 
         public Equipment()
         {
@@ -261,6 +260,7 @@ namespace TheIdleScrollsApp
         public void Clear()
         {
             Hand = null;
+            Armor = null;
         }
     }
 

@@ -158,10 +158,15 @@ namespace TheIdleScrolls_Core.Systems
             var itemComp = item.GetComponent<ItemComponent>();
             var equipComp = item.GetComponent<EquippableComponent>();
             var weaponComp = item.GetComponent<WeaponComponent>();
+            var armorComp = item.GetComponent<ArmorComponent>();
             string description = $"[{itemComp?.FamilyName ?? "??"}]";
             if (weaponComp != null)
             {
                 description += $"; {weaponComp.Damage} Damage; {weaponComp.Cooldown} s/A";
+            }
+            if (armorComp != null)
+            {
+                description += $"; {armorComp.Armor} Armor; {armorComp.Evasion} Evasion";
             }
             return new ItemRepresentation(
                 item.Id,

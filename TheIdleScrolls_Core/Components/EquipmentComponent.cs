@@ -9,7 +9,7 @@ namespace TheIdleScrolls_Core.Components
 {
     public enum EquipmentSlot
     {
-        Hand
+        Hand, Armor
     }
 
     public static class EquipSlot
@@ -32,7 +32,7 @@ namespace TheIdleScrolls_Core.Components
 
         public EquipmentComponent()
         {
-            m_freeSlots = new() { EquipmentSlot.Hand };
+            m_freeSlots = new() { EquipmentSlot.Hand, EquipmentSlot.Armor };
         }
 
         public bool EquipItem(Entity item)

@@ -129,12 +129,26 @@ namespace TheIdleScrolls_JSON
             }
         }
 
+        public static bool SetFromJson(this ItemComponent component, JsonNode json)
+        {
+            try
+            {
+                component.FamilyName = json["Class"]!.GetValue<string>();
+                component.GenusName = json["Family"]!.GetValue<string>();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public static bool SetFromJson(this WeaponComponent component, JsonNode json)
         {
             try
             {
-                component.Family = json["Class"]!.GetValue<string>();
-                component.Genus = json["Family"]!.GetValue<string>();
+                //component.Family = json["Class"]!.GetValue<string>();
+                //component.Genus = json["Family"]!.GetValue<string>();
                 component.Damage = json["Damage"]!.GetValue<double>();
                 component.Cooldown = json["Cooldown"]!.GetValue<double>();
                 return true;

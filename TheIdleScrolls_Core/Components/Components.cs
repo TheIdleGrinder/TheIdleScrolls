@@ -74,6 +74,12 @@ namespace TheIdleScrolls_Core.Components
         public bool InCombat { get { return Target != 0; } }
     }
 
+    public class DefenseComponent : IComponent
+    {
+        public double Slowdown = 0.0;
+        public double TimeMulti = 1.0;
+    }
+
     public class KilledComponent : IComponent
     {
         public uint Killer = 0;
@@ -129,8 +135,8 @@ namespace TheIdleScrolls_Core.Components
 
     public class WeaponComponent : IComponent
     {
-        public string Family = "";
-        public string Genus = "";
+        //public string Family = "";
+        //public string Genus = "";
         public double Damage = 1.0;
         public double Cooldown = 1.0;
 
@@ -139,10 +145,8 @@ namespace TheIdleScrolls_Core.Components
 
         }
 
-        public WeaponComponent(string weaponFamily, string weaponGenus, double baseDamage, double baseCooldown)
+        public WeaponComponent(double baseDamage, double baseCooldown)
         {
-            Family = weaponFamily;
-            Genus = weaponGenus;
             Damage = baseDamage;
             Cooldown = baseCooldown;
         }
@@ -151,10 +155,12 @@ namespace TheIdleScrolls_Core.Components
     public class ArmorComponent : IComponent
     {
         public double Armor { get; set; }
+        public double Evasion { get; set; }
 
-        public ArmorComponent(double armor)
+        public ArmorComponent(double armor, double evasion)
         {
             Armor = armor;
+            Evasion = evasion;
         }
     }
 

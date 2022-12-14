@@ -86,12 +86,20 @@ namespace TheIdleScrolls_Storage
             return json;
         }
 
+        public static JsonObject? ToJson(this ItemComponent component)
+        {
+            JsonObject json = new()
+            {
+                { "Class", component.FamilyName },
+                { "Family", component.GenusName }
+            };
+            return json;
+        }
+
         public static JsonObject? ToJson(this WeaponComponent component)
         {
             JsonObject json = new()
             {
-                { "Class", component.Family },
-                { "Family", component.Genus },
                 { "Damage", component.Damage },
                 { "Cooldown", component.Cooldown }
             };

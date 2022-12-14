@@ -12,6 +12,7 @@ namespace TheIdleScrolls_Core.Systems
         Entity? m_player = null;
 
         List<string> m_weaponFamilies = new();
+        List<string> m_armorFamilies = new();
 
         Dictionary<string, double> m_timePerItemClass = new();
 
@@ -40,32 +41,47 @@ namespace TheIdleScrolls_Core.Systems
                     .Where(i => i.IsItem() && i.IsWeapon())
                     .Select(i => itemFactory.GetItemFamilyIdFromName(i.GetComponent<ItemComponent>()!.FamilyName)!)
                     .ToList();
+                m_armorFamilies = equipmentComp.GetItems()
+                    .Where(i => i.IsItem() && i.IsArmor())
+                    .Select(i => itemFactory.GetItemFamilyIdFromName(i.GetComponent<ItemComponent>()!.FamilyName)!)
+                    .ToList();
             }
 
             var multiplier = world.XpMultiplier * Math.Sqrt(world.AreaLevel);
-            var share = dt / m_weaponFamilies.Count;
-            foreach (var weapon in m_weaponFamilies)
-            {
-                if (!m_timePerItemClass.ContainsKey(weapon))
-                {
-                    m_timePerItemClass[weapon] = 0.0;
-                }
-                m_timePerItemClass[weapon] += share * multiplier;
+            var gain = dt * multiplier;
+            AddXP(m_weaponFamilies, gain, coordinator);
+            AddXP(m_armorFamilies, gain, coordinator);
 
-                if (m_timePerItemClass[weapon] > 1.0)
+            m_firstUpdate = false;
+        }
+
+        void AddXP(List<string> itemFamilies, double fullAmount, Coordinator coordinator)
+        {
+            var abilitiesComp = m_player?.GetComponent<AbilitiesComponent>();
+            if (abilitiesComp == null)
+                return;
+            var share = fullAmount / itemFamilies.Count; // Split experience among families of all equipped weapons
+
+            foreach (string item in itemFamilies)
+            {
+                if (!m_timePerItemClass.ContainsKey(item))
                 {
-                    int xp = (int)Math.Floor(m_timePerItemClass[weapon]);
-                    m_timePerItemClass[weapon] -= xp;
-                    var result = abilitiesComp.AddXP(weapon, xp);
+                    m_timePerItemClass[item] = 0.0;
+                }
+                m_timePerItemClass[item] += share;
+
+                if (m_timePerItemClass[item] > 1.0) // A full XP has been reached
+                {
+                    int xp = (int)Math.Floor(m_timePerItemClass[item]);
+                    m_timePerItemClass[item] -= xp;
+                    var result = abilitiesComp.AddXP(item, xp);
                     if (result == AbilitiesComponent.AddXPResult.LevelIncreased)
                     {
-                        var newLevel = abilitiesComp.GetAbility(weapon)?.Level ?? 0;
-                        coordinator.PostMessage(this, new AbilityImprovedMessage(weapon, newLevel));
+                        var newLevel = abilitiesComp.GetAbility(item)?.Level ?? 0;
+                        coordinator.PostMessage(this, new AbilityImprovedMessage(item, newLevel));
                     }
                 }
             }
-
-            m_firstUpdate = false;
         }
     }
 

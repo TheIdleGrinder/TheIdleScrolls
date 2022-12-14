@@ -54,14 +54,14 @@ namespace TheIdleScrolls_Core.Items
             if (description.Weapon != null)
             {
                 item.AddComponent(new WeaponComponent(
-                    description.Family,
-                    description.Genus,
                     description.Weapon.BaseDamage,
                     description.Weapon.BaseCooldown));
             }
             if (description.Armor != null)
             {
-                item.AddComponent(new ArmorComponent(description.Armor.BaseArmor));
+                item.AddComponent(new ArmorComponent(
+                    description.Armor.BaseArmor, 
+                    description.Armor.BaseEvasion));
             }
             return item;
         }
@@ -79,11 +79,11 @@ namespace TheIdleScrolls_Core.Items
 
         public static string? GetIdString(Entity item, ItemKingdomDescription items)
         {
-            var weaponComp = item.GetComponent<WeaponComponent>();
-            if (weaponComp == null)
+            var itemComp = item.GetComponent<ItemComponent>();
+            if (itemComp == null)
                 return null;
-            string familyName = weaponComp.Family;
-            string genusName = weaponComp.Genus;
+            string familyName = itemComp.FamilyName;
+            string genusName = itemComp.GenusName;
             foreach (var family in items.Families)
             {
                 if (family.Name != familyName)
