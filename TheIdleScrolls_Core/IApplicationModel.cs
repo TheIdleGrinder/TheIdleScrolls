@@ -18,6 +18,8 @@ namespace TheIdleScrolls_Core
 
         public void SetPlayerAttack(double damage, double cooldown, double remainingCooldown);
 
+        public void SetPlayerDefense(double armor, double evasion);
+
         public void SetPlayerAbilities(List<AbilityRepresentation> abilities);
 
         public void SetMob(MobRepresentation mob);

@@ -76,8 +76,8 @@ namespace TheIdleScrolls_Core.Components
 
     public class DefenseComponent : IComponent
     {
-        public double Slowdown = 0.0;
-        public double TimeMulti = 1.0;
+        public double Armor = 0.0;
+        public double Evasion = 1.0;
     }
 
     public class KilledComponent : IComponent

@@ -93,5 +93,10 @@ namespace TheIdleScrollsApp
         {
             return LoggerFlags.NoDamage | LoggerFlags.NoXp;
         }
+
+        public void SetPlayerDefense(double armor, double evasion)
+        {
+            GetTargetOrNull()?.SetDefenses(armor, evasion);
+        }
     }
 }

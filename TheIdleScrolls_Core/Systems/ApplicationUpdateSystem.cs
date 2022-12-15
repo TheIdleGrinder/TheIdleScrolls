@@ -81,6 +81,13 @@ namespace TheIdleScrolls_Core.Systems
                 m_appModel?.SetPlayerAttack(attackComp.RawDamage, attackComp.Cooldown.Duration, attackComp.Cooldown.Remaining);
             }
 
+            // Update defenses
+            var defenseComp = player.GetComponent<DefenseComponent>();
+            if (defenseComp != null && (m_firstUpdate || coordinator.MessageTypeIsOnBoard<StatsUpdatedMessage>()))
+            {
+                m_appModel?.SetPlayerDefense(defenseComp.Armor, defenseComp.Evasion);
+            }
+
             // Update Abilities
             if (m_firstUpdate || m_abilityUpdate.Update(dt) > 0 || coordinator.MessageTypeIsOnBoard<AbilityImprovedMessage>())
             {

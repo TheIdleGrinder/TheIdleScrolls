@@ -121,8 +121,8 @@ namespace TheIdleScrolls_Core.Systems
             {
                 if (equipComp != null)
                 {
-                    defenseComp.TimeMulti = 1.0 + evasion / 100.0; // 1% bonus per evasion
-                    defenseComp.Slowdown = 1.0 + armor / 100.0; // 1% bonus per armor
+                    defenseComp.Evasion = evasion; // 1% bonus per evasion
+                    defenseComp.Armor = armor; // 1% bonus per armor
                 }
             }
             

@@ -120,6 +120,12 @@ namespace TheIdleScrollsApp
             lblAttackCooldown.Text = $"{remaining:0.00} / {duration:0.00}";
         }
 
+        public void SetDefenses(double armor, double evasion)
+        {
+            lblDefArmor.Text = armor.ToString("0.0#");
+            lblDefEvasion.Text = evasion.ToString("0.0#");
+        }
+
         //List<InventoryItem> OrderItemList(List<InventoryItem> items)
         //{
         //    //CornerCut: Magic strings :(, how does one ensure a nice order here?

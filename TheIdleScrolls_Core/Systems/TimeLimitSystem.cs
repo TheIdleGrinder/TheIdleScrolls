@@ -29,7 +29,10 @@ namespace TheIdleScrolls_Core.Systems
             if (coordinator.MessageTypeIsOnBoard<MobSpawnMessage>()) // Combat just started, prepare time limit
             {
                 int level = m_player.GetLevel();
-                double evasionBonus = defComp?.TimeMulti ?? 1.0;
+
+                double evasion = defComp?.Evasion ?? 0.0;
+                double evasionBonus = 1.0 + evasion / 100.0;
+
                 double duration = 10.0 * level * evasionBonus / world.AreaLevel;
                 world.TimeLimit.Reset(duration);
                 coordinator.PostMessage(this, new TextMessage($"New time limit: {duration:0.###} s"));
@@ -41,9 +44,9 @@ namespace TheIdleScrolls_Core.Systems
                     .Select(m => m.GetComponent<MobDamageComponent>()?.Multiplier ?? 1.0);
                 if (attackers.Any())
                 {
-                    double armorBonus = defComp?.Slowdown ?? 1.0;
-                    if (armorBonus == 0.0)
-                        armorBonus = 1.0;
+                    double armor = defComp?.Armor ?? 0.0;
+                    double armorBonus = 1.0 + armor / 100.0;
+
                     var multi = attackers.Average();
                     world.TimeLimit.Update(multi * dt / armorBonus); // armor 'slows time'
 
