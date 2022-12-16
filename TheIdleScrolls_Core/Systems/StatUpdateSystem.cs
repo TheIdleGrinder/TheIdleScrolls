@@ -40,6 +40,7 @@ namespace TheIdleScrolls_Core.Systems
 
             double armor = 0.0;
             double evasion = 0.0;
+            double encumbrance = 0.0;
 
             double baseDamage = 2.0;
             double cooldown = 1.0;
@@ -54,11 +55,14 @@ namespace TheIdleScrolls_Core.Systems
                 double combinedCD = 0.0;
                 int weaponCount = 0;
                 int armorCount = 0;
+                
+
                 foreach (var item in equipComp.GetItems())
                 {
                     var itemComp = item.GetComponent<ItemComponent>();
                     var weaponComp = item.GetComponent<WeaponComponent>();
                     var armorComp = item.GetComponent<ArmorComponent>();
+                    encumbrance += item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
 
                     if (itemComp != null && weaponComp != null)
                     {
@@ -91,6 +95,7 @@ namespace TheIdleScrolls_Core.Systems
                         evasion += localEvasion;
                     }
                 }
+
                 if (weaponCount > 0)
                 {
                     baseDamage = (combinedDmg / weaponCount);
@@ -109,6 +114,8 @@ namespace TheIdleScrolls_Core.Systems
 
                 var rawDamage = baseDamage * dmgMulti;
                 cooldown /= apsMulti;
+                cooldown *= 1.0 + encumbrance / 100.0; // Encumbrance slows attack speed multiplicatively
+                
                 attackComp.RawDamage = rawDamage;
                 // CornerCut(?): Reset cooldown if the duration changed
                 // implies weapon change => what if other items change the cooldown? A single "skipped" attack is probably fine
@@ -121,8 +128,8 @@ namespace TheIdleScrolls_Core.Systems
             {
                 if (equipComp != null)
                 {
-                    defenseComp.Evasion = evasion; // 1% bonus per evasion
-                    defenseComp.Armor = armor; // 1% bonus per armor
+                    defenseComp.Evasion = evasion; 
+                    defenseComp.Armor = armor;
                 }
             }
             

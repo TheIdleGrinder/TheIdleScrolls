@@ -87,11 +87,12 @@
         {
           "Name": "Padded Armor",
           "Equippable": {
-            "Slot": "Armor"
+            "Slot": "Armor",
+            "Encumbrance":  10.0
           },
           "Armor": {
-            "BaseArmor": 0.0,
-            "BaseEvasion": 10.0
+            "BaseArmor": 30.0,
+            "BaseEvasion": 0.0
           }
         }
       ]
@@ -103,10 +104,11 @@
         {
           "Name": "Plate Armor",
           "Equippable": {
-            "Slot": "Armor"
+            "Slot": "Armor",
+            "Encumbrance": 20.0
           },
           "Armor": {
-            "BaseArmor": 10.0,
+            "BaseArmor": 50.0,
             "BaseEvasion":  0.0
           }
         }

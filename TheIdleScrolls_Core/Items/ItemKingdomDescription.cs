@@ -30,6 +30,8 @@ namespace TheIdleScrolls_Core.Items
     public class EquippableDescription
     {
         public string Slot { get; set; } = "";
+
+        public double Encumbrance { get; set; } = 0.0;
     }
 
     public class WeaponGenus

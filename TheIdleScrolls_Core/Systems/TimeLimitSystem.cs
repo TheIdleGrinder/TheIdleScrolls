@@ -10,6 +10,9 @@ namespace TheIdleScrolls_Core.Systems
 {
     internal class TimeLimitSystem : AbstractSystem
     {
+        const double BaseDuration = 10.0;
+        const double DifficultyScaling = 1.0;
+
         Entity? m_player = null;
 
         bool m_inCombat = false;
@@ -31,9 +34,9 @@ namespace TheIdleScrolls_Core.Systems
                 int level = m_player.GetLevel();
 
                 double evasion = defComp?.Evasion ?? 0.0;
-                double evasionBonus = 1.0 + evasion / 100.0;
+                double evasionBonus = 1.0 + evasion / 100.0; // Evasion increases amount of time
 
-                double duration = 10.0 * level * evasionBonus / world.AreaLevel;
+                double duration = BaseDuration * level * evasionBonus / Math.Pow(world.AreaLevel, DifficultyScaling);
                 world.TimeLimit.Reset(duration);
                 coordinator.PostMessage(this, new TextMessage($"New time limit: {duration:0.###} s"));
             }

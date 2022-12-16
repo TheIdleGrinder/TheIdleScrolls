@@ -173,7 +173,12 @@ namespace TheIdleScrolls_Core.Systems
             }
             if (armorComp != null)
             {
-                description += $"; {armorComp.Armor} Armor; {armorComp.Evasion} Evasion";
+                description += armorComp.Armor != 0.0 ? $"; {armorComp.Armor} Armor" : "";
+                description += armorComp.Evasion != 0.0 ? $"; {armorComp.Evasion} Evasion" : "";
+            }
+            if (equipComp != null)
+            {
+                description += equipComp.Encumbrance != 0.0 ? $"; {equipComp.Encumbrance} Encumbrance" : "";
             }
             return new ItemRepresentation(
                 item.Id,
