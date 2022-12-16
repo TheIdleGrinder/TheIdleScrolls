@@ -42,7 +42,7 @@ namespace TheIdleScrolls_Core.Systems
                 if (lvl >= 2)
                 {
                     InventoryComponent invComp = new();
-                    List<string> weapons = new() { "SBL0", "LBL0", "AXE0", "BLN0", "POL0" };
+                    List<string> weapons = new() { "SBL0", "LBL0", "AXE0", "BLN0", "POL0", "LAR0", "HAR0" };
                     ItemFactory factory = new();
 
                     m_player.AddComponent(invComp);
