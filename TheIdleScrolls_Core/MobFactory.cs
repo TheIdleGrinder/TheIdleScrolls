@@ -27,6 +27,9 @@ namespace TheIdleScrolls_Core
 
     public class MobFactory
     {
+        static double BaseHpMultiplier = 10.0;
+        static double DifficultyScaling = 1.2;
+
         List<MobDescription> m_mobs = new();
 
         public Entity MakeMob(MobDescription description, int level)
@@ -37,7 +40,7 @@ namespace TheIdleScrolls_Core
             mob.AddComponent(new MobComponent());
             mob.AddComponent(new NameComponent(description.Name));
             mob.AddComponent(new LevelComponent { Level = level });
-            mob.AddComponent(new LifePoolComponent((int)(level * description.HP * 10)));
+            mob.AddComponent(new LifePoolComponent(CalculateHP(description, level)));
             mob.AddComponent(new XpGiverComponent { Amount = CalculateXpValue(description, level) });
 
             if (description.Damage > 0.0)
@@ -46,6 +49,11 @@ namespace TheIdleScrolls_Core
             }
 
             return mob;
+        }
+
+        int CalculateHP(MobDescription description, int level)
+        {
+            return (int)(Math.Pow(level, DifficultyScaling) * description.HP * BaseHpMultiplier);
         }
 
         int CalculateXpValue(MobDescription description, int level)

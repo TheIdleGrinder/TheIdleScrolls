@@ -11,7 +11,7 @@ namespace TheIdleScrolls_Core.Systems
     internal class TimeLimitSystem : AbstractSystem
     {
         const double BaseDuration = 10.0;
-        const double DifficultyScaling = 1.0;
+        const double DifficultyScaling = 1.2;
 
         Entity? m_player = null;
 
