@@ -25,6 +25,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new AttackComponent { RawDamage = 2.0, Cooldown = new(1.0) });
             player.AddComponent(new DefenseComponent());
             player.AddComponent(new XpGainerComponent());
+            player.AddComponent(new PlayerProgressComponent());
 
             AbilitiesComponent abilitiesComp = new();
             ItemFactory itemFactory = new();

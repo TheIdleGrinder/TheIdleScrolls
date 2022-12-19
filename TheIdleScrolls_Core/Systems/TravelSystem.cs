@@ -34,10 +34,16 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed)); // CornerCut: make info accessible to app
             }
 
+            var playerLvl = coordinator.GetEntities<PlayerComponent>().FirstOrDefault()?.GetComponent<LevelComponent>()?.Level ?? 0;
+
             var travelRequest = coordinator.FetchMessagesByType<TravelRequest>().LastOrDefault();
             if (travelRequest != null)
             {
                 Travel(travelRequest.AreaLevel, world, coordinator);
+            }
+            else if (playerLvl > 0 && playerLvl < 20 && playerLvl != world.AreaLevel) // CornerCut: needs TravellerComponent
+            {
+                Travel(playerLvl, world, coordinator);
             }
             else if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>()) // Player lost battle
             {

@@ -12,7 +12,7 @@ namespace TheIdleScrolls_Core.Systems
     public class TutorialSystem : AbstractSystem
     {
         static int LvlInventory = 2;
-        static int LvlMobAttacks = 5;
+        static int LvlMobAttacks = 6;
         static int LvlArmor = 10;
         static int LvlAbilities = 15;
         static int LvlTravel = 20;
@@ -59,7 +59,7 @@ namespace TheIdleScrolls_Core.Systems
             if (progComp.Data.Progress == TutorialProgress.Start && lvl >= LvlInventory)
             {
                 InventoryComponent invComp = new();
-                List<string> weapons = new() { "SBL0", "LBL0", "AXE0", "BLN0", "POL0", "LAR0", "HAR0" };
+                List<string> weapons = new() { "SBL0", "LBL0", "AXE0", "BLN0", "POL0" };
                 ItemFactory factory = new();
 
                 m_player.AddComponent(invComp);

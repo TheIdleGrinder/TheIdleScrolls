@@ -40,6 +40,10 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCharacter = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.lblDefEvasion = new System.Windows.Forms.Label();
+            this.lblDefArmor = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.hdrRawDmg = new System.Windows.Forms.Label();
             this.hdrDps = new System.Windows.Forms.Label();
             this.lblAttackDps = new System.Windows.Forms.Label();
@@ -52,7 +56,7 @@
             this.lblCharName = new System.Windows.Forms.Label();
             this.tabInventory = new System.Windows.Forms.TabPage();
             this.lblEqArmor = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.hdrEqArmor = new System.Windows.Forms.Label();
             this.lblEqWeapon = new System.Windows.Forms.Label();
             this.hdrEqWeapon = new System.Windows.Forms.Label();
             this.gridInventory = new System.Windows.Forms.DataGridView();
@@ -62,10 +66,6 @@
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.timerTick = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lblDefArmor = new System.Windows.Forms.Label();
-            this.lblDefEvasion = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -249,6 +249,54 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(385, 164);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
+            // lblDefEvasion
+            // 
+            this.lblDefEvasion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDefEvasion.Location = new System.Drawing.Point(101, 126);
+            this.lblDefEvasion.Name = "lblDefEvasion";
+            this.lblDefEvasion.Size = new System.Drawing.Size(90, 37);
+            this.lblDefEvasion.TabIndex = 7;
+            this.lblDefEvasion.Text = "1.0";
+            this.lblDefEvasion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblDefArmor
+            // 
+            this.lblDefArmor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDefArmor.Location = new System.Drawing.Point(101, 90);
+            this.lblDefArmor.Name = "lblDefArmor";
+            this.lblDefArmor.Size = new System.Drawing.Size(90, 35);
+            this.lblDefArmor.TabIndex = 6;
+            this.lblDefArmor.Text = "0.0";
+            this.lblDefArmor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label3.Location = new System.Drawing.Point(4, 126);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(90, 37);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Evasion";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.Location = new System.Drawing.Point(4, 90);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(90, 35);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Armor";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // hdrRawDmg
             // 
             this.hdrRawDmg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -376,7 +424,7 @@
             // tabInventory
             // 
             this.tabInventory.Controls.Add(this.lblEqArmor);
-            this.tabInventory.Controls.Add(this.label2);
+            this.tabInventory.Controls.Add(this.hdrEqArmor);
             this.tabInventory.Controls.Add(this.lblEqWeapon);
             this.tabInventory.Controls.Add(this.hdrEqWeapon);
             this.tabInventory.Controls.Add(this.gridInventory);
@@ -398,14 +446,14 @@
             this.lblEqArmor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblEqArmor.DoubleClick += new System.EventHandler(this.lblEqArmor_DoubleClick);
             // 
-            // label2
+            // hdrEqArmor
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(207, 34);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 15);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Armor";
+            this.hdrEqArmor.AutoSize = true;
+            this.hdrEqArmor.Location = new System.Drawing.Point(207, 34);
+            this.hdrEqArmor.Name = "hdrEqArmor";
+            this.hdrEqArmor.Size = new System.Drawing.Size(41, 15);
+            this.hdrEqArmor.TabIndex = 4;
+            this.hdrEqArmor.Text = "Armor";
             // 
             // lblEqWeapon
             // 
@@ -509,54 +557,6 @@
             this.toolTip.ReshowDelay = 20;
             this.toolTip.ShowAlways = true;
             // 
-            // label1
-            // 
-            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(4, 90);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 35);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Armor";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.Location = new System.Drawing.Point(4, 126);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(90, 37);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Evasion";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblDefArmor
-            // 
-            this.lblDefArmor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDefArmor.Location = new System.Drawing.Point(101, 90);
-            this.lblDefArmor.Name = "lblDefArmor";
-            this.lblDefArmor.Size = new System.Drawing.Size(90, 35);
-            this.lblDefArmor.TabIndex = 6;
-            this.lblDefArmor.Text = "0.0";
-            this.lblDefArmor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lblDefEvasion
-            // 
-            this.lblDefEvasion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDefEvasion.Location = new System.Drawing.Point(101, 126);
-            this.lblDefEvasion.Name = "lblDefEvasion";
-            this.lblDefEvasion.Size = new System.Drawing.Size(90, 37);
-            this.lblDefEvasion.TabIndex = 7;
-            this.lblDefEvasion.Text = "1.0";
-            this.lblDefEvasion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -619,7 +619,7 @@
         private Button btnAreaNext;
         private Button btnAreaPrev;
         private Label lblEqArmor;
-        private Label label2;
+        private Label hdrEqArmor;
         private Label lblDefEvasion;
         private Label lblDefArmor;
         private Label label3;

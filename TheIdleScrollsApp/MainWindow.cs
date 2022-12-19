@@ -67,13 +67,35 @@ namespace TheIdleScrollsApp
 
         public void SetFeatureAvailable(GameFeature area, bool available)
         {
+            string name = "??";
             if (GameFeature.Inventory == area)
             {
                 tabControl1.TabPages["tabInventory"].Text = available ? "Inventory" : "";
                 hdrEqWeapon.Visible = available;
                 lblEqWeapon.Visible = available;
                 gridInventory.Visible = available;
+                name = "Inventory";
+            } 
+            else if (GameFeature.Armor == area)
+            {
+                hdrEqArmor.Visible = available;
+                lblEqArmor.Visible = available;
+                name = "Armor";
             }
+            else if (GameFeature.Abilities == area)
+            {
+                tabControl1.TabPages["tabAbilities"].Text = available ? "Abilities" : "";
+                gridAbilities.Visible = available;
+                name = "Abilities";
+            }
+            else if (GameFeature.Travel == area)
+            {
+                btnAreaNext.Visible = available;
+                btnAreaPrev.Visible = available;
+                cbNextAfterWin.Visible = available;
+                name = "Travel";
+            }
+            textBoxLog.AppendText("\r\n" + (available ? "Unl" : "L") + "ocked " + name);
         }
 
         public void SetCharacter(uint id, string name)
@@ -181,8 +203,11 @@ namespace TheIdleScrollsApp
         public void UpdateTimeLimit(double remaining, double limit)
         {
             lblTimeLimit.Visible = limit > 0.0;
-            var barString = new String('=', (int)Math.Ceiling(25 * remaining / limit));
-            lblTimeLimit.Text = $"{remaining:0.000} s\n{barString}";
+            if (limit > 0.0)
+            {
+                var barString = new String('=', (int)Math.Ceiling(25 * remaining / limit));
+                lblTimeLimit.Text = $"{remaining:0.000} s\n{barString}";
+            }
         }
 
         public void SetAutoProceed(bool autoProceed)

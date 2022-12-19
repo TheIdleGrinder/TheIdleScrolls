@@ -29,6 +29,9 @@ namespace TheIdleScrolls_Core.Systems
             bool previouslyInCombat = m_inCombat;
             m_inCombat = coordinator.GetEntities<MobComponent>().Count > 0;
 
+            var attackValues = coordinator.GetEntities<MobDamageComponent>()
+                .Select(m => m.GetComponent<MobDamageComponent>()?.Multiplier ?? 1.0);
+
             if (coordinator.MessageTypeIsOnBoard<MobSpawnMessage>()) // Combat just started, prepare time limit
             {
                 int level = m_player.GetLevel();
@@ -37,20 +40,20 @@ namespace TheIdleScrolls_Core.Systems
                 double evasionBonus = 1.0 + evasion / 100.0; // Evasion increases amount of time
 
                 double duration = BaseDuration * level * evasionBonus / Math.Pow(world.AreaLevel, DifficultyScaling);
+                if (!attackValues.Any())
+                    duration = 0.0;
                 world.TimeLimit.Reset(duration);
                 coordinator.PostMessage(this, new TextMessage($"New time limit: {duration:0.###} s"));
             }
 
             if (m_inCombat)
             {
-                var attackers = coordinator.GetEntities<MobDamageComponent>()
-                    .Select(m => m.GetComponent<MobDamageComponent>()?.Multiplier ?? 1.0);
-                if (attackers.Any())
+                if (attackValues.Any())
                 {
                     double armor = defComp?.Armor ?? 0.0;
                     double armorBonus = 1.0 + armor / 100.0;
 
-                    var multi = attackers.Average();
+                    var multi = attackValues.Average();
                     world.TimeLimit.Update(multi * dt / armorBonus); // armor 'slows time'
 
                     if (world.TimeLimit.HasFinished) // Player lost the fight
