@@ -2,19 +2,19 @@
   {
     "Name": "Dummy",
     "MinLevel": 0,
-    "MaxLevel": 1,
+    "MaxLevel": 5,
     "HP": 0.5,
     "Damage": 0.0
   },
   {
     "Name": "Goblin",
-    "MinLevel": 2,
+    "MinLevel": 6,
     "MaxLevel": 15,
-    "HP": 1.0
+    "HP": 0.8
   },
   {
     "Name": "Orc",
-    "MinLevel": 8,
+    "MinLevel": 11,
     "MaxLevel": 30,
     "HP": 1.2
   },
