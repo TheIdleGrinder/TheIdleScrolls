@@ -13,9 +13,9 @@ namespace TheIdleScrolls_Core.Systems
     {
         static int LvlInventory = 2;
         static int LvlMobAttacks = 6;
-        static int LvlArmor = 10;
-        static int LvlAbilities = 15;
-        static int LvlTravel = 20;
+        static int LvlArmor = 8;
+        static int LvlAbilities = 4;
+        static int LvlTravel = 12;
 
         Entity? m_player = null;
 
