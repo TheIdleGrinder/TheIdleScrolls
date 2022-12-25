@@ -133,13 +133,13 @@ namespace TheIdleScrolls_Core.Systems
             // React to tutorial messages
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TutorialMessage>())
             {
-                var progress = player.GetComponent<PlayerProgressComponent>()?.Data?.Progress;
+                var progress = player.GetComponent<PlayerProgressComponent>()?.Data?.TutorialProgress;
                 if (progress != null)
                 {
-                    m_appModel?.SetFeatureAvailable(GameFeature.Inventory, progress >= TutorialProgress.Inventory);
-                    m_appModel?.SetFeatureAvailable(GameFeature.Armor, progress >= TutorialProgress.Armor);
-                    m_appModel?.SetFeatureAvailable(GameFeature.Abilities, progress >= TutorialProgress.Abilities);
-                    m_appModel?.SetFeatureAvailable(GameFeature.Travel, progress >= TutorialProgress.Travel);
+                    m_appModel?.SetFeatureAvailable(GameFeature.Inventory, progress.Contains(TutorialStep.Inventory));
+                    m_appModel?.SetFeatureAvailable(GameFeature.Armor, progress.Contains(TutorialStep.Armor));
+                    m_appModel?.SetFeatureAvailable(GameFeature.Abilities, progress.Contains(TutorialStep.Abilities));
+                    m_appModel?.SetFeatureAvailable(GameFeature.Travel, progress.Contains(TutorialStep.Travel));
                 }                
             }
 

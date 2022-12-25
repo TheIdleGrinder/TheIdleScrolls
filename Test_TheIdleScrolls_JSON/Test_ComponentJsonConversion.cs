@@ -57,4 +57,27 @@ namespace Test_TheIdleScrolls_JSON
             });
         }
     }
+
+    public class Test_PlayerProgressComponent
+    {
+        [Test]
+        public void Back_and_forth_conversion_works()
+        {
+            List<TutorialStep> tutorialSteps = new() { TutorialStep.MobAttacks, TutorialStep.Abilities};
+
+            PlayerProgressComponent component = new();
+            tutorialSteps.ForEach(s => component.Data.TutorialProgress.Add(s));
+
+            var json = component.ToJson();
+            Assert.That(json, Is.Not.Null);
+
+            PlayerProgressComponent deserialized = new();
+            deserialized.SetFromJson(json);
+
+            Assert.That(deserialized, Is.Not.Null);
+            Assert.That(deserialized.Data.TutorialProgress, Has.Count.EqualTo(2));
+            Assert.That(deserialized.Data.TutorialProgress, Contains.Item(TutorialStep.MobAttacks));
+            Assert.That(deserialized.Data.TutorialProgress, Contains.Item(TutorialStep.Abilities));
+        }
+    }
 }

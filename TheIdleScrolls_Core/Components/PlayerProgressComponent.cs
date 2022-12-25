@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace TheIdleScrolls_Core.Components
 {
-    public enum TutorialProgress { Start, Inventory, MobAttacks, Armor, Abilities, Travel }
+    public enum TutorialStep { Start, Inventory, MobAttacks, Armor, Abilities, Travel }
 
-    internal class PlayerProgressComponent : IComponent
+    public class PlayerProgressComponent : IComponent
     {
         public ProgressData Data { get; set; } = new();
     }
 
     public class ProgressData
     {
-        public TutorialProgress Progress { get; set; } = TutorialProgress.Start;
+        public HashSet<TutorialStep> TutorialProgress { get; set; } = new();
     }
 }

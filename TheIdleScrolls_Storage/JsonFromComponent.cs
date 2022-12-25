@@ -1,9 +1,11 @@
-﻿using System.Text.Json;
+﻿using System.ComponentModel;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
 using MiniECS;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Items;
+using IComponent = MiniECS.IComponent;
 
 namespace TheIdleScrolls_Storage
 {
@@ -48,7 +50,7 @@ namespace TheIdleScrolls_Storage
             JsonArray jsonAbilities = new();
             foreach (var ability in component.GetAbilities())
             {
-                JsonObject jsonAbilty = (JsonObject)JsonObject.Parse(JsonSerializer.Serialize(ability))!;
+                JsonObject jsonAbilty = JsonFromSth(ability);
                 jsonAbilities.Add(jsonAbilty);
             }
             JsonObject json = new()
@@ -113,6 +115,21 @@ namespace TheIdleScrolls_Storage
                 { "Current", component.Current }
             };
             return json;
+        }
+
+        public static JsonObject? ToJson(this PlayerProgressComponent component)
+        {
+            JsonObject json = new()
+            {
+                { "Data", JsonFromSth(component.Data) }
+            };
+            return json;
+        }
+
+
+        public static JsonObject JsonFromSth<T>(T thing)
+        {
+            return (JsonObject)JsonObject.Parse(JsonSerializer.Serialize(thing))!;
         }
     }
 }

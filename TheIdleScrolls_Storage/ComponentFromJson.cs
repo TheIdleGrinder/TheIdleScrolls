@@ -171,5 +171,18 @@ namespace TheIdleScrolls_JSON
                 return false;
             }
         }
+
+        public static bool SetFromJson(this PlayerProgressComponent component, JsonNode json)
+        {
+            try 
+            {
+                component.Data = JsonSerializer.Deserialize<ProgressData>(json["Data"]!)!;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

@@ -37,26 +37,28 @@ namespace TheIdleScrolls_Core.Systems
             {
                 m_firstUpdate = false;
 
-                var progress = TutorialProgress.Start;
-                if (m_player.HasComponent<InventoryComponent>())
-                    progress = TutorialProgress.Inventory;
-                if (progress == TutorialProgress.Inventory && lvl >= LvlMobAttacks)
-                    progress = TutorialProgress.MobAttacks;
-                if (progress == TutorialProgress.MobAttacks && lvl >= LvlArmor)
-                    progress = TutorialProgress.Armor;
-                if (progress == TutorialProgress.Armor && lvl >= LvlAbilities)
-                    progress = TutorialProgress.Abilities;
-                if (progress == TutorialProgress.Abilities && lvl >= LvlTravel)
-                    progress = TutorialProgress.Travel;
+                // This section should be obsolete by now
 
-                if (progress > progComp.Data.Progress)
-                {
-                    progComp.Data.Progress = progress;
-                }
+                //var progress = TutorialStep.Start;
+                //if (m_player.HasComponent<InventoryComponent>())
+                //    progress = TutorialStep.Inventory;
+                //if (progress == TutorialStep.Inventory && lvl >= LvlMobAttacks)
+                //    progress = TutorialStep.MobAttacks;
+                //if (progress == TutorialStep.MobAttacks && lvl >= LvlArmor)
+                //    progress = TutorialStep.Armor;
+                //if (progress == TutorialStep.Armor && lvl >= LvlAbilities)
+                //    progress = TutorialStep.Abilities;
+                //if (progress == TutorialStep.Abilities && lvl >= LvlTravel)
+                //    progress = TutorialStep.Travel;
+
+                //if (progress > progComp.Data.Progress)
+                //{
+                //    progComp.Data.Progress = progress;
+                //}
             }
 
             // Evaluate conditions for current tutorial stage
-            if (progComp.Data.Progress == TutorialProgress.Start && lvl >= LvlInventory)
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Inventory) && lvl >= LvlInventory)
             {
                 InventoryComponent invComp = new();
                 List<string> weapons = new() { "SBL0", "LBL0", "AXE0", "BLN0", "POL0" };
@@ -76,20 +78,20 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
 
-                progComp.Data.Progress = TutorialProgress.Inventory;
+                progComp.Data.TutorialProgress.Add(TutorialStep.Inventory);
                 coordinator.PostMessage(this,
-                    new TutorialMessage(progComp.Data.Progress, "Level Up!", 
+                    new TutorialMessage(TutorialStep.Inventory, "Level Up!", 
                     $"You have unlocked the inventory. Time to gear up!\n  - Unlocked inventory{itemString}"));
             }
-            else if (progComp.Data.Progress == TutorialProgress.Inventory && lvl >= LvlMobAttacks)
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.MobAttacks) && lvl >= LvlMobAttacks)
             {
-                progComp.Data.Progress = TutorialProgress.MobAttacks;
+                progComp.Data.TutorialProgress.Add(TutorialStep.MobAttacks);
                 coordinator.PostMessage(this,
-                    new TutorialMessage(progComp.Data.Progress, "Training is over",
+                    new TutorialMessage(TutorialStep.MobAttacks, "Training is over",
                     $"From this point on, mobs are going to fight back. Watch the countdown near the mob. If time runs out, you lose the fight."));
             
             }
-            else if (progComp.Data.Progress == TutorialProgress.MobAttacks && lvl >= LvlArmor)
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Armor) && lvl >= LvlArmor)
             {
                 List<string> items = new() { "LAR0", "HAR0" };
                 ItemFactory factory = new();
@@ -106,24 +108,24 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
 
-                progComp.Data.Progress = TutorialProgress.Armor;
+                progComp.Data.TutorialProgress.Add(TutorialStep.Armor);
                 coordinator.PostMessage(this,
-                    new TutorialMessage(progComp.Data.Progress, "It's dangerous to go alone", 
+                    new TutorialMessage(TutorialStep.Armor, "It's dangerous to go alone", 
                     $"Those mobs are getting nasty. Use armor to slow down the countdown during fights.{itemString}"));
             }
-            else if (progComp.Data.Progress == TutorialProgress.Armor && lvl >= LvlAbilities)
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Abilities) && lvl >= LvlAbilities)
             {
-                progComp.Data.Progress = TutorialProgress.Abilities;
+                progComp.Data.TutorialProgress.Add(TutorialStep.Abilities);
                 coordinator.PostMessage(this,
-                    new TutorialMessage(progComp.Data.Progress, "Live and learn",
+                    new TutorialMessage(TutorialStep.Abilities, "Live and learn",
                     $"\n  - Unlocked abilities"));
 
             }
-            else if (progComp.Data.Progress == TutorialProgress.Abilities && lvl >= LvlTravel)
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Travel) && lvl >= LvlTravel)
             {
-                progComp.Data.Progress = TutorialProgress.Travel;
+                progComp.Data.TutorialProgress.Add(TutorialStep.Travel);
                 coordinator.PostMessage(this,
-                    new TutorialMessage(progComp.Data.Progress, "Freedom of movement",
+                    new TutorialMessage(TutorialStep.Travel, "Freedom of movement",
                     $"\n  - Unlocked abilities"));
 
             }
@@ -132,11 +134,11 @@ namespace TheIdleScrolls_Core.Systems
 
     public class TutorialMessage : IMessage
     {
-        public TutorialProgress Progress { get; set; }
+        public TutorialStep Progress { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
 
-        public TutorialMessage(TutorialProgress progress, string title, string text)
+        public TutorialMessage(TutorialStep progress, string title, string text)
         {
             Progress = progress;
             Title = title;
