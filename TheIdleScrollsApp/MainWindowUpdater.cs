@@ -98,5 +98,10 @@ namespace TheIdleScrollsApp
         {
             GetTargetOrNull()?.SetDefenses(armor, evasion);
         }
+
+        public void DisplayMessage(string title, string message)
+        {
+            GetTargetOrNull()?.ShowMessageBox(title, message);
+        }
     }
 }

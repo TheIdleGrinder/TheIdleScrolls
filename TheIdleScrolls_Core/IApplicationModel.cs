@@ -32,6 +32,8 @@ namespace TheIdleScrolls_Core
 
         public void SetFeatureAvailable(GameFeature feature, bool available);
 
+        public void DisplayMessage(string title, string message);
+
         public void AddLogMessages(List<string> messages);
 
         public LoggerFlags GetLogSettings();

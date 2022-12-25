@@ -136,11 +136,17 @@ namespace TheIdleScrolls_Core.Systems
                 var progress = player.GetComponent<PlayerProgressComponent>()?.Data?.TutorialProgress;
                 if (progress != null)
                 {
-                    m_appModel?.SetFeatureAvailable(GameFeature.Inventory, progress.Contains(TutorialStep.Inventory));
+                    m_appModel?.SetFeatureAvailable(GameFeature.Inventory, player.HasComponent<InventoryComponent>());
                     m_appModel?.SetFeatureAvailable(GameFeature.Armor, progress.Contains(TutorialStep.Armor));
                     m_appModel?.SetFeatureAvailable(GameFeature.Abilities, progress.Contains(TutorialStep.Abilities));
                     m_appModel?.SetFeatureAvailable(GameFeature.Travel, progress.Contains(TutorialStep.Travel));
-                }                
+                }
+
+                var messages = coordinator.FetchMessagesByType<TutorialMessage>();
+                foreach (var message in messages)
+                {
+                    m_appModel?.DisplayMessage(message.Title, message.Text);
+                }
             }
 
             // Add log messages

@@ -216,6 +216,12 @@ namespace TheIdleScrollsApp
                 cbNextAfterWin.Checked = autoProceed;
         }
 
+        public void ShowMessageBox(string title, string text)
+        {
+            Thread t = new(() => MessageBox.Show(text, title));
+            t.Start();
+        }
+
         private void gridInventory_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             if (e.RowIndex < 0 || e.RowIndex >= gridInventory.Rows.Count)
