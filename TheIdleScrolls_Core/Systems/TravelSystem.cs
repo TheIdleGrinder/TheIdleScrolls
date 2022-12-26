@@ -17,12 +17,14 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
+            var player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
+            if (player == null)
+                return;
+
             if (m_firstUpdate)
             {
-                var players = coordinator.GetEntities().Where(e => e.HasComponent<PlayerComponent>() && e.HasComponent<LevelComponent>());
-                if (players.Any())
+                if (player.HasComponent<LevelComponent>())
                 {
-                    var player = players.First();
                     var level = player.GetComponent<LevelComponent>()?.Level ?? 0;
                     if (level > world.AreaLevel)
                     {
@@ -34,16 +36,26 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed)); // CornerCut: make info accessible to app
             }
 
-            var playerLvl = coordinator.GetEntities<PlayerComponent>().FirstOrDefault()?.GetComponent<LevelComponent>()?.Level ?? 0;
+            // Update available areas
+            var travelComp = player.GetComponent<TravellerComponent>();
+            var progComp = player.GetComponent<PlayerProgressComponent>();
+            if (travelComp != null && progComp != null)
+            {
+                travelComp.MaxWilderness = progComp.Data.HighestWildernessKill + 1;
+            }
+
+            var playerLvl = player.GetComponent<LevelComponent>()?.Level ?? 0;
+
+            // Travel if player has no traveller component
+            if (travelComp == null && playerLvl != world.AreaLevel)
+            {
+                Travel(playerLvl, world, coordinator);
+            }
 
             var travelRequest = coordinator.FetchMessagesByType<TravelRequest>().LastOrDefault();
             if (travelRequest != null)
             {
                 Travel(travelRequest.AreaLevel, world, coordinator);
-            }
-            else if (playerLvl > 0 && playerLvl < 20 && playerLvl != world.AreaLevel) // CornerCut: needs TravellerComponent
-            {
-                Travel(playerLvl, world, coordinator);
             }
             else if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>()) // Player lost battle
             {
@@ -56,6 +68,7 @@ namespace TheIdleScrolls_Core.Systems
                 Travel(world.AreaLevel + 1, world, coordinator);
             }
 
+            // Handle changes to auto proceed status
             var autoProcRequest = coordinator.FetchMessagesByType<AutoProceedRequest>().LastOrDefault(); // Consider only most recent
             if (autoProcRequest != null)
             {

@@ -139,7 +139,7 @@ namespace TheIdleScrolls_Core.Systems
                     m_appModel?.SetFeatureAvailable(GameFeature.Inventory, player.HasComponent<InventoryComponent>());
                     m_appModel?.SetFeatureAvailable(GameFeature.Armor, progress.Contains(TutorialStep.Armor));
                     m_appModel?.SetFeatureAvailable(GameFeature.Abilities, progress.Contains(TutorialStep.Abilities));
-                    m_appModel?.SetFeatureAvailable(GameFeature.Travel, progress.Contains(TutorialStep.Travel));
+                    m_appModel?.SetFeatureAvailable(GameFeature.Travel, player.HasComponent<TravellerComponent>());
                 }
 
                 var messages = coordinator.FetchMessagesByType<TutorialMessage>();

@@ -123,6 +123,7 @@ namespace TheIdleScrolls_Core.Systems
             }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Travel) && lvl >= LvlTravel)
             {
+                m_player.AddComponent(new TravellerComponent() { MaxWilderness = lvl });
                 progComp.Data.TutorialProgress.Add(TutorialStep.Travel);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Travel, "Freedom of movement",
