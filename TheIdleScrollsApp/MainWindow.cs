@@ -19,6 +19,7 @@ namespace TheIdleScrollsApp
         DateTime m_lastTickStart;
         IUserInputHandler m_inputHandler;
 
+        const char BlockChar = '\u258e';
 
         uint m_playerId = 0;
         int m_areaLevel = 0;
@@ -127,7 +128,7 @@ namespace TheIdleScrollsApp
 
         public void SetMobHP(int current, int max)
         {
-            var barString = new String('=', (int)Math.Ceiling(30.0 * current / max));
+            var barString = new String(BlockChar, (int)Math.Ceiling(60.0 * current / max));
             lblMobHP.Text = $"HP: {current} / {max}\n{barString}";
         }
 
@@ -205,7 +206,7 @@ namespace TheIdleScrollsApp
             lblTimeLimit.Visible = limit > 0.0;
             if (limit > 0.0)
             {
-                var barString = new String('=', (int)Math.Ceiling(25 * remaining / limit));
+                var barString = new String(BlockChar, (int)Math.Ceiling(50 * remaining / limit));
                 lblTimeLimit.Text = $"{remaining:0.000} s\n{barString}";
             }
         }
