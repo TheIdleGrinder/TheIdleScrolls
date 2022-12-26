@@ -60,5 +60,16 @@ namespace TheIdleScrolls_Core.Utility
             m_duration = newDuration;
             Reset();
         }
+
+        public void ChangeDuration(double newDuration, bool scaleRemainingTime = true)
+        {
+            double prevDuration = m_duration;
+            m_duration = newDuration;
+
+            if (scaleRemainingTime && prevDuration > 0.0)
+            {
+                m_remaining *= newDuration / prevDuration;
+            }
+        }
     }
 }

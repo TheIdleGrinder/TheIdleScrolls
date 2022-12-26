@@ -117,10 +117,11 @@ namespace TheIdleScrolls_Core.Systems
                 cooldown *= 1.0 + encumbrance / 100.0; // Encumbrance slows attack speed multiplicatively
                 
                 attackComp.RawDamage = rawDamage;
-                // CornerCut(?): Reset cooldown if the duration changed
-                // implies weapon change => what if other items change the cooldown? A single "skipped" attack is probably fine
+                // CornerCut(?): This makes the cooldown not reset in case of a weapon swap.
+                // Theoretically exploitable by switching between fast and slow weapons
+                // Potential TODO: Detect weapon swap
                 if (cooldown != attackComp.Cooldown.Duration)
-                    attackComp.Cooldown = new Utility.Cooldown(cooldown);
+                    attackComp.Cooldown.ChangeDuration(cooldown, true);
             }
 
             var defenseComp = player.GetComponent<DefenseComponent>();
