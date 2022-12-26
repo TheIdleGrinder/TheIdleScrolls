@@ -55,7 +55,8 @@ namespace TheIdleScrolls_Core.Systems
             var travelRequest = coordinator.FetchMessagesByType<TravelRequest>().LastOrDefault();
             if (travelRequest != null)
             {
-                Travel(travelRequest.AreaLevel, world, coordinator);
+                int limit = travelComp?.MaxWilderness ?? Int32.MaxValue;
+                Travel(Math.Min(travelRequest.AreaLevel, limit), world, coordinator);
             }
             else if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>()) // Player lost battle
             {
