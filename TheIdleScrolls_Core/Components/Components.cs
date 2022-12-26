@@ -176,4 +176,9 @@ namespace TheIdleScrolls_Core.Components
             Multiplier = multiplier;
         }
     }
+
+    public class TravellerComponent : IComponent
+    {
+        public int MaxWilderness = 0;
+    }
 }
