@@ -127,7 +127,7 @@ namespace TheIdleScrolls_Core.Systems
                 progComp.Data.TutorialProgress.Add(TutorialStep.Travel);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Travel, "Freedom of movement",
-                    $"\n  - Unlocked abilities"));
+                    $"\n  - Unlocked manual travel between areas"));
 
             }
         }
