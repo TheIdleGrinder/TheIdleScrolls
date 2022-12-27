@@ -17,6 +17,8 @@ namespace TheIdleScrolls_Core
 
         public ItemKingdomDescription ItemKingdom = new();
 
+        public AreaKingdomDescription AreaKingdowm = new();
+
         public Cooldown TimeLimit = new(10.0);
 
         public World()

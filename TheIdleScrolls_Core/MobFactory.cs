@@ -10,19 +10,11 @@ namespace TheIdleScrolls_Core
 {
     public class MobDescription
     {
-        public string Name { get; set; }
-        public int MinLevel { get; set; }
-        public int MaxLevel { get; set; }
-        public double HP { get; set; }
+        public string Name { get; set; } = "";
+        public int MinLevel { get; set; } = 1;
+        public int MaxLevel { get; set; } = Int32.MaxValue;
+        public double HP { get; set; } = 1.0;
         public double Damage { get; set; } = 1.0;
-
-        public MobDescription()
-        {
-            Name = "";
-            MinLevel = 0;
-            MaxLevel = 100;
-            HP = 1.0;
-        }
     }
 
     public class MobFactory
