@@ -10,7 +10,6 @@ namespace TheIdleScrolls_Core
 {
     public class World
     {
-        public int AreaLevel = 1;
         public ZoneDescription Zone;
 
         public double XpMultiplier = 1.0;

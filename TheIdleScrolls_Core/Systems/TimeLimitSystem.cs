@@ -39,7 +39,7 @@ namespace TheIdleScrolls_Core.Systems
                 double evasion = defComp?.Evasion ?? 0.0;
                 double evasionBonus = 1.0 + evasion / 100.0; // Evasion increases amount of time
 
-                double duration = BaseDuration * level * evasionBonus / Math.Pow(world.AreaLevel, DifficultyScaling);
+                double duration = BaseDuration * level * evasionBonus / Math.Pow(world.Zone.Level, DifficultyScaling);
                 if (!attackValues.Any())
                     duration = 0.0;
                 world.TimeLimit.Reset(duration);
@@ -59,7 +59,7 @@ namespace TheIdleScrolls_Core.Systems
                     if (world.TimeLimit.HasFinished) // Player lost the fight
                     {
                         var mobName = coordinator.GetEntities<MobComponent>().FirstOrDefault()?.GetName() ?? "??";
-                        coordinator.PostMessage(this, new BattleLostMessage(m_player, mobName, world.AreaLevel));
+                        coordinator.PostMessage(this, new BattleLostMessage(m_player, mobName, world.Zone.Level));
 
                         coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id)); // Despawn all mobs
                         m_inCombat = false;

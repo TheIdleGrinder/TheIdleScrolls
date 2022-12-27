@@ -117,7 +117,7 @@ namespace TheIdleScrolls_Core.Systems
             // Update area
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TravelMessage>())
             {
-                m_appModel?.SetArea("Wilderness", world.AreaLevel);
+                m_appModel?.SetArea("Wilderness", world.Zone.Level);
             }
 
             // Update time limit

@@ -26,7 +26,7 @@ namespace TheIdleScrolls_Core.Systems
                 if (player.HasComponent<LevelComponent>())
                 {
                     var level = player.GetComponent<LevelComponent>()?.Level ?? 0;
-                    if (level > world.AreaLevel)
+                    if (level > world.Zone.Level)
                     {
                         Travel(level, world, coordinator);
                     }
@@ -47,7 +47,7 @@ namespace TheIdleScrolls_Core.Systems
             var playerLvl = player.GetComponent<LevelComponent>()?.Level ?? 0;
 
             // Travel if player has no traveller component
-            if (travelComp == null && playerLvl != world.AreaLevel)
+            if (travelComp == null && playerLvl != world.Zone.Level)
             {
                 Travel(playerLvl, world, coordinator);
             }
@@ -60,13 +60,13 @@ namespace TheIdleScrolls_Core.Systems
             }
             else if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>()) // Player lost battle
             {
-                if (world.AreaLevel > 1)
-                    Travel(world.AreaLevel - 1, world, coordinator);
+                if (world.Zone.Level > 1)
+                    Travel(world.Zone.Level - 1, world, coordinator);
                 coordinator.PostMessage(this, new AutoProceedRequest(false));
             }
             else if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed)
             {
-                Travel(world.AreaLevel + 1, world, coordinator);
+                Travel(world.Zone.Level + 1, world, coordinator);
             }
 
             // Handle changes to auto proceed status
@@ -81,7 +81,7 @@ namespace TheIdleScrolls_Core.Systems
         void Travel(int areaLevel, World world, Coordinator coordinator)
         {
             coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id));
-            world.AreaLevel = areaLevel;
+            world.Zone = world.AreaKingdowm.GetWildernessZoneDescription(areaLevel);
             world.TimeLimit.Reset();
             coordinator.PostMessage(this, new TravelMessage("Wilderness", areaLevel));
         }

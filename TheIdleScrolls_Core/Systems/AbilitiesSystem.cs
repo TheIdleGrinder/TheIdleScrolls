@@ -47,7 +47,7 @@ namespace TheIdleScrolls_Core.Systems
                     .ToList();
             }
 
-            var multiplier = world.XpMultiplier * Math.Sqrt(world.AreaLevel);
+            var multiplier = world.XpMultiplier * Math.Sqrt(world.Zone.Level);
             var gain = dt * multiplier;
             AddXP(m_weaponFamilies, gain, coordinator);
             AddXP(m_armorFamilies, gain, coordinator);
