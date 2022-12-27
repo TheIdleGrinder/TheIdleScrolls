@@ -11,6 +11,7 @@ namespace TheIdleScrolls_Core
     public class World
     {
         public int AreaLevel = 1;
+        public ZoneDescription Zone;
 
         public double XpMultiplier = 1.0;
         public double SpeedMultiplier = 1.0;
@@ -23,6 +24,7 @@ namespace TheIdleScrolls_Core
 
         public World()
         {
+            Zone = new();
             TimeLimit.SingleShot = true;
         }
     }

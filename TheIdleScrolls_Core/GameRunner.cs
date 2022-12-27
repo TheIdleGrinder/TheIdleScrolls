@@ -61,10 +61,13 @@ namespace TheIdleScrolls_Core
 
             try
             {
-                var mobs = ResourceAccess.ParseResourceFile<List<MobDescription>>("TheIdleScrolls_Core", "Mobs.json");
+                var mobs = ReadResourceFile<List<MobDescription>>("Mobs.json");
                 GetSystem<MobSpawnerSystem>()?.SetMobList(mobs);
 
-                var items = ResourceAccess.ParseResourceFile<ItemKingdomDescription>("TheIdleScrolls_Core", "Items.json");
+                var areas = ReadResourceFile<AreaKingdomDescription>("Dungeons.json");
+                m_world.AreaKingdowm = areas;
+
+                var items = ReadResourceFile<ItemKingdomDescription>("Items.json");
                 m_world.ItemKingdom = items;
 
                 var inventoryComp = player.GetComponent<InventoryComponent>();
@@ -132,6 +135,11 @@ namespace TheIdleScrolls_Core
                     return (T)system;
             }
             return null;
+        }
+
+        T ReadResourceFile<T>(string file)
+        {
+            return ResourceAccess.ParseResourceFile<T>("TheIdleScrolls_Core", file);
         }
     }
 }
