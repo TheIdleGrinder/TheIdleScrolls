@@ -1,0 +1,57 @@
+﻿{
+  "Dungeons": [
+    {
+      "Name": "The Crypt",
+      "Id":  "CRYPT",
+      "Level": 15,
+      "Zones": [
+        {
+          "Enemies": 2,
+          "TimeMultiplier": 2.0,
+          "Types": [
+            "Zombie"
+          ]
+        },
+        {
+          "Enemies": 3,
+          "TimeMultiplier": 2.5,
+          "Types": [
+            "Skeleton"
+          ]
+        },
+        {
+          "Enemies": 6,
+          "TimeMultiplier": 5.0,
+          "Types": [
+            "Skeleton",
+            "Zombie"
+          ]
+        },
+        {
+          "Enemies": 1,
+          "TimeMultiplier": 5.0,
+          "Types": [
+            "Abomination"
+          ]
+        }
+      ],
+      "Enemies": [
+        {
+          "Name": "Skeleton",
+          "HP": 0.7,
+          "Damage": 1.2
+        },
+        {
+          "Name": "Zombie",
+          "HP": 1.5,
+          "Damage": 0.8
+        },
+        {
+          "Name": "Abomination",
+          "HP": 10.0,
+          "Damage": 0.75
+        }
+      ]
+    }
+  ]
+}
