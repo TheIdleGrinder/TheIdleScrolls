@@ -33,7 +33,12 @@ namespace TheIdleScrolls_Core.Systems
         private Entity CreateRandomMob(World world)
         {
             int level = world.Zone.Level;
-            var validMobs = m_descriptions.Where(m => m.MinLevel <= level && m.MaxLevel >= level);
+            var allMobs = m_descriptions.Concat(world.GetLocalMobs());
+            var validMobs = allMobs.Where(m => m.MinLevel <= level && m.MaxLevel >= level);
+            if (world.Zone.MobTypes.Any())
+            {
+                validMobs = validMobs.Where(m => world.Zone.MobTypes.Contains(m.Name));
+            }
             if (validMobs == null || !validMobs.Any())
                 throw new Exception($"No valid mobs for area level {level}");
             int index = new Random().Next(validMobs.Count());

@@ -65,7 +65,7 @@ namespace TheIdleScrolls_Core
                 GetSystem<MobSpawnerSystem>()?.SetMobList(mobs);
 
                 var areas = ReadResourceFile<AreaKingdomDescription>("Dungeons.json");
-                m_world.AreaKingdowm = areas;
+                m_world.AreaKingdom = areas;
 
                 var items = ReadResourceFile<ItemKingdomDescription>("Items.json");
                 m_world.ItemKingdom = items;

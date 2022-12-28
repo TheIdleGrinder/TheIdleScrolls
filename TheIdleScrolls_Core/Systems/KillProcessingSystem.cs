@@ -28,7 +28,7 @@ namespace TheIdleScrolls_Core.Systems
                         coordinator.PostMessage(this, new XpGainMessage(killer, xp));
                     }
                 }
-                if (victim.IsMob() && world.Zone.Enemies < Int32.MaxValue)
+                if (victim.IsMob() && world.Zone.MobCount < Int32.MaxValue)
                 {
                     world.RemainingEnemies--;
                 }

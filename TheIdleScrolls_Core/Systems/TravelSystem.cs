@@ -84,10 +84,10 @@ namespace TheIdleScrolls_Core.Systems
         void Travel(string areaId, int zoneNumber, World world, Coordinator coordinator)
         {
             coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id));
-            world.Zone = world.AreaKingdowm.GetZoneDescription(areaId, zoneNumber);
+            world.Zone = world.AreaKingdom.GetZoneDescription(areaId, zoneNumber);
             string areaName = world.Zone.Name;
             world.DungeonFloor = zoneNumber;
-            world.RemainingEnemies = world.Zone.Enemies;
+            world.RemainingEnemies = world.Zone.MobCount;
             world.TimeLimit.Reset(world.TimeLimit.Duration * world.Zone.TimeMultiplier);
             coordinator.PostMessage(this, new TravelMessage(areaName, world.Zone.Level));
         }

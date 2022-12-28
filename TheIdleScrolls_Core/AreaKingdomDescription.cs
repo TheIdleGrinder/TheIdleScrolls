@@ -28,8 +28,8 @@ namespace TheIdleScrolls_Core
                 {
                     Name = $"{dungeon.Name} - Floor {zoneNumber}",
                     Level = dungeon.Level,
-                    EnemyTypes = floor.EnemyTypes,
-                    Enemies = floor.Enemies,
+                    MobTypes = floor.MobTypes,
+                    MobCount = floor.MobCount,
                     TimeMultiplier = floor.TimeMultiplier
                 };
             }
@@ -41,8 +41,8 @@ namespace TheIdleScrolls_Core
             {
                 Name = "Wilderness",
                 Level = level,
-                EnemyTypes = new(),
-                Enemies = Int32.MaxValue,
+                MobTypes = new(),
+                MobCount = Int32.MaxValue,
                 TimeMultiplier = 1.0
             };
         }
@@ -53,7 +53,7 @@ namespace TheIdleScrolls_Core
             {
                 if (dungeon.Id == areaId)
                 {
-                    return dungeon.Enemies;
+                    return dungeon.LocalMobs;
                 }
             }
             return new();
@@ -69,7 +69,7 @@ namespace TheIdleScrolls_Core
         public string Id { get; set; } = "";
         public int Level { get; set; } = 1;
         public List<DungeonFloorDescription> Floors { get; set; } = new();
-        public List<MobDescription> Enemies { get; set; } = new();
+        public List<MobDescription> LocalMobs { get; set; } = new();
     }
 
     /// <summary>
@@ -77,9 +77,9 @@ namespace TheIdleScrolls_Core
     /// </summary>
     public class DungeonFloorDescription
     {
-        public int Enemies { get; set; } = 1;
+        public int MobCount { get; set; } = 1;
         public double TimeMultiplier { get; set; } = 1.0;
-        public List<string> EnemyTypes { get; set; } = new();
+        public List<string> MobTypes { get; set; } = new();
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ namespace TheIdleScrolls_Core
         public string Name { get; set; } = "??";
         public int Level { get; set; } = 1;
         public double TimeMultiplier { get; set; } = 1.0;
-        public int Enemies { get; set; } = 1;
-        public List<string> EnemyTypes { get; set; } = new();
+        public int MobCount { get; set; } = 1;
+        public List<string> MobTypes { get; set; } = new();
     }
 }

@@ -72,7 +72,7 @@ namespace TheIdleScrolls_Core.Systems
         bool NeedToResetTimeLimit(World world, Coordinator coordinator)
         {
             bool mobSpawned = coordinator.MessageTypeIsOnBoard<MobSpawnMessage>();
-            bool newDungeonFloor = world.IsInDungeon() && (world.RemainingEnemies == world.Zone.Enemies);
+            bool newDungeonFloor = world.IsInDungeon() && (world.RemainingEnemies == world.Zone.MobCount);
             return mobSpawned && (!world.IsInDungeon() || newDungeonFloor);
         }
     }

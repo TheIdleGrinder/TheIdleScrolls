@@ -6,36 +6,36 @@
       "Level": 15,
       "Floors": [
         {
-          "Enemies": 2,
+          "MobCount": 2,
           "TimeMultiplier": 2.0,
-          "Types": [
+          "MobTypes": [
             "Zombie"
           ]
         },
         {
-          "Enemies": 3,
+          "MobCount": 3,
           "TimeMultiplier": 2.5,
-          "Types": [
+          "MobTypes": [
             "Skeleton"
           ]
         },
         {
-          "Enemies": 6,
+          "MobCount": 6,
           "TimeMultiplier": 5.0,
-          "Types": [
+          "MobTypes": [
             "Skeleton",
             "Zombie"
           ]
         },
         {
-          "Enemies": 1,
+          "MobCount": 1,
           "TimeMultiplier": 5.0,
-          "Types": [
+          "MobTypes": [
             "Abomination"
           ]
         }
       ],
-      "Enemies": [
+      "LocalMobs": [
         {
           "Name": "Skeleton",
           "HP": 0.8,
@@ -48,7 +48,7 @@
         },
         {
           "Name": "Abomination",
-          "HP": 10.0,
+          "HP": 15.0,
           "Damage": 0.75
         }
       ]

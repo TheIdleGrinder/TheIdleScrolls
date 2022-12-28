@@ -115,10 +115,10 @@ namespace TheIdleScrollsApp
             lblCharXP.Text = $"XP: {current:#,#} / {target:#,#}";
         }
 
-        public void SetAreaLevel(int level)
+        public void SetArea(string name, int level)
         {
             m_areaLevel = level;
-            lblArea.Text = $"Wilderness - Level {level}";
+            lblArea.Text = $"{name})";
         }
 
         public void SetMob(string name, int level)

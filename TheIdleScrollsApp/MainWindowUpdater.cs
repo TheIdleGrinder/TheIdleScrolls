@@ -66,7 +66,7 @@ namespace TheIdleScrollsApp
 
         public void SetArea(string name, int level)
         {
-            GetTargetOrNull()?.SetAreaLevel(level);
+            GetTargetOrNull()?.SetArea(name, level);
         }
 
         public void SetTimeLimit(double remaining, double duration)

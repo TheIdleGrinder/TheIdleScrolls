@@ -21,7 +21,7 @@ namespace TheIdleScrolls_Core
 
         public ItemKingdomDescription ItemKingdom = new();
 
-        public AreaKingdomDescription AreaKingdowm = new();
+        public AreaKingdomDescription AreaKingdom = new();
 
         public Cooldown TimeLimit = new(10.0);
 
@@ -34,6 +34,13 @@ namespace TheIdleScrolls_Core
         public bool IsInDungeon()
         {
             return DungeonId != "";
+        }
+
+        public List<MobDescription> GetLocalMobs()
+        {
+            if (!IsInDungeon())
+                return new();
+            return AreaKingdom.GetLocalEnemies(DungeonId);
         }
     }
 }
