@@ -22,14 +22,7 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            int mobCount = 0;
-            foreach (var entity in coordinator.GetEntities())
-            {
-                if (entity.HasComponent<MobComponent>())
-                    mobCount++;
-            }
-
-            if (mobCount < 1)
+            if (NeedToSpawnMob(world, coordinator, dt))
             {
                 var mob = CreateRandomMob(world);
                 coordinator.AddEntity(mob);
@@ -45,6 +38,12 @@ namespace TheIdleScrolls_Core.Systems
                 throw new Exception($"No valid mobs for area level {level}");
             int index = new Random().Next(validMobs.Count());
             return m_factory.MakeMob(validMobs.ElementAt(index), level);
+        }
+
+        bool NeedToSpawnMob(World world, Coordinator coordinator, double dt)
+        {
+            var mobCount = coordinator.GetEntities().Count(e => e.IsMob());
+            return mobCount == 0 && world.RemainingEnemies > 0;
         }
     }
 

@@ -26,10 +26,9 @@ namespace TheIdleScrolls_Core.Systems
                 if (player.HasComponent<LevelComponent>())
                 {
                     var level = player.GetComponent<LevelComponent>()?.Level ?? 0;
-                    if (level > world.Zone.Level)
-                    {
-                        Travel(level, world, coordinator);
-                    }
+                    int zoneNum = world.IsInDungeon() ? 0 : level;
+                    Travel(world.DungeonId, zoneNum, world, coordinator);
+
                     m_firstUpdate = false;
                 }
 
@@ -49,24 +48,28 @@ namespace TheIdleScrolls_Core.Systems
             // Travel if player has no traveller component
             if (travelComp == null && playerLvl != world.Zone.Level)
             {
-                Travel(playerLvl, world, coordinator);
+                Travel("", playerLvl, world, coordinator);
             }
 
             var travelRequest = coordinator.FetchMessagesByType<TravelRequest>().LastOrDefault();
             if (travelRequest != null)
             {
                 int limit = travelComp?.MaxWilderness ?? Int32.MaxValue;
-                Travel(Math.Min(travelRequest.AreaLevel, limit), world, coordinator);
+                Travel("", Math.Min(travelRequest.AreaLevel, limit), world, coordinator);
             }
             else if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>()) // Player lost battle
             {
                 if (world.Zone.Level > 1)
-                    Travel(world.Zone.Level - 1, world, coordinator);
+                    Travel("", world.Zone.Level - 1, world, coordinator);
                 coordinator.PostMessage(this, new AutoProceedRequest(false));
+            }
+            else if (world.IsInDungeon() && world.RemainingEnemies <= 0)
+            {
+                Travel(world.DungeonId, world.DungeonFloor + 1, world, coordinator);
             }
             else if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed)
             {
-                Travel(world.Zone.Level + 1, world, coordinator);
+                Travel("", world.Zone.Level + 1, world, coordinator);
             }
 
             // Handle changes to auto proceed status
@@ -78,12 +81,15 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        void Travel(int areaLevel, World world, Coordinator coordinator)
+        void Travel(string areaId, int zoneNumber, World world, Coordinator coordinator)
         {
             coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id));
-            world.Zone = world.AreaKingdowm.GetWildernessZoneDescription(areaLevel);
-            world.TimeLimit.Reset();
-            coordinator.PostMessage(this, new TravelMessage("Wilderness", areaLevel));
+            world.Zone = world.AreaKingdowm.GetZoneDescription(areaId, zoneNumber);
+            string areaName = world.Zone.Name;
+            world.DungeonFloor = zoneNumber;
+            world.RemainingEnemies = world.Zone.Enemies;
+            world.TimeLimit.Reset(world.TimeLimit.Duration * world.Zone.TimeMultiplier);
+            coordinator.PostMessage(this, new TravelMessage(areaName, world.Zone.Level));
         }
     }
 

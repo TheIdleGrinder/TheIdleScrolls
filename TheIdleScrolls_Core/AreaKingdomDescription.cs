@@ -10,14 +10,39 @@ namespace TheIdleScrolls_Core
     {
         public List<DungeonDescription> Dungeons { get; set; } = new();
 
-        public ZoneDescription GetWildernessZoneDescription(int level)
+        public ZoneDescription GetZoneDescription(string areaId, int zoneNumber)
+        {
+            if (areaId == "") // Wilderness
+            {
+                return GetWildernessZoneDescription(zoneNumber);
+            }
+            else 
+            { 
+                var dungeon = Dungeons.Find(d => d.Id == areaId);
+                if (dungeon == null)
+                    throw new Exception($"Invalid dungeon id: {areaId}");
+                if (zoneNumber < 0 || zoneNumber >= dungeon.Floors.Count)
+                    throw new Exception($"Dungeon '{dungeon.Name}' has no floor {zoneNumber}");
+                var floor = dungeon.Floors[zoneNumber];
+                return new ZoneDescription()
+                {
+                    Name = $"{dungeon.Name} - Floor {zoneNumber}",
+                    Level = dungeon.Level,
+                    EnemyTypes = floor.EnemyTypes,
+                    Enemies = floor.Enemies,
+                    TimeMultiplier = floor.TimeMultiplier
+                };
+            }
+        }
+
+        ZoneDescription GetWildernessZoneDescription(int level)
         {
             return new ZoneDescription()
             {
                 Name = "Wilderness",
                 Level = level,
                 EnemyTypes = new(),
-                RemainingEnemies = Int32.MaxValue,
+                Enemies = Int32.MaxValue,
                 TimeMultiplier = 1.0
             };
         }
@@ -43,7 +68,7 @@ namespace TheIdleScrolls_Core
         public string Name { get; set; } = "";
         public string Id { get; set; } = "";
         public int Level { get; set; } = 1;
-        public List<DungeonFloorDescription> Zones { get; set; } = new();
+        public List<DungeonFloorDescription> Floors { get; set; } = new();
         public List<MobDescription> Enemies { get; set; } = new();
     }
 
@@ -65,7 +90,7 @@ namespace TheIdleScrolls_Core
         public string Name { get; set; } = "??";
         public int Level { get; set; } = 1;
         public double TimeMultiplier { get; set; } = 1.0;
-        public int RemainingEnemies { get; set; } = 1;
+        public int Enemies { get; set; } = 1;
         public List<string> EnemyTypes { get; set; } = new();
     }
 }

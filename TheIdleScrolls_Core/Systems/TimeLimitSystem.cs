@@ -32,14 +32,15 @@ namespace TheIdleScrolls_Core.Systems
             var attackValues = coordinator.GetEntities<MobDamageComponent>()
                 .Select(m => m.GetComponent<MobDamageComponent>()?.Multiplier ?? 1.0);
 
-            if (coordinator.MessageTypeIsOnBoard<MobSpawnMessage>()) // Combat just started, prepare time limit
+            if (NeedToResetTimeLimit(world, coordinator)) // Combat just started, prepare time limit
             {
                 int level = m_player.GetLevel();
+                double levelMulti = level / Math.Pow(world.Zone.Level, DifficultyScaling);
 
                 double evasion = defComp?.Evasion ?? 0.0;
                 double evasionBonus = 1.0 + evasion / 100.0; // Evasion increases amount of time
 
-                double duration = BaseDuration * level * evasionBonus / Math.Pow(world.Zone.Level, DifficultyScaling);
+                double duration = BaseDuration * levelMulti * world.Zone.TimeMultiplier * evasionBonus;
                 if (!attackValues.Any())
                     duration = 0.0;
                 world.TimeLimit.Reset(duration);
@@ -66,6 +67,13 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
             }
+        }
+
+        bool NeedToResetTimeLimit(World world, Coordinator coordinator)
+        {
+            bool mobSpawned = coordinator.MessageTypeIsOnBoard<MobSpawnMessage>();
+            bool newDungeonFloor = world.IsInDungeon() && (world.RemainingEnemies == world.Zone.Enemies);
+            return mobSpawned && (!world.IsInDungeon() || newDungeonFloor);
         }
     }
 

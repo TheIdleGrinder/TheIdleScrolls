@@ -10,7 +10,11 @@ namespace TheIdleScrolls_Core
 {
     public class World
     {
+        public string DungeonId = "CRYPT";
+        public int DungeonFloor = 0;
+
         public ZoneDescription Zone;
+        public int RemainingEnemies = Int32.MaxValue;
 
         public double XpMultiplier = 1.0;
         public double SpeedMultiplier = 1.0;
@@ -25,6 +29,11 @@ namespace TheIdleScrolls_Core
         {
             Zone = new();
             TimeLimit.SingleShot = true;
+        }
+
+        public bool IsInDungeon()
+        {
+            return DungeonId != "";
         }
     }
 }

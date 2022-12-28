@@ -4,7 +4,7 @@
       "Name": "The Crypt",
       "Id":  "CRYPT",
       "Level": 15,
-      "Zones": [
+      "Floors": [
         {
           "Enemies": 2,
           "TimeMultiplier": 2.0,
