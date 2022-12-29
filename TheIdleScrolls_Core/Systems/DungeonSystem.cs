@@ -10,6 +10,8 @@ namespace TheIdleScrolls_Core.Systems
 {
     internal class DungeonSystem : AbstractSystem
     {
+        bool m_firstUpdate = true;
+
         Entity? m_player = null;
 
         int m_wildernessLevel = 1;
@@ -20,6 +22,26 @@ namespace TheIdleScrolls_Core.Systems
                 m_player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
             if (m_player == null)
                 return;
+
+            // Check accessible dungeons
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<DeathMessage>())
+            {
+                var progComp = m_player.GetComponent<PlayerProgressComponent>();
+                var travelComp = m_player.GetComponent<TravellerComponent>();
+                if (progComp != null && travelComp != null)
+                {
+                    int progLevel = progComp.Data.HighestWildernessKill;
+                    foreach (var dungeon in world.AreaKingdom.Dungeons)
+                    {
+                        if (progLevel >= dungeon.Level && !travelComp.AvailableDungeons.Contains(dungeon.Id))
+                        {
+                            travelComp.AvailableDungeons.Add(dungeon.Id);
+                            coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Id));
+                        }
+                    }
+                    m_firstUpdate = false;
+                }
+            }
 
             // Handle requests
             // Note current zone, if in wilderness
@@ -81,6 +103,21 @@ namespace TheIdleScrolls_Core.Systems
         string IMessage.BuildMessage()
         {
             return $"Request: Enter dungeon '{DungeonId}'";
+        }
+    }
+
+    class DungeonOpenedMessage : IMessage
+    {
+        public string DungeonId { get; set; }
+
+        public DungeonOpenedMessage(string dungeonId)
+        {
+            DungeonId = dungeonId;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Dungeon '{DungeonId}' is now open";
         }
     }
 

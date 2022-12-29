@@ -103,5 +103,10 @@ namespace TheIdleScrollsApp
         {
             GetTargetOrNull()?.ShowMessageBox(title, message);
         }
+
+        public void SetAvailableDungeons(List<DungeonRepresentation> dungeons)
+        {
+            GetTargetOrNull()?.SetAvailableDungeons(dungeons);
+        }
     }
 }

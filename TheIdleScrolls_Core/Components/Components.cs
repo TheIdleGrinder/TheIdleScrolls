@@ -180,5 +180,7 @@ namespace TheIdleScrolls_Core.Components
     public class TravellerComponent : IComponent
     {
         public int MaxWilderness = 0;
+
+        public HashSet<string> AvailableDungeons = new();
     }
 }

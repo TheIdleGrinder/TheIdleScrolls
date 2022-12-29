@@ -32,6 +32,8 @@ namespace TheIdleScrolls_Core
 
         public void SetFeatureAvailable(GameFeature feature, bool available);
 
+        public void SetAvailableDungeons(List<DungeonRepresentation> dungeons);
+
         public void DisplayMessage(string title, string message);
 
         public void AddLogMessages(List<string> messages);
@@ -51,4 +53,5 @@ namespace TheIdleScrolls_Core
     public record ItemRepresentation(uint Id, string Name, string Description, List<EquipmentSlot> Slots);
     public record AbilityRepresentation(string Key, string Name, int Level, int XP, int TargetXP);
     public record MobRepresentation(uint Id, string Name, int Level, int HP, int HpMax);
+    public record DungeonRepresentation(string Id, string Name);
 }

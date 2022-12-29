@@ -120,6 +120,24 @@ namespace TheIdleScrolls_Core.Systems
                 m_appModel?.SetArea(world.Zone.Name, world.Zone.Level);
             }
 
+            // Update dungeons
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<DungeonOpenedMessage>())
+            {
+                var travelComp = player.GetComponent<TravellerComponent>();
+                if (travelComp != null)
+                {
+                    List<DungeonRepresentation> dungeons = new();
+                    foreach (var dungeon in travelComp.AvailableDungeons)
+                    {
+                        var description = world.AreaKingdom.Dungeons.Find(d => d.Id == dungeon);
+                        if (description == null)
+                            continue;
+                        dungeons.Add(new DungeonRepresentation(dungeon, $"{description.Name} (Level {description.Level})"));
+                    }
+                    m_appModel?.SetAvailableDungeons(dungeons);
+                }                
+            }
+
             // Update time limit
             m_appModel?.SetTimeLimit(world.TimeLimit.Remaining, world.TimeLimit.Duration);
 

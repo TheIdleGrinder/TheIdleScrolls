@@ -149,22 +149,6 @@ namespace TheIdleScrollsApp
             lblDefEvasion.Text = evasion.ToString("0.0#");
         }
 
-        //List<InventoryItem> OrderItemList(List<InventoryItem> items)
-        //{
-        //    //CornerCut: Magic strings :(, how does one ensure a nice order here?
-        //    Func<string, string> familyOrder = new(c => c switch
-        //    {
-        //        "Short Blade" => "A",
-        //        "Long Blade" => "B",
-        //        "Axe" => "C",
-        //        "Blunt" => "D",
-        //        "Polearm" => "E",
-        //        _ => c
-        //    });
-
-        //    return items.OrderBy(i => familyOrder(i.Family) + i.Name).ToList();
-        //}
-
         public void SetInventory(List<ItemRepresentation> items)
         {
             m_Inventory = new(items);
@@ -217,6 +201,25 @@ namespace TheIdleScrollsApp
                 cbNextAfterWin.Checked = autoProceed;
         }
 
+        public void SetAvailableDungeons(List<DungeonRepresentation> dungeons)
+        {
+            var buttons = new List<Button>() { btnDungeon1, btnDungeon2 };
+            buttons.ForEach(b => b.Visible = false);
+
+            for (int i = 0; i < Math.Min(dungeons.Count, buttons.Count); i++)
+            {
+                buttons[i].Text = dungeons[i].Name;
+                buttons[i].Tag = dungeons[i].Id;
+                buttons[i].Visible = true;
+            }
+        }
+
+        private void btnDungeon_Click(object sender, EventArgs e)
+        {
+            var dungeonId = ((Button)sender).Tag;
+            m_inputHandler.EnterDungeon((string)dungeonId);
+        }
+
         public void ShowMessageBox(string title, string text)
         {
             Thread t = new(() => MessageBox.Show(text, title));
@@ -257,6 +260,7 @@ namespace TheIdleScrollsApp
         {
             m_inputHandler.SetAutoProceed(cbNextAfterWin.Checked);
         }
+
     }
 
     //public class InventoryItem

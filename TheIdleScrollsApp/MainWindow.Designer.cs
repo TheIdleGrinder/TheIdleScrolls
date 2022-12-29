@@ -39,6 +39,8 @@
             this.lblArea = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCharacter = new System.Windows.Forms.TabPage();
+            this.btnDungeon1 = new System.Windows.Forms.Button();
+            this.btnDungeon2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.lblDefEvasion = new System.Windows.Forms.Label();
             this.lblDefArmor = new System.Windows.Forms.Label();
@@ -99,7 +101,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(772, 366);
+            this.splitContainer1.Size = new System.Drawing.Size(772, 395);
             this.splitContainer1.SplitterDistance = 357;
             this.splitContainer1.TabIndex = 0;
             // 
@@ -143,7 +145,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTimeLimit.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblTimeLimit.ForeColor = System.Drawing.Color.LimeGreen;
-            this.lblTimeLimit.Location = new System.Drawing.Point(3, 245);
+            this.lblTimeLimit.Location = new System.Drawing.Point(3, 274);
             this.lblTimeLimit.Name = "lblTimeLimit";
             this.lblTimeLimit.Size = new System.Drawing.Size(349, 42);
             this.lblTimeLimit.TabIndex = 2;
@@ -156,7 +158,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMobName.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblMobName.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblMobName.Location = new System.Drawing.Point(5, 299);
+            this.lblMobName.Location = new System.Drawing.Point(5, 328);
             this.lblMobName.Name = "lblMobName";
             this.lblMobName.Size = new System.Drawing.Size(349, 21);
             this.lblMobName.TabIndex = 1;
@@ -169,7 +171,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMobHP.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblMobHP.ForeColor = System.Drawing.Color.Red;
-            this.lblMobHP.Location = new System.Drawing.Point(3, 320);
+            this.lblMobHP.Location = new System.Drawing.Point(3, 349);
             this.lblMobHP.Name = "lblMobHP";
             this.lblMobHP.Size = new System.Drawing.Size(349, 37);
             this.lblMobHP.TabIndex = 1;
@@ -200,11 +202,13 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(405, 360);
+            this.tabControl1.Size = new System.Drawing.Size(405, 389);
             this.tabControl1.TabIndex = 0;
             // 
             // tabCharacter
             // 
+            this.tabCharacter.Controls.Add(this.btnDungeon1);
+            this.tabCharacter.Controls.Add(this.btnDungeon2);
             this.tabCharacter.Controls.Add(this.tableLayoutPanel1);
             this.tabCharacter.Controls.Add(this.lblCharXP);
             this.tabCharacter.Controls.Add(this.lblCharLevel);
@@ -212,10 +216,34 @@
             this.tabCharacter.Location = new System.Drawing.Point(4, 24);
             this.tabCharacter.Name = "tabCharacter";
             this.tabCharacter.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCharacter.Size = new System.Drawing.Size(397, 332);
+            this.tabCharacter.Size = new System.Drawing.Size(397, 361);
             this.tabCharacter.TabIndex = 0;
             this.tabCharacter.Text = "Character";
             this.tabCharacter.UseVisualStyleBackColor = true;
+            // 
+            // btnDungeon1
+            // 
+            this.btnDungeon1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon1.AutoSize = true;
+            this.btnDungeon1.Location = new System.Drawing.Point(10, 297);
+            this.btnDungeon1.Name = "btnDungeon1";
+            this.btnDungeon1.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon1.TabIndex = 1;
+            this.btnDungeon1.Text = "D1";
+            this.btnDungeon1.UseVisualStyleBackColor = true;
+            this.btnDungeon1.Click += new System.EventHandler(this.btnDungeon_Click);
+            // 
+            // btnDungeon2
+            // 
+            this.btnDungeon2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon2.AutoSize = true;
+            this.btnDungeon2.Location = new System.Drawing.Point(10, 329);
+            this.btnDungeon2.Name = "btnDungeon2";
+            this.btnDungeon2.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon2.TabIndex = 9;
+            this.btnDungeon2.Text = "D2";
+            this.btnDungeon2.UseVisualStyleBackColor = true;
+            this.btnDungeon2.Click += new System.EventHandler(this.btnDungeon_Click);
             // 
             // tableLayoutPanel1
             // 
@@ -431,7 +459,7 @@
             this.tabInventory.Location = new System.Drawing.Point(4, 24);
             this.tabInventory.Name = "tabInventory";
             this.tabInventory.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInventory.Size = new System.Drawing.Size(397, 332);
+            this.tabInventory.Size = new System.Drawing.Size(397, 361);
             this.tabInventory.TabIndex = 2;
             this.tabInventory.Text = "Inventory";
             this.tabInventory.UseVisualStyleBackColor = true;
@@ -501,7 +529,7 @@
             this.tabAbilities.Location = new System.Drawing.Point(4, 24);
             this.tabAbilities.Name = "tabAbilities";
             this.tabAbilities.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAbilities.Size = new System.Drawing.Size(397, 332);
+            this.tabAbilities.Size = new System.Drawing.Size(397, 361);
             this.tabAbilities.TabIndex = 3;
             this.tabAbilities.Text = "Abilities";
             this.tabAbilities.UseVisualStyleBackColor = true;
@@ -527,7 +555,7 @@
             this.tabLog.Location = new System.Drawing.Point(4, 24);
             this.tabLog.Name = "tabLog";
             this.tabLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLog.Size = new System.Drawing.Size(397, 332);
+            this.tabLog.Size = new System.Drawing.Size(397, 361);
             this.tabLog.TabIndex = 1;
             this.tabLog.Text = "Log";
             this.tabLog.UseVisualStyleBackColor = true;
@@ -561,7 +589,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(772, 366);
+            this.ClientSize = new System.Drawing.Size(772, 395);
             this.Controls.Add(this.splitContainer1);
             this.Name = "MainWindow";
             this.Text = "The Idle Scrolls";
@@ -573,6 +601,7 @@
             this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabCharacter.ResumeLayout(false);
+            this.tabCharacter.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tabInventory.ResumeLayout(false);
             this.tabInventory.PerformLayout();
@@ -624,5 +653,7 @@
         private Label lblDefArmor;
         private Label label3;
         private Label label1;
+        private Button btnDungeon1;
+        private Button btnDungeon2;
     }
 }

@@ -10,7 +10,7 @@ namespace TheIdleScrolls_Core
 {
     public class World
     {
-        public string DungeonId = "CRYPT";
+        public string DungeonId = "";
         public int DungeonFloor = 0;
 
         public ZoneDescription Zone;
