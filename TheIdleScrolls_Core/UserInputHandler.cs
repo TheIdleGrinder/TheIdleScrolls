@@ -13,7 +13,9 @@ namespace TheIdleScrollsApp
 
         public void UnequipItem(uint playerId, uint itemId);
 
-        public void TravelToArea(int areaLevel);
+        public void TravelIntoWilderness(int areaLevel);
+
+        public void EnterDungeon(string dungeonId);
 
         public void SetAutoProceed(bool autoProceed);
     }

@@ -15,6 +15,11 @@ namespace TheIdleScrollsApp
 
         List<IMessage> m_requests = new();
 
+        public void EnterDungeon(string dungeonId)
+        {
+            m_requests.Add(new EnterDungeonRequest(dungeonId));
+        }
+
         public void EquipItem(uint playerId, uint itemId)
         {
             m_requests.Add(new ItemMoveRequest(playerId, itemId, true));
@@ -25,9 +30,9 @@ namespace TheIdleScrollsApp
             m_requests.Add(new AutoProceedRequest(autoProceed));
         }
 
-        public void TravelToArea(int areaLevel)
+        public void TravelIntoWilderness(int areaLevel)
         {
-            m_requests.Add(new TravelRequest(areaLevel));
+            m_requests.Add(new TravelRequest("", areaLevel));
         }
 
         public void UnequipItem(uint playerId, uint itemId)

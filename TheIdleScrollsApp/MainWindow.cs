@@ -118,7 +118,7 @@ namespace TheIdleScrollsApp
         public void SetArea(string name, int level)
         {
             m_areaLevel = level;
-            lblArea.Text = $"{name})";
+            lblArea.Text = $"{name}";
         }
 
         public void SetMob(string name, int level)
@@ -245,12 +245,12 @@ namespace TheIdleScrollsApp
 
         private void btnAreaPrev_Click(object sender, EventArgs e)
         {
-            m_inputHandler.TravelToArea(m_areaLevel - 1);
+            m_inputHandler.TravelIntoWilderness(m_areaLevel - 1);
         }
 
         private void btnAreaNext_Click(object sender, EventArgs e)
         {
-            m_inputHandler.TravelToArea(m_areaLevel + 1);
+            m_inputHandler.TravelIntoWilderness(m_areaLevel + 1);
         }
 
         private void cbNextAfterWin_CheckedChanged(object sender, EventArgs e)

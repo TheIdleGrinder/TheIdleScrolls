@@ -55,19 +55,15 @@ namespace TheIdleScrolls_Core.Systems
             if (travelRequest != null)
             {
                 int limit = travelComp?.MaxWilderness ?? Int32.MaxValue;
-                Travel("", Math.Min(travelRequest.AreaLevel, limit), world, coordinator);
+                Travel(travelRequest.AreaId, Math.Min(travelRequest.ZoneNumber, limit), world, coordinator); // CornerCut: Checks limit for dungeons
             }
-            else if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>()) // Player lost battle
+            else if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>() && !world.IsInDungeon()) // Player lost battle
             {
                 if (world.Zone.Level > 1)
                     Travel("", world.Zone.Level - 1, world, coordinator);
                 coordinator.PostMessage(this, new AutoProceedRequest(false));
             }
-            else if (world.IsInDungeon() && world.RemainingEnemies <= 0)
-            {
-                Travel(world.DungeonId, world.DungeonFloor + 1, world, coordinator);
-            }
-            else if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed)
+            else if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed && !world.IsInDungeon())
             {
                 Travel("", world.Zone.Level + 1, world, coordinator);
             }
@@ -86,6 +82,7 @@ namespace TheIdleScrolls_Core.Systems
             coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id));
             world.Zone = world.AreaKingdom.GetZoneDescription(areaId, zoneNumber);
             string areaName = world.Zone.Name;
+            world.DungeonId = areaId;
             world.DungeonFloor = zoneNumber;
             world.RemainingEnemies = world.Zone.MobCount;
             world.TimeLimit.Reset(world.TimeLimit.Duration * world.Zone.TimeMultiplier);
@@ -127,16 +124,18 @@ namespace TheIdleScrolls_Core.Systems
 
     public class TravelRequest : IMessage
     {
-        public int AreaLevel { get; set; }
+        public string AreaId { get; set; }
+        public int ZoneNumber { get; set; }
 
-        public TravelRequest(int areaLevel)
+        public TravelRequest(string areaId, int zoneNumber)
         {
-            AreaLevel = areaLevel;
+            AreaId = areaId;
+            ZoneNumber = zoneNumber;
         }
 
         string IMessage.BuildMessage()
         {
-            return $"Request: Travel to area with level {AreaLevel}";
+            return $"Request: Travel to area '{AreaId}' (#{ZoneNumber})";
         }
     }
 

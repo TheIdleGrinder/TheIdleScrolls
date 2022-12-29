@@ -23,5 +23,6 @@ namespace TheIdleScrolls_Core.Components
         public HashSet<string> SeenItemFamilies { get; set; } = new HashSet<string>();
         public HashSet<string> SeenItemsGenera { get; set; } = new HashSet<string>();
         public HashSet<TutorialStep> TutorialProgress { get; set; } = new();
+        public HashSet<string> ClearedDungeons { get; set; } = new();
     }
 }

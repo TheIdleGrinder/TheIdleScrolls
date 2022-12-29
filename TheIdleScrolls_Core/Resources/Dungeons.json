@@ -2,7 +2,7 @@
   "Dungeons": [
     {
       "Name": "The Crypt",
-      "Id":  "CRYPT",
+      "Id": "CRYPT",
       "Level": 15,
       "Floors": [
         {
@@ -50,6 +50,59 @@
           "Name": "Abomination",
           "HP": 15.0,
           "Damage": 0.75
+        }
+      ]
+    },
+    {
+      "Name": "The Lighthouse",
+      "Id": "LGHTHS",
+      "Level": 25,
+      "Floors": [
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 2.0,
+          "MobTypes": [
+            "Haunted Spirit"
+          ]
+        },
+        {
+          "MobCount": 4,
+          "TimeMultiplier": 2.5,
+          "MobTypes": [
+            "Haunted Spirit",
+            "MissingNo"
+          ]
+        },
+        {
+          "MobCount": 8,
+          "TimeMultiplier": 5.0,
+          "MobTypes": [
+            "MissingNo"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 5.0,
+          "MobTypes": [
+            "The Necromancer"
+          ]
+        }
+      ],
+      "LocalMobs": [
+        {
+          "Name": "MissingNo",
+          "HP": 1.3,
+          "Damage": 1.3
+        },
+        {
+          "Name": "Haunted Spirit",
+          "HP": 1.5,
+          "Damage": 1.0
+        },
+        {
+          "Name": "The Necromancer",
+          "HP": 10.0,
+          "Damage": 1.2
         }
       ]
     }

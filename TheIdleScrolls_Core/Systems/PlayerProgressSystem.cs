@@ -46,6 +46,13 @@ namespace TheIdleScrolls_Core.Systems
                     // TODO: do something
                 }
             }
+
+            // Update cleared dungeons
+            var dungeons = coordinator.FetchMessagesByType<DungeonClearedMessage>();
+            foreach (var dungeon in dungeons)
+            {
+                progComp.Data.ClearedDungeons.Add(dungeon.DungeonId);
+            }
         }
     }
 }

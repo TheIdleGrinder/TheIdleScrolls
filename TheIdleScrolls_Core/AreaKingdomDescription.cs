@@ -39,7 +39,7 @@ namespace TheIdleScrolls_Core
         {
             return new ZoneDescription()
             {
-                Name = "Wilderness",
+                Name = $"Wilderness - Level {level}",
                 Level = level,
                 MobTypes = new(),
                 MobCount = Int32.MaxValue,
@@ -57,6 +57,11 @@ namespace TheIdleScrolls_Core
                 }
             }
             return new();
+        }
+
+        public int GetDungeonFloorCount(string dungeonId)
+        {
+            return Dungeons.Find(d => d.Id == dungeonId)?.Floors?.Count ?? 0;
         }
     }
 
