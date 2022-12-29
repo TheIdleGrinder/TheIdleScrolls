@@ -23,6 +23,7 @@ namespace TheIdleScrollsApp
 
         uint m_playerId = 0;
         int m_areaLevel = 0;
+        int m_maxWilderness = 0;
         SortableBindingList<ItemRepresentation> m_Inventory { get; set; }
         Equipment m_Equipment { get; set; }
         SortableBindingList<AbilityRepresentation> m_abilities { get; set; }
@@ -117,6 +118,7 @@ namespace TheIdleScrollsApp
 
         public void SetArea(string name, int level)
         {
+            btnAreaNext.Enabled = level < m_maxWilderness;
             m_areaLevel = level;
             lblArea.Text = $"{name}";
         }
@@ -201,8 +203,11 @@ namespace TheIdleScrollsApp
                 cbNextAfterWin.Checked = autoProceed;
         }
 
-        public void SetAvailableDungeons(List<DungeonRepresentation> dungeons)
+        public void SetAccessibleAreas(int maxWilderness, List<DungeonRepresentation> dungeons)
         {
+            m_maxWilderness = maxWilderness;
+            btnAreaNext.Enabled = m_areaLevel < maxWilderness;
+
             var buttons = new List<Button>() { btnDungeon1, btnDungeon2 };
             buttons.ForEach(b => b.Visible = false);
 

@@ -104,9 +104,9 @@ namespace TheIdleScrollsApp
             GetTargetOrNull()?.ShowMessageBox(title, message);
         }
 
-        public void SetAvailableDungeons(List<DungeonRepresentation> dungeons)
+        public void SetAccessibleAreas(int maxWilderness, List<DungeonRepresentation> dungeons)
         {
-            GetTargetOrNull()?.SetAvailableDungeons(dungeons);
+            GetTargetOrNull()?.SetAccessibleAreas(maxWilderness, dungeons);
         }
     }
 }

@@ -40,7 +40,11 @@ namespace TheIdleScrolls_Core.Systems
             var progComp = player.GetComponent<PlayerProgressComponent>();
             if (travelComp != null && progComp != null)
             {
-                travelComp.MaxWilderness = progComp.Data.HighestWildernessKill + 1;
+                if (progComp.Data.HighestWildernessKill >= travelComp.MaxWilderness)
+                {
+                    travelComp.MaxWilderness = progComp.Data.HighestWildernessKill + 1;
+                    coordinator.PostMessage(this, new AreaUnlockedMessage(travelComp.MaxWilderness));
+                }
             }
 
             var playerLvl = player.GetComponent<LevelComponent>()?.Level ?? 0;
@@ -151,6 +155,21 @@ namespace TheIdleScrolls_Core.Systems
         string IMessage.BuildMessage()
         {
             return $"Request: {(AutoProceed ? "A" : "Dea")}ctivate automatic proceeding";
+        }
+    }
+
+    public class AreaUnlockedMessage : IMessage
+    {
+        public int Level = 0;
+
+        public AreaUnlockedMessage(int level)
+        {
+            Level = level;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Unlocked Wilderness Level {Level}";
         }
     }
 }

@@ -26,7 +26,7 @@ namespace TheIdleScrolls_Core
                 var floor = dungeon.Floors[zoneNumber];
                 return new ZoneDescription()
                 {
-                    Name = $"{dungeon.Name} - Floor {zoneNumber}",
+                    Name = $"{dungeon.Name} - Floor {zoneNumber + 1}",
                     Level = dungeon.Level,
                     MobTypes = floor.MobTypes,
                     MobCount = floor.MobCount,

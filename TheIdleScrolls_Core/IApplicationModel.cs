@@ -32,7 +32,7 @@ namespace TheIdleScrolls_Core
 
         public void SetFeatureAvailable(GameFeature feature, bool available);
 
-        public void SetAvailableDungeons(List<DungeonRepresentation> dungeons);
+        public void SetAccessibleAreas(int maxWilderness, List<DungeonRepresentation> dungeons);
 
         public void DisplayMessage(string title, string message);
 

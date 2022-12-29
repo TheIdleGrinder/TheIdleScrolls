@@ -120,8 +120,9 @@ namespace TheIdleScrolls_Core.Systems
                 m_appModel?.SetArea(world.Zone.Name, world.Zone.Level);
             }
 
-            // Update dungeons
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<DungeonOpenedMessage>())
+            // Update accessible areas
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<DungeonOpenedMessage>()
+                || coordinator.MessageTypeIsOnBoard<AreaUnlockedMessage>())
             {
                 var travelComp = player.GetComponent<TravellerComponent>();
                 if (travelComp != null)
@@ -134,7 +135,7 @@ namespace TheIdleScrolls_Core.Systems
                             continue;
                         dungeons.Add(new DungeonRepresentation(dungeon, $"{description.Name} (Level {description.Level})"));
                     }
-                    m_appModel?.SetAvailableDungeons(dungeons);
+                    m_appModel?.SetAccessibleAreas(travelComp.MaxWilderness, dungeons);
                 }                
             }
 
