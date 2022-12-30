@@ -63,6 +63,11 @@ namespace TheIdleScrolls_Core
         {
             return Dungeons.Find(d => d.Id == dungeonId)?.Floors?.Count ?? 0;
         }
+
+        public DungeonDescription? GetDungeon(string dungeonId)
+        {
+            return Dungeons.Find(d => d.Id == dungeonId);
+        }
     }
 
     /// <summary>

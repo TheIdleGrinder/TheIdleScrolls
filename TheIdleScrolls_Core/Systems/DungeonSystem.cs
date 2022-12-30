@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -84,10 +86,59 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     else // Dungeon cleared
                     {
+                        GiveDungeonReward(world, coordinator);
                         coordinator.PostMessage(this, new DungeonClearedMessage(world.DungeonId));
                         coordinator.PostMessage(this, new TravelRequest("", m_wildernessLevel));
                     }
                 }
+            }
+        }
+
+        void GiveDungeonReward(World world, Coordinator coordinator)
+        {
+            // Build loot table
+            // Get rewards from dungeon description
+            List<LootTableEntry> lootTable = new();
+            var rewards = world.AreaKingdom.GetDungeon(world.DungeonId)?.Rewards ?? new();
+            if (rewards.Any())
+            {
+                foreach (var reward in rewards)
+                {
+                    lootTable.Add(new LootTableEntry(reward, 1.0));
+                }
+            }
+            else
+            {
+                return;
+            }
+
+            // Select random reward
+            double weightSum = lootTable.Sum(e => e.Weight);
+            double pointer = new Random().NextDouble() * weightSum;
+            string selection = "";
+            foreach (var reward in lootTable)
+            {
+                if (reward.Weight > pointer)
+                {
+                    selection = reward.Item;
+                    break;
+                }
+                pointer -= reward.Weight;
+            }
+
+            // Give item to player, if they don't have it already
+            // TODO: Give some other kind of reward instead of duplicate items
+            
+            // Find already owned items
+            var invItems = m_player?.GetComponent<InventoryComponent>()?.GetItems() ?? new();
+            var equipItems = m_player?.GetComponent<EquipmentComponent>()?.GetItems() ?? new();
+            List<string> ownedItems = invItems.Concat(equipItems).Select(i => i.GetComponent<ItemComponent>()?.GenusName ?? "").ToList(); // CornerCut: Only looks at genus, ignoring quality etc.
+
+            if (!ownedItems.Contains(selection))
+            {
+                Entity item = new ItemFactory().ExpandCode(selection) ?? throw new Exception($"Invalid item code: {selection}");
+                coordinator.AddEntity(item);
+                coordinator.PostMessage(this, new ItemReceivedMessage(m_player!, item));
             }
         }
     }
@@ -135,4 +186,6 @@ namespace TheIdleScrolls_Core.Systems
             return $"Dungeon '{DungeonId}' cleared";
         }
     }
+
+    record LootTableEntry(string Item, double Weight);
 }

@@ -21,7 +21,7 @@ namespace TheIdleScrolls_Core.Components
         public int Kills { get; set; } = 0;
         public int Losses { get; set; } = 0;
         public HashSet<string> SeenItemFamilies { get; set; } = new HashSet<string>();
-        public HashSet<string> SeenItemsGenera { get; set; } = new HashSet<string>();
+        public HashSet<string> SeenItemGenera { get; set; } = new HashSet<string>();
         public HashSet<TutorialStep> TutorialProgress { get; set; } = new();
         public HashSet<string> ClearedDungeons { get; set; } = new();
     }
