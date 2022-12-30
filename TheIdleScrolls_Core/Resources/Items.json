@@ -13,6 +13,16 @@
             "BaseDamage": 4.0,
             "BaseCooldown": 1.0
           }
+        },
+        {
+          "Name": "Curved Dagger",
+          "Equippable": {
+            "Slot": "Hand"
+          },
+          "Weapon": {
+            "BaseDamage": 6.0,
+            "BaseCooldown": 0.75
+          }
         }
       ]
     },
@@ -28,6 +38,16 @@
           "Weapon": {
             "BaseDamage": 6.0,
             "BaseCooldown": 1.45
+          }
+        },
+        {
+          "Name": "Claymore",
+          "Equippable": {
+            "Slot": "Hand"
+          },
+          "Weapon": {
+            "BaseDamage": 14.0,
+            "BaseCooldown": 1.65
           }
         }
       ]
@@ -45,6 +65,16 @@
             "BaseDamage": 5.0,
             "BaseCooldown": 1.25
           }
+        },
+        {
+          "Name": "Battle Axe",
+          "Equippable": {
+            "Slot": "Hand"
+          },
+          "Weapon": {
+            "BaseDamage": 12.0,
+            "BaseCooldown": 1.4
+          }
         }
       ]
     },
@@ -61,6 +91,16 @@
             "BaseDamage": 7.0,
             "BaseCooldown": 1.65
           }
+        },
+        {
+          "Name": "Morning Star",
+          "Equippable": {
+            "Slot": "Hand"
+          },
+          "Weapon": {
+            "BaseDamage": 11.0,
+            "BaseCooldown": 1.3
+          }
         }
       ]
     },
@@ -76,6 +116,16 @@
           "Weapon": {
             "BaseDamage": 9.0,
             "BaseCooldown": 2.0
+          }
+        },
+        {
+          "Name": "Battle Spear",
+          "Equippable": {
+            "Slot": "Hand"
+          },
+          "Weapon": {
+            "BaseDamage": 20.0,
+            "BaseCooldown": 2.15
           }
         }
       ]
