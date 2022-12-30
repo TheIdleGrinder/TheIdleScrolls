@@ -3,20 +3,26 @@
     "Name": "Dummy",
     "MinLevel": 0,
     "MaxLevel": 5,
-    "HP": 0.5,
+    "HP": 1.0,
     "Damage": 0.0
   },
   {
-    "Name": "Goblin",
+    "Name": "Wolf",
     "MinLevel": 6,
     "MaxLevel": 15,
     "HP": 0.8
   },
   {
-    "Name": "Orc",
-    "MinLevel": 11,
-    "MaxLevel": 30,
-    "HP": 1.2
+    "Name": "Wild Boar",
+    "MinLevel": 9,
+    "MaxLevel": 22,
+    "HP": 1.0
+  },
+  {
+    "Name": "Orc Warrior",
+    "MinLevel": 16,
+    "MaxLevel": 32,
+    "HP": 1.25
   },
   {
     "Name": "Dragon",

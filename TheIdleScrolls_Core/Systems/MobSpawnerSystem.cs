@@ -25,6 +25,15 @@ namespace TheIdleScrolls_Core.Systems
             if (NeedToSpawnMob(world, coordinator, dt))
             {
                 var mob = CreateRandomMob(world);
+
+                if (world.IsInDungeon() && world.Zone.MobCount > 1)
+                {
+                    string name = mob.GetName();
+                    int mobNo = world.Zone.MobCount - world.RemainingEnemies + 1;
+                    name += $" [{mobNo}/{world.Zone.MobCount}]";
+                    mob.GetComponent<NameComponent>()!.Name = name;
+                }
+
                 coordinator.AddEntity(mob);
                 coordinator.PostMessage(this, new MobSpawnMessage(mob));
             }

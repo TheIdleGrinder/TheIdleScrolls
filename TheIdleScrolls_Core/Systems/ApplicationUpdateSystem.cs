@@ -124,10 +124,12 @@ namespace TheIdleScrolls_Core.Systems
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<DungeonOpenedMessage>()
                 || coordinator.MessageTypeIsOnBoard<AreaUnlockedMessage>())
             {
+                List<DungeonRepresentation> dungeons = new();
+                int maxWilderness = player.GetLevel();
                 var travelComp = player.GetComponent<TravellerComponent>();
                 if (travelComp != null)
                 {
-                    List<DungeonRepresentation> dungeons = new();
+                    maxWilderness = travelComp.MaxWilderness;
                     foreach (var dungeon in travelComp.AvailableDungeons)
                     {
                         var description = world.AreaKingdom.Dungeons.Find(d => d.Id == dungeon);
@@ -135,8 +137,8 @@ namespace TheIdleScrolls_Core.Systems
                             continue;
                         dungeons.Add(new DungeonRepresentation(dungeon, $"{description.Name} (Level {description.Level})"));
                     }
-                    m_appModel?.SetAccessibleAreas(travelComp.MaxWilderness, dungeons);
-                }                
+                }
+                m_appModel?.SetAccessibleAreas(maxWilderness, dungeons);
             }
 
             // Update time limit
