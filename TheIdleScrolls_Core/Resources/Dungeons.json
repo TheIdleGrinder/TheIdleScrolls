@@ -63,6 +63,13 @@
           "HP": 5.0,
           "Damage": 1.5
         }
+      ],
+      "Rewards": [
+        "SBL1",
+        "LBL1",
+        "AXE1",
+        "BLN1",
+        "POL1"
       ]
     },
     {
@@ -116,6 +123,13 @@
           "HP": 10.0,
           "Damage": 1.2
         }
+      ],
+      "Rewards": [
+        "SBL1",
+        "LBL1",
+        "AXE1",
+        "BLN1",
+        "POL1"
       ]
     }
   ]

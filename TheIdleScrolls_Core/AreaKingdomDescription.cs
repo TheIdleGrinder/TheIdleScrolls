@@ -75,6 +75,7 @@ namespace TheIdleScrolls_Core
         public int Level { get; set; } = 1;
         public List<DungeonFloorDescription> Floors { get; set; } = new();
         public List<MobDescription> LocalMobs { get; set; } = new();
+        public List<string> Rewards { get; set; } = new();
     }
 
     /// <summary>
