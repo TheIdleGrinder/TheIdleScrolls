@@ -24,18 +24,25 @@ var tickEnd = startTime;
 
 long runTime = 0;
 
-while (true)
+try
 {
-    var lastTickDuration = (tickEnd - tickStart).TotalMilliseconds;
-    tickStart = DateTime.Now;
+    while (true)
+    {
+        var lastTickDuration = (tickEnd - tickStart).TotalMilliseconds;
+        tickStart = DateTime.Now;
 
-    runner.ExecuteTick(lastTickDuration / 1000);
+        runner.ExecuteTick(lastTickDuration / 1000);
 
-    var tickDuration = (DateTime.Now - tickStart).Milliseconds;
-    var sleepTime = Math.Max(TimePerTick - tickDuration, 0);
-    runTime += (tickDuration + sleepTime);
-    //Console.WriteLine($"Last tick: {(DateTime.Now - tickStart).TotalMilliseconds}");
+        var tickDuration = (DateTime.Now - tickStart).Milliseconds;
+        var sleepTime = Math.Max(TimePerTick - tickDuration, 0);
+        runTime += (tickDuration + sleepTime);
+        //Console.WriteLine($"Last tick: {(DateTime.Now - tickStart).TotalMilliseconds}");
 
-    System.Threading.Thread.Sleep(sleepTime);
-    tickEnd = DateTime.Now;
+        System.Threading.Thread.Sleep(sleepTime);
+        tickEnd = DateTime.Now;
+    }
+}
+catch (Exception e)
+{
+    Console.WriteLine("Exception caught: " + e.Message);
 }

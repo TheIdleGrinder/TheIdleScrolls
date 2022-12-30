@@ -33,10 +33,16 @@ namespace ConsoleRunner
 
         public void SetPlayerCharacter(uint id, string name) { }
 
+        public void SetPlayerDefense(double armor, double evasion) { }
+
         public void SetPlayerItems(List<ItemRepresentation> inventory, List<ItemRepresentation> equipment) { }
 
         public void SetPlayerLevel(int level, int currentXP, int targetXP) { }
 
         public void SetTimeLimit(double remaining, double duration) { }
+
+        public void DisplayMessage(string title, string message) { }
+
+        public void SetAvailableAreas(List<DungeonRepresentation> dungeons) { }
     }
 }
