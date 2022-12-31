@@ -36,25 +36,6 @@ namespace TheIdleScrolls_Core.Systems
             if (m_firstUpdate)
             {
                 m_firstUpdate = false;
-
-                // This section should be obsolete by now
-
-                //var progress = TutorialStep.Start;
-                //if (m_player.HasComponent<InventoryComponent>())
-                //    progress = TutorialStep.Inventory;
-                //if (progress == TutorialStep.Inventory && lvl >= LvlMobAttacks)
-                //    progress = TutorialStep.MobAttacks;
-                //if (progress == TutorialStep.MobAttacks && lvl >= LvlArmor)
-                //    progress = TutorialStep.Armor;
-                //if (progress == TutorialStep.Armor && lvl >= LvlAbilities)
-                //    progress = TutorialStep.Abilities;
-                //if (progress == TutorialStep.Abilities && lvl >= LvlTravel)
-                //    progress = TutorialStep.Travel;
-
-                //if (progress > progComp.Data.Progress)
-                //{
-                //    progComp.Data.Progress = progress;
-                //}
             }
 
             // Evaluate conditions for current tutorial stage
@@ -81,13 +62,15 @@ namespace TheIdleScrolls_Core.Systems
                 progComp.Data.TutorialProgress.Add(TutorialStep.Inventory);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Inventory, "Level Up!", 
-                    $"You have unlocked the inventory. Time to gear up!\n  - Unlocked inventory{itemString}"));
+                    $"You have unlocked the inventory. Time to gear up!" +
+                    $"\nDouble click on an item in your inventory to equip it." +
+                    $"\n  - Unlocked inventory{itemString}"));
             }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.MobAttacks) && lvl >= LvlMobAttacks)
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.MobAttacks);
                 coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.MobAttacks, "Training is over",
+                    new TutorialMessage(TutorialStep.MobAttacks, "Training is Over",
                     $"From this point on, mobs are going to fight back. Watch the countdown near the mob. If time runs out, you lose the fight."));
             
             }
@@ -110,15 +93,16 @@ namespace TheIdleScrolls_Core.Systems
 
                 progComp.Data.TutorialProgress.Add(TutorialStep.Armor);
                 coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Armor, "It's dangerous to go alone", 
+                    new TutorialMessage(TutorialStep.Armor, "It's Dangerous to Go Alone", 
                     $"Those mobs are getting nasty. Use armor to slow down the countdown during fights.{itemString}"));
             }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Abilities) && lvl >= LvlAbilities)
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Abilities);
                 coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Abilities, "Live and learn",
-                    $"\n  - Unlocked abilities"));
+                    new TutorialMessage(TutorialStep.Abilities, "Live and Learn",
+                    $"The more you use weapons of one type, the better you will become at handling them. Watch your " +
+                    $"attack speed improve as your ability level imcreases."));
 
             }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Travel) && lvl >= LvlTravel)
@@ -126,9 +110,43 @@ namespace TheIdleScrolls_Core.Systems
                 m_player.AddComponent(new TravellerComponent() { MaxWilderness = lvl });
                 progComp.Data.TutorialProgress.Add(TutorialStep.Travel);
                 coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Travel, "Freedom of movement",
+                    new TutorialMessage(TutorialStep.Travel, "Freedom of Movement",
                     $"\n  - Unlocked manual travel between areas"));
 
+            }
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.DungeonOpen) 
+                && coordinator.MessageTypeIsOnBoard<DungeonOpenedMessage>())
+            {
+                progComp.Data.TutorialProgress.Add(TutorialStep.DungeonOpen);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.DungeonOpen, "A New Challenge!",
+                    "Progressing in the wilderness will give you access to dungeons. A dungeon consists of several floors, each containing " +
+                    " monster that have to be defeated to proceed. They are more challenging than wilderness areas " +
+                    "of the same level, but completing dungeons will grant powerful rewards. Losing a fight in the dungeon will get you sent " +
+                    "back to the wilderness." +
+                    $"\n  - Unlocked dungeon '{world.AreaKingdom.Dungeons[0].Name}'")); // CornerCut: Assumes first dungeon is first to unlock
+            }
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.DungeonComplete)
+                && coordinator.MessageTypeIsOnBoard<DungeonClearedMessage>())
+            {
+                progComp.Data.TutorialProgress.Add(TutorialStep.DungeonComplete);
+                var itemName = coordinator.FetchMessagesByType<ItemReceivedMessage>().LastOrDefault()?.Item.GetName() ?? "??";
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.DungeonComplete, "Dungeon completed!",
+                    "Good job, you completed your first dungeon and obtained a reward:" +
+                    $"\n  - Received '{itemName}'"));
+            }
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Finished)
+                && progComp.Data.ClearedDungeons.Count >= 2)
+            {
+                progComp.Data.TutorialProgress.Add(TutorialStep.Finished);
+                var time = progComp.Data.Playtime;
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.Finished, "",
+                    "Congratulations you cleared the second dungeon and completed the game." +
+                    $"\n  Playtime: {time:0} seconds" +
+                    $"\n\nFeel free to keep grinding and earning achievements or reset your character to try for a faster time!"));
+                    
             }
         }
     }
