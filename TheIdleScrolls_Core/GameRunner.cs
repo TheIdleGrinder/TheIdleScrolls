@@ -68,13 +68,12 @@ namespace TheIdleScrolls_Core
                 var areas = ReadResourceFile<AreaKingdomDescription>("Dungeons.json");
                 m_world.AreaKingdom = areas;
 
-                var items = ReadResourceFile<ItemKingdomDescription>("Items.json");
-                m_world.ItemKingdom = items;
+                m_world.ItemKingdom = ItemFactory.ItemKingdom;
 
                 var inventoryComp = player.GetComponent<InventoryComponent>();
                 if (inventoryComp != null && inventoryComp.ItemCount == 0)
                 {
-                    foreach (var item in ItemFactory.GetAllItemDescriptions(items))
+                    foreach (var item in ItemFactory.GetAllItemDescriptions())
                     {
                         var weapon = ItemFactory.MakeItem(item);
                         inventoryComp.AddItem(weapon);

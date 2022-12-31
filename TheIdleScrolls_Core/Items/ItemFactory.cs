@@ -14,25 +14,23 @@ namespace TheIdleScrolls_Core.Items
 {
     public class ItemFactory : IItemCodeExpander
     {
-        static ItemKingdomDescription? s_itemKingdom = null;
+        private static ItemKingdomDescription? s_itemKingdom = null;
+
+        public static ItemKingdomDescription ItemKingdom { get
+            {
+                s_itemKingdom ??= ResourceAccess.ParseResourceFile<ItemKingdomDescription>("TheIdleScrolls_Core", "Items.json");
+                return s_itemKingdom;
+            } }
 
         public ItemFactory()
         {
-            try
-            {
-                if (s_itemKingdom == null)
-                    s_itemKingdom = ResourceAccess.ParseResourceFile<ItemKingdomDescription>("TheIdleScrolls_Core", "Items.json");
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-            }
+
         }
 
-        public static List<ItemDescription> GetAllItemDescriptions(ItemKingdomDescription itemKingdom)
+        public static List<ItemDescription> GetAllItemDescriptions()
         {
             List<ItemDescription> items = new();
-            foreach (var family in itemKingdom.Families)
+            foreach (var family in ItemKingdom.Families)
             {
                 foreach (var genus in family.Genera)
                 {
@@ -46,7 +44,7 @@ namespace TheIdleScrolls_Core.Items
         {
             Entity item = new();
             item.AddComponent(new NameComponent(description.Genus));
-            item.AddComponent(new ItemComponent(description.Family, description.Genus));
+            item.AddComponent(new ItemComponent(GetItemCode(description)!));
             if (description.Equippable != null)
             {
                 item.AddComponent(new EquippableComponent(
@@ -68,25 +66,30 @@ namespace TheIdleScrolls_Core.Items
             return item;
         }
 
-        public static Entity? MakeItem(string fullId, ItemKingdomDescription items)
+        public static Entity? MakeItem(string itemCode)
         {
-            string familyId = fullId.Substring(0, 3);
-            int genusIndex = int.Parse(fullId.Substring(3));
-            var description = items.GetDescriptionByIdAndIndex<ItemDescription>(familyId, genusIndex);
+            var description = GetItemDescription(itemCode);
             if (description == null)
                 return null;
 
             return MakeItem(description);
         }
 
-        public static string? GetIdString(Entity item, ItemKingdomDescription items)
+        public static ItemDescription? GetItemDescription(string itemCode)
+        {
+            string familyId = itemCode[..3];
+            int genusIndex = int.Parse(itemCode[3..]);
+            return ItemKingdom.GetDescriptionByIdAndIndex<ItemDescription>(familyId, genusIndex);
+        }
+
+        public static string? GetItemCode(Entity item)
         {
             var itemComp = item.GetComponent<ItemComponent>();
             if (itemComp == null)
                 return null;
             string familyName = itemComp.FamilyName;
             string genusName = itemComp.GenusName;
-            foreach (var family in items.Families)
+            foreach (var family in ItemKingdom.Families)
             {
                 if (family.Name != familyName)
                     continue;
@@ -100,46 +103,46 @@ namespace TheIdleScrolls_Core.Items
             return null;
         }
 
-        public List<ItemDescription> GetAllItemDescriptions()
+        public static string? GetItemCode(ItemDescription description)
         {
-            if (s_itemKingdom == null)
-                return new();
-            return GetAllItemDescriptions(s_itemKingdom);
-        }
-
-        public List<string> GetAllItemFamilyIds()
-        {
-            if (s_itemKingdom == null)
-                return new();
-            return s_itemKingdom.Families.Select(w => w.Id).ToList();
-        }
-
-        public string? GetItemFamilyName(string id)
-        {
-            if (s_itemKingdom == null)
+            var family = ItemKingdom.Families.Find(f => f.Name == description.Family);
+            if (family == null)
                 return null;
-            return s_itemKingdom.Families.Where(w => w.Id == id).FirstOrDefault()?.Name;
+            var familyId = family.Id;
+            var genusIndex = family.Genera.FindIndex(g => g.Name == description.Genus);
+            if (genusIndex == -1)
+                return null;
+            return familyId + genusIndex.ToString();
         }
 
-        public string? GetItemFamilyIdFromName(string name)
+        public static List<string> GetAllItemFamilyIds()
         {
-            if (s_itemKingdom == null)
-                return null;
-            return s_itemKingdom.Families.Where(w => w.Name == name).FirstOrDefault()?.Id;
+            return ItemKingdom.Families.Select(w => w.Id).ToList();
+        }
+
+        public static string? GetItemFamilyName(string id)
+        {
+            return ItemKingdom.Families.Where(w => w.Id == id).FirstOrDefault()?.Name;
+        }
+
+        public static string? GetItemGenusName(string itemCode)
+        {
+            return GetItemDescription(itemCode)?.Genus ?? null;
+        }
+
+        public static string? GetItemFamilyIdFromName(string name)
+        {
+            return ItemKingdom.Families.Where(w => w.Name == name).FirstOrDefault()?.Id;
         }
 
         public Entity? ExpandCode(string code)
         {
-            if (s_itemKingdom == null)
-                return null;
-            return MakeItem(code, s_itemKingdom);
+            return MakeItem(code);
         }
 
         public string? GenerateItemCode(Entity item)
         {
-            if (s_itemKingdom == null)
-                return null;
-            return GetIdString(item, s_itemKingdom);
+            return GetItemCode(item);
         }
     }
 }

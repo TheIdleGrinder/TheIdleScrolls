@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Components
@@ -113,13 +114,13 @@ namespace TheIdleScrolls_Core.Components
 
     public class ItemComponent : IComponent
     {
-        public string FamilyName { get; set; }
-        public string GenusName { get; set; }
+        public string Code { get; set; }
+        public string FamilyName { get { return ItemFactory.GetItemFamilyName(Code[..3]) ?? ""; } } // CornerCut: needs a more stable data structure
+        public string GenusName { get { return ItemFactory.GetItemGenusName(Code) ?? ""; } }
 
-        public ItemComponent(string familyName, string genusName)
+        public ItemComponent(string itemCode)
         {
-            FamilyName = familyName;
-            GenusName = genusName;
+            Code = itemCode;
         }
     }
 

@@ -132,7 +132,7 @@ namespace TheIdleScrolls_Core.Systems
             // Find already owned items
             var invItems = m_player?.GetComponent<InventoryComponent>()?.GetItems() ?? new();
             var equipItems = m_player?.GetComponent<EquipmentComponent>()?.GetItems() ?? new();
-            List<string> ownedItems = invItems.Concat(equipItems).Select(i => i.GetComponent<ItemComponent>()?.GenusName ?? "").ToList(); // CornerCut: Only looks at genus, ignoring quality etc.
+            List<string> ownedItems = invItems.Concat(equipItems).Select(i => i.GetComponent<ItemComponent>()?.Code ?? "").ToList(); // CornerCut: Only looks at genus, ignoring quality etc.
 
             if (!ownedItems.Contains(selection))
             {
