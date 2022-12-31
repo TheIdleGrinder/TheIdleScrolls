@@ -17,6 +17,8 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
+            HashSet<Entity> changedInventories = new();
+
             foreach (var itemMessage in coordinator.FetchMessagesByType<ItemReceivedMessage>())
             {
                 var inventoryComp = itemMessage.Recipient.GetComponent<InventoryComponent>();
@@ -26,6 +28,7 @@ namespace TheIdleScrolls_Core.Systems
                     continue;
                 }
                 inventoryComp.AddItem(itemMessage.Item);
+                changedInventories.Add(itemMessage.Recipient);
             }
 
             foreach (var move in coordinator.FetchMessagesByType<ItemMoveRequest>())
@@ -63,6 +66,12 @@ namespace TheIdleScrolls_Core.Systems
                         coordinator.PostMessage(this, new ItemMovedMessage(owner, item, move.Equip));
                     }
                 }
+                changedInventories.Add(owner);
+            }
+
+            foreach (var entity in changedInventories)
+            {
+                coordinator.PostMessage(this, new InventoryChangedMessage(entity));
             }
         }
     }
@@ -123,6 +132,21 @@ namespace TheIdleScrolls_Core.Systems
         string IMessage.BuildMessage()
         {
             return $"{Owner.GetName()} {(Equipped ? "" : "un")}equipped {Item.GetName()}";
+        }
+    }
+
+    public class InventoryChangedMessage : IMessage
+    {
+        public Entity Entity { get; set; }
+
+        public InventoryChangedMessage(Entity entity)
+        {
+            Entity = entity;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Change to the inventory of {Entity.GetName()}";
         }
     }
 }
