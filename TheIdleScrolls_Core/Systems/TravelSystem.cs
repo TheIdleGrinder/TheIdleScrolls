@@ -21,23 +21,34 @@ namespace TheIdleScrolls_Core.Systems
             if (player == null)
                 return;
 
+            var travelComp = player.GetComponent<TravellerComponent>();
+            var progComp = player.GetComponent<PlayerProgressComponent>();
+
             if (m_firstUpdate)
             {
-                if (player.HasComponent<LevelComponent>())
+                if (world.IsInDungeon())
                 {
-                    var level = player.GetComponent<LevelComponent>()?.Level ?? 0;
-                    int zoneNum = world.IsInDungeon() ? 0 : level;
-                    Travel(world.DungeonId, zoneNum, world, coordinator);
-
-                    m_firstUpdate = false;
+                    Travel(world.DungeonId, 0, world, coordinator);
                 }
+                else
+                { 
+                    var startingZone = 0;
+                    if (travelComp != null)
+                    {
+                        startingZone = progComp?.Data.HighestWildernessKill ?? 0;
+                    }
+                    if (startingZone == 0)
+                    {
+                        startingZone = player.GetComponent<LevelComponent>()?.Level ?? 1;
+                    }
+                    Travel("", startingZone, world, coordinator);
+                }                
 
+                m_firstUpdate = false;
                 coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed)); // CornerCut: make info accessible to app
             }
 
             // Update available areas
-            var travelComp = player.GetComponent<TravellerComponent>();
-            var progComp = player.GetComponent<PlayerProgressComponent>();
             if (travelComp != null && progComp != null)
             {
                 if (progComp.Data.HighestWildernessKill >= travelComp.MaxWilderness)
