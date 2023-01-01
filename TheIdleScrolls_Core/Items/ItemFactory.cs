@@ -79,7 +79,7 @@ namespace TheIdleScrolls_Core.Items
         {
             string familyId = itemCode[..3];
             int genusIndex = int.Parse(itemCode[3..]);
-            return ItemKingdom.GetDescriptionByIdAndIndex<ItemDescription>(familyId, genusIndex);
+            return ItemKingdom.GetDescriptionByIdAndIndex(familyId, genusIndex);
         }
 
         public static string? GetItemCode(Entity item)

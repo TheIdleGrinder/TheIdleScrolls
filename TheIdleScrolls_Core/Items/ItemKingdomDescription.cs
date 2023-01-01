@@ -88,7 +88,7 @@ namespace TheIdleScrolls_Core.Items
             Families = new();
         }
 
-        public ItemDescription? GetDescriptionByIdAndIndex<T>(string idString, int index)
+        public ItemDescription? GetDescriptionByIdAndIndex(string idString, int index)
         {
             foreach (var family in Families)
             {
