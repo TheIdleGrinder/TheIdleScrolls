@@ -102,15 +102,16 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Abilities, "Live and Learn",
                     $"The more you use weapons of one type, the better you will become at handling them. Watch your " +
-                    $"attack speed improve as your ability level imcreases."));
+                    $"attack speed increase along with your ability level."));
 
             }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Travel) && lvl >= LvlTravel)
             {
-                m_player.AddComponent(new TravellerComponent() { MaxWilderness = lvl });
+                m_player.AddComponent(new TravellerComponent());
                 progComp.Data.TutorialProgress.Add(TutorialStep.Travel);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Travel, "Freedom of Movement",
+                    $"You can now travel between areas. Pick a spot to grind or push forward to unlock higher zones." +
                     $"\n  - Unlocked manual travel between areas"));
 
             }
@@ -129,7 +130,7 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.DungeonOpen, "A New Challenge!",
                     "Progressing in the wilderness will give you access to dungeons. A dungeon consists of several floors, each containing " +
-                    " monster that have to be defeated to proceed. They are more challenging than wilderness areas " +
+                    "monster that have to be defeated to proceed. They are more challenging than wilderness areas " +
                     "of the same level, but completing dungeons will grant powerful rewards. Losing a fight in the dungeon will get you sent " +
                     "back to the wilderness." +
                     $"\n  - Unlocked dungeon '{world.AreaKingdom.Dungeons[0].Name}'")); // CornerCut: Assumes first dungeon is first to unlock
