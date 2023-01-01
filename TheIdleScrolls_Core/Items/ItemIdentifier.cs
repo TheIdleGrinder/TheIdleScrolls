@@ -23,18 +23,20 @@ namespace TheIdleScrolls_Core.Items
 
         public int GenusIndex { get { return ExtractGenusIndex(Code); } }
 
-        public ItemFamilyDescription FamilyDescription 
-        { get
-            {
-                return ItemFactory.ItemKingdom.Families.Where(f => f.Id == FamilyId).First();
-            } 
+        public ItemFamilyDescription GetFamilyDescription()
+        {                 
+            return ItemFactory.ItemKingdom.Families.Where(f => f.Id == FamilyId).First(); // First() works because code is validated
         }
 
-        public ItemGenusDescription GenusDescription 
-        { get
-            {
-                return FamilyDescription.Genera[GenusIndex];
-            } 
+        public ItemGenusDescription GetGenusDescription()
+        { 
+            return GetFamilyDescription().Genera[GenusIndex]; // Works because code is validated
+        }
+
+        public ItemDescription GetItemDescription()
+        {
+            return ItemFactory.ItemKingdom.GetDescriptionByIdAndIndex(FamilyId, GenusIndex) 
+                    ?? throw new Exception($"Item code was invalidated: {Code}");
         }
 
         public static string ExtractFamilyId(string itemCode)
@@ -44,7 +46,7 @@ namespace TheIdleScrolls_Core.Items
 
         public static int ExtractGenusIndex(string itemCode)
         {
-            return Int32.Parse(itemCode[3..3]);
+            return Int32.Parse(itemCode[3..4]);
         }
 
         public static bool ValidateItemCode(string itemCode)

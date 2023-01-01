@@ -43,6 +43,6 @@ namespace ConsoleRunner
 
         public void DisplayMessage(string title, string message) { }
 
-        public void SetAvailableAreas(List<DungeonRepresentation> dungeons) { }
+        public void SetAccessibleAreas(int maxWilderness, List<DungeonRepresentation> dungeons) { }
     }
 }

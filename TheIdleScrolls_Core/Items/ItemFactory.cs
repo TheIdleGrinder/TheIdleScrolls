@@ -66,20 +66,13 @@ namespace TheIdleScrolls_Core.Items
             return item;
         }
 
-        public static Entity? MakeItem(string itemCode)
+        public static Entity? MakeItem(ItemIdentifier itemCode)
         {
-            var description = GetItemDescription(itemCode);
+            var description = itemCode.GetItemDescription();
             if (description == null)
                 return null;
 
             return MakeItem(description);
-        }
-
-        public static ItemDescription? GetItemDescription(string itemCode)
-        {
-            string familyId = itemCode[..3];
-            int genusIndex = int.Parse(itemCode[3..]);
-            return ItemKingdom.GetDescriptionByIdAndIndex(familyId, genusIndex);
         }
 
         public static string? GetItemCode(Entity item)
@@ -125,17 +118,17 @@ namespace TheIdleScrolls_Core.Items
             return ItemKingdom.Families.Where(w => w.Id == id).FirstOrDefault()?.Name;
         }
 
-        public static string? GetItemGenusName(string itemCode)
-        {
-            return GetItemDescription(itemCode)?.Genus ?? null;
-        }
-
         public static string? GetItemFamilyIdFromName(string name)
         {
             return ItemKingdom.Families.Where(w => w.Name == name).FirstOrDefault()?.Id;
         }
 
         public Entity? ExpandCode(string code)
+        {
+            return ExpandCode(new ItemIdentifier(code));
+        }
+
+        public Entity? ExpandCode(ItemIdentifier code)
         {
             return MakeItem(code);
         }

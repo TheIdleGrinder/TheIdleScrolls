@@ -42,7 +42,8 @@ namespace TheIdleScrolls_Core.Systems
             if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Inventory) && lvl >= LvlInventory)
             {
                 InventoryComponent invComp = new();
-                List<string> weapons = new() { "SBL0", "LBL0", "AXE0", "BLN0", "POL0" };
+                List<ItemIdentifier> weapons = (new List<string>() { "SBL0", "LBL0", "AXE0", "BLN0", "POL0" })
+                    .Select(i => new ItemIdentifier(i)).ToList();
                 ItemFactory factory = new();
 
                 m_player.AddComponent(invComp);

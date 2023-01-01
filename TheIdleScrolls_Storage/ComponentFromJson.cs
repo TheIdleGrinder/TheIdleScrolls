@@ -133,7 +133,7 @@ namespace TheIdleScrolls_JSON
         {
             try
             {
-                component.Code = json["Code"]!.GetValue<string>();
+                component.Code = new ItemIdentifier(json["Code"]!.GetValue<string>());
                 return true;
             }
             catch (Exception)
@@ -146,8 +146,6 @@ namespace TheIdleScrolls_JSON
         {
             try
             {
-                //component.Family = json["Class"]!.GetValue<string>();
-                //component.Genus = json["Family"]!.GetValue<string>();
                 component.Damage = json["Damage"]!.GetValue<double>();
                 component.Cooldown = json["Cooldown"]!.GetValue<double>();
                 return true;

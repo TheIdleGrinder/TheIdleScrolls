@@ -92,7 +92,7 @@ namespace TheIdleScrolls_Storage
         {
             JsonObject json = new()
             {
-                { "Code", component.Code }
+                { "Code", component.Code.Code }
             };
             return json;
         }

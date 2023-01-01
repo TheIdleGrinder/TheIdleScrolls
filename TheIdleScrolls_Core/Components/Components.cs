@@ -114,13 +114,18 @@ namespace TheIdleScrolls_Core.Components
 
     public class ItemComponent : IComponent
     {
-        public string Code { get; set; }
-        public string FamilyName { get { return ItemFactory.GetItemFamilyName(Code[..3]) ?? ""; } } // CornerCut: needs a more stable data structure
-        public string GenusName { get { return ItemFactory.GetItemGenusName(Code) ?? ""; } }
+        public ItemIdentifier Code { get; set; }
+        public string FamilyName { get { return Code.GetFamilyDescription().Name; } }
+        public string GenusName { get { return Code.GetGenusDescription().Name; } }
 
         public ItemComponent(string itemCode)
         {
-            Code = itemCode;
+            Code = new ItemIdentifier(itemCode);
+        }
+
+        public ItemComponent(ItemIdentifier code)
+        {
+            Code = code;
         }
     }
 
