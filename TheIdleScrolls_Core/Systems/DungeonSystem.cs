@@ -12,11 +12,11 @@ namespace TheIdleScrolls_Core.Systems
 {
     internal class DungeonSystem : AbstractSystem
     {
-        bool m_firstUpdate = true;
-
         Entity? m_player = null;
 
         int m_wildernessLevel = 1;
+
+        int m_highestWilderness = 0; // Used to determine whether accessible dungeons need to be checked again
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -25,14 +25,13 @@ namespace TheIdleScrolls_Core.Systems
             if (m_player == null)
                 return;
 
-            // Check accessible dungeons
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<DeathMessage>())
+            var progLevel = m_player.GetComponent<PlayerProgressComponent>()?.Data.HighestWildernessKill ?? 0;
+            if (progLevel > m_highestWilderness)
             {
-                var progComp = m_player.GetComponent<PlayerProgressComponent>();
                 var travelComp = m_player.GetComponent<TravellerComponent>();
-                if (progComp != null && travelComp != null)
+                if (travelComp != null)
                 {
-                    int progLevel = progComp.Data.HighestWildernessKill;
+                    m_highestWilderness = progLevel;
                     foreach (var dungeon in world.AreaKingdom.Dungeons)
                     {
                         if (progLevel >= dungeon.Level && !travelComp.AvailableDungeons.Contains(dungeon.Id))
@@ -41,7 +40,6 @@ namespace TheIdleScrolls_Core.Systems
                             coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Id));
                         }
                     }
-                    m_firstUpdate = false;
                 }
             }
 
@@ -87,7 +85,7 @@ namespace TheIdleScrolls_Core.Systems
                     else // Dungeon cleared
                     {
                         GiveDungeonReward(world, coordinator);
-                        coordinator.PostMessage(this, new DungeonClearedMessage(world.DungeonId));
+                        coordinator.PostMessage(this, new DungeonCompletedMessage(world.DungeonId));
                         coordinator.PostMessage(this, new TravelRequest("", m_wildernessLevel));
                     }
                 }
@@ -172,11 +170,11 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
-    class DungeonClearedMessage : IMessage
+    class DungeonCompletedMessage : IMessage
     {
         public string DungeonId { get; set; }
 
-        public DungeonClearedMessage(string dungeonId)
+        public DungeonCompletedMessage(string dungeonId)
         {
             DungeonId = dungeonId;
         }

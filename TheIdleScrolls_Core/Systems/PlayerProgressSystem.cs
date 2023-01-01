@@ -48,10 +48,13 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Update cleared dungeons
-            var dungeons = coordinator.FetchMessagesByType<DungeonClearedMessage>();
+            var dungeons = coordinator.FetchMessagesByType<DungeonCompletedMessage>();
             foreach (var dungeon in dungeons)
             {
-                progComp.Data.ClearedDungeons.Add(dungeon.DungeonId);
+                if (!progComp.Data.DungeonTimes.ContainsKey(dungeon.DungeonId))
+                {
+                    progComp.Data.DungeonTimes[dungeon.DungeonId] = progComp.Data.Playtime;
+                }
             }
         }
     }

@@ -135,7 +135,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n  - Unlocked dungeon '{world.AreaKingdom.Dungeons[0].Name}'")); // CornerCut: Assumes first dungeon is first to unlock
             }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.DungeonComplete)
-                && coordinator.MessageTypeIsOnBoard<DungeonClearedMessage>())
+                && coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.DungeonComplete);
                 var itemName = coordinator.FetchMessagesByType<ItemReceivedMessage>().LastOrDefault()?.Item.GetName() ?? "??";
@@ -145,7 +145,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n  - Received '{itemName}'"));
             }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Finished)
-                && progComp.Data.ClearedDungeons.Count >= 2)
+                && progComp.Data.GetClearedDungeons().Count >= 2)
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Finished);
                 var time = progComp.Data.Playtime;
