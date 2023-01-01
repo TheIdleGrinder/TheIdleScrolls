@@ -114,6 +114,14 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n  - Unlocked manual travel between areas"));
 
             }
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Defeated)
+                && progComp.Data.Losses == 1)
+            {
+                progComp.Data.TutorialProgress.Add(TutorialStep.Defeated);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.Defeated, "There's Always a Bigger Fish...",
+                    "Time ran out and you lost this fight. Don't worry, though, a little more training should get you over the hump."));
+            }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.DungeonOpen) 
                 && coordinator.MessageTypeIsOnBoard<DungeonOpenedMessage>())
             {
