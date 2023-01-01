@@ -20,7 +20,7 @@ namespace TheIdleScrolls_Core.Systems
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             if (m_player == 0)
-                m_player = coordinator.GetEntities().Where(e => e.HasComponent<PlayerComponent>()).FirstOrDefault()?.Id ?? 0;
+                m_player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault()?.Id ?? 0;
 
             bool doUpdate = m_firstUpdate
                 || coordinator.MessageTypeIsOnBoard<LevelUpSystem.LevelUpMessage>()

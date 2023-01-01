@@ -12,9 +12,7 @@ namespace TheIdleScrolls_Core.Systems
     {
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            foreach (var entity in coordinator.GetEntities().Where(
-                e => e.HasComponent<LevelComponent>() && e.HasComponent<XpGainerComponent>())
-            )
+            foreach (var entity in coordinator.GetEntities<LevelComponent, XpGainerComponent>())
             {
                 var lvlComp = entity.GetComponent<LevelComponent>() ?? throw new Exception("Missing Level component");
                 var xpComp = entity.GetComponent<XpGainerComponent>() ?? throw new Exception("Missing XP Gainer component");

@@ -12,7 +12,7 @@ namespace TheIdleScrolls_Core.Systems
     {
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            foreach (var entity in coordinator.GetEntities().Where(e => e.HasComponent<AttackComponent>()))
+            foreach (var entity in coordinator.GetEntities<AttackComponent>())
             {
                 var attackComp = entity.GetComponent<AttackComponent>() ?? throw new Exception("Entity is missing AttackComponent");
 
@@ -25,7 +25,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     if (entity.HasComponent<PlayerComponent>())
                     {
-                        var target = coordinator.GetEntities().FirstOrDefault(e => e.HasComponent<MobComponent>());
+                        var target = coordinator.GetEntities<MobComponent>().FirstOrDefault();
                         attackComp.Target = target?.Id ?? 0;
 
                         string attackerName = entity.GetComponent<NameComponent>()?.Name ?? $"Entity #{entity.Id}";

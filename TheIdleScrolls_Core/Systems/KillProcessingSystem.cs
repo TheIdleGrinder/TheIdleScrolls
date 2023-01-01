@@ -13,7 +13,7 @@ namespace TheIdleScrolls_Core.Systems
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             HashSet<uint> deaths = new();
-            foreach (var victim in coordinator.GetEntities().Where(e => e.HasComponent<KilledComponent>()))
+            foreach (var victim in coordinator.GetEntities<KilledComponent>())
             {
                 deaths.Add(victim.Id);
                 var killerId = victim.GetComponent<KilledComponent>()?.Killer ?? 0;

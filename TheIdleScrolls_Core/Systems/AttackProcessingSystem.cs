@@ -26,7 +26,7 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            foreach (var entity in coordinator.GetEntities().Where(e => e.HasComponent<AttackComponent>()))
+            foreach (var entity in coordinator.GetEntities<AttackComponent>())
             {
                 var attackComp = entity.GetComponent<AttackComponent>() 
                     ?? throw new Exception("AttackProcessingSystem: Missing AttackComponent in entity");

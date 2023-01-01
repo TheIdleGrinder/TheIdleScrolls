@@ -60,6 +60,26 @@ namespace MiniECS
             return m_entities.Where(e => e.HasComponent<T>()).ToList();
         }
 
+        public List<Entity> GetEntities<T, U>() 
+            where T : class, IComponent 
+            where U : class, IComponent
+        {
+            return m_entities.Where(e => 
+                e.HasComponent<T>() 
+                && e.HasComponent<U>()).ToList();
+        }
+
+        public List<Entity> GetEntities<T, U, V>()
+            where T : class, IComponent
+            where U : class, IComponent
+            where V : class, IComponent
+        {
+            return m_entities.Where(e =>
+                e.HasComponent<T>()
+                && e.HasComponent<U>()
+                && e.HasComponent<V>()).ToList();
+        }
+
         public void AddSystem(ISystem system)
         {
             m_systems.Add(system);

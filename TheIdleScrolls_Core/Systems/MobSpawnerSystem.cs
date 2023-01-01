@@ -56,7 +56,7 @@ namespace TheIdleScrolls_Core.Systems
 
         bool NeedToSpawnMob(World world, Coordinator coordinator, double dt)
         {
-            var mobCount = coordinator.GetEntities().Count(e => e.IsMob());
+            var mobCount = coordinator.GetEntities<MobComponent>().Count;
             return mobCount == 0 && world.RemainingEnemies > 0;
         }
     }
