@@ -50,8 +50,9 @@ namespace TheIdleScrolls_Storage
             JsonArray jsonAbilities = new();
             foreach (var ability in component.GetAbilities())
             {
-                JsonObject jsonAbilty = JsonFromSth(ability);
-                jsonAbilities.Add(jsonAbilty);
+                string shortened = $"{ability.Key}/{ability.Level}/{ability.XP}";
+                //JsonObject jsonAbilty = JsonFromSth(shortened);
+                jsonAbilities.Add(shortened);
             }
             JsonObject json = new()
             {

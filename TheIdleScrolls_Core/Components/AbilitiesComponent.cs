@@ -1,9 +1,11 @@
 ﻿using MiniECS;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrolls_Core.Components
 {
@@ -11,6 +13,22 @@ namespace TheIdleScrolls_Core.Components
     {
         Dictionary<string, Ability> m_abilities = new();
         static Func<int, int> s_xpFunction = (x) => 60 * x;
+
+        public AbilitiesComponent() // CornerCut: Abilities should be assigned somewhere else
+        {
+            foreach (string key in ItemFactory.GetAllItemFamilyIds())
+            {
+                string? className = ItemFactory.GetItemFamilyName(key);
+                if (className == null)
+                {
+                    Debug.WriteLine($"Failed to retrieve class name for {key}");
+                    continue;
+                }
+                Ability ability = new Ability(key, className);
+                ability.Level = 10;
+                AddAbility(ability);
+            }
+        }
 
         public void AddAbility(Ability ability)
         {
@@ -26,6 +44,17 @@ namespace TheIdleScrolls_Core.Components
         public List<Ability> GetAbilities()
         {
             return m_abilities.Values.ToList();
+        }
+
+        public bool UpdateAbility(string key, int level, int xp)
+        {
+            if (!m_abilities.ContainsKey(key))
+                return false;
+            var ability = m_abilities[key];
+            ability.Level = level;
+            ability.XP = xp;
+            ability.TargetXP = s_xpFunction(level);
+            return true;
         }
 
         public enum AddXPResult { NotFound, InvalidAmount, Added, LevelIncreased }

@@ -78,8 +78,19 @@ namespace TheIdleScrolls_JSON
                 var jsonAbs = json["Abilities"]!.AsArray();
                 foreach (var jsonAbility in jsonAbs)
                 {
-                    var ability = JsonSerializer.Deserialize<Ability>(jsonAbility);
-                    component.AddAbility(ability!);
+                    if (jsonAbility == null)
+                        continue;
+                    var fields = jsonAbility.ToString().Split('/');
+                    if (fields.Count() != 3)
+                        throw new Exception($"Invalid number of fields in stored ability: {jsonAbility}");
+                    string key = fields[0];
+                    int level = Int32.Parse(fields[1]);
+                    int xp = Int32.Parse(fields[2]);
+
+                    if (component.GetAbility(key) == null)
+                        continue; // Skip silently (ability might no longer be part of the game)
+
+                    component.UpdateAbility(key, level, xp);
                 }
                 return true;
             }

@@ -26,22 +26,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new DefenseComponent());
             player.AddComponent(new XpGainerComponent());
             player.AddComponent(new PlayerProgressComponent());
-
-            AbilitiesComponent abilitiesComp = new();
-            ItemFactory itemFactory = new();
-            foreach (string key in ItemFactory.GetAllItemFamilyIds())
-            {
-                string? className = ItemFactory.GetItemFamilyName(key);
-                if (className == null)
-                {
-                    Debug.WriteLine($"Failed to retrieve class name for {key}");
-                    continue;
-                }
-                Ability ability = new Ability(key, className);
-                ability.Level = 10;
-                abilitiesComp.AddAbility(ability);
-            }
-            player.AddComponent(abilitiesComp);
+            player.AddComponent(new AbilitiesComponent());
 
             return player;
         }
