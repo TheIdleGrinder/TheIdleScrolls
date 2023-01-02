@@ -8,11 +8,13 @@
 
   <ItemGroup>
     <None Remove="Mobs.json" />
+    <None Remove="Resources\Achievements.json" />
     <None Remove="Resources\Dungeons.json" />
     <None Remove="Resources\Items.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Achievements.json" />
     <EmbeddedResource Include="Resources\Dungeons.json" />
     <EmbeddedResource Include="Resources\Items.json" />
     <EmbeddedResource Include="Resources\Mobs.json" />

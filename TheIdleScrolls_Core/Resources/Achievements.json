@@ -1,0 +1,35 @@
+﻿{
+  "Achievements": [
+    {
+      "Id": "LVL10",
+      "Condition": "Level >= 10",
+      "Title": "Level 10",
+      "Description": "Reach level 10"
+    },
+    {
+      "Id": "LVL20",
+      "Prerequisite": "LVL10",
+      "Condition": "Level >= 20",
+      "Title": "Level 20",
+      "Description": "Reach level 20"
+    },
+    {
+      "Id": "DNG:CRYPT",
+      "Condition": "dng:CRYPT > 0",
+      "Title": "Cryptkeeper",
+      "Description": "Complete the Crypt"
+    },
+    {
+      "Id": "HC:CRYPT",
+      "Condition": "dng:CRYPT > 0 && Losses == 0",
+      "Title": "Attentive Grinder",
+      "Description": "Complete the Crypt before losing a fight"
+    },
+    {
+      "Id": "ARMOR25",
+      "Condition": "abl:LAR >= 25 || abl:HAR >= 25",
+      "Title": "Armor Apprentice",
+      "Description": "Reach ability level 25 for any armor type"
+    }
+  ]
+}
