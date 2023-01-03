@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Components;
 
 namespace TheIdleScrolls_Core.Achievements
 {
@@ -38,7 +39,36 @@ namespace TheIdleScrolls_Core.Achievements
 
         public double Evaluate(Entity target, World world)
         {
-            throw new NotImplementedException($"Can't handle condition: {m_fieldId}");
+            if (m_fieldId == "Level")
+            {
+                return (double)(target.GetComponent<LevelComponent>()?.Level ?? 0);
+            }
+            else if (m_fieldId == "Kills")
+            {
+                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.Kills ?? 0);
+            }
+            else if (m_fieldId == "Losses")
+            {
+                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.Losses ?? 0);
+            }
+            else if (m_fieldId == "Playtime")
+            {
+                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.Playtime ?? 0.0);
+            }
+            else if (m_fieldId.StartsWith("dng:"))
+            {
+                var dungeon = m_fieldId[4..];
+                return target.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.GetValueOrDefault(dungeon, -1.0) ?? -1.0;
+            }
+            else if (m_fieldId.StartsWith("abl:"))
+            {
+                var ability = m_fieldId[4..];
+                return (double)(target.GetComponent<AbilitiesComponent>()?.GetAbility(ability)?.Level ?? -1.0);
+            }
+            else
+            {
+                throw new ArgumentException($"Invalid field condition: {m_fieldId}");
+            }
         }
     }
 
@@ -89,7 +119,7 @@ namespace TheIdleScrolls_Core.Achievements
         public double Evaluate(Entity target, World world)
         {
             var results = m_nodes.Select(n => n.Evaluate(target, world));
-            return results.Count(d => d >= 1.0) / (double)results.Count();
+            return Math.Max(results.Select(d => Math.Min(d, 1.0)).Average(), 0.0);
         }
     }
 
