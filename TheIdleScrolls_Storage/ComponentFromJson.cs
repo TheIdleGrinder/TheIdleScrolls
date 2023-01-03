@@ -100,6 +100,25 @@ namespace TheIdleScrolls_JSON
             }
         }
 
+        public static bool SetFromJson(this AchievementsComponent component, JsonNode json)
+        {
+            try
+            {
+                var earned = json["Earned"]!.AsArray();
+                foreach (var e in earned)
+                {
+                    if (e == null)
+                        continue;
+                    component.EarnedAchievements.Add(e.ToString());
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
         public static bool SetFromJson(this LevelComponent component, JsonNode json)
         {
             try

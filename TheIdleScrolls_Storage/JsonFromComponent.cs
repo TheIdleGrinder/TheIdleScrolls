@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 
 using MiniECS;
+using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Items;
 using IComponent = MiniECS.IComponent;
@@ -57,6 +58,18 @@ namespace TheIdleScrolls_Storage
             JsonObject json = new()
             {
                 { "Abilities", jsonAbilities }
+            };
+            return json;
+        }
+
+        public static JsonObject? ToJson(this AchievementsComponent component)
+        {
+            JsonArray earned = new();
+            component.Achievements.Where(a => a.Status == AchievementStatus.Awarded).ToList().ForEach(a => earned.Add(a));
+            component.EarnedAchievements.ToList().ForEach(a => earned.Add(a));
+            JsonObject json = new()
+            {
+                { "Earned", earned }
             };
             return json;
         }
