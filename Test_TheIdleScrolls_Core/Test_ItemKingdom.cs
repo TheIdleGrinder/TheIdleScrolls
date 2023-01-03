@@ -32,8 +32,8 @@ namespace Test_TheIdleScrolls_Core
 
             var itemKingdom = ResourceAccess.ParseResourceFile<ItemKingdomDescription>("TheIdleScrolls_Core", "Items.json");
             Assert.That(itemKingdom, Is.Not.Null);
-            Assert.That(itemKingdom.Families, Has.Count.EqualTo(5));
-            Assert.That(itemKingdom.Families[0].Genera, Has.Count.EqualTo(1));
+            Assert.That(itemKingdom.Families, Has.Count.EqualTo(7));
+            Assert.That(itemKingdom.Families[0].Genera, Has.Count.EqualTo(2));
             Assert.That(itemKingdom.Families[0].Genera[0].Weapon, Is.Not.Null);
             Assert.That(itemKingdom.Families[0].Genera[0].Equippable, Is.Not.Null);
             Assert.That(itemKingdom.Families[0].Genera[0].Equippable!.Slot, Is.EqualTo("Hand"));
