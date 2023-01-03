@@ -18,7 +18,12 @@ namespace TheIdleScrolls_Core.Achievements
 
         public Achievement(AchievementDescription description)
         {
-
+            Id = description.Id;
+            Status = AchievementStatus.Unavailable;
+            Prerequisite = description.Prerequisite;
+            Condition = ExpressionParser.Parse(description.Condition);
+            Title = description.Title;
+            Description = description.Description;
         }
     }
 }

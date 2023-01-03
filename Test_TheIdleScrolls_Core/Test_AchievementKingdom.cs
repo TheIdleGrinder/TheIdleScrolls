@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Utility;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Achievements;
+using MiniECS;
 
 namespace Test_TheIdleScrolls_Core
 {
@@ -48,6 +49,19 @@ namespace Test_TheIdleScrolls_Core
         public void Setup()
         {
             kingdom = ResourceAccess.ParseResourceFile<AchievementKingdomDescription>("TheIdleScrolls_Core", "Achievements.json");
+        }
+
+        [Test]
+        public void TransformationToAchievementsWorks()
+        {
+            Assert.That(kingdom, Is.Not.Null);
+            List<Achievement> achievements = new();
+            Assert.DoesNotThrow(() => kingdom.Achievements.ForEach(a => achievements.Add(new Achievement(a))));
+            Assert.That(achievements, Is.Not.Empty);
+
+            Entity player = PlayerFactory.MakeNewPlayer("Test");
+            World world = new();
+            Assert.DoesNotThrow(() => achievements.ForEach(a => a.Condition.Evaluate(player, world)));
         }
     }
 }
