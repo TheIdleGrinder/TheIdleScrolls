@@ -143,7 +143,7 @@ namespace TheIdleScrolls_Core.Systems
             // Update achievements
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>())
             {
-                var achComp = player.GetComponent<AchievementsComponent>();
+                var achComp = coordinator.GetEntities<AchievementsComponent>().FirstOrDefault()?.GetComponent<AchievementsComponent>();
                 if (achComp != null)
                 {
                     List<AchievementRepresentation> achievements = achComp.Achievements.Select(a =>

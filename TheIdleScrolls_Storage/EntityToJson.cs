@@ -22,6 +22,7 @@ namespace TheIdleScrolls_Storage
             var compTypes = new List<Type>()
             {
                 typeof(AbilitiesComponent),
+                typeof(AchievementsComponent),
                 typeof(AttackComponent),
                 typeof(EquipmentComponent),
                 typeof(InventoryComponent),

@@ -65,7 +65,7 @@ namespace TheIdleScrolls_Storage
         public static JsonObject? ToJson(this AchievementsComponent component)
         {
             JsonArray earned = new();
-            component.Achievements.Where(a => a.Status == AchievementStatus.Awarded).ToList().ForEach(a => earned.Add(a));
+            component.Achievements.Where(a => a.Status == AchievementStatus.Awarded).ToList().ForEach(a => earned.Add(a.Id));
             component.EarnedAchievements.ToList().ForEach(a => earned.Add(a));
             JsonObject json = new()
             {

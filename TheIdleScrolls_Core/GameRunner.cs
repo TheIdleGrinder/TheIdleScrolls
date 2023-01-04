@@ -55,6 +55,15 @@ namespace TheIdleScrolls_Core
 
         public void Initialize(string playerName = "Leeroy")
         {
+            const string globalEntityName = "_perpetual";
+            Entity? globalEntity = m_dataHandler.LoadEntity(globalEntityName);
+            if (globalEntity == null)
+            {
+                globalEntity = new Entity();
+                globalEntity.AddComponent(new NameComponent(globalEntityName));
+                globalEntity.AddComponent(new AchievementsComponent());
+            }
+            m_coordinator.AddEntity(globalEntity);
 
             var player = PlayerFactory.MakeOrLoadPlayer(playerName, m_dataHandler);
             AddPlayerToCoordinator(player);
@@ -69,18 +78,7 @@ namespace TheIdleScrolls_Core
                 var areas = ReadResourceFile<AreaKingdomDescription>("Dungeons.json");
                 m_world.AreaKingdom = areas;
 
-                m_world.ItemKingdom = ItemFactory.ItemKingdom;
-
-                var inventoryComp = player.GetComponent<InventoryComponent>();
-                if (inventoryComp != null && inventoryComp.ItemCount == 0)
-                {
-                    foreach (var item in ItemFactory.GetAllItemDescriptions())
-                    {
-                        var weapon = ItemFactory.MakeItem(item);
-                        inventoryComp.AddItem(weapon);
-                        m_coordinator.AddEntity(weapon);
-                    }
-                }                
+                m_world.ItemKingdom = ItemFactory.ItemKingdom;              
             }
             catch (Exception e)
             {

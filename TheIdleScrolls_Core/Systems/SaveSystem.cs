@@ -22,11 +22,20 @@ namespace TheIdleScrolls_Core.Systems
             bool trigger = m_cooldown.Update(dt) > 0;
             if (trigger)
             {
-                Entity? player = coordinator.GetEntities().Where(e => e.HasComponent<PlayerComponent>()).FirstOrDefault();
+                Entity? player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
                 if (player != null)
                 {
                     m_dataAccessHandler.StoreEntity(player);
                     coordinator.PostMessage(this, new TextMessage("Game saved"));
+                }
+            }
+
+            if (coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>())
+            {
+                Entity? globalEntity = coordinator.GetEntities<AchievementsComponent>().FirstOrDefault();
+                if (globalEntity != null)
+                {
+                    m_dataAccessHandler.StoreEntity(globalEntity);
                 }
             }
         }
