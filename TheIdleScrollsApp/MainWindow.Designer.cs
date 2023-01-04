@@ -64,10 +64,15 @@
             this.gridInventory = new System.Windows.Forms.DataGridView();
             this.tabAbilities = new System.Windows.Forms.TabPage();
             this.gridAbilities = new System.Windows.Forms.DataGridView();
+            this.tabAchievements = new System.Windows.Forms.TabPage();
+            this.gridAchievements = new System.Windows.Forms.DataGridView();
             this.tabLog = new System.Windows.Forms.TabPage();
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.timerTick = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.colEarned = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -79,6 +84,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridInventory)).BeginInit();
             this.tabAbilities.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAbilities)).BeginInit();
+            this.tabAchievements.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridAchievements)).BeginInit();
             this.tabLog.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -101,15 +108,15 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(772, 395);
-            this.splitContainer1.SplitterDistance = 357;
+            this.splitContainer1.Size = new System.Drawing.Size(765, 403);
+            this.splitContainer1.SplitterDistance = 352;
             this.splitContainer1.TabIndex = 0;
             // 
             // cbNextAfterWin
             // 
             this.cbNextAfterWin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbNextAfterWin.AutoSize = true;
-            this.cbNextAfterWin.Location = new System.Drawing.Point(273, 40);
+            this.cbNextAfterWin.Location = new System.Drawing.Point(268, 40);
             this.cbNextAfterWin.Name = "cbNextAfterWin";
             this.cbNextAfterWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.cbNextAfterWin.Size = new System.Drawing.Size(79, 19);
@@ -121,7 +128,7 @@
             // btnAreaNext
             // 
             this.btnAreaNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAreaNext.Location = new System.Drawing.Point(312, 11);
+            this.btnAreaNext.Location = new System.Drawing.Point(307, 11);
             this.btnAreaNext.Name = "btnAreaNext";
             this.btnAreaNext.Size = new System.Drawing.Size(40, 23);
             this.btnAreaNext.TabIndex = 7;
@@ -145,9 +152,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTimeLimit.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblTimeLimit.ForeColor = System.Drawing.Color.LimeGreen;
-            this.lblTimeLimit.Location = new System.Drawing.Point(3, 274);
+            this.lblTimeLimit.Location = new System.Drawing.Point(3, 282);
             this.lblTimeLimit.Name = "lblTimeLimit";
-            this.lblTimeLimit.Size = new System.Drawing.Size(349, 42);
+            this.lblTimeLimit.Size = new System.Drawing.Size(344, 42);
             this.lblTimeLimit.TabIndex = 2;
             this.lblTimeLimit.Text = "10.00\r\n##############################";
             this.lblTimeLimit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -158,9 +165,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMobName.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblMobName.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblMobName.Location = new System.Drawing.Point(5, 328);
+            this.lblMobName.Location = new System.Drawing.Point(5, 336);
             this.lblMobName.Name = "lblMobName";
-            this.lblMobName.Size = new System.Drawing.Size(349, 21);
+            this.lblMobName.Size = new System.Drawing.Size(344, 21);
             this.lblMobName.TabIndex = 1;
             this.lblMobName.Text = "Training Dummy (Lvl 1)";
             this.lblMobName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -171,9 +178,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblMobHP.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblMobHP.ForeColor = System.Drawing.Color.Red;
-            this.lblMobHP.Location = new System.Drawing.Point(3, 349);
+            this.lblMobHP.Location = new System.Drawing.Point(3, 357);
             this.lblMobHP.Name = "lblMobHP";
-            this.lblMobHP.Size = new System.Drawing.Size(349, 37);
+            this.lblMobHP.Size = new System.Drawing.Size(344, 37);
             this.lblMobHP.TabIndex = 1;
             this.lblMobHP.Text = "HP: 100 / 100\r\n###################################";
             this.lblMobHP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -185,7 +192,7 @@
             this.lblArea.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblArea.Location = new System.Drawing.Point(3, 9);
             this.lblArea.Name = "lblArea";
-            this.lblArea.Size = new System.Drawing.Size(349, 23);
+            this.lblArea.Size = new System.Drawing.Size(344, 23);
             this.lblArea.TabIndex = 0;
             this.lblArea.Text = "Wilderness - Level 1";
             this.lblArea.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -198,11 +205,12 @@
             this.tabControl1.Controls.Add(this.tabCharacter);
             this.tabControl1.Controls.Add(this.tabInventory);
             this.tabControl1.Controls.Add(this.tabAbilities);
+            this.tabControl1.Controls.Add(this.tabAchievements);
             this.tabControl1.Controls.Add(this.tabLog);
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(405, 389);
+            this.tabControl1.Size = new System.Drawing.Size(403, 397);
             this.tabControl1.TabIndex = 0;
             // 
             // tabCharacter
@@ -216,7 +224,7 @@
             this.tabCharacter.Location = new System.Drawing.Point(4, 24);
             this.tabCharacter.Name = "tabCharacter";
             this.tabCharacter.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCharacter.Size = new System.Drawing.Size(397, 361);
+            this.tabCharacter.Size = new System.Drawing.Size(395, 369);
             this.tabCharacter.TabIndex = 0;
             this.tabCharacter.Text = "Character";
             this.tabCharacter.UseVisualStyleBackColor = true;
@@ -225,7 +233,7 @@
             // 
             this.btnDungeon1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon1.AutoSize = true;
-            this.btnDungeon1.Location = new System.Drawing.Point(10, 297);
+            this.btnDungeon1.Location = new System.Drawing.Point(10, 310);
             this.btnDungeon1.Name = "btnDungeon1";
             this.btnDungeon1.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon1.TabIndex = 1;
@@ -237,7 +245,7 @@
             // 
             this.btnDungeon2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon2.AutoSize = true;
-            this.btnDungeon2.Location = new System.Drawing.Point(10, 329);
+            this.btnDungeon2.Location = new System.Drawing.Point(10, 342);
             this.btnDungeon2.Name = "btnDungeon2";
             this.btnDungeon2.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon2.TabIndex = 9;
@@ -274,7 +282,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(385, 164);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(386, 164);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // lblDefEvasion
@@ -370,7 +378,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hdrCooldown.Location = new System.Drawing.Point(295, 1);
             this.hdrCooldown.Name = "hdrCooldown";
-            this.hdrCooldown.Size = new System.Drawing.Size(86, 31);
+            this.hdrCooldown.Size = new System.Drawing.Size(87, 31);
             this.hdrCooldown.TabIndex = 0;
             this.hdrCooldown.Text = "Cooldown";
             this.hdrCooldown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -382,7 +390,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAttackCooldown.Location = new System.Drawing.Point(295, 33);
             this.lblAttackCooldown.Name = "lblAttackCooldown";
-            this.lblAttackCooldown.Size = new System.Drawing.Size(86, 35);
+            this.lblAttackCooldown.Size = new System.Drawing.Size(87, 35);
             this.lblAttackCooldown.TabIndex = 0;
             this.lblAttackCooldown.Text = "1.0";
             this.lblAttackCooldown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -419,7 +427,7 @@
             this.lblCharXP.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblCharXP.Location = new System.Drawing.Point(6, 66);
             this.lblCharXP.Name = "lblCharXP";
-            this.lblCharXP.Size = new System.Drawing.Size(385, 21);
+            this.lblCharXP.Size = new System.Drawing.Size(386, 21);
             this.lblCharXP.TabIndex = 3;
             this.lblCharXP.Text = "XP: 0 / 500";
             this.lblCharXP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -432,7 +440,7 @@
             this.lblCharLevel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblCharLevel.Location = new System.Drawing.Point(6, 33);
             this.lblCharLevel.Name = "lblCharLevel";
-            this.lblCharLevel.Size = new System.Drawing.Size(385, 21);
+            this.lblCharLevel.Size = new System.Drawing.Size(386, 21);
             this.lblCharLevel.TabIndex = 2;
             this.lblCharLevel.Text = "Level 1";
             this.lblCharLevel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -444,7 +452,7 @@
             this.lblCharName.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblCharName.Location = new System.Drawing.Point(6, 3);
             this.lblCharName.Name = "lblCharName";
-            this.lblCharName.Size = new System.Drawing.Size(385, 30);
+            this.lblCharName.Size = new System.Drawing.Size(386, 30);
             this.lblCharName.TabIndex = 0;
             this.lblCharName.Text = "Leeroy ";
             this.lblCharName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -459,7 +467,7 @@
             this.tabInventory.Location = new System.Drawing.Point(4, 24);
             this.tabInventory.Name = "tabInventory";
             this.tabInventory.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInventory.Size = new System.Drawing.Size(397, 361);
+            this.tabInventory.Size = new System.Drawing.Size(394, 369);
             this.tabInventory.TabIndex = 2;
             this.tabInventory.Text = "Inventory";
             this.tabInventory.UseVisualStyleBackColor = true;
@@ -507,19 +515,17 @@
             this.gridInventory.AllowUserToAddRows = false;
             this.gridInventory.AllowUserToDeleteRows = false;
             this.gridInventory.AllowUserToResizeRows = false;
-            this.gridInventory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridInventory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.gridInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridInventory.Location = new System.Drawing.Point(6, 84);
+            this.gridInventory.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.gridInventory.Location = new System.Drawing.Point(3, 82);
             this.gridInventory.MultiSelect = false;
             this.gridInventory.Name = "gridInventory";
             this.gridInventory.ReadOnly = true;
             this.gridInventory.RowHeadersVisible = false;
             this.gridInventory.RowTemplate.Height = 25;
             this.gridInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridInventory.Size = new System.Drawing.Size(385, 242);
+            this.gridInventory.Size = new System.Drawing.Size(388, 284);
             this.gridInventory.TabIndex = 0;
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
             // 
@@ -529,25 +535,51 @@
             this.tabAbilities.Location = new System.Drawing.Point(4, 24);
             this.tabAbilities.Name = "tabAbilities";
             this.tabAbilities.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAbilities.Size = new System.Drawing.Size(397, 361);
+            this.tabAbilities.Size = new System.Drawing.Size(394, 369);
             this.tabAbilities.TabIndex = 3;
             this.tabAbilities.Text = "Abilities";
             this.tabAbilities.UseVisualStyleBackColor = true;
             // 
             // gridAbilities
             // 
-            this.gridAbilities.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridAbilities.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridAbilities.Location = new System.Drawing.Point(6, 6);
+            this.gridAbilities.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridAbilities.Location = new System.Drawing.Point(3, 3);
             this.gridAbilities.Name = "gridAbilities";
             this.gridAbilities.ReadOnly = true;
             this.gridAbilities.RowHeadersVisible = false;
             this.gridAbilities.RowTemplate.Height = 25;
             this.gridAbilities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAbilities.Size = new System.Drawing.Size(385, 323);
+            this.gridAbilities.Size = new System.Drawing.Size(388, 363);
             this.gridAbilities.TabIndex = 0;
+            // 
+            // tabAchievements
+            // 
+            this.tabAchievements.Controls.Add(this.gridAchievements);
+            this.tabAchievements.Location = new System.Drawing.Point(4, 24);
+            this.tabAchievements.Name = "tabAchievements";
+            this.tabAchievements.Size = new System.Drawing.Size(395, 369);
+            this.tabAchievements.TabIndex = 4;
+            this.tabAchievements.Text = "Achievements";
+            this.tabAchievements.UseVisualStyleBackColor = true;
+            // 
+            // gridAchievements
+            // 
+            this.gridAchievements.AllowUserToAddRows = false;
+            this.gridAchievements.AllowUserToDeleteRows = false;
+            this.gridAchievements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridAchievements.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.colEarned,
+            this.Title,
+            this.colDescription});
+            this.gridAchievements.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridAchievements.Location = new System.Drawing.Point(0, 0);
+            this.gridAchievements.Name = "gridAchievements";
+            this.gridAchievements.ReadOnly = true;
+            this.gridAchievements.RowHeadersVisible = false;
+            this.gridAchievements.RowTemplate.Height = 25;
+            this.gridAchievements.Size = new System.Drawing.Size(395, 369);
+            this.gridAchievements.TabIndex = 0;
             // 
             // tabLog
             // 
@@ -555,21 +587,19 @@
             this.tabLog.Location = new System.Drawing.Point(4, 24);
             this.tabLog.Name = "tabLog";
             this.tabLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLog.Size = new System.Drawing.Size(397, 361);
+            this.tabLog.Size = new System.Drawing.Size(394, 369);
             this.tabLog.TabIndex = 1;
             this.tabLog.Text = "Log";
             this.tabLog.UseVisualStyleBackColor = true;
             // 
             // textBoxLog
             // 
-            this.textBoxLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxLog.Location = new System.Drawing.Point(16, 4);
+            this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxLog.Location = new System.Drawing.Point(3, 3);
             this.textBoxLog.MaxLength = 3276700;
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
-            this.textBoxLog.Size = new System.Drawing.Size(375, 328);
+            this.textBoxLog.Size = new System.Drawing.Size(388, 363);
             this.textBoxLog.TabIndex = 0;
             // 
             // timerTick
@@ -585,11 +615,34 @@
             this.toolTip.ReshowDelay = 20;
             this.toolTip.ShowAlways = true;
             // 
+            // colEarned
+            // 
+            this.colEarned.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.colEarned.HeaderText = "     ";
+            this.colEarned.Name = "colEarned";
+            this.colEarned.ReadOnly = true;
+            this.colEarned.Width = 25;
+            // 
+            // Title
+            // 
+            this.Title.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Title.HeaderText = "Title";
+            this.Title.Name = "Title";
+            this.Title.ReadOnly = true;
+            this.Title.Width = 54;
+            // 
+            // colDescription
+            // 
+            this.colDescription.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colDescription.HeaderText = "Description";
+            this.colDescription.Name = "colDescription";
+            this.colDescription.ReadOnly = true;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(772, 395);
+            this.ClientSize = new System.Drawing.Size(765, 403);
             this.Controls.Add(this.splitContainer1);
             this.Name = "MainWindow";
             this.Text = "The Idle Scrolls";
@@ -608,6 +661,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridInventory)).EndInit();
             this.tabAbilities.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridAbilities)).EndInit();
+            this.tabAchievements.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridAchievements)).EndInit();
             this.tabLog.ResumeLayout(false);
             this.tabLog.PerformLayout();
             this.ResumeLayout(false);
@@ -655,5 +710,10 @@
         private Label label1;
         private Button btnDungeon1;
         private Button btnDungeon2;
+        private TabPage tabAchievements;
+        private DataGridView gridAchievements;
+        private DataGridViewCheckBoxColumn colEarned;
+        private DataGridViewTextBoxColumn Title;
+        private DataGridViewTextBoxColumn colDescription;
     }
 }

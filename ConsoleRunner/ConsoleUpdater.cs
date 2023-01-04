@@ -44,5 +44,7 @@ namespace ConsoleRunner
         public void DisplayMessage(string title, string message) { }
 
         public void SetAccessibleAreas(int maxWilderness, List<DungeonRepresentation> dungeons) { }
+
+        public void SetAchievements(List<AchievementRepresentation> achievements) { }
     }
 }

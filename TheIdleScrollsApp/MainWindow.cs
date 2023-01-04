@@ -219,6 +219,16 @@ namespace TheIdleScrollsApp
             }
         }
 
+        public void SetAchievements(List<AchievementRepresentation> achievements)
+        {
+            gridAchievements.Rows.Clear();
+            foreach (var a in achievements)
+            {
+                var idx = gridAchievements.Rows.Add(a.Earned, a.Title, a.Description);
+                //gridAchievements.Rows[idx].DefaultCellStyle(new DataGridViewCellStyle() { })
+            }
+        }
+
         private void btnDungeon_Click(object sender, EventArgs e)
         {
             var dungeonId = ((Button)sender).Tag;

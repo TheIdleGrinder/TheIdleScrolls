@@ -140,6 +140,19 @@ namespace TheIdleScrolls_Core.Systems
                 m_appModel?.SetAccessibleAreas(maxWilderness, dungeons);
             }
 
+            // Update achievements
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>())
+            {
+                var achComp = player.GetComponent<AchievementsComponent>();
+                if (achComp != null)
+                {
+                    List<AchievementRepresentation> achievements = achComp.Achievements.Select(a =>
+                        new AchievementRepresentation(a.Title, a.Description, a.Status == Achievements.AchievementStatus.Awarded)
+                    ).ToList();
+                    m_appModel?.SetAchievements(achievements);
+                }
+            }
+
             // Update time limit
             m_appModel?.SetTimeLimit(world.TimeLimit.Remaining, world.TimeLimit.Duration);
 

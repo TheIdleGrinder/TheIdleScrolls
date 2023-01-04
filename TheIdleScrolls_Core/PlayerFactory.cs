@@ -27,6 +27,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new XpGainerComponent());
             player.AddComponent(new PlayerProgressComponent());
             player.AddComponent(new AbilitiesComponent());
+            player.AddComponent(new AchievementsComponent());
 
             return player;
         }

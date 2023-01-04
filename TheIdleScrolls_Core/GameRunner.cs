@@ -48,6 +48,7 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new StatUpdateSystem());
             m_systems.Add(new DungeonSystem());
             m_systems.Add(new PlayerProgressSystem());
+            m_systems.Add(new AchievementsSystem());
             m_systems.Add(new SaveSystem(dataHandler));
             m_systems.Add(m_appUpdateSystem);
         }

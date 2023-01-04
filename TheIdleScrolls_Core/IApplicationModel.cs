@@ -34,6 +34,8 @@ namespace TheIdleScrolls_Core
 
         public void SetAccessibleAreas(int maxWilderness, List<DungeonRepresentation> dungeons);
 
+        public void SetAchievements(List<AchievementRepresentation> achievements);
+
         public void DisplayMessage(string title, string message);
 
         public void AddLogMessages(List<string> messages);
@@ -54,4 +56,5 @@ namespace TheIdleScrolls_Core
     public record AbilityRepresentation(string Key, string Name, int Level, int XP, int TargetXP);
     public record MobRepresentation(uint Id, string Name, int Level, int HP, int HpMax);
     public record DungeonRepresentation(string Id, string Name);
+    public record AchievementRepresentation(string Title, string Description, bool Earned);
 }

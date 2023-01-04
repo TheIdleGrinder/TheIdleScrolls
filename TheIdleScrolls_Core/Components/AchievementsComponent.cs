@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using TheIdleScrolls_Core.Achievements;
 
 namespace TheIdleScrolls_Core.Components
 {
-    public class AchievementsComponent
+    public class AchievementsComponent : IComponent
     {
         public List<Achievement> Achievements { get; set; } = new();
 

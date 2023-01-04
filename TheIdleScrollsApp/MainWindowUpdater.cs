@@ -108,5 +108,10 @@ namespace TheIdleScrollsApp
         {
             GetTargetOrNull()?.SetAccessibleAreas(maxWilderness, dungeons);
         }
+
+        public void SetAchievements(List<AchievementRepresentation> achievements)
+        {
+            GetTargetOrNull()?.SetAchievements(achievements);
+        }
     }
 }
