@@ -16,6 +16,7 @@ namespace TheIdleScrolls_Core.Achievements
         public string Id { get; set; } = "";
         public string Prerequisite { get; set; } = "";
         public string Condition { get; set; } = "";
+        public bool Hidden { get; set; } = false; // Achievement is hidden until it has been earned
         public string Title { get; set; } = "";
         public string Description { get; set; } = "";
     }

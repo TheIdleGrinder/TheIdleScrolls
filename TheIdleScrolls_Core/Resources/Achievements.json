@@ -93,7 +93,7 @@
       "Id": "KILL500",
       "Prerequisite": "KILL200",
       "Condition": "Kills >= 500",
-      "Title": "Warlord",
+      "Title": "Slayer",
       "Description": "Defeat 500 enemies with a single character"
     },
     {
@@ -221,6 +221,13 @@
       "Description": "Train all abilities to level 100 with a single character"
     },
     {
+      "Id": "CHEAT",
+      "Prerequisite": "AoALL",
+      "Condition": "1",
+      "Title": "J'accuse!",
+      "Description": "Caught the cheater ;-)"
+    },
+    {
       "Id": "Instructions Unclear",
       "Condition": "Losses > 0 && Level < 12",
       "Title": "Instructions Unclear",
@@ -229,18 +236,20 @@
     {
       "Id": "NOCRYPT",
       "Condition": "dng:CRYPT <= 0 && dng:LGHTHS > 0",
+      "Hidden": true,
       "Title": "Untainted",
       "Description": "Complete the Lighthouse before the Crypt"
     },
     {
-      "Id": "NOARM",
+      "Id": "NOARMOR",
       "Condition": "dng:LGHTHS > 0 && abl:LAR <= 10 && abl:HAR <= 10",
+      "Hidden":  false,
       "Title": "Wollt Ihr Ewig Leben?!",
       "Description": "Complete the Lighthouse without ever raising an armor ability"
     },
     {
-      "Id": "HC:NOARM",
-      "Prerequisite": "NOARM",
+      "Id": "HC:NOARMOR",
+      "Prerequisite": "NOARMOR",
       "Condition": "dng:LGHTHS > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
       "Title": "Kensai",
       "Description": "Complete the Lighthouse without ever raising an armor ability or losing a fight"

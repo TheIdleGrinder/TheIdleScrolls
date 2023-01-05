@@ -276,6 +276,10 @@ namespace TheIdleScrollsApp
             m_inputHandler.SetAutoProceed(cbNextAfterWin.Checked);
         }
 
+        private void gridAchievements_SelectionChanged(object sender, EventArgs e)
+        {
+            gridAchievements.CurrentRow.Selected = false;
+        }
     }
 
     //public class InventoryItem

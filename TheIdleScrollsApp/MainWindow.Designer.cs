@@ -66,13 +66,13 @@
             this.gridAbilities = new System.Windows.Forms.DataGridView();
             this.tabAchievements = new System.Windows.Forms.TabPage();
             this.gridAchievements = new System.Windows.Forms.DataGridView();
+            this.colEarned = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabLog = new System.Windows.Forms.TabPage();
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.timerTick = new System.Windows.Forms.Timer(this.components);
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.colEarned = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDescription = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -467,7 +467,7 @@
             this.tabInventory.Location = new System.Drawing.Point(4, 24);
             this.tabInventory.Name = "tabInventory";
             this.tabInventory.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInventory.Size = new System.Drawing.Size(394, 369);
+            this.tabInventory.Size = new System.Drawing.Size(395, 369);
             this.tabInventory.TabIndex = 2;
             this.tabInventory.Text = "Inventory";
             this.tabInventory.UseVisualStyleBackColor = true;
@@ -518,14 +518,14 @@
             this.gridInventory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.gridInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridInventory.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.gridInventory.Location = new System.Drawing.Point(3, 82);
+            this.gridInventory.Location = new System.Drawing.Point(3, 69);
             this.gridInventory.MultiSelect = false;
             this.gridInventory.Name = "gridInventory";
             this.gridInventory.ReadOnly = true;
             this.gridInventory.RowHeadersVisible = false;
             this.gridInventory.RowTemplate.Height = 25;
             this.gridInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridInventory.Size = new System.Drawing.Size(388, 284);
+            this.gridInventory.Size = new System.Drawing.Size(389, 297);
             this.gridInventory.TabIndex = 0;
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
             // 
@@ -535,7 +535,7 @@
             this.tabAbilities.Location = new System.Drawing.Point(4, 24);
             this.tabAbilities.Name = "tabAbilities";
             this.tabAbilities.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAbilities.Size = new System.Drawing.Size(394, 369);
+            this.tabAbilities.Size = new System.Drawing.Size(395, 369);
             this.tabAbilities.TabIndex = 3;
             this.tabAbilities.Text = "Abilities";
             this.tabAbilities.UseVisualStyleBackColor = true;
@@ -550,7 +550,7 @@
             this.gridAbilities.RowHeadersVisible = false;
             this.gridAbilities.RowTemplate.Height = 25;
             this.gridAbilities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAbilities.Size = new System.Drawing.Size(388, 363);
+            this.gridAbilities.Size = new System.Drawing.Size(389, 363);
             this.gridAbilities.TabIndex = 0;
             // 
             // tabAchievements
@@ -567,6 +567,7 @@
             // 
             this.gridAchievements.AllowUserToAddRows = false;
             this.gridAchievements.AllowUserToDeleteRows = false;
+            this.gridAchievements.AllowUserToResizeRows = false;
             this.gridAchievements.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.gridAchievements.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colEarned,
@@ -580,40 +581,7 @@
             this.gridAchievements.RowTemplate.Height = 25;
             this.gridAchievements.Size = new System.Drawing.Size(395, 369);
             this.gridAchievements.TabIndex = 0;
-            // 
-            // tabLog
-            // 
-            this.tabLog.Controls.Add(this.textBoxLog);
-            this.tabLog.Location = new System.Drawing.Point(4, 24);
-            this.tabLog.Name = "tabLog";
-            this.tabLog.Padding = new System.Windows.Forms.Padding(3);
-            this.tabLog.Size = new System.Drawing.Size(394, 369);
-            this.tabLog.TabIndex = 1;
-            this.tabLog.Text = "Log";
-            this.tabLog.UseVisualStyleBackColor = true;
-            // 
-            // textBoxLog
-            // 
-            this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxLog.Location = new System.Drawing.Point(3, 3);
-            this.textBoxLog.MaxLength = 3276700;
-            this.textBoxLog.Multiline = true;
-            this.textBoxLog.Name = "textBoxLog";
-            this.textBoxLog.Size = new System.Drawing.Size(388, 363);
-            this.textBoxLog.TabIndex = 0;
-            // 
-            // timerTick
-            // 
-            this.timerTick.Enabled = true;
-            this.timerTick.Tick += new System.EventHandler(this.timerTick_Tick);
-            // 
-            // toolTip
-            // 
-            this.toolTip.AutomaticDelay = 100;
-            this.toolTip.AutoPopDelay = 5000;
-            this.toolTip.InitialDelay = 100;
-            this.toolTip.ReshowDelay = 20;
-            this.toolTip.ShowAlways = true;
+            this.gridAchievements.SelectionChanged += new System.EventHandler(this.gridAchievements_SelectionChanged);
             // 
             // colEarned
             // 
@@ -637,6 +605,40 @@
             this.colDescription.HeaderText = "Description";
             this.colDescription.Name = "colDescription";
             this.colDescription.ReadOnly = true;
+            // 
+            // tabLog
+            // 
+            this.tabLog.Controls.Add(this.textBoxLog);
+            this.tabLog.Location = new System.Drawing.Point(4, 24);
+            this.tabLog.Name = "tabLog";
+            this.tabLog.Padding = new System.Windows.Forms.Padding(3);
+            this.tabLog.Size = new System.Drawing.Size(395, 369);
+            this.tabLog.TabIndex = 1;
+            this.tabLog.Text = "Log";
+            this.tabLog.UseVisualStyleBackColor = true;
+            // 
+            // textBoxLog
+            // 
+            this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxLog.Location = new System.Drawing.Point(3, 3);
+            this.textBoxLog.MaxLength = 3276700;
+            this.textBoxLog.Multiline = true;
+            this.textBoxLog.Name = "textBoxLog";
+            this.textBoxLog.Size = new System.Drawing.Size(389, 363);
+            this.textBoxLog.TabIndex = 0;
+            // 
+            // timerTick
+            // 
+            this.timerTick.Enabled = true;
+            this.timerTick.Tick += new System.EventHandler(this.timerTick_Tick);
+            // 
+            // toolTip
+            // 
+            this.toolTip.AutomaticDelay = 100;
+            this.toolTip.AutoPopDelay = 5000;
+            this.toolTip.InitialDelay = 100;
+            this.toolTip.ReshowDelay = 20;
+            this.toolTip.ShowAlways = true;
             // 
             // MainWindow
             // 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Utility;
@@ -146,9 +147,13 @@ namespace TheIdleScrolls_Core.Systems
                 var achComp = coordinator.GetEntities<AchievementsComponent>().FirstOrDefault()?.GetComponent<AchievementsComponent>();
                 if (achComp != null)
                 {
+                    const string hiddenInfo = "?????????? (Secret achievement)";
                     List<AchievementRepresentation> achievements = achComp.Achievements
                         .Where(a => a.Status != Achievements.AchievementStatus.Unavailable)
-                        .Select(a => new AchievementRepresentation(a.Title, a.Description, a.Status == Achievements.AchievementStatus.Awarded)
+                        .Select(a => new AchievementRepresentation(
+                            a.Title,
+                            (a.Hidden && a.Status != AchievementStatus.Awarded) ? hiddenInfo : a.Description, 
+                            a.Status == Achievements.AchievementStatus.Awarded)
                     ).ToList();
                     m_appModel?.SetAchievements(achievements);
                 }
