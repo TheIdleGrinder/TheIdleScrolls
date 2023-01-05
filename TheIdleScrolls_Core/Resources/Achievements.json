@@ -14,22 +14,243 @@
       "Description": "Reach level 20"
     },
     {
+      "Id": "LVL30",
+      "Prerequisite": "LVL20",
+      "Condition": "Level >= 30",
+      "Title": "Level 30",
+      "Description": "Reach level 30"
+    },
+    {
+      "Id": "LVL40",
+      "Prerequisite": "LVL30",
+      "Condition": "Level >= 40",
+      "Title": "Level 40",
+      "Description": "Reach level 40"
+    },
+    {
+      "Id": "LVL50",
+      "Prerequisite": "LVL40",
+      "Condition": "Level >= 50",
+      "Title": "Level 50",
+      "Description": "Reach level 50"
+    },
+    {
+      "Id": "LVL75",
+      "Prerequisite": "LVL50",
+      "Condition": "Level >= 75",
+      "Title": "Level 75",
+      "Description": "Reach level 75"
+    },
+    {
+      "Id": "LVL100",
+      "Prerequisite": "LVL75",
+      "Condition": "Level >= 100",
+      "Title": "Level 100",
+      "Description": "Reach level 100"
+    },
+    {
+      "Id": "WILD15",
+      "Condition": "Wilderness >= 15",
+      "Title": "Cryptfinder",
+      "Description": "Defeat a level 15 enemy in the wilderness"
+    },
+    {
+      "Id": "WILD25",
+      "Prerequisite": "WILD15",
+      "Condition": "Wilderness >= 25",
+      "Title": "To the Lighthouse",
+      "Description": "Defeat a level 25 enemy in the wilderness"
+    },
+    {
+      "Id": "WILD50",
+      "Prerequisite": "WILD25",
+      "Condition": "Wilderness >= 50",
+      "Title": "Wilderness Traveller",
+      "Description": "Defeat a level 50 enemy in the wilderness"
+    },
+    {
+      "Id": "WILD75",
+      "Prerequisite": "WILD50",
+      "Condition": "Wilderness >= 75",
+      "Title": "Wilderness Explorer",
+      "Description": "Defeat a level 75 enemy in the wilderness"
+    },
+    {
+      "Id": "KILL50",
+      "Prerequisite": "",
+      "Condition": "Kills >= 50",
+      "Title": "Brawler",
+      "Description": "Defeat 50 enemies with a single character"
+    },
+    {
+      "Id": "KILL200",
+      "Prerequisite": "KILL50",
+      "Condition": "Kills >= 200",
+      "Title": "Warrior",
+      "Description": "Defeat 200 enemies with a single character"
+    },
+    {
+      "Id": "KILL500",
+      "Prerequisite": "KILL200",
+      "Condition": "Kills >= 500",
+      "Title": "Warlord",
+      "Description": "Defeat 500 enemies with a single character"
+    },
+    {
+      "Id": "KILL1k",
+      "Prerequisite": "KILL500",
+      "Condition": "Kills >= 1000",
+      "Title": "Exterminator",
+      "Description": "Defeat 1000 enemies with a single character"
+    },
+    {
+      "Id": "KILL5k",
+      "Prerequisite": "KILL1k",
+      "Condition": "Kills >= 4800",
+      "Title": "Legion Slayer",
+      "Description": "Defeat 4800 enemies with a single character"
+    },
+    {
       "Id": "DNG:CRYPT",
+      "Prerequisite": "WILD15",
       "Condition": "dng:CRYPT > 0",
       "Title": "Cryptkeeper",
       "Description": "Complete the Crypt"
     },
     {
+      "Id": "DNG:LGHTHS",
+      "Prerequisite": "WILD25",
+      "Condition": "dng:LGHTHS > 0",
+      "Title": "So That All May Find You",
+      "Description": "Complete the Lighthouse"
+    },
+    {
       "Id": "HC:CRYPT",
+      "Prerequisite": "DNG:CRYPT",
       "Condition": "dng:CRYPT > 0 && Losses == 0",
       "Title": "Attentive Grinder",
-      "Description": "Complete the Crypt before losing a fight"
+      "Description": "Complete the Crypt without ever losing a fight"
+    },
+    {
+      "Id": "HC:LGHTHS",
+      "Prerequisite": "DNG:LGHTHS",
+      "Condition": "dng:LGHTHS > 0 && Losses == 0",
+      "Title": "Hardcore",
+      "Description": "Complete the Lighthouse without ever losing a fight"
+    },
+    {
+      "Id": "WEAP25",
+      "Condition": "abl:AXE >= 25 || abl:BLN >= 25 || abl:LBL >= 25 || abl:POL >= 25 || abl:SBL >= 25",
+      "Title": "Weapon Apprentice",
+      "Description": "Reach ability level 25 for any weapon type"
+    },
+    {
+      "Id": "WEAP50",
+      "Prerequisite": "WEAP25",
+      "Condition": "abl:AXE >= 50 || abl:BLN >= 50 || abl:LBL >= 50 || abl:POL >= 50 || abl:SBL >= 50",
+      "Title": "Weapon Adept",
+      "Description": "Reach ability level 50 for any weapon type"
+    },
+    {
+      "Id": "WEAP75",
+      "Prerequisite": "WEAP50",
+      "Condition": "abl:AXE >= 75 || abl:BLN >= 75 || abl:LBL >= 75 || abl:POL >= 75 || abl:SBL >= 75",
+      "Title": "Weapon Expert",
+      "Description": "Reach ability level 75 for any weapon type"
+    },
+    {
+      "Id": "WEAP100",
+      "Prerequisite": "WEAP75",
+      "Condition": "abl:AXE >= 100 || abl:BLN >= 100 || abl:LBL >= 100 || abl:POL >= 100 || abl:SBL >= 100",
+      "Title": "Weapon Master",
+      "Description": "Reach ability level 100 for any weapon type"
     },
     {
       "Id": "ARMOR25",
       "Condition": "abl:LAR >= 25 || abl:HAR >= 25",
       "Title": "Armor Apprentice",
       "Description": "Reach ability level 25 for any armor type"
+    },
+    {
+      "Id": "ARMOR50",
+      "Prerequisite": "ARMOR25",
+      "Condition": "abl:LAR >= 50 || abl:HAR >= 50",
+      "Title": "Armor Adept",
+      "Description": "Reach ability level 50 for any armor type"
+    },
+    {
+      "Id": "ARMOR75",
+      "Prerequisite": "ARMOR50",
+      "Condition": "abl:LAR >= 75 || abl:HAR >= 75",
+      "Title": "Armor Expert",
+      "Description": "Reach ability level 75 for any armor type"
+    },
+    {
+      "Id": "ARMOR100",
+      "Prerequisite": "ARMOR75",
+      "Condition": "abl:LAR >= 100 || abl:HAR >= 100",
+      "Title": "Armor Master",
+      "Description": "Reach ability level 100 for any armor type"
+    },
+    {
+      "Id": "JoALL",
+      "Prerequisite": "",
+      "Condition": "abl:AXE >= 25 && abl:BLN >= 25 && abl:LBL >= 25 && abl:POL >= 25 && abl:SBL >= 25 && abl:LAR >= 25 && abl:HAR >= 25",
+      "Title": "Jack of All Trades",
+      "Description": "Train all abilities to level 25 with a single character"
+    },
+    {
+      "Id": "QoALL",
+      "Prerequisite": "JoALL",
+      "Condition": "abl:AXE >= 50 && abl:BLN >= 50 && abl:LBL >= 50 && abl:POL >= 50 && abl:SBL >= 50 && abl:LAR >= 50 && abl:HAR >= 50",
+      "Title": "Queen of All Trades",
+      "Description": "Train all abilities to level 50 with a single character"
+    },
+    {
+      "Id": "KoALL",
+      "Prerequisite": "QoALL",
+      "Condition": "abl:AXE >= 75 && abl:BLN >= 75 && abl:LBL >= 75 && abl:POL >= 75 && abl:SBL >= 75 && abl:LAR >= 75 && abl:HAR >= 75",
+      "Title": "King of All Trades",
+      "Description": "Train all abilities to level 75 with a single character"
+    },
+    {
+      "Id": "AoALL",
+      "Prerequisite": "KoALL",
+      "Condition": "abl:AXE >= 100 && abl:BLN >= 100 && abl:LBL >= 100 && abl:POL >= 100 && abl:SBL >= 100 && abl:LAR >= 100 && abl:HAR >= 100",
+      "Title": "Ace of All Trades",
+      "Description": "Train all abilities to level 100 with a single character"
+    },
+    {
+      "Id": "Instructions Unclear",
+      "Condition": "Losses > 0 && Level < 12",
+      "Title": "Instructions Unclear",
+      "Description": "Lose a fight before reaching level 12"
+    },
+    {
+      "Id": "NOCRYPT",
+      "Condition": "dng:CRYPT <= 0 && dng:LGHTHS > 0",
+      "Title": "Untainted",
+      "Description": "Complete the Lighthouse before the Crypt"
+    },
+    {
+      "Id": "NOARM",
+      "Condition": "dng:LGHTHS > 0 && abl:LAR <= 10 && abl:HAR <= 10",
+      "Title": "Wollt Ihr Ewig Leben?!",
+      "Description": "Complete the Lighthouse without ever raising an armor ability"
+    },
+    {
+      "Id": "HC:NOARM",
+      "Prerequisite": "NOARM",
+      "Condition": "dng:LGHTHS > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
+      "Title": "Kensai",
+      "Description": "Complete the Lighthouse without ever raising an armor ability or losing a fight"
+    },
+    {
+      "Id": "SPEED",
+      "Prerequisite": "",
+      "Condition": "dng:LGHTHS > 0 && Playtime < 1111",
+      "Title": "Speedrun",
+      "Description": "Complete the Lighthouse in less than 1111 seconds"
     }
   ]
 }

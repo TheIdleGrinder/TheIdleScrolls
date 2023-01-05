@@ -146,8 +146,9 @@ namespace TheIdleScrolls_Core.Systems
                 var achComp = coordinator.GetEntities<AchievementsComponent>().FirstOrDefault()?.GetComponent<AchievementsComponent>();
                 if (achComp != null)
                 {
-                    List<AchievementRepresentation> achievements = achComp.Achievements.Select(a =>
-                        new AchievementRepresentation(a.Title, a.Description, a.Status == Achievements.AchievementStatus.Awarded)
+                    List<AchievementRepresentation> achievements = achComp.Achievements
+                        .Where(a => a.Status != Achievements.AchievementStatus.Unavailable)
+                        .Select(a => new AchievementRepresentation(a.Title, a.Description, a.Status == Achievements.AchievementStatus.Awarded)
                     ).ToList();
                     m_appModel?.SetAchievements(achievements);
                 }

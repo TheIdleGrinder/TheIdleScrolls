@@ -51,6 +51,10 @@ namespace TheIdleScrolls_Core.Achievements
             {
                 return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.Losses ?? 0);
             }
+            else if (m_fieldId == "Wilderness")
+            {
+                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.HighestWildernessKill ?? 0);
+            }
             else if (m_fieldId == "Playtime")
             {
                 return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.Playtime ?? 0.0);
