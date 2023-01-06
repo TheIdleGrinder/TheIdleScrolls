@@ -1,6 +1,13 @@
 ﻿{
   "Achievements": [
     {
+      "Id": "CHEAT",
+      "Prerequisite": "AoALL",
+      "Condition": "1",
+      "Title": "J'accuse!",
+      "Description": "Caught the cheater ;-)"
+    },
+    {
       "Id": "LVL10",
       "Condition": "Level >= 10",
       "Title": "Level 10",
@@ -221,13 +228,6 @@
       "Description": "Train all abilities to level 100 with a single character"
     },
     {
-      "Id": "CHEAT",
-      "Prerequisite": "AoALL",
-      "Condition": "1",
-      "Title": "J'accuse!",
-      "Description": "Caught the cheater ;-)"
-    },
-    {
       "Id": "Instructions Unclear",
       "Condition": "Losses > 0 && Level < 12",
       "Title": "Instructions Unclear",
@@ -243,7 +243,7 @@
     {
       "Id": "NOARMOR",
       "Condition": "dng:LGHTHS > 0 && abl:LAR <= 10 && abl:HAR <= 10",
-      "Hidden":  false,
+      "Hidden": false,
       "Title": "Wollt Ihr Ewig Leben?!",
       "Description": "Complete the Lighthouse without ever raising an armor ability"
     },
