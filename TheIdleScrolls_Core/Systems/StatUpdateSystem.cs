@@ -25,7 +25,8 @@ namespace TheIdleScrolls_Core.Systems
             bool doUpdate = m_firstUpdate
                 || coordinator.MessageTypeIsOnBoard<LevelUpSystem.LevelUpMessage>()
                 || coordinator.MessageTypeIsOnBoard<ItemMovedMessage>()
-                || coordinator.MessageTypeIsOnBoard<AbilityImprovedMessage>();
+                || coordinator.MessageTypeIsOnBoard<AbilityImprovedMessage>()
+                || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>();
 
             if (!doUpdate)
                 return;
@@ -55,7 +56,6 @@ namespace TheIdleScrolls_Core.Systems
                 double combinedCD = 0.0;
                 int weaponCount = 0;
                 int armorCount = 0;
-                
 
                 foreach (var item in equipComp.GetItems())
                 {
@@ -93,6 +93,17 @@ namespace TheIdleScrolls_Core.Systems
 
                         armor += localArmor;
                         evasion += localEvasion;
+                    }
+                }
+
+                if (armorCount == 0)
+                {
+                    var achComp = coordinator.GetEntities<AchievementsComponent>()?.FirstOrDefault()?.GetComponent<AchievementsComponent>();
+                    if (achComp != null && level >= 7) // CornerCut: Hardcoded level and names
+                    {
+                        // Add 1 evasion per level for each earned achievement in the Kensai-line
+                        int kensais = achComp.Achievements.Count(a => a.Id.Contains("NOARMOR") && a.Status == Achievements.AchievementStatus.Awarded);
+                        evasion += level * kensais;
                     }
                 }
 

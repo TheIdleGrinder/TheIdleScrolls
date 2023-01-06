@@ -158,6 +158,16 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n\nFeel free to keep grinding and earning achievements or reset your character to try for a faster time!"));
                     
             }
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Evasion)
+                && (m_player.GetComponent<DefenseComponent>()?.Evasion ?? 0) > 0)
+            {
+                progComp.Data.TutorialProgress.Add(TutorialStep.Evasion);
+                var perLevel = m_player.GetComponent<DefenseComponent>()?.Evasion / m_player.GetLevel();
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.Evasion, "Travelling Light",
+                    $"You have proven your prowess in unarmored combat. Fighting with no armor now grants you {perLevel} " +
+                    $"points to you evasion rating per level. Evasion increases the length of time limits by 1% per point."));
+            }
         }
     }
 

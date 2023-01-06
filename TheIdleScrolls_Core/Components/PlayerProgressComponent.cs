@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace TheIdleScrolls_Core.Components
 {
     public enum TutorialStep { Start, Inventory, MobAttacks, Armor, Abilities, 
-        Travel, Defeated, DungeonOpen, DungeonComplete, Finished }
+        Travel, Defeated, DungeonOpen, DungeonComplete, Finished, Evasion }
 
     public class PlayerProgressComponent : IComponent
     {
