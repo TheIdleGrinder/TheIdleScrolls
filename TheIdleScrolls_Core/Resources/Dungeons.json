@@ -81,22 +81,22 @@
           "MobCount": 3,
           "TimeMultiplier": 2.0,
           "MobTypes": [
-            "Flame Seeker"
+            "Cultist"
           ]
         },
         {
           "MobCount": 4,
           "TimeMultiplier": 2.5,
           "MobTypes": [
-            "Flame Seeker",
-            "Void Spark"
+            "Shadow Fiend",
+            "Cultist"
           ]
         },
         {
           "MobCount": 8,
           "TimeMultiplier": 5.0,
           "MobTypes": [
-            "Void Spark"
+            "Shadow Fiend"
           ]
         },
         {
@@ -109,14 +109,14 @@
       ],
       "LocalMobs": [
         {
-          "Name": "Void Spark",
+          "Name": "Cultist",
           "HP": 1.3,
           "Damage": 1.3
         },
         {
-          "Name": "Flame Seeker",
-          "HP": 1.5,
-          "Damage": 1.0
+          "Name": "Shadow Fiend",
+          "HP": 1.0,
+          "Damage": 1.7
         },
         {
           "Name": "Lesser Demon of the Void",

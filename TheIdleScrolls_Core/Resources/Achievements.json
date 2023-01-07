@@ -236,14 +236,12 @@
     {
       "Id": "NOCRYPT",
       "Condition": "dng:CRYPT <= 0 && dng:LGHTHS > 0",
-      "Hidden": true,
       "Title": "Untainted",
       "Description": "Complete the Lighthouse before the Crypt"
     },
     {
       "Id": "NOARMOR",
       "Condition": "dng:LGHTHS > 0 && abl:LAR <= 10 && abl:HAR <= 10",
-      "Hidden": false,
       "Title": "Wollt Ihr Ewig Leben?!",
       "Description": "Complete the Lighthouse without ever raising an armor ability"
     },
@@ -251,8 +249,35 @@
       "Id": "HC:NOARMOR",
       "Prerequisite": "NOARMOR",
       "Condition": "dng:LGHTHS > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
-      "Title": "Kensai",
+      "Title": "Not Today",
       "Description": "Complete the Lighthouse without ever raising an armor ability or losing a fight"
+    },
+    {
+      "Id": "HC:NOARMOR_50",
+      "Prerequisite": "HC:NOARMOR",
+      "Condition": "Level >= 50 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
+      "Title": "Kensai",
+      "Description": "Reach level 50 without ever raising an armor ability or losing a fight"
+    },
+    {
+      "Id": "NOWEAPON",
+      "Condition": "Level >= 15 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10",
+      "Title": "Boxer",
+      "Description": "Reach level 15 without ever raising a weapon ability"
+    },
+    {
+      "Id": "HC:NOWEAPON",
+      "Prerequisite": "NOWEAPON",
+      "Condition": "dng:LGHTHS > 0 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10",
+      "Title": "I Am The Greatest!",
+      "Description": "Complete the Lighthouse without ever raising a weapon ability or losing a fight"
+    },
+    {
+      "Id": "HC:NOWEAPON_50",
+      "Prerequisite": "HC:NOWEAPON",
+      "Condition": "Level >= 50 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10",
+      "Title": "Path of the Monk",
+      "Description": "Reach level 50 without ever raising a weapon ability or losing a fight"
     },
     {
       "Id": "SPEED",

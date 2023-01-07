@@ -5,7 +5,7 @@
       "Id": "SBL",
       "Genera": [
         {
-          "Name": "Short Sword",
+          "Name": "Simple Knife",
           "Equippable": {
             "Slot": "Hand"
           },
@@ -15,7 +15,7 @@
           }
         },
         {
-          "Name": "Curved Dagger",
+          "Name": "Dagger",
           "Equippable": {
             "Slot": "Hand"
           },
@@ -31,7 +31,7 @@
       "Id": "LBL",
       "Genera": [
         {
-          "Name": "Long Sword",
+          "Name": "Simple Sword",
           "Equippable": {
             "Slot": "Hand"
           },
@@ -41,7 +41,7 @@
           }
         },
         {
-          "Name": "Claymore",
+          "Name": "Long Sword",
           "Equippable": {
             "Slot": "Hand"
           },
@@ -57,7 +57,7 @@
       "Id": "AXE",
       "Genera": [
         {
-          "Name": "Hatchet",
+          "Name": "Simple Axe",
           "Equippable": {
             "Slot": "Hand"
           },
@@ -83,7 +83,7 @@
       "Id": "BLN",
       "Genera": [
         {
-          "Name": "Club",
+          "Name": "Simple Club",
           "Equippable": {
             "Slot": "Hand"
           },
@@ -109,7 +109,7 @@
       "Id": "POL",
       "Genera": [
         {
-          "Name": "Spear",
+          "Name": "Simple Spear",
           "Equippable": {
             "Slot": "Hand"
           },
@@ -119,7 +119,7 @@
           }
         },
         {
-          "Name": "Battle Spear",
+          "Name": "Hunting Spear",
           "Equippable": {
             "Slot": "Hand"
           },
