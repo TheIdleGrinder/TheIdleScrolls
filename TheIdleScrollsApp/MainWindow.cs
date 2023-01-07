@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Data;
 using System.Text;
 using TheIdleScrolls_Core;
@@ -113,7 +113,9 @@ namespace TheIdleScrollsApp
 
         public void SetCharacterXP(int current, int target)
         {
-            lblCharXP.Text = $"XP: {current:#,0} / {target:#,0}";
+            const int bubbles = 40;
+            int filledBubbles = (int)Math.Round((bubbles * ((double)current / target)));
+            lblCharXP.Text = $"XP: {current:#,0} / {target:#,0}\n" + new string('▰', filledBubbles) + new String('▱', bubbles - filledBubbles);
         }
 
         public void SetArea(string name, int level)
