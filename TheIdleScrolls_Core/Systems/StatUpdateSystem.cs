@@ -116,6 +116,16 @@ namespace TheIdleScrolls_Core.Systems
                         apsMulti *= 1.2; // 20% AS bonus for dual wielding, just a dummy value for now
                     }
                 }
+                else
+                {
+                    var achComp = coordinator.GetEntities<AchievementsComponent>()?.FirstOrDefault()?.GetComponent<AchievementsComponent>();
+                    if (achComp != null) // CornerCut: Hardcoded level and names
+                    {
+                        // Add 1 evasion per level for each earned achievement in the Kensai-line
+                        int monks = achComp.Achievements.Count(a => a.Id.Contains("NOWEAPON") && a.Status == Achievements.AchievementStatus.Awarded);
+                        baseDamage += level * monks * 0.1;
+                    }
+                }
             }
 
             var attackComp = player.GetComponent<AttackComponent>();

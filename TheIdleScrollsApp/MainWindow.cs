@@ -136,7 +136,7 @@ namespace TheIdleScrollsApp
 
         public void SetAttackDamage(double raw, double dps)
         {
-            lblAttackRawDmg.Text = raw.ToString();
+            lblAttackRawDmg.Text = raw.ToString("0.##");
             lblAttackDps.Text = dps.ToString("0.0#");
         }
 

@@ -280,6 +280,13 @@
       "Description": "Reach level 50 without ever raising a weapon ability or losing a fight"
     },
     {
+      "Id": "HC:NOARMOR+NOWEAPON",
+      "Prerequisite": "HC:NOWEAPON_50",
+      "Condition": "dng:LGHTHS > 0 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
+      "Title": "The Paths Converge",
+      "Description": "Complete the Lighthouse without raising any ability or losing a fight"
+    },
+    {
       "Id": "SPEED",
       "Prerequisite": "",
       "Condition": "dng:LGHTHS > 0 && Playtime < 1111",
