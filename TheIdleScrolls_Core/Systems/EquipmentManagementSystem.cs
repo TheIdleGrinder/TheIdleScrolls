@@ -46,6 +46,17 @@ namespace TheIdleScrolls_Core.Systems
                     bool inInventory = inventoryComp.RemoveItem(item);
                     if (inInventory)
                     {
+                        var equippableComp = item.GetComponent<EquippableComponent>();
+                        if (equippableComp == null)
+                            continue;
+
+                        var previousItem = equipmentComp.GetItemInSlot(equippableComp.Slot);
+                        if (previousItem != null)
+                        {
+                            if (equipmentComp.UnequipItem(previousItem))
+                                inventoryComp.AddItem(previousItem);
+                        }                            
+
                         bool couldEquip = equipmentComp.EquipItem(item);
                         if (!couldEquip)
                         {

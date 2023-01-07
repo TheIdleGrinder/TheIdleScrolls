@@ -63,6 +63,19 @@ namespace TheIdleScrolls_Core.Components
             return removed;
         }
 
+        public bool UnequipItemFromSlot(EquipmentSlot slot)
+        {
+            var item = GetItemInSlot(slot);
+            if (item != null)
+            {
+                return UnequipItem(item);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public bool CanEquipItem(Entity item)
         {
             var itemComp = item.GetComponent<ItemComponent>();
@@ -77,6 +90,18 @@ namespace TheIdleScrolls_Core.Components
                 }
             }
             return true;
+        }
+
+        public Entity? GetItemInSlot(EquipmentSlot slot)
+        {
+            foreach (var item in m_items)
+            {
+                if (item.GetComponent<EquippableComponent>()?.Slot == slot)
+                {
+                    return item;
+                }
+            }
+            return null;
         }
 
         public List<Entity> GetItems()
