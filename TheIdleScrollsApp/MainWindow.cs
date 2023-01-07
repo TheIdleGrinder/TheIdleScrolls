@@ -113,7 +113,7 @@ namespace TheIdleScrollsApp
 
         public void SetCharacterXP(int current, int target)
         {
-            lblCharXP.Text = $"XP: {current:#,#} / {target:#,#}";
+            lblCharXP.Text = $"XP: {current:#,0} / {target:#,0}";
         }
 
         public void SetArea(string name, int level)
