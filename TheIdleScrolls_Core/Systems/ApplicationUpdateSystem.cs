@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Cache;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
@@ -189,8 +190,8 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Add log messages
-            LoggerFlags filterFlags = m_appModel?.GetLogSettings() ?? 0;
-            m_appModel?.AddLogMessages(FilterMessages(filterFlags, coordinator.FetchAllMessages()).Select(m => m.Message).ToList());
+            var relevantMessages = m_appModel?.GetRelevantMessagePriorties() ?? new();
+            m_appModel?.AddLogMessages(FilterMessages(relevantMessages, coordinator.FetchAllMessages()).Select(m => m.Message).ToList());
 
             m_firstUpdate = false;
         }
@@ -240,12 +241,9 @@ namespace TheIdleScrolls_Core.Systems
                 );
         }
 
-        static List<IMessage> FilterMessages(LoggerFlags filterFlags, List<IMessage> messages)
+        static List<IMessage> FilterMessages(HashSet<IMessage.PriorityLevel> relevantMessages, List<IMessage> messages)
         {
-            return messages.Where(m => { var ty = (m as dynamic).GetType(); 
-                return (ty != typeof(DamageDoneMessage) || (filterFlags & LoggerFlags.NoDamage) == 0)
-                && (ty != typeof(XpGainMessage) || (filterFlags & LoggerFlags.NoXp) == 0); }
-            ).ToList();
+            return messages.Where(m => relevantMessages.Contains(m.Priority)).ToList();
         }
     }
 }

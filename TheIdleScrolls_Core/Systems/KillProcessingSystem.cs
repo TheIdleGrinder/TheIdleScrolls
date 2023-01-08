@@ -50,15 +50,7 @@ namespace TheIdleScrolls_Core.Systems
 
         string IMessage.BuildMessage()
         {
-            string message = $"{Recipient.GetName()} received {XP} XP";
-
-            var lvlComp = Recipient.GetComponent<LevelComponent>();
-            var xpGainComp = Recipient.GetComponent<XpGainerComponent>();
-            if (lvlComp != null)
-            {
-                int nextLevel = xpGainComp?.TargetFunction(lvlComp.Level) ?? 0;
-                message += $" ({100 * (xpGainComp?.Current ?? 0) / nextLevel}% to level {lvlComp.Level + 1})";
-            }
+            string message = $"{Recipient.GetName()} received {XP:#,0} XP";
             return message;
         }
 

@@ -96,7 +96,7 @@ namespace TheIdleScrolls_Core.Systems
 
         string IMessage.BuildMessage()
         {
-            return $"{Victim.GetName()} was killed";
+            return $"{Victim.GetName()} was defeated";
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()

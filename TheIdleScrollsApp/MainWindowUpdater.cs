@@ -89,9 +89,9 @@ namespace TheIdleScrollsApp
             GetTargetOrNull()?.AddLogMessages(messages);
         }
 
-        public LoggerFlags GetLogSettings()
+        public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties()
         {
-            return LoggerFlags.NoDamage | LoggerFlags.NoXp;
+            return new() { IMessage.PriorityLevel.VeryHigh, IMessage.PriorityLevel.High, IMessage.PriorityLevel.Medium };
         }
 
         public void SetPlayerDefense(double armor, double evasion)

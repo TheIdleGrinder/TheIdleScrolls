@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,7 +41,7 @@ namespace TheIdleScrolls_Core
 
         public void AddLogMessages(List<string> messages);
 
-        public LoggerFlags GetLogSettings();
+        public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties();
     }
 
     [Flags]

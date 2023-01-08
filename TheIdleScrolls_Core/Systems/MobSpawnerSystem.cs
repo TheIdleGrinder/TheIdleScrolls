@@ -70,12 +70,12 @@ namespace TheIdleScrolls_Core.Systems
             string name = Mob.GetComponent<NameComponent>()?.Name ?? "<unknown>";
             int level = Mob.GetComponent<LevelComponent>()?.Level ?? 0;
             int hp = Mob.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
-            return $"Spawned level {level} {name} with {hp} HP (#{Mob.Id})";
+            return $"Spawned level {level} {name} with {hp} HP";
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()
         {
-            return IMessage.PriorityLevel.Medium;
+            return IMessage.PriorityLevel.Low;
         }
 
         public MobSpawnMessage(Entity mob)

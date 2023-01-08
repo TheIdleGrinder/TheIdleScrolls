@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,10 +14,17 @@ namespace ConsoleRunner
         {
             messages.ForEach(m => Console.WriteLine(m));
         }
-
-        public LoggerFlags GetLogSettings()
+        public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties()
         {
-            return 0;
+            return new()
+            {
+                IMessage.PriorityLevel.VeryHigh,
+                IMessage.PriorityLevel.High,
+                IMessage.PriorityLevel.Medium,
+                IMessage.PriorityLevel.Low,
+                IMessage.PriorityLevel.VeryLow,
+                IMessage.PriorityLevel.Debug
+            };
         }
 
         public void SetArea(string name, int level) { }
