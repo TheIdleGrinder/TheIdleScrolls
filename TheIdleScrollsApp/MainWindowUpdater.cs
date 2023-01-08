@@ -86,7 +86,7 @@ namespace TheIdleScrollsApp
 
         public void AddLogMessages(List<string> messages)
         {
-            ;
+            GetTargetOrNull()?.AddLogMessages(messages);
         }
 
         public LoggerFlags GetLogSettings()

@@ -45,6 +45,8 @@ namespace TheIdleScrollsApp
             m_Inventory = new(new());
             m_Equipment = new();
             m_abilities = new(new());
+
+            lblFooter.Text = "test 1 1 2 2 2 3 3 3 4 4 4 4 4 dehnt es sich aus?";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -229,6 +231,13 @@ namespace TheIdleScrollsApp
                 var idx = gridAchievements.Rows.Add(a.Earned, a.Title, a.Description);
                 //gridAchievements.Rows[idx].DefaultCellStyle(new DataGridViewCellStyle() { })
             }
+        }
+
+        public void AddLogMessages(List<string> messages)
+        {
+            if (!messages.Any())
+                return;
+            lblFooter.Text = "Recent news: " + String.Join(" | ", messages);
         }
 
         private void btnDungeon_Click(object sender, EventArgs e)
