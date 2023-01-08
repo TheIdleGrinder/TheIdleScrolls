@@ -116,33 +116,35 @@
             // 
             this.cbNextAfterWin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbNextAfterWin.AutoSize = true;
-            this.cbNextAfterWin.Location = new System.Drawing.Point(408, 40);
+            this.cbNextAfterWin.Location = new System.Drawing.Point(380, 50);
             this.cbNextAfterWin.Name = "cbNextAfterWin";
             this.cbNextAfterWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.cbNextAfterWin.Size = new System.Drawing.Size(79, 19);
+            this.cbNextAfterWin.Size = new System.Drawing.Size(107, 19);
             this.cbNextAfterWin.TabIndex = 8;
-            this.cbNextAfterWin.Text = "Auto Proc";
+            this.cbNextAfterWin.Text = "Go on after win";
             this.cbNextAfterWin.UseVisualStyleBackColor = true;
             this.cbNextAfterWin.CheckedChanged += new System.EventHandler(this.cbNextAfterWin_CheckedChanged);
             // 
             // btnAreaNext
             // 
             this.btnAreaNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAreaNext.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnAreaNext.Location = new System.Drawing.Point(447, 11);
             this.btnAreaNext.Name = "btnAreaNext";
-            this.btnAreaNext.Size = new System.Drawing.Size(40, 23);
+            this.btnAreaNext.Size = new System.Drawing.Size(40, 33);
             this.btnAreaNext.TabIndex = 7;
-            this.btnAreaNext.Text = "==>";
+            this.btnAreaNext.Text = " ▶";
             this.btnAreaNext.UseVisualStyleBackColor = true;
             this.btnAreaNext.Click += new System.EventHandler(this.btnAreaNext_Click);
             // 
             // btnAreaPrev
             // 
+            this.btnAreaPrev.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.btnAreaPrev.Location = new System.Drawing.Point(12, 9);
             this.btnAreaPrev.Name = "btnAreaPrev";
-            this.btnAreaPrev.Size = new System.Drawing.Size(40, 23);
+            this.btnAreaPrev.Size = new System.Drawing.Size(40, 35);
             this.btnAreaPrev.TabIndex = 6;
-            this.btnAreaPrev.Text = "<==";
+            this.btnAreaPrev.Text = "◀";
             this.btnAreaPrev.UseVisualStyleBackColor = true;
             this.btnAreaPrev.Click += new System.EventHandler(this.btnAreaPrev_Click);
             // 
