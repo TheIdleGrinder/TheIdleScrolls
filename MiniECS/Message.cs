@@ -8,9 +8,15 @@ namespace MiniECS
 {
     public interface IMessage
     {
+        public enum PriorityLevel { VeryHigh, High, Medium, Low, VeryLow, Debug }
+
         string Message { get { return BuildMessage(); } }
 
+        PriorityLevel Priority { get { return GetPriority(); } }
+
         protected string BuildMessage();
+
+        protected PriorityLevel GetPriority();
     }
 
     public class TextMessage : IMessage
@@ -25,6 +31,11 @@ namespace MiniECS
         string IMessage.BuildMessage()
         {
             return m_message;
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
         }
     }
 }

@@ -73,6 +73,11 @@ namespace TheIdleScrolls_Core.Systems
             return $"Spawned level {level} {name} with {hp} HP (#{Mob.Id})";
         }
 
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Medium;
+        }
+
         public MobSpawnMessage(Entity mob)
         {
             Mob = mob;

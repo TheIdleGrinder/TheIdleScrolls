@@ -120,6 +120,11 @@ namespace TheIdleScrolls_Core.Systems
         {
             return $"Travelled to {AreaName} (Level {AreaLevel})";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Medium;
+        }
     }
 
     public class AutoProceedStatusMessage : IMessage
@@ -134,6 +139,11 @@ namespace TheIdleScrolls_Core.Systems
         string IMessage.BuildMessage()
         {
             return $"Auto proceed status changed: {(AutoProceed ? "Enabled" : "Disabled")}";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Low;
         }
     }
 
@@ -152,6 +162,11 @@ namespace TheIdleScrolls_Core.Systems
         {
             return $"Request: Travel to area '{AreaId}' (#{ZoneNumber})";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
+        }
     }
 
     public class AutoProceedRequest : IMessage
@@ -167,6 +182,11 @@ namespace TheIdleScrolls_Core.Systems
         {
             return $"Request: {(AutoProceed ? "A" : "Dea")}ctivate automatic proceeding";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
+        }
     }
 
     public class AreaUnlockedMessage : IMessage
@@ -181,6 +201,11 @@ namespace TheIdleScrolls_Core.Systems
         string IMessage.BuildMessage()
         {
             return $"Unlocked Wilderness Level {Level}";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Low;
         }
     }
 }

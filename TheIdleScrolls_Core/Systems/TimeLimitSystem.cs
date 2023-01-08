@@ -96,5 +96,10 @@ namespace TheIdleScrolls_Core.Systems
         {
             return $"{Player.GetName()} lost the fight against {MobName} (Level {Level})";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.High;
+        }
     }
 }

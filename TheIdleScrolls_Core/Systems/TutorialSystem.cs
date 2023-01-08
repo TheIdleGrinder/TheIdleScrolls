@@ -219,6 +219,11 @@ namespace TheIdleScrolls_Core.Systems
         {
             return $"Tutorial: {Title} - {Text}";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug; // Tutorial messages are displayed directly
+        }
     }
 
 /*    public class Trigger

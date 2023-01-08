@@ -43,6 +43,11 @@ namespace TheIdleScrolls_Core.Systems
                 var lvl = Character.GetComponent<LevelComponent>()?.Level ?? 0;
                 return $"{Character.GetName()} reached level {lvl}";
             }
+
+            IMessage.PriorityLevel IMessage.GetPriority()
+            {
+                return IMessage.PriorityLevel.High;
+            }
         }
     }
 }

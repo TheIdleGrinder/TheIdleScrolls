@@ -61,5 +61,10 @@ namespace TheIdleScrolls_Core.Systems
             }
             return message;
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Medium;
+        }
     }
 }

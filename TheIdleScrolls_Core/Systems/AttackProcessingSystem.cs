@@ -78,6 +78,11 @@ namespace TheIdleScrolls_Core.Systems
             int fullHP = Target.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
             return $"{attackerName} did {Damage} damage to {targetName} ({remainingHP}/{fullHP} HP remaining)";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.VeryLow;
+        }
     }
 
     public class DeathMessage : IMessage
@@ -92,6 +97,11 @@ namespace TheIdleScrolls_Core.Systems
         string IMessage.BuildMessage()
         {
             return $"{Victim.GetName()} was killed";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Medium;
         }
     }
 }

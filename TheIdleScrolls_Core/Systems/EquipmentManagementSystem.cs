@@ -102,6 +102,11 @@ namespace TheIdleScrolls_Core.Systems
         {
             return $"{Recipient.GetName()} received {Item.GetName()}";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.VeryHigh;
+        }
     }
 
     public class ItemMoveRequest : IMessage
@@ -122,6 +127,11 @@ namespace TheIdleScrolls_Core.Systems
         string IMessage.BuildMessage()
         {
             return $"Request for #{Owner} to {(Equip ? "" : "un")}equip item #{ItemId}";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
         }
     }
 
@@ -144,6 +154,11 @@ namespace TheIdleScrolls_Core.Systems
         {
             return $"{Owner.GetName()} {(Equipped ? "" : "un")}equipped {Item.GetName()}";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Low;
+        }
     }
 
     public class InventoryChangedMessage : IMessage
@@ -158,6 +173,11 @@ namespace TheIdleScrolls_Core.Systems
         string IMessage.BuildMessage()
         {
             return $"Change to the inventory of {Entity.GetName()}";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
         }
     }
 }

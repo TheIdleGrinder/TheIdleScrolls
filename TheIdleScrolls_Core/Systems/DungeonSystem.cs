@@ -153,6 +153,11 @@ namespace TheIdleScrolls_Core.Systems
         {
             return $"Request: Enter dungeon '{DungeonId}'";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
+        }
     }
 
     class DungeonOpenedMessage : IMessage
@@ -168,6 +173,11 @@ namespace TheIdleScrolls_Core.Systems
         {
             return $"Dungeon '{DungeonId}' is now open";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.High;
+        }
     }
 
     class DungeonCompletedMessage : IMessage
@@ -181,7 +191,12 @@ namespace TheIdleScrolls_Core.Systems
 
         string IMessage.BuildMessage()
         {
-            return $"Dungeon '{DungeonId}' cleared";
+            return $"Dungeon '{DungeonId}' completed";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.High;
         }
     }
 

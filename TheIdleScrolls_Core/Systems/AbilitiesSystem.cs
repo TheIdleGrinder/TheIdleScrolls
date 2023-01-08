@@ -101,5 +101,10 @@ namespace TheIdleScrolls_Core.Systems
         {
             return $"Ability {AbilityId} reached level {NewLevel}";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.High;
+        }
     }
 }

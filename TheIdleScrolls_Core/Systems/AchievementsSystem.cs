@@ -97,5 +97,10 @@ namespace TheIdleScrolls_Core.Systems
                 _ => string.Empty,
             };
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return (Achievement.Status == AchievementStatus.Awarded) ? IMessage.PriorityLevel.VeryHigh : IMessage.PriorityLevel.Debug;
+        }
     }
 }

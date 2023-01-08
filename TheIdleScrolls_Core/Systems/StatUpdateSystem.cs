@@ -178,6 +178,11 @@ namespace TheIdleScrolls_Core.Systems
         {
             return $"Player stats updated";
         }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
+        }
     }
 
 }
