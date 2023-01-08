@@ -125,9 +125,9 @@
       "Description": "Complete the Crypt"
     },
     {
-      "Id": "DNG:LGHTHS",
+      "Id": "DNG:LIGHTHOUSE",
       "Prerequisite": "WILD25",
-      "Condition": "dng:LGHTHS > 0",
+      "Condition": "dng:LIGHTHOUSE > 0",
       "Title": "So That All May Find You",
       "Description": "Complete the Lighthouse"
     },
@@ -139,9 +139,9 @@
       "Description": "Complete the Crypt without ever losing a fight"
     },
     {
-      "Id": "HC:LGHTHS",
-      "Prerequisite": "DNG:LGHTHS",
-      "Condition": "dng:LGHTHS > 0 && Losses == 0",
+      "Id": "HC:LIGHTHOUSE",
+      "Prerequisite": "DNG:LIGHTHOUSE",
+      "Condition": "dng:LIGHTHOUSE > 0 && Losses == 0",
       "Title": "Hardcore",
       "Description": "Complete the Lighthouse without ever losing a fight"
     },
@@ -235,20 +235,20 @@
     },
     {
       "Id": "NOCRYPT",
-      "Condition": "dng:CRYPT <= 0 && dng:LGHTHS > 0",
+      "Condition": "dng:CRYPT <= 0 && dng:LIGHTHOUSE > 0",
       "Title": "Untainted",
       "Description": "Complete the Lighthouse before the Crypt"
     },
     {
       "Id": "NOARMOR",
-      "Condition": "dng:LGHTHS > 0 && abl:LAR <= 10 && abl:HAR <= 10",
+      "Condition": "dng:LIGHTHOUSE > 0 && abl:LAR <= 10 && abl:HAR <= 10",
       "Title": "Wollt Ihr Ewig Leben?!",
       "Description": "Complete the Lighthouse without ever raising an armor ability"
     },
     {
       "Id": "HC:NOARMOR",
       "Prerequisite": "NOARMOR",
-      "Condition": "dng:LGHTHS > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
+      "Condition": "dng:LIGHTHOUSE > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
       "Title": "Not Today",
       "Description": "Complete the Lighthouse without ever raising an armor ability or losing a fight"
     },
@@ -268,7 +268,7 @@
     {
       "Id": "HC:NOWEAPON",
       "Prerequisite": "NOWEAPON",
-      "Condition": "dng:LGHTHS > 0 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10",
+      "Condition": "dng:LIGHTHOUSE > 0 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10",
       "Title": "I Am The Greatest!",
       "Description": "Complete the Lighthouse without ever raising a weapon ability or losing a fight"
     },
@@ -282,14 +282,14 @@
     {
       "Id": "HC:NOARMOR+NOWEAPON",
       "Prerequisite": "HC:NOWEAPON_50",
-      "Condition": "dng:LGHTHS > 0 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
+      "Condition": "dng:LIGHTHOUSE > 0 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
       "Title": "The Paths Converge",
       "Description": "Complete the Lighthouse without raising any ability or losing a fight"
     },
     {
       "Id": "SPEED",
       "Prerequisite": "",
-      "Condition": "dng:LGHTHS > 0 && Playtime < 1111",
+      "Condition": "dng:LIGHTHOUSE > 0 && Playtime < 1111",
       "Title": "Speedrun",
       "Description": "Complete the Lighthouse in less than 1111 seconds"
     }

@@ -149,7 +149,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n  - Received '{itemName}'"));
             }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Finished)
-                && progComp.Data.GetClearedDungeons().Count >= 2)
+                && progComp.Data.GetClearedDungeons().Contains("LIGHTHOUSE"))
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Finished);
                 var time = progComp.Data.Playtime;
