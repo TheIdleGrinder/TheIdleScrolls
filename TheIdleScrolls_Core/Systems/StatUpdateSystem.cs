@@ -103,7 +103,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         // Add 1 evasion per level for each earned achievement in the Kensai-line
                         int kensais = achComp.Achievements.Count(a => a.Id.Contains("NOARMOR") && a.Status == Achievements.AchievementStatus.Awarded);
-                        evasion += level * kensais;
+                        evasion += level * kensais * 0.5;
                     }
                 }
 
@@ -123,7 +123,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         // Add 1 evasion per level for each earned achievement in the Kensai-line
                         int monks = achComp.Achievements.Count(a => a.Id.Contains("NOWEAPON") && a.Status == Achievements.AchievementStatus.Awarded);
-                        baseDamage += level * monks * 0.1;
+                        baseDamage += level * monks * 0.05;
                     }
                 }
             }

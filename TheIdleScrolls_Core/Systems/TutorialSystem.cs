@@ -38,6 +38,8 @@ namespace TheIdleScrolls_Core.Systems
                 m_firstUpdate = false;
             }
 
+            var achievementComp = coordinator.GetEntities<AchievementsComponent>().FirstOrDefault()?.GetComponent<AchievementsComponent>();
+
             // Evaluate conditions for current tutorial stage
             if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Inventory) && lvl >= LvlInventory)
             {
@@ -162,11 +164,40 @@ namespace TheIdleScrolls_Core.Systems
                 && (m_player.GetComponent<DefenseComponent>()?.Evasion ?? 0) > 0)
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Evasion);
-                var perLevel = m_player.GetComponent<DefenseComponent>()?.Evasion / m_player.GetLevel();
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Evasion, "Travelling Light",
-                    $"You have proven your prowess in unarmored combat. Fighting with no armor now grants you {perLevel} " +
-                    $"points to you evasion rating per level. Evasion increases the length of time limits by 1% per point."));
+                    $"You have proven your prowess in unarmored combat. Fighting with no armor now grants 0.5 " +
+                    $"points to you evasion rating per level for each owned achievement from the 'unarmored' line. " +
+                    $"  - Evasion increases the length of time limits by 1% per point."));
+            }
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
+                && (achievementComp?.Achievements.Count(a => a.Id.Contains("NOWEAPON")) > 0))
+            {
+                progComp.Data.TutorialProgress.Add(TutorialStep.Unarmed);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.Unarmed, "Iron Fists",
+                    $"You have proven your prowess in unarmed combat. Fighting without a weapon now grants 0.05 " +
+                    $"base damage per level for each owned achievement from the 'unarmed' line."));
+            }
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
+                && (achievementComp?.Achievements.Count(a => a.Id.Contains("NOWEAPON") 
+                    && a.Status == Achievements.AchievementStatus.Awarded) > 0))
+            {
+                progComp.Data.TutorialProgress.Add(TutorialStep.Unarmed);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.Unarmed, "Iron Fists",
+                    $"You have proven your prowess in unarmed combat. Fighting without a weapon now grants 0.05 " +
+                    $"base damage per level for each owned achievement from the 'unarmed' line."));
+            }
+            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.FlatCircle)
+                && (achievementComp?.Achievements.Count(a => a.Id.Contains("NOWEAPON")
+                    && a.Id.Contains("NOARMOR")
+                    && a.Status == Achievements.AchievementStatus.Awarded) > 0))
+            {
+                progComp.Data.TutorialProgress.Add(TutorialStep.FlatCircle);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.FlatCircle, "A Flat Circle",
+                    "Ironic, all this grinding just to get to a point where you use none of your gear or abilities."));
             }
         }
     }
