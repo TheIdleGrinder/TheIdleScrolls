@@ -77,8 +77,9 @@ namespace TheIdleScrolls_Core.Systems
                     var result = abilitiesComp.AddXP(item, xp);
                     if (result == AbilitiesComponent.AddXPResult.LevelIncreased)
                     {
+                        var abilityName = ItemFactory.GetItemFamilyName(item) ?? item;
                         var newLevel = abilitiesComp.GetAbility(item)?.Level ?? 0;
-                        coordinator.PostMessage(this, new AbilityImprovedMessage(item, newLevel));
+                        coordinator.PostMessage(this, new AbilityImprovedMessage(abilityName, newLevel));
                     }
                 }
             }
