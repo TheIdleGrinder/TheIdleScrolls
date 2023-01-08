@@ -16,6 +16,7 @@ namespace TheIdleScrolls_Core.Systems
         Entity? m_player = null;
 
         bool m_inCombat = false;
+        double m_evasionUsed = 0.0;
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -32,19 +33,38 @@ namespace TheIdleScrolls_Core.Systems
             var attackValues = coordinator.GetEntities<MobDamageComponent>()
                 .Select(m => m.GetComponent<MobDamageComponent>()?.Multiplier ?? 1.0);
 
-            if (NeedToResetTimeLimit(world, coordinator)) // Combat just started, prepare time limit
+            bool newTimeLimit = NeedToResetTimeLimit(world, coordinator);
+            if (newTimeLimit) // Combat just started, prepare time limit
             {
                 int level = m_player.GetLevel();
-                double levelMulti = level / Math.Pow(world.Zone.Level, DifficultyScaling);
+                double levelMulti = level / Math.Pow(world.Zone.Level, DifficultyScaling);  
 
-                double evasion = defComp?.Evasion ?? 0.0;
-                double evasionBonus = 1.0 + evasion / 100.0; // Evasion increases amount of time
-
-                double duration = BaseDuration * levelMulti * world.Zone.TimeMultiplier * evasionBonus;
+                double duration = BaseDuration * levelMulti * world.Zone.TimeMultiplier;
                 if (!attackValues.Any())
                     duration = 0.0;
                 world.TimeLimit.Reset(duration);
                 coordinator.PostMessage(this, new TextMessage($"New time limit: {duration:0.###} s"));
+            }
+
+            // Recalculate time limit if evasion rating changed too much (more than 10%)
+            // Might be exploitable, but prevents evasion builds from being hurt by the fact system order:
+            // 1. mob spawn
+            // 2. stats => no evasion, because achievements are not loaded yet
+            // 3. achievements
+            // 4. time limit => sets time limit duration
+            // 5. stats => now evasion is set correctly
+            if (defComp != null && (newTimeLimit || (Math.Abs(defComp.Evasion - m_evasionUsed) > m_evasionUsed * 0.1)))
+            {
+                double evasion = defComp.Evasion;
+                double evasionBonus = CalculateEvasionBonusMultiplier(evasion); // Evasion increases amount of time
+                if (!newTimeLimit)
+                {
+                    double previousBonus = CalculateEvasionBonusMultiplier(m_evasionUsed);
+                    evasionBonus /= previousBonus; // Can't be 0
+                }
+                double newDuration = world.TimeLimit.Duration * evasionBonus;
+                world.TimeLimit.ChangeDuration(newDuration);
+                m_evasionUsed = evasion;
             }
 
             if (m_inCombat)
@@ -74,6 +94,11 @@ namespace TheIdleScrolls_Core.Systems
             bool mobSpawned = coordinator.MessageTypeIsOnBoard<MobSpawnMessage>();
             bool newDungeonFloor = world.IsInDungeon() && (world.RemainingEnemies == world.Zone.MobCount);
             return mobSpawned && (!world.IsInDungeon() || newDungeonFloor);
+        }
+
+        double CalculateEvasionBonusMultiplier(double evasion)
+        {
+            return 1.0 + evasion / 100.0;
         }
     }
 
