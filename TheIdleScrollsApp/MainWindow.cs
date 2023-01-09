@@ -30,6 +30,10 @@ namespace TheIdleScrollsApp
 
         public MainWindow(GameRunner runner, string name = "Leeroy")
         {
+            CharacterSelectionDialog dialog = new CharacterSelectionDialog(name);
+            dialog.ShowDialog();
+            name = dialog.CharacterName;
+
             InitializeComponent();
 
             m_runner = runner;
@@ -45,8 +49,6 @@ namespace TheIdleScrollsApp
             m_Inventory = new(new());
             m_Equipment = new();
             m_abilities = new(new());
-
-            lblFooter.Text = "test 1 1 2 2 2 3 3 3 4 4 4 4 4 dehnt es sich aus?";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -99,7 +101,6 @@ namespace TheIdleScrollsApp
                 cbNextAfterWin.Visible = available;
                 name = "Travel";
             }
-            textBoxLog.AppendText("\r\n" + (available ? "Unl" : "L") + "ocked " + name);
         }
 
         public void SetCharacter(uint id, string name)
@@ -220,6 +221,7 @@ namespace TheIdleScrollsApp
                 buttons[i].Text = dungeons[i].Name;
                 buttons[i].Tag = dungeons[i].Id;
                 buttons[i].Visible = true;
+                toolTip.SetToolTip(buttons[i], dungeons[i].Name + " (" + dungeons[i].Id + ")");
             }
         }
 
