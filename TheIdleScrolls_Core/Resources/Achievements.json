@@ -282,9 +282,9 @@
     {
       "Id": "HC:NOARMOR+NOWEAPON",
       "Prerequisite": "HC:NOWEAPON_50",
-      "Condition": "dng:LIGHTHOUSE > 0 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
+      "Condition": "Wilderness >= 75 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
       "Title": "The Paths Converge",
-      "Description": "Complete the Lighthouse without raising any ability or losing a fight"
+      "Description": "Defeat a level 75 enemy in the wilderness without raising any ability or losing a fight"
     },
     {
       "Id": "SPEED",
