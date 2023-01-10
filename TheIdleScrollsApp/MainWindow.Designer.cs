@@ -76,6 +76,9 @@
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFooter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblAchievementCount = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -95,6 +98,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridAchievements)).BeginInit();
             this.tabLog.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // timerTick
@@ -593,7 +597,7 @@
             // 
             // tabAchievements
             // 
-            this.tabAchievements.Controls.Add(this.gridAchievements);
+            this.tabAchievements.Controls.Add(this.tableLayoutPanel2);
             this.tabAchievements.Location = new System.Drawing.Point(4, 24);
             this.tabAchievements.Name = "tabAchievements";
             this.tabAchievements.Size = new System.Drawing.Size(580, 504);
@@ -611,13 +615,14 @@
             this.colEarned,
             this.Title,
             this.colDescription});
+            this.tableLayoutPanel2.SetColumnSpan(this.gridAchievements, 2);
             this.gridAchievements.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gridAchievements.Location = new System.Drawing.Point(0, 0);
+            this.gridAchievements.Location = new System.Drawing.Point(3, 38);
             this.gridAchievements.Name = "gridAchievements";
             this.gridAchievements.ReadOnly = true;
             this.gridAchievements.RowHeadersVisible = false;
             this.gridAchievements.RowTemplate.Height = 25;
-            this.gridAchievements.Size = new System.Drawing.Size(580, 504);
+            this.gridAchievements.Size = new System.Drawing.Size(574, 463);
             this.gridAchievements.TabIndex = 0;
             this.gridAchievements.SelectionChanged += new System.EventHandler(this.gridAchievements_SelectionChanged);
             // 
@@ -682,6 +687,47 @@
             this.lblFooter.Size = new System.Drawing.Size(118, 17);
             this.lblFooter.Text = "toolStripStatusLabel1";
             // 
+            // lblAchievementCount
+            // 
+            this.lblAchievementCount.AutoSize = true;
+            this.lblAchievementCount.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblAchievementCount.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblAchievementCount.Location = new System.Drawing.Point(293, 0);
+            this.lblAchievementCount.Name = "lblAchievementCount";
+            this.lblAchievementCount.Size = new System.Drawing.Size(284, 35);
+            this.lblAchievementCount.TabIndex = 1;
+            this.lblAchievementCount.Text = "50 / 50 Completed";
+            this.lblAchievementCount.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.gridAchievements, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.lblAchievementCount, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(580, 504);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.Location = new System.Drawing.Point(3, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(284, 35);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Achievements";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -717,6 +763,8 @@
             this.tabLog.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -769,5 +817,8 @@
         private TextBox textBoxLog;
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel lblFooter;
+        private TableLayoutPanel tableLayoutPanel2;
+        private Label lblAchievementCount;
+        private Label label2;
     }
 }

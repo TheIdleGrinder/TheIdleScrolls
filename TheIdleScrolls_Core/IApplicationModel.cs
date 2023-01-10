@@ -35,7 +35,7 @@ namespace TheIdleScrolls_Core
 
         public void SetAccessibleAreas(int maxWilderness, List<DungeonRepresentation> dungeons);
 
-        public void SetAchievements(List<AchievementRepresentation> achievements);
+        public void SetAchievements(List<AchievementRepresentation> visibleAchievements, int achievementCount);
 
         public void DisplayMessage(string title, string message);
 

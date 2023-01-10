@@ -220,14 +220,15 @@ namespace TheIdleScrollsApp
             }
         }
 
-        public void SetAchievements(List<AchievementRepresentation> achievements)
+        public void SetAchievements(List<AchievementRepresentation> visibleAchievements, int achievementCount)
         {
             gridAchievements.Rows.Clear();
-            foreach (var a in achievements)
+            foreach (var a in visibleAchievements)
             {
                 var idx = gridAchievements.Rows.Add(a.Earned, a.Title, a.Description);
                 //gridAchievements.Rows[idx].DefaultCellStyle(new DataGridViewCellStyle() { })
             }
+            lblAchievementCount.Text = $"{visibleAchievements.Count(a => a.Earned)} / {achievementCount} Completed";
         }
 
         public void AddLogMessages(List<string> messages)
