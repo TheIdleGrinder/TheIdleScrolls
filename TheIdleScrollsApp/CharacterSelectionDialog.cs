@@ -22,23 +22,21 @@ namespace TheIdleScrollsApp
         public CharacterSelectionDialog(string name)
         {
             //m_accessHandler = accessHandler;
-            CharacterName = name;
-
             InitializeComponent();
 
+            CharacterName = inputName.Text = name;
             UpdateCharacterList();
-            inputName.Text = CharacterName;
         }
 
         private void UpdateCharacterList()
         {
-            m_characters = new() { "A", "B", "C" };
+            m_characters = new() { "Existing Characters", "=> Coming soon", " ", "Load a character by", "entering their name below" };
             listBoxChars.Items.Clear();
             foreach (string name in m_characters)
             {
                 listBoxChars.Items.Add(name);
             }
-            btnSelect.Enabled = m_characters.Any();
+            btnSelect.Enabled = false;// m_characters.Any();
         }
 
         private void btnSelect_Click(object sender, EventArgs e)
@@ -52,7 +50,7 @@ namespace TheIdleScrollsApp
             string name = inputName.Text;
             if (m_characters.Contains(name))
             {
-                
+                // Ask whether to overwrite the character
             }
             CharacterName = name;
             Close();
