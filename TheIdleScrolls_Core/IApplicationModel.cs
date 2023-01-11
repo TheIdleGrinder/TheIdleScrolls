@@ -56,6 +56,6 @@ namespace TheIdleScrolls_Core
     public record ItemRepresentation(uint Id, string Name, string Description, List<EquipmentSlot> Slots);
     public record AbilityRepresentation(string Key, string Name, int Level, int XP, int TargetXP);
     public record MobRepresentation(uint Id, string Name, int Level, int HP, int HpMax);
-    public record DungeonRepresentation(string Id, string Name);
+    public record DungeonRepresentation(string Id, string Name, int Level, string Description);
     public record AchievementRepresentation(string Title, string Description, bool Earned);
 }

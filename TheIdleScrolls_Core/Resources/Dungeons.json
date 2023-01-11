@@ -4,6 +4,7 @@
       "Name": "The Crypt",
       "Id": "CRYPT",
       "Level": 15,
+      "Description":  "There is something stirring in the old graveyard...",
       "Floors": [
         {
           "MobCount": 2,
@@ -36,7 +37,7 @@
         },
         {
           "MobCount": 1,
-          "TimeMultiplier": 4.0,
+          "TimeMultiplier": 3.0,
           "MobTypes": [
             "The Necromancer"
           ]
@@ -55,8 +56,8 @@
         },
         {
           "Name": "Abomination",
-          "HP": 10.0,
-          "Damage": 0.75
+          "HP": 7.5,
+          "Damage": 1.0
         },
         {
           "Name": "The Necromancer",
@@ -76,6 +77,7 @@
       "Name": "The Lighthouse",
       "Id": "LIGHTHOUSE",
       "Level": 25,
+      "Description": "Cultists have holed up in the old lighthouse. The blue flames they lit have attracted more than just ships.",
       "Floors": [
         {
           "MobCount": 3,

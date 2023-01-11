@@ -78,6 +78,7 @@ namespace TheIdleScrolls_Core
         public string Name { get; set; } = "";
         public string Id { get; set; } = "";
         public int Level { get; set; } = 1;
+        public string Description { get; set; } = "";
         public List<DungeonFloorDescription> Floors { get; set; } = new();
         public List<MobDescription> LocalMobs { get; set; } = new();
         public List<string> Rewards { get; set; } = new();

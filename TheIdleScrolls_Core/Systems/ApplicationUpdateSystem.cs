@@ -136,7 +136,11 @@ namespace TheIdleScrolls_Core.Systems
                         var description = world.AreaKingdom.Dungeons.Find(d => d.Id == dungeon);
                         if (description == null)
                             continue;
-                        dungeons.Add(new DungeonRepresentation(dungeon, $"{description.Name} (Level {description.Level})"));
+                        dungeons.Add(new DungeonRepresentation(dungeon, 
+                            description.Name,
+                            description.Level,
+                            description.Description
+                        ));
                     }
                 }
                 m_appModel?.SetAccessibleAreas(maxWilderness, dungeons);

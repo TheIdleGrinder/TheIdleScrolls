@@ -213,10 +213,10 @@ namespace TheIdleScrollsApp
 
             for (int i = 0; i < Math.Min(dungeons.Count, buttons.Count); i++)
             {
-                buttons[i].Text = dungeons[i].Name;
+                buttons[i].Text = $"{dungeons[i].Name} (Level {dungeons[i].Level})";
                 buttons[i].Tag = dungeons[i].Id;
                 buttons[i].Visible = true;
-                toolTip.SetToolTip(buttons[i], dungeons[i].Name + " (" + dungeons[i].Id + ")");
+                toolTip.SetToolTip(buttons[i], $"{dungeons[i].Name}\nLevel {dungeons[i].Level}\n\n{dungeons[i].Description}");
             }
         }
 
