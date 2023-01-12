@@ -238,6 +238,11 @@ namespace TheIdleScrollsApp
             lblFooter.Text = "Recent news: " + String.Join(" | ", messages);
         }
 
+        public void SetStatisticsReport(string report)
+        {
+            textBoxStats.Text = report;
+        }
+
         private void btnDungeon_Click(object sender, EventArgs e)
         {
             var dungeonId = ((Button)sender).Tag;

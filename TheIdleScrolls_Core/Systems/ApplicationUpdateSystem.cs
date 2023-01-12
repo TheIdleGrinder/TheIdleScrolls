@@ -19,6 +19,7 @@ namespace TheIdleScrolls_Core.Systems
         uint m_playerId = 0;
 
         Cooldown m_abilityUpdate = new(1.0);
+        Cooldown m_statisticsUpdate = new(1.0);
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -161,6 +162,17 @@ namespace TheIdleScrolls_Core.Systems
                             a.Status == Achievements.AchievementStatus.Awarded)
                     ).ToList();
                     m_appModel?.SetAchievements(achievements, achComp.Achievements.Count - 1); // CornerCut: -1 to account for J'accuse!
+                }
+            }
+
+            // Update Statistics Report
+            if (m_firstUpdate || m_statisticsUpdate.Update(dt) > 0)
+            {
+                var progComp = player.GetComponent<PlayerProgressComponent>();
+                if (progComp != null)
+                {
+                    var report = progComp.Data.GetReport(world);
+                    m_appModel?.SetStatisticsReport(report);
                 }
             }
 

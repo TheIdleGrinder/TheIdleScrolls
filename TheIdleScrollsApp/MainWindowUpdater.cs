@@ -113,5 +113,10 @@ namespace TheIdleScrollsApp
         {
             GetTargetOrNull()?.SetAchievements(visibleAchievements, achievementCount);
         }
+
+        public void SetStatisticsReport(string report)
+        {
+            GetTargetOrNull()?.SetStatisticsReport(report);
+        }
     }
 }

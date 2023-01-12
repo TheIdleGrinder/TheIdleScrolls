@@ -54,5 +54,7 @@ namespace ConsoleRunner
         public void SetAccessibleAreas(int maxWilderness, List<DungeonRepresentation> dungeons) { }
 
         public void SetAchievements(List<AchievementRepresentation> achievements, int count) { }
+
+        public void SetStatisticsReport(string report) { }
     }
 }

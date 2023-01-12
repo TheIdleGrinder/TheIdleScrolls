@@ -31,5 +31,26 @@ namespace TheIdleScrolls_Core.Components
         {
             return DungeonTimes.Keys.ToHashSet();
         }
+
+        public string GetReport(World world)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine($"Playtime: {TimeSpan.FromSeconds(Playtime).ToString(@"hh\:mm\:ss")}");
+            sb.AppendLine($"Highest defeated zone: {HighestWildernessKill}");
+            sb.AppendLine($"Enemies defeated: {Kills}");
+            sb.AppendLine($"Fights lost: {Losses}");
+            sb.AppendLine();
+            sb.AppendLine($"Completed dungeons:");
+            foreach (var dungeonTime in DungeonTimes)
+            {
+                var dungeon = world.AreaKingdom.GetDungeon(dungeonTime.Key);
+                if (dungeon != null)
+                {
+                    var time = TimeSpan.FromSeconds(dungeonTime.Value);
+                    sb.AppendLine($"    {dungeon.Name} (Time: {time.ToString(@"hh\:mm\:ss")})");
+                }
+            }
+            return sb.ToString();
+        }
     }
 }

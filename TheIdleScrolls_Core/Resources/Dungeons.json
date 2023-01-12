@@ -4,7 +4,7 @@
       "Name": "The Crypt",
       "Id": "CRYPT",
       "Level": 15,
-      "Description":  "There is something stirring in the old graveyard...",
+      "Description":  "There is something stirring beneath the graveyard...",
       "Floors": [
         {
           "MobCount": 2,

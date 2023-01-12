@@ -37,6 +37,8 @@ namespace TheIdleScrolls_Core
 
         public void SetAchievements(List<AchievementRepresentation> visibleAchievements, int achievementCount);
 
+        public void SetStatisticsReport(string report);
+
         public void DisplayMessage(string title, string message);
 
         public void AddLogMessages(List<string> messages);
