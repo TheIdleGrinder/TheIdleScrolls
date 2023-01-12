@@ -19,21 +19,39 @@
     "HP": 1.0
   },
   {
-    "Name": "Orc Warrior",
+    "Name": "Bear",
     "MinLevel": 16,
     "MaxLevel": 32,
     "HP": 1.25
   },
   {
-    "Name": "Dragon",
+    "Name": "Ogre",
     "MinLevel": 25,
-    "MaxLevel": 100,
-    "HP": 2.5
+    "MaxLevel": 50,
+    "HP": 1.7
   },
   {
-    "Name": "Super Dragon",
-    "MinLevel": 101,
+    "Name": "Wyvern",
+    "MinLevel": 40,
+    "MaxLevel": 74,
+    "HP": 2.3
+  },
+  {
+    "Name": "Dragon",
+    "MinLevel": 75,
+    "MaxLevel": 120,
+    "HP": 2.8
+  },
+  {
+    "Name": "Big Dragon",
+    "MinLevel": 121,
+    "MaxLevel": 150,
+    "HP": 3.5
+  },
+  {
+    "Name": "Bigger Dragon",
+    "MinLevel": 151,
     "MaxLevel": 1000,
-    "HP": 3.0
+    "HP": 4.0
   }
 ]
