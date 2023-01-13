@@ -138,6 +138,7 @@
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -155,14 +156,14 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
             this.splitContainer1.Size = new System.Drawing.Size(1071, 532);
-            this.splitContainer1.SplitterDistance = 479;
+            this.splitContainer1.SplitterDistance = 405;
             this.splitContainer1.TabIndex = 1;
             // 
             // cbNextAfterWin
             // 
             this.cbNextAfterWin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbNextAfterWin.AutoSize = true;
-            this.cbNextAfterWin.Location = new System.Drawing.Point(369, 48);
+            this.cbNextAfterWin.Location = new System.Drawing.Point(295, 48);
             this.cbNextAfterWin.Name = "cbNextAfterWin";
             this.cbNextAfterWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.cbNextAfterWin.Size = new System.Drawing.Size(107, 19);
@@ -175,7 +176,7 @@
             // 
             this.btnAreaNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAreaNext.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAreaNext.Location = new System.Drawing.Point(436, 9);
+            this.btnAreaNext.Location = new System.Drawing.Point(362, 9);
             this.btnAreaNext.Name = "btnAreaNext";
             this.btnAreaNext.Size = new System.Drawing.Size(40, 33);
             this.btnAreaNext.TabIndex = 7;
@@ -201,7 +202,7 @@
             this.lblTimeLimit.ForeColor = System.Drawing.Color.LimeGreen;
             this.lblTimeLimit.Location = new System.Drawing.Point(0, 380);
             this.lblTimeLimit.Name = "lblTimeLimit";
-            this.lblTimeLimit.Size = new System.Drawing.Size(479, 73);
+            this.lblTimeLimit.Size = new System.Drawing.Size(405, 73);
             this.lblTimeLimit.TabIndex = 2;
             this.lblTimeLimit.Text = "10.00\r\n##############################";
             this.lblTimeLimit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -213,7 +214,7 @@
             this.lblMobName.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblMobName.Location = new System.Drawing.Point(0, 453);
             this.lblMobName.Name = "lblMobName";
-            this.lblMobName.Size = new System.Drawing.Size(479, 21);
+            this.lblMobName.Size = new System.Drawing.Size(405, 21);
             this.lblMobName.TabIndex = 1;
             this.lblMobName.Text = "Training Dummy (Lvl 1)";
             this.lblMobName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -225,7 +226,7 @@
             this.lblMobHP.ForeColor = System.Drawing.Color.Red;
             this.lblMobHP.Location = new System.Drawing.Point(0, 474);
             this.lblMobHP.Name = "lblMobHP";
-            this.lblMobHP.Size = new System.Drawing.Size(479, 58);
+            this.lblMobHP.Size = new System.Drawing.Size(405, 58);
             this.lblMobHP.TabIndex = 1;
             this.lblMobHP.Text = "HP: 100 / 100\r\n###################################";
             this.lblMobHP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -237,7 +238,7 @@
             this.lblArea.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblArea.Location = new System.Drawing.Point(3, 14);
             this.lblArea.Name = "lblArea";
-            this.lblArea.Size = new System.Drawing.Size(473, 23);
+            this.lblArea.Size = new System.Drawing.Size(399, 23);
             this.lblArea.TabIndex = 0;
             this.lblArea.Text = "Wilderness - Level 1";
             this.lblArea.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -253,7 +254,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(588, 532);
+            this.tabControl1.Size = new System.Drawing.Size(662, 532);
             this.tabControl1.TabIndex = 0;
             // 
             // tabCharacter
@@ -267,7 +268,7 @@
             this.tabCharacter.Location = new System.Drawing.Point(4, 24);
             this.tabCharacter.Name = "tabCharacter";
             this.tabCharacter.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCharacter.Size = new System.Drawing.Size(580, 504);
+            this.tabCharacter.Size = new System.Drawing.Size(654, 504);
             this.tabCharacter.TabIndex = 0;
             this.tabCharacter.Text = "Character";
             this.tabCharacter.UseVisualStyleBackColor = true;
@@ -326,7 +327,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(574, 164);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(648, 164);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // lblDefEvasion
@@ -334,9 +335,9 @@
             this.lblDefEvasion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDefEvasion.Location = new System.Drawing.Point(157, 126);
+            this.lblDefEvasion.Location = new System.Drawing.Point(175, 126);
             this.lblDefEvasion.Name = "lblDefEvasion";
-            this.lblDefEvasion.Size = new System.Drawing.Size(126, 37);
+            this.lblDefEvasion.Size = new System.Drawing.Size(144, 37);
             this.lblDefEvasion.TabIndex = 7;
             this.lblDefEvasion.Text = "1.0";
             this.lblDefEvasion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -346,9 +347,9 @@
             this.lblDefArmor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDefArmor.Location = new System.Drawing.Point(157, 90);
+            this.lblDefArmor.Location = new System.Drawing.Point(175, 90);
             this.lblDefArmor.Name = "lblDefArmor";
-            this.lblDefArmor.Size = new System.Drawing.Size(126, 35);
+            this.lblDefArmor.Size = new System.Drawing.Size(144, 35);
             this.lblDefArmor.TabIndex = 6;
             this.lblDefArmor.Text = "0.0";
             this.lblDefArmor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -360,7 +361,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.Location = new System.Drawing.Point(24, 126);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(126, 37);
+            this.label3.Size = new System.Drawing.Size(144, 37);
             this.label3.TabIndex = 7;
             this.label3.Text = "Evasion";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -372,7 +373,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.Location = new System.Drawing.Point(24, 90);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(126, 35);
+            this.label1.Size = new System.Drawing.Size(144, 35);
             this.label1.TabIndex = 6;
             this.label1.Text = "Armor";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -382,9 +383,9 @@
             this.hdrRawDmg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.hdrRawDmg.Location = new System.Drawing.Point(157, 1);
+            this.hdrRawDmg.Location = new System.Drawing.Point(175, 1);
             this.hdrRawDmg.Name = "hdrRawDmg";
-            this.hdrRawDmg.Size = new System.Drawing.Size(126, 31);
+            this.hdrRawDmg.Size = new System.Drawing.Size(144, 31);
             this.hdrRawDmg.TabIndex = 0;
             this.hdrRawDmg.Text = "Raw Damage";
             this.hdrRawDmg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -395,9 +396,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hdrDps.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.hdrDps.Location = new System.Drawing.Point(290, 1);
+            this.hdrDps.Location = new System.Drawing.Point(326, 1);
             this.hdrDps.Name = "hdrDps";
-            this.hdrDps.Size = new System.Drawing.Size(126, 31);
+            this.hdrDps.Size = new System.Drawing.Size(144, 31);
             this.hdrDps.TabIndex = 0;
             this.hdrDps.Text = "DPS";
             this.hdrDps.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -408,9 +409,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAttackDps.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.lblAttackDps.Location = new System.Drawing.Point(290, 33);
+            this.lblAttackDps.Location = new System.Drawing.Point(326, 33);
             this.lblAttackDps.Name = "lblAttackDps";
-            this.lblAttackDps.Size = new System.Drawing.Size(126, 35);
+            this.lblAttackDps.Size = new System.Drawing.Size(144, 35);
             this.lblAttackDps.TabIndex = 0;
             this.lblAttackDps.Text = "1.0";
             this.lblAttackDps.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -420,9 +421,9 @@
             this.hdrCooldown.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.hdrCooldown.Location = new System.Drawing.Point(423, 1);
+            this.hdrCooldown.Location = new System.Drawing.Point(477, 1);
             this.hdrCooldown.Name = "hdrCooldown";
-            this.hdrCooldown.Size = new System.Drawing.Size(127, 31);
+            this.hdrCooldown.Size = new System.Drawing.Size(147, 31);
             this.hdrCooldown.TabIndex = 0;
             this.hdrCooldown.Text = "Cooldown";
             this.hdrCooldown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -432,9 +433,9 @@
             this.lblAttackCooldown.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblAttackCooldown.Location = new System.Drawing.Point(423, 33);
+            this.lblAttackCooldown.Location = new System.Drawing.Point(477, 33);
             this.lblAttackCooldown.Name = "lblAttackCooldown";
-            this.lblAttackCooldown.Size = new System.Drawing.Size(127, 35);
+            this.lblAttackCooldown.Size = new System.Drawing.Size(147, 35);
             this.lblAttackCooldown.TabIndex = 0;
             this.lblAttackCooldown.Text = "1.0";
             this.lblAttackCooldown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -444,9 +445,9 @@
             this.lblAttackRawDmg.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblAttackRawDmg.Location = new System.Drawing.Point(157, 33);
+            this.lblAttackRawDmg.Location = new System.Drawing.Point(175, 33);
             this.lblAttackRawDmg.Name = "lblAttackRawDmg";
-            this.lblAttackRawDmg.Size = new System.Drawing.Size(126, 35);
+            this.lblAttackRawDmg.Size = new System.Drawing.Size(144, 35);
             this.lblAttackRawDmg.TabIndex = 0;
             this.lblAttackRawDmg.Text = "1.0";
             this.lblAttackRawDmg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -458,7 +459,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAttack.Location = new System.Drawing.Point(24, 33);
             this.lblAttack.Name = "lblAttack";
-            this.lblAttack.Size = new System.Drawing.Size(126, 35);
+            this.lblAttack.Size = new System.Drawing.Size(144, 35);
             this.lblAttack.TabIndex = 0;
             this.lblAttack.Text = "Attack";
             this.lblAttack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -470,7 +471,7 @@
             this.lblCharXP.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblCharXP.Location = new System.Drawing.Point(3, 85);
             this.lblCharXP.Name = "lblCharXP";
-            this.lblCharXP.Size = new System.Drawing.Size(574, 72);
+            this.lblCharXP.Size = new System.Drawing.Size(648, 72);
             this.lblCharXP.TabIndex = 3;
             this.lblCharXP.Text = "XP: 0 / 500\r\n▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱▱";
             this.lblCharXP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -482,7 +483,7 @@
             this.lblCharLevel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblCharLevel.Location = new System.Drawing.Point(3, 53);
             this.lblCharLevel.Name = "lblCharLevel";
-            this.lblCharLevel.Size = new System.Drawing.Size(574, 32);
+            this.lblCharLevel.Size = new System.Drawing.Size(648, 32);
             this.lblCharLevel.TabIndex = 2;
             this.lblCharLevel.Text = "Level 1";
             this.lblCharLevel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -493,7 +494,7 @@
             this.lblCharName.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblCharName.Location = new System.Drawing.Point(3, 3);
             this.lblCharName.Name = "lblCharName";
-            this.lblCharName.Size = new System.Drawing.Size(574, 50);
+            this.lblCharName.Size = new System.Drawing.Size(648, 50);
             this.lblCharName.TabIndex = 0;
             this.lblCharName.Text = "Leeroy ";
             this.lblCharName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

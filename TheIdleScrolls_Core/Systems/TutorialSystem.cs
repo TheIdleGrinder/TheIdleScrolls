@@ -97,7 +97,10 @@ namespace TheIdleScrolls_Core.Systems
                 progComp.Data.TutorialProgress.Add(TutorialStep.Armor);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Armor, "It's Dangerous to Go Alone", 
-                    $"Those mobs are getting nasty. Use armor to slow down the countdown during fights.{itemString}"));
+                    $"Those mobs are getting nasty. Use armor to slow down the countdown during fights. " +
+                    $"Wearing armor encumbers your character, reducing attack speed. " +
+                    $"Heavier armor means more encumbrance, but also better protection." +
+                    $"{itemString}"));
             }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Abilities) && lvl >= LvlAbilities)
             {
@@ -133,7 +136,7 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.DungeonOpen, "A New Challenge!",
                     "Progressing in the wilderness will give you access to dungeons. A dungeon consists of several floors, each containing " +
-                    "monster that have to be defeated to proceed. They are more challenging than wilderness areas " +
+                    "monsters that have to be defeated to proceed. They are more challenging than wilderness areas " +
                     "of the same level, but completing dungeons will grant powerful rewards. Losing a fight in the dungeon will get you sent " +
                     "back to the wilderness." +
                     $"\n  - Unlocked dungeon '{world.AreaKingdom.Dungeons[0].Name}'")); // CornerCut: Assumes first dungeon is first to unlock
@@ -169,15 +172,6 @@ namespace TheIdleScrolls_Core.Systems
                     $"You have proven your prowess in unarmored combat. Fighting with no armor now grants 0.5 " +
                     $"points to you evasion rating per level for each owned achievement from the 'unarmored' line. " +
                     $"  - Evasion increases the length of time limits by 1% per point."));
-            }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
-                && (achievementComp?.Achievements.Count(a => a.Id.Contains("NOWEAPON")) > 0))
-            {
-                progComp.Data.TutorialProgress.Add(TutorialStep.Unarmed);
-                coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Unarmed, "Iron Fists",
-                    $"You have proven your prowess in unarmed combat. Fighting without a weapon now grants 0.05 " +
-                    $"base damage per level for each owned achievement from the 'unarmed' line."));
             }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
                 && (achievementComp?.Achievements.Count(a => a.Id.Contains("NOWEAPON") 

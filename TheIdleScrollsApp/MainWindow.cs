@@ -55,7 +55,8 @@ namespace TheIdleScrollsApp
         {
             gridInventory.DataSource = m_Inventory;
             gridInventory.Columns[0].Visible = false;
-            gridInventory.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            gridInventory.Columns[1].MinimumWidth = 150;
+            gridInventory.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
             gridAbilities.DataSource = m_abilities;
             gridAbilities.Columns[0].Visible = false;
@@ -222,12 +223,14 @@ namespace TheIdleScrollsApp
 
         public void SetAchievements(List<AchievementRepresentation> visibleAchievements, int achievementCount)
         {
+            int offset = gridAchievements.FirstDisplayedScrollingRowIndex;
             gridAchievements.Rows.Clear();
             foreach (var a in visibleAchievements)
             {
                 var idx = gridAchievements.Rows.Add(a.Earned, a.Title, a.Description);
                 //gridAchievements.Rows[idx].DefaultCellStyle(new DataGridViewCellStyle() { })
             }
+            gridAchievements.FirstDisplayedScrollingRowIndex = offset;
             lblAchievementCount.Text = $"{visibleAchievements.Count(a => a.Earned)} / {achievementCount} Completed";
         }
 
