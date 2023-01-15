@@ -129,12 +129,24 @@ namespace TheIdleScrollsApp
 
         private string BuildBarString(int maxLength, double progress, double maximum)
         {
-            return new String('▎', (int)Math.Ceiling(2.5 * maxLength * progress / maximum));
+            //return new string('█', maxLength);
+            double percentage = (double)progress / maximum;
+            int fullBlocks = (int)Math.Floor(percentage * maxLength);
+            string result = new string('█', fullBlocks);
+
+            List<char> parts = new() { '▏', '▎', '▍', '▌', '▋', '▊', '▉', '█' };
+            double remainder = (percentage - (double)fullBlocks / maxLength) * maxLength; // Percentage of a block that remains
+            int eighths = (int)Math.Round(remainder * 8); // Remainder is displayed in 1/8-block slices
+            if (eighths == 0)
+                return result;
+            
+            result += parts[eighths - 1]; // Select best fitting partial block
+            return result;
         }
 
         public void SetMobHP(int current, int max)
         {
-            var barString = BuildBarString(24, current, max);
+            var barString = BuildBarString(16, current, max);
             lblMobHP.Text = $"HP: {current} / {max}\n{barString}";
         }
 
@@ -196,7 +208,7 @@ namespace TheIdleScrollsApp
             lblTimeLimit.Visible = limit > 0.0;
             if (limit > 0.0)
             {
-                var barString = BuildBarString(20, remaining, limit);
+                var barString = BuildBarString(14, remaining, limit);
                 lblTimeLimit.Text = $"{remaining:0.000} s\n{barString}";
             }
         }
