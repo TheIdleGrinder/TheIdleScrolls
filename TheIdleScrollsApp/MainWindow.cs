@@ -19,8 +19,6 @@ namespace TheIdleScrollsApp
         DateTime m_lastTickStart;
         IUserInputHandler m_inputHandler;
 
-        const char BlockChar = '\u258e';
-
         uint m_playerId = 0;
         int m_areaLevel = 0;
         int m_maxWilderness = 0;
@@ -129,9 +127,14 @@ namespace TheIdleScrollsApp
             lblMobName.Text = $"{name} (Lvl {level})";
         }
 
+        private string BuildBarString(int maxLength, double progress, double maximum)
+        {
+            return new String('▎', (int)Math.Ceiling(2.5 * maxLength * progress / maximum));
+        }
+
         public void SetMobHP(int current, int max)
         {
-            var barString = new String(BlockChar, (int)Math.Ceiling(60.0 * current / max));
+            var barString = BuildBarString(24, current, max);
             lblMobHP.Text = $"HP: {current} / {max}\n{barString}";
         }
 
@@ -193,7 +196,7 @@ namespace TheIdleScrollsApp
             lblTimeLimit.Visible = limit > 0.0;
             if (limit > 0.0)
             {
-                var barString = new String(BlockChar, (int)Math.Ceiling(50 * remaining / limit));
+                var barString = BuildBarString(20, remaining, limit);
                 lblTimeLimit.Text = $"{remaining:0.000} s\n{barString}";
             }
         }
@@ -230,7 +233,8 @@ namespace TheIdleScrollsApp
                 var idx = gridAchievements.Rows.Add(a.Earned, a.Title, a.Description);
                 //gridAchievements.Rows[idx].DefaultCellStyle(new DataGridViewCellStyle() { })
             }
-            gridAchievements.FirstDisplayedScrollingRowIndex = offset;
+            if (offset >= 0)
+                gridAchievements.FirstDisplayedScrollingRowIndex = offset;
             lblAchievementCount.Text = $"{visibleAchievements.Count(a => a.Earned)} / {achievementCount} Completed";
         }
 
