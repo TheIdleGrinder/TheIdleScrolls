@@ -332,32 +332,6 @@ namespace TheIdleScrollsApp
         }
     }
 
-    //public class InventoryItem
-    //{
-    //    public uint Id { get; set; }
-    //    public string Name { get; set; }
-    //    public string Slot { get; set; }
-    //    public string Damage { get; set; }
-    //    public string Speed { get; set; }
-    //    public string Family { get; set; }
-
-    //    public InventoryItem(uint id, string name, string slot, string stat1, string stat2, string family)
-    //    {
-    //        Id = id;
-    //        Name = name;
-    //        Slot = slot;
-    //        Damage = stat1;
-    //        Speed = stat2;
-    //        Family = family;
-    //    }
-
-    //    public InventoryItem()
-    //    {
-    //        Id = 0;
-    //        Name = Slot = Damage = Speed = Family = "";
-    //    }
-    //}
-
     class Equipment
     {
         public ItemRepresentation? Hand { get; set; }
