@@ -119,7 +119,7 @@ namespace TheIdleScrolls_Core.Systems
             // Update area
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TravelMessage>())
             {
-                m_appModel?.SetArea(world.Zone.Name, world.Zone.Level);
+                m_appModel?.SetArea(world.Zone.Name, world.Zone.Level, world.IsInDungeon());
             }
 
             // Update accessible areas

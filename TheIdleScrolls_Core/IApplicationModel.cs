@@ -25,7 +25,7 @@ namespace TheIdleScrolls_Core
 
         public void SetMob(MobRepresentation mob);
 
-        public void SetArea(string name, int level);
+        public void SetArea(string name, int level, bool isDungeon);
 
         public void SetTimeLimit(double remaining, double duration);
 

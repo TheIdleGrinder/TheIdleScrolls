@@ -17,6 +17,8 @@ namespace TheIdleScrollsApp
 
         public void EnterDungeon(string dungeonId);
 
+        public void LeaveDungeon();
+
         public void SetAutoProceed(bool autoProceed);
     }
 }

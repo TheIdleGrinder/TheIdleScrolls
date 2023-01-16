@@ -57,6 +57,12 @@ namespace TheIdleScrolls_Core.Systems
                 return;
             }
 
+            // Leave dungeon if requested
+            if (coordinator.MessageTypeIsOnBoard<LeaveDungeonRequest>())
+            {
+                coordinator.PostMessage(this, new TravelRequest("", m_wildernessLevel));
+            }
+
             // In dungeon?
                 // Time expired => return to wilderness
                 // Mob defeated => check remaining
@@ -86,7 +92,8 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         GiveDungeonReward(world, coordinator);
                         coordinator.PostMessage(this, new DungeonCompletedMessage(world.DungeonId));
-                        coordinator.PostMessage(this, new TravelRequest("", m_wildernessLevel));
+                        //coordinator.PostMessage(this, new TravelRequest("", m_wildernessLevel));
+                        coordinator.PostMessage(this, new TravelRequest(world.DungeonId, 0));
                     }
                 }
             }
@@ -152,6 +159,19 @@ namespace TheIdleScrolls_Core.Systems
         string IMessage.BuildMessage()
         {
             return $"Request: Enter dungeon '{DungeonId}'";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
+        }
+    }
+
+    class LeaveDungeonRequest : IMessage
+    {
+        string IMessage.BuildMessage()
+        {
+            return "Request: Leave Dungeon";
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()

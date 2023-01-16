@@ -22,6 +22,8 @@ namespace TheIdleScrollsApp
         uint m_playerId = 0;
         int m_areaLevel = 0;
         int m_maxWilderness = 0;
+        bool m_canTravel = false;
+        bool m_inDungeon = false;
         SortableBindingList<ItemRepresentation> m_Inventory { get; set; }
         Equipment m_Equipment { get; set; }
         SortableBindingList<AbilityRepresentation> m_abilities { get; set; }
@@ -91,10 +93,17 @@ namespace TheIdleScrollsApp
             }
             else if (GameFeature.Travel == area)
             {
-                btnAreaNext.Visible = available;
-                btnAreaPrev.Visible = available;
-                cbNextAfterWin.Visible = available;
+                m_canTravel = true;
+                UpdateButtonVisibility();
             }
+        }
+
+        private void UpdateButtonVisibility()
+        {
+            btnAreaNext.Visible 
+                = btnAreaPrev.Visible
+                = cbNextAfterWin.Visible = m_canTravel && !m_inDungeon;
+            btnLeaveDungeon.Visible = m_canTravel && m_inDungeon;
         }
 
         public void SetCharacter(uint id, string name)
@@ -115,11 +124,14 @@ namespace TheIdleScrollsApp
             lblCharXP.Text = $"XP: {current:#,0} / {target:#,0}\n" + new string('▰', filledBubbles) + new String('▱', bubbles - filledBubbles);
         }
 
-        public void SetArea(string name, int level)
+        public void SetArea(string name, int level, bool isDungeon)
         {
             btnAreaNext.Enabled = level < m_maxWilderness;
             m_areaLevel = level;
             lblArea.Text = $"{name}";
+
+            m_inDungeon = isDungeon;
+            UpdateButtonVisibility();
         }
 
         public void SetMob(string name, int level)
@@ -312,6 +324,11 @@ namespace TheIdleScrollsApp
         private void gridAchievements_SelectionChanged(object sender, EventArgs e)
         {
             gridAchievements.CurrentRow.Selected = false;
+        }
+
+        private void btnLeaveDungeon_Click(object sender, EventArgs e)
+        {
+            m_inputHandler.LeaveDungeon();
         }
     }
 

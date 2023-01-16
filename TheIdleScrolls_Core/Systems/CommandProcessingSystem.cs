@@ -25,6 +25,11 @@ namespace TheIdleScrollsApp
             m_requests.Add(new ItemMoveRequest(playerId, itemId, true));
         }
 
+        public void LeaveDungeon()
+        {
+            m_requests.Add(new LeaveDungeonRequest());
+        }
+
         public void SetAutoProceed(bool autoProceed)
         {
             m_requests.Add(new AutoProceedRequest(autoProceed));

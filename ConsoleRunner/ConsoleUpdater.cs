@@ -27,7 +27,7 @@ namespace ConsoleRunner
             };
         }
 
-        public void SetArea(string name, int level) { }
+        public void SetArea(string name, int level, bool isDungeon) { }
 
         public void SetAutoProceedStatus(bool enabled) { }
 

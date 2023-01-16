@@ -64,9 +64,9 @@ namespace TheIdleScrollsApp
             GetTargetOrNull()?.SetMobHP(mob.HP, mob.HpMax);
         }
 
-        public void SetArea(string name, int level)
+        public void SetArea(string name, int level, bool isDungeon)
         {
-            GetTargetOrNull()?.SetArea(name, level);
+            GetTargetOrNull()?.SetArea(name, level, isDungeon);
         }
 
         public void SetTimeLimit(double remaining, double duration)
