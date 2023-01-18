@@ -93,7 +93,7 @@ namespace TheIdleScrollsApp
             }
             else if (GameFeature.Travel == area)
             {
-                m_canTravel = true;
+                m_canTravel = available;
                 UpdateButtonVisibility();
             }
         }
