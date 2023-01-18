@@ -14,6 +14,7 @@ namespace TheIdleScrolls_Core.Items
         public EquippableDescription? Equippable { get; set; } = null;
         public WeaponGenus? Weapon { get; set; } = null;
         public ArmorGenus? Armor { get; set; } = null;
+        public int DropLevel { get; set; } = 1;
 
         public ItemDescription() { }
 
@@ -24,6 +25,7 @@ namespace TheIdleScrolls_Core.Items
             Weapon = genus.Weapon;
             Armor = genus.Armor;
             Equippable = genus.Equippable;
+            DropLevel = genus.DropLevel;
         }
     }
 
@@ -56,6 +58,8 @@ namespace TheIdleScrolls_Core.Items
         public WeaponGenus? Weapon { get; set; } = null;
 
         public ArmorGenus? Armor { get; set; } = null;
+
+        public int DropLevel { get; set; } = 1;
     }
 
     public class ItemFamilyDescription
