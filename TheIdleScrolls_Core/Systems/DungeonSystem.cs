@@ -10,7 +10,7 @@ using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrolls_Core.Systems
 {
-    internal class DungeonSystem : AbstractSystem
+    public class DungeonSystem : AbstractSystem
     {
         Entity? m_player = null;
 
@@ -103,32 +103,35 @@ namespace TheIdleScrolls_Core.Systems
         {
             // Build loot table
             // Get rewards from dungeon description
-            List<LootTableEntry> lootTable = new();
-            var rewards = world.AreaKingdom.GetDungeon(world.DungeonId)?.Rewards ?? new();
-            if (rewards.Any())
-            {
-                foreach (var reward in rewards)
-                {
-                    lootTable.Add(new LootTableEntry(reward, 1.0));
-                }
-            }
-            else
-            {
-                return;
-            }
+            //List<LootTableEntry> lootTable = new();
+            //var rewards = world.AreaKingdom.GetDungeon(world.DungeonId)?.Rewards.SpecialRewards ?? new();
+            //if (rewards.Any())
+            //{
+            //    foreach (var reward in rewards)
+            //    {
+            //        lootTable.Add(new LootTableEntry(reward, 1.0));
+            //    }
+            //}
+            //else
+            //{
+            //    return;
+            //}
+
+            var dungeon = world.AreaKingdom.GetDungeon(world.DungeonId) ?? throw new Exception($"Invalid dungeon id: {world.DungeonId}");
+            var lootTable = BuildBasicLootTable(dungeon.Rewards, dungeon.Level);
 
             // Select random reward
-            double weightSum = lootTable.Sum(e => e.Weight);
+            double weightSum = lootTable.Sum(e => e.Value);
             double pointer = new Random().NextDouble() * weightSum;
             string selection = "";
             foreach (var reward in lootTable)
             {
-                if (reward.Weight > pointer)
+                if (reward.Value > pointer)
                 {
-                    selection = reward.Item;
+                    selection = reward.Key;
                     break;
                 }
-                pointer -= reward.Weight;
+                pointer -= reward.Value;
             }
 
             // Give item to player, if they don't have it already
@@ -145,6 +148,33 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.AddEntity(item);
                 coordinator.PostMessage(this, new ItemReceivedMessage(m_player!, item));
             }
+        }
+
+        public static Dictionary<string, double> BuildBasicLootTable(DungeonRewardsDescription rewardSettings, int dungeonLevel)
+        {
+            HashSet<string> validIds = new();
+            if (rewardSettings.UseLeveledLoot)
+            {
+                foreach (var f in ItemFactory.ItemKingdom.Families)
+                {
+                    for (int i = 0; i < f.Genera.Count; i++)
+                    {
+                        var g = ItemFactory.ItemKingdom.GetDescriptionByIdAndIndex(f.Id, i);
+                        if (g != null && g.DropLevel >= rewardSettings.MinDropLevel && g.DropLevel <= dungeonLevel)
+                        {
+                            string id = ItemFactory.GetItemCode(g) ?? throw new Exception($"Invalid item description for {g.Genus}");
+                            validIds.Add(id);
+                        }
+                    }
+                }
+            }
+            rewardSettings.SpecialRewards.ForEach(r => validIds.Add(r)); // CornerCut: This becomes incorrect once rarity is implemented
+            Dictionary<string, double> result = new();
+            foreach(var id in validIds)
+            {
+                result[id] = 1.0;
+            }
+            return result;
         }
     }
 

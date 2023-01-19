@@ -4,7 +4,7 @@
       "Name": "The Crypt",
       "Id": "CRYPT",
       "Level": 15,
-      "Description":  "There is something stirring beneath the graveyard...",
+      "Description": "There is something stirring beneath the graveyard...",
       "Floors": [
         {
           "MobCount": 2,
@@ -65,13 +65,13 @@
           "Damage": 1.5
         }
       ],
-      "Rewards": [
-        "SBL1",
-        "LBL1",
-        "AXE1",
-        "BLN1",
-        "POL1"
-      ]
+      "Rewards": {
+        "MinDropLevel": 10,
+        "UseLeveledLoot": true,
+        "SpecialRewards": [
+
+        ]
+      }
     },
     {
       "Name": "The Lighthouse",
@@ -126,13 +126,13 @@
           "Damage": 1.2
         }
       ],
-      "Rewards": [
-        "SBL1",
-        "LBL1",
-        "AXE1",
-        "BLN1",
-        "POL1"
-      ]
+      "Rewards": {
+        "MinDropLevel": 20,
+        "UseLeveledLoot": true,
+        "SpecialRewards": [
+
+        ]
+      }
     }
   ]
 }

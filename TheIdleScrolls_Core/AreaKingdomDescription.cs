@@ -81,7 +81,7 @@ namespace TheIdleScrolls_Core
         public string Description { get; set; } = "";
         public List<DungeonFloorDescription> Floors { get; set; } = new();
         public List<MobDescription> LocalMobs { get; set; } = new();
-        public List<string> Rewards { get; set; } = new();
+        public DungeonRewardsDescription Rewards { get; set; } = new();
     }
 
     /// <summary>
@@ -92,6 +92,18 @@ namespace TheIdleScrolls_Core
         public int MobCount { get; set; } = 1;
         public double TimeMultiplier { get; set; } = 1.0;
         public List<string> MobTypes { get; set; } = new();
+    }
+
+    public struct DungeonRewardsDescription
+    {
+        public int MinDropLevel { get; set; } = 1;
+        public bool UseLeveledLoot { get; set; } = true;
+        public List<string> SpecialRewards { get; set; } = new();
+
+        public DungeonRewardsDescription()
+        {
+
+        }
     }
 
     /// <summary>
