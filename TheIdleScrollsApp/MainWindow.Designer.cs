@@ -531,9 +531,9 @@
             // lblEqArmor
             // 
             this.lblEqArmor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqArmor.Location = new System.Drawing.Point(254, 30);
+            this.lblEqArmor.Location = new System.Drawing.Point(355, 30);
             this.lblEqArmor.Name = "lblEqArmor";
-            this.lblEqArmor.Size = new System.Drawing.Size(106, 23);
+            this.lblEqArmor.Size = new System.Drawing.Size(200, 23);
             this.lblEqArmor.TabIndex = 5;
             this.lblEqArmor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblEqArmor.DoubleClick += new System.EventHandler(this.lblEqArmor_DoubleClick);
@@ -541,7 +541,7 @@
             // hdrEqArmor
             // 
             this.hdrEqArmor.AutoSize = true;
-            this.hdrEqArmor.Location = new System.Drawing.Point(210, 37);
+            this.hdrEqArmor.Location = new System.Drawing.Point(308, 34);
             this.hdrEqArmor.Name = "hdrEqArmor";
             this.hdrEqArmor.Size = new System.Drawing.Size(41, 15);
             this.hdrEqArmor.TabIndex = 4;
@@ -552,7 +552,7 @@
             this.lblEqWeapon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lblEqWeapon.Location = new System.Drawing.Point(63, 30);
             this.lblEqWeapon.Name = "lblEqWeapon";
-            this.lblEqWeapon.Size = new System.Drawing.Size(106, 23);
+            this.lblEqWeapon.Size = new System.Drawing.Size(200, 23);
             this.lblEqWeapon.TabIndex = 3;
             this.lblEqWeapon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblEqWeapon.DoubleClick += new System.EventHandler(this.lblEqWeapon_DoubleClick);
@@ -560,7 +560,7 @@
             // hdrEqWeapon
             // 
             this.hdrEqWeapon.AutoSize = true;
-            this.hdrEqWeapon.Location = new System.Drawing.Point(9, 37);
+            this.hdrEqWeapon.Location = new System.Drawing.Point(9, 34);
             this.hdrEqWeapon.Name = "hdrEqWeapon";
             this.hdrEqWeapon.Size = new System.Drawing.Size(51, 15);
             this.hdrEqWeapon.TabIndex = 1;
