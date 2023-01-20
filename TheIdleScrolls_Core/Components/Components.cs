@@ -173,6 +173,16 @@ namespace TheIdleScrolls_Core.Components
         }
     }
 
+    public class ItemRarityComponent : IComponent
+    {
+        public int RarityLevel { get; set; }
+
+        public ItemRarityComponent(int rarityLevel)
+        {
+            RarityLevel = rarityLevel;
+        }
+    }
+
     public class MobDamageComponent : IComponent
     {
         public double Multiplier { get; set; }

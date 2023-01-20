@@ -255,5 +255,19 @@
         }
       ]
     }
+  ],
+  "Rarities": [
+    {
+      "MinLevel": 10,
+      "InverseWeight": 5
+    },
+    {
+      "MinLevel": 20,
+      "InverseWeight": 25
+    },
+    {
+      "MinLevel": 30,
+      "InverseWeight": 100
+    }
   ]
 }
