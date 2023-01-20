@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace TheIdleScrolls_Core.Items
 {
     public class ItemIdentifier
     {
+        private static string FullRegexString = @"([a-zA-Z]+)([0-9]+)(\+[0-9]+)?";
         public string Code { get; set; } = string.Empty;
 
         public ItemIdentifier(string code)
@@ -22,6 +24,10 @@ namespace TheIdleScrolls_Core.Items
         public string FamilyId { get { return ExtractFamilyId(Code); } }
 
         public int GenusIndex { get { return ExtractGenusIndex(Code); } }
+
+        public string GenusId { get { return ExtractGenusId(Code); } }
+
+        public int RarityLevel { get { return ExtractRarityLevel(Code); } }
 
         public ItemFamilyDescription GetFamilyDescription()
         {                 
@@ -49,10 +55,25 @@ namespace TheIdleScrolls_Core.Items
             return Int32.Parse(itemCode[3..4]);
         }
 
+        public static string ExtractGenusId(string itemCode)
+        {
+            return itemCode[..4];
+        }
+
+        public static int ExtractRarityLevel(string itemCode)
+        {
+            if (!itemCode.Contains('+'))
+                return 0;
+            return Int32.Parse(itemCode.Split('+')[1]);
+        }
+
         public static bool ValidateItemCode(string itemCode)
         {
             try
             {
+                var match = new Regex(FullRegexString).Match(itemCode);
+                if (match.Value != itemCode)
+                    return false;
                 var family = ExtractFamilyId(itemCode);
                 var genusIdx = ExtractGenusIndex(itemCode);
                 return ItemFactory.ItemKingdom.GetDescriptionByIdAndIndex(family, genusIdx) != null;
