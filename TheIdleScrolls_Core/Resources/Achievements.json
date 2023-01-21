@@ -1,13 +1,6 @@
 ﻿{
   "Achievements": [
     {
-      "Id": "CHEAT",
-      "Prerequisite": "AoALL",
-      "Condition": "1",
-      "Title": "J'accuse!",
-      "Description": "Caught the cheater ;-)"
-    },
-    {
       "Id": "LVL10",
       "Condition": "Level >= 10",
       "Title": "Level 10",
