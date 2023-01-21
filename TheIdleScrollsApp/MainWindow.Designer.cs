@@ -81,6 +81,7 @@
             this.textBoxStats = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFooter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -101,6 +102,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridAchievements)).BeginInit();
             this.tabStats.SuspendLayout();
             this.statusStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
             this.SuspendLayout();
             // 
             // timerTick
@@ -515,11 +520,7 @@
             // 
             // tabInventory
             // 
-            this.tabInventory.Controls.Add(this.lblEqArmor);
-            this.tabInventory.Controls.Add(this.hdrEqArmor);
-            this.tabInventory.Controls.Add(this.lblEqWeapon);
-            this.tabInventory.Controls.Add(this.hdrEqWeapon);
-            this.tabInventory.Controls.Add(this.gridInventory);
+            this.tabInventory.Controls.Add(this.splitContainer3);
             this.tabInventory.Location = new System.Drawing.Point(4, 24);
             this.tabInventory.Name = "tabInventory";
             this.tabInventory.Padding = new System.Windows.Forms.Padding(3);
@@ -531,7 +532,7 @@
             // lblEqArmor
             // 
             this.lblEqArmor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqArmor.Location = new System.Drawing.Point(355, 30);
+            this.lblEqArmor.Location = new System.Drawing.Point(391, 21);
             this.lblEqArmor.Name = "lblEqArmor";
             this.lblEqArmor.Size = new System.Drawing.Size(200, 23);
             this.lblEqArmor.TabIndex = 5;
@@ -541,7 +542,7 @@
             // hdrEqArmor
             // 
             this.hdrEqArmor.AutoSize = true;
-            this.hdrEqArmor.Location = new System.Drawing.Point(308, 34);
+            this.hdrEqArmor.Location = new System.Drawing.Point(344, 25);
             this.hdrEqArmor.Name = "hdrEqArmor";
             this.hdrEqArmor.Size = new System.Drawing.Size(41, 15);
             this.hdrEqArmor.TabIndex = 4;
@@ -550,7 +551,7 @@
             // lblEqWeapon
             // 
             this.lblEqWeapon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqWeapon.Location = new System.Drawing.Point(63, 30);
+            this.lblEqWeapon.Location = new System.Drawing.Point(93, 21);
             this.lblEqWeapon.Name = "lblEqWeapon";
             this.lblEqWeapon.Size = new System.Drawing.Size(200, 23);
             this.lblEqWeapon.TabIndex = 3;
@@ -560,7 +561,7 @@
             // hdrEqWeapon
             // 
             this.hdrEqWeapon.AutoSize = true;
-            this.hdrEqWeapon.Location = new System.Drawing.Point(9, 34);
+            this.hdrEqWeapon.Location = new System.Drawing.Point(36, 25);
             this.hdrEqWeapon.Name = "hdrEqWeapon";
             this.hdrEqWeapon.Size = new System.Drawing.Size(51, 15);
             this.hdrEqWeapon.TabIndex = 1;
@@ -571,19 +572,18 @@
             this.gridInventory.AllowUserToAddRows = false;
             this.gridInventory.AllowUserToDeleteRows = false;
             this.gridInventory.AllowUserToResizeRows = false;
-            this.gridInventory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.gridInventory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.gridInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridInventory.Location = new System.Drawing.Point(9, 84);
+            this.gridInventory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridInventory.Location = new System.Drawing.Point(0, 0);
             this.gridInventory.MultiSelect = false;
             this.gridInventory.Name = "gridInventory";
             this.gridInventory.ReadOnly = true;
             this.gridInventory.RowHeadersVisible = false;
             this.gridInventory.RowTemplate.Height = 25;
+            this.gridInventory.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridInventory.Size = new System.Drawing.Size(1013, 788);
+            this.gridInventory.Size = new System.Drawing.Size(648, 436);
             this.gridInventory.TabIndex = 0;
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
             // 
@@ -744,6 +744,30 @@
             this.lblFooter.Size = new System.Drawing.Size(118, 17);
             this.lblFooter.Text = "toolStripStatusLabel1";
             // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer3.IsSplitterFixed = true;
+            this.splitContainer3.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.lblEqArmor);
+            this.splitContainer3.Panel1.Controls.Add(this.lblEqWeapon);
+            this.splitContainer3.Panel1.Controls.Add(this.hdrEqWeapon);
+            this.splitContainer3.Panel1.Controls.Add(this.hdrEqArmor);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.gridInventory);
+            this.splitContainer3.Size = new System.Drawing.Size(648, 498);
+            this.splitContainer3.SplitterDistance = 61;
+            this.splitContainer3.SplitterWidth = 1;
+            this.splitContainer3.TabIndex = 6;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -770,7 +794,6 @@
             this.tabCharacter.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tabInventory.ResumeLayout(false);
-            this.tabInventory.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridInventory)).EndInit();
             this.tabAbilities.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridAbilities)).EndInit();
@@ -782,6 +805,11 @@
             this.tabStats.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel1.PerformLayout();
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -838,5 +866,6 @@
         private Label lblAchievementCount;
         private Label label2;
         private Button btnLeaveDungeon;
+        private SplitContainer splitContainer3;
     }
 }
