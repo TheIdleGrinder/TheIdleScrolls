@@ -76,15 +76,50 @@ namespace TheIdleScrolls_Core.Items
             var item = MakeItem(description);
             if (itemCode.RarityLevel > 0)
             {
-                item.AddComponent(new ItemRarityComponent(itemCode.RarityLevel));
+                SetItemRarity(item, itemCode.RarityLevel);
             }
 
-            CalculateItemStats(item);
-            UpdateItemName(item);
             return item;
         }
 
-        public static void CalculateItemStats(Entity item)
+        public static void SetItemRarity(Entity item, int rarityLevel)
+        {
+            var itemCode = item.GetComponent<ItemComponent>()?.Code ?? throw new Exception($"Entity {item.GetName()} is not an item");
+            item.AddComponent(new ItemRarityComponent(itemCode.RarityLevel));
+            CalculateItemStats(item);
+            UpdateItemName(item);
+        }
+
+        public static int GetRandomRarity(int itemLevel, double multiplier)
+        {
+            int n = ItemKingdom.Rarities.Count;
+            List<double> weights = new(n);
+
+            // Build list of weights in reverse order
+            // This ensures that low rarities get 'pushed' out of range first at high bonuses
+            for (int i = 0; i < n; i++)
+            {
+                double weight = multiplier / ItemKingdom.Rarities[i].InverseWeight;
+                if (itemLevel < ItemKingdom.Rarities[i].MinLevel)
+                    weight = 0.0;
+                weights[n - i - 1] = weight;
+            }
+
+            double draw = new Random().NextDouble();
+            int rarity = 0;
+            for (int i = 0; i < weights.Count; i++)
+            {
+                draw -= weights[i];
+                if (draw < 0)
+                {
+                    rarity = n - i; // i'th highest rarity => level == n - i (instead of n - i - 1 since rarities start at 1)
+                    break;
+                }
+            }
+            return rarity;
+        }
+
+        private static void CalculateItemStats(Entity item)
         {
             const double rarityScaling = 1.25;
             var itemComp = item.GetComponent<ItemComponent>();
@@ -110,7 +145,7 @@ namespace TheIdleScrolls_Core.Items
             }
         }
 
-        public static void UpdateItemName(Entity item)
+        private static void UpdateItemName(Entity item)
         {
             var itemComp = item.GetComponent<ItemComponent>() ?? throw new Exception($"Entity {item.GetName()} is not an item");
             var name = itemComp.GenusName;
