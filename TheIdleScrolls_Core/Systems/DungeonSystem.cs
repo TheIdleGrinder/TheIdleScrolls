@@ -142,9 +142,12 @@ namespace TheIdleScrolls_Core.Systems
             var equipItems = m_player?.GetComponent<EquipmentComponent>()?.GetItems() ?? new();
             List<string> ownedItems = invItems.Concat(equipItems).Select(i => i.GetComponent<ItemComponent>()?.Code.Code ?? "").ToList();
 
-            if (!ownedItems.Contains(selection))
+            Entity item = new ItemFactory().ExpandCode(selection) ?? throw new Exception($"Invalid item code: {selection}");
+            int rarity = ItemFactory.GetRandomRarity(dungeon.Level, 5.0);
+            ItemFactory.SetItemRarity(item, rarity);
+
+            if (!ownedItems.Contains(item.GetItemCode()))
             {
-                Entity item = new ItemFactory().ExpandCode(selection) ?? throw new Exception($"Invalid item code: {selection}");
                 coordinator.AddEntity(item);
                 coordinator.PostMessage(this, new ItemReceivedMessage(m_player!, item));
             }

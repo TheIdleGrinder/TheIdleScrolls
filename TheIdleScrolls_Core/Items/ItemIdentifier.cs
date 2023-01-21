@@ -29,7 +29,10 @@ namespace TheIdleScrolls_Core.Items
 
         public string SpeciesId { get { return ExtractSpeciesId(Code); } }
 
-        public int RarityLevel { get { return ExtractRarityLevel(Code); } }
+        public int RarityLevel {
+            get { return ExtractRarityLevel(Code); }
+            set { Code = UpdateRarityLevel(Code, value); }
+        }
 
         public ItemFamilyDescription GetFamilyDescription()
         {                 
@@ -72,6 +75,16 @@ namespace TheIdleScrolls_Core.Items
             if (!itemCode.Contains('+'))
                 return 0;
             return Int32.Parse(itemCode.Split('+')[1]);
+        }
+
+        public static string UpdateRarityLevel(string itemCode, int newRarityLevel)
+        {
+            string newCode = ExtractSpeciesId(itemCode);
+            if (newRarityLevel != 0)
+            {
+                newCode += $"+{newRarityLevel}";
+            }
+            return newCode;
         }
 
         public static bool ValidateItemCode(string itemCode)

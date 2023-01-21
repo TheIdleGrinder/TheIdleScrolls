@@ -84,8 +84,9 @@ namespace TheIdleScrolls_Core.Items
 
         public static void SetItemRarity(Entity item, int rarityLevel)
         {
-            var itemCode = item.GetComponent<ItemComponent>()?.Code ?? throw new Exception($"Entity {item.GetName()} is not an item");
-            item.AddComponent(new ItemRarityComponent(itemCode.RarityLevel));
+            var itemComp = item.GetComponent<ItemComponent>() ?? throw new Exception($"Entity {item.GetName()} is not an item");
+            itemComp.Code.RarityLevel = rarityLevel;
+            item.AddComponent(new ItemRarityComponent(rarityLevel));
             CalculateItemStats(item);
             UpdateItemName(item);
         }
@@ -93,7 +94,7 @@ namespace TheIdleScrolls_Core.Items
         public static int GetRandomRarity(int itemLevel, double multiplier)
         {
             int n = ItemKingdom.Rarities.Count;
-            List<double> weights = new(n);
+            double[] weights = new double[n];
 
             // Build list of weights in reverse order
             // This ensures that low rarities get 'pushed' out of range first at high bonuses
@@ -107,7 +108,7 @@ namespace TheIdleScrolls_Core.Items
 
             double draw = new Random().NextDouble();
             int rarity = 0;
-            for (int i = 0; i < weights.Count; i++)
+            for (int i = 0; i < weights.Length; i++)
             {
                 draw -= weights[i];
                 if (draw < 0)
@@ -133,14 +134,14 @@ namespace TheIdleScrolls_Core.Items
 
             if (description.Weapon != null)
             {
-                double dmg = description.Weapon.BaseDamage * Math.Pow(rarityScaling, rarityLevel);
+                double dmg = Math.Round(description.Weapon.BaseDamage * Math.Pow(rarityScaling, rarityLevel), 1);
                 item.AddComponent(new WeaponComponent(dmg, description.Weapon.BaseCooldown));
             }
 
             if (description.Armor != null)
             {
-                double armor = description.Armor.BaseArmor * Math.Pow(rarityScaling, rarityLevel);
-                double evasion = description.Armor.BaseEvasion * Math.Pow(rarityScaling, rarityLevel);
+                double armor = Math.Round(description.Armor.BaseArmor * Math.Pow(rarityScaling, rarityLevel), 1);
+                double evasion = Math.Round(description.Armor.BaseEvasion * Math.Pow(rarityScaling, rarityLevel), 1);
                 item.AddComponent(new ArmorComponent(armor, evasion));
             }
         }
@@ -219,7 +220,7 @@ namespace TheIdleScrolls_Core.Items
 
         public string? GenerateItemCode(Entity item)
         {
-            return GetItemCode(item);
+            return item.GetItemCode();
         }
     }
 }
