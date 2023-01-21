@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -40,7 +41,7 @@ namespace TheIdleScrolls_Core.Items
             return items;
         }
 
-        public static Entity MakeItem(ItemDescription description)
+        private static Entity MakeItem(ItemDescription description)
         {
             Entity item = new();
             item.AddComponent(new NameComponent(description.Genus));
@@ -72,7 +73,55 @@ namespace TheIdleScrolls_Core.Items
             if (description == null)
                 return null;
 
-            return MakeItem(description);
+            var item = MakeItem(description);
+            if (itemCode.RarityLevel > 0)
+            {
+                item.AddComponent(new ItemRarityComponent(itemCode.RarityLevel));
+            }
+
+            CalculateItemStats(item);
+            UpdateItemName(item);
+            return item;
+        }
+
+        public static void CalculateItemStats(Entity item)
+        {
+            const double rarityScaling = 1.25;
+            var itemComp = item.GetComponent<ItemComponent>();
+            if (itemComp == null)
+                throw new Exception($"Entity {item.GetName()} is not an item");
+            var description = ItemKingdom.GetDescriptionByIdAndIndex(itemComp.Code.FamilyId, itemComp.Code.GenusIndex);
+            if (description == null)
+                throw new Exception($"Invalid item code: {itemComp.Code}");
+
+            int rarityLevel = item.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
+
+            if (description.Weapon != null)
+            {
+                double dmg = description.Weapon.BaseDamage * Math.Pow(rarityScaling, rarityLevel);
+                item.AddComponent(new WeaponComponent(dmg, description.Weapon.BaseCooldown));
+            }
+
+            if (description.Armor != null)
+            {
+                double armor = description.Armor.BaseArmor * Math.Pow(rarityScaling, rarityLevel);
+                double evasion = description.Armor.BaseEvasion * Math.Pow(rarityScaling, rarityLevel);
+                item.AddComponent(new ArmorComponent(armor, evasion));
+            }
+        }
+
+        public static void UpdateItemName(Entity item)
+        {
+            var itemComp = item.GetComponent<ItemComponent>() ?? throw new Exception($"Entity {item.GetName()} is not an item");
+            var name = itemComp.GenusName;
+            
+            var rarity = itemComp.Code.RarityLevel;
+            if (rarity > 0)
+            {
+                name += $" + {rarity}";
+            }
+
+            item.AddComponent(new NameComponent(name));
         }
 
         public static string? GetItemCode(Entity item)

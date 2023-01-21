@@ -27,6 +27,8 @@ namespace TheIdleScrolls_Core.Items
 
         public string GenusId { get { return ExtractGenusId(Code); } }
 
+        public string SpeciesId { get { return ExtractSpeciesId(Code); } }
+
         public int RarityLevel { get { return ExtractRarityLevel(Code); } }
 
         public ItemFamilyDescription GetFamilyDescription()
@@ -58,6 +60,11 @@ namespace TheIdleScrolls_Core.Items
         public static string ExtractGenusId(string itemCode)
         {
             return itemCode[..4];
+        }
+
+        public static string ExtractSpeciesId(string itemCode)
+        {
+            return ExtractGenusId(itemCode);
         }
 
         public static int ExtractRarityLevel(string itemCode)
