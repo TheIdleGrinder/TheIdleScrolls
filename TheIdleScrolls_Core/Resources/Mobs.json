@@ -22,36 +22,36 @@
     "Name": "Bear",
     "MinLevel": 16,
     "MaxLevel": 32,
-    "HP": 1.25
+    "HP": 1.1
   },
   {
     "Name": "Ogre",
     "MinLevel": 25,
     "MaxLevel": 50,
-    "HP": 1.7
+    "HP": 1.2
   },
   {
     "Name": "Wyvern",
     "MinLevel": 40,
     "MaxLevel": 74,
-    "HP": 2.3
+    "HP": 1.3
   },
   {
     "Name": "Dragon",
     "MinLevel": 75,
     "MaxLevel": 120,
-    "HP": 2.8
+    "HP": 1.3
   },
   {
     "Name": "Big Dragon",
     "MinLevel": 121,
     "MaxLevel": 150,
-    "HP": 3.5
+    "HP": 1.4
   },
   {
     "Name": "Bigger Dragon",
     "MinLevel": 151,
     "MaxLevel": 1000,
-    "HP": 4.0
+    "HP": 1.5
   }
 ]

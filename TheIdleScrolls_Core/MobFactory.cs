@@ -20,7 +20,7 @@ namespace TheIdleScrolls_Core
     public class MobFactory
     {
         static double BaseHpMultiplier = 10.0;
-        static double DifficultyScaling = 1.2;
+        static double DifficultyScaling = 1.0;
 
         List<MobDescription> m_mobs = new();
 
@@ -45,7 +45,12 @@ namespace TheIdleScrolls_Core
 
         int CalculateHP(MobDescription description, int level)
         {
-            return (int)(Math.Pow(level, DifficultyScaling) * description.HP * BaseHpMultiplier);
+            double hp = Math.Pow(level, DifficultyScaling) * description.HP * BaseHpMultiplier;
+            //hp *= Math.Pow(1.04, Math.Min(level, 100))      // HP increase exponentially by 5% per level before level 100,
+            //    * Math.Pow(1.02, Math.Clamp(level - 100, 0, 100))   // 3% for every level between 100 and 200
+            //    * Math.Pow(1.01, Math.Max(level - 200, 100));       // and 1% for each level above 200
+            hp *= Math.Pow(1.1, Math.Pow(level, 0.75)); // Sub-exponential scaling for HP
+            return (int)Math.Min(hp, Math.Pow(1000, 3)); // Limit HP to 1B
         }
 
         int CalculateXpValue(MobDescription description, int level)
