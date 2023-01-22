@@ -7,6 +7,7 @@ using TheIdleScrolls_Core.Storage;
 using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Core.Components;
 using System.Collections.Generic;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TheIdleScrollsApp
 {
@@ -242,7 +243,7 @@ namespace TheIdleScrollsApp
             for (int i = 0; i < Math.Min(dungeons.Count, buttons.Count); i++)
             {
                 buttons[i].Text = $"{dungeons[i].Name} (Level {dungeons[i].Level})";
-                buttons[i].Tag = dungeons[i].Id;
+                buttons[i].Tag = dungeons[i].Id + "##" + dungeons[i].Description;
                 buttons[i].Visible = true;
                 toolTip.SetToolTip(buttons[i], $"{dungeons[i].Name}\nLevel {dungeons[i].Level}\n\n{dungeons[i].Description}");
             }
@@ -276,8 +277,22 @@ namespace TheIdleScrollsApp
 
         private void btnDungeon_Click(object sender, EventArgs e)
         {
-            var dungeonId = ((Button)sender).Tag;
-            m_inputHandler.EnterDungeon((string)dungeonId);
+            string fullTag = (string)((Button)sender).Tag;
+            var dungeonId = fullTag.Split("##")[0];
+            var description = fullTag.Split("##")[1];
+
+            Thread t = new(() => {
+                DialogResult response = DialogResult.OK;
+                if (!m_inDungeon)
+                {
+                    response = MessageBox.Show(description, $"Entering {dungeonId}", MessageBoxButtons.OKCancel);
+                }
+                if (response == DialogResult.OK)
+                {
+                    m_inputHandler.EnterDungeon(dungeonId);
+                }
+            });
+            t.Start();
         }
 
         public void ShowMessageBox(string title, string text)
