@@ -22,7 +22,7 @@
             "Slot": "Hand"
           },
           "Weapon": {
-            "BaseDamage": 6.0,
+            "BaseDamage": 5.0,
             "BaseCooldown": 0.75
           }
         },
@@ -33,8 +33,8 @@
             "Slot": "Hand"
           },
           "Weapon": {
-            "BaseDamage": 9.0,
-            "BaseCooldown": 1.1
+            "BaseDamage": 8.0,
+            "BaseCooldown": 1.05
           }
         }
       ]
@@ -61,8 +61,8 @@
             "Slot": "Hand"
           },
           "Weapon": {
-            "BaseDamage": 14.0,
-            "BaseCooldown": 1.65
+            "BaseDamage": 11.0,
+            "BaseCooldown": 1.5
           }
         },
         {
@@ -72,8 +72,8 @@
             "Slot": "Hand"
           },
           "Weapon": {
-            "BaseDamage": 16.0,
-            "BaseCooldown": 1.8
+            "BaseDamage": 15.0,
+            "BaseCooldown": 1.85
           }
         }
       ]
@@ -94,25 +94,25 @@
           }
         },
         {
-          "Name": "Battle Axe",
+          "Name": "Hatchet",
           "DropLevel": 15,
           "Equippable": {
             "Slot": "Hand"
           },
           "Weapon": {
-            "BaseDamage": 12.0,
-            "BaseCooldown": 1.4
+            "BaseDamage": 9.0,
+            "BaseCooldown": 1.25
           }
         },
         {
-          "Name": "Halberd",
+          "Name": "Battle Axe",
           "DropLevel": 20,
           "Equippable": {
             "Slot": "Hand"
           },
           "Weapon": {
             "BaseDamage": 15.0,
-            "BaseCooldown": 1.65
+            "BaseCooldown": 1.85
           }
         }
       ]
@@ -139,8 +139,8 @@
             "Slot": "Hand"
           },
           "Weapon": {
-            "BaseDamage": 11.0,
-            "BaseCooldown": 1.3
+            "BaseDamage": 10.0,
+            "BaseCooldown": 1.4
           }
         },
         {
@@ -150,7 +150,7 @@
             "Slot": "Hand"
           },
           "Weapon": {
-            "BaseDamage": 18.0,
+            "BaseDamage": 16.0,
             "BaseCooldown": 1.95
           }
         }
@@ -168,29 +168,29 @@
           },
           "Weapon": {
             "BaseDamage": 9.0,
-            "BaseCooldown": 2.0
+            "BaseCooldown": 2.05
           }
         },
         {
-          "Name": "Hunting Spear",
+          "Name": "Halberd",
           "DropLevel": 15,
           "Equippable": {
             "Slot": "Hand"
           },
           "Weapon": {
-            "BaseDamage": 20.0,
-            "BaseCooldown": 2.15
+            "BaseDamage": 17.0,
+            "BaseCooldown": 2.2
           }
         },
         {
-          "Name": "Pilum",
+          "Name": "Hunting Spear",
           "DropLevel": 20,
           "Equippable": {
             "Slot": "Hand"
           },
           "Weapon": {
             "BaseDamage": 11.0,
-            "BaseCooldown": 1.3
+            "BaseCooldown": 1.4
           }
         }
       ]
