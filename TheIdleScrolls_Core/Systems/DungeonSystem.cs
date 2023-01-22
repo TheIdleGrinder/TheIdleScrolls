@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -17,6 +18,7 @@ namespace TheIdleScrolls_Core.Systems
         int m_wildernessLevel = 1;
 
         int m_highestWilderness = 0; // Used to determine whether accessible dungeons need to be checked again
+        int m_dungeonsDone = 0;
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -26,15 +28,25 @@ namespace TheIdleScrolls_Core.Systems
                 return;
 
             var progLevel = m_player.GetComponent<PlayerProgressComponent>()?.Data.HighestWildernessKill ?? 0;
-            if (progLevel > m_highestWilderness)
+            var dungeonsDone = m_player.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeons().Count ?? 0;
+            if (progLevel > m_highestWilderness || dungeonsDone > m_dungeonsDone) // CornerCut: Assumes that only wilderness progress and dungeon clear unlock dungeons
             {
                 var travelComp = m_player.GetComponent<TravellerComponent>();
                 if (travelComp != null)
                 {
                     m_highestWilderness = progLevel;
+                    m_dungeonsDone = dungeonsDone;
                     foreach (var dungeon in world.AreaKingdom.Dungeons)
                     {
-                        if (progLevel >= dungeon.Level && !travelComp.AvailableDungeons.Contains(dungeon.Id))
+                        if (travelComp.AvailableDungeons.Contains(dungeon.Id))
+                            continue;
+                        string condition = dungeon.Condition;
+                        if (condition == String.Empty)
+                        {
+                            condition = $"Wilderness >= {dungeon.Level}"; // Default condition: Wilderness >= Dungeon level
+                        }
+                        var condExpression = ExpressionParser.Parse(condition);
+                        if (condExpression.Evaluate(m_player, world) >= 1.0)
                         {
                             travelComp.AvailableDungeons.Add(dungeon.Id);
                             coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Id));
