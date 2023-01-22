@@ -159,7 +159,7 @@ namespace TheIdleScrollsApp
         public void SetMobHP(int current, int max)
         {
             var barString = BuildBarString(16, current, max);
-            lblMobHP.Text = $"HP: {current} / {max}\n{barString}";
+            lblMobHP.Text = $"HP: {current:0,0} / {max:0,0}\n{barString}";
         }
 
         public void SetAttackDamage(double raw, double dps)

@@ -62,10 +62,11 @@
             this.lblCharLevel = new System.Windows.Forms.Label();
             this.lblCharName = new System.Windows.Forms.Label();
             this.tabInventory = new System.Windows.Forms.TabPage();
+            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.lblEqArmor = new System.Windows.Forms.Label();
-            this.hdrEqArmor = new System.Windows.Forms.Label();
             this.lblEqWeapon = new System.Windows.Forms.Label();
             this.hdrEqWeapon = new System.Windows.Forms.Label();
+            this.hdrEqArmor = new System.Windows.Forms.Label();
             this.gridInventory = new System.Windows.Forms.DataGridView();
             this.tabAbilities = new System.Windows.Forms.TabPage();
             this.gridAbilities = new System.Windows.Forms.DataGridView();
@@ -81,7 +82,6 @@
             this.textBoxStats = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFooter = new System.Windows.Forms.ToolStripStatusLabel();
-            this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -94,6 +94,10 @@
             this.tabCharacter.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabInventory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
+            this.splitContainer3.Panel1.SuspendLayout();
+            this.splitContainer3.Panel2.SuspendLayout();
+            this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridInventory)).BeginInit();
             this.tabAbilities.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAbilities)).BeginInit();
@@ -102,10 +106,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridAchievements)).BeginInit();
             this.tabStats.SuspendLayout();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
-            this.splitContainer3.Panel1.SuspendLayout();
-            this.splitContainer3.Panel2.SuspendLayout();
-            this.splitContainer3.SuspendLayout();
             this.SuspendLayout();
             // 
             // timerTick
@@ -137,7 +137,7 @@
             // 
             this.splitContainer2.Panel2.Controls.Add(this.statusStrip1);
             this.splitContainer2.Panel2MinSize = 22;
-            this.splitContainer2.Size = new System.Drawing.Size(1071, 561);
+            this.splitContainer2.Size = new System.Drawing.Size(984, 561);
             this.splitContainer2.SplitterDistance = 532;
             this.splitContainer2.TabIndex = 1;
             // 
@@ -162,8 +162,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(1071, 532);
-            this.splitContainer1.SplitterDistance = 405;
+            this.splitContainer1.Size = new System.Drawing.Size(984, 532);
+            this.splitContainer1.SplitterDistance = 372;
             this.splitContainer1.TabIndex = 1;
             // 
             // btnLeaveDungeon
@@ -172,7 +172,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLeaveDungeon.Location = new System.Drawing.Point(165, 48);
             this.btnLeaveDungeon.Name = "btnLeaveDungeon";
-            this.btnLeaveDungeon.Size = new System.Drawing.Size(75, 23);
+            this.btnLeaveDungeon.Size = new System.Drawing.Size(42, 23);
             this.btnLeaveDungeon.TabIndex = 9;
             this.btnLeaveDungeon.Text = "Leave";
             this.btnLeaveDungeon.UseVisualStyleBackColor = true;
@@ -182,7 +182,7 @@
             // 
             this.cbNextAfterWin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbNextAfterWin.AutoSize = true;
-            this.cbNextAfterWin.Location = new System.Drawing.Point(295, 52);
+            this.cbNextAfterWin.Location = new System.Drawing.Point(262, 52);
             this.cbNextAfterWin.Name = "cbNextAfterWin";
             this.cbNextAfterWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.cbNextAfterWin.Size = new System.Drawing.Size(107, 19);
@@ -195,7 +195,7 @@
             // 
             this.btnAreaNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAreaNext.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.btnAreaNext.Location = new System.Drawing.Point(362, 9);
+            this.btnAreaNext.Location = new System.Drawing.Point(329, 9);
             this.btnAreaNext.Name = "btnAreaNext";
             this.btnAreaNext.Size = new System.Drawing.Size(40, 33);
             this.btnAreaNext.TabIndex = 7;
@@ -221,7 +221,7 @@
             this.lblTimeLimit.ForeColor = System.Drawing.Color.LimeGreen;
             this.lblTimeLimit.Location = new System.Drawing.Point(0, 380);
             this.lblTimeLimit.Name = "lblTimeLimit";
-            this.lblTimeLimit.Size = new System.Drawing.Size(405, 73);
+            this.lblTimeLimit.Size = new System.Drawing.Size(372, 73);
             this.lblTimeLimit.TabIndex = 2;
             this.lblTimeLimit.Text = "10.00\r\n██████████████";
             this.lblTimeLimit.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -233,7 +233,7 @@
             this.lblMobName.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblMobName.Location = new System.Drawing.Point(0, 453);
             this.lblMobName.Name = "lblMobName";
-            this.lblMobName.Size = new System.Drawing.Size(405, 21);
+            this.lblMobName.Size = new System.Drawing.Size(372, 21);
             this.lblMobName.TabIndex = 1;
             this.lblMobName.Text = "Training Dummy (Lvl 1)";
             this.lblMobName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -245,7 +245,7 @@
             this.lblMobHP.ForeColor = System.Drawing.Color.Red;
             this.lblMobHP.Location = new System.Drawing.Point(0, 474);
             this.lblMobHP.Name = "lblMobHP";
-            this.lblMobHP.Size = new System.Drawing.Size(405, 58);
+            this.lblMobHP.Size = new System.Drawing.Size(372, 58);
             this.lblMobHP.TabIndex = 1;
             this.lblMobHP.Text = "HP: 100 / 100\r\n████████████████";
             this.lblMobHP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -257,7 +257,7 @@
             this.lblArea.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblArea.Location = new System.Drawing.Point(3, 14);
             this.lblArea.Name = "lblArea";
-            this.lblArea.Size = new System.Drawing.Size(399, 23);
+            this.lblArea.Size = new System.Drawing.Size(366, 23);
             this.lblArea.TabIndex = 0;
             this.lblArea.Text = "Wilderness - Level 1";
             this.lblArea.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -273,7 +273,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(662, 532);
+            this.tabControl1.Size = new System.Drawing.Size(608, 532);
             this.tabControl1.TabIndex = 0;
             // 
             // tabCharacter
@@ -524,34 +524,49 @@
             this.tabInventory.Location = new System.Drawing.Point(4, 24);
             this.tabInventory.Name = "tabInventory";
             this.tabInventory.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInventory.Size = new System.Drawing.Size(654, 504);
+            this.tabInventory.Size = new System.Drawing.Size(600, 504);
             this.tabInventory.TabIndex = 2;
             this.tabInventory.Text = "Inventory";
             this.tabInventory.UseVisualStyleBackColor = true;
             // 
+            // splitContainer3
+            // 
+            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer3.IsSplitterFixed = true;
+            this.splitContainer3.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer3.Name = "splitContainer3";
+            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer3.Panel1
+            // 
+            this.splitContainer3.Panel1.Controls.Add(this.lblEqArmor);
+            this.splitContainer3.Panel1.Controls.Add(this.lblEqWeapon);
+            this.splitContainer3.Panel1.Controls.Add(this.hdrEqWeapon);
+            this.splitContainer3.Panel1.Controls.Add(this.hdrEqArmor);
+            // 
+            // splitContainer3.Panel2
+            // 
+            this.splitContainer3.Panel2.Controls.Add(this.gridInventory);
+            this.splitContainer3.Size = new System.Drawing.Size(594, 498);
+            this.splitContainer3.SplitterDistance = 61;
+            this.splitContainer3.SplitterWidth = 1;
+            this.splitContainer3.TabIndex = 6;
+            // 
             // lblEqArmor
             // 
             this.lblEqArmor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqArmor.Location = new System.Drawing.Point(391, 21);
+            this.lblEqArmor.Location = new System.Drawing.Point(360, 21);
             this.lblEqArmor.Name = "lblEqArmor";
             this.lblEqArmor.Size = new System.Drawing.Size(200, 23);
             this.lblEqArmor.TabIndex = 5;
             this.lblEqArmor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblEqArmor.DoubleClick += new System.EventHandler(this.lblEqArmor_DoubleClick);
             // 
-            // hdrEqArmor
-            // 
-            this.hdrEqArmor.AutoSize = true;
-            this.hdrEqArmor.Location = new System.Drawing.Point(344, 25);
-            this.hdrEqArmor.Name = "hdrEqArmor";
-            this.hdrEqArmor.Size = new System.Drawing.Size(41, 15);
-            this.hdrEqArmor.TabIndex = 4;
-            this.hdrEqArmor.Text = "Armor";
-            // 
             // lblEqWeapon
             // 
             this.lblEqWeapon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqWeapon.Location = new System.Drawing.Point(93, 21);
+            this.lblEqWeapon.Location = new System.Drawing.Point(76, 21);
             this.lblEqWeapon.Name = "lblEqWeapon";
             this.lblEqWeapon.Size = new System.Drawing.Size(200, 23);
             this.lblEqWeapon.TabIndex = 3;
@@ -561,11 +576,20 @@
             // hdrEqWeapon
             // 
             this.hdrEqWeapon.AutoSize = true;
-            this.hdrEqWeapon.Location = new System.Drawing.Point(36, 25);
+            this.hdrEqWeapon.Location = new System.Drawing.Point(19, 25);
             this.hdrEqWeapon.Name = "hdrEqWeapon";
             this.hdrEqWeapon.Size = new System.Drawing.Size(51, 15);
             this.hdrEqWeapon.TabIndex = 1;
             this.hdrEqWeapon.Text = "Weapon";
+            // 
+            // hdrEqArmor
+            // 
+            this.hdrEqArmor.AutoSize = true;
+            this.hdrEqArmor.Location = new System.Drawing.Point(313, 25);
+            this.hdrEqArmor.Name = "hdrEqArmor";
+            this.hdrEqArmor.Size = new System.Drawing.Size(41, 15);
+            this.hdrEqArmor.TabIndex = 4;
+            this.hdrEqArmor.Text = "Armor";
             // 
             // gridInventory
             // 
@@ -583,7 +607,7 @@
             this.gridInventory.RowTemplate.Height = 25;
             this.gridInventory.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridInventory.Size = new System.Drawing.Size(648, 436);
+            this.gridInventory.Size = new System.Drawing.Size(594, 436);
             this.gridInventory.TabIndex = 0;
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
             // 
@@ -733,7 +757,7 @@
             this.lblFooter});
             this.statusStrip1.Location = new System.Drawing.Point(0, 3);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1071, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(984, 22);
             this.statusStrip1.TabIndex = 0;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -744,35 +768,11 @@
             this.lblFooter.Size = new System.Drawing.Size(118, 17);
             this.lblFooter.Text = "toolStripStatusLabel1";
             // 
-            // splitContainer3
-            // 
-            this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer3.IsSplitterFixed = true;
-            this.splitContainer3.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer3.Name = "splitContainer3";
-            this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer3.Panel1
-            // 
-            this.splitContainer3.Panel1.Controls.Add(this.lblEqArmor);
-            this.splitContainer3.Panel1.Controls.Add(this.lblEqWeapon);
-            this.splitContainer3.Panel1.Controls.Add(this.hdrEqWeapon);
-            this.splitContainer3.Panel1.Controls.Add(this.hdrEqArmor);
-            // 
-            // splitContainer3.Panel2
-            // 
-            this.splitContainer3.Panel2.Controls.Add(this.gridInventory);
-            this.splitContainer3.Size = new System.Drawing.Size(648, 498);
-            this.splitContainer3.SplitterDistance = 61;
-            this.splitContainer3.SplitterWidth = 1;
-            this.splitContainer3.TabIndex = 6;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1071, 561);
+            this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.splitContainer2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1000, 600);
@@ -794,6 +794,11 @@
             this.tabCharacter.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tabInventory.ResumeLayout(false);
+            this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel1.PerformLayout();
+            this.splitContainer3.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
+            this.splitContainer3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridInventory)).EndInit();
             this.tabAbilities.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridAbilities)).EndInit();
@@ -805,11 +810,6 @@
             this.tabStats.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel1.PerformLayout();
-            this.splitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
-            this.splitContainer3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
