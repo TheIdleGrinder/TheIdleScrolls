@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core;
-using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Utility;
 
 namespace Test_TheIdleScrolls_Core
 {

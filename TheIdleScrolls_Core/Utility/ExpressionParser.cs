@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheIdleScrolls_Core.Achievements
+namespace TheIdleScrolls_Core.Utility
 {
     public class ExpressionParser
     {
@@ -39,7 +39,7 @@ namespace TheIdleScrolls_Core.Achievements
                     }
                 }
 
-                if (Double.TryParse(conditionString.Trim(), out double value))
+                if (double.TryParse(conditionString.Trim(), out double value))
                 {
                     return new NumericNode(value);
                 }

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 
-namespace TheIdleScrolls_Core.Achievements
+namespace TheIdleScrolls_Core.Utility
 {
     public interface IConditionExpressionNode
     {
@@ -41,19 +41,19 @@ namespace TheIdleScrolls_Core.Achievements
         {
             if (m_fieldId == "Level")
             {
-                return (double)(target.GetComponent<LevelComponent>()?.Level ?? 0);
+                return target.GetComponent<LevelComponent>()?.Level ?? 0;
             }
             else if (m_fieldId == "Kills")
             {
-                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.Kills ?? 0);
+                return target.GetComponent<PlayerProgressComponent>()?.Data.Kills ?? 0;
             }
             else if (m_fieldId == "Losses")
             {
-                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.Losses ?? 0);
+                return target.GetComponent<PlayerProgressComponent>()?.Data.Losses ?? 0;
             }
             else if (m_fieldId == "Wilderness")
             {
-                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.HighestWildernessKill ?? 0);
+                return target.GetComponent<PlayerProgressComponent>()?.Data.HighestWildernessKill ?? 0;
             }
             else if (m_fieldId == "Playtime")
             {
@@ -88,9 +88,9 @@ namespace TheIdleScrolls_Core.Achievements
 
         public ComparisonNode(Comparator comparator, IConditionExpressionNode left, IConditionExpressionNode right)
         {
-            this.m_comparator = comparator;
-            this.m_left = left;
-            this.m_right = right;
+            m_comparator = comparator;
+            m_left = left;
+            m_right = right;
         }
 
         public double Evaluate(Entity target, World world)
@@ -99,12 +99,12 @@ namespace TheIdleScrolls_Core.Achievements
             double right = m_right.Evaluate(target, world);
             bool result = m_comparator switch
             {
-                Comparator.LT  => left < right,
+                Comparator.LT => left < right,
                 Comparator.LEQ => left <= right,
-                Comparator.EQ  => left == right,
+                Comparator.EQ => left == right,
                 Comparator.NEQ => left != right,
                 Comparator.GEQ => left >= right,
-                Comparator.GT  => left > right,
+                Comparator.GT => left > right,
                 _ => left == right
             };
             return result ? 1.0 : 0.0;

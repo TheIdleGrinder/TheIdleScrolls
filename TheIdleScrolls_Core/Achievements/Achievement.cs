@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Achievements
 {
