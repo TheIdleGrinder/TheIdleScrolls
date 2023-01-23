@@ -243,10 +243,29 @@ namespace TheIdleScrollsApp
             for (int i = 0; i < Math.Min(dungeons.Count, buttons.Count); i++)
             {
                 buttons[i].Text = $"{dungeons[i].Name} (Level {dungeons[i].Level})";
-                buttons[i].Tag = dungeons[i].Id + "##" + dungeons[i].Description;
+                buttons[i].Tag = dungeons[i];
                 buttons[i].Visible = true;
                 toolTip.SetToolTip(buttons[i], $"{dungeons[i].Name}\nLevel {dungeons[i].Level}\n\n{dungeons[i].Description}");
             }
+        }
+
+        private void btnDungeon_Click(object sender, EventArgs e)
+        {
+            var dungeon = (DungeonRepresentation)((Button)sender).Tag;
+
+            Thread t = new(() => {
+                DialogResult response = DialogResult.OK;
+                if (!m_inDungeon)
+                {
+                    string text = $"{dungeon.Name} - Level {dungeon.Level}\n{dungeon.Description}";
+                    response = MessageBox.Show(text, $"Entering {dungeon.Name}", MessageBoxButtons.OKCancel);
+                }
+                if (response == DialogResult.OK)
+                {
+                    m_inputHandler.EnterDungeon(dungeon.Id);
+                }
+            });
+            t.Start();
         }
 
         public void SetAchievements(List<AchievementRepresentation> visibleAchievements, int achievementCount)
@@ -273,26 +292,6 @@ namespace TheIdleScrollsApp
         public void SetStatisticsReport(string report)
         {
             textBoxStats.Text = report;
-        }
-
-        private void btnDungeon_Click(object sender, EventArgs e)
-        {
-            string fullTag = (string)((Button)sender).Tag;
-            var dungeonId = fullTag.Split("##")[0];
-            var description = fullTag.Split("##")[1];
-
-            Thread t = new(() => {
-                DialogResult response = DialogResult.OK;
-                if (!m_inDungeon)
-                {
-                    response = MessageBox.Show(description, $"Entering {dungeonId}", MessageBoxButtons.OKCancel);
-                }
-                if (response == DialogResult.OK)
-                {
-                    m_inputHandler.EnterDungeon(dungeonId);
-                }
-            });
-            t.Start();
         }
 
         public void ShowMessageBox(string title, string text)
