@@ -161,7 +161,7 @@ namespace TheIdleScrolls_Core.Systems
                             (a.Hidden && a.Status != AchievementStatus.Awarded) ? hiddenInfo : a.Description, 
                             a.Status == Achievements.AchievementStatus.Awarded)
                     ).ToList();
-                    m_appModel?.SetAchievements(achievements, achComp.Achievements.Count - 1); // CornerCut: -1 to account for J'accuse!
+                    m_appModel?.SetAchievements(achievements, achComp.Achievements.Count);
                 }
             }
 

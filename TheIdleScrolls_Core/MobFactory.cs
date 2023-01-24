@@ -46,19 +46,16 @@ namespace TheIdleScrolls_Core
         int CalculateHP(MobDescription description, int level)
         {
             double hp = Math.Pow(level, DifficultyScaling) * description.HP * BaseHpMultiplier;
-            //hp *= Math.Pow(1.04, Math.Min(level, 100))      // HP increase exponentially by 5% per level before level 100,
-            //    * Math.Pow(1.02, Math.Clamp(level - 100, 0, 100))   // 3% for every level between 100 and 200
-            //    * Math.Pow(1.01, Math.Max(level - 200, 100));       // and 1% for each level above 200
             hp *= Math.Pow(1.1, Math.Pow(level, 0.75)); // Sub-exponential scaling for HP
-            return (int)Math.Min(hp, Math.Pow(1000, 3)); // Limit HP to 1B
+            return (int)Math.Min(Math.Round(hp), 1_000_000_000); // Limit HP to 1B
         }
 
         int CalculateXpValue(MobDescription description, int level)
         {
             double dmgMulti = 0.5 + 0.5 * description.Damage;
-            return (int)Math.Round(
-                5.0 * Math.Pow(level, 2) * description.HP * dmgMulti
-            );
+            double hp = CalculateHP(description, level);
+            double xp = Math.Ceiling(Math.Sqrt(level) * hp * dmgMulti / 12);
+            return (int)Math.Min(xp, 2_500_000);
         }
     }
 }

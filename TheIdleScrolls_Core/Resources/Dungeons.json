@@ -77,7 +77,7 @@
       "Name": "The Lighthouse",
       "Id": "LIGHTHOUSE",
       "Level": 25,
-      "Condition": "Wilderness >= 150",
+      "Condition": "Wilderness >= 25",
       "Description": "Cultists have holed up in the old lighthouse. The blue flames they lit have attracted more than just ships.",
       "Floors": [
         {
