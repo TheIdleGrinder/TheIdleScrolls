@@ -155,7 +155,7 @@ namespace TheIdleScrolls_Core.Systems
             List<string> ownedItems = invItems.Concat(equipItems).Select(i => i.GetComponent<ItemComponent>()?.Code.Code ?? "").ToList();
 
             Entity item = new ItemFactory().ExpandCode(selection) ?? throw new Exception($"Invalid item code: {selection}");
-            int rarity = ItemFactory.GetRandomRarity(dungeon.Level, 5.0);
+            int rarity = ItemFactory.GetRandomRarity(dungeon.Level, world.RarityMultiplier);
             ItemFactory.SetItemRarity(item, rarity);
 
             if (!ownedItems.Contains(item.GetItemCode()))

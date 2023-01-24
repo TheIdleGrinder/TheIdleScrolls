@@ -18,6 +18,7 @@ namespace TheIdleScrolls_Core
 
         public double XpMultiplier = 1.0;
         public double SpeedMultiplier = 1.0;
+        public double RarityMultiplier = 1.0;
 
         public ItemKingdomDescription ItemKingdom = new();
 

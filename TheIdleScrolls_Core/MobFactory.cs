@@ -54,7 +54,7 @@ namespace TheIdleScrolls_Core
         {
             double dmgMulti = 0.5 + 0.5 * description.Damage;
             double hp = CalculateHP(description, level);
-            double xp = Math.Ceiling(Math.Sqrt(level) * hp * dmgMulti / 12);
+            double xp = Math.Ceiling(Math.Sqrt(level) * hp * dmgMulti / 10);
             return (int)Math.Min(xp, 2_500_000);
         }
     }

@@ -100,8 +100,8 @@ namespace TheIdleScrolls_Core.Components
         {
             TargetFunction = lvl => (int)Math.Min(
                 Math.Round(
-                    (13.0 / 3) 
-                    * Math.Pow(lvl, 1.9) 
+                    (11.0) 
+                    * Math.Pow(lvl, 1.74) 
                     * Math.Pow(1.14, Math.Pow(lvl, 0.75))
                 ), 
                 1_500_000_000);
