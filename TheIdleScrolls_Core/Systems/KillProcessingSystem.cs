@@ -22,8 +22,12 @@ namespace TheIdleScrolls_Core.Systems
                     var killer = coordinator.GetEntity(killerId) ?? throw new Exception("Killer not found");
                     if (victim.HasComponent<XpGiverComponent>() && killer.HasComponent<XpGainerComponent>())
                     {
+                        int sourceLevel = world.Zone.Level;
+                        int targetLevel = killer.GetComponent<LevelComponent>()?.Level ?? sourceLevel;
+                        double overlevelMalus = Math.Pow(0.975, Math.Max(0, targetLevel - sourceLevel));
+
                         int xp = victim.GetComponent<XpGiverComponent>()?.Amount ?? 0;
-                        xp = (int)Math.Round(xp * world.XpMultiplier);
+                        xp = (int)Math.Round(xp * world.XpMultiplier * overlevelMalus);
                         killer.GetComponent<XpGainerComponent>()?.AddXp(xp);
                         coordinator.PostMessage(this, new XpGainMessage(killer, xp));
                     }
