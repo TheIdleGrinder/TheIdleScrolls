@@ -44,6 +44,13 @@
             this.lblArea = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabCharacter = new System.Windows.Forms.TabPage();
+            this.btnDungeon9 = new System.Windows.Forms.Button();
+            this.btnDungeon6 = new System.Windows.Forms.Button();
+            this.btnDungeon3 = new System.Windows.Forms.Button();
+            this.btnDungeon7 = new System.Windows.Forms.Button();
+            this.btnDungeon8 = new System.Windows.Forms.Button();
+            this.btnDungeon4 = new System.Windows.Forms.Button();
+            this.btnDungeon5 = new System.Windows.Forms.Button();
             this.btnDungeon1 = new System.Windows.Forms.Button();
             this.btnDungeon2 = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
@@ -278,6 +285,13 @@
             // 
             // tabCharacter
             // 
+            this.tabCharacter.Controls.Add(this.btnDungeon9);
+            this.tabCharacter.Controls.Add(this.btnDungeon6);
+            this.tabCharacter.Controls.Add(this.btnDungeon3);
+            this.tabCharacter.Controls.Add(this.btnDungeon7);
+            this.tabCharacter.Controls.Add(this.btnDungeon8);
+            this.tabCharacter.Controls.Add(this.btnDungeon4);
+            this.tabCharacter.Controls.Add(this.btnDungeon5);
             this.tabCharacter.Controls.Add(this.btnDungeon1);
             this.tabCharacter.Controls.Add(this.btnDungeon2);
             this.tabCharacter.Controls.Add(this.tableLayoutPanel1);
@@ -292,11 +306,88 @@
             this.tabCharacter.Text = "Character";
             this.tabCharacter.UseVisualStyleBackColor = true;
             // 
+            // btnDungeon9
+            // 
+            this.btnDungeon9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon9.AutoSize = true;
+            this.btnDungeon9.Location = new System.Drawing.Point(378, 468);
+            this.btnDungeon9.Name = "btnDungeon9";
+            this.btnDungeon9.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon9.TabIndex = 16;
+            this.btnDungeon9.Text = "D9";
+            this.btnDungeon9.UseVisualStyleBackColor = true;
+            // 
+            // btnDungeon6
+            // 
+            this.btnDungeon6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon6.AutoSize = true;
+            this.btnDungeon6.Location = new System.Drawing.Point(193, 468);
+            this.btnDungeon6.Name = "btnDungeon6";
+            this.btnDungeon6.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon6.TabIndex = 15;
+            this.btnDungeon6.Text = "D6";
+            this.btnDungeon6.UseVisualStyleBackColor = true;
+            // 
+            // btnDungeon3
+            // 
+            this.btnDungeon3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon3.AutoSize = true;
+            this.btnDungeon3.Location = new System.Drawing.Point(6, 468);
+            this.btnDungeon3.Name = "btnDungeon3";
+            this.btnDungeon3.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon3.TabIndex = 14;
+            this.btnDungeon3.Text = "D3";
+            this.btnDungeon3.UseVisualStyleBackColor = true;
+            // 
+            // btnDungeon7
+            // 
+            this.btnDungeon7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon7.AutoSize = true;
+            this.btnDungeon7.Location = new System.Drawing.Point(378, 407);
+            this.btnDungeon7.Name = "btnDungeon7";
+            this.btnDungeon7.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon7.TabIndex = 12;
+            this.btnDungeon7.Text = "D7";
+            this.btnDungeon7.UseVisualStyleBackColor = true;
+            // 
+            // btnDungeon8
+            // 
+            this.btnDungeon8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon8.AutoSize = true;
+            this.btnDungeon8.Location = new System.Drawing.Point(378, 438);
+            this.btnDungeon8.Name = "btnDungeon8";
+            this.btnDungeon8.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon8.TabIndex = 13;
+            this.btnDungeon8.Text = "D8";
+            this.btnDungeon8.UseVisualStyleBackColor = true;
+            // 
+            // btnDungeon4
+            // 
+            this.btnDungeon4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon4.AutoSize = true;
+            this.btnDungeon4.Location = new System.Drawing.Point(193, 407);
+            this.btnDungeon4.Name = "btnDungeon4";
+            this.btnDungeon4.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon4.TabIndex = 10;
+            this.btnDungeon4.Text = "D4";
+            this.btnDungeon4.UseVisualStyleBackColor = true;
+            // 
+            // btnDungeon5
+            // 
+            this.btnDungeon5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon5.AutoSize = true;
+            this.btnDungeon5.Location = new System.Drawing.Point(193, 438);
+            this.btnDungeon5.Name = "btnDungeon5";
+            this.btnDungeon5.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon5.TabIndex = 11;
+            this.btnDungeon5.Text = "D5";
+            this.btnDungeon5.UseVisualStyleBackColor = true;
+            // 
             // btnDungeon1
             // 
             this.btnDungeon1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon1.AutoSize = true;
-            this.btnDungeon1.Location = new System.Drawing.Point(6, 442);
+            this.btnDungeon1.Location = new System.Drawing.Point(6, 407);
             this.btnDungeon1.Name = "btnDungeon1";
             this.btnDungeon1.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon1.TabIndex = 1;
@@ -308,7 +399,7 @@
             // 
             this.btnDungeon2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon2.AutoSize = true;
-            this.btnDungeon2.Location = new System.Drawing.Point(6, 473);
+            this.btnDungeon2.Location = new System.Drawing.Point(6, 438);
             this.btnDungeon2.Name = "btnDungeon2";
             this.btnDungeon2.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon2.TabIndex = 9;
@@ -867,5 +958,12 @@
         private Label label2;
         private Button btnLeaveDungeon;
         private SplitContainer splitContainer3;
+        private Button btnDungeon9;
+        private Button btnDungeon6;
+        private Button btnDungeon3;
+        private Button btnDungeon7;
+        private Button btnDungeon8;
+        private Button btnDungeon4;
+        private Button btnDungeon5;
     }
 }

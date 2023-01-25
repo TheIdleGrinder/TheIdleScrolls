@@ -237,7 +237,10 @@ namespace TheIdleScrollsApp
             m_maxWilderness = maxWilderness;
             btnAreaNext.Enabled = m_areaLevel < maxWilderness;
 
-            var buttons = new List<Button>() { btnDungeon1, btnDungeon2 };
+            var buttons = new List<Button>() { 
+                btnDungeon1, btnDungeon2, btnDungeon3, btnDungeon4, btnDungeon5,
+                btnDungeon6, btnDungeon7, btnDungeon8, btnDungeon9
+            };
             buttons.ForEach(b => b.Visible = false);
 
             for (int i = 0; i < Math.Min(dungeons.Count, buttons.Count); i++)
