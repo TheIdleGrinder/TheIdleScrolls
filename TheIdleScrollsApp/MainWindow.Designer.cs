@@ -316,6 +316,7 @@
             this.btnDungeon9.TabIndex = 16;
             this.btnDungeon9.Text = "D9";
             this.btnDungeon9.UseVisualStyleBackColor = true;
+            this.btnDungeon9.Click += new System.EventHandler(this.btnDungeon_Click);
             // 
             // btnDungeon6
             // 
@@ -327,6 +328,7 @@
             this.btnDungeon6.TabIndex = 15;
             this.btnDungeon6.Text = "D6";
             this.btnDungeon6.UseVisualStyleBackColor = true;
+            this.btnDungeon6.Click += new System.EventHandler(this.btnDungeon_Click);
             // 
             // btnDungeon3
             // 
@@ -338,6 +340,7 @@
             this.btnDungeon3.TabIndex = 14;
             this.btnDungeon3.Text = "D3";
             this.btnDungeon3.UseVisualStyleBackColor = true;
+            this.btnDungeon3.Click += new System.EventHandler(this.btnDungeon_Click);
             // 
             // btnDungeon7
             // 
@@ -349,6 +352,7 @@
             this.btnDungeon7.TabIndex = 12;
             this.btnDungeon7.Text = "D7";
             this.btnDungeon7.UseVisualStyleBackColor = true;
+            this.btnDungeon7.Click += new System.EventHandler(this.btnDungeon_Click);
             // 
             // btnDungeon8
             // 
@@ -360,6 +364,7 @@
             this.btnDungeon8.TabIndex = 13;
             this.btnDungeon8.Text = "D8";
             this.btnDungeon8.UseVisualStyleBackColor = true;
+            this.btnDungeon8.Click += new System.EventHandler(this.btnDungeon_Click);
             // 
             // btnDungeon4
             // 
@@ -371,6 +376,7 @@
             this.btnDungeon4.TabIndex = 10;
             this.btnDungeon4.Text = "D4";
             this.btnDungeon4.UseVisualStyleBackColor = true;
+            this.btnDungeon4.Click += new System.EventHandler(this.btnDungeon_Click);
             // 
             // btnDungeon5
             // 
@@ -382,6 +388,7 @@
             this.btnDungeon5.TabIndex = 11;
             this.btnDungeon5.Text = "D5";
             this.btnDungeon5.UseVisualStyleBackColor = true;
+            this.btnDungeon5.Click += new System.EventHandler(this.btnDungeon_Click);
             // 
             // btnDungeon1
             // 

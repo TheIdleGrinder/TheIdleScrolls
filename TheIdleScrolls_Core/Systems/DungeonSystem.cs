@@ -132,6 +132,9 @@ namespace TheIdleScrolls_Core.Systems
             var dungeon = world.AreaKingdom.GetDungeon(world.DungeonId) ?? throw new Exception($"Invalid dungeon id: {world.DungeonId}");
             var lootTable = BuildBasicLootTable(dungeon.Rewards, dungeon.Level);
 
+            if (!lootTable.Any())
+                return;
+
             // Select random reward
             double weightSum = lootTable.Sum(e => e.Value);
             double pointer = new Random().NextDouble() * weightSum;

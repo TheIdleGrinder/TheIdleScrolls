@@ -128,11 +128,405 @@
         }
       ],
       "Rewards": {
+        "MinDropLevel": 15,
+        "UseLeveledLoot": true,
+        "SpecialRewards": []
+      }
+    },
+    {
+      "Name": "Ancient Temple",
+      "Id": "TEMPLE",
+      "Level": 35,
+      "Condition": "Wilderness >= 35 && dng:LIGHTHOUSE",
+      "Description": "The cultists have relocated to the catacombs below the ruins of an ancient elven temple.",
+      "Floors": [
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 3.6,
+          "MobTypes": [
+            "Cultist",
+            "Warlock"
+          ]
+        },
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 3.2,
+          "MobTypes": [
+            "Cultist",
+            "Warlock"
+          ]
+        },
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 2.9,
+          "MobTypes": [
+            "Cultist",
+            "Warlock"
+          ]
+        },
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 2.5,
+          "MobTypes": [
+            "Cultist",
+            "Warlock"
+          ]
+        },
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 3,
+          "MobTypes": [
+            "Priest of the Void"
+          ]
+        }
+      ],
+      "LocalMobs": [
+        {
+          "Name": "Cultist",
+          "HP": 1.3,
+          "Damage": 1.3
+        },
+        {
+          "Name": "Warlock",
+          "HP": 1.0,
+          "Damage": 1.6
+        },
+        {
+          "Name": "Priest of the Void",
+          "HP": 1.7,
+          "Damage": 1.3
+        }
+      ],
+      "Rewards": {
         "MinDropLevel": 20,
         "UseLeveledLoot": true,
-        "SpecialRewards": [
-
-        ]
+        "SpecialRewards": []
+      }
+    },
+    {
+      "Name": "Mercenary Camp",
+      "Id": "MERCCAMP",
+      "Level": 45,
+      "Condition": "Wilderness >= 45 && dng:TEMPLE",
+      "Description": "The cultists have acquired the services of a company of human mercenaries. Raiding their camp and killing their leader should drive them away.",
+      "Floors": [
+        {
+          "MobCount": 15,
+          "TimeMultiplier": 10,
+          "MobTypes": [
+            "Mercenary Legionnaire"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 4,
+          "MobTypes": [
+            "Mercenary Centurion"
+          ]
+        }
+      ],
+      "LocalMobs": [
+        {
+          "Name": "Mercenary Legionnaire",
+          "HP": 1.0,
+          "Damage": 1.0
+        },
+        {
+          "Name": "Mercenary Centurion",
+          "HP": 6.0,
+          "Damage": 1.33
+        }
+      ],
+      "Rewards": {
+        "MinDropLevel": 25,
+        "UseLeveledLoot": true,
+        "SpecialRewards": []
+      }
+    },
+    {
+      "Name": "Cultist's Castle",
+      "Id": "CASTLE",
+      "Level": 55,
+      "Condition": "Wilderness >= 55",
+      "Description": "The traiterous lord who had hired the mercenaries has turned his castle into the cult's base of operations.",
+      "Floors": [
+        {
+          "MobCount": 4,
+          "TimeMultiplier": 4.0,
+          "MobTypes": [
+            "Fanatic",
+            "Warlord"
+          ]
+        },
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 2.7,
+          "MobTypes": [
+            "Fanatic",
+            "Warlord"
+          ]
+        },
+        {
+          "MobCount": 5,
+          "TimeMultiplier": 3.8,
+          "MobTypes": [
+            "Fanatic",
+            "Warlord"
+          ]
+        },
+        {
+          "MobCount": 2,
+          "TimeMultiplier": 5.0,
+          "MobTypes": [
+            "Knight of the Order"
+          ]
+        }
+      ],
+      "LocalMobs": [
+        {
+          "Name": "Warlock",
+          "HP": 0.8,
+          "Damage": 1.5
+        },
+        {
+          "Name": "Fanatic",
+          "HP": 1.5,
+          "Damage": 0.8
+        },
+        {
+          "Name": "Knight of the Order",
+          "HP": 5.0,
+          "Damage": 1.0
+        }
+      ],
+      "Rewards": {
+        "MinDropLevel": 35,
+        "UseLeveledLoot": true,
+        "SpecialRewards": []
+      }
+    },
+    {
+      "Name": "Labyrinth",
+      "Id": "LABYRINTH",
+      "Level": 60,
+      "Condition": "dng:CASTLE",
+      "Description": "",
+      "Floors": [
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 1.5,
+          "MobTypes": [
+            "Void Fiend",
+            "Lesser Demon of the Void",
+            "Void Infused Cultist"
+          ]
+        },
+        {
+          "MobCount": 2,
+          "TimeMultiplier": 2.9,
+          "MobTypes": [
+            "Void Fiend",
+            "Lesser Demon of the Void",
+            "Void Infused Cultist"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 1.4,
+          "MobTypes": [
+            "Void Fiend",
+            "Lesser Demon of the Void",
+            "Void Infused Cultist"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 1.3,
+          "MobTypes": [
+            "Void Fiend",
+            "Lesser Demon of the Void",
+            "Void Infused Cultist"
+          ]
+        },
+        {
+          "MobCount": 2,
+          "TimeMultiplier": 2.5,
+          "MobTypes": [
+            "Void Fiend",
+            "Lesser Demon of the Void",
+            "Void Infused Cultist"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 1.2,
+          "MobTypes": [
+            "Void Fiend",
+            "Lesser Demon of the Void",
+            "Void Infused Cultist"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 1.1,
+          "MobTypes": [
+            "Void Fiend",
+            "Lesser Demon of the Void",
+            "Void Infused Cultist"
+          ]
+        },
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 3.1,
+          "MobTypes": [
+            "Void Fiend",
+            "Lesser Demon of the Void",
+            "Void Infused Cultist"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 1,
+          "MobTypes": [
+            "Void Fiend",
+            "Lesser Demon of the Void",
+            "Void Infused Cultist"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 4.0,
+          "MobTypes": [
+            "Grand Wizard of the Order"
+          ]
+        }
+      ],
+      "LocalMobs": [
+        {
+          "Name": "Void Fiend",
+          "HP": 2.0,
+          "Damage": 1.0
+        },
+        {
+          "Name": "Lesser Demon of the Void",
+          "HP": 1.5,
+          "Damage": 1.5
+        },
+        {
+          "Name": "Void Infused Cultist",
+          "HP": 1.5,
+          "Damage": 1.33
+        },
+        {
+          "Name": "Grand Wizard of the Order",
+          "HP": 6.0,
+          "Damage": 1.5
+        }
+      ],
+      "Rewards": {
+        "MinDropLevel": 40,
+        "UseLeveledLoot": true,
+        "SpecialRewards": []
+      }
+    },
+    {
+      "Name": "The Lighthouse II",
+      "Id": "LIGHTHOUSE2",
+      "Level": 65,
+      "Condition": "Wilderness >= 65 && dng:LABYRINTH",
+      "Description": "While you were fighting the cultists in their castle, their leader has returned to the old lighthouse and completed the ritual. The gate is opening.",
+      "Floors": [
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 2.5,
+          "MobTypes": [
+            "Void Infused Cultist"
+          ]
+        },
+        {
+          "MobCount": 4,
+          "TimeMultiplier": 3,
+          "MobTypes": [
+            "Void Fiend",
+            "Void Infused Cultist"
+          ]
+        },
+        {
+          "MobCount": 7,
+          "TimeMultiplier": 4.2,
+          "MobTypes": [
+            "Void Fiend"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 3.5,
+          "MobTypes": [
+            "Greater Demon of the Void"
+          ]
+        }
+      ],
+      "LocalMobs": [
+        {
+          "Name": "Void Infused Cultist",
+          "HP": 1.3,
+          "Damage": 1.3
+        },
+        {
+          "Name": "Void Fiend",
+          "HP": 1.0,
+          "Damage": 1.7
+        },
+        {
+          "Name": "Greater Demon of the Void",
+          "HP": 10.0,
+          "Damage": 1.2
+        }
+      ],
+      "Rewards": {
+        "MinDropLevel": 45,
+        "UseLeveledLoot": true,
+        "SpecialRewards": []
+      }
+    },
+    {
+      "Name": "The Threshold",
+      "Id": "THRESHOLD",
+      "Level": 70,
+      "Condition": "dng:LIGHTHOUSE2",
+      "Description": "An army of demons is flooding through the rift. Stand fast and fight them off!",
+      "Floors": [
+        {
+          "MobCount": 25,
+          "TimeMultiplier": 20.0,
+          "MobTypes": [
+            "Void Fiend",
+            "Winged Demon",
+            "Imp"
+          ]
+        }
+      ],
+      "LocalMobs": [
+        {
+          "Name": "Void Fiend",
+          "HP": 1.0,
+          "Damage": 1.2
+        },
+        {
+          "Name": "Winged Demon",
+          "HP": 1.2,
+          "Damage": 1.0
+        },
+        {
+          "Name": "Imp",
+          "HP": 1.1,
+          "Damage": 1.1
+        }
+      ],
+      "Rewards": {
+        "MinDropLevel": 50,
+        "UseLeveledLoot": true,
+        "SpecialRewards": []
       }
     }
   ]
