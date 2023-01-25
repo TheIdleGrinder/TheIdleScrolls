@@ -35,10 +35,9 @@ namespace TheIdleScrolls_Core
             mob.AddComponent(new LifePoolComponent(CalculateHP(description, level)));
             mob.AddComponent(new XpGiverComponent { Amount = CalculateXpValue(description, level) });
 
-            if (description.Damage > 0.0)
-            {
-                mob.AddComponent(new MobDamageComponent(description.Damage));
-            }
+            double damage = CalculateDamage(description, level);
+            if (damage > 0.0)
+                mob.AddComponent(new MobDamageComponent(damage));
 
             return mob;
         }
@@ -56,6 +55,11 @@ namespace TheIdleScrolls_Core
             double hp = CalculateHP(description, level);
             double xp = Math.Ceiling(Math.Sqrt(level) * hp * dmgMulti / 10);
             return (int)Math.Min(xp, 2_500_000);
+        }
+
+        double CalculateDamage(MobDescription description, int level)
+        {
+            return description.Damage * (1.0 + Math.Max(0, level - 10) / 100.0);
         }
     }
 }
