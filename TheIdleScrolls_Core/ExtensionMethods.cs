@@ -58,4 +58,12 @@ namespace TheIdleScrolls_Core
             return new() { equipComp.Slot };
         }
     }
+
+    public static class StringExtensions
+    {
+        public static string Localize(this string key)
+        {
+            return Properties.LocalizedStrings.ResourceManager.GetString(key) ?? key;
+        }
+    }
 }
