@@ -47,7 +47,7 @@ namespace TheIdleScrolls_Core.Components
                 if (dungeon != null)
                 {
                     var time = TimeSpan.FromSeconds(dungeonTime.Value);
-                    sb.AppendLine($"    {dungeon.Name} (Time: {time.ToString(@"hh\:mm\:ss")})");
+                    sb.AppendLine($"    {dungeon.Name.Localize()} (Time: {time.ToString(@"hh\:mm\:ss")})");
                 }
             }
             return sb.ToString();

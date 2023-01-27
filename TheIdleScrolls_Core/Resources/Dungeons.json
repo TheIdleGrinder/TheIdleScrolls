@@ -1,10 +1,8 @@
 ﻿{
   "Dungeons": [
     {
-      "Name": "The Crypt",
-      "Id": "CRYPT",
+      "Name": "CRYPT",
       "Level": 15,
-      "Description": "There is something stirring beneath the graveyard...",
       "Floors": [
         {
           "MobCount": 2,
@@ -74,11 +72,9 @@
       }
     },
     {
-      "Name": "The Lighthouse",
-      "Id": "LIGHTHOUSE",
+      "Name": "LIGHTHOUSE",
       "Level": 25,
       "Condition": "Wilderness >= 25",
-      "Description": "Cultists have holed up in the old lighthouse. The blue flames they lit have attracted more than just ships.",
       "Floors": [
         {
           "MobCount": 3,
@@ -134,11 +130,9 @@
       }
     },
     {
-      "Name": "Ancient Temple",
-      "Id": "TEMPLE",
+      "Name": "TEMPLE",
       "Level": 35,
       "Condition": "Wilderness >= 35 && dng:LIGHTHOUSE",
-      "Description": "The cultists have relocated to the catacombs below the ruins of an ancient elven temple.",
       "Floors": [
         {
           "MobCount": 3,
@@ -204,11 +198,9 @@
       }
     },
     {
-      "Name": "Mercenary Camp",
-      "Id": "MERCCAMP",
+      "Name": "MERCCAMP",
       "Level": 45,
       "Condition": "Wilderness >= 45 && dng:TEMPLE",
-      "Description": "The cultists have acquired the services of a company of human mercenaries. Raiding their camp and killing their leader should drive them away.",
       "Floors": [
         {
           "MobCount": 15,
@@ -244,11 +236,9 @@
       }
     },
     {
-      "Name": "Cultist's Castle",
-      "Id": "CASTLE",
+      "Name": "CASTLE",
       "Level": 55,
       "Condition": "Wilderness >= 55",
-      "Description": "The traiterous lord who had hired the mercenaries has turned his castle into the cult's base of operations.",
       "Floors": [
         {
           "MobCount": 4,
@@ -306,11 +296,9 @@
       }
     },
     {
-      "Name": "Labyrinth",
-      "Id": "LABYRINTH",
+      "Name": "LABYRINTH",
       "Level": 60,
       "Condition": "dng:CASTLE",
-      "Description": "",
       "Floors": [
         {
           "MobCount": 1,
@@ -430,11 +418,9 @@
       }
     },
     {
-      "Name": "The Lighthouse II",
-      "Id": "LIGHTHOUSE2",
+      "Name": "LIGHTHOUSE2",
       "Level": 65,
       "Condition": "Wilderness >= 65 && dng:LABYRINTH",
-      "Description": "While you were fighting the cultists in their castle, their leader has returned to the old lighthouse and completed the ritual. The gate is opening.",
       "Floors": [
         {
           "MobCount": 3,
@@ -490,11 +476,9 @@
       }
     },
     {
-      "Name": "The Threshold",
-      "Id": "THRESHOLD",
+      "Name": "THRESHOLD",
       "Level": 70,
       "Condition": "dng:LIGHTHOUSE2",
-      "Description": "An army of demons is flooding through the rift. Stand fast and fight them off!",
       "Floors": [
         {
           "MobCount": 25,

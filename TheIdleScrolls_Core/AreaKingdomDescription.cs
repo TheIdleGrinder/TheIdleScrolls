@@ -18,15 +18,15 @@ namespace TheIdleScrolls_Core
             }
             else 
             { 
-                var dungeon = Dungeons.Find(d => d.Id == areaId);
+                var dungeon = Dungeons.Find(d => d.Name == areaId);
                 if (dungeon == null)
                     throw new Exception($"Invalid dungeon id: {areaId}");
                 if (zoneNumber < 0 || zoneNumber >= dungeon.Floors.Count)
-                    throw new Exception($"Dungeon '{dungeon.Name}' has no floor {zoneNumber}");
+                    throw new Exception($"Dungeon '{dungeon.Name.Localize()}' has no floor {zoneNumber}");
                 var floor = dungeon.Floors[zoneNumber];
                 return new ZoneDescription()
                 {
-                    Name = $"{dungeon.Name} - Floor {zoneNumber + 1}",
+                    Name = $"{dungeon.Name.Localize()} - Floor {zoneNumber + 1}",
                     Level = dungeon.Level,
                     MobTypes = floor.MobTypes,
                     MobCount = floor.MobCount,
@@ -51,7 +51,7 @@ namespace TheIdleScrolls_Core
         {
             foreach (var dungeon in Dungeons)
             {
-                if (dungeon.Id == areaId)
+                if (dungeon.Name == areaId)
                 {
                     return dungeon.LocalMobs;
                 }
@@ -61,12 +61,12 @@ namespace TheIdleScrolls_Core
 
         public int GetDungeonFloorCount(string dungeonId)
         {
-            return Dungeons.Find(d => d.Id == dungeonId)?.Floors?.Count ?? 0;
+            return Dungeons.Find(d => d.Name == dungeonId)?.Floors?.Count ?? 0;
         }
 
         public DungeonDescription? GetDungeon(string dungeonId)
         {
-            return Dungeons.Find(d => d.Id == dungeonId);
+            return Dungeons.Find(d => d.Name == dungeonId);
         }
     }
 
@@ -76,10 +76,8 @@ namespace TheIdleScrolls_Core
     public class DungeonDescription
     {
         public string Name { get; set; } = "";
-        public string Id { get; set; } = "";
         public int Level { get; set; } = 1;
         public string Condition { get; set; } = "";
-        public string Description { get; set; } = "";
         public List<DungeonFloorDescription> Floors { get; set; } = new();
         public List<MobDescription> LocalMobs { get; set; } = new();
         public DungeonRewardsDescription Rewards { get; set; } = new();

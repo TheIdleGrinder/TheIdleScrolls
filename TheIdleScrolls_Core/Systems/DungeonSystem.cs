@@ -38,7 +38,7 @@ namespace TheIdleScrolls_Core.Systems
                     m_dungeonsDone = dungeonsDone;
                     foreach (var dungeon in world.AreaKingdom.Dungeons)
                     {
-                        if (travelComp.AvailableDungeons.Contains(dungeon.Id))
+                        if (travelComp.AvailableDungeons.Contains(dungeon.Name))
                             continue;
                         string condition = dungeon.Condition;
                         if (condition == String.Empty)
@@ -48,8 +48,8 @@ namespace TheIdleScrolls_Core.Systems
                         var condExpression = ExpressionParser.Parse(condition);
                         if (condExpression.Evaluate(m_player, world) >= 1.0)
                         {
-                            travelComp.AvailableDungeons.Add(dungeon.Id);
-                            coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Id));
+                            travelComp.AvailableDungeons.Add(dungeon.Name);
+                            coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Name.Localize()));
                         }
                     }
                 }
