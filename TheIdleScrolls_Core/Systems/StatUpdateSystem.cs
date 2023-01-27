@@ -15,14 +15,14 @@ namespace TheIdleScrolls_Core.Systems
     public class StatUpdateSystem : AbstractSystem
     {
         uint m_player = 0;
-        bool m_firstUpdate = true;
+        int m_initialFullUpdates = 2; // CornerCut: Do a full update on the first two frames to give all other systems time to setup all components
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             if (m_player == 0)
                 m_player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault()?.Id ?? 0;
 
-            bool doUpdate = m_firstUpdate
+            bool doUpdate = m_initialFullUpdates > 0
                 || coordinator.MessageTypeIsOnBoard<LevelUpSystem.LevelUpMessage>()
                 || coordinator.MessageTypeIsOnBoard<ItemMovedMessage>()
                 || coordinator.MessageTypeIsOnBoard<AbilityImprovedMessage>()
@@ -156,7 +156,8 @@ namespace TheIdleScrolls_Core.Systems
             }
             
             coordinator.PostMessage(this, new StatsUpdatedMessage());
-            m_firstUpdate = false;
+            if (m_initialFullUpdates > 0)
+                m_initialFullUpdates--; 
         }
 
         int GetAbilityLevel(Entity entity, string itemFamilyName, ItemKingdomDescription itemKingdom)
