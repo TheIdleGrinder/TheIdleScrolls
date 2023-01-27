@@ -15,13 +15,13 @@
         },
         {
           "MobCount": 3,
-          "TimeMultiplier": 2.2,
+          "TimeMultiplier": 2.5,
           "MobTypes": [
             "Skeleton"
           ]
         },
         {
-          "MobCount": 6,
+          "MobCount": 5,
           "TimeMultiplier": 3.5,
           "MobTypes": [
             "Skeleton",
@@ -37,7 +37,7 @@
         },
         {
           "MobCount": 1,
-          "TimeMultiplier": 3.0,
+          "TimeMultiplier": 3.3,
           "MobTypes": [
             "The Necromancer"
           ]
