@@ -55,6 +55,11 @@ namespace TheIdleScrolls_Core.Items
                     ?? throw new Exception($"Item code was invalidated: {Code}");
         }
 
+        public string GetItemName()
+        {
+            return GenusId.Localize() + $" + {RarityLevel}";
+        }
+
         public static string ExtractFamilyId(string itemCode)
         {
             return itemCode[..3];

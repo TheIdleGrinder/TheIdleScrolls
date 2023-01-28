@@ -41,11 +41,16 @@ namespace TheIdleScrolls_Core.Items
             return items;
         }
 
-        private static Entity MakeItem(ItemDescription description)
+        public static Entity? MakeItem(ItemIdentifier itemIdentifier)
         {
+            var description = itemIdentifier.GetGenusDescription();
+            if (description == null)
+                return null;
+
+            // Build base item
             Entity item = new();
-            item.AddComponent(new NameComponent(description.Identifier.GenusId.Localize()));
-            item.AddComponent(new ItemComponent(GetItemCode(description)!));
+            item.AddComponent(new NameComponent(itemIdentifier.GenusId.Localize()));
+            item.AddComponent(new ItemComponent(itemIdentifier));
             if (description.Equippable != null)
             {
                 item.AddComponent(new EquippableComponent(
@@ -61,22 +66,14 @@ namespace TheIdleScrolls_Core.Items
             if (description.Armor != null)
             {
                 item.AddComponent(new ArmorComponent(
-                    description.Armor.BaseArmor, 
+                    description.Armor.BaseArmor,
                     description.Armor.BaseEvasion));
             }
-            return item;
-        }
 
-        public static Entity? MakeItem(ItemIdentifier itemCode)
-        {
-            var description = itemCode.GetItemDescription();
-            if (description == null)
-                return null;
-
-            var item = MakeItem(description);
-            if (itemCode.RarityLevel > 0)
+            // Apply rarity
+            if (itemIdentifier.RarityLevel > 0)
             {
-                SetItemRarity(item, itemCode.RarityLevel);
+                SetItemRarity(item, itemIdentifier.RarityLevel);
             }
 
             return item;
@@ -149,13 +146,7 @@ namespace TheIdleScrolls_Core.Items
         private static void UpdateItemName(Entity item)
         {
             var itemComp = item.GetComponent<ItemComponent>() ?? throw new Exception($"Entity {item.GetName()} is not an item");
-            var name = itemComp.GenusName;
-            
-            var rarity = itemComp.Code.RarityLevel;
-            if (rarity > 0)
-            {
-                name += $" + {rarity}";
-            }
+            var name = itemComp.Code.GetItemName();
 
             item.AddComponent(new NameComponent(name));
         }
