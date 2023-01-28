@@ -7,24 +7,6 @@ using TheIdleScrolls_Core.Components;
 
 namespace TheIdleScrolls_Core.Items
 {
-    public class ItemDescription
-    {
-        public ItemIdentifier Identifier { get; set; }
-        public EquippableDescription? Equippable { get; set; } = null;
-        public WeaponGenus? Weapon { get; set; } = null;
-        public ArmorGenus? Armor { get; set; } = null;
-        public int DropLevel { get; set; } = 1;
-
-        public ItemDescription(ItemIdentifier identifier, ItemGenusDescription genus)
-        {
-            Identifier = identifier;
-            Weapon = genus.Weapon;
-            Armor = genus.Armor;
-            Equippable = genus.Equippable;
-            DropLevel = genus.DropLevel;
-        }
-    }
-
     public class EquippableDescription
     {
         public string Slot { get; set; } = "";
@@ -92,17 +74,13 @@ namespace TheIdleScrolls_Core.Items
 
         }
 
-        public ItemDescription? GetDescriptionByIdAndIndex(string idString, int index)
+        public ItemGenusDescription? GetGenusDescriptionByIdAndIndex(string idString, int index)
         {
             foreach (var family in Families)
             {
                 if (family.Id == idString)
                 {
-                    var genus = family.GetGenusAt(index);
-                    if (genus == null)
-                        return null;
-
-                    return new ItemDescription(new ItemIdentifier(idString, index), genus);
+                    return family.GetGenusAt(index);
                 }
             }
             return null;

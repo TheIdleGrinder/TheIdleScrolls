@@ -177,11 +177,11 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     for (int i = 0; i < f.Genera.Count; i++)
                     {
-                        var g = ItemFactory.ItemKingdom.GetDescriptionByIdAndIndex(f.Id, i);
+                        var g = ItemFactory.ItemKingdom.GetGenusDescriptionByIdAndIndex(f.Id, i);
                         if (g != null && g.DropLevel >= rewardSettings.MinDropLevel && g.DropLevel <= dungeonLevel)
                         {
-                            string id = ItemFactory.GetItemCode(g) ?? throw new Exception($"Invalid item description for {g.Identifier.Code}");
-                            validIds.Add(id);
+                            var id = new ItemIdentifier(f.Id, i);
+                            validIds.Add(id.Code);
                         }
                     }
                 }

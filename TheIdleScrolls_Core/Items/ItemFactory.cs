@@ -28,17 +28,17 @@ namespace TheIdleScrolls_Core.Items
 
         }
 
-        public static List<ItemDescription> GetAllItemDescriptions()
+        public static List<string> GetAllItemGenusCodes()
         {
-            List<ItemDescription> items = new();
+            List<ItemIdentifier> codes = new();
             foreach (var family in ItemKingdom.Families)
             {
                 for (int i = 0; i < family.Genera.Count; i++)
                 {
-                    items.Add(new ItemDescription(new ItemIdentifier(family.Id, i), family.Genera[i]));
+                    codes.Add(new ItemIdentifier(family.Id, i));
                 }
             }
-            return items;
+            return codes.Select(c => c.Code).ToList();
         }
 
         public static Entity? MakeItem(ItemIdentifier itemIdentifier)
@@ -123,7 +123,7 @@ namespace TheIdleScrolls_Core.Items
             var itemComp = item.GetComponent<ItemComponent>();
             if (itemComp == null)
                 throw new Exception($"Entity {item.GetName()} is not an item");
-            var description = ItemKingdom.GetDescriptionByIdAndIndex(itemComp.Code.FamilyId, itemComp.Code.GenusIndex);
+            var description = ItemKingdom.GetGenusDescriptionByIdAndIndex(itemComp.Code.FamilyId, itemComp.Code.GenusIndex);
             if (description == null)
                 throw new Exception($"Invalid item code: {itemComp.Code}");
 
@@ -149,11 +149,6 @@ namespace TheIdleScrolls_Core.Items
             var name = itemComp.Code.GetItemName();
 
             item.AddComponent(new NameComponent(name));
-        }
-
-        public static string? GetItemCode(ItemDescription description)
-        {
-            return description.Identifier.Code;
         }
 
         public static List<string> GetAllItemFamilyIds()

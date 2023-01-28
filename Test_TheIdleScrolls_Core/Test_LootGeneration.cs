@@ -24,13 +24,12 @@ namespace Test_TheIdleScrolls_Core
             };
 
             List<string> expected = new();
-            foreach (var item in ItemFactory.GetAllItemDescriptions())
+            foreach (var item in ItemFactory.GetAllItemGenusCodes())
             {
-                if (item.DropLevel >= minLevel && item.DropLevel <= maxLevel)
+                var genus = new ItemIdentifier(item).GetGenusDescription();
+                if (genus.DropLevel >= minLevel && genus.DropLevel <= maxLevel)
                 {
-                    var code = ItemFactory.GetItemCode(item);
-                    Assert.That(code, Is.Not.Null);
-                    expected.Add(ItemFactory.GetItemCode(item)!);
+                    expected.Add(item);
                 }
             }
 

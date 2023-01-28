@@ -49,12 +49,6 @@ namespace TheIdleScrolls_Core.Items
             return GetFamilyDescription().Genera[GenusIndex]; // Works because code is validated
         }
 
-        public ItemDescription GetItemDescription()
-        {
-            return ItemFactory.ItemKingdom.GetDescriptionByIdAndIndex(FamilyId, GenusIndex) 
-                    ?? throw new Exception($"Item code was invalidated: {Code}");
-        }
-
         public string GetItemName()
         {
             return GenusId.Localize() + $" + {RarityLevel}";

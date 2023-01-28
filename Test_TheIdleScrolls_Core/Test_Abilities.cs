@@ -5,7 +5,6 @@ namespace Test_TheIdleScrolls_Core
     public class Test_Abilities
     {
         const string Key = "key";
-        const string Name = "name";
 
         Ability ability;
         AbilitiesComponent component;
@@ -13,7 +12,7 @@ namespace Test_TheIdleScrolls_Core
         [SetUp]
         public void Setup()
         {
-            ability = new Ability(Key, Name);
+            ability = new Ability(Key);
             component = new();
         }
 
@@ -24,7 +23,6 @@ namespace Test_TheIdleScrolls_Core
             {
                 Assert.That(ability, Is.Not.Null);
                 Assert.That(ability.Key, Is.EqualTo(Key));
-                Assert.That(ability.Name, Is.EqualTo(Name));
                 Assert.That(ability.Level, Is.EqualTo(1));
                 Assert.That(ability.XP, Is.EqualTo(0));
                 Assert.That(ability.TargetXP, Is.EqualTo(100));
@@ -73,9 +71,10 @@ namespace Test_TheIdleScrolls_Core
         [Test]
         public void Adding_XP_to_ability_not_in_component_returns_false()
         {
+            int abilityCount = component.GetAbilities().Count;
             var result = component.AddXP(Key, 50);
             Assert.That(result, Is.EqualTo(AbilitiesComponent.AddXPResult.NotFound));
-            Assert.That(component.GetAbilities(), Has.Count.EqualTo(0));
+            Assert.That(component.GetAbilities(), Has.Count.EqualTo(abilityCount));
         }
 
         [TestCase(0)]
