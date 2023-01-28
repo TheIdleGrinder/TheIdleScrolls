@@ -97,7 +97,7 @@ namespace TheIdleScrolls_Core.Systems
                 if (abilityComp != null)
                 {
                     var representations = abilityComp.GetAbilities()
-                        .Select(a => new AbilityRepresentation(a.Key, a.Name, a.Level, a.XP, a.TargetXP))
+                        .Select(a => new AbilityRepresentation(a.Key, a.Key.Localize(), a.Level, a.XP, a.TargetXP))
                         .ToList();
                     m_appModel?.SetPlayerAbilities(representations);
                 }

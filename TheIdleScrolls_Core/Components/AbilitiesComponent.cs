@@ -18,13 +18,7 @@ namespace TheIdleScrolls_Core.Components
         {
             foreach (string key in ItemFactory.GetAllItemFamilyIds())
             {
-                string? className = ItemFactory.GetItemFamilyName(key);
-                if (className == null)
-                {
-                    Debug.WriteLine($"Failed to retrieve class name for {key}");
-                    continue;
-                }
-                Ability ability = new Ability(key, className);
+                Ability ability = new Ability(key);
                 ability.Level = 10;
                 AddAbility(ability);
             }
@@ -82,16 +76,14 @@ namespace TheIdleScrolls_Core.Components
 
     public class Ability
     {
-        public string Key { get; set; } = "";
-        public string Name { get; set; } = "";
+        public string Key { get; set; }
         public int Level { get; set; } = 1;
         public int XP { get; set; } = 0;
         public int TargetXP { get; set; } = 100;
 
-        public Ability(string key, string name)
+        public Ability(string key)
         {
             Key = key;
-            Name = name;
         }
 
         public bool AddXP(int amount)

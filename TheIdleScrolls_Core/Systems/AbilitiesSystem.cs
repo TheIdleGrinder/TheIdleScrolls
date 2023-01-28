@@ -39,11 +39,11 @@ namespace TheIdleScrolls_Core.Systems
                     return; // CornerCut: Assumes that all abilities are tied to items
                 m_weaponFamilies = equipmentComp.GetItems()
                     .Where(i => i.IsItem() && i.IsWeapon())
-                    .Select(i => ItemFactory.GetItemFamilyIdFromName(i.GetComponent<ItemComponent>()!.FamilyName)!)
+                    .Select(i => i.GetComponent<ItemComponent>()!.Code.FamilyId) // ! is ok, because the entity is guaranteed to be an item
                     .ToList();
                 m_armorFamilies = equipmentComp.GetItems()
                     .Where(i => i.IsItem() && i.IsArmor())
-                    .Select(i => ItemFactory.GetItemFamilyIdFromName(i.GetComponent<ItemComponent>()!.FamilyName)!)
+                    .Select(i => i.GetComponent<ItemComponent>()!.Code.FamilyId) // ! is ok, because the entity is guaranteed to be an item
                     .ToList();
             }
 
@@ -77,9 +77,10 @@ namespace TheIdleScrolls_Core.Systems
                     var result = abilitiesComp.AddXP(item, xp);
                     if (result == AbilitiesComponent.AddXPResult.LevelIncreased)
                     {
-                        var abilityName = ItemFactory.GetItemFamilyName(item) ?? item;
-                        var newLevel = abilitiesComp.GetAbility(item)?.Level ?? 0;
-                        coordinator.PostMessage(this, new AbilityImprovedMessage(abilityName, newLevel));
+                        var ability = abilitiesComp.GetAbility(item);
+                        if (ability == null)
+                            continue;
+                        coordinator.PostMessage(this, new AbilityImprovedMessage(ability.Key.Localize(), ability.Level));
                     }
                 }
             }
@@ -100,7 +101,7 @@ namespace TheIdleScrolls_Core.Systems
 
         string IMessage.BuildMessage()
         {
-            return $"Ability {AbilityId} reached level {NewLevel}";
+            return $"Ability '{AbilityId}' reached level {NewLevel}";
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()

@@ -160,14 +160,6 @@ namespace TheIdleScrolls_Core.Items
             item.AddComponent(new NameComponent(name));
         }
 
-        public static string? GetItemCode(Entity item)
-        {
-            var itemComp = item.GetComponent<ItemComponent>();
-            if (itemComp == null)
-                return null;
-            return itemComp.Code.Code;
-        }
-
         public static string? GetItemCode(ItemDescription description)
         {
             return description.Identifier.Code;
@@ -176,16 +168,6 @@ namespace TheIdleScrolls_Core.Items
         public static List<string> GetAllItemFamilyIds()
         {
             return ItemKingdom.Families.Select(w => w.Id).ToList();
-        }
-
-        public static string? GetItemFamilyName(string id)
-        {
-            return ItemKingdom.Families.Where(w => w.Id == id).FirstOrDefault()?.Id.Localize();
-        }
-
-        public static string? GetItemFamilyIdFromName(string name)
-        {
-            return ItemKingdom.Families.Where(w => w.Id.Localize() == name).FirstOrDefault()?.Id;
         }
 
         public Entity? ExpandCode(string code)
