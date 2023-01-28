@@ -70,7 +70,7 @@ namespace TheIdleScrolls_Core.Systems
                         combinedCD += weaponComp.Cooldown;
                         weaponCount++;
 
-                        int abilityLvl = GetAbilityLevel(player, itemComp.FamilyName, world.ItemKingdom);
+                        int abilityLvl = GetAbilityLevel(player, itemComp.Code.FamilyId);
                         if (abilityLvl != -1)
                         {
                             apsMulti *= (0.5 + 0.02 * abilityLvl); // CornerCut: Make this less 'hidden'
@@ -83,7 +83,7 @@ namespace TheIdleScrolls_Core.Systems
                         var localEvasion = armorComp.Evasion;
                         armorCount++;
 
-                        int abilityLvl = GetAbilityLevel(player, itemComp.FamilyName, world.ItemKingdom);
+                        int abilityLvl = GetAbilityLevel(player, itemComp.Code.FamilyId);
                         if (abilityLvl != -1)
                         {
                             var multi = 0.5 + 0.02 * abilityLvl;
@@ -160,14 +160,9 @@ namespace TheIdleScrolls_Core.Systems
                 m_initialFullUpdates--; 
         }
 
-        int GetAbilityLevel(Entity entity, string itemFamilyName, ItemKingdomDescription itemKingdom)
+        int GetAbilityLevel(Entity entity, string familyId)
         {
-            string? familyId = itemKingdom.GetFamilyIdFromItemFamilyName(itemFamilyName);
-            if (familyId != null)
-            {
-                return entity.GetComponent<AbilitiesComponent>()?.GetAbility(familyId)?.Level ?? -1;
-            }
-            return -1;
+            return entity.GetComponent<AbilitiesComponent>()?.GetAbility(familyId)?.Level ?? -1;
         }
     }
 

@@ -1,11 +1,9 @@
 {
   "Families": [
     {
-      "Name": "Short Blade",
       "Id": "SBL",
       "Genera": [
         {
-          "Name": "Simple Knife",
           "DropLevel": 1,
           "Equippable": {
             "Slot": "Hand"
@@ -16,7 +14,6 @@
           }
         },
         {
-          "Name": "Dagger",
           "DropLevel": 15,
           "Equippable": {
             "Slot": "Hand"
@@ -27,7 +24,6 @@
           }
         },
         {
-          "Name": "Short Sword",
           "DropLevel": 20,
           "Equippable": {
             "Slot": "Hand"
@@ -40,11 +36,9 @@
       ]
     },
     {
-      "Name": "Long Blade",
       "Id": "LBL",
       "Genera": [
         {
-          "Name": "Simple Sword",
           "DropLevel": 1,
           "Equippable": {
             "Slot": "Hand"
@@ -55,7 +49,6 @@
           }
         },
         {
-          "Name": "Long Sword",
           "DropLevel": 15,
           "Equippable": {
             "Slot": "Hand"
@@ -66,7 +59,6 @@
           }
         },
         {
-          "Name": "Claymore",
           "DropLevel": 20,
           "Equippable": {
             "Slot": "Hand"
@@ -79,11 +71,9 @@
       ]
     },
     {
-      "Name": "Axe",
       "Id": "AXE",
       "Genera": [
         {
-          "Name": "Simple Axe",
           "DropLevel": 1,
           "Equippable": {
             "Slot": "Hand"
@@ -94,7 +84,6 @@
           }
         },
         {
-          "Name": "Hatchet",
           "DropLevel": 15,
           "Equippable": {
             "Slot": "Hand"
@@ -105,7 +94,6 @@
           }
         },
         {
-          "Name": "Battle Axe",
           "DropLevel": 20,
           "Equippable": {
             "Slot": "Hand"
@@ -118,11 +106,9 @@
       ]
     },
     {
-      "Name": "Blunt",
       "Id": "BLN",
       "Genera": [
         {
-          "Name": "Simple Club",
           "DropLevel": 1,
           "Equippable": {
             "Slot": "Hand"
@@ -133,7 +119,6 @@
           }
         },
         {
-          "Name": "Mace",
           "DropLevel": 15,
           "Equippable": {
             "Slot": "Hand"
@@ -144,7 +129,6 @@
           }
         },
         {
-          "Name": "War Hammer",
           "DropLevel": 20,
           "Equippable": {
             "Slot": "Hand"
@@ -157,11 +141,9 @@
       ]
     },
     {
-      "Name": "Polearm",
       "Id": "POL",
       "Genera": [
         {
-          "Name": "Simple Spear",
           "DropLevel": 1,
           "Equippable": {
             "Slot": "Hand"
@@ -172,7 +154,6 @@
           }
         },
         {
-          "Name": "Halberd",
           "DropLevel": 15,
           "Equippable": {
             "Slot": "Hand"
@@ -183,7 +164,6 @@
           }
         },
         {
-          "Name": "Hunting Spear",
           "DropLevel": 20,
           "Equippable": {
             "Slot": "Hand"
@@ -196,11 +176,9 @@
       ]
     },
     {
-      "Name": "Light Armor",
       "Id": "LAR",
       "Genera": [
         {
-          "Name": "Simple Light Armor",
           "DropLevel": 5,
           "Equippable": {
             "Slot": "Armor",
@@ -212,7 +190,6 @@
           }
         },
         {
-          "Name": "Padded Armor",
           "DropLevel": 20,
           "Equippable": {
             "Slot": "Armor",
@@ -226,11 +203,9 @@
       ]
     },
     {
-      "Name": "Heavy Armor",
       "Id": "HAR",
       "Genera": [
         {
-          "Name": "Simple Heavy Armor",
           "DropLevel": 5,
           "Equippable": {
             "Slot": "Armor",
@@ -242,7 +217,6 @@
           }
         },
         {
-          "Name": "Plate Armor",
           "DropLevel": 20,
           "Equippable": {
             "Slot": "Armor",

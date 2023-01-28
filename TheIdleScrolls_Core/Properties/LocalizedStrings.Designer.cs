@@ -106,6 +106,33 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Club ähnelt.
+        /// </summary>
+        internal static string BLN0 {
+            get {
+                return ResourceManager.GetString("BLN0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Mace ähnelt.
+        /// </summary>
+        internal static string BLN1 {
+            get {
+                return ResourceManager.GetString("BLN1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Warhammer ähnelt.
+        /// </summary>
+        internal static string BLN2 {
+            get {
+                return ResourceManager.GetString("BLN2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Cult&apos;s Stronghold ähnelt.
         /// </summary>
         internal static string CASTLE {
@@ -142,6 +169,33 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Heavy Armor ähnelt.
+        /// </summary>
+        internal static string HAR {
+            get {
+                return ResourceManager.GetString("HAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Heavy Armor ähnelt.
+        /// </summary>
+        internal static string HAR0 {
+            get {
+                return ResourceManager.GetString("HAR0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Plate Armor ähnelt.
+        /// </summary>
+        internal static string HAR1 {
+            get {
+                return ResourceManager.GetString("HAR1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Labyrinth ähnelt.
         /// </summary>
         internal static string LABYRINTH {
@@ -160,11 +214,65 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Light Armor ähnelt.
+        /// </summary>
+        internal static string LAR {
+            get {
+                return ResourceManager.GetString("LAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Light Armor ähnelt.
+        /// </summary>
+        internal static string LAR0 {
+            get {
+                return ResourceManager.GetString("LAR0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Padded Armor ähnelt.
+        /// </summary>
+        internal static string LAR1 {
+            get {
+                return ResourceManager.GetString("LAR1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Long Blade ähnelt.
         /// </summary>
         internal static string LBL {
             get {
                 return ResourceManager.GetString("LBL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Sword ähnelt.
+        /// </summary>
+        internal static string LBL0 {
+            get {
+                return ResourceManager.GetString("LBL0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Long Sword ähnelt.
+        /// </summary>
+        internal static string LBL1 {
+            get {
+                return ResourceManager.GetString("LBL1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Claymore ähnelt.
+        /// </summary>
+        internal static string LBL2 {
+            get {
+                return ResourceManager.GetString("LBL2", resourceCulture);
             }
         }
         
@@ -232,11 +340,65 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Spear ähnelt.
+        /// </summary>
+        internal static string POL0 {
+            get {
+                return ResourceManager.GetString("POL0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Halberd ähnelt.
+        /// </summary>
+        internal static string POL1 {
+            get {
+                return ResourceManager.GetString("POL1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hunting Spear ähnelt.
+        /// </summary>
+        internal static string POL2 {
+            get {
+                return ResourceManager.GetString("POL2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Short Blade ähnelt.
         /// </summary>
         internal static string SBL {
             get {
                 return ResourceManager.GetString("SBL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Knife ähnelt.
+        /// </summary>
+        internal static string SBL0 {
+            get {
+                return ResourceManager.GetString("SBL0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dagger ähnelt.
+        /// </summary>
+        internal static string SBL1 {
+            get {
+                return ResourceManager.GetString("SBL1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Short Sword ähnelt.
+        /// </summary>
+        internal static string SBL2 {
+            get {
+                return ResourceManager.GetString("SBL2", resourceCulture);
             }
         }
         

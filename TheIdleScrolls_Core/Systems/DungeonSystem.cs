@@ -180,7 +180,7 @@ namespace TheIdleScrolls_Core.Systems
                         var g = ItemFactory.ItemKingdom.GetDescriptionByIdAndIndex(f.Id, i);
                         if (g != null && g.DropLevel >= rewardSettings.MinDropLevel && g.DropLevel <= dungeonLevel)
                         {
-                            string id = ItemFactory.GetItemCode(g) ?? throw new Exception($"Invalid item description for {g.Genus}");
+                            string id = ItemFactory.GetItemCode(g) ?? throw new Exception($"Invalid item description for {g.Identifier.Code}");
                             validIds.Add(id);
                         }
                     }

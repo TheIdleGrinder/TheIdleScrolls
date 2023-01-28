@@ -33,9 +33,9 @@ namespace TheIdleScrolls_Core.Items
             List<ItemDescription> items = new();
             foreach (var family in ItemKingdom.Families)
             {
-                foreach (var genus in family.Genera)
+                for (int i = 0; i < family.Genera.Count; i++)
                 {
-                    items.Add(new ItemDescription(family.Name, genus));
+                    items.Add(new ItemDescription(new ItemIdentifier(family.Id, i), family.Genera[i]));
                 }
             }
             return items;
@@ -44,7 +44,7 @@ namespace TheIdleScrolls_Core.Items
         private static Entity MakeItem(ItemDescription description)
         {
             Entity item = new();
-            item.AddComponent(new NameComponent(description.Genus));
+            item.AddComponent(new NameComponent(description.Identifier.GenusId.Localize()));
             item.AddComponent(new ItemComponent(GetItemCode(description)!));
             if (description.Equippable != null)
             {
@@ -165,32 +165,12 @@ namespace TheIdleScrolls_Core.Items
             var itemComp = item.GetComponent<ItemComponent>();
             if (itemComp == null)
                 return null;
-            string familyName = itemComp.FamilyName;
-            string genusName = itemComp.GenusName;
-            foreach (var family in ItemKingdom.Families)
-            {
-                if (family.Name != familyName)
-                    continue;
-                for (int i = 0; i < family.Genera.Count; i++)
-                {
-                    if (family.Genera[i].Name != genusName)
-                        continue;
-                    return family.Id + i.ToString();
-                }
-            }
-            return null;
+            return itemComp.Code.Code;
         }
 
         public static string? GetItemCode(ItemDescription description)
         {
-            var family = ItemKingdom.Families.Find(f => f.Name == description.Family);
-            if (family == null)
-                return null;
-            var familyId = family.Id;
-            var genusIndex = family.Genera.FindIndex(g => g.Name == description.Genus);
-            if (genusIndex == -1)
-                return null;
-            return familyId + genusIndex.ToString();
+            return description.Identifier.Code;
         }
 
         public static List<string> GetAllItemFamilyIds()
@@ -200,12 +180,12 @@ namespace TheIdleScrolls_Core.Items
 
         public static string? GetItemFamilyName(string id)
         {
-            return ItemKingdom.Families.Where(w => w.Id == id).FirstOrDefault()?.Name;
+            return ItemKingdom.Families.Where(w => w.Id == id).FirstOrDefault()?.Id.Localize();
         }
 
         public static string? GetItemFamilyIdFromName(string name)
         {
-            return ItemKingdom.Families.Where(w => w.Name == name).FirstOrDefault()?.Id;
+            return ItemKingdom.Families.Where(w => w.Id.Localize() == name).FirstOrDefault()?.Id;
         }
 
         public Entity? ExpandCode(string code)

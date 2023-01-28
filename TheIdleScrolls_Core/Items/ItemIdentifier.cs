@@ -21,6 +21,11 @@ namespace TheIdleScrolls_Core.Items
             }
         }
 
+        public ItemIdentifier(string family, int genusIndex) : this(family + genusIndex.ToString())
+        {
+            
+        }
+
         public string FamilyId { get { return ExtractFamilyId(Code); } }
 
         public int GenusIndex { get { return ExtractGenusIndex(Code); } }
@@ -91,12 +96,13 @@ namespace TheIdleScrolls_Core.Items
         {
             try
             {
-                var match = new Regex(FullRegexString).Match(itemCode);
+                var regex = new Regex(FullRegexString);
+                var match = regex.Match(itemCode);
                 if (match.Value != itemCode)
                     return false;
                 var family = ExtractFamilyId(itemCode);
                 var genusIdx = ExtractGenusIndex(itemCode);
-                return ItemFactory.ItemKingdom.GetDescriptionByIdAndIndex(family, genusIdx) != null;
+                return ItemFactory.ItemKingdom.HasGenus(family, genusIdx);
             }
             catch (Exception)
             {

@@ -121,8 +121,8 @@ namespace TheIdleScrolls_Core.Components
     public class ItemComponent : IComponent
     {
         public ItemIdentifier Code { get; set; }
-        public string FamilyName { get { return Code.GetFamilyDescription().Name; } }
-        public string GenusName { get { return Code.GetGenusDescription().Name; } }
+        public string FamilyName { get { return Code.FamilyId.Localize(); } }
+        public string GenusName { get { return Code.GenusId.Localize(); } }
 
         public ItemComponent(string itemCode)
         {

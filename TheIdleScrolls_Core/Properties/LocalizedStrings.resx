@@ -132,6 +132,15 @@
   <data name="BLN" xml:space="preserve">
     <value>Blunt Weapon</value>
   </data>
+  <data name="BLN0" xml:space="preserve">
+    <value>Simple Club</value>
+  </data>
+  <data name="BLN1" xml:space="preserve">
+    <value>Mace</value>
+  </data>
+  <data name="BLN2" xml:space="preserve">
+    <value>Warhammer</value>
+  </data>
   <data name="CASTLE" xml:space="preserve">
     <value>Cult's Stronghold</value>
   </data>
@@ -144,14 +153,41 @@
   <data name="CRYPT_DESCRIPTION" xml:space="preserve">
     <value>There is something stirring beneath the graveyard...</value>
   </data>
+  <data name="HAR" xml:space="preserve">
+    <value>Heavy Armor</value>
+  </data>
+  <data name="HAR0" xml:space="preserve">
+    <value>Simple Heavy Armor</value>
+  </data>
+  <data name="HAR1" xml:space="preserve">
+    <value>Plate Armor</value>
+  </data>
   <data name="LABYRINTH" xml:space="preserve">
     <value>Labyrinth</value>
   </data>
   <data name="LABYRINTH_DESCRIPTION" xml:space="preserve">
     <value>Below the castle, there is a huge, labyrinthian dungeon.</value>
   </data>
+  <data name="LAR" xml:space="preserve">
+    <value>Light Armor</value>
+  </data>
+  <data name="LAR0" xml:space="preserve">
+    <value>Simple Light Armor</value>
+  </data>
+  <data name="LAR1" xml:space="preserve">
+    <value>Padded Armor</value>
+  </data>
   <data name="LBL" xml:space="preserve">
     <value>Long Blade</value>
+  </data>
+  <data name="LBL0" xml:space="preserve">
+    <value>Simple Sword</value>
+  </data>
+  <data name="LBL1" xml:space="preserve">
+    <value>Long Sword</value>
+  </data>
+  <data name="LBL2" xml:space="preserve">
+    <value>Claymore</value>
   </data>
   <data name="LIGHTHOUSE" xml:space="preserve">
     <value>The Lighthouse</value>
@@ -174,8 +210,26 @@
   <data name="POL" xml:space="preserve">
     <value>Polearm</value>
   </data>
+  <data name="POL0" xml:space="preserve">
+    <value>Simple Spear</value>
+  </data>
+  <data name="POL1" xml:space="preserve">
+    <value>Halberd</value>
+  </data>
+  <data name="POL2" xml:space="preserve">
+    <value>Hunting Spear</value>
+  </data>
   <data name="SBL" xml:space="preserve">
     <value>Short Blade</value>
+  </data>
+  <data name="SBL0" xml:space="preserve">
+    <value>Simple Knife</value>
+  </data>
+  <data name="SBL1" xml:space="preserve">
+    <value>Dagger</value>
+  </data>
+  <data name="SBL2" xml:space="preserve">
+    <value>Short Sword</value>
   </data>
   <data name="TEMPLE" xml:space="preserve">
     <value>Ancient Temple</value>

@@ -9,19 +9,15 @@ namespace TheIdleScrolls_Core.Items
 {
     public class ItemDescription
     {
-        public string Family { get; set; } = "??";
-        public string Genus { get; set; } = "??";
+        public ItemIdentifier Identifier { get; set; }
         public EquippableDescription? Equippable { get; set; } = null;
         public WeaponGenus? Weapon { get; set; } = null;
         public ArmorGenus? Armor { get; set; } = null;
         public int DropLevel { get; set; } = 1;
 
-        public ItemDescription() { }
-
-        public ItemDescription(string familyName, ItemGenusDescription genus)
+        public ItemDescription(ItemIdentifier identifier, ItemGenusDescription genus)
         {
-            Family = familyName;
-            Genus = genus.Name;
+            Identifier = identifier;
             Weapon = genus.Weapon;
             Armor = genus.Armor;
             Equippable = genus.Equippable;
@@ -51,8 +47,6 @@ namespace TheIdleScrolls_Core.Items
 
     public class ItemGenusDescription
     {
-        public string Name { get; set; } = "??";
-
         public EquippableDescription? Equippable { get; set; } = null;
 
         public WeaponGenus? Weapon { get; set; } = null;
@@ -64,15 +58,12 @@ namespace TheIdleScrolls_Core.Items
 
     public class ItemFamilyDescription
     {
-        public string Name { get; set; }
-
         public string Id { get; set; }
 
         public List<ItemGenusDescription> Genera { get; set; }
 
         public ItemFamilyDescription()
         {
-            Name = "";
             Id = "";
             Genera = new();
         }
@@ -110,20 +101,23 @@ namespace TheIdleScrolls_Core.Items
                     var genus = family.GetGenusAt(index);
                     if (genus == null)
                         return null;
-                    return new ItemDescription(family.Name, genus);
+
+                    return new ItemDescription(new ItemIdentifier(idString, index), genus);
                 }
             }
             return null;
         }
 
-        public string? GetFamilyIdFromItemFamilyName(string familyName)
+        public bool HasGenus(string familyId, int genusIndex)
         {
-            foreach (var weapon in Families)
+            foreach (var family in Families)
             {
-                if (weapon.Name == familyName)
-                    return weapon.Id;
+                if (family.Id == familyId)
+                {
+                    return family.Genera.Count > genusIndex && genusIndex >= 0;
+                }
             }
-            return null;
+            return false;
         }
     }
 }
