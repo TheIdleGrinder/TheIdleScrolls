@@ -10,6 +10,7 @@ namespace TheIdleScrolls_Core.Utility
     {
         public static IConditionExpressionNode Parse(string conditionString)
         {
+            // split at || first => && has higher precedence than || 
             if (conditionString.Contains("||"))
             {
                 var fields = conditionString.Split("||").Select(s => s.Trim());
@@ -22,6 +23,7 @@ namespace TheIdleScrolls_Core.Utility
             }
             else
             {
+                // Check if string contains comparison => split further
                 string[] ops = { "<=", "<", "==", "!=", ">=", ">" };
                 foreach (var op in ops)
                 {
@@ -35,15 +37,24 @@ namespace TheIdleScrolls_Core.Utility
                         var left = Parse(fields[0].Trim());
                         var right = Parse(fields[1].Trim());
                         var eOp = ParseComparator(op);
+
                         return new ComparisonNode(eOp, left, right);
                     }
                 }
 
+                // Empty condition should always be fulfilled
+                if (conditionString == String.Empty)
+                {
+                    return new NumericNode(1.0);
+                }
+
+                // Check if the remaining string is a numeric value
                 if (double.TryParse(conditionString.Trim(), out double value))
                 {
                     return new NumericNode(value);
                 }
 
+                // Interpret string as a variable description
                 return new VariableNode(conditionString.Trim());
             }
         }

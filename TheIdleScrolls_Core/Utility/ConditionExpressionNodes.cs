@@ -59,6 +59,11 @@ namespace TheIdleScrolls_Core.Utility
             {
                 return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.Playtime ?? 0.0);
             }
+            else if (m_fieldId.StartsWith("dng_open:"))
+            {
+                var dungeon = m_fieldId.Split(':')[1];
+                return (target.GetComponent<TravellerComponent>()?.AvailableDungeons.Contains(dungeon!) ?? false) ? 1.0 : 0.0;
+            }
             else if (m_fieldId.StartsWith("dng:"))
             {
                 var dungeon = m_fieldId[4..];
@@ -71,6 +76,16 @@ namespace TheIdleScrolls_Core.Utility
             }
             else
             {
+                // CornerCut(?): If no prefix or id is provided, check if m_fieldId is the ID of another achievement
+                var achieveComp = world.GlobalEntity.GetComponent<AchievementsComponent>();
+                if (achieveComp != null)
+                {
+                    var achievement = achieveComp.Achievements.FirstOrDefault(a => a.Id == m_fieldId);
+                    if (achievement != null)
+                    {
+                        return (achievement.Status == Achievements.AchievementStatus.Awarded) ? 1.0 : 0.0;
+                    }
+                }
                 throw new ArgumentException($"Invalid field condition: {m_fieldId}");
             }
         }
