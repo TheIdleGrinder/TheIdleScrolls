@@ -394,7 +394,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die While you were fighting the cultists in their castle, their leader has returned to the old lighthouse and completed the ritual. The gate is opening. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die While you were fighting the cultists in their castle, their leader has returned to the old lighthouse to complete the ritual. ähnelt.
         /// </summary>
         internal static string LIGHTHOUSE2_DESCRIPTION {
             get {
@@ -664,7 +664,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die An army of demons is flooding through the rift. Stand fast and fight them off! ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die We were too late! The ritual has been completed and the gate between the dimensions has been opened. An army of demons is flooding through the rift. Stand fast and fight them off! ähnelt.
         /// </summary>
         internal static string THRESHOLD_DESCRIPTION {
             get {

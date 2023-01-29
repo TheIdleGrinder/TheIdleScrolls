@@ -132,7 +132,7 @@
     {
       "Name": "TEMPLE",
       "Level": 35,
-      "Condition": "Wilderness >= 35 && dng:LIGHTHOUSE",
+      "Condition": "dng:LIGHTHOUSE",
       "Floors": [
         {
           "MobCount": 3,
@@ -200,7 +200,7 @@
     {
       "Name": "MERCCAMP",
       "Level": 45,
-      "Condition": "Wilderness >= 45 && dng:TEMPLE",
+      "Condition": "dng:TEMPLE",
       "Floors": [
         {
           "MobCount": 15,
@@ -238,7 +238,7 @@
     {
       "Name": "CASTLE",
       "Level": 55,
-      "Condition": "Wilderness >= 55",
+      "Condition": "dng:TEMPLE",
       "Floors": [
         {
           "MobCount": 4,
@@ -420,7 +420,7 @@
     {
       "Name": "LIGHTHOUSE2",
       "Level": 65,
-      "Condition": "Wilderness >= 65 && dng:LABYRINTH",
+      "Condition": "dng:LABYRINTH",
       "Floors": [
         {
           "MobCount": 3,

@@ -226,7 +226,7 @@
     <value>The Lighthouse II</value>
   </data>
   <data name="LIGHTHOUSE2_DESCRIPTION" xml:space="preserve">
-    <value>While you were fighting the cultists in their castle, their leader has returned to the old lighthouse and completed the ritual. The gate is opening.</value>
+    <value>While you were fighting the cultists in their castle, their leader has returned to the old lighthouse to complete the ritual.</value>
   </data>
   <data name="LIGHTHOUSE_DESCRIPTION" xml:space="preserve">
     <value>Cultists have holed up in the old lighthouse. The blue flames they lit have attracted more than just ships.</value>
@@ -319,7 +319,7 @@
     <value>The Threshold</value>
   </data>
   <data name="THRESHOLD_DESCRIPTION" xml:space="preserve">
-    <value>An army of demons is flooding through the rift. Stand fast and fight them off!</value>
+    <value>We were too late! The ritual has been completed and the gate between the dimensions has been opened. An army of demons is flooding through the rift. Stand fast and fight them off!</value>
   </data>
   <data name="WOLF" xml:space="preserve">
     <value>Wolf</value>
