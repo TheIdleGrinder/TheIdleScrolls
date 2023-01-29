@@ -139,7 +139,8 @@ namespace TheIdleScrolls_Core.Systems
                         dungeons.Add(new DungeonRepresentation(dungeon.Name, 
                             dungeon.Name.Localize(),
                             dungeon.Level,
-                            $"{dungeon.Name}_DESCRIPTION".Localize()
+                            $"{dungeon.Name}_DESCRIPTION".Localize(),
+                            dungeon.Rarity
                         ));
                     }
                 }
@@ -248,11 +249,13 @@ namespace TheIdleScrolls_Core.Systems
             {
                 description += equipComp.Encumbrance != 0.0 ? $"; {equipComp.Encumbrance} Encumbrance" : "";
             }
+            
             return new ItemRepresentation(
                 item.Id,
                 item.GetName(),
                 description,
-                new() { equipComp?.Slot ?? EquipmentSlot.Hand }
+                new() { equipComp?.Slot ?? EquipmentSlot.Hand },
+                itemComp?.Code.RarityLevel ?? 0
                 );
         }
 

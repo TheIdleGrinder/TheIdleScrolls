@@ -708,6 +708,7 @@
             this.gridInventory.Size = new System.Drawing.Size(594, 436);
             this.gridInventory.TabIndex = 0;
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
+            this.gridInventory.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.gridInventory_RowPrePaint);
             // 
             // tabAbilities
             // 

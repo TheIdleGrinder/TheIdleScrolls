@@ -3,6 +3,7 @@
     {
       "Name": "CRYPT",
       "Level": 15,
+      "Rarity": 0,
       "Floors": [
         {
           "MobCount": 2,
@@ -75,6 +76,7 @@
       "Name": "LIGHTHOUSE",
       "Level": 25,
       "Condition": "Wilderness >= 25",
+      "Rarity": 1,
       "Floors": [
         {
           "MobCount": 3,
@@ -133,6 +135,7 @@
       "Name": "TEMPLE",
       "Level": 35,
       "Condition": "dng:LIGHTHOUSE",
+      "Rarity": 2,
       "Floors": [
         {
           "MobCount": 3,
@@ -201,6 +204,7 @@
       "Name": "MERCCAMP",
       "Level": 45,
       "Condition": "dng:TEMPLE",
+      "Rarity": 3,
       "Floors": [
         {
           "MobCount": 15,
@@ -239,6 +243,7 @@
       "Name": "CASTLE",
       "Level": 55,
       "Condition": "dng:TEMPLE",
+      "Rarity": 4,
       "Floors": [
         {
           "MobCount": 4,
@@ -299,6 +304,7 @@
       "Name": "LABYRINTH",
       "Level": 60,
       "Condition": "dng:CASTLE",
+      "Rarity": 5,
       "Floors": [
         {
           "MobCount": 1,
@@ -421,6 +427,7 @@
       "Name": "LIGHTHOUSE2",
       "Level": 65,
       "Condition": "dng:LABYRINTH",
+      "Rarity": 6,
       "Floors": [
         {
           "MobCount": 3,
@@ -479,6 +486,7 @@
       "Name": "THRESHOLD",
       "Level": 70,
       "Condition": "dng:LIGHTHOUSE2",
+      "Rarity": 7,
       "Floors": [
         {
           "MobCount": 25,

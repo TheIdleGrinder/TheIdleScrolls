@@ -8,6 +8,7 @@ using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Core.Components;
 using System.Collections.Generic;
 using static System.Net.Mime.MediaTypeNames;
+using System.Runtime.Intrinsics.X86;
 
 namespace TheIdleScrollsApp
 {
@@ -58,6 +59,8 @@ namespace TheIdleScrollsApp
             gridInventory.Columns[0].Visible = false;
             gridInventory.Columns[1].MinimumWidth = 150;
             gridInventory.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            gridInventory.Columns[3].MinimumWidth = 35;
+            gridInventory.Columns[3].Visible = false;
 
             gridAbilities.DataSource = m_abilities;
             gridAbilities.Columns[0].Visible = false;
@@ -71,6 +74,21 @@ namespace TheIdleScrollsApp
             m_lastTickStart = tickStart;
 
             m_runner.ExecuteTick(lastTickDuration / 1000);
+        }
+
+        private static Color GetColorForRarity(int rarity)
+        {
+            switch (rarity)
+            {
+                case 1: return Color.DarkViolet;
+                case 2: return Color.Indigo;
+                case 3: return Color.Blue;
+                case 4: return Color.Green;
+                case 5: return Color.Goldenrod;
+                case 6: return Color.Orange;
+                case 7: return Color.Red;
+                default: return Color.Black;
+            }
         }
 
         public void SetFeatureAvailable(GameFeature area, bool available)
@@ -183,7 +201,7 @@ namespace TheIdleScrollsApp
         public void SetInventory(List<ItemRepresentation> items)
         {
             m_Inventory = new(items);
-            gridInventory.DataSource = m_Inventory;
+            gridInventory.DataSource = m_Inventory;            
         }
 
         public void SetEquipment(List<ItemRepresentation> items)
@@ -201,11 +219,17 @@ namespace TheIdleScrollsApp
                 }
             }
 
-            lblEqWeapon.Text = m_Equipment.Hand?.Name ?? "";
-            lblEqArmor.Text = m_Equipment.Armor?.Name ?? "";
+            var SetLabelItem = (Label label, ItemRepresentation? item) =>
+            {
+                int rarity = item?.Rarity ?? 0;
+                label.Text = item?.Name ?? "";
+                label.ForeColor = GetColorForRarity(rarity);
+                label.Font = new Font(label.Font, (rarity > 0) ? FontStyle.Bold : FontStyle.Regular);
+                toolTip.SetToolTip(label, item?.Description?.Replace("; ", "\n") ?? "");
+            };
 
-            toolTip.SetToolTip(lblEqWeapon, m_Equipment.Hand?.Description?.Replace("; ", "\n") ?? "");
-            toolTip.SetToolTip(lblEqArmor, m_Equipment.Armor?.Description?.Replace("; ", "\n") ?? "");
+            SetLabelItem(lblEqWeapon, m_Equipment.Hand);
+            SetLabelItem(lblEqArmor, m_Equipment.Armor);
 
             lblAttack.Text = "Attack" + ((m_Equipment.Hand != null) ? $"\n({m_Equipment.Hand?.Name})" : "");
         }
@@ -248,6 +272,7 @@ namespace TheIdleScrollsApp
                 buttons[i].Text = $"{dungeons[i].Name} (Level {dungeons[i].Level})";
                 buttons[i].Tag = dungeons[i];
                 buttons[i].Visible = true;
+                buttons[i].ForeColor = GetColorForRarity(dungeons[i].Rarity);
                 toolTip.SetToolTip(buttons[i], $"{dungeons[i].Name}\nLevel {dungeons[i].Level}\n\n{dungeons[i].Description}");
             }
         }
@@ -346,6 +371,14 @@ namespace TheIdleScrollsApp
         private void btnLeaveDungeon_Click(object sender, EventArgs e)
         {
             m_inputHandler.LeaveDungeon();
+        }
+
+        private void gridInventory_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            var cell = gridInventory.Rows[e.RowIndex].Cells[1];
+            int rarity = m_Inventory[e.RowIndex].Rarity;
+            cell.Style.ForeColor = GetColorForRarity(rarity);
+            cell.Style.Font = new Font(gridInventory.Font, (rarity > 0) ? FontStyle.Bold : FontStyle.Regular);
         }
     }
 
