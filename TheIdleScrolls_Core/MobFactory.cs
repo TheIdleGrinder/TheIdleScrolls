@@ -27,10 +27,10 @@ namespace TheIdleScrolls_Core
         public Entity MakeMob(MobDescription description, int level)
         {
             if (level < description.MinLevel || level > description.MaxLevel)
-                throw new Exception($"Invalid level for {description.Name}: {level} (valid: {description.MinLevel} - {description.MaxLevel})");
+                throw new Exception($"Invalid level for {description.Name.Localize()}: {level} (valid: {description.MinLevel} - {description.MaxLevel})");
             var mob = new Entity();
             mob.AddComponent(new MobComponent());
-            mob.AddComponent(new NameComponent(description.Name));
+            mob.AddComponent(new NameComponent(description.Name.Localize()));
             mob.AddComponent(new LevelComponent { Level = level });
             mob.AddComponent(new LifePoolComponent(CalculateHP(description, level)));
             mob.AddComponent(new XpGiverComponent { Amount = CalculateXpValue(description, level) });

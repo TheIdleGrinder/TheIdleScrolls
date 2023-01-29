@@ -129,6 +129,9 @@
   <data name="AXE2" xml:space="preserve">
     <value>Battle Axe</value>
   </data>
+  <data name="BEAR" xml:space="preserve">
+    <value>Bear</value>
+  </data>
   <data name="BLN" xml:space="preserve">
     <value>Blunt Weapon</value>
   </data>
@@ -141,6 +144,21 @@
   <data name="BLN2" xml:space="preserve">
     <value>Warhammer</value>
   </data>
+  <data name="BOAR" xml:space="preserve">
+    <value>Wild Boar</value>
+  </data>
+  <data name="BOSS_CULTLEADER" xml:space="preserve">
+    <value>Grand Wizard of the Order</value>
+  </data>
+  <data name="BOSS_MERCENARY" xml:space="preserve">
+    <value>Mercenary Centurion</value>
+  </data>
+  <data name="BOSS_NECROMANCER" xml:space="preserve">
+    <value>The Necromancer</value>
+  </data>
+  <data name="BOSS_VOIDPRIEST" xml:space="preserve">
+    <value>Priest of the Void</value>
+  </data>
   <data name="CASTLE" xml:space="preserve">
     <value>Cult's Stronghold</value>
   </data>
@@ -152,6 +170,18 @@
   </data>
   <data name="CRYPT_DESCRIPTION" xml:space="preserve">
     <value>There is something stirring beneath the graveyard...</value>
+  </data>
+  <data name="DRAGON" xml:space="preserve">
+    <value>Dragon</value>
+  </data>
+  <data name="DRAGON2" xml:space="preserve">
+    <value>Big Dragon</value>
+  </data>
+  <data name="DRAGON3" xml:space="preserve">
+    <value>Bigger Dragon</value>
+  </data>
+  <data name="DUMMY" xml:space="preserve">
+    <value>Training Dummy</value>
   </data>
   <data name="HAR" xml:space="preserve">
     <value>Heavy Armor</value>
@@ -207,6 +237,54 @@
   <data name="MERCCAMP_DESCRIPTION" xml:space="preserve">
     <value>The cultists have acquired the services of a company of human mercenaries. Raiding their camp and killing their leader should drive them away.</value>
   </data>
+  <data name="MOB_ABOMINATION" xml:space="preserve">
+    <value>Abomination</value>
+  </data>
+  <data name="MOB_CULTIST" xml:space="preserve">
+    <value>Cultist</value>
+  </data>
+  <data name="MOB_CULTKNIGHT" xml:space="preserve">
+    <value>Knight of the Order</value>
+  </data>
+  <data name="MOB_DEMON1" xml:space="preserve">
+    <value>Winged Demon</value>
+  </data>
+  <data name="MOB_DEMON2" xml:space="preserve">
+    <value>Bigger Imp</value>
+  </data>
+  <data name="MOB_FANATIC" xml:space="preserve">
+    <value>Fanatic</value>
+  </data>
+  <data name="MOB_GREATERDEMON" xml:space="preserve">
+    <value>Greater Demon of the Void</value>
+  </data>
+  <data name="MOB_IMP" xml:space="preserve">
+    <value>Imp</value>
+  </data>
+  <data name="MOB_LESSERDEMON" xml:space="preserve">
+    <value>Lessor Demon of the Void</value>
+  </data>
+  <data name="MOB_MERCENARY" xml:space="preserve">
+    <value>Mercenary Legionnaire</value>
+  </data>
+  <data name="MOB_SKELETON" xml:space="preserve">
+    <value>Skeleton</value>
+  </data>
+  <data name="MOB_VOIDCULTIST" xml:space="preserve">
+    <value>Void Infused Cultist</value>
+  </data>
+  <data name="MOB_VOIDFIEND" xml:space="preserve">
+    <value>Void Fiend</value>
+  </data>
+  <data name="MOB_WARLOCK" xml:space="preserve">
+    <value>Warlock</value>
+  </data>
+  <data name="MOB_ZOMBIE" xml:space="preserve">
+    <value>Zombie</value>
+  </data>
+  <data name="OGRE" xml:space="preserve">
+    <value>Ogre</value>
+  </data>
   <data name="POL" xml:space="preserve">
     <value>Polearm</value>
   </data>
@@ -242,5 +320,11 @@
   </data>
   <data name="THRESHOLD_DESCRIPTION" xml:space="preserve">
     <value>An army of demons is flooding through the rift. Stand fast and fight them off!</value>
+  </data>
+  <data name="WOLF" xml:space="preserve">
+    <value>Wolf</value>
+  </data>
+  <data name="WYVERN" xml:space="preserve">
+    <value>Wyvern</value>
   </data>
 </root>

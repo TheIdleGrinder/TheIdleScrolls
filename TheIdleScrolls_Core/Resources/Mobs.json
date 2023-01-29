@@ -1,55 +1,55 @@
 [
   {
-    "Name": "Dummy",
+    "Name": "DUMMY",
     "MinLevel": 0,
     "MaxLevel": 5,
     "HP": 1.0,
     "Damage": 0.0
   },
   {
-    "Name": "Wolf",
+    "Name": "WOLF",
     "MinLevel": 6,
     "MaxLevel": 15,
     "HP": 0.8
   },
   {
-    "Name": "Wild Boar",
+    "Name": "BOAR",
     "MinLevel": 9,
     "MaxLevel": 22,
     "HP": 1.0
   }, 
   {
-    "Name": "Bear",
+    "Name": "BEAR",
     "MinLevel": 16,
     "MaxLevel": 32,
     "HP": 1.1
   },
   {
-    "Name": "Ogre",
+    "Name": "OGRE",
     "MinLevel": 25,
     "MaxLevel": 50,
     "HP": 1.2
   },
   {
-    "Name": "Wyvern",
+    "Name": "WYVERN",
     "MinLevel": 40,
     "MaxLevel": 74,
     "HP": 1.3
   },
   {
-    "Name": "Dragon",
+    "Name": "DRAGON",
     "MinLevel": 75,
     "MaxLevel": 120,
     "HP": 1.3
   },
   {
-    "Name": "Big Dragon",
+    "Name": "DRAGON2",
     "MinLevel": 121,
     "MaxLevel": 150,
     "HP": 1.4
   },
   {
-    "Name": "Bigger Dragon",
+    "Name": "DRAGON3",
     "MinLevel": 151,
     "MaxLevel": 1000,
     "HP": 1.5

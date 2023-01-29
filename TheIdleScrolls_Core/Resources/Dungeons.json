@@ -8,57 +8,57 @@
           "MobCount": 2,
           "TimeMultiplier": 2.0,
           "MobTypes": [
-            "Zombie"
+            "MOB_ZOMBIE"
           ]
         },
         {
           "MobCount": 3,
           "TimeMultiplier": 2.5,
           "MobTypes": [
-            "Skeleton"
+            "MOB_SKELETON"
           ]
         },
         {
           "MobCount": 5,
           "TimeMultiplier": 3.5,
           "MobTypes": [
-            "Skeleton",
-            "Zombie"
+            "MOB_SKELETON",
+            "MOB_ZOMBIE"
           ]
         },
         {
           "MobCount": 2,
           "TimeMultiplier": 5.0,
           "MobTypes": [
-            "Abomination"
+            "MOB_ABOMINATION"
           ]
         },
         {
           "MobCount": 1,
           "TimeMultiplier": 3.3,
           "MobTypes": [
-            "The Necromancer"
+            "BOSS_NECROMANCER"
           ]
         }
       ],
       "LocalMobs": [
         {
-          "Name": "Skeleton",
+          "Name": "MOB_SKELETON",
           "HP": 0.8,
           "Damage": 1.5
         },
         {
-          "Name": "Zombie",
+          "Name": "MOB_ZOMBIE",
           "HP": 1.5,
           "Damage": 0.8
         },
         {
-          "Name": "Abomination",
+          "Name": "MOB_ABOMINATION",
           "HP": 7.5,
           "Damage": 1.0
         },
         {
-          "Name": "The Necromancer",
+          "Name": "BOSS_NECROMANCER",
           "HP": 5.0,
           "Damage": 1.5
         }
@@ -80,45 +80,45 @@
           "MobCount": 3,
           "TimeMultiplier": 2.5,
           "MobTypes": [
-            "Cultist"
+            "MOB_CULTIST"
           ]
         },
         {
           "MobCount": 4,
           "TimeMultiplier": 3,
           "MobTypes": [
-            "Shadow Fiend",
-            "Cultist"
+            "MOB_IMP",
+            "MOB_CULTIST"
           ]
         },
         {
           "MobCount": 7,
           "TimeMultiplier": 4.2,
           "MobTypes": [
-            "Shadow Fiend"
+            "MOB_IMP"
           ]
         },
         {
           "MobCount": 1,
           "TimeMultiplier": 3.5,
           "MobTypes": [
-            "Lesser Demon of the Void"
+            "MOB_LESSERDEMON"
           ]
         }
       ],
       "LocalMobs": [
         {
-          "Name": "Cultist",
+          "Name": "MOB_CULTIST",
           "HP": 1.3,
           "Damage": 1.3
         },
         {
-          "Name": "Shadow Fiend",
+          "Name": "MOB_IMP",
           "HP": 1.0,
           "Damage": 1.7
         },
         {
-          "Name": "Lesser Demon of the Void",
+          "Name": "MOB_LESSERDEMON",
           "HP": 10.0,
           "Damage": 1.2
         }
@@ -138,55 +138,55 @@
           "MobCount": 3,
           "TimeMultiplier": 3.6,
           "MobTypes": [
-            "Cultist",
-            "Warlock"
+            "MOB_CULTIST",
+            "MOB_WARLOCK"
           ]
         },
         {
           "MobCount": 3,
           "TimeMultiplier": 3.2,
           "MobTypes": [
-            "Cultist",
-            "Warlock"
+            "MOB_CULTIST",
+            "MOB_WARLOCK"
           ]
         },
         {
           "MobCount": 3,
           "TimeMultiplier": 2.9,
           "MobTypes": [
-            "Cultist",
-            "Warlock"
+            "MOB_CULTIST",
+            "MOB_WARLOCK"
           ]
         },
         {
           "MobCount": 3,
           "TimeMultiplier": 2.5,
           "MobTypes": [
-            "Cultist",
-            "Warlock"
+            "MOB_CULTIST",
+            "MOB_WARLOCK"
           ]
         },
         {
           "MobCount": 3,
           "TimeMultiplier": 3,
           "MobTypes": [
-            "Priest of the Void"
+            "BOSS_VOIDPRIEST"
           ]
         }
       ],
       "LocalMobs": [
         {
-          "Name": "Cultist",
+          "Name": "MOB_CULTIST",
           "HP": 1.3,
           "Damage": 1.3
         },
         {
-          "Name": "Warlock",
+          "Name": "MOB_WARLOCK",
           "HP": 1.0,
           "Damage": 1.6
         },
         {
-          "Name": "Priest of the Void",
+          "Name": "BOSS_VOIDPRIEST",
           "HP": 1.7,
           "Damage": 1.3
         }
@@ -206,25 +206,25 @@
           "MobCount": 15,
           "TimeMultiplier": 10,
           "MobTypes": [
-            "Mercenary Legionnaire"
+            "MOB_MERCENARY"
           ]
         },
         {
           "MobCount": 1,
           "TimeMultiplier": 4,
           "MobTypes": [
-            "Mercenary Centurion"
+            "BOSS_MERCENARY"
           ]
         }
       ],
       "LocalMobs": [
         {
-          "Name": "Mercenary Legionnaire",
+          "Name": "MOB_MERCENARY",
           "HP": 1.0,
           "Damage": 1.0
         },
         {
-          "Name": "Mercenary Centurion",
+          "Name": "BOSS_MERCENARY",
           "HP": 6.0,
           "Damage": 1.33
         }
@@ -244,47 +244,47 @@
           "MobCount": 4,
           "TimeMultiplier": 4.0,
           "MobTypes": [
-            "Fanatic",
-            "Warlord"
+            "MOB_FANATIC",
+            "MOB_WARLOCK"
           ]
         },
         {
           "MobCount": 3,
           "TimeMultiplier": 2.7,
           "MobTypes": [
-            "Fanatic",
-            "Warlord"
+            "MOB_FANATIC",
+            "MOB_WARLOCK"
           ]
         },
         {
           "MobCount": 5,
           "TimeMultiplier": 3.8,
           "MobTypes": [
-            "Fanatic",
-            "Warlord"
+            "MOB_FANATIC",
+            "MOB_WARLOCK"
           ]
         },
         {
           "MobCount": 2,
           "TimeMultiplier": 5.0,
           "MobTypes": [
-            "Knight of the Order"
+            "MOB_CULTKNIGHT"
           ]
         }
       ],
       "LocalMobs": [
         {
-          "Name": "Warlock",
+          "Name": "MOB_WARLOCK",
           "HP": 0.8,
           "Damage": 1.5
         },
         {
-          "Name": "Fanatic",
+          "Name": "MOB_FANATIC",
           "HP": 1.5,
           "Damage": 0.8
         },
         {
-          "Name": "Knight of the Order",
+          "Name": "MOB_CULTKNIGHT",
           "HP": 5.0,
           "Damage": 1.0
         }
@@ -304,109 +304,109 @@
           "MobCount": 1,
           "TimeMultiplier": 1.5,
           "MobTypes": [
-            "Void Fiend",
-            "Lesser Demon of the Void",
-            "Void Infused Cultist"
+            "MOB_VOIDFIEND",
+            "MOB_LESSERDEMON",
+            "MOB_VOIDCULTIST"
           ]
         },
         {
           "MobCount": 2,
           "TimeMultiplier": 2.9,
           "MobTypes": [
-            "Void Fiend",
-            "Lesser Demon of the Void",
-            "Void Infused Cultist"
+            "MOB_VOIDFIEND",
+            "MOB_LESSERDEMON",
+            "MOB_VOIDCULTIST"
           ]
         },
         {
           "MobCount": 1,
           "TimeMultiplier": 1.4,
           "MobTypes": [
-            "Void Fiend",
-            "Lesser Demon of the Void",
-            "Void Infused Cultist"
+            "MOB_VOIDFIEND",
+            "MOB_LESSERDEMON",
+            "MOB_VOIDCULTIST"
           ]
         },
         {
           "MobCount": 1,
           "TimeMultiplier": 1.3,
           "MobTypes": [
-            "Void Fiend",
-            "Lesser Demon of the Void",
-            "Void Infused Cultist"
+            "MOB_VOIDFIEND",
+            "MOB_LESSERDEMON",
+            "MOB_VOIDCULTIST"
           ]
         },
         {
           "MobCount": 2,
           "TimeMultiplier": 2.5,
           "MobTypes": [
-            "Void Fiend",
-            "Lesser Demon of the Void",
-            "Void Infused Cultist"
+            "MOB_VOIDFIEND",
+            "MOB_LESSERDEMON",
+            "MOB_VOIDCULTIST"
           ]
         },
         {
           "MobCount": 1,
           "TimeMultiplier": 1.2,
           "MobTypes": [
-            "Void Fiend",
-            "Lesser Demon of the Void",
-            "Void Infused Cultist"
+            "MOB_VOIDFIEND",
+            "MOB_LESSERDEMON",
+            "MOB_VOIDCULTIST"
           ]
         },
         {
           "MobCount": 1,
           "TimeMultiplier": 1.1,
           "MobTypes": [
-            "Void Fiend",
-            "Lesser Demon of the Void",
-            "Void Infused Cultist"
+            "MOB_VOIDFIEND",
+            "MOB_LESSERDEMON",
+            "MOB_VOIDCULTIST"
           ]
         },
         {
           "MobCount": 3,
           "TimeMultiplier": 3.1,
           "MobTypes": [
-            "Void Fiend",
-            "Lesser Demon of the Void",
-            "Void Infused Cultist"
+            "MOB_VOIDFIEND",
+            "MOB_LESSERDEMON",
+            "MOB_VOIDCULTIST"
           ]
         },
         {
           "MobCount": 1,
           "TimeMultiplier": 1,
           "MobTypes": [
-            "Void Fiend",
-            "Lesser Demon of the Void",
-            "Void Infused Cultist"
+            "MOB_VOIDFIEND",
+            "MOB_LESSERDEMON",
+            "MOB_VOIDCULTIST"
           ]
         },
         {
           "MobCount": 1,
           "TimeMultiplier": 4.0,
           "MobTypes": [
-            "Grand Wizard of the Order"
+            "BOSS_CULTLEADER"
           ]
         }
       ],
       "LocalMobs": [
         {
-          "Name": "Void Fiend",
+          "Name": "MOB_VOIDFIEND",
           "HP": 2.0,
           "Damage": 1.0
         },
         {
-          "Name": "Lesser Demon of the Void",
+          "Name": "MOB_LESSERDEMON",
           "HP": 1.5,
           "Damage": 1.5
         },
         {
-          "Name": "Void Infused Cultist",
+          "Name": "MOB_VOIDCULTIST",
           "HP": 1.5,
           "Damage": 1.33
         },
         {
-          "Name": "Grand Wizard of the Order",
+          "Name": "BOSS_CULTLEADER",
           "HP": 6.0,
           "Damage": 1.5
         }
@@ -426,45 +426,45 @@
           "MobCount": 3,
           "TimeMultiplier": 2.5,
           "MobTypes": [
-            "Void Infused Cultist"
+            "MOB_VOIDCULTIST"
           ]
         },
         {
           "MobCount": 4,
           "TimeMultiplier": 3,
           "MobTypes": [
-            "Void Fiend",
-            "Void Infused Cultist"
+            "MOB_VOIDFIEND",
+            "MOB_VOIDCULTIST"
           ]
         },
         {
           "MobCount": 7,
           "TimeMultiplier": 4.2,
           "MobTypes": [
-            "Void Fiend"
+            "MOB_VOIDFIEND"
           ]
         },
         {
           "MobCount": 1,
           "TimeMultiplier": 3.5,
           "MobTypes": [
-            "Greater Demon of the Void"
+            "MOB_GREATERDEMON"
           ]
         }
       ],
       "LocalMobs": [
         {
-          "Name": "Void Infused Cultist",
+          "Name": "MOB_VOIDCULTIST",
           "HP": 1.3,
           "Damage": 1.3
         },
         {
-          "Name": "Void Fiend",
+          "Name": "MOB_VOIDFIEND",
           "HP": 1.0,
           "Damage": 1.7
         },
         {
-          "Name": "Greater Demon of the Void",
+          "Name": "MOB_GREATERDEMON",
           "HP": 10.0,
           "Damage": 1.2
         }
@@ -484,25 +484,25 @@
           "MobCount": 25,
           "TimeMultiplier": 20.0,
           "MobTypes": [
-            "Void Fiend",
-            "Winged Demon",
-            "Imp"
+            "MOB_VOIDFIEND",
+            "MOB_DEMON1",
+            "MOB_DEMON2"
           ]
         }
       ],
       "LocalMobs": [
         {
-          "Name": "Void Fiend",
+          "Name": "MOB_VOIDFIEND",
           "HP": 1.0,
           "Damage": 1.2
         },
         {
-          "Name": "Winged Demon",
+          "Name": "MOB_DEMON1",
           "HP": 1.2,
           "Damage": 1.0
         },
         {
-          "Name": "Imp",
+          "Name": "MOB_DEMON2",
           "HP": 1.1,
           "Damage": 1.1
         }
