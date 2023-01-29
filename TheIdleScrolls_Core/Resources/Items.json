@@ -243,5 +243,37 @@
       "MinLevel": 30,
       "InverseWeight": 100
     }
+  ],
+  "Materials": [
+    {
+      "Id": "M0",
+      "PowerMultiplier": 1.0,
+      "MinimumLevel": 0
+    },
+    {
+      "Id": "M1",
+      "PowerMultiplier": 2.0,
+      "MinimumLevel": 10
+    },
+    {
+      "Id": "L0",
+      "PowerMultiplier": 1.0,
+      "MinimumLevel": 0
+    },
+    {
+      "Id": "L1",
+      "PowerMultiplier": 2.0,
+      "MinimumLevel": 10
+    },
+    {
+      "Id": "W0",
+      "PowerMultiplier": 1.0,
+      "MinimumLevel": 0
+    },
+    {
+      "Id": "W1",
+      "PowerMultiplier": 2.0,
+      "MinimumLevel": 10
+    }
   ]
 }

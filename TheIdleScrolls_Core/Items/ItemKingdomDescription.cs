@@ -59,15 +59,21 @@ namespace TheIdleScrolls_Core.Items
     public class ItemRarityDescription
     {
         public int MinLevel { get; set; } = 1;
-
         public double InverseWeight { get; set; } = 10.0;
+    }
+
+    public class ItemMaterialDescription
+    {
+        public string Id { get; set; } = "";
+        public double PowerMultiplier { get; set; } = 1.0;
+        public int MinimumLevel { get; set; } = 0;
     }
 
     public class ItemKingdomDescription
     {
         public List<ItemFamilyDescription> Families { get; set; } = new();
-
         public List<ItemRarityDescription> Rarities { get; set; } = new();
+        public List<ItemMaterialDescription> Materials { get; set; } = new();
 
         public ItemKingdomDescription()
         {
