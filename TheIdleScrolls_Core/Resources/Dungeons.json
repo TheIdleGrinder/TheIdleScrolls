@@ -425,7 +425,7 @@
     },
     {
       "Name": "LIGHTHOUSE2",
-      "Level": 65,
+      "Level": 70,
       "Condition": "dng:LABYRINTH",
       "Rarity": 1,
       "Floors": [
@@ -484,7 +484,7 @@
     },
     {
       "Name": "THRESHOLD",
-      "Level": 70,
+      "Level": 75,
       "Condition": "dng:LIGHTHOUSE2",
       "Rarity": 1,
       "Floors": [

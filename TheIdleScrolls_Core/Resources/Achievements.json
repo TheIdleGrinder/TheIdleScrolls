@@ -76,6 +76,20 @@
       "Description": "Defeat a level 75 enemy in the wilderness"
     },
     {
+      "Id": "WILD100",
+      "Prerequisite": "WILD75",
+      "Condition": "Wilderness >= 100",
+      "Title": "Wilderness Conqueror",
+      "Description": "Defeat a level 100 enemy in the wilderness"
+    },
+    {
+      "Id": "WILD150",
+      "Prerequisite": "WILD100",
+      "Condition": "Wilderness >= 150",
+      "Title": "Wilderness Wanderer",
+      "Description": "Defeat a level 150 enemy in the wilderness"
+    },
+    {
       "Id": "KILL50",
       "Prerequisite": "",
       "Condition": "Kills >= 50",
