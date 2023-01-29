@@ -35,20 +35,23 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
 
-            CheckPrerequisites(achievementsComp.Achievements, coordinator);
+            CheckPrerequisites(achievementsComp.Achievements, coordinator, world);
 
             CheckConditions(achievementsComp.Achievements, coordinator, world);
         }
 
-        void CheckPrerequisites(List<Achievement> achievements, Coordinator coordinator)
+        void CheckPrerequisites(List<Achievement> achievements, Coordinator coordinator, World world)
         {
+            var player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
+            if (player == null)
+                return;
+
             foreach (var achievement in achievements)
             {
                 if (achievement.Status == AchievementStatus.Unavailable)
                 {
-                    if (achievement.Prerequisite == String.Empty || 
-                        achievements.Where(a => a.Id == achievement.Prerequisite 
-                            && a.Status == AchievementStatus.Awarded).Any())
+                    double result = achievement.Prerequisite.Evaluate(player, world);
+                    if (result >= 1.0)
                     {
                         achievement.Status = AchievementStatus.Available;
                         coordinator.PostMessage(this, new AchievementStatusMessage(achievement));

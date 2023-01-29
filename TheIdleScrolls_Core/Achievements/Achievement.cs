@@ -12,7 +12,7 @@ namespace TheIdleScrolls_Core.Achievements
     {
         public string Id { get; set; } = "";
         public AchievementStatus Status { get; set; }
-        public string Prerequisite { get; set; } = "";
+        public IConditionExpressionNode Prerequisite { get; set; } = new NumericNode(0.0);
         public IConditionExpressionNode Condition { get; set; } = new NumericNode(0.0);
         public bool Hidden { get; set; } = false;
         public string Title { get; set; } = "";
@@ -22,7 +22,7 @@ namespace TheIdleScrolls_Core.Achievements
         {
             Id = description.Id;
             Status = AchievementStatus.Unavailable;
-            Prerequisite = description.Prerequisite;
+            Prerequisite = ExpressionParser.Parse(description.Prerequisite);
             Condition = ExpressionParser.Parse(description.Condition);
             Hidden = description.Hidden;
             Title = description.Title;
