@@ -196,7 +196,7 @@
     <value>Labyrinth</value>
   </data>
   <data name="LABYRINTH_DESCRIPTION" xml:space="preserve">
-    <value>Below the castle, there is a huge, labyrinthian dungeon.</value>
+    <value>Below the castle, there is a huge, labyrinthian dungeon. This must be where the leader of the cult is hiding.</value>
   </data>
   <data name="LAR" xml:space="preserve">
     <value>Light Armor</value>

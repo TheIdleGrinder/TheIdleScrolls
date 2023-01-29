@@ -126,31 +126,87 @@
     },
     {
       "Id": "DNG:CRYPT",
-      "Prerequisite": "WILD15",
+      "Prerequisite": "dng_open:CRYPT",
       "Condition": "dng:CRYPT > 0",
       "Title": "Cryptkeeper",
       "Description": "Complete the Crypt"
     },
     {
+      "Id": "DNG:MERCCAMP",
+      "Prerequisite": "dng_open:MERCCAMP",
+      "Condition": "dng:MERCCAMP > 0",
+      "Title": "Spartacus",
+      "Description": "Complete the Mercenary Camp"
+    },
+    {
       "Id": "DNG:LIGHTHOUSE",
-      "Prerequisite": "WILD25",
+      "Prerequisite": "dng_open:LIGHTHOUSE",
       "Condition": "dng:LIGHTHOUSE > 0",
-      "Title": "So That All May Find You",
+      "Title": "I Shall Be Light",
       "Description": "Complete the Lighthouse"
+    },
+    {
+      "Id": "DNG:TEMPLE",
+      "Prerequisite": "dng_open:TEMPLE",
+      "Condition": "dng:TEMPLE > 0",
+      "Title": "I Shall Keep Faith",
+      "Description": "Complete the Temple"
+    },
+    {
+      "Id": "DNG:CASTLE",
+      "Prerequisite": "dng_open:CASTLE",
+      "Condition": "dng:CASTLE > 0",
+      "Title": "I Shall Hone My Craft",
+      "Description": "Complete the Castle"
+    },
+    {
+      "Id": "DNG:LABYRINTH",
+      "Prerequisite": "dng_open:LABYRINTH",
+      "Condition": "dng:LABYRINTH > 0",
+      "Title": "I Shall Have No Mercy",
+      "Description": "Complete the Labyrinth"
+    },
+    {
+      "Id": "DNG:LIGHTHOUSE2",
+      "Prerequisite": "dng_open:LIGHTHOUSE2",
+      "Condition": "dng:LIGHTHOUSE2 > 0",
+      "Title": "I Shall Have No Fear",
+      "Description": "Complete the return to the Lighthouse"
+    },
+    {
+      "Id": "DNG:THRESHOLD",
+      "Prerequisite": "dng_open:THRESHOLD",
+      "Condition": "dng:THRESHOLD > 0",
+      "Title": "I Shall Have No Remorse",
+      "Description": "Hold of the demonic invasion at the Threshold"
+    },
+    {
+      "Id": "HC:WILDERNESS",
+      "Prerequisite": "WILD50",
+      "Condition": "Wilderness >= 75 && Losses == 0",
+      "Title": "Attentive Grinder",
+      "Description": "Defeat a level 75 enemy in the wilderness without ever losing a fight"
     },
     {
       "Id": "HC:CRYPT",
       "Prerequisite": "DNG:CRYPT",
       "Condition": "dng:CRYPT > 0 && Losses == 0",
-      "Title": "Attentive Grinder",
+      "Title": "Attentive Dungeoneer",
       "Description": "Complete the Crypt without ever losing a fight"
     },
     {
       "Id": "HC:LIGHTHOUSE",
       "Prerequisite": "DNG:LIGHTHOUSE",
       "Condition": "dng:LIGHTHOUSE > 0 && Losses == 0",
-      "Title": "Hardcore",
+      "Title": "So that All May Find You",
       "Description": "Complete the Lighthouse without ever losing a fight"
+    },
+    {
+      "Id": "HC:LIGHTHOUSE2",
+      "Prerequisite": "DNG:LIGHTHOUSE2",
+      "Condition": "dng:LIGHTHOUSE2 > 0 && Losses == 0",
+      "Title": "Hardcore",
+      "Description": "Complete the return to the Lighthouse without ever losing a fight"
     },
     {
       "Id": "WEAP25",
@@ -247,6 +303,13 @@
       "Description": "Complete the Lighthouse before the Crypt"
     },
     {
+      "Id": "STORYONLY",
+      "Prerequisite": "dng_open:THRESHOLD",
+      "Condition": "dng:THRESHOLD > 0 && dng:CRYPT <= 0 && dng:MERCCAMP <= 0 && Wilderness <= 25",
+      "Title": "No Distractions",
+      "Description": "Complete the Threshold without doing any side dungeons or progressing past wilderness level 25"
+    },
+    {
       "Id": "NOARMOR",
       "Condition": "dng:LIGHTHOUSE > 0 && abl:LAR <= 10 && abl:HAR <= 10",
       "Title": "Wollt Ihr Ewig Leben?!",
@@ -292,13 +355,6 @@
       "Condition": "Wilderness >= 75 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0",
       "Title": "The Paths Converge",
       "Description": "Defeat a level 75 enemy in the wilderness without raising any ability or losing a fight"
-    },
-    {
-      "Id": "SPEED",
-      "Prerequisite": "",
-      "Condition": "dng:LIGHTHOUSE > 0 && Playtime < 1111",
-      "Title": "Speedrun",
-      "Description": "Complete the Lighthouse in less than 1111 seconds"
     }
   ]
 }

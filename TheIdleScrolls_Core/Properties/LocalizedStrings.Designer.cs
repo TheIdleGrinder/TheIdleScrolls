@@ -295,7 +295,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Below the castle, there is a huge, labyrinthian dungeon. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Below the castle, there is a huge, labyrinthian dungeon. This must be where the leader of the cult is hiding. ähnelt.
         /// </summary>
         internal static string LABYRINTH_DESCRIPTION {
             get {

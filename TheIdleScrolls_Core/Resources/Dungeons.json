@@ -203,8 +203,8 @@
     {
       "Name": "MERCCAMP",
       "Level": 45,
-      "Condition": "dng:TEMPLE",
-      "Rarity": 1,
+      "Condition": "Wilderness >= 45",
+      "Rarity": 0,
       "Floors": [
         {
           "MobCount": 15,
