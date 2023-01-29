@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace TheIdleScrolls_Core
         public ItemKingdomDescription ItemKingdom = new();
 
         public AreaKingdomDescription AreaKingdom = new();
+
+        public Entity GlobalEntity = new(); // Stores character-independent data, that needs to be saved regularly (e.g. achievement status)
 
         public Cooldown TimeLimit = new(10.0);
 

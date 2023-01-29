@@ -64,6 +64,7 @@ namespace TheIdleScrolls_Core
                 globalEntity.AddComponent(new AchievementsComponent());
             }
             m_coordinator.AddEntity(globalEntity);
+            m_world.GlobalEntity = globalEntity;
 
             var player = PlayerFactory.MakeOrLoadPlayer(playerName, m_dataHandler);
             AddPlayerToCoordinator(player);
