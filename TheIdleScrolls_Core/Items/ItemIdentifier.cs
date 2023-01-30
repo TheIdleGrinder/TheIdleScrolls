@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -21,9 +22,16 @@ namespace TheIdleScrolls_Core.Items
             }
         }
 
-        public ItemIdentifier(string family, int genusIndex) : this(family + genusIndex.ToString())
+        public ItemIdentifier(string family, int genusIndex, string? material = null) : this(family + genusIndex.ToString())
         {
-            
+            if (material != null)
+            {
+                MaterialId = material;
+                if (!ValidateItemCode(Code))
+                {
+                    throw new ArgumentException($"Invalid item code: {Code}");
+                }
+            }
         }
 
         public string FamilyId { get { return ExtractFamilyId(Code); } }

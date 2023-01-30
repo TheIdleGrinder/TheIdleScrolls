@@ -30,12 +30,10 @@ namespace TheIdleScrolls_Core.Items
     public class ItemGenusDescription
     {
         public EquippableDescription? Equippable { get; set; } = null;
-
         public WeaponGenus? Weapon { get; set; } = null;
-
         public ArmorGenus? Armor { get; set; } = null;
-
         public int DropLevel { get; set; } = 1;
+        public List<string> ValidMaterials { get; set; } = new();
     }
 
     public class ItemFamilyDescription
