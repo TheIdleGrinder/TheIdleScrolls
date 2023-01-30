@@ -255,25 +255,31 @@
       "InverseWeight": 5
     },
     {
-      "MinLevel": 20,
+      "MinLevel": 30,
       "InverseWeight": 25
     },
     {
-      "MinLevel": 30,
-      "InverseWeight": 100
+      "MinLevel": 50,
+      "InverseWeight": 125
+    },
+    {
+      "MinLevel": 70,
+      "InverseWeight": 625
+    },
+    {
+      "MinLevel": 90,
+      "InverseWeight": 3000
+    },
+    {
+      "MinLevel": 110,
+      "InverseWeight": 15000
+    },
+    {
+      "MinLevel": 130,
+      "InverseWeight": 75000
     }
   ],
   "Materials": [
-    {
-      "Id": "MAT_M0",
-      "PowerMultiplier": 1.0,
-      "MinimumLevel": 0
-    },
-    {
-      "Id": "MAT_M1",
-      "PowerMultiplier": 2.0,
-      "MinimumLevel": 10
-    },
     {
       "Id": "MAT_L0",
       "PowerMultiplier": 1.0,
@@ -282,7 +288,27 @@
     {
       "Id": "MAT_L1",
       "PowerMultiplier": 2.0,
-      "MinimumLevel": 10
+      "MinimumLevel": 20
+    },
+    {
+      "Id": "MAT_L2",
+      "PowerMultiplier": 3.0,
+      "MinimumLevel": 40
+    },
+    {
+      "Id": "MAT_M0",
+      "PowerMultiplier": 1.0,
+      "MinimumLevel": 0
+    },
+    {
+      "Id": "MAT_M1",
+      "PowerMultiplier": 2.0,
+      "MinimumLevel": 20
+    },
+    {
+      "Id": "MAT_M2",
+      "PowerMultiplier": 3.0,
+      "MinimumLevel": 40
     },
     {
       "Id": "MAT_W0",
@@ -292,7 +318,12 @@
     {
       "Id": "MAT_W1",
       "PowerMultiplier": 2.0,
-      "MinimumLevel": 10
+      "MinimumLevel": 20
+    },
+    {
+      "Id": "MAT_W2",
+      "PowerMultiplier": 3.0,
+      "MinimumLevel": 40
     }
   ]
 }

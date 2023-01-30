@@ -237,17 +237,26 @@
   <data name="MAT_L1" xml:space="preserve">
     <value>Hard Leather</value>
   </data>
+  <data name="MAT_L2" xml:space="preserve">
+    <value>Elvish</value>
+  </data>
   <data name="MAT_M0" xml:space="preserve">
     <value>Iron</value>
   </data>
   <data name="MAT_M1" xml:space="preserve">
     <value>Steel</value>
   </data>
+  <data name="MAT_M2" xml:space="preserve">
+    <value>Dwarven</value>
+  </data>
   <data name="MAT_W0" xml:space="preserve">
     <value>Beech</value>
   </data>
   <data name="MAT_W1" xml:space="preserve">
     <value>Oak</value>
+  </data>
+  <data name="MAT_W2" xml:space="preserve">
+    <value>Ash</value>
   </data>
   <data name="MERCCAMP" xml:space="preserve">
     <value>Mercenary Camp</value>

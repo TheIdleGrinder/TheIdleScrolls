@@ -421,6 +421,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Elvish ähnelt.
+        /// </summary>
+        internal static string MAT_L2 {
+            get {
+                return ResourceManager.GetString("MAT_L2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Iron ähnelt.
         /// </summary>
         internal static string MAT_M0 {
@@ -439,6 +448,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dwarven ähnelt.
+        /// </summary>
+        internal static string MAT_M2 {
+            get {
+                return ResourceManager.GetString("MAT_M2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Beech ähnelt.
         /// </summary>
         internal static string MAT_W0 {
@@ -453,6 +471,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MAT_W1 {
             get {
                 return ResourceManager.GetString("MAT_W1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ash ähnelt.
+        /// </summary>
+        internal static string MAT_W2 {
+            get {
+                return ResourceManager.GetString("MAT_W2", resourceCulture);
             }
         }
         
