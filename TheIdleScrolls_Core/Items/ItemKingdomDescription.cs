@@ -10,14 +10,12 @@ namespace TheIdleScrolls_Core.Items
     public class EquippableDescription
     {
         public string Slot { get; set; } = "";
-
         public double Encumbrance { get; set; } = 0.0;
     }
 
     public class WeaponGenus
     {
         public double BaseDamage { get; set; }
-
         public double BaseCooldown { get; set; }
     }
 
@@ -105,6 +103,49 @@ namespace TheIdleScrolls_Core.Items
         public ItemMaterialDescription? GetMaterial(string id)
         {
             return Materials.FirstOrDefault(x => x.Id == id);
+        }
+
+        public List<ItemGenusDescription> GetAllItemGenusDescriptions()
+        {
+            List<ItemGenusDescription> descriptions = new();
+            foreach (var family in Families)
+            {
+                foreach (var genus in family.Genera)
+                {
+                    descriptions.Add(genus);
+                }
+            }
+            return descriptions;
+        }
+
+        public List<ItemSpeciesDescription> GetAllItemSpeciesDescriptions()
+        {
+            List<ItemSpeciesDescription> descriptions = new();
+            foreach (var genus in GetAllItemGenusDescriptions())
+            {
+                foreach (var materialId in genus.ValidMaterials)
+                {
+                    var material = GetMaterial(materialId) ?? throw new InvalidCastException($"Invalid material id: {materialId}");
+                    descriptions.Add(new(genus, material));
+                }
+            }
+            return descriptions;
+        }
+    }
+
+    /// <summary>
+    /// Item Species ^= Genus + Material
+    /// This class is not a direct part of the item kingdom.
+    /// </summary>
+    public class ItemSpeciesDescription
+    {
+        public ItemGenusDescription Genus { get; set; }
+        public ItemMaterialDescription Material { get; set; }
+
+        public ItemSpeciesDescription(ItemGenusDescription genus, ItemMaterialDescription material)
+        {
+            Genus = genus;
+            Material = material;
         }
     }
 }
