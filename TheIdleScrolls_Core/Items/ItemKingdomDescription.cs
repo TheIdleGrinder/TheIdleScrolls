@@ -103,5 +103,10 @@ namespace TheIdleScrolls_Core.Items
             }
             return false;
         }
+
+        public ItemMaterialDescription? GetMaterial(string id)
+        {
+            return Materials.FirstOrDefault(x => x.Id == id);
+        }
     }
 }

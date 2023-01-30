@@ -231,6 +231,24 @@
   <data name="LIGHTHOUSE_DESCRIPTION" xml:space="preserve">
     <value>Cultists have holed up in the old lighthouse. The blue flames they lit have attracted more than just ships.</value>
   </data>
+  <data name="MAT_L0" xml:space="preserve">
+    <value>Leather</value>
+  </data>
+  <data name="MAT_L1" xml:space="preserve">
+    <value>Hard Leather</value>
+  </data>
+  <data name="MAT_M0" xml:space="preserve">
+    <value>Iron</value>
+  </data>
+  <data name="MAT_M1" xml:space="preserve">
+    <value>Steel</value>
+  </data>
+  <data name="MAT_W0" xml:space="preserve">
+    <value>Beech</value>
+  </data>
+  <data name="MAT_W1" xml:space="preserve">
+    <value>Oak</value>
+  </data>
   <data name="MERCCAMP" xml:space="preserve">
     <value>Mercenary Camp</value>
   </data>

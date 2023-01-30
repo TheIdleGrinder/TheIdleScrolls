@@ -9,7 +9,7 @@ namespace TheIdleScrolls_Core.Items
 {
     public class ItemIdentifier
     {
-        private static string FullRegexString = @"([a-zA-Z]+)([0-9]+)(\+[0-9]+)?";
+        private static string FullRegexString = @"([a-zA-Z][0-9]+_)?([a-zA-Z]+)([0-9]+)(\+[0-9]+)?";
         public string Code { get; set; } = string.Empty;
 
         public ItemIdentifier(string code)
@@ -39,6 +39,12 @@ namespace TheIdleScrolls_Core.Items
             set { Code = UpdateRarityLevel(Code, value); }
         }
 
+        public string? MaterialId
+        {
+            get { return ExtractMaterialId(Code); }
+            set { Code = UpdateMaterial(Code, value); }
+        }
+
         public ItemFamilyDescription GetFamilyDescription()
         {                 
             return ItemFactory.ItemKingdom.Families.Where(f => f.Id == FamilyId).First(); // First() works because code is validated
@@ -49,29 +55,44 @@ namespace TheIdleScrolls_Core.Items
             return GetFamilyDescription().Genera[GenusIndex]; // Works because code is validated
         }
 
+        public ItemMaterialDescription GetMaterial()
+        {
+            if (MaterialId == null)
+            {
+                return ItemFactory.ItemKingdom.Materials[0]; // TODO: return first valid material for genus
+            }
+            else
+            {
+                return ItemFactory.ItemKingdom.GetMaterial(MaterialId!)!; // ! works because the material is validated at construction
+            }
+        }
+
         public string GetItemName()
         {
-            return GenusId.Localize() + $" + {RarityLevel}";
+            return ($"{MaterialId?.Localize()} " ?? "") + GenusId.Localize() + $" + {RarityLevel}";
         }
 
         public static string ExtractFamilyId(string itemCode)
         {
-            return itemCode[..3];
+            int offset = Math.Max(itemCode.IndexOf('_'), 0);
+            return itemCode[offset..(offset + 3)];
         }
 
         public static int ExtractGenusIndex(string itemCode)
         {
-            return Int32.Parse(itemCode[3..4]);
+            int offset = Math.Max(itemCode.IndexOf('_'), 0);
+            return Int32.Parse(itemCode[(offset + 3)..(offset + 4)]);
         }
 
         public static string ExtractGenusId(string itemCode)
         {
-            return itemCode[..4];
+            int offset = Math.Max(itemCode.IndexOf('_'), 0);
+            return itemCode[offset..(offset + 4)]; // Leave out material and rarity
         }
 
         public static string ExtractSpeciesId(string itemCode)
         {
-            return ExtractGenusId(itemCode);
+            return itemCode.Split('+')[0]; // Everything except the rarity
         }
 
         public static int ExtractRarityLevel(string itemCode)
@@ -79,6 +100,13 @@ namespace TheIdleScrolls_Core.Items
             if (!itemCode.Contains('+'))
                 return 0;
             return Int32.Parse(itemCode.Split('+')[1]);
+        }
+
+        public static string? ExtractMaterialId(string itemCode)
+        {
+            if (!itemCode.Contains('_'))
+                return null;
+            return "MAT_" + itemCode.Split('_')[0];
         }
 
         public static string UpdateRarityLevel(string itemCode, int newRarityLevel)
@@ -91,6 +119,22 @@ namespace TheIdleScrolls_Core.Items
             return newCode;
         }
 
+        public static string UpdateMaterial(string itemCode, string? material)
+        {
+            int index = itemCode.IndexOf('_');
+            string substr = itemCode[(index + 1)..]; // string without the material id
+            
+            if (material == null)
+            {
+                return substr;
+            }
+
+            if (!ItemFactory.ItemKingdom.Materials.Any(m => m.Id == material))
+                throw new Exception($"Invalid material id: {material}");
+
+            return $"{material.Split('_')[1]}_{substr}";
+        }
+
         public static bool ValidateItemCode(string itemCode)
         {
             try
@@ -98,6 +142,9 @@ namespace TheIdleScrolls_Core.Items
                 var regex = new Regex(FullRegexString);
                 var match = regex.Match(itemCode);
                 if (match.Value != itemCode)
+                    return false;
+                var material = ExtractMaterialId(itemCode);
+                if (material != null && ItemFactory.ItemKingdom.GetMaterial(material) == null)
                     return false;
                 var family = ExtractFamilyId(itemCode);
                 var genusIdx = ExtractGenusIndex(itemCode);

@@ -189,6 +189,16 @@ namespace TheIdleScrolls_Core.Components
         }
     }
 
+    public class ItemMaterialComponent : IComponent
+    {
+        public string Name { get; set; }
+
+        public ItemMaterialComponent(string name)
+        {
+            Name = name;
+        }   
+    }
+
     public class MobDamageComponent : IComponent
     {
         public double Multiplier { get; set; }

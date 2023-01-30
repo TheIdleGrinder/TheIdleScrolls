@@ -70,6 +70,14 @@ namespace TheIdleScrolls_Core.Items
                     description.Armor.BaseEvasion));
             }
 
+            // Apply material
+            string? materialId = itemIdentifier.MaterialId;
+            if (materialId != null)
+            {
+                var material = ItemKingdom.Materials.Where(m => m.Id == materialId).First();
+                SetItemMaterial(item, material);
+            }
+
             // Apply rarity
             if (itemIdentifier.RarityLevel > 0)
             {
@@ -84,6 +92,13 @@ namespace TheIdleScrolls_Core.Items
             var itemComp = item.GetComponent<ItemComponent>() ?? throw new Exception($"Entity {item.GetName()} is not an item");
             itemComp.Code.RarityLevel = rarityLevel;
             item.AddComponent(new ItemRarityComponent(rarityLevel));
+            CalculateItemStats(item);
+            UpdateItemName(item);
+        }
+
+        public static void SetItemMaterial(Entity item, ItemMaterialDescription material)
+        {
+            item.AddComponent(new ItemMaterialComponent(material.Id));
             CalculateItemStats(item);
             UpdateItemName(item);
         }
@@ -128,17 +143,18 @@ namespace TheIdleScrolls_Core.Items
                 throw new Exception($"Invalid item code: {itemComp.Code}");
 
             int rarityLevel = item.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
+            double materialMulti = itemComp.Code.GetMaterial().PowerMultiplier;
 
             if (description.Weapon != null)
             {
-                double dmg = Math.Round(description.Weapon.BaseDamage * Math.Pow(rarityScaling, rarityLevel), 1);
+                double dmg = Math.Round(description.Weapon.BaseDamage * Math.Pow(rarityScaling, rarityLevel) * materialMulti, 1);
                 item.AddComponent(new WeaponComponent(dmg, description.Weapon.BaseCooldown));
             }
 
             if (description.Armor != null)
             {
-                double armor = Math.Round(description.Armor.BaseArmor * Math.Pow(rarityScaling, rarityLevel), 1);
-                double evasion = Math.Round(description.Armor.BaseEvasion * Math.Pow(rarityScaling, rarityLevel), 1);
+                double armor = Math.Round(description.Armor.BaseArmor * Math.Pow(rarityScaling, rarityLevel) * materialMulti, 1);
+                double evasion = Math.Round(description.Armor.BaseEvasion * Math.Pow(rarityScaling, rarityLevel) * materialMulti, 1);
                 item.AddComponent(new ArmorComponent(armor, evasion));
             }
         }

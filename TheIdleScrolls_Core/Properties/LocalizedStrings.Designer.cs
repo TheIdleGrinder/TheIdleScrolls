@@ -403,6 +403,60 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Leather ähnelt.
+        /// </summary>
+        internal static string MAT_L0 {
+            get {
+                return ResourceManager.GetString("MAT_L0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hard Leather ähnelt.
+        /// </summary>
+        internal static string MAT_L1 {
+            get {
+                return ResourceManager.GetString("MAT_L1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Iron ähnelt.
+        /// </summary>
+        internal static string MAT_M0 {
+            get {
+                return ResourceManager.GetString("MAT_M0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Steel ähnelt.
+        /// </summary>
+        internal static string MAT_M1 {
+            get {
+                return ResourceManager.GetString("MAT_M1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Beech ähnelt.
+        /// </summary>
+        internal static string MAT_W0 {
+            get {
+                return ResourceManager.GetString("MAT_W0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Oak ähnelt.
+        /// </summary>
+        internal static string MAT_W1 {
+            get {
+                return ResourceManager.GetString("MAT_W1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Mercenary Camp ähnelt.
         /// </summary>
         internal static string MERCCAMP {

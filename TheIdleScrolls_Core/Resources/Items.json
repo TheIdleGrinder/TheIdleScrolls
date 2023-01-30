@@ -246,32 +246,32 @@
   ],
   "Materials": [
     {
-      "Id": "M0",
+      "Id": "MAT_M0",
       "PowerMultiplier": 1.0,
       "MinimumLevel": 0
     },
     {
-      "Id": "M1",
+      "Id": "MAT_M1",
       "PowerMultiplier": 2.0,
       "MinimumLevel": 10
     },
     {
-      "Id": "L0",
+      "Id": "MAT_L0",
       "PowerMultiplier": 1.0,
       "MinimumLevel": 0
     },
     {
-      "Id": "L1",
+      "Id": "MAT_L1",
       "PowerMultiplier": 2.0,
       "MinimumLevel": 10
     },
     {
-      "Id": "W0",
+      "Id": "MAT_W0",
       "PowerMultiplier": 1.0,
       "MinimumLevel": 0
     },
     {
-      "Id": "W1",
+      "Id": "MAT_W1",
       "PowerMultiplier": 2.0,
       "MinimumLevel": 10
     }
