@@ -10,7 +10,7 @@ namespace TheIdleScrolls_Core.Items
 {
     public class ItemIdentifier
     {
-        private static string FullRegexString = @"([a-zA-Z][0-9]+_)?([a-zA-Z]+)([0-9]+)(\+[0-9]+)?";
+        private static string FullRegexString = @"([a-zA-Z][0-9]+-)?([a-zA-Z]+)([0-9]+)(\+[0-9]+)?";
         public string Code { get; set; } = string.Empty;
 
         public ItemIdentifier(string code)
@@ -77,24 +77,26 @@ namespace TheIdleScrolls_Core.Items
 
         public string GetItemName()
         {
-            return ($"{MaterialId?.Localize()} " ?? "") + GenusId.Localize() + $" + {RarityLevel}";
+            return ($"{MaterialId?.Localize()} " ?? "") 
+                + GenusId.Localize() 
+                + (RarityLevel > 0 ? $" + {RarityLevel}" : "");
         }
 
         public static string ExtractFamilyId(string itemCode)
         {
-            int offset = Math.Max(itemCode.IndexOf('_'), 0);
+            int offset = Math.Max(itemCode.IndexOf('-') + 1, 0);
             return itemCode[offset..(offset + 3)];
         }
 
         public static int ExtractGenusIndex(string itemCode)
         {
-            int offset = Math.Max(itemCode.IndexOf('_'), 0);
+            int offset = Math.Max(itemCode.IndexOf('-') + 1, 0);
             return Int32.Parse(itemCode[(offset + 3)..(offset + 4)]);
         }
 
         public static string ExtractGenusId(string itemCode)
         {
-            int offset = Math.Max(itemCode.IndexOf('_'), 0);
+            int offset = Math.Max(itemCode.IndexOf('-') + 1, 0);
             return itemCode[offset..(offset + 4)]; // Leave out material and rarity
         }
 
@@ -112,9 +114,9 @@ namespace TheIdleScrolls_Core.Items
 
         public static string? ExtractMaterialId(string itemCode)
         {
-            if (!itemCode.Contains('_'))
+            if (!itemCode.Contains('-'))
                 return null;
-            return "MAT_" + itemCode.Split('_')[0];
+            return "MAT_" + itemCode.Split('-')[0];
         }
 
         public static string UpdateRarityLevel(string itemCode, int newRarityLevel)
@@ -129,7 +131,7 @@ namespace TheIdleScrolls_Core.Items
 
         public static string UpdateMaterial(string itemCode, string? material)
         {
-            int index = itemCode.IndexOf('_');
+            int index = itemCode.IndexOf('-');
             string substr = itemCode[(index + 1)..]; // string without the material id
             
             if (material == null)
@@ -140,7 +142,7 @@ namespace TheIdleScrolls_Core.Items
             if (!ItemFactory.ItemKingdom.Materials.Any(m => m.Id == material))
                 throw new Exception($"Invalid material id: {material}");
 
-            return $"{material.Split('_')[1]}_{substr}";
+            return $"{material.Split('_')[1]}-{substr}";
         }
 
         public static bool ValidateItemCode(string itemCode)

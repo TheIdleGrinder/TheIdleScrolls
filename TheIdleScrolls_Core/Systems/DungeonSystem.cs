@@ -168,7 +168,7 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        public static Dictionary<string, double> BuildBasicLootTable(DungeonRewardsDescription rewardSettings, int dungeonLevel)
+        public static Dictionary<string, double> BuildBasicLootTable(DungeonRewardsDescription rewardSettings, int lootLevel)
         {
             HashSet<string> validIds = new();
             if (rewardSettings.UseLeveledLoot)
@@ -178,10 +178,17 @@ namespace TheIdleScrolls_Core.Systems
                     for (int i = 0; i < f.Genera.Count; i++)
                     {
                         var g = ItemFactory.ItemKingdom.GetGenusDescriptionByIdAndIndex(f.Id, i);
-                        if (g != null && g.DropLevel >= rewardSettings.MinDropLevel && g.DropLevel <= dungeonLevel)
+                        if (g == null)
+                            throw new Exception($"Ítem family '{f.Id}' does not have {i + 1} genera");
+                        var mats = g.ValidMaterials.Select(m => ItemFactory.ItemKingdom.GetMaterial(m)!);
+                        foreach (var m in mats)
                         {
-                            var id = new ItemIdentifier(f.Id, i);
-                            validIds.Add(id.Code);
+                            int dropLevel = g.DropLevel + m.MinimumLevel;
+                            if (dropLevel >= rewardSettings.MinDropLevel && dropLevel <= lootLevel)
+                            {
+                                var id = new ItemIdentifier(f.Id, i, m.Id);
+                                validIds.Add(id.Code);
+                            }
                         }
                     }
                 }
