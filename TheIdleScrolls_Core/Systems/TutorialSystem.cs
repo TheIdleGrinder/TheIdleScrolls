@@ -152,13 +152,13 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n  - Received '{itemName}'"));
             }
             else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Finished)
-                && progComp.Data.GetClearedDungeons().Contains("LIGHTHOUSE"))
+                && progComp.Data.GetClearedDungeons().Contains("THRESHOLD"))
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Finished);
                 var time = progComp.Data.Playtime;
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Finished, "",
-                    "Congratulations you cleared the second dungeon and completed the game." +
+                    "Congratulations you cleared the final dungeon and completed the game." +
                     $"\n  Playtime: {time:0} seconds" +
                     $"\n\nFeel free to keep grinding and earning achievements or reset your character to try for a faster time!"));
                     
