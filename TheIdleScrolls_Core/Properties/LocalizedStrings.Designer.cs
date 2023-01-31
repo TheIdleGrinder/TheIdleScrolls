@@ -70,7 +70,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Axe ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Axe ähnelt.
         /// </summary>
         internal static string AXE0 {
             get {
@@ -115,7 +115,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Club ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Club ähnelt.
         /// </summary>
         internal static string BLN0 {
             get {
@@ -268,7 +268,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Heavy Armor ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Heavy Armor ähnelt.
         /// </summary>
         internal static string HAR0 {
             get {
@@ -313,7 +313,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Light Armor ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Light Armor ähnelt.
         /// </summary>
         internal static string LAR0 {
             get {
@@ -340,7 +340,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Sword ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sword ähnelt.
         /// </summary>
         internal static string LBL0 {
             get {
@@ -453,6 +453,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MAT_M2 {
             get {
                 return ResourceManager.GetString("MAT_M2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Simple ähnelt.
+        /// </summary>
+        internal static string MAT_SIMPLE {
+            get {
+                return ResourceManager.GetString("MAT_SIMPLE", resourceCulture);
             }
         }
         
@@ -655,7 +664,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Spear ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Spear ähnelt.
         /// </summary>
         internal static string POL0 {
             get {
@@ -691,7 +700,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Simple Knife ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Knife ähnelt.
         /// </summary>
         internal static string SBL0 {
             get {

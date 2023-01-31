@@ -121,7 +121,7 @@
     <value>Axe</value>
   </data>
   <data name="AXE0" xml:space="preserve">
-    <value>Simple Axe</value>
+    <value>Axe</value>
   </data>
   <data name="AXE1" xml:space="preserve">
     <value>Hatchet</value>
@@ -136,7 +136,7 @@
     <value>Blunt Weapon</value>
   </data>
   <data name="BLN0" xml:space="preserve">
-    <value>Simple Club</value>
+    <value>Club</value>
   </data>
   <data name="BLN1" xml:space="preserve">
     <value>Mace</value>
@@ -187,7 +187,7 @@
     <value>Heavy Armor</value>
   </data>
   <data name="HAR0" xml:space="preserve">
-    <value>Simple Heavy Armor</value>
+    <value>Heavy Armor</value>
   </data>
   <data name="HAR1" xml:space="preserve">
     <value>Plate Armor</value>
@@ -202,7 +202,7 @@
     <value>Light Armor</value>
   </data>
   <data name="LAR0" xml:space="preserve">
-    <value>Simple Light Armor</value>
+    <value>Light Armor</value>
   </data>
   <data name="LAR1" xml:space="preserve">
     <value>Padded Armor</value>
@@ -211,7 +211,7 @@
     <value>Long Blade</value>
   </data>
   <data name="LBL0" xml:space="preserve">
-    <value>Simple Sword</value>
+    <value>Sword</value>
   </data>
   <data name="LBL1" xml:space="preserve">
     <value>Long Sword</value>
@@ -248,6 +248,9 @@
   </data>
   <data name="MAT_M2" xml:space="preserve">
     <value>Dwarven</value>
+  </data>
+  <data name="MAT_SIMPLE" xml:space="preserve">
+    <value>Simple</value>
   </data>
   <data name="MAT_W0" xml:space="preserve">
     <value>Beech</value>
@@ -316,7 +319,7 @@
     <value>Polearm</value>
   </data>
   <data name="POL0" xml:space="preserve">
-    <value>Simple Spear</value>
+    <value>Spear</value>
   </data>
   <data name="POL1" xml:space="preserve">
     <value>Halberd</value>
@@ -328,7 +331,7 @@
     <value>Short Blade</value>
   </data>
   <data name="SBL0" xml:space="preserve">
-    <value>Simple Knife</value>
+    <value>Knife</value>
   </data>
   <data name="SBL1" xml:space="preserve">
     <value>Dagger</value>

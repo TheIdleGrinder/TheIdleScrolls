@@ -5,7 +5,7 @@
       "Genera": [
         {
           "DropLevel": 1,
-          "ValidMaterials": [ "MAT_M0" ],
+          "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -16,7 +16,7 @@
         },
         {
           "DropLevel": 10,
-          "ValidMaterials": [ "MAT_M0", "MAT_M1" ],
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -27,7 +27,7 @@
         },
         {
           "DropLevel": 20,
-          "ValidMaterials": [ "MAT_M0", "MAT_M1" ],
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -43,7 +43,7 @@
       "Genera": [
         {
           "DropLevel": 1,
-          "ValidMaterials": [ "MAT_M0" ],
+          "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -54,7 +54,7 @@
         },
         {
           "DropLevel": 10,
-          "ValidMaterials": [ "MAT_M0", "MAT_M1" ],
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -65,7 +65,7 @@
         },
         {
           "DropLevel": 20,
-          "ValidMaterials": [ "MAT_M0", "MAT_M1" ],
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -81,7 +81,7 @@
       "Genera": [
         {
           "DropLevel": 1,
-          "ValidMaterials": [ "MAT_M0" ],
+          "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -92,7 +92,7 @@
         },
         {
           "DropLevel": 10,
-          "ValidMaterials": [ "MAT_M0", "MAT_M1" ],
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -103,7 +103,7 @@
         },
         {
           "DropLevel": 20,
-          "ValidMaterials": [ "MAT_M0", "MAT_M1" ],
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -119,7 +119,7 @@
       "Genera": [
         {
           "DropLevel": 1,
-          "ValidMaterials": [ "MAT_M0" ],
+          "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -130,7 +130,7 @@
         },
         {
           "DropLevel": 10,
-          "ValidMaterials": [ "MAT_M0", "MAT_M1" ],
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -141,7 +141,7 @@
         },
         {
           "DropLevel": 20,
-          "ValidMaterials": [ "MAT_M0", "MAT_M1" ],
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -157,7 +157,7 @@
       "Genera": [
         {
           "DropLevel": 1,
-          "ValidMaterials": [ "MAT_W0" ],
+          "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -168,7 +168,7 @@
         },
         {
           "DropLevel": 10,
-          "ValidMaterials": [ "MAT_W0", "MAT_W1" ],
+          "ValidMaterials": [ "MAT_W0", "MAT_W1", "MAT_W2" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -179,7 +179,7 @@
         },
         {
           "DropLevel": 20,
-          "ValidMaterials": [ "MAT_W0", "MAT_W1" ],
+          "ValidMaterials": [ "MAT_W0", "MAT_W1", "MAT_W2" ],
           "Equippable": {
             "Slot": "Hand"
           },
@@ -195,7 +195,7 @@
       "Genera": [
         {
           "DropLevel": 5,
-          "ValidMaterials": [ "MAT_L0" ],
+          "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Armor",
             "Encumbrance": 10.0
@@ -207,7 +207,7 @@
         },
         {
           "DropLevel": 20,
-          "ValidMaterials": [ "MAT_L0", "MAT_L1" ],
+          "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Armor",
             "Encumbrance": 12.5
@@ -224,7 +224,7 @@
       "Genera": [
         {
           "DropLevel": 5,
-          "ValidMaterials": [ "MAT_M0" ],
+          "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Armor",
             "Encumbrance": 20.0
@@ -236,7 +236,7 @@
         },
         {
           "DropLevel": 20,
-          "ValidMaterials": [ "MAT_M0", "MAT_M1" ],
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Armor",
             "Encumbrance": 25.0
@@ -280,6 +280,11 @@
     }
   ],
   "Materials": [
+    {
+      "Id": "MAT_SIMPLE",
+      "PowerMultiplier": 1.0,
+      "MinimumLevel": 0
+    },
     {
       "Id": "MAT_L0",
       "PowerMultiplier": 1.0,
