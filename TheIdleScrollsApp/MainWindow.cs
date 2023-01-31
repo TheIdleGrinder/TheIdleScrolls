@@ -57,7 +57,7 @@ namespace TheIdleScrollsApp
         {
             gridInventory.DataSource = m_Inventory;
             gridInventory.Columns[0].Visible = false;
-            gridInventory.Columns[1].MinimumWidth = 150;
+            gridInventory.Columns[1].MinimumWidth = 175;
             gridInventory.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             gridInventory.Columns[3].MinimumWidth = 35;
             gridInventory.Columns[3].Visible = false;
@@ -80,12 +80,12 @@ namespace TheIdleScrollsApp
         {
             switch (rarity)
             {
-                case 1: return Color.DarkViolet;
-                case 2: return Color.Indigo;
-                case 3: return Color.Blue;
-                case 4: return Color.Green;
-                case 5: return Color.Goldenrod;
-                case 6: return Color.Orange;
+                case 1: return Color.Purple;
+                case 2: return Color.MediumBlue;
+                case 3: return Color.Teal;
+                case 4: return Color.ForestGreen;
+                case 5: return Color.YellowGreen;
+                case 6: return Color.Goldenrod;
                 case 7: return Color.Red;
                 default: return Color.Black;
             }
