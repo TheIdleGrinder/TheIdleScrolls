@@ -394,7 +394,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die While you were fighting the cultists in their castle, their leader has returned to the old lighthouse to complete the ritual. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die While you were fighting the cultist leader in his castle, his followers have returned to the old lighthouse to complete the ritual. ähnelt.
         /// </summary>
         internal static string LIGHTHOUSE2_DESCRIPTION {
             get {

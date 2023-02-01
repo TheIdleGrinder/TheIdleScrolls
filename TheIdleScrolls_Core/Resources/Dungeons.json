@@ -7,21 +7,21 @@
       "Floors": [
         {
           "MobCount": 2,
-          "TimeMultiplier": 2.0,
+          "TimeMultiplier": 2.2,
           "MobTypes": [
             "MOB_ZOMBIE"
           ]
         },
         {
-          "MobCount": 3,
-          "TimeMultiplier": 2.5,
+          "MobCount": 2,
+          "TimeMultiplier": 2.0,
           "MobTypes": [
             "MOB_SKELETON"
           ]
         },
         {
-          "MobCount": 5,
-          "TimeMultiplier": 3.5,
+          "MobCount": 3,
+          "TimeMultiplier": 2.6,
           "MobTypes": [
             "MOB_SKELETON",
             "MOB_ZOMBIE"
@@ -29,14 +29,14 @@
         },
         {
           "MobCount": 2,
-          "TimeMultiplier": 5.0,
+          "TimeMultiplier": 5.1,
           "MobTypes": [
             "MOB_ABOMINATION"
           ]
         },
         {
           "MobCount": 1,
-          "TimeMultiplier": 3.3,
+          "TimeMultiplier": 3.1,
           "MobTypes": [
             "BOSS_NECROMANCER"
           ]
@@ -46,21 +46,21 @@
         {
           "Name": "MOB_SKELETON",
           "HP": 0.8,
-          "Damage": 1.5
+          "Damage": 1.4
         },
         {
           "Name": "MOB_ZOMBIE",
-          "HP": 1.5,
+          "HP": 1.4,
           "Damage": 0.8
         },
         {
           "Name": "MOB_ABOMINATION",
-          "HP": 7.5,
+          "HP": 4.0,
           "Damage": 1.0
         },
         {
           "Name": "BOSS_NECROMANCER",
-          "HP": 5.0,
+          "HP": 3.5,
           "Damage": 1.5
         }
       ],
@@ -79,30 +79,30 @@
       "Rarity": 1,
       "Floors": [
         {
-          "MobCount": 3,
+          "MobCount": 2,
           "TimeMultiplier": 2.5,
           "MobTypes": [
             "MOB_CULTIST"
           ]
         },
         {
-          "MobCount": 4,
-          "TimeMultiplier": 3,
+          "MobCount": 3,
+          "TimeMultiplier": 3.3,
           "MobTypes": [
             "MOB_IMP",
             "MOB_CULTIST"
           ]
         },
         {
-          "MobCount": 7,
-          "TimeMultiplier": 4.2,
+          "MobCount": 5,
+          "TimeMultiplier": 5.0,
           "MobTypes": [
             "MOB_IMP"
           ]
         },
         {
           "MobCount": 1,
-          "TimeMultiplier": 3.5,
+          "TimeMultiplier": 4.0,
           "MobTypes": [
             "MOB_LESSERDEMON"
           ]
@@ -111,18 +111,18 @@
       "LocalMobs": [
         {
           "Name": "MOB_CULTIST",
-          "HP": 1.3,
-          "Damage": 1.3
+          "HP": 1.2,
+          "Damage": 1.2
         },
         {
           "Name": "MOB_IMP",
           "HP": 1.0,
-          "Damage": 1.7
+          "Damage": 1.4
         },
         {
           "Name": "MOB_LESSERDEMON",
-          "HP": 10.0,
-          "Damage": 1.2
+          "HP": 6.0,
+          "Damage": 1.1
         }
       ],
       "Rewards": {
@@ -163,7 +163,7 @@
         },
         {
           "MobCount": 3,
-          "TimeMultiplier": 2.5,
+          "TimeMultiplier": 2.7,
           "MobTypes": [
             "MOB_CULTIST",
             "MOB_WARLOCK"
@@ -171,7 +171,7 @@
         },
         {
           "MobCount": 3,
-          "TimeMultiplier": 3,
+          "TimeMultiplier": 3.5,
           "MobTypes": [
             "BOSS_VOIDPRIEST"
           ]
@@ -180,17 +180,17 @@
       "LocalMobs": [
         {
           "Name": "MOB_CULTIST",
-          "HP": 1.3,
-          "Damage": 1.3
+          "HP": 1.2,
+          "Damage": 1.2
         },
         {
           "Name": "MOB_WARLOCK",
           "HP": 1.0,
-          "Damage": 1.6
+          "Damage": 1.4
         },
         {
           "Name": "BOSS_VOIDPRIEST",
-          "HP": 1.7,
+          "HP": 1.5,
           "Damage": 1.3
         }
       ],
