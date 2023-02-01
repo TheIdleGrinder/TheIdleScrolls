@@ -69,14 +69,13 @@
             this.lblCharLevel = new System.Windows.Forms.Label();
             this.lblCharName = new System.Windows.Forms.Label();
             this.tabInventory = new System.Windows.Forms.TabPage();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.lblCoins = new System.Windows.Forms.Label();
             this.lblEqArmor = new System.Windows.Forms.Label();
             this.lblEqWeapon = new System.Windows.Forms.Label();
             this.hdrEqWeapon = new System.Windows.Forms.Label();
             this.hdrEqArmor = new System.Windows.Forms.Label();
             this.gridInventory = new System.Windows.Forms.DataGridView();
-            this.lblCoins = new System.Windows.Forms.Label();
             this.tabAbilities = new System.Windows.Forms.TabPage();
             this.gridAbilities = new System.Windows.Forms.DataGridView();
             this.tabAchievements = new System.Windows.Forms.TabPage();
@@ -103,10 +102,6 @@
             this.tabCharacter.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabInventory.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
@@ -628,7 +623,7 @@
             // 
             // tabInventory
             // 
-            this.tabInventory.Controls.Add(this.splitContainer4);
+            this.tabInventory.Controls.Add(this.splitContainer3);
             this.tabInventory.Location = new System.Drawing.Point(4, 24);
             this.tabInventory.Name = "tabInventory";
             this.tabInventory.Padding = new System.Windows.Forms.Padding(3);
@@ -637,42 +632,18 @@
             this.tabInventory.Text = "Inventory";
             this.tabInventory.UseVisualStyleBackColor = true;
             // 
-            // splitContainer4
-            // 
-            this.splitContainer4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer4.IsSplitterFixed = true;
-            this.splitContainer4.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer4.Margin = new System.Windows.Forms.Padding(0);
-            this.splitContainer4.Name = "splitContainer4";
-            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer4.Panel1
-            // 
-            this.splitContainer4.Panel1.Controls.Add(this.splitContainer3);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.lblCoins);
-            this.splitContainer4.Panel2MinSize = 20;
-            this.splitContainer4.Size = new System.Drawing.Size(594, 498);
-            this.splitContainer4.SplitterDistance = 477;
-            this.splitContainer4.SplitterWidth = 1;
-            this.splitContainer4.TabIndex = 7;
-            // 
             // splitContainer3
             // 
             this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer3.IsSplitterFixed = true;
-            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer3.Location = new System.Drawing.Point(3, 3);
             this.splitContainer3.Name = "splitContainer3";
             this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.lblCoins);
             this.splitContainer3.Panel1.Controls.Add(this.lblEqArmor);
             this.splitContainer3.Panel1.Controls.Add(this.lblEqWeapon);
             this.splitContainer3.Panel1.Controls.Add(this.hdrEqWeapon);
@@ -681,15 +652,27 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.gridInventory);
-            this.splitContainer3.Size = new System.Drawing.Size(594, 477);
-            this.splitContainer3.SplitterDistance = 61;
+            this.splitContainer3.Size = new System.Drawing.Size(594, 501);
+            this.splitContainer3.SplitterDistance = 74;
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 6;
+            // 
+            // lblCoins
+            // 
+            this.lblCoins.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblCoins.AutoSize = true;
+            this.lblCoins.Location = new System.Drawing.Point(538, 57);
+            this.lblCoins.Margin = new System.Windows.Forms.Padding(0);
+            this.lblCoins.Name = "lblCoins";
+            this.lblCoins.Size = new System.Drawing.Size(54, 15);
+            this.lblCoins.TabIndex = 0;
+            this.lblCoins.Text = "XX Coins";
+            this.lblCoins.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblEqArmor
             // 
             this.lblEqArmor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqArmor.Location = new System.Drawing.Point(360, 21);
+            this.lblEqArmor.Location = new System.Drawing.Point(365, 21);
             this.lblEqArmor.Name = "lblEqArmor";
             this.lblEqArmor.Size = new System.Drawing.Size(200, 23);
             this.lblEqArmor.TabIndex = 5;
@@ -699,7 +682,7 @@
             // lblEqWeapon
             // 
             this.lblEqWeapon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqWeapon.Location = new System.Drawing.Point(76, 21);
+            this.lblEqWeapon.Location = new System.Drawing.Point(81, 21);
             this.lblEqWeapon.Name = "lblEqWeapon";
             this.lblEqWeapon.Size = new System.Drawing.Size(200, 23);
             this.lblEqWeapon.TabIndex = 3;
@@ -709,7 +692,7 @@
             // hdrEqWeapon
             // 
             this.hdrEqWeapon.AutoSize = true;
-            this.hdrEqWeapon.Location = new System.Drawing.Point(19, 25);
+            this.hdrEqWeapon.Location = new System.Drawing.Point(24, 25);
             this.hdrEqWeapon.Name = "hdrEqWeapon";
             this.hdrEqWeapon.Size = new System.Drawing.Size(51, 15);
             this.hdrEqWeapon.TabIndex = 1;
@@ -718,7 +701,7 @@
             // hdrEqArmor
             // 
             this.hdrEqArmor.AutoSize = true;
-            this.hdrEqArmor.Location = new System.Drawing.Point(313, 25);
+            this.hdrEqArmor.Location = new System.Drawing.Point(318, 25);
             this.hdrEqArmor.Name = "hdrEqArmor";
             this.hdrEqArmor.Size = new System.Drawing.Size(41, 15);
             this.hdrEqArmor.TabIndex = 4;
@@ -740,21 +723,10 @@
             this.gridInventory.RowTemplate.Height = 25;
             this.gridInventory.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridInventory.Size = new System.Drawing.Size(594, 415);
+            this.gridInventory.Size = new System.Drawing.Size(594, 426);
             this.gridInventory.TabIndex = 0;
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
             this.gridInventory.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.gridInventory_RowPrePaint);
-            // 
-            // lblCoins
-            // 
-            this.lblCoins.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lblCoins.Location = new System.Drawing.Point(0, 0);
-            this.lblCoins.Margin = new System.Windows.Forms.Padding(0);
-            this.lblCoins.Name = "lblCoins";
-            this.lblCoins.Size = new System.Drawing.Size(594, 20);
-            this.lblCoins.TabIndex = 0;
-            this.lblCoins.Text = "Coins: xx";
-            this.lblCoins.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabAbilities
             // 
@@ -762,7 +734,7 @@
             this.tabAbilities.Location = new System.Drawing.Point(4, 24);
             this.tabAbilities.Name = "tabAbilities";
             this.tabAbilities.Padding = new System.Windows.Forms.Padding(3);
-            this.tabAbilities.Size = new System.Drawing.Size(600, 504);
+            this.tabAbilities.Size = new System.Drawing.Size(600, 507);
             this.tabAbilities.TabIndex = 3;
             this.tabAbilities.Text = "Abilities";
             this.tabAbilities.UseVisualStyleBackColor = true;
@@ -777,7 +749,7 @@
             this.gridAbilities.RowHeadersVisible = false;
             this.gridAbilities.RowTemplate.Height = 25;
             this.gridAbilities.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridAbilities.Size = new System.Drawing.Size(594, 498);
+            this.gridAbilities.Size = new System.Drawing.Size(594, 501);
             this.gridAbilities.TabIndex = 0;
             // 
             // tabAchievements
@@ -785,7 +757,7 @@
             this.tabAchievements.Controls.Add(this.tableLayoutPanel2);
             this.tabAchievements.Location = new System.Drawing.Point(4, 24);
             this.tabAchievements.Name = "tabAchievements";
-            this.tabAchievements.Size = new System.Drawing.Size(600, 504);
+            this.tabAchievements.Size = new System.Drawing.Size(600, 507);
             this.tabAchievements.TabIndex = 4;
             this.tabAchievements.Text = "Achievements";
             this.tabAchievements.UseVisualStyleBackColor = true;
@@ -804,7 +776,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(600, 504);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(600, 507);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // gridAchievements
@@ -824,7 +796,7 @@
             this.gridAchievements.ReadOnly = true;
             this.gridAchievements.RowHeadersVisible = false;
             this.gridAchievements.RowTemplate.Height = 25;
-            this.gridAchievements.Size = new System.Drawing.Size(594, 463);
+            this.gridAchievements.Size = new System.Drawing.Size(594, 466);
             this.gridAchievements.TabIndex = 0;
             this.gridAchievements.SelectionChanged += new System.EventHandler(this.gridAchievements_SelectionChanged);
             // 
@@ -881,7 +853,7 @@
             this.tabStats.Location = new System.Drawing.Point(4, 24);
             this.tabStats.Name = "tabStats";
             this.tabStats.Padding = new System.Windows.Forms.Padding(3);
-            this.tabStats.Size = new System.Drawing.Size(600, 504);
+            this.tabStats.Size = new System.Drawing.Size(600, 507);
             this.tabStats.TabIndex = 1;
             this.tabStats.Text = "Stats";
             this.tabStats.UseVisualStyleBackColor = true;
@@ -893,7 +865,7 @@
             this.textBoxStats.MaxLength = 3276700;
             this.textBoxStats.Multiline = true;
             this.textBoxStats.Name = "textBoxStats";
-            this.textBoxStats.Size = new System.Drawing.Size(594, 498);
+            this.textBoxStats.Size = new System.Drawing.Size(594, 501);
             this.textBoxStats.TabIndex = 0;
             // 
             // statusStrip1
@@ -939,10 +911,6 @@
             this.tabCharacter.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tabInventory.ResumeLayout(false);
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel1.PerformLayout();
             this.splitContainer3.Panel2.ResumeLayout(false);
@@ -1023,7 +991,6 @@
         private Button btnDungeon8;
         private Button btnDungeon4;
         private Button btnDungeon5;
-        private SplitContainer splitContainer4;
         private Label lblCoins;
     }
 }

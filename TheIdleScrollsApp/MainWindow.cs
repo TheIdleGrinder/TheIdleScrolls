@@ -147,7 +147,7 @@ namespace TheIdleScrollsApp
 
         public void SetPlayerCoins(int coins)
         {
-            lblCoins.Text = $"Coins: {coins}";
+            lblCoins.Text = $"{coins} Coins";
         }
 
         public void SetArea(string name, int level, bool isDungeon)
