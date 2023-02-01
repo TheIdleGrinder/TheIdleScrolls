@@ -28,7 +28,15 @@ namespace TheIdleScrollsApp
             var dataHandler = new DataAccessHandler(converter, new BasicFileStorageHandler());
             var gameRunner = new GameRunner(dataHandler);
 
-            Application.Run(new MainWindow(gameRunner, playerName));
+            try
+            {
+                Application.Run(new MainWindow(gameRunner, playerName));
+            }
+            catch (Exception e)
+            {
+                if (e.GetType() != typeof(KeyNotFoundException))
+                    MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
