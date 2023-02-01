@@ -219,5 +219,28 @@ namespace TheIdleScrolls_Core.Components
     public class CoinPurseComponent : IComponent
     {
         public int Coins = 0;
+
+        public void AddCoins(int value)
+        {
+            Coins += value;
+        }
+
+        public bool RemoveCoins(int value)
+        {
+            if (value > Coins)
+                return false;
+            Coins -= value;
+            return true;
+        }
+
+        public void Empty()
+        {
+            Coins = 0;
+        }
+    }
+
+    public class ItemValueComponent : IComponent
+    {
+        public int Value = 0;
     }
 }

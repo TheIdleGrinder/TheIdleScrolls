@@ -84,6 +84,8 @@ namespace TheIdleScrolls_Core.Items
                 SetItemRarity(item, itemIdentifier.RarityLevel);
             }
 
+            UpdateItemValue(item);
+
             return item;
         }
 
@@ -94,6 +96,7 @@ namespace TheIdleScrolls_Core.Items
             item.AddComponent(new ItemRarityComponent(rarityLevel));
             CalculateItemStats(item);
             UpdateItemName(item);
+            UpdateItemValue(item);
         }
 
         public static void SetItemMaterial(Entity item, ItemMaterialDescription material)
@@ -101,6 +104,19 @@ namespace TheIdleScrolls_Core.Items
             item.AddComponent(new ItemMaterialComponent(material.Id));
             CalculateItemStats(item);
             UpdateItemName(item);
+            UpdateItemValue(item);
+        }
+
+        public static void UpdateItemValue(Entity item)
+        {
+            ItemIdentifier id = item.GetComponent<ItemComponent>()?.Code ?? throw new Exception($"Entity {item.GetName()} is not an item");
+            double baseValue = 10.0;
+            int tier = id.GenusIndex;
+            int rarity = id.RarityLevel;
+            double matMulti = id.GetMaterial().PowerMultiplier;
+
+            int value = (int)Math.Ceiling(baseValue * tier * matMulti * Math.Pow(1.25, rarity));
+            item.AddComponent(new ItemValueComponent() { Value = value });
         }
 
         public static int GetRandomRarity(int itemLevel, double multiplier)
