@@ -211,5 +211,18 @@ namespace TheIdleScrolls_JSON
                 return false;
             }
         }
+
+        public static bool SetFromJson(this CoinPurseComponent component, JsonNode json)
+        {
+            try
+            {
+                component.Coins = json["Coins"]!.GetValue<int>();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

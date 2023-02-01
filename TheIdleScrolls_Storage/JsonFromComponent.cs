@@ -139,6 +139,14 @@ namespace TheIdleScrolls_Storage
             return json;
         }
 
+        public static JsonObject? ToJson(this CoinPurseComponent component)
+        {
+            JsonObject json = new()
+            {
+                { "Coins", component.Coins }
+            };
+            return json;
+        }
 
         public static JsonObject JsonFromSth<T>(T thing)
         {

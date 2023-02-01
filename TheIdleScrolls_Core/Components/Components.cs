@@ -215,4 +215,9 @@ namespace TheIdleScrolls_Core.Components
 
         public HashSet<string> AvailableDungeons = new();
     }
+
+    public class CoinPurseComponent : IComponent
+    {
+        public int Coins = 0;
+    }
 }
