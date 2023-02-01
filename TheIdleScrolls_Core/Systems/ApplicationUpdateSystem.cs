@@ -76,6 +76,12 @@ namespace TheIdleScrolls_Core.Systems
                 m_appModel?.SetPlayerItems(invItems, equipItems);
             }
 
+            // Update coins
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<CoinsChangedMessage>())
+            {
+                m_appModel?.SetPlayerCoins(player.GetComponent<CoinPurseComponent>()?.Coins ?? 0);
+            }
+
             // Update attack
             var attackComp = player.GetComponent<AttackComponent>();
             if (attackComp != null)

@@ -42,6 +42,7 @@ namespace TheIdleScrollsApp
         private void btnSelect_Click(object sender, EventArgs e)
         {
             CharacterName = listBoxChars.Text;
+            DialogResult = DialogResult.OK;
             Close();
         }
 
@@ -53,6 +54,7 @@ namespace TheIdleScrollsApp
                 // Ask whether to overwrite the character
             }
             CharacterName = name;
+            DialogResult = DialogResult.OK;
             Close();
         }
     }

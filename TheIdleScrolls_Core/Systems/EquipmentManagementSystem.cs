@@ -180,4 +180,19 @@ namespace TheIdleScrolls_Core.Systems
             return IMessage.PriorityLevel.Debug;
         }
     }
+
+    public class CoinsChangedMessage : IMessage
+    {
+        public int Change { get; set; }
+
+        string IMessage.BuildMessage()
+        {
+            return (Change >= 0) ? $"Gained {Change} coins" : $"Lost {Change} coins";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Medium;
+        }
+    }
 }

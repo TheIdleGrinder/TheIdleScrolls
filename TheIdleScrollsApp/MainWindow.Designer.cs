@@ -69,12 +69,14 @@
             this.lblCharLevel = new System.Windows.Forms.Label();
             this.lblCharName = new System.Windows.Forms.Label();
             this.tabInventory = new System.Windows.Forms.TabPage();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.lblEqArmor = new System.Windows.Forms.Label();
             this.lblEqWeapon = new System.Windows.Forms.Label();
             this.hdrEqWeapon = new System.Windows.Forms.Label();
             this.hdrEqArmor = new System.Windows.Forms.Label();
             this.gridInventory = new System.Windows.Forms.DataGridView();
+            this.lblCoins = new System.Windows.Forms.Label();
             this.tabAbilities = new System.Windows.Forms.TabPage();
             this.gridAbilities = new System.Windows.Forms.DataGridView();
             this.tabAchievements = new System.Windows.Forms.TabPage();
@@ -101,6 +103,10 @@
             this.tabCharacter.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tabInventory.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
@@ -131,8 +137,10 @@
             // splitContainer2
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer2.IsSplitterFixed = true;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(0);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -145,7 +153,8 @@
             this.splitContainer2.Panel2.Controls.Add(this.statusStrip1);
             this.splitContainer2.Panel2MinSize = 22;
             this.splitContainer2.Size = new System.Drawing.Size(984, 561);
-            this.splitContainer2.SplitterDistance = 532;
+            this.splitContainer2.SplitterDistance = 535;
+            this.splitContainer2.SplitterWidth = 1;
             this.splitContainer2.TabIndex = 1;
             // 
             // splitContainer1
@@ -169,7 +178,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(984, 532);
+            this.splitContainer1.Size = new System.Drawing.Size(984, 535);
             this.splitContainer1.SplitterDistance = 372;
             this.splitContainer1.TabIndex = 1;
             // 
@@ -226,7 +235,7 @@
             this.lblTimeLimit.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblTimeLimit.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblTimeLimit.ForeColor = System.Drawing.Color.LimeGreen;
-            this.lblTimeLimit.Location = new System.Drawing.Point(0, 380);
+            this.lblTimeLimit.Location = new System.Drawing.Point(0, 383);
             this.lblTimeLimit.Name = "lblTimeLimit";
             this.lblTimeLimit.Size = new System.Drawing.Size(372, 73);
             this.lblTimeLimit.TabIndex = 2;
@@ -238,7 +247,7 @@
             this.lblMobName.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblMobName.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblMobName.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblMobName.Location = new System.Drawing.Point(0, 453);
+            this.lblMobName.Location = new System.Drawing.Point(0, 456);
             this.lblMobName.Name = "lblMobName";
             this.lblMobName.Size = new System.Drawing.Size(372, 21);
             this.lblMobName.TabIndex = 1;
@@ -250,7 +259,7 @@
             this.lblMobHP.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblMobHP.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblMobHP.ForeColor = System.Drawing.Color.Red;
-            this.lblMobHP.Location = new System.Drawing.Point(0, 474);
+            this.lblMobHP.Location = new System.Drawing.Point(0, 477);
             this.lblMobHP.Name = "lblMobHP";
             this.lblMobHP.Size = new System.Drawing.Size(372, 58);
             this.lblMobHP.TabIndex = 1;
@@ -279,8 +288,9 @@
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
+            this.tabControl1.Padding = new System.Drawing.Point(0, 0);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(608, 532);
+            this.tabControl1.Size = new System.Drawing.Size(608, 535);
             this.tabControl1.TabIndex = 0;
             // 
             // tabCharacter
@@ -301,7 +311,7 @@
             this.tabCharacter.Location = new System.Drawing.Point(4, 24);
             this.tabCharacter.Name = "tabCharacter";
             this.tabCharacter.Padding = new System.Windows.Forms.Padding(3);
-            this.tabCharacter.Size = new System.Drawing.Size(600, 504);
+            this.tabCharacter.Size = new System.Drawing.Size(600, 507);
             this.tabCharacter.TabIndex = 0;
             this.tabCharacter.Text = "Character";
             this.tabCharacter.UseVisualStyleBackColor = true;
@@ -310,7 +320,7 @@
             // 
             this.btnDungeon9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon9.AutoSize = true;
-            this.btnDungeon9.Location = new System.Drawing.Point(378, 468);
+            this.btnDungeon9.Location = new System.Drawing.Point(399, 468);
             this.btnDungeon9.Name = "btnDungeon9";
             this.btnDungeon9.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon9.TabIndex = 16;
@@ -322,7 +332,7 @@
             // 
             this.btnDungeon6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon6.AutoSize = true;
-            this.btnDungeon6.Location = new System.Drawing.Point(193, 468);
+            this.btnDungeon6.Location = new System.Drawing.Point(214, 468);
             this.btnDungeon6.Name = "btnDungeon6";
             this.btnDungeon6.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon6.TabIndex = 15;
@@ -334,7 +344,7 @@
             // 
             this.btnDungeon3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon3.AutoSize = true;
-            this.btnDungeon3.Location = new System.Drawing.Point(6, 468);
+            this.btnDungeon3.Location = new System.Drawing.Point(27, 468);
             this.btnDungeon3.Name = "btnDungeon3";
             this.btnDungeon3.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon3.TabIndex = 14;
@@ -346,7 +356,7 @@
             // 
             this.btnDungeon7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon7.AutoSize = true;
-            this.btnDungeon7.Location = new System.Drawing.Point(378, 407);
+            this.btnDungeon7.Location = new System.Drawing.Point(399, 407);
             this.btnDungeon7.Name = "btnDungeon7";
             this.btnDungeon7.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon7.TabIndex = 12;
@@ -358,7 +368,7 @@
             // 
             this.btnDungeon8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon8.AutoSize = true;
-            this.btnDungeon8.Location = new System.Drawing.Point(378, 438);
+            this.btnDungeon8.Location = new System.Drawing.Point(399, 438);
             this.btnDungeon8.Name = "btnDungeon8";
             this.btnDungeon8.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon8.TabIndex = 13;
@@ -370,7 +380,7 @@
             // 
             this.btnDungeon4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon4.AutoSize = true;
-            this.btnDungeon4.Location = new System.Drawing.Point(193, 407);
+            this.btnDungeon4.Location = new System.Drawing.Point(214, 407);
             this.btnDungeon4.Name = "btnDungeon4";
             this.btnDungeon4.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon4.TabIndex = 10;
@@ -382,7 +392,7 @@
             // 
             this.btnDungeon5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon5.AutoSize = true;
-            this.btnDungeon5.Location = new System.Drawing.Point(193, 438);
+            this.btnDungeon5.Location = new System.Drawing.Point(214, 438);
             this.btnDungeon5.Name = "btnDungeon5";
             this.btnDungeon5.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon5.TabIndex = 11;
@@ -394,7 +404,7 @@
             // 
             this.btnDungeon1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon1.AutoSize = true;
-            this.btnDungeon1.Location = new System.Drawing.Point(6, 407);
+            this.btnDungeon1.Location = new System.Drawing.Point(27, 407);
             this.btnDungeon1.Name = "btnDungeon1";
             this.btnDungeon1.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon1.TabIndex = 1;
@@ -406,7 +416,7 @@
             // 
             this.btnDungeon2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon2.AutoSize = true;
-            this.btnDungeon2.Location = new System.Drawing.Point(6, 438);
+            this.btnDungeon2.Location = new System.Drawing.Point(27, 438);
             this.btnDungeon2.Name = "btnDungeon2";
             this.btnDungeon2.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon2.TabIndex = 9;
@@ -618,21 +628,46 @@
             // 
             // tabInventory
             // 
-            this.tabInventory.Controls.Add(this.splitContainer3);
+            this.tabInventory.Controls.Add(this.splitContainer4);
             this.tabInventory.Location = new System.Drawing.Point(4, 24);
             this.tabInventory.Name = "tabInventory";
             this.tabInventory.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInventory.Size = new System.Drawing.Size(600, 504);
+            this.tabInventory.Size = new System.Drawing.Size(600, 507);
             this.tabInventory.TabIndex = 2;
             this.tabInventory.Text = "Inventory";
             this.tabInventory.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
+            this.splitContainer4.IsSplitterFixed = true;
+            this.splitContainer4.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer4.Margin = new System.Windows.Forms.Padding(0);
+            this.splitContainer4.Name = "splitContainer4";
+            this.splitContainer4.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.splitContainer3);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.lblCoins);
+            this.splitContainer4.Panel2MinSize = 20;
+            this.splitContainer4.Size = new System.Drawing.Size(594, 498);
+            this.splitContainer4.SplitterDistance = 477;
+            this.splitContainer4.SplitterWidth = 1;
+            this.splitContainer4.TabIndex = 7;
             // 
             // splitContainer3
             // 
             this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.splitContainer3.IsSplitterFixed = true;
-            this.splitContainer3.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer3.Location = new System.Drawing.Point(0, 0);
             this.splitContainer3.Name = "splitContainer3";
             this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -646,7 +681,7 @@
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.gridInventory);
-            this.splitContainer3.Size = new System.Drawing.Size(594, 498);
+            this.splitContainer3.Size = new System.Drawing.Size(594, 477);
             this.splitContainer3.SplitterDistance = 61;
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 6;
@@ -705,10 +740,21 @@
             this.gridInventory.RowTemplate.Height = 25;
             this.gridInventory.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridInventory.Size = new System.Drawing.Size(594, 436);
+            this.gridInventory.Size = new System.Drawing.Size(594, 415);
             this.gridInventory.TabIndex = 0;
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
             this.gridInventory.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.gridInventory_RowPrePaint);
+            // 
+            // lblCoins
+            // 
+            this.lblCoins.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblCoins.Location = new System.Drawing.Point(0, 0);
+            this.lblCoins.Margin = new System.Windows.Forms.Padding(0);
+            this.lblCoins.Name = "lblCoins";
+            this.lblCoins.Size = new System.Drawing.Size(594, 20);
+            this.lblCoins.TabIndex = 0;
+            this.lblCoins.Text = "Coins: xx";
+            this.lblCoins.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // tabAbilities
             // 
@@ -893,6 +939,10 @@
             this.tabCharacter.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tabInventory.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel1.PerformLayout();
             this.splitContainer3.Panel2.ResumeLayout(false);
@@ -973,5 +1023,7 @@
         private Button btnDungeon8;
         private Button btnDungeon4;
         private Button btnDungeon5;
+        private SplitContainer splitContainer4;
+        private Label lblCoins;
     }
 }

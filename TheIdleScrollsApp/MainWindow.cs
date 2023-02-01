@@ -145,6 +145,11 @@ namespace TheIdleScrollsApp
             lblCharXP.Text = $"XP: {current:#,0} / {target:#,0}\n" + new string('▰', filledBubbles) + new String('▱', bubbles - filledBubbles);
         }
 
+        public void SetPlayerCoins(int coins)
+        {
+            lblCoins.Text = $"Coins: {coins}";
+        }
+
         public void SetArea(string name, int level, bool isDungeon)
         {
             btnAreaNext.Enabled = level < m_maxWilderness;

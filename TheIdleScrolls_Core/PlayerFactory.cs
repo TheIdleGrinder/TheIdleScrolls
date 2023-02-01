@@ -28,6 +28,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new PlayerProgressComponent());
             player.AddComponent(new AbilitiesComponent());
             player.AddComponent(new AchievementsComponent());
+            player.AddComponent(new CoinPurseComponent());
 
             return player;
         }

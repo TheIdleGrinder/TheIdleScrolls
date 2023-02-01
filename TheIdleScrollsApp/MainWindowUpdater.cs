@@ -118,5 +118,10 @@ namespace TheIdleScrollsApp
         {
             GetTargetOrNull()?.SetStatisticsReport(report);
         }
+
+        public void SetPlayerCoins(int coins)
+        {
+            GetTargetOrNull()?.SetPlayerCoins(coins);
+        }
     }
 }
