@@ -25,6 +25,11 @@ namespace TheIdleScrollsApp
             m_requests.Add(new ItemMoveRequest(playerId, itemId, true));
         }
 
+        public void SellItem(uint playerId, uint itemId)
+        {
+            m_requests.Add(new SellItemRequest(playerId, itemId));
+        }
+
         public void LeaveDungeon()
         {
             m_requests.Add(new LeaveDungeonRequest());

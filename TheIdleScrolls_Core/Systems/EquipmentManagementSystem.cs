@@ -101,6 +101,10 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     changedInventories.Add(owner);
                 }
+                else 
+                {
+                    throw new Exception($"{owner.GetName()} does not own item '{item.GetName()}'");
+                }
             }
 
             foreach (var entity in changedInventories)

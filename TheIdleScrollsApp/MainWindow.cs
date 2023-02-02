@@ -387,6 +387,23 @@ namespace TheIdleScrollsApp
             cell.Style.ForeColor = GetColorForRarity(rarity);
             cell.Style.Font = new Font(gridInventory.Font, (rarity > 0) ? FontStyle.Bold : FontStyle.Regular);
         }
+
+        private void gridInventory_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
+        {
+            gridInventory.ClearSelection();
+            int row = e.RowIndex;
+            if (row >= 0 && row < gridInventory.Rows.Count)
+                gridInventory.Rows[row].Selected = true;
+        }
+
+        private void cMenuInventorySell_Click(object sender, EventArgs e)
+        {
+            int row = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
+            if (row != -1)
+            {
+                m_inputHandler.SellItem(m_playerId, m_Inventory[row].Id);
+            }
+        }
     }
 
     class Equipment

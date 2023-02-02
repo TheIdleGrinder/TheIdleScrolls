@@ -76,6 +76,8 @@
             this.hdrEqWeapon = new System.Windows.Forms.Label();
             this.hdrEqArmor = new System.Windows.Forms.Label();
             this.gridInventory = new System.Windows.Forms.DataGridView();
+            this.cMenuInventory = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cMenuInventorySell = new System.Windows.Forms.ToolStripMenuItem();
             this.tabAbilities = new System.Windows.Forms.TabPage();
             this.gridAbilities = new System.Windows.Forms.DataGridView();
             this.tabAchievements = new System.Windows.Forms.TabPage();
@@ -107,6 +109,7 @@
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridInventory)).BeginInit();
+            this.cMenuInventory.SuspendLayout();
             this.tabAbilities.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAbilities)).BeginInit();
             this.tabAchievements.SuspendLayout();
@@ -714,6 +717,7 @@
             this.gridInventory.AllowUserToResizeRows = false;
             this.gridInventory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
             this.gridInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridInventory.ContextMenuStrip = this.cMenuInventory;
             this.gridInventory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridInventory.Location = new System.Drawing.Point(0, 0);
             this.gridInventory.MultiSelect = false;
@@ -725,8 +729,23 @@
             this.gridInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.gridInventory.Size = new System.Drawing.Size(594, 426);
             this.gridInventory.TabIndex = 0;
+            this.gridInventory.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.gridInventory_CellContextMenuStripNeeded);
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
             this.gridInventory.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.gridInventory_RowPrePaint);
+            // 
+            // cMenuInventory
+            // 
+            this.cMenuInventory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cMenuInventorySell});
+            this.cMenuInventory.Name = "cMenuInventory";
+            this.cMenuInventory.Size = new System.Drawing.Size(181, 48);
+            // 
+            // cMenuInventorySell
+            // 
+            this.cMenuInventorySell.Name = "cMenuInventorySell";
+            this.cMenuInventorySell.Size = new System.Drawing.Size(180, 22);
+            this.cMenuInventorySell.Text = "Sell";
+            this.cMenuInventorySell.Click += new System.EventHandler(this.cMenuInventorySell_Click);
             // 
             // tabAbilities
             // 
@@ -917,6 +936,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridInventory)).EndInit();
+            this.cMenuInventory.ResumeLayout(false);
             this.tabAbilities.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridAbilities)).EndInit();
             this.tabAchievements.ResumeLayout(false);
@@ -992,5 +1012,7 @@
         private Button btnDungeon4;
         private Button btnDungeon5;
         private Label lblCoins;
+        private ContextMenuStrip cMenuInventory;
+        private ToolStripMenuItem cMenuInventorySell;
     }
 }
