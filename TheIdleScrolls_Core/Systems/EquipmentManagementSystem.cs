@@ -80,6 +80,29 @@ namespace TheIdleScrolls_Core.Systems
                 changedInventories.Add(owner);
             }
 
+            foreach (var sale in coordinator.FetchMessagesByType<SellItemRequest>())
+            {
+                Entity? owner = coordinator.GetEntity(sale.SellerId);
+                if (owner == null)
+                    continue;
+                var inventoryComp = owner.GetComponent<InventoryComponent>();
+                if (inventoryComp == null)
+                    throw new Exception($"Entity {owner.GetName()} has no Inventory component");
+                
+                Entity item = coordinator.GetEntity(sale.ItemId) ?? throw new Exception($"No item with id {sale.ItemId}");
+                if (inventoryComp.RemoveItem(item))
+                {
+                    var purseComp = owner.GetComponent<CoinPurseComponent>();
+                    if (purseComp != null)
+                    {
+                        int value = item.GetComponent<ItemValueComponent>()?.Value ?? 0;
+                        owner.GetComponent<CoinPurseComponent>()?.AddCoins(value);
+                        coordinator.PostMessage(this, new CoinsChangedMessage(owner, value));
+                    }
+                    changedInventories.Add(owner);
+                }
+            }
+
             foreach (var entity in changedInventories)
             {
                 coordinator.PostMessage(this, new InventoryChangedMessage(entity));
@@ -181,13 +204,42 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
-    public class CoinsChangedMessage : IMessage
+    public class SellItemRequest : IMessage
     {
-        public int Change { get; set; }
+        public uint SellerId { get; set; }
+        public uint ItemId { get; set; }
+
+        public SellItemRequest(uint seller, uint item)
+        {
+            SellerId = seller;
+            ItemId = item;
+        }
 
         string IMessage.BuildMessage()
         {
-            return (Change >= 0) ? $"Gained {Change} coins" : $"Lost {Change} coins";
+            return $"Request: Entity #{SellerId} to sell item #{ItemId}";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
+        }
+    }
+
+    public class CoinsChangedMessage : IMessage
+    {
+        public Entity Owner { get; set; }
+        public int Change { get; set; }
+
+        public CoinsChangedMessage(Entity owner, int change)
+        {
+            Owner = owner;
+            Change = change;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"{Owner.GetName()} " + ((Change >= 0) ? $"gained {Change} coins" : $"lost {Change} coins");
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()
