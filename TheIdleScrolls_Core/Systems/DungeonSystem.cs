@@ -149,23 +149,12 @@ namespace TheIdleScrolls_Core.Systems
                 pointer -= reward.Value;
             }
 
-            // Give item to player, if they don't have it already
-            // TODO: Give some other kind of reward instead of duplicate items
-            
-            // Find already owned items
-            var invItems = m_player?.GetComponent<InventoryComponent>()?.GetItems() ?? new();
-            var equipItems = m_player?.GetComponent<EquipmentComponent>()?.GetItems() ?? new();
-            List<string> ownedItems = invItems.Concat(equipItems).Select(i => i.GetComponent<ItemComponent>()?.Code.Code ?? "").ToList();
-
             Entity item = new ItemFactory().ExpandCode(selection) ?? throw new Exception($"Invalid item code: {selection}");
             int rarity = ItemFactory.GetRandomRarity(dungeon.Level, world.RarityMultiplier);
             ItemFactory.SetItemRarity(item, rarity);
 
-            if (!ownedItems.Contains(item.GetItemCode()))
-            {
-                coordinator.AddEntity(item);
-                coordinator.PostMessage(this, new ItemReceivedMessage(m_player!, item));
-            }
+            coordinator.AddEntity(item);
+            coordinator.PostMessage(this, new ItemReceivedMessage(m_player!, item));
         }
 
         public static Dictionary<string, double> BuildBasicLootTable(DungeonRewardsDescription rewardSettings, int lootLevel)
@@ -193,7 +182,7 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
             }
-            rewardSettings.SpecialRewards.ForEach(r => validIds.Add(r)); // CornerCut: This becomes incorrect once rarity is implemented
+            rewardSettings.SpecialRewards.ForEach(r => validIds.Add(r));
             Dictionary<string, double> result = new();
             foreach(var id in validIds)
             {
