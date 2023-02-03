@@ -433,10 +433,10 @@ namespace TheIdleScrollsApp
         {
             if (e.KeyCode == Keys.Delete)
             {
-                int row = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
-                if (row != -1)
+                for (int i = 0; i < gridInventory.Rows.Count; i++)
                 {
-                    m_inputHandler.SellItem(m_playerId, m_Inventory[row].Id);
+                    if (gridInventory.Rows[i].Selected)
+                        m_inputHandler.SellItem(m_playerId, m_Inventory[i].Id);
                 }
             }
         }

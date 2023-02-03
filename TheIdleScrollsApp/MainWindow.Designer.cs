@@ -719,7 +719,6 @@
             this.gridInventory.ContextMenuStrip = this.cMenuInventory;
             this.gridInventory.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gridInventory.Location = new System.Drawing.Point(0, 0);
-            this.gridInventory.MultiSelect = false;
             this.gridInventory.Name = "gridInventory";
             this.gridInventory.ReadOnly = true;
             this.gridInventory.RowHeadersVisible = false;
