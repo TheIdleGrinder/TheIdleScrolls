@@ -208,8 +208,21 @@ namespace TheIdleScrollsApp
 
         public void SetInventory(List<ItemRepresentation> items)
         {
+            int offset = gridInventory.FirstDisplayedScrollingRowIndex;
+            int currentRow = gridInventory.CurrentRow?.Index ?? -1;
+            int selection = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
             m_Inventory = new(items);
-            gridInventory.DataSource = m_Inventory;            
+            gridInventory.DataSource = m_Inventory;
+            if (offset >= 0)
+                gridInventory.FirstDisplayedScrollingRowIndex = offset;
+            if (currentRow >= gridInventory.Rows.Count)
+                currentRow = gridInventory.Rows.Count - 1;
+            if (currentRow >= 0 && currentRow < gridInventory.Rows.Count)
+                gridInventory.CurrentCell = gridInventory.Rows[currentRow].Cells[1];
+            if (selection >= gridInventory.Rows.Count)
+                selection = gridInventory.Rows.Count - 1;
+            if (selection >= 0 && selection < gridInventory.Rows.Count)
+                gridInventory.Rows[selection].Selected = true;
         }
 
         public void SetEquipment(List<ItemRepresentation> items)
@@ -414,6 +427,18 @@ namespace TheIdleScrollsApp
         private void cMenuInventory_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
             cMenuInventorySell.Visible = false;
+        }
+
+        private void gridInventory_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                int row = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
+                if (row != -1)
+                {
+                    m_inputHandler.SellItem(m_playerId, m_Inventory[row].Id);
+                }
+            }
         }
     }
 

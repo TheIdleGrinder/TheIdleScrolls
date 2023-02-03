@@ -663,11 +663,10 @@
             // lblCoins
             // 
             this.lblCoins.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCoins.AutoSize = true;
-            this.lblCoins.Location = new System.Drawing.Point(538, 57);
+            this.lblCoins.Location = new System.Drawing.Point(476, 57);
             this.lblCoins.Margin = new System.Windows.Forms.Padding(0);
             this.lblCoins.Name = "lblCoins";
-            this.lblCoins.Size = new System.Drawing.Size(54, 15);
+            this.lblCoins.Size = new System.Drawing.Size(116, 15);
             this.lblCoins.TabIndex = 0;
             this.lblCoins.Text = "XX Coins";
             this.lblCoins.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -732,19 +731,20 @@
             this.gridInventory.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.gridInventory_CellContextMenuStripNeeded);
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
             this.gridInventory.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.gridInventory_RowPrePaint);
+            this.gridInventory.KeyUp += new System.Windows.Forms.KeyEventHandler(this.gridInventory_KeyUp);
             // 
             // cMenuInventory
             // 
             this.cMenuInventory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.cMenuInventorySell});
             this.cMenuInventory.Name = "cMenuInventory";
-            this.cMenuInventory.Size = new System.Drawing.Size(181, 48);
+            this.cMenuInventory.Size = new System.Drawing.Size(93, 26);
             this.cMenuInventory.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.cMenuInventory_Closed);
             // 
             // cMenuInventorySell
             // 
             this.cMenuInventorySell.Name = "cMenuInventorySell";
-            this.cMenuInventorySell.Size = new System.Drawing.Size(180, 22);
+            this.cMenuInventorySell.Size = new System.Drawing.Size(92, 22);
             this.cMenuInventorySell.Text = "Sell";
             this.cMenuInventorySell.Click += new System.EventHandler(this.cMenuInventorySell_Click);
             // 
