@@ -739,6 +739,7 @@
             this.cMenuInventorySell});
             this.cMenuInventory.Name = "cMenuInventory";
             this.cMenuInventory.Size = new System.Drawing.Size(181, 48);
+            this.cMenuInventory.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.cMenuInventory_Closed);
             // 
             // cMenuInventorySell
             // 

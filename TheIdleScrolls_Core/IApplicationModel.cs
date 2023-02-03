@@ -57,7 +57,7 @@ namespace TheIdleScrolls_Core
 
     public enum GameFeature { Inventory, Armor, Abilities, Travel }
 
-    public record ItemRepresentation(uint Id, string Name, string Description, List<EquipmentSlot> Slots, int Rarity);
+    public record ItemRepresentation(uint Id, string Name, string Description, List<EquipmentSlot> Slots, int Rarity, int Value);
     public record AbilityRepresentation(string Key, string Name, int Level, int XP, int TargetXP);
     public record MobRepresentation(uint Id, string Name, int Level, int HP, int HpMax);
     public record DungeonRepresentation(string Id, string Name, int Level, string Description, int Rarity);

@@ -261,7 +261,8 @@ namespace TheIdleScrolls_Core.Systems
                 item.GetName(),
                 description,
                 new() { equipComp?.Slot ?? EquipmentSlot.Hand },
-                itemComp?.Code.RarityLevel ?? 0
+                itemComp?.Code.RarityLevel ?? 0,
+                item.GetComponent<ItemValueComponent>()?.Value ?? 0
                 );
         }
 

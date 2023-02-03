@@ -63,6 +63,7 @@ namespace TheIdleScrollsApp
             gridInventory.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             gridInventory.Columns[3].MinimumWidth = 35;
             gridInventory.Columns[3].Visible = false;
+            gridInventory.Columns[4].Visible = false;
 
             gridAbilities.DataSource = m_abilities;
             gridAbilities.Columns[0].Visible = false;
@@ -392,8 +393,13 @@ namespace TheIdleScrollsApp
         {
             gridInventory.ClearSelection();
             int row = e.RowIndex;
-            if (row >= 0 && row < gridInventory.Rows.Count)
+            bool validSelection = row >= 0 && row < gridInventory.Rows.Count;
+            if (validSelection)
+            {
+                cMenuInventorySell.Text = $"Sell ({m_Inventory[row].Value}c)";
+                cMenuInventorySell.Visible = true;
                 gridInventory.Rows[row].Selected = true;
+            }
         }
 
         private void cMenuInventorySell_Click(object sender, EventArgs e)
@@ -403,6 +409,11 @@ namespace TheIdleScrollsApp
             {
                 m_inputHandler.SellItem(m_playerId, m_Inventory[row].Id);
             }
+        }
+
+        private void cMenuInventory_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            cMenuInventorySell.Visible = false;
         }
     }
 
