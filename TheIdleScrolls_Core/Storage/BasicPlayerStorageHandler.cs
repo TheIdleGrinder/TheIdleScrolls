@@ -19,9 +19,19 @@ namespace TheIdleScrolls_Core.Storage
             StorageDirectory = Path.Combine(appDataPath, "TheIdleGrind", "saves");
         }
 
+        public void DeleteData(string key)
+        {
+            string path = BuildPath(key);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
         public List<string> GetKeys()
         {
             return Directory.GetFiles(StorageDirectory)
+                .OrderByDescending(f => File.GetLastWriteTime(f))
                 .Where(f => f.EndsWith(FileExtension))
                 .Select(f => Path.GetFileNameWithoutExtension(f))
                 .Where(f => !f.StartsWith("_"))

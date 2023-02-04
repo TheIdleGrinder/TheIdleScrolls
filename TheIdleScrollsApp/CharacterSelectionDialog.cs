@@ -13,18 +13,18 @@ namespace TheIdleScrollsApp
 {
     public partial class CharacterSelectionDialog : Form
     {
-        //private DataAccessHandler m_accessHandler;
+        private DataAccessHandler m_accessHandler;
 
         private List<string> m_characters = new();
 
         public string CharacterName { get; set; } = "Leeroy";
 
-        public CharacterSelectionDialog(string name, List<string> characters)
+        public CharacterSelectionDialog(string name, DataAccessHandler dataAccessHandler)
         {
-            //m_accessHandler = accessHandler;
+            m_accessHandler = dataAccessHandler;
             InitializeComponent();
 
-            m_characters = characters;
+            m_characters = dataAccessHandler.ListStoredEntities();
             CharacterName = inputName.Text = name;
             UpdateCharacterList();
         }
@@ -37,7 +37,9 @@ namespace TheIdleScrollsApp
             {
                 listBoxChars.Items.Add(name);
             }
-            btnSelect.Enabled = false;// m_characters.Any();
+            if (m_characters.Any())
+                listBoxChars.SelectedIndex = 0;
+            btnSelect.Enabled = m_characters.Any();
         }
 
         private void btnSelect_Click(object sender, EventArgs e)
@@ -52,7 +54,12 @@ namespace TheIdleScrollsApp
             string name = inputName.Text;
             if (m_characters.Contains(name))
             {
-                // Ask whether to overwrite the character
+                var result = MessageBox.Show("A character of this name already exists. Do you want to reset it?", "Careful now...", MessageBoxButtons.YesNo);
+                if (result != DialogResult.Yes)
+                {
+                    return;
+                }
+                m_accessHandler.DeleteStoredEntity(name);
             }
             CharacterName = name;
             DialogResult = DialogResult.OK;

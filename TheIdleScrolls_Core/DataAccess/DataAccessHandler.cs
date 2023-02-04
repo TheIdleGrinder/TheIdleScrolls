@@ -59,6 +59,9 @@ namespace TheIdleScrolls_Core.DataAccess
             return m_storage.GetKeys();
         }
 
-
+        public void DeleteStoredEntity(string accessKey)
+        {
+            m_storage.DeleteData(accessKey);
+        }
     }
 }
