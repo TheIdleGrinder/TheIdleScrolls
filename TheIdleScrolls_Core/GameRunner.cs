@@ -27,6 +27,8 @@ namespace TheIdleScrolls_Core
 
         public ulong Ticks { get { return m_ticks; } }
 
+        public DataAccessHandler DataAccessHandler { get { return m_dataHandler; } }
+
         public GameRunner(DataAccessHandler dataHandler)
         {
             m_ticks = 0;

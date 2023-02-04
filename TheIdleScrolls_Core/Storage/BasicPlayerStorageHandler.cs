@@ -3,18 +3,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace TheIdleScrolls_Core.Storage
 {
     public class BasicFileStorageHandler : IStorageHandler<string>
     {
+        const string FileExtension = ".json";
         readonly string StorageDirectory;
 
         public BasicFileStorageHandler()
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             StorageDirectory = Path.Combine(appDataPath, "TheIdleGrind", "saves");
+        }
+
+        public List<string> GetKeys()
+        {
+            return Directory.GetFiles(StorageDirectory)
+                .Where(f => f.EndsWith(FileExtension))
+                .Select(f => Path.GetFileNameWithoutExtension(f))
+                .Where(f => !f.StartsWith("_"))
+                .ToList();
         }
 
         public string LoadData(string key)
@@ -35,7 +46,7 @@ namespace TheIdleScrolls_Core.Storage
 
         string BuildPath(string fileName)
         {
-            return Path.Combine(StorageDirectory, fileName + ".json");
+            return Path.Combine(StorageDirectory, fileName + FileExtension);
         }
 
         bool CreateStorageDirectoryIfNecessary()

@@ -32,7 +32,8 @@ namespace TheIdleScrollsApp
 
         public MainWindow(GameRunner runner, string name = "Leeroy")
         {
-            CharacterSelectionDialog dialog = new CharacterSelectionDialog(name);
+            var chars = runner.DataAccessHandler.ListStoredEntities();
+            CharacterSelectionDialog dialog = new CharacterSelectionDialog(name, chars);
             DialogResult result = dialog.ShowDialog();
             if (result != DialogResult.OK)
                 throw new KeyNotFoundException("No character selected");

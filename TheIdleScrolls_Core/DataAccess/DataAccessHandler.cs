@@ -53,5 +53,12 @@ namespace TheIdleScrolls_Core.DataAccess
             var success = LoadEntity(accessKey, entity);
             return success ? entity : null;
         }
+
+        public List<string> ListStoredEntities()
+        {
+            return m_storage.GetKeys();
+        }
+
+
     }
 }

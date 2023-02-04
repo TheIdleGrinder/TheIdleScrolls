@@ -19,18 +19,19 @@ namespace TheIdleScrollsApp
 
         public string CharacterName { get; set; } = "Leeroy";
 
-        public CharacterSelectionDialog(string name)
+        public CharacterSelectionDialog(string name, List<string> characters)
         {
             //m_accessHandler = accessHandler;
             InitializeComponent();
 
+            m_characters = characters;
             CharacterName = inputName.Text = name;
             UpdateCharacterList();
         }
 
         private void UpdateCharacterList()
         {
-            m_characters = new() { "Existing Characters", "=> Coming soon", " ", "Load a character by", "entering their name below" };
+            //m_characters = new() { "Existing Characters", "=> Coming soon", " ", "Load a character by", "entering their name below" };
             listBoxChars.Items.Clear();
             foreach (string name in m_characters)
             {

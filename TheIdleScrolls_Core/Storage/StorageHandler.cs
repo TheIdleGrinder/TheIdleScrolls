@@ -13,5 +13,7 @@ namespace TheIdleScrolls_Core.Storage
         public void StoreData(string key, T data);
 
         public T LoadData(string key);
+
+        public List<string> GetKeys();
     }
 }
