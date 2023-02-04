@@ -31,7 +31,6 @@ namespace TheIdleScrollsApp
 
         private void UpdateCharacterList()
         {
-            //m_characters = new() { "Existing Characters", "=> Coming soon", " ", "Load a character by", "entering their name below" };
             listBoxChars.Items.Clear();
             foreach (string name in m_characters)
             {
@@ -54,7 +53,8 @@ namespace TheIdleScrollsApp
             string name = inputName.Text;
             if (m_characters.Contains(name))
             {
-                var result = MessageBox.Show("A character of this name already exists. Do you want to reset it?", "Careful now...", MessageBoxButtons.YesNo);
+                var result = MessageBox.Show("A character of this name already exists. Do you want to reset it?", 
+                    "Careful now...", MessageBoxButtons.YesNo);
                 if (result != DialogResult.Yes)
                 {
                     return;
@@ -64,6 +64,14 @@ namespace TheIdleScrollsApp
             CharacterName = name;
             DialogResult = DialogResult.OK;
             Close();
+        }
+
+        private void inputName_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnCreate_Click(sender, e); // Incorrect sender does not matter here
+            }
         }
     }
 }

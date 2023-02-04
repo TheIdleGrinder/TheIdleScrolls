@@ -67,7 +67,7 @@
             this.btnCreate.Location = new System.Drawing.Point(97, 306);
             this.btnCreate.Name = "btnCreate";
             this.btnCreate.Size = new System.Drawing.Size(88, 24);
-            this.btnCreate.TabIndex = 0;
+            this.btnCreate.TabIndex = 3;
             this.btnCreate.Text = "Create";
             this.btnCreate.UseVisualStyleBackColor = true;
             this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
@@ -91,6 +91,7 @@
             this.inputName.Name = "inputName";
             this.inputName.Size = new System.Drawing.Size(184, 23);
             this.inputName.TabIndex = 2;
+            this.inputName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.inputName_KeyUp);
             // 
             // listBoxChars
             // 
@@ -101,7 +102,7 @@
             this.listBoxChars.Location = new System.Drawing.Point(3, 3);
             this.listBoxChars.Name = "listBoxChars";
             this.listBoxChars.Size = new System.Drawing.Size(278, 227);
-            this.listBoxChars.TabIndex = 3;
+            this.listBoxChars.TabIndex = 0;
             // 
             // btnSelect
             // 
@@ -109,7 +110,7 @@
             this.btnSelect.Location = new System.Drawing.Point(97, 236);
             this.btnSelect.Name = "btnSelect";
             this.btnSelect.Size = new System.Drawing.Size(88, 24);
-            this.btnSelect.TabIndex = 4;
+            this.btnSelect.TabIndex = 1;
             this.btnSelect.Text = "Select";
             this.btnSelect.UseVisualStyleBackColor = true;
             this.btnSelect.Click += new System.EventHandler(this.btnSelect_Click);
