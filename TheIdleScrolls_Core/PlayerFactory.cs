@@ -46,5 +46,40 @@ namespace TheIdleScrolls_Core
         {
             dataHandler.StoreEntity(player);
         }
+
+        /// <summary>
+        /// Finds a fitting character class name for the entity.
+        /// CornerCut: This should probably not be part of the player factory, but it's only a single just-for-fun method...
+        /// </summary>
+        /// <param name="player">The character entity</param>
+        /// <returns></returns>
+        public static string GetCharacterClass(Entity character)
+        {
+            int level = character.GetComponent<LevelComponent>()?.Level ?? 0;
+            var abiComp = character.GetComponent<AbilitiesComponent>();
+            if (level == 0 || abiComp == null)
+            {
+                return String.Empty;
+            }
+            if (level < 20)
+            {
+                return "CLASS_DEFAULT".Localize();
+            }
+            List<string> weapons = new() { "AXE", "BLN", "LBL", "POL", "SBL" };
+            List<string> armor = new() { "HAR", "LAR" };
+
+            var BestAbility = (List<string> keys) =>
+            {
+                return keys
+                .Select(k => abiComp.GetAbility(k))
+                .Where(a => a != null && a.Level >= level * 2 / 3)
+                .OrderByDescending(a => a!.Level)
+                .FirstOrDefault()?.Key ?? "X";
+            };
+
+            string bestWeapon = BestAbility(weapons);
+            string bestArmor = BestAbility(armor);
+            return $"CLASS_{bestWeapon}_{bestArmor}";
+        }
     }
 }

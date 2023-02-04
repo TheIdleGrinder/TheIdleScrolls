@@ -165,6 +165,63 @@
   <data name="CASTLE_DESCRIPTION" xml:space="preserve">
     <value>The traiterous lord who had hired the mercenaries has turned his castle into the cult's base of operations.</value>
   </data>
+  <data name="CLASS_AXE_HAR" xml:space="preserve">
+    <value>Viking</value>
+  </data>
+  <data name="CLASS_AXE_LAR" xml:space="preserve">
+    <value>Warrior</value>
+  </data>
+  <data name="CLASS_AXE_X" xml:space="preserve">
+    <value>Berserker</value>
+  </data>
+  <data name="CLASS_BLN_HAR" xml:space="preserve">
+    <value>Paladin</value>
+  </data>
+  <data name="CLASS_BLN_LAR" xml:space="preserve">
+    <value>Militia</value>
+  </data>
+  <data name="CLASS_BLN_X" xml:space="preserve">
+    <value>Warrior Monk</value>
+  </data>
+  <data name="CLASS_DEFAULT" xml:space="preserve">
+    <value>Adventurer</value>
+  </data>
+  <data name="CLASS_LBL_HAR" xml:space="preserve">
+    <value>Knight</value>
+  </data>
+  <data name="CLASS_LBL_LAR" xml:space="preserve">
+    <value>Samurai</value>
+  </data>
+  <data name="CLASS_LBL_X" xml:space="preserve">
+    <value>Kensai</value>
+  </data>
+  <data name="CLASS_POL_HAR" xml:space="preserve">
+    <value>Ranger</value>
+  </data>
+  <data name="CLASS_POL_LAR" xml:space="preserve">
+    <value>Hoplite</value>
+  </data>
+  <data name="CLASS_POL_X" xml:space="preserve">
+    <value>Hunter</value>
+  </data>
+  <data name="CLASS_SBL_HAR" xml:space="preserve">
+    <value>Legionnaire</value>
+  </data>
+  <data name="CLASS_SBL_LAR" xml:space="preserve">
+    <value>Ninja</value>
+  </data>
+  <data name="CLASS_SBL_X" xml:space="preserve">
+    <value>Thief</value>
+  </data>
+  <data name="CLASS_X_HAR" xml:space="preserve">
+    <value>Brawler</value>
+  </data>
+  <data name="CLASS_X_LAR" xml:space="preserve">
+    <value>Martial Artist</value>
+  </data>
+  <data name="CLASS_X_X" xml:space="preserve">
+    <value>Monk</value>
+  </data>
   <data name="CRYPT" xml:space="preserve">
     <value>The Crypt</value>
   </data>

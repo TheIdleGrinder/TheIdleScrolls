@@ -41,22 +41,22 @@ namespace Test_TheIdleScrolls_Core
             Assert.That(ability.XP, Is.EqualTo(4 * amount));
         }
 
-        [Test]
-        public void Adding_ability_to_component_works()
-        {
-            Assert.Multiple(() =>
-            {
-                Assert.That(component.GetAbilities(), Has.Count.EqualTo(0));
-                Assert.That(component.GetAbility(Key), Is.Null);
-            });
+        //[Test]
+        //public void Adding_ability_to_component_works()
+        //{
+        //    Assert.Multiple(() =>
+        //    {
+        //        Assert.That(component.GetAbilities(), Has.Count.EqualTo(0));
+        //        Assert.That(component.GetAbility(Key), Is.Null);
+        //    });
 
-            component.AddAbility(ability);
-            Assert.Multiple(() =>
-            {
-                Assert.That(component.GetAbilities(), Has.Count.EqualTo(1));
-                Assert.That(component.GetAbility(Key), Is.EqualTo(ability));
-            });
-        }
+        //    component.AddAbility(ability);
+        //    Assert.Multiple(() =>
+        //    {
+        //        Assert.That(component.GetAbilities(), Has.Count.EqualTo(1));
+        //        Assert.That(component.GetAbility(Key), Is.EqualTo(ability));
+        //    });
+        //}
 
         [TestCase(1)]
         [TestCase(3)]

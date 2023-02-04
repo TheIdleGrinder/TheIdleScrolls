@@ -205,6 +205,177 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Viking ähnelt.
+        /// </summary>
+        internal static string CLASS_AXE_HAR {
+            get {
+                return ResourceManager.GetString("CLASS_AXE_HAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Warrior ähnelt.
+        /// </summary>
+        internal static string CLASS_AXE_LAR {
+            get {
+                return ResourceManager.GetString("CLASS_AXE_LAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Berserker ähnelt.
+        /// </summary>
+        internal static string CLASS_AXE_X {
+            get {
+                return ResourceManager.GetString("CLASS_AXE_X", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Paladin ähnelt.
+        /// </summary>
+        internal static string CLASS_BLN_HAR {
+            get {
+                return ResourceManager.GetString("CLASS_BLN_HAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Militia ähnelt.
+        /// </summary>
+        internal static string CLASS_BLN_LAR {
+            get {
+                return ResourceManager.GetString("CLASS_BLN_LAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Warrior Monk ähnelt.
+        /// </summary>
+        internal static string CLASS_BLN_X {
+            get {
+                return ResourceManager.GetString("CLASS_BLN_X", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Adventurer ähnelt.
+        /// </summary>
+        internal static string CLASS_DEFAULT {
+            get {
+                return ResourceManager.GetString("CLASS_DEFAULT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Knight ähnelt.
+        /// </summary>
+        internal static string CLASS_LBL_HAR {
+            get {
+                return ResourceManager.GetString("CLASS_LBL_HAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Samurai ähnelt.
+        /// </summary>
+        internal static string CLASS_LBL_LAR {
+            get {
+                return ResourceManager.GetString("CLASS_LBL_LAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Kensai ähnelt.
+        /// </summary>
+        internal static string CLASS_LBL_X {
+            get {
+                return ResourceManager.GetString("CLASS_LBL_X", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ranger ähnelt.
+        /// </summary>
+        internal static string CLASS_POL_HAR {
+            get {
+                return ResourceManager.GetString("CLASS_POL_HAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hoplite ähnelt.
+        /// </summary>
+        internal static string CLASS_POL_LAR {
+            get {
+                return ResourceManager.GetString("CLASS_POL_LAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hunter ähnelt.
+        /// </summary>
+        internal static string CLASS_POL_X {
+            get {
+                return ResourceManager.GetString("CLASS_POL_X", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Legionnaire ähnelt.
+        /// </summary>
+        internal static string CLASS_SBL_HAR {
+            get {
+                return ResourceManager.GetString("CLASS_SBL_HAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ninja ähnelt.
+        /// </summary>
+        internal static string CLASS_SBL_LAR {
+            get {
+                return ResourceManager.GetString("CLASS_SBL_LAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Thief ähnelt.
+        /// </summary>
+        internal static string CLASS_SBL_X {
+            get {
+                return ResourceManager.GetString("CLASS_SBL_X", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Brawler ähnelt.
+        /// </summary>
+        internal static string CLASS_X_HAR {
+            get {
+                return ResourceManager.GetString("CLASS_X_HAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Martial Artist ähnelt.
+        /// </summary>
+        internal static string CLASS_X_LAR {
+            get {
+                return ResourceManager.GetString("CLASS_X_LAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Monk ähnelt.
+        /// </summary>
+        internal static string CLASS_X_X {
+            get {
+                return ResourceManager.GetString("CLASS_X_X", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The Crypt ähnelt.
         /// </summary>
         internal static string CRYPT {
