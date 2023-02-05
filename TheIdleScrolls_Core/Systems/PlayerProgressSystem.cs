@@ -28,7 +28,7 @@ namespace TheIdleScrolls_Core.Systems
             // Update kills and highest area
             var kills = coordinator.FetchMessagesByType<DeathMessage>();
             progComp.Data.Kills += kills.Count;
-            if (kills.Count > 0) // TODO: Check if in wilderness
+            if (kills.Count > 0 && !world.IsInDungeon())
             {
                 var lvl = kills.First().Victim.GetComponent<LevelComponent>()?.Level ?? 0;
                 progComp.Data.HighestWildernessKill = Math.Max(lvl, progComp.Data.HighestWildernessKill);
