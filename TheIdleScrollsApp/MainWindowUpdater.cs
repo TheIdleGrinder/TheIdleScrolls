@@ -26,14 +26,13 @@ namespace TheIdleScrollsApp
             return mainWindow;
         }
 
-        public void SetPlayerCharacter(uint id, string name)
+        public void SetPlayerCharacter(CharacterRepresentation character)
         {
-            GetTargetOrNull()?.SetCharacter(id, name);
+            GetTargetOrNull()?.SetCharacter(character.Id, character.Name, character.Class, character.Level);
         }
 
-        public void SetPlayerLevel(int level, int currentXP, int targetXP)
+        public void SetPlayerXP(int currentXP, int targetXP)
         {
-            GetTargetOrNull()?.SetCharacterLevel(level);
             GetTargetOrNull()?.SetCharacterXP(currentXP, targetXP);
         }
 

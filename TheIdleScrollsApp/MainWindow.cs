@@ -128,15 +128,11 @@ namespace TheIdleScrollsApp
             btnLeaveDungeon.Visible = m_canTravel && m_inDungeon;
         }
 
-        public void SetCharacter(uint id, string name)
+        public void SetCharacter(uint id, string name, string @class, int level)
         {
             m_playerId = id;
             lblCharName.Text = name;
-        }
-
-        public void SetCharacterLevel(int level)
-        {
-            lblCharLevel.Text = $"Level {level}";
+            lblCharLevel.Text = $"Level {level} {@class}";
         }
 
         public void SetCharacterXP(int current, int target)
@@ -213,7 +209,7 @@ namespace TheIdleScrollsApp
             int selection = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
             m_Inventory = new(items);
             gridInventory.DataSource = m_Inventory;
-            if (offset >= 0)
+            if (offset >= 0 && gridInventory.Rows.Count > 0)
                 gridInventory.FirstDisplayedScrollingRowIndex = offset;
             if (currentRow >= gridInventory.Rows.Count)
                 currentRow = gridInventory.Rows.Count - 1;

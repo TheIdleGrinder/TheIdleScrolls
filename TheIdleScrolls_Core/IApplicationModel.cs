@@ -11,9 +11,9 @@ namespace TheIdleScrolls_Core
 {
     public interface IApplicationModel
     {
-        public void SetPlayerCharacter(uint id, string name);
+        public void SetPlayerCharacter(CharacterRepresentation character);
 
-        public void SetPlayerLevel(int level, int currentXP, int targetXP);
+        public void SetPlayerXP(int currentXP, int targetXP);
 
         public void SetPlayerItems(List<ItemRepresentation> inventory, List<ItemRepresentation> equipment);
 
@@ -57,6 +57,7 @@ namespace TheIdleScrolls_Core
 
     public enum GameFeature { Inventory, Armor, Abilities, Travel }
 
+    public record CharacterRepresentation(uint Id, string Name, string Class, int Level);
     public record ItemRepresentation(uint Id, string Name, string Description, List<EquipmentSlot> Slots, int Rarity, int Value);
     public record AbilityRepresentation(string Key, string Name, int Level, int XP, int TargetXP);
     public record MobRepresentation(uint Id, string Name, int Level, int HP, int HpMax);

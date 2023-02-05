@@ -39,13 +39,13 @@ namespace ConsoleRunner
 
         public void SetPlayerAttack(double damage, double cooldown, double remainingCooldown) { }
 
-        public void SetPlayerCharacter(uint id, string name) { }
+        public void SetPlayerCharacter(CharacterRepresentation character) { }
 
         public void SetPlayerDefense(double armor, double evasion) { }
 
         public void SetPlayerItems(List<ItemRepresentation> inventory, List<ItemRepresentation> equipment) { }
 
-        public void SetPlayerLevel(int level, int currentXP, int targetXP) { }
+        public void SetPlayerXP(int currentXP, int targetXP) { }
 
         public void SetTimeLimit(double remaining, double duration) { }
 
@@ -56,5 +56,7 @@ namespace ConsoleRunner
         public void SetAchievements(List<AchievementRepresentation> achievements, int count) { }
 
         public void SetStatisticsReport(string report) { }
+
+        public void SetPlayerCoins(int coins) { }
     }
 }

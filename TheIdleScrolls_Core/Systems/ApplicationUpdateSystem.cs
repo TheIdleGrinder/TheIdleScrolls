@@ -31,18 +31,20 @@ namespace TheIdleScrolls_Core.Systems
             var player = coordinator.GetEntity(m_playerId);
             if (player == null)
                 return;
-            if (m_firstUpdate)
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<LevelUpSystem.LevelUpMessage>())
             {
-                m_appModel?.SetPlayerCharacter(m_playerId, player.GetName());
+                int level = player.GetComponent<LevelComponent>()?.Level ?? 0;
+                string @class = PlayerFactory.GetCharacterClass(player).Localize();
+                m_appModel?.SetPlayerCharacter(new(m_playerId, player.GetName(), @class, level));
             }
 
             // Update XP
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<XpGainMessage>() || coordinator.MessageTypeIsOnBoard<LevelUpSystem.LevelUpMessage>())
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<XpGainMessage>())
             {
                 int level = player.GetComponent<LevelComponent>()?.Level ?? 0;
                 int xp = player.GetComponent<XpGainerComponent>()?.Current ?? 0;
                 int target = player.GetComponent<XpGainerComponent>()?.TargetFunction(level) ?? 0;
-                m_appModel?.SetPlayerLevel(level, xp, target);
+                m_appModel?.SetPlayerXP(xp, target);
             }
 
             // Update items
