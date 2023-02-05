@@ -97,6 +97,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die War Cleaver ähnelt.
+        /// </summary>
+        internal static string AXE3 {
+            get {
+                return ResourceManager.GetString("AXE3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bear ähnelt.
         /// </summary>
         internal static string BEAR {
@@ -138,6 +147,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string BLN2 {
             get {
                 return ResourceManager.GetString("BLN2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Morning Star ähnelt.
+        /// </summary>
+        internal static string BLN3 {
+            get {
+                return ResourceManager.GetString("BLN3", resourceCulture);
             }
         }
         
@@ -529,11 +547,20 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Claymore ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Two-Handed Sword ähnelt.
         /// </summary>
         internal static string LBL2 {
             get {
                 return ResourceManager.GetString("LBL2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Curved Sword ähnelt.
+        /// </summary>
+        internal static string LBL3 {
+            get {
+                return ResourceManager.GetString("LBL3", resourceCulture);
             }
         }
         
@@ -862,6 +889,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die War Pike ähnelt.
+        /// </summary>
+        internal static string POL3 {
+            get {
+                return ResourceManager.GetString("POL3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Short Blade ähnelt.
         /// </summary>
         internal static string SBL {
@@ -894,6 +930,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string SBL2 {
             get {
                 return ResourceManager.GetString("SBL2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cutlass ähnelt.
+        /// </summary>
+        internal static string SBL3 {
+            get {
+                return ResourceManager.GetString("SBL3", resourceCulture);
             }
         }
         

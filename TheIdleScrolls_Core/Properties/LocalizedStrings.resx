@@ -129,6 +129,9 @@
   <data name="AXE2" xml:space="preserve">
     <value>Battle Axe</value>
   </data>
+  <data name="AXE3" xml:space="preserve">
+    <value>War Cleaver</value>
+  </data>
   <data name="BEAR" xml:space="preserve">
     <value>Bear</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="BLN2" xml:space="preserve">
     <value>Warhammer</value>
+  </data>
+  <data name="BLN3" xml:space="preserve">
+    <value>Morning Star</value>
   </data>
   <data name="BOAR" xml:space="preserve">
     <value>Wild Boar</value>
@@ -274,7 +280,10 @@
     <value>Long Sword</value>
   </data>
   <data name="LBL2" xml:space="preserve">
-    <value>Claymore</value>
+    <value>Two-Handed Sword</value>
+  </data>
+  <data name="LBL3" xml:space="preserve">
+    <value>Curved Sword</value>
   </data>
   <data name="LIGHTHOUSE" xml:space="preserve">
     <value>The Lighthouse</value>
@@ -384,6 +393,9 @@
   <data name="POL2" xml:space="preserve">
     <value>Hunting Spear</value>
   </data>
+  <data name="POL3" xml:space="preserve">
+    <value>War Pike</value>
+  </data>
   <data name="SBL" xml:space="preserve">
     <value>Short Blade</value>
   </data>
@@ -395,6 +407,9 @@
   </data>
   <data name="SBL2" xml:space="preserve">
     <value>Short Sword</value>
+  </data>
+  <data name="SBL3" xml:space="preserve">
+    <value>Cutlass</value>
   </data>
   <data name="TEMPLE" xml:space="preserve">
     <value>Ancient Temple</value>

@@ -35,6 +35,17 @@
             "BaseDamage": 8.0,
             "BaseCooldown": 1.05
           }
+        },
+        {
+          "DropLevel": 30,
+          "ValidMaterials": [ "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Hand"
+          },
+          "Weapon": {
+            "BaseDamage": 8.0,
+            "BaseCooldown": 0.95
+          }
         }
       ]
     },
@@ -72,6 +83,17 @@
           "Weapon": {
             "BaseDamage": 15.0,
             "BaseCooldown": 1.85
+          }
+        },
+        {
+          "DropLevel": 30,
+          "ValidMaterials": [ "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Hand"
+          },
+          "Weapon": {
+            "BaseDamage": 14.0,
+            "BaseCooldown": 1.55
           }
         }
       ]
@@ -111,6 +133,17 @@
             "BaseDamage": 15.0,
             "BaseCooldown": 1.85
           }
+        },
+        {
+          "DropLevel": 30,
+          "ValidMaterials": [ "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Hand"
+          },
+          "Weapon": {
+            "BaseDamage": 12.0,
+            "BaseCooldown": 1.35
+          }
         }
       ]
     },
@@ -149,6 +182,17 @@
             "BaseDamage": 16.0,
             "BaseCooldown": 1.95
           }
+        },
+        {
+          "DropLevel": 30,
+          "ValidMaterials": [ "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Hand"
+          },
+          "Weapon": {
+            "BaseDamage": 15.0,
+            "BaseCooldown": 1.65
+          }
         }
       ]
     },
@@ -186,6 +230,17 @@
           "Weapon": {
             "BaseDamage": 11.0,
             "BaseCooldown": 1.4
+          }
+        },
+        {
+          "DropLevel": 30,
+          "ValidMaterials": [ "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Hand"
+          },
+          "Weapon": {
+            "BaseDamage": 21.0,
+            "BaseCooldown": 2.25
           }
         }
       ]
