@@ -83,15 +83,25 @@ namespace TheIdleScrollsApp
         {
             switch (rarity)
             {
-                case 1: return Color.Purple;
-                case 2: return Color.MediumBlue;
-                case 3: return Color.Teal;
-                case 4: return Color.ForestGreen;
-                case 5: return Color.YellowGreen;
-                case 6: return Color.Goldenrod;
-                case 7: return Color.Red;
+                case -1: return Color.Gray;
+                case 1:  return Color.Purple;
+                case 2:  return Color.MediumBlue;
+                case 3:  return Color.Teal;
+                case 4:  return Color.ForestGreen;
+                case 5:  return Color.YellowGreen;
+                case 6:  return Color.Goldenrod;
+                case 7:  return Color.Red;
                 default: return Color.Black;
             }
+        }
+
+        private static FontStyle GetFontStyleForRarity(int rarity)
+        {
+            if (rarity == -1)
+                return FontStyle.Italic;
+            else if (rarity > 0)
+                return FontStyle.Bold;
+            return FontStyle.Regular;
         }
 
         public void SetFeatureAvailable(GameFeature area, bool available)
@@ -99,14 +109,15 @@ namespace TheIdleScrollsApp
             if (GameFeature.Inventory == area)
             {
                 tabControl1.TabPages["tabInventory"].Text = available ? "Inventory" : "";
-                hdrEqWeapon.Visible = available;
                 lblEqWeapon.Visible = available;
                 gridInventory.Visible = available;
             } 
             else if (GameFeature.Armor == area)
             {
-                hdrEqArmor.Visible = available;
-                lblEqArmor.Visible = available;
+                lblEqChest.Visible = available;
+                lblEqHelmet.Visible = available;
+                lblEqGloves.Visible = available;
+                lblEqBoots.Visible = available;
             }
             else if (GameFeature.Abilities == area)
             {
@@ -231,22 +242,25 @@ namespace TheIdleScrollsApp
                     switch (slot)
                     {
                         case EquipmentSlot.Hand: m_Equipment.Hand = item; break;
-                        case EquipmentSlot.Armor: m_Equipment.Armor = item; break;
+                        case EquipmentSlot.Chest: m_Equipment.Chest = item; break;
                     }
                 }
             }
 
             var SetLabelItem = (Label label, ItemRepresentation? item) =>
             {
-                int rarity = item?.Rarity ?? 0;
-                label.Text = item?.Name ?? "";
+                int rarity = item?.Rarity ?? -1;
+                label.Text = item?.Name ?? label.Tag.ToString();
                 label.ForeColor = GetColorForRarity(rarity);
-                label.Font = new Font(label.Font, (rarity > 0) ? FontStyle.Bold : FontStyle.Regular);
+                label.Font = new Font(label.Font, GetFontStyleForRarity(rarity));
                 toolTip.SetToolTip(label, item?.Description?.Replace("; ", "\n") ?? "");
             };
 
             SetLabelItem(lblEqWeapon, m_Equipment.Hand);
-            SetLabelItem(lblEqArmor, m_Equipment.Armor);
+            SetLabelItem(lblEqChest, m_Equipment.Chest);
+            SetLabelItem(lblEqHelmet, m_Equipment.Head);
+            SetLabelItem(lblEqGloves, m_Equipment.Arms);
+            SetLabelItem(lblEqBoots, m_Equipment.Legs);
 
             lblAttack.Text = "Attack" + ((m_Equipment.Hand != null) ? $"\n({m_Equipment.Hand?.Name})" : "");
         }
@@ -361,8 +375,8 @@ namespace TheIdleScrollsApp
 
         private void lblEqArmor_DoubleClick(object sender, EventArgs e)
         {
-            if (m_Equipment.Armor != null)
-                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Armor.Id);
+            if (m_Equipment.Chest != null)
+                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Chest.Id);
         }
 
         private void btnAreaPrev_Click(object sender, EventArgs e)
@@ -395,7 +409,7 @@ namespace TheIdleScrollsApp
             var cell = gridInventory.Rows[e.RowIndex].Cells[1];
             int rarity = m_Inventory[e.RowIndex].Rarity;
             cell.Style.ForeColor = GetColorForRarity(rarity);
-            cell.Style.Font = new Font(gridInventory.Font, (rarity > 0) ? FontStyle.Bold : FontStyle.Regular);
+            cell.Style.Font = new Font(gridInventory.Font, GetFontStyleForRarity(rarity));
         }
 
         private void gridInventory_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
@@ -436,12 +450,16 @@ namespace TheIdleScrollsApp
                 }
             }
         }
+
     }
 
     class Equipment
     {
         public ItemRepresentation? Hand { get; set; }
-        public ItemRepresentation? Armor { get; set; }
+        public ItemRepresentation? Chest { get; set; }
+        public ItemRepresentation? Head { get; set; }
+        public ItemRepresentation? Arms { get; set; }
+        public ItemRepresentation? Legs { get; set; }
 
         public Equipment()
         {
@@ -451,7 +469,10 @@ namespace TheIdleScrollsApp
         public void Clear()
         {
             Hand = null;
-            Armor = null;
+            Chest = null;
+            Head = null;
+            Arms = null;
+            Legs = null;
         }
     }
 

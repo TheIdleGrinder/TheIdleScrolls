@@ -70,11 +70,10 @@
             this.lblCharName = new System.Windows.Forms.Label();
             this.tabInventory = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.lblEqHelmet = new System.Windows.Forms.Label();
             this.lblCoins = new System.Windows.Forms.Label();
-            this.lblEqArmor = new System.Windows.Forms.Label();
+            this.lblEqChest = new System.Windows.Forms.Label();
             this.lblEqWeapon = new System.Windows.Forms.Label();
-            this.hdrEqWeapon = new System.Windows.Forms.Label();
-            this.hdrEqArmor = new System.Windows.Forms.Label();
             this.gridInventory = new System.Windows.Forms.DataGridView();
             this.cMenuInventory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cMenuInventorySell = new System.Windows.Forms.ToolStripMenuItem();
@@ -92,6 +91,8 @@
             this.textBoxStats = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFooter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblEqGloves = new System.Windows.Forms.Label();
+            this.lblEqBoots = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -646,24 +647,35 @@
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.lblEqBoots);
+            this.splitContainer3.Panel1.Controls.Add(this.lblEqGloves);
+            this.splitContainer3.Panel1.Controls.Add(this.lblEqHelmet);
             this.splitContainer3.Panel1.Controls.Add(this.lblCoins);
-            this.splitContainer3.Panel1.Controls.Add(this.lblEqArmor);
+            this.splitContainer3.Panel1.Controls.Add(this.lblEqChest);
             this.splitContainer3.Panel1.Controls.Add(this.lblEqWeapon);
-            this.splitContainer3.Panel1.Controls.Add(this.hdrEqWeapon);
-            this.splitContainer3.Panel1.Controls.Add(this.hdrEqArmor);
             // 
             // splitContainer3.Panel2
             // 
             this.splitContainer3.Panel2.Controls.Add(this.gridInventory);
             this.splitContainer3.Size = new System.Drawing.Size(594, 501);
-            this.splitContainer3.SplitterDistance = 74;
+            this.splitContainer3.SplitterDistance = 108;
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 6;
+            // 
+            // lblEqHelmet
+            // 
+            this.lblEqHelmet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEqHelmet.Location = new System.Drawing.Point(209, 10);
+            this.lblEqHelmet.Name = "lblEqHelmet";
+            this.lblEqHelmet.Size = new System.Drawing.Size(200, 23);
+            this.lblEqHelmet.TabIndex = 6;
+            this.lblEqHelmet.Tag = "Helmet";
+            this.lblEqHelmet.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lblCoins
             // 
             this.lblCoins.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCoins.Location = new System.Drawing.Point(476, 57);
+            this.lblCoins.Location = new System.Drawing.Point(476, 91);
             this.lblCoins.Margin = new System.Windows.Forms.Padding(0);
             this.lblCoins.Name = "lblCoins";
             this.lblCoins.Size = new System.Drawing.Size(116, 15);
@@ -671,43 +683,27 @@
             this.lblCoins.Text = "XX Coins";
             this.lblCoins.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // lblEqArmor
+            // lblEqChest
             // 
-            this.lblEqArmor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqArmor.Location = new System.Drawing.Point(365, 21);
-            this.lblEqArmor.Name = "lblEqArmor";
-            this.lblEqArmor.Size = new System.Drawing.Size(200, 23);
-            this.lblEqArmor.TabIndex = 5;
-            this.lblEqArmor.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblEqArmor.DoubleClick += new System.EventHandler(this.lblEqArmor_DoubleClick);
+            this.lblEqChest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEqChest.Location = new System.Drawing.Point(209, 45);
+            this.lblEqChest.Name = "lblEqChest";
+            this.lblEqChest.Size = new System.Drawing.Size(200, 23);
+            this.lblEqChest.TabIndex = 5;
+            this.lblEqChest.Tag = "Chest Armor";
+            this.lblEqChest.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblEqChest.DoubleClick += new System.EventHandler(this.lblEqArmor_DoubleClick);
             // 
             // lblEqWeapon
             // 
             this.lblEqWeapon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqWeapon.Location = new System.Drawing.Point(81, 21);
+            this.lblEqWeapon.Location = new System.Drawing.Point(3, 45);
             this.lblEqWeapon.Name = "lblEqWeapon";
             this.lblEqWeapon.Size = new System.Drawing.Size(200, 23);
             this.lblEqWeapon.TabIndex = 3;
+            this.lblEqWeapon.Tag = "Weapon";
             this.lblEqWeapon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblEqWeapon.DoubleClick += new System.EventHandler(this.lblEqWeapon_DoubleClick);
-            // 
-            // hdrEqWeapon
-            // 
-            this.hdrEqWeapon.AutoSize = true;
-            this.hdrEqWeapon.Location = new System.Drawing.Point(24, 25);
-            this.hdrEqWeapon.Name = "hdrEqWeapon";
-            this.hdrEqWeapon.Size = new System.Drawing.Size(51, 15);
-            this.hdrEqWeapon.TabIndex = 1;
-            this.hdrEqWeapon.Text = "Weapon";
-            // 
-            // hdrEqArmor
-            // 
-            this.hdrEqArmor.AutoSize = true;
-            this.hdrEqArmor.Location = new System.Drawing.Point(318, 25);
-            this.hdrEqArmor.Name = "hdrEqArmor";
-            this.hdrEqArmor.Size = new System.Drawing.Size(41, 15);
-            this.hdrEqArmor.TabIndex = 4;
-            this.hdrEqArmor.Text = "Armor";
             // 
             // gridInventory
             // 
@@ -725,7 +721,7 @@
             this.gridInventory.RowTemplate.Height = 25;
             this.gridInventory.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridInventory.Size = new System.Drawing.Size(594, 426);
+            this.gridInventory.Size = new System.Drawing.Size(594, 392);
             this.gridInventory.TabIndex = 0;
             this.gridInventory.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.gridInventory_CellContextMenuStripNeeded);
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
@@ -904,6 +900,26 @@
             this.lblFooter.Size = new System.Drawing.Size(118, 17);
             this.lblFooter.Text = "toolStripStatusLabel1";
             // 
+            // lblEqGloves
+            // 
+            this.lblEqGloves.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEqGloves.Location = new System.Drawing.Point(106, 76);
+            this.lblEqGloves.Name = "lblEqGloves";
+            this.lblEqGloves.Size = new System.Drawing.Size(200, 23);
+            this.lblEqGloves.TabIndex = 7;
+            this.lblEqGloves.Tag = "Gloves";
+            this.lblEqGloves.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // lblEqBoots
+            // 
+            this.lblEqBoots.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEqBoots.Location = new System.Drawing.Point(312, 76);
+            this.lblEqBoots.Name = "lblEqBoots";
+            this.lblEqBoots.Size = new System.Drawing.Size(200, 23);
+            this.lblEqBoots.TabIndex = 8;
+            this.lblEqBoots.Tag = "Boots";
+            this.lblEqBoots.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -931,7 +947,6 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tabInventory.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
-            this.splitContainer3.Panel1.PerformLayout();
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
@@ -983,10 +998,8 @@
         private Label lblCharLevel;
         private Label lblCharName;
         private TabPage tabInventory;
-        private Label lblEqArmor;
-        private Label hdrEqArmor;
+        private Label lblEqChest;
         private Label lblEqWeapon;
-        private Label hdrEqWeapon;
         private DataGridView gridInventory;
         private TabPage tabAbilities;
         private DataGridView gridAbilities;
@@ -1014,5 +1027,8 @@
         private Label lblCoins;
         private ContextMenuStrip cMenuInventory;
         private ToolStripMenuItem cMenuInventorySell;
+        private Label lblEqHelmet;
+        private Label lblEqBoots;
+        private Label lblEqGloves;
     }
 }
