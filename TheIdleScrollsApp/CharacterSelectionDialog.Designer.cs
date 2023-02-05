@@ -103,6 +103,7 @@
             this.listBoxChars.Name = "listBoxChars";
             this.listBoxChars.Size = new System.Drawing.Size(278, 227);
             this.listBoxChars.TabIndex = 0;
+            this.listBoxChars.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBoxChars_MouseDoubleClick);
             // 
             // btnSelect
             // 

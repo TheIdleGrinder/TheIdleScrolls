@@ -73,5 +73,14 @@ namespace TheIdleScrollsApp
                 btnCreate_Click(sender, e); // Incorrect sender does not matter here
             }
         }
+
+        private void listBoxChars_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            int row = listBoxChars.IndexFromPoint(e.Location);
+            if (row >= 0)
+            {
+                btnSelect_Click(sender, e); // Incorrect sender does not matter here
+            }
+        }
     }
 }
