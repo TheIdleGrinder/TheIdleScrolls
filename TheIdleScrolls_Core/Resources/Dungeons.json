@@ -2,7 +2,7 @@
   "Dungeons": [
     {
       "Name": "CRYPT",
-      "Level": 15,
+      "Level": 12,
       "Rarity": 0,
       "Floors": [
         {
@@ -74,8 +74,8 @@
     },
     {
       "Name": "LIGHTHOUSE",
-      "Level": 25,
-      "Condition": "Wilderness >= 25",
+      "Level": 20,
+      "Condition": "Wilderness >= 20",
       "Rarity": 1,
       "Floors": [
         {
@@ -133,7 +133,7 @@
     },
     {
       "Name": "TEMPLE",
-      "Level": 35,
+      "Level": 30,
       "Condition": "dng:LIGHTHOUSE",
       "Rarity": 1,
       "Floors": [
@@ -202,8 +202,8 @@
     },
     {
       "Name": "MERCCAMP",
-      "Level": 45,
-      "Condition": "Wilderness >= 45",
+      "Level": 40,
+      "Condition": "Wilderness >= 40",
       "Rarity": 0,
       "Floors": [
         {
@@ -241,7 +241,7 @@
     },
     {
       "Name": "CASTLE",
-      "Level": 55,
+      "Level": 50,
       "Condition": "dng:TEMPLE",
       "Rarity": 1,
       "Floors": [

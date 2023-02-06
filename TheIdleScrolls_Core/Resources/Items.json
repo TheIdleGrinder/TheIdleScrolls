@@ -261,7 +261,7 @@
           }
         },
         {
-          "DropLevel": 20,
+          "DropLevel": 15,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Chest",
@@ -273,7 +273,7 @@
           }
         },
         {
-          "DropLevel": 21,
+          "DropLevel": 16,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Head",
@@ -285,7 +285,7 @@
           }
         },
         {
-          "DropLevel": 18,
+          "DropLevel": 13,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Arms",
@@ -297,7 +297,7 @@
           }
         },
         {
-          "DropLevel": 19,
+          "DropLevel": 14,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Legs",
@@ -309,7 +309,7 @@
           }
         },
         {
-          "DropLevel": 30,
+          "DropLevel": 25,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Chest",
@@ -321,7 +321,7 @@
           }
         },
         {
-          "DropLevel": 31,
+          "DropLevel": 26,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Head",
@@ -333,7 +333,7 @@
           }
         },
         {
-          "DropLevel": 28,
+          "DropLevel": 23,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Arms",
@@ -345,7 +345,7 @@
           }
         },
         {
-          "DropLevel": 29,
+          "DropLevel": 24,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Legs",
@@ -374,7 +374,7 @@
           }
         },
         {
-          "DropLevel": 20,
+          "DropLevel": 15,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Chest",
@@ -386,7 +386,7 @@
           }
         },
         {
-          "DropLevel": 21,
+          "DropLevel": 16,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Head",
@@ -398,7 +398,7 @@
           }
         },
         {
-          "DropLevel": 18,
+          "DropLevel": 13,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Arms",
@@ -410,7 +410,7 @@
           }
         },
         {
-          "DropLevel": 19,
+          "DropLevel": 14,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Legs",
@@ -422,7 +422,7 @@
           }
         },
         {
-          "DropLevel": 30,
+          "DropLevel": 25,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Chest",
@@ -434,7 +434,7 @@
           }
         },
         {
-          "DropLevel": 31,
+          "DropLevel": 26,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Head",
@@ -446,7 +446,7 @@
           }
         },
         {
-          "DropLevel": 28,
+          "DropLevel": 23,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Arms",
@@ -458,7 +458,7 @@
           }
         },
         {
-          "DropLevel": 29,
+          "DropLevel": 24,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Legs",
