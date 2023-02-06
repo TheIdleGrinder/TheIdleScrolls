@@ -477,7 +477,7 @@
         }
       ],
       "Rewards": {
-        "MinDropLevel": 45,
+        "MinDropLevel": 46,
         "UseLeveledLoot": true,
         "SpecialRewards": []
       }

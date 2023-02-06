@@ -60,7 +60,7 @@ namespace TheIdleScrolls_Core.Systems
             var abilitiesComp = m_player?.GetComponent<AbilitiesComponent>();
             if (abilitiesComp == null)
                 return;
-            var share = fullAmount / itemFamilies.Count; // Split experience among families of all equipped weapons
+            var share = fullAmount / itemFamilies.Count; // Split experience among families of all equipped weapons/armors
 
             foreach (string item in itemFamilies)
             {

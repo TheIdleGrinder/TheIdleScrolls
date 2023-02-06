@@ -70,6 +70,8 @@
             this.lblCharName = new System.Windows.Forms.Label();
             this.tabInventory = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.lblEqBoots = new System.Windows.Forms.Label();
+            this.lblEqGloves = new System.Windows.Forms.Label();
             this.lblEqHelmet = new System.Windows.Forms.Label();
             this.lblCoins = new System.Windows.Forms.Label();
             this.lblEqChest = new System.Windows.Forms.Label();
@@ -91,8 +93,6 @@
             this.textBoxStats = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFooter = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblEqGloves = new System.Windows.Forms.Label();
-            this.lblEqBoots = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -662,6 +662,28 @@
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 6;
             // 
+            // lblEqBoots
+            // 
+            this.lblEqBoots.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEqBoots.Location = new System.Drawing.Point(312, 76);
+            this.lblEqBoots.Name = "lblEqBoots";
+            this.lblEqBoots.Size = new System.Drawing.Size(200, 23);
+            this.lblEqBoots.TabIndex = 8;
+            this.lblEqBoots.Tag = "Boots";
+            this.lblEqBoots.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblEqBoots.DoubleClick += new System.EventHandler(this.lblEqBoots_DoubleClick);
+            // 
+            // lblEqGloves
+            // 
+            this.lblEqGloves.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblEqGloves.Location = new System.Drawing.Point(106, 76);
+            this.lblEqGloves.Name = "lblEqGloves";
+            this.lblEqGloves.Size = new System.Drawing.Size(200, 23);
+            this.lblEqGloves.TabIndex = 7;
+            this.lblEqGloves.Tag = "Gloves";
+            this.lblEqGloves.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblEqGloves.DoubleClick += new System.EventHandler(this.lblEqGloves_DoubleClick);
+            // 
             // lblEqHelmet
             // 
             this.lblEqHelmet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -671,6 +693,7 @@
             this.lblEqHelmet.TabIndex = 6;
             this.lblEqHelmet.Tag = "Helmet";
             this.lblEqHelmet.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblEqHelmet.DoubleClick += new System.EventHandler(this.lblEqHelmet_DoubleClick);
             // 
             // lblCoins
             // 
@@ -692,7 +715,7 @@
             this.lblEqChest.TabIndex = 5;
             this.lblEqChest.Tag = "Chest Armor";
             this.lblEqChest.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblEqChest.DoubleClick += new System.EventHandler(this.lblEqArmor_DoubleClick);
+            this.lblEqChest.DoubleClick += new System.EventHandler(this.lblEqChest_DoubleClick);
             // 
             // lblEqWeapon
             // 
@@ -899,26 +922,6 @@
             this.lblFooter.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
             this.lblFooter.Size = new System.Drawing.Size(118, 17);
             this.lblFooter.Text = "toolStripStatusLabel1";
-            // 
-            // lblEqGloves
-            // 
-            this.lblEqGloves.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqGloves.Location = new System.Drawing.Point(106, 76);
-            this.lblEqGloves.Name = "lblEqGloves";
-            this.lblEqGloves.Size = new System.Drawing.Size(200, 23);
-            this.lblEqGloves.TabIndex = 7;
-            this.lblEqGloves.Tag = "Gloves";
-            this.lblEqGloves.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // lblEqBoots
-            // 
-            this.lblEqBoots.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqBoots.Location = new System.Drawing.Point(312, 76);
-            this.lblEqBoots.Name = "lblEqBoots";
-            this.lblEqBoots.Size = new System.Drawing.Size(200, 23);
-            this.lblEqBoots.TabIndex = 8;
-            this.lblEqBoots.Tag = "Boots";
-            this.lblEqBoots.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // MainWindow
             // 

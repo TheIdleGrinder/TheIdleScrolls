@@ -110,8 +110,8 @@ namespace TheIdleScrolls_Core.Items
         public static void UpdateItemValue(Entity item)
         {
             ItemIdentifier id = item.GetComponent<ItemComponent>()?.Code ?? throw new Exception($"Entity {item.GetName()} is not an item");
-            double baseValue = 10.0;
-            int tier = id.GenusIndex;
+            double baseValue = 5.0;
+            int tier = (int)Math.Sqrt(id.GetGenusDescription().DropLevel);
             int rarity = id.RarityLevel;
             double matMulti = id.GetMaterial().PowerMultiplier;
 

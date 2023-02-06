@@ -243,6 +243,9 @@ namespace TheIdleScrollsApp
                     {
                         case EquipmentSlot.Hand: m_Equipment.Hand = item; break;
                         case EquipmentSlot.Chest: m_Equipment.Chest = item; break;
+                        case EquipmentSlot.Head: m_Equipment.Head = item; break;
+                        case EquipmentSlot.Arms: m_Equipment.Arms = item; break;
+                        case EquipmentSlot.Legs: m_Equipment.Legs = item; break;
                     }
                 }
             }
@@ -373,10 +376,27 @@ namespace TheIdleScrollsApp
                 m_inputHandler.UnequipItem(m_playerId, m_Equipment.Hand.Id);
         }
 
-        private void lblEqArmor_DoubleClick(object sender, EventArgs e)
+        private void lblEqChest_DoubleClick(object sender, EventArgs e)
         {
             if (m_Equipment.Chest != null)
                 m_inputHandler.UnequipItem(m_playerId, m_Equipment.Chest.Id);
+        }
+        private void lblEqHelmet_DoubleClick(object sender, EventArgs e)
+        {
+            if (m_Equipment.Head != null)
+                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Head.Id);
+        }
+
+        private void lblEqGloves_DoubleClick(object sender, EventArgs e)
+        {
+            if (m_Equipment.Arms != null)
+                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Arms.Id);
+        }
+
+        private void lblEqBoots_DoubleClick(object sender, EventArgs e)
+        {
+            if (m_Equipment.Legs != null)
+                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Legs.Id);
         }
 
         private void btnAreaPrev_Click(object sender, EventArgs e)
