@@ -253,28 +253,28 @@
     <value>Heavy Armor</value>
   </data>
   <data name="HAR1" xml:space="preserve">
-    <value>Breast Plate</value>
+    <value>Chain Mail</value>
   </data>
   <data name="HAR2" xml:space="preserve">
     <value>Helmet</value>
   </data>
   <data name="HAR3" xml:space="preserve">
-    <value>Gauntlets</value>
+    <value>Chain Gloves</value>
   </data>
   <data name="HAR4" xml:space="preserve">
-    <value>Greaves</value>
+    <value>Chain Boots</value>
   </data>
   <data name="HAR5" xml:space="preserve">
-    <value>Harness</value>
+    <value>Breast Plate</value>
   </data>
   <data name="HAR6" xml:space="preserve">
     <value>Full Helm</value>
   </data>
   <data name="HAR7" xml:space="preserve">
-    <value>Bracers</value>
+    <value>Gauntlets</value>
   </data>
   <data name="HAR8" xml:space="preserve">
-    <value>Platelegs</value>
+    <value>Greaves</value>
   </data>
   <data name="LABYRINTH" xml:space="preserve">
     <value>Labyrinth</value>
@@ -289,7 +289,7 @@
     <value>Light Armor</value>
   </data>
   <data name="LAR1" xml:space="preserve">
-    <value>Chest Guard</value>
+    <value>Surcoat</value>
   </data>
   <data name="LAR2" xml:space="preserve">
     <value>Hood</value>
@@ -298,7 +298,7 @@
     <value>Gloves</value>
   </data>
   <data name="LAR4" xml:space="preserve">
-    <value>Boots</value>
+    <value>Shoes</value>
   </data>
   <data name="LAR5" xml:space="preserve">
     <value>Cuirass</value>
@@ -307,10 +307,10 @@
     <value>Helmet</value>
   </data>
   <data name="LAR7" xml:space="preserve">
-    <value>Gauntlets</value>
+    <value>Mitts</value>
   </data>
   <data name="LAR8" xml:space="preserve">
-    <value>Greaves</value>
+    <value>Boots</value>
   </data>
   <data name="LBL" xml:space="preserve">
     <value>Long Blade</value>

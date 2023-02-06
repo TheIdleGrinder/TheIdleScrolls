@@ -466,7 +466,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Breast Plate ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Chain Mail ähnelt.
         /// </summary>
         internal static string HAR1 {
             get {
@@ -484,7 +484,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Gauntlets ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Chain Gloves ähnelt.
         /// </summary>
         internal static string HAR3 {
             get {
@@ -493,7 +493,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Greaves ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Chain Boots ähnelt.
         /// </summary>
         internal static string HAR4 {
             get {
@@ -502,7 +502,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Harness ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Breast Plate ähnelt.
         /// </summary>
         internal static string HAR5 {
             get {
@@ -520,7 +520,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Bracers ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gauntlets ähnelt.
         /// </summary>
         internal static string HAR7 {
             get {
@@ -529,7 +529,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Platelegs ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Greaves ähnelt.
         /// </summary>
         internal static string HAR8 {
             get {
@@ -574,7 +574,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Chest Guard ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Surcoat ähnelt.
         /// </summary>
         internal static string LAR1 {
             get {
@@ -601,7 +601,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boots ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shoes ähnelt.
         /// </summary>
         internal static string LAR4 {
             get {
@@ -628,7 +628,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Gauntlets ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Mitts ähnelt.
         /// </summary>
         internal static string LAR7 {
             get {
@@ -637,7 +637,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Greaves ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boots ähnelt.
         /// </summary>
         internal static string LAR8 {
             get {

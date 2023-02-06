@@ -4,7 +4,7 @@
       "Id": "SBL",
       "Genera": [
         {
-          "DropLevel": 1,
+          "DropLevel": 0,
           "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Hand"
@@ -53,7 +53,7 @@
       "Id": "LBL",
       "Genera": [
         {
-          "DropLevel": 1,
+          "DropLevel": 0,
           "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Hand"
@@ -102,7 +102,7 @@
       "Id": "AXE",
       "Genera": [
         {
-          "DropLevel": 1,
+          "DropLevel": 0,
           "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Hand"
@@ -151,7 +151,7 @@
       "Id": "BLN",
       "Genera": [
         {
-          "DropLevel": 1,
+          "DropLevel": 0,
           "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Hand"
@@ -200,7 +200,7 @@
       "Id": "POL",
       "Genera": [
         {
-          "DropLevel": 1,
+          "DropLevel": 0,
           "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Hand"
@@ -249,14 +249,14 @@
       "Id": "LAR",
       "Genera": [
         {
-          "DropLevel": 5,
+          "DropLevel": 0,
           "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Chest",
-            "Encumbrance": 10.0
+            "Encumbrance": 6.0
           },
           "Armor": {
-            "BaseArmor": 20.0,
+            "BaseArmor": 12.0,
             "BaseEvasion": 0.0
           }
         },
@@ -273,7 +273,7 @@
           }
         },
         {
-          "DropLevel": 20,
+          "DropLevel": 21,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Head",
@@ -285,7 +285,7 @@
           }
         },
         {
-          "DropLevel": 20,
+          "DropLevel": 18,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Arms",
@@ -297,7 +297,7 @@
           }
         },
         {
-          "DropLevel": 20,
+          "DropLevel": 19,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
             "Slot": "Legs",
@@ -307,6 +307,54 @@
             "BaseArmor": 7.0,
             "BaseEvasion": 0.0
           }
+        },
+        {
+          "DropLevel": 30,
+          "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
+          "Equippable": {
+            "Slot": "Chest",
+            "Encumbrance": 6.0
+          },
+          "Armor": {
+            "BaseArmor": 18.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 31,
+          "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
+          "Equippable": {
+            "Slot": "Head",
+            "Encumbrance": 4.0
+          },
+          "Armor": {
+            "BaseArmor": 12.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 28,
+          "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
+          "Equippable": {
+            "Slot": "Arms",
+            "Encumbrance": 2.5
+          },
+          "Armor": {
+            "BaseArmor": 9.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 29,
+          "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
+          "Equippable": {
+            "Slot": "Legs",
+            "Encumbrance": 2.5
+          },
+          "Armor": {
+            "BaseArmor": 9.0,
+            "BaseEvasion": 0.0
+          }
         }
       ]
     },
@@ -314,14 +362,14 @@
       "Id": "HAR",
       "Genera": [
         {
-          "DropLevel": 5,
+          "DropLevel": 0,
           "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
             "Slot": "Chest",
-            "Encumbrance": 20.0
+            "Encumbrance": 12.0
           },
           "Armor": {
-            "BaseArmor": 50.0,
+            "BaseArmor": 24.0,
             "BaseEvasion": 0.0
           }
         },
@@ -338,7 +386,7 @@
           }
         },
         {
-          "DropLevel": 20,
+          "DropLevel": 21,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Head",
@@ -350,7 +398,7 @@
           }
         },
         {
-          "DropLevel": 20,
+          "DropLevel": 18,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Arms",
@@ -362,7 +410,7 @@
           }
         },
         {
-          "DropLevel": 20,
+          "DropLevel": 19,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
             "Slot": "Legs",
@@ -370,6 +418,54 @@
           },
           "Armor": {
             "BaseArmor": 14.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 30,
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Chest",
+            "Encumbrance": 12.0
+          },
+          "Armor": {
+            "BaseArmor": 36.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 31,
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Head",
+            "Encumbrance": 8.0
+          },
+          "Armor": {
+            "BaseArmor": 24.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 28,
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Arms",
+            "Encumbrance": 5.0
+          },
+          "Armor": {
+            "BaseArmor": 18.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 29,
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Legs",
+            "Encumbrance": 5.0
+          },
+          "Armor": {
+            "BaseArmor": 18.0,
             "BaseEvasion": 0.0
           }
         }
@@ -402,7 +498,7 @@
       "InverseWeight": 15000
     },
     {
-      "MinLevel": 130,
+      "MinLevel": 150,
       "InverseWeight": 75000
     }
   ],
