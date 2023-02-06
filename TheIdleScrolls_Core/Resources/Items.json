@@ -252,11 +252,11 @@
           "DropLevel": 5,
           "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
-            "Slot": "Armor",
+            "Slot": "Chest",
             "Encumbrance": 10.0
           },
           "Armor": {
-            "BaseArmor": 30.0,
+            "BaseArmor": 20.0,
             "BaseEvasion": 0.0
           }
         },
@@ -264,11 +264,47 @@
           "DropLevel": 20,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
-            "Slot": "Armor",
-            "Encumbrance": 12.5
+            "Slot": "Chest",
+            "Encumbrance": 6.0
           },
           "Armor": {
-            "BaseArmor": 60.0,
+            "BaseArmor": 16.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 20,
+          "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
+          "Equippable": {
+            "Slot": "Head",
+            "Encumbrance": 4.0
+          },
+          "Armor": {
+            "BaseArmor": 10.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 20,
+          "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
+          "Equippable": {
+            "Slot": "Arms",
+            "Encumbrance": 2.5
+          },
+          "Armor": {
+            "BaseArmor": 7.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 20,
+          "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
+          "Equippable": {
+            "Slot": "Legs",
+            "Encumbrance": 2.5
+          },
+          "Armor": {
+            "BaseArmor": 7.0,
             "BaseEvasion": 0.0
           }
         }
@@ -281,7 +317,7 @@
           "DropLevel": 5,
           "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
-            "Slot": "Armor",
+            "Slot": "Chest",
             "Encumbrance": 20.0
           },
           "Armor": {
@@ -293,11 +329,47 @@
           "DropLevel": 20,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
-            "Slot": "Armor",
-            "Encumbrance": 25.0
+            "Slot": "Chest",
+            "Encumbrance": 12.0
           },
           "Armor": {
-            "BaseArmor": 100.0,
+            "BaseArmor": 32.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 20,
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Head",
+            "Encumbrance": 8.0
+          },
+          "Armor": {
+            "BaseArmor": 20.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 20,
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Arms",
+            "Encumbrance": 5.0
+          },
+          "Armor": {
+            "BaseArmor": 14.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 20,
+          "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
+          "Equippable": {
+            "Slot": "Legs",
+            "Encumbrance": 5.0
+          },
+          "Armor": {
+            "BaseArmor": 14.0,
             "BaseEvasion": 0.0
           }
         }

@@ -466,11 +466,74 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Plate Armor ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Breast Plate ähnelt.
         /// </summary>
         internal static string HAR1 {
             get {
                 return ResourceManager.GetString("HAR1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Helmet ähnelt.
+        /// </summary>
+        internal static string HAR2 {
+            get {
+                return ResourceManager.GetString("HAR2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gauntlets ähnelt.
+        /// </summary>
+        internal static string HAR3 {
+            get {
+                return ResourceManager.GetString("HAR3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Greaves ähnelt.
+        /// </summary>
+        internal static string HAR4 {
+            get {
+                return ResourceManager.GetString("HAR4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Harness ähnelt.
+        /// </summary>
+        internal static string HAR5 {
+            get {
+                return ResourceManager.GetString("HAR5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Full Helm ähnelt.
+        /// </summary>
+        internal static string HAR6 {
+            get {
+                return ResourceManager.GetString("HAR6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bracers ähnelt.
+        /// </summary>
+        internal static string HAR7 {
+            get {
+                return ResourceManager.GetString("HAR7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Platelegs ähnelt.
+        /// </summary>
+        internal static string HAR8 {
+            get {
+                return ResourceManager.GetString("HAR8", resourceCulture);
             }
         }
         
@@ -511,11 +574,74 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Padded Armor ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Chest Guard ähnelt.
         /// </summary>
         internal static string LAR1 {
             get {
                 return ResourceManager.GetString("LAR1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hood ähnelt.
+        /// </summary>
+        internal static string LAR2 {
+            get {
+                return ResourceManager.GetString("LAR2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gloves ähnelt.
+        /// </summary>
+        internal static string LAR3 {
+            get {
+                return ResourceManager.GetString("LAR3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boots ähnelt.
+        /// </summary>
+        internal static string LAR4 {
+            get {
+                return ResourceManager.GetString("LAR4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cuirass ähnelt.
+        /// </summary>
+        internal static string LAR5 {
+            get {
+                return ResourceManager.GetString("LAR5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Helmet ähnelt.
+        /// </summary>
+        internal static string LAR6 {
+            get {
+                return ResourceManager.GetString("LAR6", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gauntlets ähnelt.
+        /// </summary>
+        internal static string LAR7 {
+            get {
+                return ResourceManager.GetString("LAR7", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Greaves ähnelt.
+        /// </summary>
+        internal static string LAR8 {
+            get {
+                return ResourceManager.GetString("LAR8", resourceCulture);
             }
         }
         
