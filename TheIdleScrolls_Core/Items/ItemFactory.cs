@@ -148,6 +148,26 @@ namespace TheIdleScrolls_Core.Items
             return rarity;
         }
 
+        public static List<double> GetRarityWeights(int itemLevel, double rarityMultiplier)
+        {
+            int n = ItemKingdom.Rarities.Count;
+            double[] weights = new double[n + 1]; // +1 for rarity 0
+            double remaining = 1.0;
+
+            // Build list of weights in reverse order
+            // This ensures that low rarities get 'pushed' out of range first at high bonuses
+            for (int i = n - 1; i >= 0; i--)
+            {
+                double weight = Math.Min(rarityMultiplier / ItemKingdom.Rarities[i].InverseWeight, remaining);
+                if (itemLevel < ItemKingdom.Rarities[i].MinLevel)
+                    weight = 0.0;
+                remaining -= weight;
+                weights[i + 1] = weight;
+            }
+            weights[0] = remaining;
+            return weights.ToList();
+        }
+
         private static void CalculateItemStats(Entity item)
         {
             const double rarityScaling = 1.25;
