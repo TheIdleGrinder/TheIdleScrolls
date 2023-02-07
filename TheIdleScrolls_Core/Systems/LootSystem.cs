@@ -34,24 +34,12 @@ namespace TheIdleScrolls_Core.Systems
         void GiveDungeonReward(World world, Coordinator coordinator)
         {
             var dungeon = world.AreaKingdom.GetDungeon(world.DungeonId) ?? throw new Exception($"Invalid dungeon id: {world.DungeonId}");
-            var lootTable = BuildLootTable(dungeon.Rewards, dungeon.Level);
-
-            if (!lootTable.Any())
-                return;
+            var lootTable = BuildDungeonLootTable(dungeon.Rewards, dungeon.Level);
 
             // Select random reward
-            double weightSum = lootTable.Sum(e => e.Value);
-            double pointer = new Random().NextDouble() * weightSum;
-            string selection = "";
-            foreach (var reward in lootTable)
-            {
-                if (reward.Value > pointer)
-                {
-                    selection = reward.Key;
-                    break;
-                }
-                pointer -= reward.Value;
-            }
+            string? selection = lootTable.GetRandomEntry();
+            if (selection == null)
+                return;
 
             Entity item = new ItemFactory().ExpandCode(selection) ?? throw new Exception($"Invalid item code: {selection}");
             int rarity = ItemFactory.GetRandomRarity(dungeon.Level, world.RarityMultiplier);
@@ -61,9 +49,9 @@ namespace TheIdleScrolls_Core.Systems
             coordinator.PostMessage(this, new ItemReceivedMessage(m_player!, item));
         }
 
-        public static Dictionary<string, double> BuildBasicLootTable(int minLevel, int maxLevel)
+        public static LootTable BuildBasicLootTable(int minLevel, int maxLevel)
         {
-            HashSet<string> validIds = new();
+            LootTable table = new();
             foreach (var f in ItemFactory.ItemKingdom.Families)
             {
                 for (int i = 0; i < f.Genera.Count; i++)
@@ -80,31 +68,55 @@ namespace TheIdleScrolls_Core.Systems
                         if (dropLevel >= minLevel && dropLevel <= maxLevel)
                         {
                             var id = new ItemIdentifier(f.Id, i, m.Id);
-                            validIds.Add(id.Code);
+                            table.AddEntry(id.Code, 1.0); // CornerCut: Any idea for other weights?
                         }
                     }
                 }
             }
-
-            Dictionary<string, double> result = new();
-            foreach (var id in validIds)
-            {
-                result[id] = 1.0;
-            }
-
-            return result;
+            return table;
         }
 
-        public static Dictionary<string, double> BuildLootTable(DungeonRewardsDescription rewardSettings, int lootLevel)
+        public static LootTable BuildDungeonLootTable(DungeonRewardsDescription rewardSettings, int lootLevel)
         {
-            Dictionary<string, double> lootTable = new();
+            LootTable lootTable = new();
             if (rewardSettings.UseLeveledLoot)
                 lootTable = BuildBasicLootTable(rewardSettings.MinDropLevel, lootLevel);
             rewardSettings.SpecialRewards.ForEach(r => 
             {
-                lootTable.Add(r, 1.0);
+                lootTable.AddEntry(r, 1.0);
             } );
             return lootTable;
+        }
+
+        private record LootTableParameters(int ItemLevel, int MinDropLevel, int MinLootTableSize);
+
+        public class LootTable
+        {
+            private Dictionary<string, double> m_table = new(); // code -> weight
+
+            public int Count { get { return m_table.Count; } }
+
+            public void AddEntry(string itemCode, double weight = 1.0)
+            {
+                m_table[itemCode] = weight;
+            }
+
+            public string? GetRandomEntry()
+            {
+                if (!m_table.Any())
+                    return null;
+                double weightSum = m_table.Sum(e => e.Value);
+                double pointer = new Random().NextDouble() * weightSum;
+                foreach (var reward in m_table)
+                {
+                    if (reward.Value > pointer)
+                    {
+                        return reward.Key;
+                    }
+                    pointer -= reward.Value;
+                }
+                return null;
+            }
         }
     }
 }
