@@ -687,7 +687,7 @@
             // lblEqHelmet
             // 
             this.lblEqHelmet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqHelmet.Location = new System.Drawing.Point(209, 10);
+            this.lblEqHelmet.Location = new System.Drawing.Point(209, 12);
             this.lblEqHelmet.Name = "lblEqHelmet";
             this.lblEqHelmet.Size = new System.Drawing.Size(200, 23);
             this.lblEqHelmet.TabIndex = 6;
@@ -709,7 +709,7 @@
             // lblEqChest
             // 
             this.lblEqChest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqChest.Location = new System.Drawing.Point(209, 45);
+            this.lblEqChest.Location = new System.Drawing.Point(209, 44);
             this.lblEqChest.Name = "lblEqChest";
             this.lblEqChest.Size = new System.Drawing.Size(200, 23);
             this.lblEqChest.TabIndex = 5;
@@ -720,7 +720,7 @@
             // lblEqWeapon
             // 
             this.lblEqWeapon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqWeapon.Location = new System.Drawing.Point(3, 45);
+            this.lblEqWeapon.Location = new System.Drawing.Point(3, 44);
             this.lblEqWeapon.Name = "lblEqWeapon";
             this.lblEqWeapon.Size = new System.Drawing.Size(200, 23);
             this.lblEqWeapon.TabIndex = 3;

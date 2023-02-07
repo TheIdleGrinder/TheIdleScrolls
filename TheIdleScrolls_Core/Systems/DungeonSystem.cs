@@ -102,95 +102,11 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     else // Dungeon cleared
                     {
-                        GiveDungeonReward(world, coordinator);
                         coordinator.PostMessage(this, new DungeonCompletedMessage(world.DungeonId));
-                        //coordinator.PostMessage(this, new TravelRequest("", m_wildernessLevel));
                         coordinator.PostMessage(this, new TravelRequest(world.DungeonId, 0));
                     }
                 }
             }
-        }
-
-        void GiveDungeonReward(World world, Coordinator coordinator)
-        {
-            // Build loot table
-            // Get rewards from dungeon description
-            //List<LootTableEntry> lootTable = new();
-            //var rewards = world.AreaKingdom.GetDungeon(world.DungeonId)?.Rewards.SpecialRewards ?? new();
-            //if (rewards.Any())
-            //{
-            //    foreach (var reward in rewards)
-            //    {
-            //        lootTable.Add(new LootTableEntry(reward, 1.0));
-            //    }
-            //}
-            //else
-            //{
-            //    return;
-            //}
-
-            var dungeon = world.AreaKingdom.GetDungeon(world.DungeonId) ?? throw new Exception($"Invalid dungeon id: {world.DungeonId}");
-            var lootTable = BuildBasicLootTable(dungeon.Rewards, dungeon.Level);
-
-            if (!lootTable.Any())
-                return;
-
-            // Select random reward
-            double weightSum = lootTable.Sum(e => e.Value);
-            double pointer = new Random().NextDouble() * weightSum;
-            string selection = "";
-            foreach (var reward in lootTable)
-            {
-                if (reward.Value > pointer)
-                {
-                    selection = reward.Key;
-                    break;
-                }
-                pointer -= reward.Value;
-            }
-
-            Entity item = new ItemFactory().ExpandCode(selection) ?? throw new Exception($"Invalid item code: {selection}");
-            int rarity = ItemFactory.GetRandomRarity(dungeon.Level, world.RarityMultiplier);
-            ItemFactory.SetItemRarity(item, rarity);
-
-            coordinator.AddEntity(item);
-            coordinator.PostMessage(this, new ItemReceivedMessage(m_player!, item));
-        }
-
-        public static Dictionary<string, double> BuildBasicLootTable(DungeonRewardsDescription rewardSettings, int lootLevel)
-        {
-            HashSet<string> validIds = new();
-            if (rewardSettings.UseLeveledLoot)
-            {
-                foreach (var f in ItemFactory.ItemKingdom.Families)
-                {
-                    for (int i = 0; i < f.Genera.Count; i++)
-                    {
-                        var g = ItemFactory.ItemKingdom.GetGenusDescriptionByIdAndIndex(f.Id, i);
-                        if (g == null)
-                            throw new Exception($"Ítem family '{f.Id}' does not have {i + 1} genera");
-                        if (g.DropLevel == 0) // Tutorial items cannot drop in the wild
-                            continue;
-                        var mats = g.ValidMaterials.Select(m => ItemFactory.ItemKingdom.GetMaterial(m)!);
-                        foreach (var m in mats)
-                        {
-                            int dropLevel = g.DropLevel + m.MinimumLevel;
-                            if (dropLevel >= rewardSettings.MinDropLevel && dropLevel <= lootLevel)
-                            {
-                                var id = new ItemIdentifier(f.Id, i, m.Id);
-                                validIds.Add(id.Code);
-                            }
-                        }
-                    }
-                }
-            }
-            rewardSettings.SpecialRewards.ForEach(r => validIds.Add(r));
-            Dictionary<string, double> result = new();
-            foreach(var id in validIds)
-            {
-                result[id] = 1.0;
-            }
-            return result;
         }
     }
 
