@@ -17,9 +17,9 @@ namespace TheIdleScrollsApp
         public enum Area { Inventory }
 
         const int TimePerTick = 100;
-        GameRunner m_runner;
+        readonly GameRunner m_runner;
         DateTime m_lastTickStart;
-        IUserInputHandler m_inputHandler;
+        readonly IUserInputHandler m_inputHandler;
 
         uint m_playerId = 0;
         int m_areaLevel = 0;
@@ -32,7 +32,7 @@ namespace TheIdleScrollsApp
 
         public MainWindow(GameRunner runner, string name = "Leeroy")
         {
-            CharacterSelectionDialog dialog = new CharacterSelectionDialog(name, runner.DataAccessHandler);
+            CharacterSelectionDialog dialog = new(name, runner.DataAccessHandler);
             DialogResult result = dialog.ShowDialog();
             if (result != DialogResult.OK)
                 throw new KeyNotFoundException("No character selected");
@@ -68,6 +68,8 @@ namespace TheIdleScrollsApp
             gridAbilities.DataSource = m_abilities;
             gridAbilities.Columns[0].Visible = false;
             gridAbilities.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            cMenuInventorySell.Visible = false;
         }
 
         private void timerTick_Tick(object sender, EventArgs e)
@@ -81,18 +83,18 @@ namespace TheIdleScrollsApp
 
         private static Color GetColorForRarity(int rarity)
         {
-            switch (rarity)
+            return rarity switch
             {
-                case -1: return Color.Gray;
-                case 1:  return Color.Purple;
-                case 2:  return Color.MediumBlue;
-                case 3:  return Color.Teal;
-                case 4:  return Color.ForestGreen;
-                case 5:  return Color.YellowGreen;
-                case 6:  return Color.Goldenrod;
-                case 7:  return Color.Red;
-                default: return Color.Black;
-            }
+                -1 => Color.Gray,
+                1 => Color.Purple,
+                2 => Color.MediumBlue,
+                3 => Color.Teal,
+                4 => Color.ForestGreen,
+                5 => Color.YellowGreen,
+                6 => Color.Goldenrod,
+                7 => Color.Red,
+                _ => Color.Black,
+            };
         }
 
         private static FontStyle GetFontStyleForRarity(int rarity)
@@ -178,7 +180,7 @@ namespace TheIdleScrollsApp
             //return new string('█', maxLength);
             double percentage = (double)progress / maximum;
             int fullBlocks = (int)Math.Floor(percentage * maxLength);
-            string result = new string('█', fullBlocks);
+            string result = new('█', fullBlocks);
 
             List<char> parts = new() { '▏', '▎', '▍', '▌', '▋', '▊', '▉', '█' };
             double remainder = (percentage - (double)fullBlocks / maxLength) * maxLength; // Percentage of a block that remains
@@ -439,7 +441,7 @@ namespace TheIdleScrollsApp
             bool validSelection = row >= 0 && row < gridInventory.Rows.Count;
             if (validSelection)
             {
-                cMenuInventorySell.Text = $"Sell ({m_Inventory[row].Value}c)";
+                cMenuInventorySell.Text = $"Sell [+{m_Inventory[row].Value}c]";
                 cMenuInventorySell.Visible = true;
                 gridInventory.Rows[row].Selected = true;
             }
