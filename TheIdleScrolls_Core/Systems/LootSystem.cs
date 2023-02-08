@@ -11,7 +11,7 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class LootSystem : AbstractSystem
     {
-        const double WildDropChance = 0.05;
+        const double WildDropChance = 0.025;
         const int MinDropCutoff = 51;
 
         Entity? m_player = null;
@@ -28,7 +28,7 @@ namespace TheIdleScrolls_Core.Systems
                 if (new Random().NextDouble() < dropChance)
                 {
                     int MinDropLevel = Math.Min(world.Zone.Level - 20, MinDropCutoff);
-                    LootTableParameters parameters = new(world.Zone.Level, MinDropLevel, 0, 0.0);
+                    LootTableParameters parameters = new(world.Zone.Level, MinDropLevel, 0, 0.0); // 0 rarity => no "magic" items from normal mobs
                     GiveRandomLoot(parameters, coordinator);
                 }
             }
