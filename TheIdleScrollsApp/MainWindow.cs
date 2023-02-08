@@ -220,8 +220,6 @@ namespace TheIdleScrollsApp
             int selection = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
             m_Inventory = new(items);
             gridInventory.DataSource = m_Inventory;
-            if (offset >= 0 && gridInventory.Rows.Count > 0)
-                gridInventory.FirstDisplayedScrollingRowIndex = offset;
             if (currentRow >= gridInventory.Rows.Count)
                 currentRow = gridInventory.Rows.Count - 1;
             if (currentRow >= 0 && currentRow < gridInventory.Rows.Count)
@@ -230,6 +228,8 @@ namespace TheIdleScrollsApp
                 selection = gridInventory.Rows.Count - 1;
             if (selection >= 0 && selection < gridInventory.Rows.Count)
                 gridInventory.Rows[selection].Selected = true;
+            if (offset >= 0 && gridInventory.Rows.Count > 0)
+                gridInventory.FirstDisplayedScrollingRowIndex = offset;
         }
 
         public void SetEquipment(List<ItemRepresentation> items)
