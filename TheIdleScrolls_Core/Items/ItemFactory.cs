@@ -85,6 +85,7 @@ namespace TheIdleScrolls_Core.Items
             }
 
             UpdateItemValue(item);
+            UpdateReforgingCost(item);
 
             return item;
         }
@@ -119,7 +120,18 @@ namespace TheIdleScrolls_Core.Items
             item.AddComponent(new ItemValueComponent() { Value = value });
         }
 
-        public static int GetRandomRarity(int itemLevel, double multiplier)
+        public static void UpdateReforgingCost(Entity item)
+        {
+            ItemIdentifier id = item.GetComponent<ItemComponent>()?.Code ?? throw new Exception($"Entity {item.GetName()} is not an item");
+            double baseCost = 20.0;
+            int tier = (int)Math.Sqrt(id.GetGenusDescription().DropLevel);
+            double matMulti = id.GetMaterial().PowerMultiplier;
+
+            int totalCost = (int)Math.Ceiling(baseCost * (tier + 1) * matMulti);
+            item.AddComponent(new ItemReforgeableComponent() { Cost = totalCost });
+        }
+
+        public static int GetRandomRarity(int itemLevel, double rarityMultiplier)
         {
             int n = ItemKingdom.Rarities.Count;
             double[] weights = new double[n];
@@ -128,7 +140,7 @@ namespace TheIdleScrolls_Core.Items
             // This ensures that low rarities get 'pushed' out of range first at high bonuses
             for (int i = 0; i < n; i++)
             {
-                double weight = multiplier / ItemKingdom.Rarities[i].InverseWeight;
+                double weight = rarityMultiplier / ItemKingdom.Rarities[i].InverseWeight;
                 if (itemLevel < ItemKingdom.Rarities[i].MinLevel)
                     weight = 0.0;
                 weights[n - i - 1] = weight;
