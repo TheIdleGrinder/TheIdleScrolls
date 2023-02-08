@@ -102,7 +102,8 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     else // Dungeon cleared
                     {
-                        coordinator.PostMessage(this, new DungeonCompletedMessage(world.DungeonId));
+                        bool first = !m_player.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(world.DungeonId) ?? true;
+                        coordinator.PostMessage(this, new DungeonCompletedMessage(world.DungeonId, first));
                         coordinator.PostMessage(this, new TravelRequest(world.DungeonId, 0));
                     }
                 }
@@ -166,14 +167,17 @@ namespace TheIdleScrolls_Core.Systems
     {
         public string DungeonId { get; set; }
 
-        public DungeonCompletedMessage(string dungeonId)
+        public bool FirstCompletion { get; set; }
+
+        public DungeonCompletedMessage(string dungeonId, bool firstCompletion)
         {
             DungeonId = dungeonId;
+            FirstCompletion = firstCompletion;
         }
 
         string IMessage.BuildMessage()
         {
-            return $"Dungeon '{DungeonId}' completed";
+            return $"Dungeon '{DungeonId}' completed" + ((FirstCompletion) ? " for the first time" : "");
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()

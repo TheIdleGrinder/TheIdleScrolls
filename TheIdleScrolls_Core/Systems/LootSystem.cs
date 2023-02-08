@@ -12,6 +12,7 @@ namespace TheIdleScrolls_Core.Systems
     public class LootSystem : AbstractSystem
     {
         const double WildDropChance = 0.025;
+        const double FirstClearRarityBonus = 2.5;
         const int MinDropCutoff = 51;
 
         Entity? m_player = null;
@@ -22,7 +23,7 @@ namespace TheIdleScrolls_Core.Systems
             if (m_player == null)
                 return;
 
-            foreach (var kill in coordinator.FetchMessagesByType<DeathMessage>())
+            foreach (var _ in coordinator.FetchMessagesByType<DeathMessage>())
             {
                 double dropChance = WildDropChance * world.QuantityMultiplier;
                 if (new Random().NextDouble() < dropChance)
@@ -35,14 +36,15 @@ namespace TheIdleScrolls_Core.Systems
 
             foreach (var dungeon in coordinator.FetchMessagesByType<DungeonCompletedMessage>())
             {
-                GiveDungeonReward(world, coordinator);
+                GiveDungeonReward(world, coordinator, dungeon.FirstCompletion);
             }
         }
 
-        void GiveDungeonReward(World world, Coordinator coordinator)
+        void GiveDungeonReward(World world, Coordinator coordinator, bool firstClear)
         {
+            double rarity = world.RarityMultiplier * (firstClear ? FirstClearRarityBonus : 1.0);
             var dungeon = world.AreaKingdom.GetDungeon(world.DungeonId) ?? throw new Exception($"Invalid dungeon id: {world.DungeonId}");
-            LootTableParameters parameters = new(dungeon.Level, dungeon.Rewards.MinDropLevel, 0, world.RarityMultiplier);
+            LootTableParameters parameters = new(dungeon.Level, dungeon.Rewards.MinDropLevel, 0, rarity);
             GiveRandomLoot(parameters, coordinator);
         }
 
@@ -70,7 +72,7 @@ namespace TheIdleScrolls_Core.Systems
 
     public class LootTable
     {
-        private Dictionary<string, double> m_table = new(); // code -> weight
+        private readonly Dictionary<string, double> m_table = new(); // code -> weight
 
         public int Count { get { return m_table.Count; } }
 
