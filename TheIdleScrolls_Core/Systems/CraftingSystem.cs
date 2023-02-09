@@ -32,10 +32,11 @@ namespace TheIdleScrolls_Core.Systems
                 }
                 // Spend coins
                 purseComp.RemoveCoins(cost);
+                coordinator.PostMessage(this, new CoinsChangedMessage(owner, -cost));
                 // Perform reforge
-                int itemLevel = item.GetComponent<ItemComponent>()?.Code.GetGenusDescription().DropLevel 
-                    ?? throw new Exception($"{item.GetName()} is not an item");
-                int newRarity = ItemFactory.GetRandomRarity(itemLevel, 1.0);
+                int itemLevel = ItemFactory.GetItemDropLevel(item.GetComponent<ItemComponent>()?.Code
+                    ?? throw new Exception($"{item.GetName()} is not an item"));
+                int newRarity = ItemFactory.GetRandomRarity(itemLevel, world.RarityMultiplier);
                 ItemFactory.SetItemRarity(item, newRarity);
                 // Send result message
                 coordinator.PostMessage(this, new ItemReforgedMessage(owner, item, cost, newRarity));

@@ -30,6 +30,11 @@ namespace TheIdleScrollsApp
             m_requests.Add(new SellItemRequest(playerId, itemId));
         }
 
+        public void ReforgeItem(uint playerId, uint itemId)
+        {
+            m_requests.Add(new ReforgeItemRequest(playerId, itemId));
+        }
+
         public void LeaveDungeon()
         {
             m_requests.Add(new LeaveDungeonRequest());
@@ -60,5 +65,6 @@ namespace TheIdleScrollsApp
             }
             processed.ForEach(m => m_requests.Remove(m)); // Don't use Clear to prevent (unlikely) timing issues
         }
+
     }
 }

@@ -93,6 +93,7 @@
             this.textBoxStats = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFooter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.cMenuInventoryReforge = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -754,15 +755,16 @@
             // cMenuInventory
             // 
             this.cMenuInventory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cMenuInventorySell});
+            this.cMenuInventorySell,
+            this.cMenuInventoryReforge});
             this.cMenuInventory.Name = "cMenuInventory";
-            this.cMenuInventory.Size = new System.Drawing.Size(93, 26);
+            this.cMenuInventory.Size = new System.Drawing.Size(181, 70);
             this.cMenuInventory.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.cMenuInventory_Closed);
             // 
             // cMenuInventorySell
             // 
             this.cMenuInventorySell.Name = "cMenuInventorySell";
-            this.cMenuInventorySell.Size = new System.Drawing.Size(92, 22);
+            this.cMenuInventorySell.Size = new System.Drawing.Size(180, 22);
             this.cMenuInventorySell.Text = "Sell";
             this.cMenuInventorySell.Click += new System.EventHandler(this.cMenuInventorySell_Click);
             // 
@@ -923,6 +925,13 @@
             this.lblFooter.Size = new System.Drawing.Size(118, 17);
             this.lblFooter.Text = "toolStripStatusLabel1";
             // 
+            // cMenuInventoryReforge
+            // 
+            this.cMenuInventoryReforge.Name = "cMenuInventoryReforge";
+            this.cMenuInventoryReforge.Size = new System.Drawing.Size(180, 22);
+            this.cMenuInventoryReforge.Text = "Reforge";
+            this.cMenuInventoryReforge.Click += new System.EventHandler(this.cMenuInventoryReforge_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1033,5 +1042,6 @@
         private Label lblEqHelmet;
         private Label lblEqBoots;
         private Label lblEqGloves;
+        private ToolStripMenuItem cMenuInventoryReforge;
     }
 }

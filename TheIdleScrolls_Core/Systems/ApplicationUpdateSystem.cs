@@ -48,7 +48,8 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Update items
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<InventoryChangedMessage>())
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<InventoryChangedMessage>()
+                || coordinator.MessageTypeIsOnBoard<ItemReforgedMessage>())
             {
                 var inventoryComp = player.GetComponent<InventoryComponent>();
                 var equipmentComp = player.GetComponent<EquipmentComponent>();

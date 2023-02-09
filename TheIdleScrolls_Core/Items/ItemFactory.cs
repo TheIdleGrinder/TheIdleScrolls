@@ -131,6 +131,13 @@ namespace TheIdleScrolls_Core.Items
             item.AddComponent(new ItemReforgeableComponent() { Cost = totalCost });
         }
 
+        public static int GetItemDropLevel(ItemIdentifier id)
+        {
+            int genusLevel = id.GetGenusDescription().DropLevel;
+            int materialLevel = id.GetMaterial().MinimumLevel;
+            return genusLevel + materialLevel;
+        }
+
         public static int GetRandomRarity(int itemLevel, double rarityMultiplier)
         {
             int n = ItemKingdom.Rarities.Count;

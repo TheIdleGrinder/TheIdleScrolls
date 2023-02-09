@@ -15,6 +15,8 @@ namespace TheIdleScrollsApp
 
         public void SellItem(uint playerId, uint itemId);
 
+        public void ReforgeItem(uint playerId, uint itemId);
+
         public void TravelIntoWilderness(int areaLevel);
 
         public void EnterDungeon(string dungeonId);

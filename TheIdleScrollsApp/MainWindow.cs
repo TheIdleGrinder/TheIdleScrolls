@@ -456,6 +456,15 @@ namespace TheIdleScrollsApp
             }
         }
 
+        private void cMenuInventoryReforge_Click(object sender, EventArgs e)
+        {
+            int row = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
+            if (row != -1)
+            {
+                m_inputHandler.ReforgeItem(m_playerId, m_Inventory[row].Id);
+            }
+        }
+
         private void cMenuInventory_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
             cMenuInventorySell.Visible = false;

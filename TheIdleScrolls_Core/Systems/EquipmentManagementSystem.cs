@@ -243,7 +243,7 @@ namespace TheIdleScrolls_Core.Systems
 
         string IMessage.BuildMessage()
         {
-            return $"{Owner.GetName()} " + ((Change >= 0) ? $"gained {Change} coins" : $"lost {Change} coins");
+            return $"{Owner.GetName()} " + ((Change >= 0) ? $"gained {Change} coins" : $"lost {-Change} coins");
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()
