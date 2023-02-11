@@ -24,9 +24,13 @@ namespace TheIdleScrollsApp
         uint m_playerId = 0;
         int m_areaLevel = 0;
         int m_maxWilderness = 0;
+
         bool m_canTravel = false;
         bool m_canReforge = true;
         bool m_inDungeon = false;
+
+        int m_coins = 0;
+
         SortableBindingList<ItemRepresentation> m_Inventory { get; set; }
         Equipment m_Equipment { get; set; }
         SortableBindingList<AbilityRepresentation> m_abilities { get; set; }
@@ -169,6 +173,7 @@ namespace TheIdleScrollsApp
 
         public void SetPlayerCoins(int coins)
         {
+            m_coins = coins;
             lblCoins.Text = $"{coins} Coins";
         }
 
@@ -463,6 +468,7 @@ namespace TheIdleScrollsApp
                 {
                     cMenuInventoryReforge.Text = $"Reforge [-{m_Inventory[row].ReforgingCost}c]";
                     cMenuInventoryReforge.Visible = true;
+                    cMenuInventoryReforge.Enabled = m_coins >= m_Inventory[row].ReforgingCost;
                 }
             }
         }
