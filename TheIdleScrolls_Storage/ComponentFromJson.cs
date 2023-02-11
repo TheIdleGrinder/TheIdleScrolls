@@ -30,12 +30,34 @@ namespace TheIdleScrolls_JSON
             {
                 if (jsonItem == null)
                     continue;
-                Entity? item = itemFactory.ExpandCode(jsonItem.GetValue<string>());
+
+                string[] fields = jsonItem.GetValue<string>().Split(' ');
+                string code = fields[0];
+                string[] tags = fields[1..];
+
+                Entity? item = itemFactory.ExpandCode(code);
                 if (item == null)
                 {
                     Debug.WriteLine($"Unable to expand item code {jsonItem}");
                     continue;
                 }
+
+                foreach (string tag in tags)
+                {
+                    switch (tag.ToUpper())
+                    {
+                        case "#C":
+                            {
+                                var forgeComp = item.GetComponent<ItemReforgeableComponent>();
+                                if (forgeComp != null)
+                                    forgeComp.Reforged = true; 
+                                break;
+                            }
+                        default: 
+                            continue;
+                    }
+                }
+
                 items.Add(item);
             }
             return items;

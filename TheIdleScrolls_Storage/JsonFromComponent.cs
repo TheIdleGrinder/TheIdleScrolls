@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 
 using MiniECS;
+using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Items;
@@ -22,9 +23,20 @@ namespace TheIdleScrolls_Storage
         {
             var itemFactory = new ItemFactory();
             var result = new JsonArray();
-            items.Select(item => itemFactory.GenerateItemCode(item))
-                .ToList()
-                .ForEach(j => result.Add(j));
+
+            foreach (var item in items)
+            {
+                string? code = item.GetItemCode();
+                if (code == String.Empty)
+                {
+                    continue;
+                }
+                if (item.GetComponent<ItemReforgeableComponent>()?.Reforged ?? false)
+                {
+                    code += " #c";
+                }
+                result.Add(code);
+            }
             return result;
         }
 

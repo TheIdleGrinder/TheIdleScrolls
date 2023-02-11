@@ -37,7 +37,7 @@ namespace TheIdleScrolls_Core
 
         public static string GetItemCode(this Entity entity)
         {
-            return entity.GetComponent<ItemComponent>()?.Code.Code ?? "";
+            return entity.GetComponent<ItemComponent>()?.Code.Code ?? String.Empty;
         }
 
         public static bool IsWeapon(this Entity entity)
