@@ -38,6 +38,7 @@ namespace TheIdleScrolls_Core.Systems
                     ?? throw new Exception($"{item.GetName()} is not an item"));
                 int newRarity = ItemFactory.GetRandomRarity(itemLevel, world.RarityMultiplier);
                 ItemFactory.SetItemRarity(item, newRarity);
+                item.GetComponent<ItemReforgeableComponent>()!.Reforged = true;
                 // Send result message
                 coordinator.PostMessage(this, new ItemReforgedMessage(owner, item, cost, newRarity));
             }

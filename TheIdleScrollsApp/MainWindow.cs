@@ -25,6 +25,7 @@ namespace TheIdleScrollsApp
         int m_areaLevel = 0;
         int m_maxWilderness = 0;
         bool m_canTravel = false;
+        bool m_canReforge = true;
         bool m_inDungeon = false;
         SortableBindingList<ItemRepresentation> m_Inventory { get; set; }
         Equipment m_Equipment { get; set; }
@@ -64,12 +65,17 @@ namespace TheIdleScrollsApp
             gridInventory.Columns[3].MinimumWidth = 35;
             gridInventory.Columns[3].Visible = false;
             gridInventory.Columns[4].Visible = false;
+            gridInventory.Columns[5].Visible = false;
+            gridInventory.Columns[6].Visible = false;
 
             gridAbilities.DataSource = m_abilities;
             gridAbilities.Columns[0].Visible = false;
             gridAbilities.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
 
-            cMenuInventorySell.Visible = false;
+            for (int i = 0; i < cMenuInventory.Items.Count; i++)
+            {
+                cMenuInventory.Items[i].Visible = false;
+            }
         }
 
         private void timerTick_Tick(object sender, EventArgs e)
@@ -97,13 +103,19 @@ namespace TheIdleScrollsApp
             };
         }
 
-        private static FontStyle GetFontStyleForRarity(int rarity)
+        private static FontStyle GetFontStyleForRarity(int rarity, bool crafted = false)
         {
-            if (rarity == -1)
-                return FontStyle.Italic;
-            else if (rarity > 0)
-                return FontStyle.Bold;
-            return FontStyle.Regular;
+            FontStyle result = FontStyle.Regular;
+            if (rarity == -1 || crafted)
+            {
+                result = FontStyle.Italic;
+            }
+
+            if (rarity > 0)
+            {
+                result |= FontStyle.Bold;
+            }
+            return result;
         }
 
         public void SetFeatureAvailable(GameFeature area, bool available)
@@ -257,7 +269,7 @@ namespace TheIdleScrollsApp
                 int rarity = item?.Rarity ?? -1;
                 label.Text = item?.Name ?? label.Tag.ToString();
                 label.ForeColor = GetColorForRarity(rarity);
-                label.Font = new Font(label.Font, GetFontStyleForRarity(rarity));
+                label.Font = new Font(label.Font, GetFontStyleForRarity(rarity, item?.Crafted ?? false));
                 toolTip.SetToolTip(label, item?.Description?.Replace("; ", "\n") ?? "");
             };
 
@@ -430,8 +442,9 @@ namespace TheIdleScrollsApp
         {
             var cell = gridInventory.Rows[e.RowIndex].Cells[1];
             int rarity = m_Inventory[e.RowIndex].Rarity;
+            bool crafted = m_Inventory[e.RowIndex].Crafted;
             cell.Style.ForeColor = GetColorForRarity(rarity);
-            cell.Style.Font = new Font(gridInventory.Font, GetFontStyleForRarity(rarity));
+            cell.Style.Font = new Font(gridInventory.Font, GetFontStyleForRarity(rarity, crafted));
         }
 
         private void gridInventory_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)
@@ -441,9 +454,16 @@ namespace TheIdleScrollsApp
             bool validSelection = row >= 0 && row < gridInventory.Rows.Count;
             if (validSelection)
             {
+                gridInventory.Rows[row].Selected = true;
+
                 cMenuInventorySell.Text = $"Sell [+{m_Inventory[row].Value}c]";
                 cMenuInventorySell.Visible = true;
-                gridInventory.Rows[row].Selected = true;
+
+                if (m_canReforge && m_Inventory[row].ReforgingCost >= 0)
+                {
+                    cMenuInventoryReforge.Text = $"Reforge [-{m_Inventory[row].ReforgingCost}c]";
+                    cMenuInventoryReforge.Visible = true;
+                }
             }
         }
 
@@ -467,7 +487,10 @@ namespace TheIdleScrollsApp
 
         private void cMenuInventory_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
-            cMenuInventorySell.Visible = false;
+            for (int i = 0; i < cMenuInventory.Items.Count; i++)
+            {
+                cMenuInventory.Items[i].Visible = false;
+            }
         }
 
         private void gridInventory_KeyUp(object sender, KeyEventArgs e)
@@ -479,6 +502,10 @@ namespace TheIdleScrollsApp
                     if (gridInventory.Rows[i].Selected)
                         m_inputHandler.SellItem(m_playerId, m_Inventory[i].Id);
                 }
+            }
+            else if (e.KeyCode == Keys.F && e.Control)
+            {
+                cMenuInventoryReforge_Click(sender, e); // Wrong sender does not matter here
             }
         }
 

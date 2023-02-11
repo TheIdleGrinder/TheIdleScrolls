@@ -245,6 +245,7 @@ namespace TheIdleScrolls_Core.Systems
             var equipComp = item.GetComponent<EquippableComponent>();
             var weaponComp = item.GetComponent<WeaponComponent>();
             var armorComp = item.GetComponent<ArmorComponent>();
+            var forgeComp = item.GetComponent<ItemReforgeableComponent>();
             string description = $"[{itemComp?.FamilyName ?? "??"}]";
             if (weaponComp != null)
             {
@@ -259,14 +260,16 @@ namespace TheIdleScrolls_Core.Systems
             {
                 description += equipComp.Encumbrance != 0.0 ? $"; {equipComp.Encumbrance} Encumbrance" : "";
             }
-            
+
             return new ItemRepresentation(
                 item.Id,
                 item.GetName(),
                 description,
                 new() { equipComp?.Slot ?? EquipmentSlot.Hand },
                 itemComp?.Code.RarityLevel ?? 0,
-                item.GetComponent<ItemValueComponent>()?.Value ?? 0
+                item.GetComponent<ItemValueComponent>()?.Value ?? 0,
+                forgeComp?.Cost ?? -1,
+                forgeComp?.Reforged ?? false
                 );
         }
 

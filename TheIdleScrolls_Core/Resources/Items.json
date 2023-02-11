@@ -234,7 +234,7 @@
         },
         {
           "DropLevel": 30,
-          "ValidMaterials": [ "MAT_M1", "MAT_M2" ],
+          "ValidMaterials": [ "MAT_W1", "MAT_W2" ],
           "Equippable": {
             "Slot": "Hand"
           },
