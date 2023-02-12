@@ -11,11 +11,13 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class TutorialSystem : AbstractSystem
     {
-        static int LvlInventory = 2;
-        static int LvlMobAttacks = 6;
-        static int LvlArmor = 8;
-        static int LvlAbilities = 4;
-        static int LvlTravel = 10;
+        const int LvlInventory = 2;
+        const int LvlMobAttacks = 6;
+        const int LvlArmor = 8;
+        const int LvlAbilities = 4;
+        const int LvlTravel = 10;
+        const int ItemCountForSelling = 12;
+        const int CoinsForReforging = 200;
 
         Entity? m_player = null;
 
@@ -194,7 +196,7 @@ namespace TheIdleScrolls_Core.Systems
                     "Ironic, all this grinding just to get to a point where you use none of your gear or abilities."));
             }
             if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Selling)
-                && (m_player.GetComponent<InventoryComponent>()?.ItemCount ?? 0) > 12)
+                && (m_player.GetComponent<InventoryComponent>()?.ItemCount ?? 0) > ItemCountForSelling)
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Selling);
                 coordinator.PostMessage(this,
@@ -204,7 +206,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n  - Selecting one or more items and pressing DEL works as well"));
             }
             if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Reforging)
-                && (m_player.GetComponent<PlayerProgressComponent>()?.Data.TotalCoins ?? 0) > 100)
+                && (m_player.GetComponent<PlayerProgressComponent>()?.Data.TotalCoins ?? 0) > CoinsForReforging)
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Reforging);
                 coordinator.PostMessage(this,
