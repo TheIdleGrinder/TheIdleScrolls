@@ -6,6 +6,8 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class AbilitiesSystem : AbstractSystem
     {
+        const double RarityXpMultiplier = 1.1;
+
         bool m_firstUpdate = true;
 
         // CornerCut: Assume only the player entity has abilities
@@ -33,7 +35,7 @@ namespace TheIdleScrolls_Core.Systems
                 bool levelIncrease = false;
                 foreach (var reforgeMsg in coordinator.FetchMessagesByType<ItemReforgedMessage>().Where(m => m.Owner == m_player))
                 {
-                    int xp = (int)Math.Round(world.XpMultiplier * reforgeMsg.CoinsPaid);
+                    int xp = (int)Math.Round(world.XpMultiplier * reforgeMsg.CoinsPaid * Math.Pow(RarityXpMultiplier, reforgeMsg.RarityResult));
                     AbilitiesComponent.AddXPResult result = abilitiesComp.AddXP(Properties.Constants.Key_Ability_Crafting, xp);
                     if (result == AbilitiesComponent.AddXPResult.LevelIncreased)
                         levelIncrease = true;
