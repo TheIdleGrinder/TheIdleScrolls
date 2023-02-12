@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace TheIdleScrolls_Core.Components
 {
-    public enum TutorialStep { Start, Inventory, MobAttacks, Armor, Abilities, 
+    public enum TutorialStep 
+    { 
+        Start, Inventory, MobAttacks, Armor, Abilities, 
         Travel, Defeated, DungeonOpen, DungeonComplete, Finished, 
-        Evasion, Unarmed, FlatCircle }
+        Evasion, Unarmed, FlatCircle, Selling, Reforging 
+    }
 
     public class PlayerProgressComponent : IComponent
     {
@@ -26,6 +29,10 @@ namespace TheIdleScrolls_Core.Components
         public HashSet<string> SeenItemGenera { get; set; } = new HashSet<string>();
         public HashSet<TutorialStep> TutorialProgress { get; set; } = new();
         public Dictionary<string, double> DungeonTimes { get; set; } = new();
+        public int MaxCoins { get; set; } = 0;
+        public int TotalCoins { get; set; } = 0;
+        public int CoinsSpentOnForging { get; set; } = 0;
+        public int BestReforge { get; set;} = 0;
 
         public HashSet<string> GetClearedDungeons()
         {
@@ -39,8 +46,20 @@ namespace TheIdleScrolls_Core.Components
             sb.AppendLine($"Highest defeated zone: {HighestWildernessKill}");
             sb.AppendLine($"Enemies defeated: {Kills}");
             sb.AppendLine($"Fights lost: {Losses}");
+            if (TotalCoins > 0)
+            {
+                sb.AppendLine();
+                sb.AppendLine($"Total Coins earned: {TotalCoins}");
+                sb.AppendLine($"Most coins saved: {MaxCoins}");
+            }
+            if (CoinsSpentOnForging > 0)
+            {
+                sb.AppendLine($"Coins spent on reforging: {CoinsSpentOnForging}");
+                sb.AppendLine($"Highest rarity from reforging: +{BestReforge}");
+            }
             sb.AppendLine();
-            sb.AppendLine($"Completed dungeons:");
+            if (DungeonTimes.Any())
+                sb.AppendLine($"Completed dungeons:");
             foreach (var dungeonTime in DungeonTimes)
             {
                 var dungeon = world.AreaKingdom.GetDungeon(dungeonTime.Key);

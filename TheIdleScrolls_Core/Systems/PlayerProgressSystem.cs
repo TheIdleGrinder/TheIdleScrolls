@@ -56,6 +56,28 @@ namespace TheIdleScrolls_Core.Systems
                     progComp.Data.DungeonTimes[dungeon.DungeonId] = progComp.Data.Playtime;
                 }
             }
+
+            // Update coins
+            var coinMsgs = coordinator.FetchMessagesByType<CoinsChangedMessage>();
+            foreach (var coinMsg in coinMsgs)
+            {
+                if (coinMsg.Change > 0)
+                {
+                    progComp.Data.TotalCoins += coinMsg.Change;
+                    int coins = m_player.GetComponent<CoinPurseComponent>()?.Coins ?? 0;
+                    if (coins > progComp.Data.MaxCoins)
+                        progComp.Data.MaxCoins = coins;
+                }
+            }
+
+            // Update crafting
+            var forgeMsgs = coordinator.FetchMessagesByType<ItemReforgedMessage>();
+            foreach (var forgeMsg in forgeMsgs.Where(m => m.Owner == m_player))
+            {
+                progComp.Data.CoinsSpentOnForging += forgeMsg.CoinsPaid;
+                if (forgeMsg.RarityResult > progComp.Data.BestReforge)
+                    progComp.Data.BestReforge = forgeMsg.RarityResult;
+            }
         }
     }
 }

@@ -69,7 +69,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"\nDouble click on an item in your inventory to equip it." +
                     $"\n  - Unlocked inventory{itemString}"));
             }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.MobAttacks) && lvl >= LvlMobAttacks)
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.MobAttacks) && lvl >= LvlMobAttacks)
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.MobAttacks);
                 coordinator.PostMessage(this,
@@ -77,7 +77,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"From this point on, mobs are going to fight back. Watch the countdown near the mob. If time runs out, you lose the fight."));
             
             }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Armor) && lvl >= LvlArmor)
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Armor) && lvl >= LvlArmor)
             {
                 List<string> items = new() { "LAR0", "HAR0" };
                 ItemFactory factory = new();
@@ -102,7 +102,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"Heavier armor means more encumbrance, but also better protection." +
                     $"{itemString}"));
             }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Abilities) && lvl >= LvlAbilities)
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Abilities) && lvl >= LvlAbilities)
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Abilities);
                 coordinator.PostMessage(this,
@@ -111,7 +111,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"attack speed increase along with your ability level."));
 
             }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Travel) && lvl >= LvlTravel)
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Travel) && lvl >= LvlTravel)
             {
                 m_player.AddComponent(new TravellerComponent());
                 progComp.Data.TutorialProgress.Add(TutorialStep.Travel);
@@ -121,7 +121,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n  - Unlocked manual travel between areas"));
 
             }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Defeated)
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Defeated)
                 && progComp.Data.Losses == 1)
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Defeated);
@@ -129,7 +129,7 @@ namespace TheIdleScrolls_Core.Systems
                     new TutorialMessage(TutorialStep.Defeated, "There's Always a Bigger Fish...",
                     "Time ran out and you lost this fight. Don't worry, though, a little more training should get you over the hump."));
             }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.DungeonOpen) 
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.DungeonOpen) 
                 && coordinator.MessageTypeIsOnBoard<DungeonOpenedMessage>())
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.DungeonOpen);
@@ -141,7 +141,7 @@ namespace TheIdleScrolls_Core.Systems
                     "back to the wilderness." +
                     $"\n  - Unlocked dungeon '{world.AreaKingdom.Dungeons[0].Name.Localize()}'")); // CornerCut: Assumes first dungeon is first to unlock
             }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.DungeonComplete)
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.DungeonComplete)
                 && coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.DungeonComplete);
@@ -151,7 +151,7 @@ namespace TheIdleScrolls_Core.Systems
                     "Good job, you completed your first dungeon and obtained a reward:" +
                     $"\n  - Received '{itemName}'"));
             }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Finished)
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Finished)
                 && progComp.Data.GetClearedDungeons().Contains("THRESHOLD"))
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Finished);
@@ -163,7 +163,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n\nFeel free to keep grinding and earning achievements or reset your character to try for a faster time!"));
                     
             }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Evasion)
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Evasion)
                 && (m_player.GetComponent<DefenseComponent>()?.Evasion ?? 0) > 0)
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Evasion);
@@ -171,9 +171,9 @@ namespace TheIdleScrolls_Core.Systems
                     new TutorialMessage(TutorialStep.Evasion, "Travelling Light",
                     $"You have proven your prowess in unarmored combat. Fighting with no armor now grants 0.5 " +
                     $"points to you evasion rating per level for each owned achievement from the 'unarmored' line. " +
-                    $"  - Evasion increases the length of time limits by 1% per point."));
+                    $"\n  - Evasion increases the length of time limits by 1% per point."));
             }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
                 && (achievementComp?.Achievements.Count(a => a.Id.Contains("NOWEAPON") 
                     && a.Status == Achievements.AchievementStatus.Awarded) > 0))
             {
@@ -183,7 +183,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"You have proven your prowess in unarmed combat. Fighting without a weapon now grants 0.05 " +
                     $"base damage per level for each owned achievement from the 'unarmed' line."));
             }
-            else if (!progComp.Data.TutorialProgress.Contains(TutorialStep.FlatCircle)
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.FlatCircle)
                 && (achievementComp?.Achievements.Count(a => a.Id.Contains("NOWEAPON")
                     && a.Id.Contains("NOARMOR")
                     && a.Status == Achievements.AchievementStatus.Awarded) > 0))
@@ -192,6 +192,27 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.FlatCircle, "A Flat Circle",
                     "Ironic, all this grinding just to get to a point where you use none of your gear or abilities."));
+            }
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Selling)
+                && (m_player.GetComponent<InventoryComponent>()?.ItemCount ?? 0) > 12)
+            {
+                progComp.Data.TutorialProgress.Add(TutorialStep.Selling);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.Selling, "I'm not a... pack animal",
+                    $"Items are piling up in your inventory. Selling them will make it less cluttered and also earn you some pretty coins." +
+                    $"\n  - You can sell items from you inventory using the context menu\n" +
+                    $"\n  - Selecting one or more items and pressing DEL works as well"));
+            }
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Reforging)
+                && (m_player.GetComponent<PlayerProgressComponent>()?.Data.TotalCoins ?? 0) > 100)
+            {
+                progComp.Data.TutorialProgress.Add(TutorialStep.Reforging);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.Reforging, "Let's put those coins to use",
+                    $"You can unburden yourself of some cumbersome coinage by reforging your items. This will reroll their rarity to a random value." +
+                    $"As your crafting ability improves, so will your chances of getting higher rarities." +
+                    $"\n  - You can reforge the rarity of items using the context menu\n" +
+                    $"\n  - Selecting an items and pressing CTRL+F works as well"));
             }
         }
     }

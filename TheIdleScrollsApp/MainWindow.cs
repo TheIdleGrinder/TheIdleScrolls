@@ -147,6 +147,10 @@ namespace TheIdleScrollsApp
                 m_canTravel = available;
                 UpdateButtonVisibility();
             }
+            else if (GameFeature.Crafting == area)
+            {
+                m_canReforge = available;
+            }
         }
 
         private void UpdateButtonVisibility()

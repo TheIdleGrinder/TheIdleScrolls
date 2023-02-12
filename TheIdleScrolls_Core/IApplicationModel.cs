@@ -55,7 +55,7 @@ namespace TheIdleScrolls_Core
         NoXp = 1 << 1,
     }
 
-    public enum GameFeature { Inventory, Armor, Abilities, Travel }
+    public enum GameFeature { Inventory, Armor, Abilities, Travel, Crafting }
 
     public record CharacterRepresentation(uint Id, string Name, string Class, int Level);
     public record ItemRepresentation(uint Id, string Name, string Description, 
