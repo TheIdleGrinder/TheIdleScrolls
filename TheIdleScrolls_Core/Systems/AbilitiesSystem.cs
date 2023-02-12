@@ -18,41 +18,56 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            if (m_player == null)
-                m_player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
+            m_player ??= coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
             if (m_player == null || !m_player.HasComponent<AbilitiesComponent>())
                 return;
-
-            var inCombat = m_player.GetComponent<AttackComponent>()?.InCombat ?? false;
-            if (!inCombat)
-                return; // CornerCut: Assumes abilities only increase during combat
 
             var abilitiesComp = m_player.GetComponent<AbilitiesComponent>();
             if (abilitiesComp == null)
                 return;
 
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<ItemMovedMessage>())
+            // Update crafting ability
+            var craftAbl = abilitiesComp.GetAbility(Properties.Constants.Key_Ability_Crafting);
+            if (craftAbl != null)
             {
-                ItemFactory itemFactory = new();
-                var equipmentComp = m_player.GetComponent<EquipmentComponent>();
-                if (equipmentComp == null)
-                    return; // CornerCut: Assumes that all abilities are tied to items
-                m_weaponFamilies = equipmentComp.GetItems()
-                    .Where(i => i.IsItem() && i.IsWeapon())
-                    .Select(i => i.GetComponent<ItemComponent>()!.Code.FamilyId) // ! is ok, because the entity is guaranteed to be an item
-                    .ToList();
-                m_armorFamilies = equipmentComp.GetItems()
-                    .Where(i => i.IsItem() && i.IsArmor())
-                    .Select(i => i.GetComponent<ItemComponent>()!.Code.FamilyId) // ! is ok, because the entity is guaranteed to be an item
-                    .ToList();
+                bool levelIncrease = false;
+                foreach (var reforgeMsg in coordinator.FetchMessagesByType<ItemReforgedMessage>().Where(m => m.Owner == m_player))
+                {
+                    int xp = (int)Math.Round(world.XpMultiplier * reforgeMsg.CoinsPaid);
+                    AbilitiesComponent.AddXPResult result = abilitiesComp.AddXP(Properties.Constants.Key_Ability_Crafting, xp);
+                    if (result == AbilitiesComponent.AddXPResult.LevelIncreased)
+                        levelIncrease = true;
+                }
+                if (levelIncrease)
+                    coordinator.PostMessage(this, new AbilityImprovedMessage(craftAbl.Key.Localize(), craftAbl.Level));
             }
 
-            var multiplier = world.XpMultiplier * Math.Sqrt(world.Zone.Level);
-            var gain = dt * multiplier;
-            AddXP(m_weaponFamilies, gain, coordinator);
-            AddXP(m_armorFamilies, gain, coordinator);
+            // Update fighting abilities
+            if (m_player.GetComponent<AttackComponent>()?.InCombat ?? false)
+            {
+                if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<ItemMovedMessage>())
+                {
+                    ItemFactory itemFactory = new();
+                    var equipmentComp = m_player.GetComponent<EquipmentComponent>();
+                    if (equipmentComp == null)
+                        return; // CornerCut: Assumes that all abilities are tied to items
+                    m_weaponFamilies = equipmentComp.GetItems()
+                        .Where(i => i.IsItem() && i.IsWeapon())
+                        .Select(i => i.GetComponent<ItemComponent>()!.Code.FamilyId) // ! is ok, because the entity is guaranteed to be an item
+                        .ToList();
+                    m_armorFamilies = equipmentComp.GetItems()
+                        .Where(i => i.IsItem() && i.IsArmor())
+                        .Select(i => i.GetComponent<ItemComponent>()!.Code.FamilyId) // ! is ok, because the entity is guaranteed to be an item
+                        .ToList();
+                }
 
-            m_firstUpdate = false;
+                var multiplier = world.XpMultiplier * Math.Sqrt(world.Zone.Level);
+                var gain = dt * multiplier;
+                AddXP(m_weaponFamilies, gain, coordinator);
+                AddXP(m_armorFamilies, gain, coordinator);
+
+                m_firstUpdate = false; // First update is only relevant for the fighting abilities
+            }
         }
 
         void AddXP(List<string> itemFamilies, double fullAmount, Coordinator coordinator)

@@ -11,17 +11,23 @@ namespace TheIdleScrolls_Core.Components
 {
     public class AbilitiesComponent : IComponent
     {
-        Dictionary<string, Ability> m_abilities = new();
-        static Func<int, int> s_xpFunction = (x) => 60 * x;
+        readonly Dictionary<string, Ability> m_abilities = new();
+        static readonly Func<int, int> s_xpFunction = (x) => 60 * x;
 
         public AbilitiesComponent() // CornerCut: Abilities should be assigned somewhere else
         {
+            // Weapons and armor
             foreach (string key in ItemFactory.GetAllItemFamilyIds())
             {
-                Ability ability = new Ability(key);
-                ability.Level = 10;
+                Ability ability = new(key)
+                {
+                    Level = 10
+                };
                 AddAbility(ability);
             }
+            // Crafting
+            Ability crafting = new(Properties.Constants.Key_Ability_Crafting) { Level = 1 };
+            AddAbility(crafting);
         }
 
         public void AddAbility(Ability ability)
