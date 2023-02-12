@@ -210,7 +210,7 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Reforging, "Let's put those coins to use",
                     $"You can unburden yourself of some cumbersome coinage by reforging your items. This will reroll their rarity to a random value." +
-                    $"As your crafting ability improves, so will your chances of producing higher rarities.\n" +
+                    $"As your crafting ability improves, higher rarity levels become available and their probability increases.\n" +
                     $"\n  - You can reforge the rarity of items using the context menu\n" +
                     $"\n  - Selecting an items and pressing CTRL+F works as well"));
             }

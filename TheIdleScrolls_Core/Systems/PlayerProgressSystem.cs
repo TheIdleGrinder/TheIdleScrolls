@@ -68,7 +68,7 @@ namespace TheIdleScrolls_Core.Systems
                     if (coins > progComp.Data.MaxCoins)
                         progComp.Data.MaxCoins = coins;
                 }
-                if (progComp.Data.MaxCoins > progComp.Data.TotalCoins) // Fixes old save games from before total coins were
+                if (progComp.Data.MaxCoins > progComp.Data.TotalCoins) // Fixes old save games from before total coins were tracked
                     progComp.Data.TotalCoins = progComp.Data.MaxCoins;
             }
 

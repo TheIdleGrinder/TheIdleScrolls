@@ -23,6 +23,8 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     throw new Exception($"{owner.GetName()} does have {item.GetName()} in inventory");
                 }
+                int itemLevel = ItemFactory.GetItemDropLevel(item.GetComponent<ItemComponent>()?.Code
+                    ?? throw new Exception($"{item.GetName()} is not an item"));
                 // Check funds
                 int cost = item.GetComponent<ItemReforgeableComponent>()?.Cost ?? throw new Exception($"{item.GetName()} is not reforgeable");
                 CoinPurseComponent? purseComp = owner.GetComponent<CoinPurseComponent>();
@@ -30,13 +32,19 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     throw new Exception($"{owner.GetName()} does not have {cost} coins for reforging {item.GetName()}");
                 }
+                // Get ability value
+                int abilityLevel = owner.GetComponent<AbilitiesComponent>()?.GetAbility(Properties.Constants.Key_Ability_Crafting)?.Level ?? 0;
+                double rarityMulti = world.RarityMultiplier * (1.0 + abilityLevel / 100.0); // 1% bonus per ability level
+                // Calculate craft level
+                int craftLevel = itemLevel;
+                if (abilityLevel > 0) 
+                    craftLevel = Math.Min((abilityLevel + itemLevel) / 2, 100); // Craft level = average of item and ability level, capped at 100
                 // Spend coins
                 purseComp.RemoveCoins(cost);
                 coordinator.PostMessage(this, new CoinsChangedMessage(owner, -cost));
                 // Perform reforge
-                int itemLevel = ItemFactory.GetItemDropLevel(item.GetComponent<ItemComponent>()?.Code
-                    ?? throw new Exception($"{item.GetName()} is not an item"));
-                int newRarity = ItemFactory.GetRandomRarity(itemLevel, world.RarityMultiplier);
+
+                int newRarity = ItemFactory.GetRandomRarity(craftLevel, rarityMulti);
                 ItemFactory.SetItemRarity(item, newRarity);
                 item.GetComponent<ItemReforgeableComponent>()!.Reforged = true;
                 // Send result message
