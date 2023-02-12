@@ -26,7 +26,7 @@ namespace TheIdleScrollsApp
         int m_maxWilderness = 0;
 
         bool m_canTravel = false;
-        bool m_canReforge = true;
+        bool m_canReforge = false;
         bool m_inDungeon = false;
 
         int m_coins = 0;

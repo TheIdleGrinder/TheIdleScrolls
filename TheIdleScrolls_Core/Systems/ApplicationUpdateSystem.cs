@@ -17,9 +17,8 @@ namespace TheIdleScrolls_Core.Systems
         IApplicationModel? m_appModel = null;
         bool m_firstUpdate = true;
         uint m_playerId = 0;
-
-        Cooldown m_abilityUpdate = new(1.0);
-        Cooldown m_statisticsUpdate = new(1.0);
+        readonly Cooldown m_abilityUpdate = new(1.0);
+        readonly Cooldown m_statisticsUpdate = new(1.0);
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -206,6 +205,7 @@ namespace TheIdleScrolls_Core.Systems
                     m_appModel?.SetFeatureAvailable(GameFeature.Armor, progress.Contains(TutorialStep.Armor));
                     m_appModel?.SetFeatureAvailable(GameFeature.Abilities, progress.Contains(TutorialStep.Abilities));
                     m_appModel?.SetFeatureAvailable(GameFeature.Travel, player.HasComponent<TravellerComponent>());
+                    m_appModel?.SetFeatureAvailable(GameFeature.Crafting, progress.Contains(TutorialStep.Reforging));
                 }
 
                 var messages = coordinator.FetchMessagesByType<TutorialMessage>();

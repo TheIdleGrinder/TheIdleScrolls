@@ -199,7 +199,7 @@ namespace TheIdleScrolls_Core.Systems
                 progComp.Data.TutorialProgress.Add(TutorialStep.Selling);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Selling, "I'm not a... pack animal",
-                    $"Items are piling up in your inventory. Selling them will make it less cluttered and also earn you some pretty coins." +
+                    $"Items are piling up in your inventory. Selling them will make it less cluttered and also earn you some pretty coins.\n" +
                     $"\n  - You can sell items from you inventory using the context menu\n" +
                     $"\n  - Selecting one or more items and pressing DEL works as well"));
             }
@@ -210,7 +210,7 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Reforging, "Let's put those coins to use",
                     $"You can unburden yourself of some cumbersome coinage by reforging your items. This will reroll their rarity to a random value." +
-                    $"As your crafting ability improves, so will your chances of getting higher rarities." +
+                    $"As your crafting ability improves, so will your chances of producing higher rarities.\n" +
                     $"\n  - You can reforge the rarity of items using the context menu\n" +
                     $"\n  - Selecting an items and pressing CTRL+F works as well"));
             }
