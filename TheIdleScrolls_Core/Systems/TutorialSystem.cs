@@ -19,6 +19,10 @@ namespace TheIdleScrolls_Core.Systems
         const int ItemCountForSelling = 12;
         const int CoinsForReforging = 200;
 
+        const string FinalStoryDungeon = "THRESHOLD";
+        const string UnarmoredKey = "NOARMOR";
+        const string UnarmedKey = "NOWEAPON";
+
         Entity? m_player = null;
 
         bool m_firstUpdate = true;
@@ -154,7 +158,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n  - Received '{itemName}'"));
             }
             if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Finished)
-                && progComp.Data.GetClearedDungeons().Contains("THRESHOLD"))
+                && progComp.Data.GetClearedDungeons().Contains(FinalStoryDungeon))
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Finished);
                 var time = progComp.Data.Playtime;
@@ -176,7 +180,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n  - Evasion increases the length of time limits by 1% per point."));
             }
             if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
-                && (achievementComp?.Achievements.Count(a => a.Id.Contains("NOWEAPON") 
+                && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey) 
                     && a.Status == Achievements.AchievementStatus.Awarded) > 0))
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.Unarmed);
@@ -186,14 +190,33 @@ namespace TheIdleScrolls_Core.Systems
                     $"base damage per level for each owned achievement from the 'unarmed' line."));
             }
             if (!progComp.Data.TutorialProgress.Contains(TutorialStep.FlatCircle)
-                && (achievementComp?.Achievements.Count(a => a.Id.Contains("NOWEAPON")
-                    && a.Id.Contains("NOARMOR")
+                && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey)
+                    && a.Id.Contains(UnarmoredKey)
                     && a.Status == Achievements.AchievementStatus.Awarded) > 0))
             {
                 progComp.Data.TutorialProgress.Add(TutorialStep.FlatCircle);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.FlatCircle, "A Flat Circle",
                     "Ironic, all this grinding just to get to a point where you use none of your gear or abilities."));
+            }
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.ItemFound)
+                && coordinator.MessageTypeIsOnBoard<ItemReceivedMessage>())
+            {
+                if (coordinator.FetchMessagesByType<ItemReceivedMessage>()
+                    .Any(m => ItemIdentifier.ExtractGenusIndex(m.Item.GetItemCode()) > 0))
+                {
+                    progComp.Data.TutorialProgress.Add(TutorialStep.ItemFound);
+                    coordinator.PostMessage(this,
+                        new TutorialMessage(TutorialStep.ItemFound, "Loot!",
+                        $"You just found your first item. Defeated monsters will occasionally drop equipment which gets " +
+                        $"stronger as you progress to higher zones."));
+                }
+            }
+            // Skip tutorial for selling if the players sells an item before getting to it
+            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Selling) 
+                && coordinator.MessageTypeIsOnBoard<CoinsChangedMessage>())
+            {
+                progComp.Data.TutorialProgress.Add(TutorialStep.Selling);
             }
             if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Selling)
                 && (m_player.GetComponent<InventoryComponent>()?.ItemCount ?? 0) > ItemCountForSelling)
