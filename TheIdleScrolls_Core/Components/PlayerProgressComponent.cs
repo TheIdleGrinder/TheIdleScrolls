@@ -34,6 +34,7 @@ namespace TheIdleScrolls_Core.Components
         public int TotalCoins { get; set; } = 0;
         public int CoinsSpentOnForging { get; set; } = 0;
         public int BestReforge { get; set;} = 0;
+        public int BestG0Reforge { get; set;} = 0;
 
         public HashSet<string> GetClearedDungeons()
         {

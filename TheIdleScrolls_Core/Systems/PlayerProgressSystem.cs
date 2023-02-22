@@ -78,7 +78,14 @@ namespace TheIdleScrolls_Core.Systems
             {
                 progComp.Data.CoinsSpentOnForging += forgeMsg.CoinsPaid;
                 if (forgeMsg.RarityResult > progComp.Data.BestReforge)
+                {
                     progComp.Data.BestReforge = forgeMsg.RarityResult;
+                }
+                if ((forgeMsg.Item.GetItemId()?.GenusIndex ?? -1) == 0 
+                    && forgeMsg.RarityResult > progComp.Data.BestG0Reforge)
+                {
+                    progComp.Data.BestG0Reforge = forgeMsg.RarityResult;
+                }
             }
         }
     }

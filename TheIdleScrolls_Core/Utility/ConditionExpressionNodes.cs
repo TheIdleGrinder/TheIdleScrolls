@@ -59,6 +59,22 @@ namespace TheIdleScrolls_Core.Utility
             {
                 return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.Playtime ?? 0.0);
             }
+            else if (m_fieldId == "MaxCoins")
+            {
+                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.MaxCoins ?? 0.0);
+            }
+            else if (m_fieldId == "TotalCoins")
+            {
+                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.TotalCoins ?? 0.0);
+            }
+            else if (m_fieldId == "BestReforge")
+            {
+                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.BestReforge ?? 0.0);
+            }
+            else if (m_fieldId == "BestG0Craft")
+            {
+                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.BestG0Reforge ?? 0.0);
+            }
             else if (m_fieldId.StartsWith("dng_open:"))
             {
                 var dungeon = m_fieldId.Split(':')[1];

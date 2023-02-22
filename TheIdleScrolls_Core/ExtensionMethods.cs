@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrolls_Core
 {
@@ -38,6 +39,11 @@ namespace TheIdleScrolls_Core
         public static string GetItemCode(this Entity entity)
         {
             return entity.GetComponent<ItemComponent>()?.Code.Code ?? String.Empty;
+        }
+
+        public static ItemIdentifier? GetItemId(this Entity entity)
+        {
+            return entity.GetComponent<ItemComponent>()?.Code;
         }
 
         public static bool IsWeapon(this Entity entity)
