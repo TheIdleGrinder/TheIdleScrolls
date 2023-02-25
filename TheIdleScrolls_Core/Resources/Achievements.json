@@ -291,6 +291,140 @@
       "Description": "Train all abilities to level 100 with a single character"
     },
     {
+      "Id": "Crafting0",
+      "Prerequisite": "abl:ABL_CRAFT > 1",
+      "Condition": "abl:ABL_CRAFT >= 25",
+      "Title": "Apprentice Blacksmith",
+      "Description": "Train Crafting ability to level 25"
+    },
+    {
+      "Id": "Crafting1",
+      "Prerequisite": "Crafting0",
+      "Condition": "abl:ABL_CRAFT >= 50",
+      "Title": "Journeyman Blacksmith ",
+      "Description": "Train Crafting ability to level 50"
+    },
+    {
+      "Id": "Crafting2",
+      "Prerequisite": "Crafting1",
+      "Condition": "abl:ABL_CRAFT >= 75",
+      "Title": "Veteran Blacksmith",
+      "Description": "Train Crafting ability to level 75"
+    },
+    {
+      "Id": "Crafting3",
+      "Prerequisite": "Crafting2",
+      "Condition": "abl:ABL_CRAFT >= 100",
+      "Title": "Master Blacksmith",
+      "Description": "Train Crafting ability to level 100"
+    },
+    {
+      "Id": "BestReforge+1",
+      "Prerequisite": "abl:ABL_CRAFT > 1",
+      "Condition": "BestReforge >= 1",
+      "Title": "Transmuted Craft",
+      "Description": "Reforge an item to +1 rarity"
+    },
+    {
+      "Id": "BestReforge+2",
+      "Prerequisite": "BestReforge+1",
+      "Condition": "BestReforge >= 2",
+      "Title": "Augmented Craft",
+      "Description": "Reforge an item to +2 rarity"
+    },
+    {
+      "Id": "BestReforge+3",
+      "Prerequisite": "BestReforge+2",
+      "Condition": "BestReforge >= 3",
+      "Title": "Regaled Craft",
+      "Description": "Reforge an item to +3 rarity"
+    },
+    {
+      "Id": "BestReforge+4",
+      "Prerequisite": "BestReforge+3",
+      "Condition": "BestReforge >= 4",
+      "Title": "Exalted Craft",
+      "Description": "Reforge an item to +4 rarity"
+    },
+    {
+      "Id": "BestReforge+5",
+      "Prerequisite": "BestReforge+4",
+      "Condition": "BestReforge >= 5",
+      "Title": "Divined Craft",
+      "Description": "Reforge an item to +5 rarity"
+    },
+    {
+      "Id": "G0Reforge+3",
+      "Hidden": true,
+      "Prerequisite": "BestReforge+3",
+      "Condition": "BestG0Craft >= 3",
+      "Title": "Still not Viable",
+      "Description": "Reforge a training item to +3 rarity or higher"
+    },
+    {
+      "Id": "TotalCoins0",
+      "Prerequisite": "",
+      "Condition": "TotalCoins >= 1000",
+      "Title": "Scavenger",
+      "Description": "Collect a total of 1000 coins with a single character"
+    },
+    {
+      "Id": "TotalCoins1",
+      "Prerequisite": "TotalCoins0",
+      "Condition": "TotalCoins >= 5000",
+      "Title": "Fence",
+      "Description": "Collect a total of 5000 coins with a single character"
+    },
+    {
+      "Id": "TotalCoins2",
+      "Prerequisite": "TotalCoins1",
+      "Condition": "TotalCoins >= 25000",
+      "Title": "Merchant",
+      "Description": "Collect a total of 25000 coins with a single character"
+    },
+    {
+      "Id": "TotalCoins3",
+      "Prerequisite": "TotalCoins2",
+      "Condition": "TotalCoins >= 100000",
+      "Title": "Wholesaler",
+      "Description": "Collect a total of 100000 coins with a single character"
+    },
+    {
+      "Id": "TotalCoins4",
+      "Prerequisite": "TotalCoins3",
+      "Condition": "TotalCoins >= 500000",
+      "Title": "Patritian",
+      "Description": "Collect a total of 500000 coins with a single character"
+    },
+    {
+      "Id": "MaxCoins0",
+      "Prerequisite": "TotalCoins0",
+      "Condition": "MaxCoins >= 1000",
+      "Title": "Pocket Change",
+      "Description": "Stockpile 1000 coins"
+    },
+    {
+      "Id": "MaxCoins1",
+      "Prerequisite": "MaxCoins0",
+      "Condition": "MaxCoins >= 5000",
+      "Title": "Nest Egg",
+      "Description": "Stockpile 5000 coins"
+    },
+    {
+      "Id": "MaxCoins2",
+      "Prerequisite": "MaxCoins1",
+      "Condition": "MaxCoins >= 25000",
+      "Title": "Money Bags",
+      "Description": "Stockpile 25000 coins"
+    },
+    {
+      "Id": "MaxCoins3",
+      "Prerequisite": "MaxCoins2",
+      "Condition": "MaxCoins >= 100000",
+      "Title": "Money Vault",
+      "Description": "Stockpile 100000 coins"
+    },
+    {
       "Id": "Instructions Unclear",
       "Condition": "Losses > 0 && Level < 12",
       "Title": "Instructions Unclear",

@@ -32,11 +32,12 @@ namespace Test_TheIdleScrolls_Core
                     Assert.That(achievement.Description, Is.Not.Empty);
                     Assert.That(achievement.Condition, Is.Not.Empty);
                 });
-                if (achievement.Prerequisite != String.Empty)
-                {
-                    var referenced = achievementKingdom.Achievements.Where(a => a.Id == achievement.Prerequisite);
-                    Assert.That(referenced, Is.Not.Empty);
-                }
+                // Achievements no longer reference other achievements in their prerequisites
+                //if (achievement.Prerequisite != String.Empty)
+                //{
+                //    var referenced = achievementKingdom.Achievements.Where(a => a.Id == achievement.Prerequisite);
+                //    Assert.That(referenced, Is.Not.Empty);
+                //}
             }
         }
     }
