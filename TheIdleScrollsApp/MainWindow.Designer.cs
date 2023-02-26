@@ -79,6 +79,7 @@
             this.gridInventory = new System.Windows.Forms.DataGridView();
             this.cMenuInventory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cMenuInventorySell = new System.Windows.Forms.ToolStripMenuItem();
+            this.cMenuInventoryReforge = new System.Windows.Forms.ToolStripMenuItem();
             this.tabAbilities = new System.Windows.Forms.TabPage();
             this.gridAbilities = new System.Windows.Forms.DataGridView();
             this.tabAchievements = new System.Windows.Forms.TabPage();
@@ -93,7 +94,9 @@
             this.textBoxStats = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFooter = new System.Windows.Forms.ToolStripStatusLabel();
-            this.cMenuInventoryReforge = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnDungeon10 = new System.Windows.Forms.Button();
+            this.btnDungeon11 = new System.Windows.Forms.Button();
+            this.btnDungeon12 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -295,6 +298,9 @@
             // 
             // tabCharacter
             // 
+            this.tabCharacter.Controls.Add(this.btnDungeon12);
+            this.tabCharacter.Controls.Add(this.btnDungeon11);
+            this.tabCharacter.Controls.Add(this.btnDungeon10);
             this.tabCharacter.Controls.Add(this.btnDungeon9);
             this.tabCharacter.Controls.Add(this.btnDungeon6);
             this.tabCharacter.Controls.Add(this.btnDungeon3);
@@ -320,7 +326,7 @@
             // 
             this.btnDungeon9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon9.AutoSize = true;
-            this.btnDungeon9.Location = new System.Drawing.Point(399, 468);
+            this.btnDungeon9.Location = new System.Drawing.Point(405, 444);
             this.btnDungeon9.Name = "btnDungeon9";
             this.btnDungeon9.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon9.TabIndex = 16;
@@ -332,7 +338,7 @@
             // 
             this.btnDungeon6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon6.AutoSize = true;
-            this.btnDungeon6.Location = new System.Drawing.Point(214, 468);
+            this.btnDungeon6.Location = new System.Drawing.Point(220, 444);
             this.btnDungeon6.Name = "btnDungeon6";
             this.btnDungeon6.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon6.TabIndex = 15;
@@ -344,7 +350,7 @@
             // 
             this.btnDungeon3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon3.AutoSize = true;
-            this.btnDungeon3.Location = new System.Drawing.Point(27, 468);
+            this.btnDungeon3.Location = new System.Drawing.Point(33, 444);
             this.btnDungeon3.Name = "btnDungeon3";
             this.btnDungeon3.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon3.TabIndex = 14;
@@ -356,7 +362,7 @@
             // 
             this.btnDungeon7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon7.AutoSize = true;
-            this.btnDungeon7.Location = new System.Drawing.Point(399, 407);
+            this.btnDungeon7.Location = new System.Drawing.Point(405, 383);
             this.btnDungeon7.Name = "btnDungeon7";
             this.btnDungeon7.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon7.TabIndex = 12;
@@ -368,7 +374,7 @@
             // 
             this.btnDungeon8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon8.AutoSize = true;
-            this.btnDungeon8.Location = new System.Drawing.Point(399, 438);
+            this.btnDungeon8.Location = new System.Drawing.Point(405, 414);
             this.btnDungeon8.Name = "btnDungeon8";
             this.btnDungeon8.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon8.TabIndex = 13;
@@ -380,7 +386,7 @@
             // 
             this.btnDungeon4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon4.AutoSize = true;
-            this.btnDungeon4.Location = new System.Drawing.Point(214, 407);
+            this.btnDungeon4.Location = new System.Drawing.Point(220, 383);
             this.btnDungeon4.Name = "btnDungeon4";
             this.btnDungeon4.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon4.TabIndex = 10;
@@ -392,7 +398,7 @@
             // 
             this.btnDungeon5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon5.AutoSize = true;
-            this.btnDungeon5.Location = new System.Drawing.Point(214, 438);
+            this.btnDungeon5.Location = new System.Drawing.Point(220, 414);
             this.btnDungeon5.Name = "btnDungeon5";
             this.btnDungeon5.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon5.TabIndex = 11;
@@ -404,7 +410,7 @@
             // 
             this.btnDungeon1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon1.AutoSize = true;
-            this.btnDungeon1.Location = new System.Drawing.Point(27, 407);
+            this.btnDungeon1.Location = new System.Drawing.Point(33, 383);
             this.btnDungeon1.Name = "btnDungeon1";
             this.btnDungeon1.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon1.TabIndex = 1;
@@ -416,7 +422,7 @@
             // 
             this.btnDungeon2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDungeon2.AutoSize = true;
-            this.btnDungeon2.Location = new System.Drawing.Point(27, 438);
+            this.btnDungeon2.Location = new System.Drawing.Point(33, 414);
             this.btnDungeon2.Name = "btnDungeon2";
             this.btnDungeon2.Size = new System.Drawing.Size(168, 25);
             this.btnDungeon2.TabIndex = 9;
@@ -758,15 +764,22 @@
             this.cMenuInventorySell,
             this.cMenuInventoryReforge});
             this.cMenuInventory.Name = "cMenuInventory";
-            this.cMenuInventory.Size = new System.Drawing.Size(181, 70);
+            this.cMenuInventory.Size = new System.Drawing.Size(116, 48);
             this.cMenuInventory.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.cMenuInventory_Closed);
             // 
             // cMenuInventorySell
             // 
             this.cMenuInventorySell.Name = "cMenuInventorySell";
-            this.cMenuInventorySell.Size = new System.Drawing.Size(180, 22);
+            this.cMenuInventorySell.Size = new System.Drawing.Size(115, 22);
             this.cMenuInventorySell.Text = "Sell";
             this.cMenuInventorySell.Click += new System.EventHandler(this.cMenuInventorySell_Click);
+            // 
+            // cMenuInventoryReforge
+            // 
+            this.cMenuInventoryReforge.Name = "cMenuInventoryReforge";
+            this.cMenuInventoryReforge.Size = new System.Drawing.Size(115, 22);
+            this.cMenuInventoryReforge.Text = "Reforge";
+            this.cMenuInventoryReforge.Click += new System.EventHandler(this.cMenuInventoryReforge_Click);
             // 
             // tabAbilities
             // 
@@ -925,12 +938,38 @@
             this.lblFooter.Size = new System.Drawing.Size(118, 17);
             this.lblFooter.Text = "toolStripStatusLabel1";
             // 
-            // cMenuInventoryReforge
+            // btnDungeon10
             // 
-            this.cMenuInventoryReforge.Name = "cMenuInventoryReforge";
-            this.cMenuInventoryReforge.Size = new System.Drawing.Size(180, 22);
-            this.cMenuInventoryReforge.Text = "Reforge";
-            this.cMenuInventoryReforge.Click += new System.EventHandler(this.cMenuInventoryReforge_Click);
+            this.btnDungeon10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon10.AutoSize = true;
+            this.btnDungeon10.Location = new System.Drawing.Point(33, 475);
+            this.btnDungeon10.Name = "btnDungeon10";
+            this.btnDungeon10.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon10.TabIndex = 17;
+            this.btnDungeon10.Text = "D10";
+            this.btnDungeon10.UseVisualStyleBackColor = true;
+            // 
+            // btnDungeon11
+            // 
+            this.btnDungeon11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon11.AutoSize = true;
+            this.btnDungeon11.Location = new System.Drawing.Point(220, 475);
+            this.btnDungeon11.Name = "btnDungeon11";
+            this.btnDungeon11.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon11.TabIndex = 18;
+            this.btnDungeon11.Text = "D11";
+            this.btnDungeon11.UseVisualStyleBackColor = true;
+            // 
+            // btnDungeon12
+            // 
+            this.btnDungeon12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.btnDungeon12.AutoSize = true;
+            this.btnDungeon12.Location = new System.Drawing.Point(405, 475);
+            this.btnDungeon12.Name = "btnDungeon12";
+            this.btnDungeon12.Size = new System.Drawing.Size(168, 25);
+            this.btnDungeon12.TabIndex = 19;
+            this.btnDungeon12.Text = "D12";
+            this.btnDungeon12.UseVisualStyleBackColor = true;
             // 
             // MainWindow
             // 
@@ -1043,5 +1082,8 @@
         private Label lblEqBoots;
         private Label lblEqGloves;
         private ToolStripMenuItem cMenuInventoryReforge;
+        private Button btnDungeon12;
+        private Button btnDungeon11;
+        private Button btnDungeon10;
     }
 }

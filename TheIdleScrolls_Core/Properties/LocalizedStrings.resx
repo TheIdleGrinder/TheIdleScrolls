@@ -159,6 +159,9 @@
   <data name="BOSS_CULTLEADER" xml:space="preserve">
     <value>Grand Wizard of the Order</value>
   </data>
+  <data name="BOSS_GIANTRAT" xml:space="preserve">
+    <value>Giant Rat</value>
+  </data>
   <data name="BOSS_MERCENARY" xml:space="preserve">
     <value>Mercenary Centurion</value>
   </data>
@@ -381,6 +384,9 @@
   <data name="MOB_ABOMINATION" xml:space="preserve">
     <value>Abomination</value>
   </data>
+  <data name="MOB_BIGRAT" xml:space="preserve">
+    <value>Big Rat</value>
+  </data>
   <data name="MOB_CULTIST" xml:space="preserve">
     <value>Cultist</value>
   </data>
@@ -408,6 +414,9 @@
   <data name="MOB_MERCENARY" xml:space="preserve">
     <value>Mercenary Legionnaire</value>
   </data>
+  <data name="MOB_RAT" xml:space="preserve">
+    <value>Rat</value>
+  </data>
   <data name="MOB_SKELETON" xml:space="preserve">
     <value>Skeleton</value>
   </data>
@@ -426,6 +435,12 @@
   <data name="OGRE" xml:space="preserve">
     <value>Ogre</value>
   </data>
+  <data name="PAGODA" xml:space="preserve">
+    <value>The Red Pagoda</value>
+  </data>
+  <data name="PAGODA_DESCRIPTION" xml:space="preserve">
+    <value />
+  </data>
   <data name="POL" xml:space="preserve">
     <value>Polearm</value>
   </data>
@@ -440,6 +455,12 @@
   </data>
   <data name="POL3" xml:space="preserve">
     <value>War Pike</value>
+  </data>
+  <data name="RATDEN" xml:space="preserve">
+    <value>Den of Rats</value>
+  </data>
+  <data name="RATDEN_DESCRIPTION" xml:space="preserve">
+    <value>Fighting rats, clearing some kind of den... A good start to a glorious adventure.\n\nThis dungeon awards weapons</value>
   </data>
   <data name="SBL" xml:space="preserve">
     <value>Short Blade</value>
@@ -456,6 +477,12 @@
   <data name="SBL3" xml:space="preserve">
     <value>Cutlass</value>
   </data>
+  <data name="SUNKENCITY" xml:space="preserve">
+    <value>The Sunken City</value>
+  </data>
+  <data name="SUNKENCITY_DESCRIPTION" xml:space="preserve">
+    <value />
+  </data>
   <data name="TEMPLE" xml:space="preserve">
     <value>Ancient Temple</value>
   </data>
@@ -467,6 +494,12 @@
   </data>
   <data name="THRESHOLD_DESCRIPTION" xml:space="preserve">
     <value>We were too late! The ritual has been completed and the gate between the dimensions has been opened. An army of demons is flooding through the rift. Stand fast and fight them off!</value>
+  </data>
+  <data name="WIZARDACADEMY" xml:space="preserve">
+    <value>The Wizard Academy</value>
+  </data>
+  <data name="WIZARDACADEMY_DESCRIPTION" xml:space="preserve">
+    <value />
   </data>
   <data name="WOLF" xml:space="preserve">
     <value>Wolf</value>

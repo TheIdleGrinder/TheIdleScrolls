@@ -149,7 +149,7 @@ namespace TheIdleScrolls_Core.Systems
                         dungeons.Add(new DungeonRepresentation(dungeon.Name, 
                             dungeon.Name.Localize(),
                             dungeon.Level,
-                            $"{dungeon.Name}_DESCRIPTION".Localize(),
+                            $"{dungeon.Name}_DESCRIPTION".Localize().Replace("\\n", "\n"),
                             dungeon.Rarity
                         ));
                     }

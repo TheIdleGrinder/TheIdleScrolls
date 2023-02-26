@@ -1,8 +1,67 @@
 ﻿{
   "Dungeons": [
     {
-      "Name": "CRYPT",
+      "Name": "RATDEN",
       "Level": 12,
+      "Rarity": 0,
+      "Floors": [
+        {
+          "MobCount": 2,
+          "TimeMultiplier": 1.5,
+          "MobTypes": [
+            "MOB_RAT"
+          ]
+        },
+        {
+          "MobCount": 5,
+          "TimeMultiplier": 3.2,
+          "MobTypes": [
+            "MOB_RAT"
+          ]
+        },
+        {
+          "MobCount": 5,
+          "TimeMultiplier": 4.2,
+          "MobTypes": [
+            "MOB_BIGRAT"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 3.1,
+          "MobTypes": [
+            "BOSS_GIANTRAT"
+          ]
+        }
+      ],
+      "LocalMobs": [
+        {
+          "Name": "MOB_RAT",
+          "HP": 0.8,
+          "Damage": 1.0
+        },
+        {
+          "Name": "MOB_BIGRAT",
+          "HP": 1.5,
+          "Damage": 0.8
+        },
+        {
+          "Name": "BOSS_GIANTRAT",
+          "HP": 4.0,
+          "Damage": 1.5
+        }
+      ],
+      "Rewards": {
+        "MinDropLevel": 10,
+        "UseLeveledLoot": true,
+        "SpecialRewards": [
+
+        ]
+      }
+    },
+    {
+      "Name": "CRYPT",
+      "Level": 18,
       "Rarity": 0,
       "Floors": [
         {
@@ -65,7 +124,7 @@
         }
       ],
       "Rewards": {
-        "MinDropLevel": 10,
+        "MinDropLevel": 13,
         "UseLeveledLoot": true,
         "SpecialRewards": [
 

@@ -252,7 +252,7 @@ namespace TheIdleScrollsApp
             if (selection >= 0 && selection < gridInventory.Rows.Count)
                 gridInventory.Rows[selection].Selected = true;
             if (offset >= 0 && gridInventory.Rows.Count > 0)
-                gridInventory.FirstDisplayedScrollingRowIndex = offset;
+                gridInventory.FirstDisplayedScrollingRowIndex = Math.Min(offset, gridInventory.RowCount - 1);
         }
 
         public void SetEquipment(List<ItemRepresentation> items)
@@ -319,8 +319,9 @@ namespace TheIdleScrollsApp
             btnAreaNext.Enabled = m_areaLevel < maxWilderness;
 
             var buttons = new List<Button>() { 
-                btnDungeon1, btnDungeon2, btnDungeon3, btnDungeon4, btnDungeon5,
-                btnDungeon6, btnDungeon7, btnDungeon8, btnDungeon9
+                btnDungeon1,  btnDungeon2, btnDungeon3, btnDungeon4, btnDungeon5,
+                btnDungeon6,  btnDungeon7, btnDungeon8, btnDungeon9, btnDungeon10,
+                btnDungeon11, btnDungeon12
             };
             buttons.ForEach(b => b.Visible = false);
 

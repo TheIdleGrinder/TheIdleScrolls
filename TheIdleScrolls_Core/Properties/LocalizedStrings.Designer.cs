@@ -187,6 +187,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Giant Rat ähnelt.
+        /// </summary>
+        internal static string BOSS_GIANTRAT {
+            get {
+                return ResourceManager.GetString("BOSS_GIANTRAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Mercenary Centurion ähnelt.
         /// </summary>
         internal static string BOSS_MERCENARY {
@@ -853,6 +862,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Big Rat ähnelt.
+        /// </summary>
+        internal static string MOB_BIGRAT {
+            get {
+                return ResourceManager.GetString("MOB_BIGRAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Cultist ähnelt.
         /// </summary>
         internal static string MOB_CULTIST {
@@ -934,6 +952,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rat ähnelt.
+        /// </summary>
+        internal static string MOB_RAT {
+            get {
+                return ResourceManager.GetString("MOB_RAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Skeleton ähnelt.
         /// </summary>
         internal static string MOB_SKELETON {
@@ -988,6 +1015,24 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Red Pagoda ähnelt.
+        /// </summary>
+        internal static string PAGODA {
+            get {
+                return ResourceManager.GetString("PAGODA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string PAGODA_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("PAGODA_DESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Polearm ähnelt.
         /// </summary>
         internal static string POL {
@@ -1029,6 +1074,24 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string POL3 {
             get {
                 return ResourceManager.GetString("POL3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Den of Rats ähnelt.
+        /// </summary>
+        internal static string RATDEN {
+            get {
+                return ResourceManager.GetString("RATDEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fighting rats, clearing some kind of den... A good start to a glorious adventure.\n\nThis dungeon awards weapons ähnelt.
+        /// </summary>
+        internal static string RATDEN_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("RATDEN_DESCRIPTION", resourceCulture);
             }
         }
         
@@ -1078,6 +1141,24 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Sunken City ähnelt.
+        /// </summary>
+        internal static string SUNKENCITY {
+            get {
+                return ResourceManager.GetString("SUNKENCITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string SUNKENCITY_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("SUNKENCITY_DESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Ancient Temple ähnelt.
         /// </summary>
         internal static string TEMPLE {
@@ -1110,6 +1191,24 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string THRESHOLD_DESCRIPTION {
             get {
                 return ResourceManager.GetString("THRESHOLD_DESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Wizard Academy ähnelt.
+        /// </summary>
+        internal static string WIZARDACADEMY {
+            get {
+                return ResourceManager.GetString("WIZARDACADEMY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string WIZARDACADEMY_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("WIZARDACADEMY_DESCRIPTION", resourceCulture);
             }
         }
         
