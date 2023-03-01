@@ -579,6 +579,240 @@
         "UseLeveledLoot": true,
         "SpecialRewards": []
       }
+    },
+    {
+      "Name": "SUNKENCITY",
+      "Level": 150,
+      "Condition": "Wilderness >= 150",
+      "Rarity": 3,
+      "Floors": [
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 3.0,
+          "MobTypes": [
+            "MOB_SHARK"
+          ]
+        },
+        {
+          "MobCount": 4,
+          "TimeMultiplier": 4.0,
+          "MobTypes": [
+            "MOB_DEEPONE"
+          ]
+        },
+        {
+          "MobCount": 2,
+          "TimeMultiplier": 2.0,
+          "MobTypes": [
+            "MOB_ANCIENTMACHINE"
+          ]
+        },
+        {
+          "MobCount": 6,
+          "TimeMultiplier": 4.5,
+          "MobTypes": [
+            "MOB_ANCIENTMACHINE",
+            "MOB_DEEPONE2"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 5.0,
+          "MobTypes": [
+            "BOSS_RENKE"
+          ]
+        }
+      ],
+      "LocalMobs": [
+        {
+          "Name": "MOB_SHARK",
+          "HP": 3,
+          "Damage": 3
+        },
+        {
+          "Name": "MOB_DEEPONE",
+          "HP": 3,
+          "Damage": 3.5
+        },
+        {
+          "Name": "MOB_ANCIENTMACHINE",
+          "HP": 4.0,
+          "Damage": 3
+        },
+        {
+          "Name": "MOB_DEEPONE2",
+          "HP": 3,
+          "Damage": 4
+        },
+        {
+          "Name": "BOSS_RENKE",
+          "HP": 10.0,
+          "Damage": 10
+        }
+      ],
+      "Rewards": {
+        "MinDropLevel": 61,
+        "UseLeveledLoot": true,
+        "SpecialRewards": []
+      }
+    },
+    {
+      "Name": "ACADEMY",
+      "Level": 150,
+      "Condition": "Wilderness >= 150",
+      "Rarity": 3,
+      "Floors": [
+        {
+          "MobCount": 5,
+          "TimeMultiplier": 5.0,
+          "MobTypes": [
+            "MOB_HUFFLE"
+          ]
+        },
+        {
+          "MobCount": 4,
+          "TimeMultiplier": 4.0,
+          "MobTypes": [
+            "MOB_RAVEN"
+          ]
+        },
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 3.0,
+          "MobTypes": [
+            "MOB_SNAKE"
+          ]
+        },
+        {
+          "MobCount": 2,
+          "TimeMultiplier": 2.0,
+          "MobTypes": [
+            "MOB_GRYPHON"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 5.0,
+          "MobTypes": [
+            "BOSS_SOREN"
+          ]
+        }
+      ],
+      "LocalMobs": [
+        {
+          "Name": "MOB_HUFFLE",
+          "HP": 3.0,
+          "Damage": 3.0
+        },
+        {
+          "Name": "MOB_RAVEN",
+          "HP": 3.5,
+          "Damage": 3.0
+        },
+        {
+          "Name": "MOB_SNAKE",
+          "HP": 4.0,
+          "Damage": 3.5
+        },
+        {
+          "Name": "MOB_GRYPHON",
+          "HP": 4.5,
+          "Damage": 3.8
+        },
+        {
+          "Name": "BOSS_SOREN",
+          "HP": 10.0,
+          "Damage": 10.0
+        }
+      ],
+      "Rewards": {
+        "MinDropLevel": 61,
+        "UseLeveledLoot": true,
+        "SpecialRewards": []
+      }
+    },
+    {
+      "Name": "PAGODA",
+      "Level": 150,
+      "Condition": "Wilderness >= 150",
+      "Rarity": 3,
+      "Floors": [
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 3.0,
+          "MobTypes": [
+            "MOB_MARTIALARTIST"
+          ]
+        },
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 3.0,
+          "MobTypes": [
+            "MOB_ASSASSIN"
+          ]
+        },
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 2.75,
+          "MobTypes": [
+            "MOB_ASSASSIN",
+            "MOB_TERRACOTTA"
+          ]
+        },
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 2.5,
+          "MobTypes": [
+            "MOB_TERRACOTTA"
+          ]
+        },
+        {
+          "MobCount": 3,
+          "TimeMultiplier": 3.0,
+          "MobTypes": [
+            "MOB_TERRACOTTA2"
+          ]
+        },
+        {
+          "MobCount": 1,
+          "TimeMultiplier": 5.0,
+          "MobTypes": [
+            "BOSS_HEINRICH"
+          ]
+        }
+      ],
+      "LocalMobs": [
+        {
+          "Name": "MOB_MARTIALARTIST",
+          "HP": 3.0,
+          "Damage": 3.0
+        },
+        {
+          "Name": "MOB_ASSASSIN",
+          "HP": 3.0,
+          "Damage": 4.0
+        },
+        {
+          "Name": "MOB_TERRACOTTA",
+          "HP": 4.0,
+          "Damage": 3.0
+        },
+        {
+          "Name": "MOB_TERRACOTTA2",
+          "HP": 5.5,
+          "Damage": 3.0
+        },
+        {
+          "Name": "BOSS_HEINRICH",
+          "HP": 10.0,
+          "Damage": 10.0
+        }
+      ],
+      "Rewards": {
+        "MinDropLevel": 61,
+        "UseLeveledLoot": true,
+        "SpecialRewards": []
+      }
     }
   ]
 }

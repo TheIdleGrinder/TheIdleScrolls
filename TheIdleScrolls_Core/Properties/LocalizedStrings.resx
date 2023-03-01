@@ -120,6 +120,12 @@
   <data name="ABL_CRAFT" xml:space="preserve">
     <value>Crafting</value>
   </data>
+  <data name="ACADEMY" xml:space="preserve">
+    <value>Wizard Academy</value>
+  </data>
+  <data name="ACADEMY_DESCRIPTION" xml:space="preserve">
+    <value />
+  </data>
   <data name="AXE" xml:space="preserve">
     <value>Axe</value>
   </data>
@@ -162,11 +168,20 @@
   <data name="BOSS_GIANTRAT" xml:space="preserve">
     <value>Giant Rat</value>
   </data>
+  <data name="BOSS_HEINRICH" xml:space="preserve">
+    <value>Distant Traveller</value>
+  </data>
   <data name="BOSS_MERCENARY" xml:space="preserve">
     <value>Mercenary Centurion</value>
   </data>
   <data name="BOSS_NECROMANCER" xml:space="preserve">
     <value>The Necromancer</value>
+  </data>
+  <data name="BOSS_RENKE" xml:space="preserve">
+    <value>Whitefish Leviathan</value>
+  </data>
+  <data name="BOSS_SOREN" xml:space="preserve">
+    <value>Salty Archmage</value>
   </data>
   <data name="BOSS_VOIDPRIEST" xml:space="preserve">
     <value>Priest of the Void</value>
@@ -238,7 +253,7 @@
     <value>The Crypt</value>
   </data>
   <data name="CRYPT_DESCRIPTION" xml:space="preserve">
-    <value>There is something stirring beneath the graveyard...</value>
+    <value>There is something stirring beneath the graveyard...\n\nThis dungeon awards armor pieces</value>
   </data>
   <data name="DRAGON" xml:space="preserve">
     <value>Dragon</value>
@@ -384,6 +399,12 @@
   <data name="MOB_ABOMINATION" xml:space="preserve">
     <value>Abomination</value>
   </data>
+  <data name="MOB_ANCIENTMACHINE" xml:space="preserve">
+    <value>Ancient Machine</value>
+  </data>
+  <data name="MOB_ASSASSIN" xml:space="preserve">
+    <value>Assassin</value>
+  </data>
   <data name="MOB_BIGRAT" xml:space="preserve">
     <value>Big Rat</value>
   </data>
@@ -392,6 +413,12 @@
   </data>
   <data name="MOB_CULTKNIGHT" xml:space="preserve">
     <value>Knight of the Order</value>
+  </data>
+  <data name="MOB_DEEPONE" xml:space="preserve">
+    <value>Deep One</value>
+  </data>
+  <data name="MOB_DEEPONE2" xml:space="preserve">
+    <value>Ancient Deep One</value>
   </data>
   <data name="MOB_DEMON1" xml:space="preserve">
     <value>Winged Demon</value>
@@ -405,11 +432,20 @@
   <data name="MOB_GREATERDEMON" xml:space="preserve">
     <value>Greater Demon of the Void</value>
   </data>
+  <data name="MOB_GRYPHON" xml:space="preserve">
+    <value>Gryphon Rider</value>
+  </data>
+  <data name="MOB_HUFFLE" xml:space="preserve">
+    <value>Angry Badger</value>
+  </data>
   <data name="MOB_IMP" xml:space="preserve">
     <value>Imp</value>
   </data>
   <data name="MOB_LESSERDEMON" xml:space="preserve">
     <value>Lessor Demon of the Void</value>
+  </data>
+  <data name="MOB_MARTIALARTIST" xml:space="preserve">
+    <value>Martial Artist</value>
   </data>
   <data name="MOB_MERCENARY" xml:space="preserve">
     <value>Mercenary Legionnaire</value>
@@ -417,8 +453,23 @@
   <data name="MOB_RAT" xml:space="preserve">
     <value>Rat</value>
   </data>
+  <data name="MOB_RAVEN" xml:space="preserve">
+    <value>Raven</value>
+  </data>
+  <data name="MOB_SHARK" xml:space="preserve">
+    <value>Shark</value>
+  </data>
   <data name="MOB_SKELETON" xml:space="preserve">
     <value>Skeleton</value>
+  </data>
+  <data name="MOB_SNAKE" xml:space="preserve">
+    <value>Snake Charmer</value>
+  </data>
+  <data name="MOB_TERRACOTTA" xml:space="preserve">
+    <value>Terracotta Guard</value>
+  </data>
+  <data name="MOB_TERRACOTTA2" xml:space="preserve">
+    <value>Terracotta General</value>
   </data>
   <data name="MOB_VOIDCULTIST" xml:space="preserve">
     <value>Void Infused Cultist</value>
@@ -481,7 +532,7 @@
     <value>The Sunken City</value>
   </data>
   <data name="SUNKENCITY_DESCRIPTION" xml:space="preserve">
-    <value />
+    <value>There's a forgotten city in a deep trench in the bottom of the sea...</value>
   </data>
   <data name="TEMPLE" xml:space="preserve">
     <value>Ancient Temple</value>
@@ -494,12 +545,6 @@
   </data>
   <data name="THRESHOLD_DESCRIPTION" xml:space="preserve">
     <value>We were too late! The ritual has been completed and the gate between the dimensions has been opened. An army of demons is flooding through the rift. Stand fast and fight them off!</value>
-  </data>
-  <data name="WIZARDACADEMY" xml:space="preserve">
-    <value>The Wizard Academy</value>
-  </data>
-  <data name="WIZARDACADEMY_DESCRIPTION" xml:space="preserve">
-    <value />
   </data>
   <data name="WOLF" xml:space="preserve">
     <value>Wolf</value>
