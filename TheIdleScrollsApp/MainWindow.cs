@@ -132,6 +132,7 @@ namespace TheIdleScrollsApp
             } 
             else if (GameFeature.Armor == area)
             {
+                lblEqOffHand.Visible = available;
                 lblEqChest.Visible = available;
                 lblEqHelmet.Visible = available;
                 lblEqGloves.Visible = available;
@@ -264,7 +265,12 @@ namespace TheIdleScrollsApp
                 {
                     switch (slot)
                     {
-                        case EquipmentSlot.Hand: m_Equipment.Hand = item; break;
+                        case EquipmentSlot.Hand:
+                            if (m_Equipment.Hand == null)
+                                m_Equipment.Hand = item;
+                            else
+                                m_Equipment.OffHand = item;
+                            break;
                         case EquipmentSlot.Chest: m_Equipment.Chest = item; break;
                         case EquipmentSlot.Head: m_Equipment.Head = item; break;
                         case EquipmentSlot.Arms: m_Equipment.Arms = item; break;
@@ -287,6 +293,7 @@ namespace TheIdleScrollsApp
             SetLabelItem(lblEqHelmet, m_Equipment.Head);
             SetLabelItem(lblEqGloves, m_Equipment.Arms);
             SetLabelItem(lblEqBoots, m_Equipment.Legs);
+            SetLabelItem(lblEqOffHand, null);
 
             lblAttack.Text = "Attack" + ((m_Equipment.Hand != null) ? $"\n({m_Equipment.Hand?.Name})" : "");
         }
@@ -398,6 +405,12 @@ namespace TheIdleScrollsApp
         {
             if (m_Equipment.Hand != null)
                 m_inputHandler.UnequipItem(m_playerId, m_Equipment.Hand.Id);
+        }
+
+        private void lblEqOffHand_DoubleClick(object sender, EventArgs e)
+        {
+            if (m_Equipment.OffHand != null)
+                m_inputHandler.UnequipItem(m_playerId, m_Equipment.OffHand.Id);
         }
 
         private void lblEqChest_DoubleClick(object sender, EventArgs e)
@@ -519,12 +532,12 @@ namespace TheIdleScrollsApp
                 cMenuInventoryReforge_Click(sender, e); // Wrong sender does not matter here
             }
         }
-
     }
 
     class Equipment
     {
         public ItemRepresentation? Hand { get; set; }
+        public ItemRepresentation? OffHand { get; set; }
         public ItemRepresentation? Chest { get; set; }
         public ItemRepresentation? Head { get; set; }
         public ItemRepresentation? Arms { get; set; }
@@ -538,6 +551,7 @@ namespace TheIdleScrollsApp
         public void Clear()
         {
             Hand = null;
+            OffHand = null;
             Chest = null;
             Head = null;
             Arms = null;
