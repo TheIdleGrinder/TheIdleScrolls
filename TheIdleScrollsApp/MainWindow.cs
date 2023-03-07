@@ -128,11 +128,12 @@ namespace TheIdleScrollsApp
             {
                 tabControl1.TabPages["tabInventory"].Text = available ? "Inventory" : "";
                 lblEqWeapon.Visible = available;
+                lblEqOffHand.Visible = available;
                 gridInventory.Visible = available;
             } 
             else if (GameFeature.Armor == area)
             {
-                lblEqOffHand.Visible = available;
+
                 lblEqChest.Visible = available;
                 lblEqHelmet.Visible = available;
                 lblEqGloves.Visible = available;

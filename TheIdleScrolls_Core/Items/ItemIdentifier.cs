@@ -104,14 +104,20 @@ namespace TheIdleScrolls_Core.Items
 
         public static int ExtractGenusIndex(string itemCode)
         {
-            int offset = Math.Max(itemCode.IndexOf('-') + 1, 0);
-            return Int32.Parse(itemCode[(offset + 3)..(offset + 4)]);
+            int offset = Math.Max(itemCode.IndexOf('-') + 4, 0);
+            int end = itemCode.IndexOf('+', offset);
+            if (end < 0)
+                end = itemCode.Length;
+            return Int32.Parse(itemCode[offset..end]);
         }
 
         public static string ExtractGenusId(string itemCode)
         {
             int offset = Math.Max(itemCode.IndexOf('-') + 1, 0);
-            return itemCode[offset..(offset + 4)]; // Leave out material and rarity
+            int end = itemCode.IndexOf('+', offset);
+            if (end < 0)
+                end = itemCode.Length;
+            return itemCode[offset..end]; // Leave out material and rarity
         }
 
         public static string ExtractSpeciesId(string itemCode)
