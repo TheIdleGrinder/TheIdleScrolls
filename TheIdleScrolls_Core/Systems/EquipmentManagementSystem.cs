@@ -50,12 +50,17 @@ namespace TheIdleScrolls_Core.Systems
                         if (equippableComp == null)
                             continue;
 
-                        var previousItem = equipmentComp.GetItemInSlot(equippableComp.Slot);
-                        if (previousItem != null)
+
+                        if (!equipmentComp.CanEquipItem(item))
                         {
-                            if (equipmentComp.UnequipItem(previousItem))
-                                inventoryComp.AddItem(previousItem);
-                        }                            
+                            // Remove previous item from slot
+                            var previousItem = equipmentComp.GetItemInSlot(equippableComp.Slot);
+                            if (previousItem != null)
+                            {
+                                if (equipmentComp.UnequipItem(previousItem))
+                                    inventoryComp.AddItem(previousItem);
+                            }
+                        }
 
                         bool couldEquip = equipmentComp.EquipItem(item);
                         if (!couldEquip)

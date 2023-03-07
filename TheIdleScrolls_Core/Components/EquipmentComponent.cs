@@ -32,7 +32,14 @@ namespace TheIdleScrolls_Core.Components
 
         public EquipmentComponent()
         {
-            m_freeSlots = new() { EquipmentSlot.Hand, EquipmentSlot.Chest, EquipmentSlot.Head, EquipmentSlot.Arms, EquipmentSlot.Legs };
+            m_freeSlots = new() { 
+                EquipmentSlot.Hand, 
+                EquipmentSlot.Hand, 
+                EquipmentSlot.Chest, 
+                EquipmentSlot.Head, 
+                EquipmentSlot.Arms, 
+                EquipmentSlot.Legs 
+            };
         }
 
         public bool EquipItem(Entity item)

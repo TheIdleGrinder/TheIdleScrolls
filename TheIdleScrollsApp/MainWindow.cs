@@ -294,7 +294,7 @@ namespace TheIdleScrollsApp
             SetLabelItem(lblEqHelmet, m_Equipment.Head);
             SetLabelItem(lblEqGloves, m_Equipment.Arms);
             SetLabelItem(lblEqBoots, m_Equipment.Legs);
-            SetLabelItem(lblEqOffHand, null);
+            SetLabelItem(lblEqOffHand, m_Equipment.OffHand);
 
             lblAttack.Text = "Attack" + ((m_Equipment.Hand != null) ? $"\n({m_Equipment.Hand?.Name})" : "");
         }
