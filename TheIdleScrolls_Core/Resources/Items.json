@@ -309,6 +309,18 @@
           }
         },
         {
+          "DropLevel": 17,
+          "ValidMaterials": [ "MAT_W0", "MAT_W1", "MAT_W2" ],
+          "Equippable": {
+            "Slot": "Hand",
+            "Encumbrance": 3.0
+          },
+          "Armor": {
+            "BaseArmor": 10.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
           "DropLevel": 25,
           "ValidMaterials": [ "MAT_L0", "MAT_L1", "MAT_L2" ],
           "Equippable": {
@@ -353,6 +365,18 @@
           },
           "Armor": {
             "BaseArmor": 9.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 27,
+          "ValidMaterials": [ "MAT_W0", "MAT_W1", "MAT_W2" ],
+          "Equippable": {
+            "Slot": "Hand",
+            "Encumbrance": 3.0
+          },
+          "Armor": {
+            "BaseArmor": 12.0,
             "BaseEvasion": 0.0
           }
         }
@@ -422,6 +446,18 @@
           }
         },
         {
+          "DropLevel": 17,
+          "ValidMaterials": [ "MAT_W0", "MAT_W1", "MAT_W2" ],
+          "Equippable": {
+            "Slot": "Hand",
+            "Encumbrance": 6.0
+          },
+          "Armor": {
+            "BaseArmor": 20.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
           "DropLevel": 25,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
@@ -466,6 +502,18 @@
           },
           "Armor": {
             "BaseArmor": 18.0,
+            "BaseEvasion": 0.0
+          }
+        },
+        {
+          "DropLevel": 27,
+          "ValidMaterials": [ "MAT_W0", "MAT_W1", "MAT_W2" ],
+          "Equippable": {
+            "Slot": "Hand",
+            "Encumbrance": 6.0
+          },
+          "Armor": {
+            "BaseArmor": 24.0,
             "BaseEvasion": 0.0
           }
         }
