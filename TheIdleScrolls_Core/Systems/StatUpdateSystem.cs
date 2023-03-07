@@ -67,14 +67,16 @@ namespace TheIdleScrolls_Core.Systems
                     if (itemComp != null && weaponComp != null)
                     {
                         combinedDmg += weaponComp.Damage;
-                        combinedCD += weaponComp.Cooldown;
+                        double localCD = weaponComp.Cooldown;
                         weaponCount++;
 
                         int abilityLvl = GetAbilityLevel(player, itemComp.Code.FamilyId);
-                        if (abilityLvl != -1)
+                        if (abilityLvl > 0)
                         {
-                            apsMulti *= (0.5 + 0.02 * abilityLvl); // CornerCut: Make this less 'hidden'
+                            localCD /= (0.5 + 0.02 * abilityLvl); // CornerCut: Make this less 'hidden'
                         }
+
+                        combinedCD += localCD;
                     }
 
                     if (itemComp != null && armorComp != null)
