@@ -88,6 +88,12 @@ namespace TheIdleScrolls_Core.Components
             var itemComp = item.GetComponent<ItemComponent>();
             if (itemComp == null)
                 return false;
+
+            // Block second shield
+            // CornerCut: allow more shields for characters with more arms
+            if (item.IsShield() && m_items.Any(i => i.IsShield()))
+                return false;
+
             List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
             foreach (var slot in requiredSlots)
             {
@@ -99,6 +105,11 @@ namespace TheIdleScrolls_Core.Components
             return true;
         }
 
+        /// <summary>
+        /// Find first item in a slot of the give type
+        /// </summary>
+        /// <param name="slot">Equipment slot to look in</param>
+        /// <returns>Item if any is eqipped in slot</returns>
         public Entity? GetItemInSlot(EquipmentSlot slot)
         {
             foreach (var item in m_items)

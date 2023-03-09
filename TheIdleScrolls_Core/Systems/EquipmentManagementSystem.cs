@@ -50,15 +50,37 @@ namespace TheIdleScrolls_Core.Systems
                         if (equippableComp == null)
                             continue;
 
-
                         if (!equipmentComp.CanEquipItem(item))
                         {
-                            // Remove previous item from slot
-                            var previousItem = equipmentComp.GetItemInSlot(equippableComp.Slot);
-                            if (previousItem != null)
+                            // Shields always replace shields
+                            if (item.IsShield())
                             {
-                                if (equipmentComp.UnequipItem(previousItem))
-                                    inventoryComp.AddItem(previousItem);
+                                Entity? prevShield = equipmentComp.GetItems().Where(i => i.IsShield()).FirstOrDefault();
+                                if (prevShield != null)
+                                {
+                                    if (equipmentComp.UnequipItem(prevShield))
+                                        inventoryComp.AddItem(prevShield);
+                                }
+                            }
+                            else if (item.IsWeapon()) // Weapons replace weapons before shields
+                            {
+                                Entity? prevWeapon = equipmentComp.GetItems().Where(i => i.IsWeapon()).FirstOrDefault();
+                                if (prevWeapon != null)
+                                {
+                                    if (equipmentComp.UnequipItem(prevWeapon))
+                                        inventoryComp.AddItem(prevWeapon);
+                                }
+                            }
+
+                            if (!equipmentComp.CanEquipItem(item))
+                            {
+                                // Remove previous item from slot
+                                var previousItem = equipmentComp.GetItemInSlot(equippableComp.Slot);
+                                if (previousItem != null)
+                                {
+                                    if (equipmentComp.UnequipItem(previousItem))
+                                        inventoryComp.AddItem(previousItem);
+                                }
                             }
                         }
 
