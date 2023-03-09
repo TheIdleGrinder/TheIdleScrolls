@@ -68,7 +68,7 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (equipmentComp != null)
                 {
-                    foreach (var item in equipmentComp.GetItems())
+                    foreach (var item in equipmentComp.GetItems().OrderBy(i => i.IsShield() ? 1: 0))
                     {
                         var eItem = GenerateItemRepresentation(item);
                         if (eItem != null)
