@@ -13,14 +13,18 @@ namespace Test_TheIdleScrolls_JSON
         public void Setup()
         {
             component = new();
-            var abilityLbl = new Ability("LBL", "Long Blade");
-            abilityLbl.Level = 17;
-            abilityLbl.XP = 71;
+            var abilityLbl = new Ability("LBL")
+            {
+                Level = 17,
+                XP = 71
+            };
             component.AddAbility(abilityLbl);
 
-            var abilityAxe = new Ability("AXE", "Axe");
-            abilityAxe.Level = 2;
-            abilityAxe.XP = 15;
+            var abilityAxe = new Ability("AXE")
+            {
+                Level = 2,
+                XP = 15
+            };
             component.AddAbility(abilityAxe);
         }
 
@@ -41,7 +45,6 @@ namespace Test_TheIdleScrolls_JSON
             Assert.Multiple(() =>
             {
                 Assert.That(abilityLbl.Key, Is.EqualTo("LBL"));
-                Assert.That(abilityLbl.Name, Is.EqualTo("Long Blade"));
                 Assert.That(abilityLbl.Level, Is.EqualTo(17));
                 Assert.That(abilityLbl.XP, Is.EqualTo(71));
             });
@@ -51,7 +54,6 @@ namespace Test_TheIdleScrolls_JSON
             Assert.Multiple(() =>
             {
                 Assert.That(abilityAxe.Key, Is.EqualTo("AXE"));
-                Assert.That(abilityAxe.Name, Is.EqualTo("Axe"));
                 Assert.That(abilityAxe.Level, Is.EqualTo(2));
                 Assert.That(abilityAxe.XP, Is.EqualTo(15));
             });
