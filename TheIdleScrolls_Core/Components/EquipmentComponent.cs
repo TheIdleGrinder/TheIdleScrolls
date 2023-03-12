@@ -87,7 +87,7 @@ namespace TheIdleScrolls_Core.Components
         {
             List<EquipmentSlot> result = new();
             List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
-            foreach (var slot in requiredSlots)
+            foreach (var slot in requiredSlots.ToHashSet())
             {
                 int missing = requiredSlots.Count(s => s == slot) - m_freeSlots.Count(s => s == slot);
                 for (int i = 0; i < missing; i++)
