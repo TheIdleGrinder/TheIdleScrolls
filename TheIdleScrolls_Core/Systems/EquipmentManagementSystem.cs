@@ -52,35 +52,40 @@ namespace TheIdleScrolls_Core.Systems
 
                         if (!equipmentComp.CanEquipItem(item))
                         {
-                            // Shields always replace shields
-                            if (item.IsShield())
+                            List<EquipmentSlot> missing = equipmentComp.GetMissingEquipmentSlotsForItem(item);
+                            // CornerCut: Don't try to figure out situations with multiple missing slots
+                            if (missing.Count == 1)
                             {
-                                Entity? prevShield = equipmentComp.GetItems().Where(i => i.IsShield()).FirstOrDefault();
-                                if (prevShield != null)
+                                // Shields always replace shields
+                                if (item.IsShield())
                                 {
-                                    if (equipmentComp.UnequipItem(prevShield))
-                                        inventoryComp.AddItem(prevShield);
+                                    Entity? prevShield = equipmentComp.GetItems().Where(i => i.IsShield()).FirstOrDefault();
+                                    if (prevShield != null)
+                                    {
+                                        if (equipmentComp.UnequipItem(prevShield))
+                                            inventoryComp.AddItem(prevShield);
+                                    }
                                 }
-                            }
-                            else if (item.IsWeapon()) // Weapons replace weapons before shields
-                            {
-                                Entity? prevWeapon = equipmentComp.GetItems().Where(i => i.IsWeapon()).FirstOrDefault();
-                                if (prevWeapon != null)
+                                else if (item.IsWeapon()) // Weapons replace weapons before shields
                                 {
-                                    if (equipmentComp.UnequipItem(prevWeapon))
-                                        inventoryComp.AddItem(prevWeapon);
+                                    Entity? prevWeapon = equipmentComp.GetItems().Where(i => i.IsWeapon()).FirstOrDefault();
+                                    if (prevWeapon != null)
+                                    {
+                                        if (equipmentComp.UnequipItem(prevWeapon))
+                                            inventoryComp.AddItem(prevWeapon);
+                                    }
                                 }
-                            }
 
-                            if (!equipmentComp.CanEquipItem(item))
-                            {
-                                // Remove previous item from slot
-                                //var previousItem = equipmentComp.GetItemInSlot(equippableComp.Slot);
-                                //if (previousItem != null)
-                                //{
-                                //    if (equipmentComp.UnequipItem(previousItem))
-                                //        inventoryComp.AddItem(previousItem);
-                                //}
+                                if (!equipmentComp.CanEquipItem(item))
+                                {
+                                    // Remove previous item from slot
+                                    var previousItem = equipmentComp.GetItemInSlot(missing.First());
+                                    if (previousItem != null)
+                                    {
+                                        if (equipmentComp.UnequipItem(previousItem))
+                                            inventoryComp.AddItem(previousItem);
+                                    }
+                                }
                             }
                         }
 

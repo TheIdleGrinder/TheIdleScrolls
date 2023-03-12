@@ -83,6 +83,19 @@ namespace TheIdleScrolls_Core.Components
             }
         }
 
+        public List<EquipmentSlot> GetMissingEquipmentSlotsForItem(Entity item)
+        {
+            List<EquipmentSlot> result = new();
+            List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
+            foreach (var slot in requiredSlots)
+            {
+                int missing = requiredSlots.Count(s => s == slot) - m_freeSlots.Count(s => s == slot);
+                for (int i = 0; i < missing; i++)
+                    result.Add(slot);
+            }
+            return result;
+        }
+
         public bool CanEquipItem(Entity item)
         {
             var itemComp = item.GetComponent<ItemComponent>();
