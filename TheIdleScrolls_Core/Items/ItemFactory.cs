@@ -54,7 +54,7 @@ namespace TheIdleScrolls_Core.Items
             if (description.Equippable != null)
             {
                 item.AddComponent(new EquippableComponent(
-                    EquipSlot.Parse(description.Equippable.Slot),
+                    description.Equippable.Slots.Select(s => EquipSlot.Parse(s)).ToList(),
                     description.Equippable.Encumbrance));
             }
             if (description.Weapon != null)

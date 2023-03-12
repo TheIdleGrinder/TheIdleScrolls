@@ -266,7 +266,7 @@ namespace TheIdleScrolls_Core.Systems
                 item.Id,
                 item.GetName(),
                 description,
-                new() { equipComp?.Slot ?? EquipmentSlot.Hand },
+                equipComp?.Slots ?? new() { EquipmentSlot.Hand },
                 itemComp?.Code.RarityLevel ?? 0,
                 item.GetComponent<ItemValueComponent>()?.Value ?? 0,
                 forgeComp?.Cost ?? -1,

@@ -137,13 +137,13 @@ namespace TheIdleScrolls_Core.Components
 
     public class EquippableComponent : IComponent
     {
-        public EquipmentSlot Slot { get; set; }
+        public List<EquipmentSlot> Slots { get; set; }
 
         public double Encumbrance { get; set; } 
 
-        public EquippableComponent(EquipmentSlot slot, double encumbrance)
+        public EquippableComponent(List<EquipmentSlot> slots, double encumbrance)
         { 
-            Slot = slot;
+            Slots = slots;
             Encumbrance = encumbrance;
         }
     }

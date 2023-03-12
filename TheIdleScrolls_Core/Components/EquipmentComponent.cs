@@ -22,8 +22,8 @@ namespace TheIdleScrolls_Core.Components
 
     public class EquipmentComponent : IComponent
     {
-        List<EquipmentSlot> m_freeSlots;
-        List<Entity> m_items = new();
+        readonly List<EquipmentSlot> m_freeSlots;
+        readonly List<Entity> m_items = new();
 
         public EquipmentComponent(List<EquipmentSlot> equipmentSlots)
         {
@@ -114,7 +114,7 @@ namespace TheIdleScrolls_Core.Components
         {
             foreach (var item in m_items)
             {
-                if (item.GetComponent<EquippableComponent>()?.Slot == slot)
+                if (item.GetComponent<EquippableComponent>()?.Slots.Contains(slot) ?? false)
                 {
                     return item;
                 }

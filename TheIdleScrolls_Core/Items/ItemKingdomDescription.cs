@@ -9,7 +9,7 @@ namespace TheIdleScrolls_Core.Items
 {
     public class EquippableDescription
     {
-        public string Slot { get; set; } = "";
+        public List<string> Slots { get; set; } = new();
         public double Encumbrance { get; set; } = 0.0;
     }
 

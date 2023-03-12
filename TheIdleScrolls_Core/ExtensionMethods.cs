@@ -67,7 +67,7 @@ namespace TheIdleScrolls_Core
             var equipComp = entity.GetComponent<EquippableComponent>();
             if (equipComp == null)
                 return new();
-            return new() { equipComp.Slot };
+            return equipComp.Slots;
         }
     }
 
