@@ -89,7 +89,7 @@
           "DropLevel": 30,
           "ValidMaterials": [ "MAT_M1", "MAT_M2" ],
           "Equippable": {
-            "Slots": [ "Hand" ]
+            "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
             "BaseDamage": 14.0,

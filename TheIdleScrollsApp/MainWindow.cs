@@ -262,21 +262,24 @@ namespace TheIdleScrollsApp
             m_Equipment.Clear();
             foreach (var item in items)
             {
+                bool firstSlot = true;
                 foreach (var slot in item.Slots)
                 {
+                    var displayItem = firstSlot ? item : item with { Rarity = -1 };
                     switch (slot)
                     {
                         case EquipmentSlot.Hand:
                             if (m_Equipment.Hand == null)
-                                m_Equipment.Hand = item;
+                                m_Equipment.Hand = displayItem;
                             else
-                                m_Equipment.OffHand = item;
+                                m_Equipment.OffHand = displayItem;
                             break;
-                        case EquipmentSlot.Chest: m_Equipment.Chest = item; break;
-                        case EquipmentSlot.Head: m_Equipment.Head = item; break;
-                        case EquipmentSlot.Arms: m_Equipment.Arms = item; break;
-                        case EquipmentSlot.Legs: m_Equipment.Legs = item; break;
+                        case EquipmentSlot.Chest: m_Equipment.Chest = displayItem; break;
+                        case EquipmentSlot.Head: m_Equipment.Head = displayItem; break;
+                        case EquipmentSlot.Arms: m_Equipment.Arms = displayItem; break;
+                        case EquipmentSlot.Legs: m_Equipment.Legs = displayItem; break;
                     }
+                    firstSlot = false;
                 }
             }
 
