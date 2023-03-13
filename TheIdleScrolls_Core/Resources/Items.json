@@ -56,11 +56,11 @@
           "DropLevel": 0,
           "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
-            "Slots": [ "Hand" ]
+            "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
-            "BaseDamage": 6.0,
-            "BaseCooldown": 1.45
+            "BaseDamage": 7.0,
+            "BaseCooldown": 1.4
           }
         },
         {
@@ -81,7 +81,7 @@
             "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
-            "BaseDamage": 15.0,
+            "BaseDamage": 18.0,
             "BaseCooldown": 1.85
           }
         },
@@ -92,8 +92,8 @@
             "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
-            "BaseDamage": 14.0,
-            "BaseCooldown": 1.55
+            "BaseDamage": 18.0,
+            "BaseCooldown": 1.65
           }
         }
       ]
@@ -130,7 +130,7 @@
             "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
-            "BaseDamage": 15.0,
+            "BaseDamage": 18.0,
             "BaseCooldown": 1.85
           }
         },
@@ -179,7 +179,7 @@
             "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
-            "BaseDamage": 16.0,
+            "BaseDamage": 19.0,
             "BaseCooldown": 1.95
           }
         },
@@ -206,8 +206,8 @@
             "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
-            "BaseDamage": 9.0,
-            "BaseCooldown": 2.05
+            "BaseDamage": 11.0,
+            "BaseCooldown": 2.1
           }
         },
         {
@@ -217,8 +217,8 @@
             "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
-            "BaseDamage": 17.0,
-            "BaseCooldown": 2.2
+            "BaseDamage": 20.0,
+            "BaseCooldown": 2.15
           }
         },
         {
@@ -228,7 +228,7 @@
             "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
-            "BaseDamage": 11.0,
+            "BaseDamage": 13.0,
             "BaseCooldown": 1.4
           }
         },
@@ -239,8 +239,8 @@
             "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
-            "BaseDamage": 21.0,
-            "BaseCooldown": 2.25
+            "BaseDamage": 26.0,
+            "BaseCooldown": 2.3
           }
         }
       ]
