@@ -78,7 +78,7 @@
           "DropLevel": 20,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
-            "Slots": [ "Hand" ]
+            "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
             "BaseDamage": 15.0,
@@ -127,7 +127,7 @@
           "DropLevel": 20,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
-            "Slots": [ "Hand" ]
+            "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
             "BaseDamage": 15.0,
@@ -176,7 +176,7 @@
           "DropLevel": 20,
           "ValidMaterials": [ "MAT_M0", "MAT_M1", "MAT_M2" ],
           "Equippable": {
-            "Slots": [ "Hand" ]
+            "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
             "BaseDamage": 16.0,
@@ -203,7 +203,7 @@
           "DropLevel": 0,
           "ValidMaterials": [ "MAT_SIMPLE" ],
           "Equippable": {
-            "Slots": [ "Hand" ]
+            "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
             "BaseDamage": 9.0,
@@ -214,7 +214,7 @@
           "DropLevel": 10,
           "ValidMaterials": [ "MAT_W0", "MAT_W1", "MAT_W2" ],
           "Equippable": {
-            "Slots": [ "Hand" ]
+            "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
             "BaseDamage": 17.0,
@@ -225,7 +225,7 @@
           "DropLevel": 20,
           "ValidMaterials": [ "MAT_W0", "MAT_W1", "MAT_W2" ],
           "Equippable": {
-            "Slots": [ "Hand" ]
+            "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
             "BaseDamage": 11.0,
@@ -236,7 +236,7 @@
           "DropLevel": 30,
           "ValidMaterials": [ "MAT_W1", "MAT_W2" ],
           "Equippable": {
-            "Slots": [ "Hand" ]
+            "Slots": [ "Hand", "Hand" ]
           },
           "Weapon": {
             "BaseDamage": 21.0,
