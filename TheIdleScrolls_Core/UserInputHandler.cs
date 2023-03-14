@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,5 +25,13 @@ namespace TheIdleScrollsApp
         public void LeaveDungeon();
 
         public void SetAutoProceed(bool autoProceed);
+    }
+
+    public class UserInputError : IMessage
+    {
+        public string Message { get; set; }
+        public UserInputError(string message) { Message = message; }
+        string IMessage.BuildMessage() { return $"Error: {Message}"; }
+        IMessage.PriorityLevel IMessage.GetPriority() { return IMessage.PriorityLevel.VeryHigh; }
     }
 }
