@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core;
 
-namespace TheIdleScrollsApp
+namespace TheIdleScrolls_Core
 {
     public interface IUserInputHandler
     {
@@ -27,10 +27,10 @@ namespace TheIdleScrollsApp
         public void SetAutoProceed(bool autoProceed);
     }
 
-    public class UserInputError : IMessage
+    public class UserInputErrorMessage : IMessage
     {
         public string Message { get; set; }
-        public UserInputError(string message) { Message = message; }
+        public UserInputErrorMessage(string message) { Message = message; }
         string IMessage.BuildMessage() { return $"Error: {Message}"; }
         IMessage.PriorityLevel IMessage.GetPriority() { return IMessage.PriorityLevel.VeryHigh; }
     }

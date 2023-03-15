@@ -13,7 +13,7 @@ namespace TheIdleScrolls_Core
     {
         ulong m_ticks = 0;
 
-        World m_world = new World { XpMultiplier = 5.0, RarityMultiplier = 2.0 };
+        World m_world = new() { XpMultiplier = 5.0, RarityMultiplier = 2.0 };
 
         Coordinator m_coordinator = new();
 

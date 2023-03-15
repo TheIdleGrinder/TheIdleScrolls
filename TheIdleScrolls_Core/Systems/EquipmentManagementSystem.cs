@@ -87,6 +87,12 @@ namespace TheIdleScrolls_Core.Systems
                                     }
                                 }
                             }
+                            else if (missing.Count > 1)
+                            {
+                                coordinator.PostMessage(this, 
+                                    new UserInputErrorMessage($"Too many occupied equipment slots to equip {item.GetName()}")
+                                );
+                            }
                         }
 
                         bool couldEquip = equipmentComp.EquipItem(item);
