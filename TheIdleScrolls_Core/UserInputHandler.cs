@@ -29,9 +29,9 @@ namespace TheIdleScrolls_Core
 
     public class UserInputErrorMessage : IMessage
     {
-        public string Message { get; set; }
-        public UserInputErrorMessage(string message) { Message = message; }
-        string IMessage.BuildMessage() { return $"Error: {Message}"; }
+        string m_message { get; set; }
+        public UserInputErrorMessage(string message) { m_message = message; }
+        string IMessage.BuildMessage() { return $"Error: {m_message}"; }
         IMessage.PriorityLevel IMessage.GetPriority() { return IMessage.PriorityLevel.VeryHigh; }
     }
 }
