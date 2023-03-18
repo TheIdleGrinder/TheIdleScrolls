@@ -27,11 +27,4 @@ namespace TheIdleScrolls_Core
         public void SetAutoProceed(bool autoProceed);
     }
 
-    public class UserInputErrorMessage : IMessage
-    {
-        string m_message { get; set; }
-        public UserInputErrorMessage(string message) { m_message = message; }
-        string IMessage.BuildMessage() { return $"Error: {m_message}"; }
-        IMessage.PriorityLevel IMessage.GetPriority() { return IMessage.PriorityLevel.VeryHigh; }
-    }
 }
