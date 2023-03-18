@@ -21,11 +21,14 @@ namespace MiniECS
 
     public class TextMessage : IMessage
     {
-        string m_message;
+        readonly string m_message;
+        
+        readonly IMessage.PriorityLevel m_priorityLevel;
 
-        public TextMessage(string message)
+        public TextMessage(string message, IMessage.PriorityLevel priority = IMessage.PriorityLevel.Debug)
         {
             m_message = message;
+            m_priorityLevel = priority;
         }
 
         string IMessage.BuildMessage()
@@ -35,7 +38,7 @@ namespace MiniECS
 
         IMessage.PriorityLevel IMessage.GetPriority()
         {
-            return IMessage.PriorityLevel.Debug;
+            return m_priorityLevel;
         }
     }
 }
