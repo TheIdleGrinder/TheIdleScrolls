@@ -13,17 +13,17 @@ namespace TheIdleScrolls_Core
     {
         ulong m_ticks = 0;
 
-        World m_world = new() { XpMultiplier = 5.0, RarityMultiplier = 2.0 };
+        readonly World m_world = new() { XpMultiplier = 5.0, RarityMultiplier = 2.0 };
 
-        Coordinator m_coordinator = new();
+        readonly Coordinator m_coordinator = new();
 
-        List<AbstractSystem> m_systems = new();
+        readonly List<AbstractSystem> m_systems = new();
 
-        DataAccessHandler m_dataHandler;
+        readonly DataAccessHandler m_dataHandler;
 
-        IUserInputHandler m_userInputHandler;
+        readonly IUserInputHandler m_userInputHandler;
 
-        ApplicationUpdateSystem m_appUpdateSystem;
+        readonly ApplicationUpdateSystem m_appUpdateSystem;
 
         public ulong Ticks { get { return m_ticks; } }
 
@@ -141,7 +141,7 @@ namespace TheIdleScrolls_Core
             return null;
         }
 
-        T ReadResourceFile<T>(string file)
+        static T ReadResourceFile<T>(string file)
         {
             return ResourceAccess.ParseResourceFile<T>("TheIdleScrolls_Core", file);
         }
