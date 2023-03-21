@@ -16,7 +16,7 @@ namespace TheIdleScrollsApp
     {
         public enum Area { Inventory }
 
-        const int TimePerTick = 100;
+        const int TimePerTick = 50;
         readonly GameRunner m_runner;
         DateTime m_lastTickStart;
         readonly IUserInputHandler m_inputHandler;
