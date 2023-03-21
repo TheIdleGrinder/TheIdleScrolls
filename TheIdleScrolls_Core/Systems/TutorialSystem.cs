@@ -19,7 +19,7 @@ namespace TheIdleScrolls_Core.Systems
         const int ItemCountForSelling = 12;
         const int CoinsForReforging = 200;
 
-        const string FinalStoryDungeon = "THRESHOLD";
+        public const string FinalStoryDungeon = "THRESHOLD";
         const string UnarmoredKey = "NOARMOR";
         const string UnarmedKey = "NOWEAPON";
 

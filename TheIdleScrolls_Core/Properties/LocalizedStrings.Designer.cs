@@ -205,6 +205,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Demonic Avatar ähnelt.
+        /// </summary>
+        internal static string BOSS_FINAL_DEMON {
+            get {
+                return ResourceManager.GetString("BOSS_FINAL_DEMON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Giant Rat ähnelt.
         /// </summary>
         internal static string BOSS_GIANTRAT {

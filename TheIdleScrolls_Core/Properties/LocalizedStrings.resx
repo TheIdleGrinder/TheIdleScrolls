@@ -165,6 +165,9 @@
   <data name="BOSS_CULTLEADER" xml:space="preserve">
     <value>Grand Wizard of the Order</value>
   </data>
+  <data name="BOSS_FINAL_DEMON" xml:space="preserve">
+    <value>Demonic Avatar</value>
+  </data>
   <data name="BOSS_GIANTRAT" xml:space="preserve">
     <value>Giant Rat</value>
   </data>
