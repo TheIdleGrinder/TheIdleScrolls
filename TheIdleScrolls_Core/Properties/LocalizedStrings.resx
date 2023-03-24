@@ -543,6 +543,12 @@
   <data name="SBL3" xml:space="preserve">
     <value>Cutlass</value>
   </data>
+  <data name="STORY_END_TEXT" xml:space="preserve">
+    <value>At the threshold between worlds you encounter the demonic champion.</value>
+  </data>
+  <data name="STORY_END_TITLE" xml:space="preserve">
+    <value>Convergence</value>
+  </data>
   <data name="SUNKENCITY" xml:space="preserve">
     <value>The Sunken City</value>
   </data>

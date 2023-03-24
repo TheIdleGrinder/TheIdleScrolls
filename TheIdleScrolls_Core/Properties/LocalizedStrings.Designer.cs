@@ -1339,6 +1339,24 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion. ähnelt.
+        /// </summary>
+        internal static string STORY_END_TEXT {
+            get {
+                return ResourceManager.GetString("STORY_END_TEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Convergence ähnelt.
+        /// </summary>
+        internal static string STORY_END_TITLE {
+            get {
+                return ResourceManager.GetString("STORY_END_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The Sunken City ähnelt.
         /// </summary>
         internal static string SUNKENCITY {

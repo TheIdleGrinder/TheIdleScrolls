@@ -22,8 +22,7 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            if (m_player == null)
-                m_player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
+            m_player ??= coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
             if (m_player == null)
                 return;
 

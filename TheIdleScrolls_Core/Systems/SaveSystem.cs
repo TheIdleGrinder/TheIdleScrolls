@@ -13,9 +13,9 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class SaveSystem : AbstractSystem
     {
-        DataAccessHandler m_dataAccessHandler;
+        readonly DataAccessHandler m_dataAccessHandler;
 
-        Cooldown m_cooldown = new(10.0);
+        readonly Cooldown m_cooldown = new(10.0);
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
