@@ -19,7 +19,7 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            bool trigger = m_cooldown.Update(dt) > 0;
+            bool trigger = m_cooldown.Update(dt) > 0 || coordinator.MessageTypeIsOnBoard<ManualSaveRequest>();
             if (trigger)
             {
                 Entity? player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
@@ -27,6 +27,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     m_dataAccessHandler.StoreEntity(player);
                     coordinator.PostMessage(this, new TextMessage("Game saved"));
+                    m_cooldown.Reset();
                 }
             }
 
@@ -44,6 +45,19 @@ namespace TheIdleScrolls_Core.Systems
         {
             m_dataAccessHandler = dataHandler;
             m_cooldown = new(cooldown);
+        }
+    }
+
+    public class ManualSaveRequest : IMessage
+    {
+        string IMessage.BuildMessage()
+        {
+            return $"Request: Save game";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
         }
     }
 }

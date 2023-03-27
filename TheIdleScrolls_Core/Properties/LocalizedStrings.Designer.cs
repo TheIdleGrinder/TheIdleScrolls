@@ -1339,7 +1339,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion.\n\nTime to finish: {0:0} s ähnelt.
         /// </summary>
         internal static string STORY_END_TEXT {
             get {

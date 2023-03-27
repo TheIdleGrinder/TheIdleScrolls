@@ -43,7 +43,7 @@ namespace TheIdleScrolls_Core.Components
 
         public string GetReport(World world)
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
             sb.AppendLine($"Playtime: {TimeSpan.FromSeconds(Playtime).ToString(@"hh\:mm\:ss")}");
             sb.AppendLine($"Highest defeated zone: {HighestWildernessKill}");
             sb.AppendLine($"Enemies defeated: {Kills}");

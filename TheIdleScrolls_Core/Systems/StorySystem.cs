@@ -68,7 +68,7 @@ namespace TheIdleScrolls_Core.Systems
             else if (storyComp.FinalFight.State == FinalFight.Status.Slowing)
             {
                 double duration = (DateTime.Now - storyComp.FinalFight.StartTime).Seconds;
-                world.SpeedMultiplier = 1.0 - Math.Min(Math.Sqrt(duration) / Math.Sqrt(slopeDuration), 1.0);
+                world.SpeedMultiplier = 1.0 - Math.Min(Math.Pow(duration, 0.25) / Math.Pow(slopeDuration, 0.25), 1.0);
                 if (duration >= slopeDuration)
                 {
                     storyComp.FinalFight.State = FinalFight.Status.Pause;
@@ -79,17 +79,20 @@ namespace TheIdleScrolls_Core.Systems
                 double duration = (DateTime.Now - storyComp.FinalFight.StartTime).Seconds - slopeDuration;
                 if (duration >= pauseDuration)
                 {
-                    storyComp.FinalFight.State = FinalFight.Status.Done;
+                    storyComp.FinalFight.State = FinalFight.Status.End;
                 }
             }
-            else if (storyComp.FinalFight.State == FinalFight.Status.Done)
+            else if (storyComp.FinalFight.State == FinalFight.Status.End)
             {
+                var progComp = m_player.GetComponent<PlayerProgressComponent>();
+                double playtime = (progComp != null) ? progComp.Data.Playtime : 0;
                 bool first = !m_player.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(world.DungeonId) ?? true;
+                coordinator.PostMessage(this, new ManualSaveRequest());
                 coordinator.PostMessage(this, new DungeonCompletedMessage(world.DungeonId.Localize(), first));
                 coordinator.PostMessage(this, new TutorialMessage(TutorialStep.Finished, 
                     Properties.LocalizedStrings.STORY_END_TITLE, 
-                    Properties.LocalizedStrings.STORY_END_TEXT));
-                storyComp.FinalFight.State = FinalFight.Status.Inactive;
+                    String.Format(Properties.LocalizedStrings.STORY_END_TEXT, playtime)));
+                storyComp.FinalFight.State = FinalFight.Status.Finished;
             }
         }
     }

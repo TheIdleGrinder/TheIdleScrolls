@@ -14,7 +14,7 @@ namespace TheIdleScrolls_Core.Components
 
     public struct FinalFight
     {
-        public enum Status { NotStarted, Slowing, Pause, Done, Inactive }
+        public enum Status { NotStarted, Slowing, Pause, End, Finished }
         public Status State = FinalFight.Status.NotStarted;
         public DateTime StartTime = DateTime.MinValue;
 

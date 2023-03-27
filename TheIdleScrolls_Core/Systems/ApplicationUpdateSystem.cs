@@ -212,7 +212,7 @@ namespace TheIdleScrolls_Core.Systems
                 var messages = coordinator.FetchMessagesByType<TutorialMessage>();
                 foreach (var message in messages)
                 {
-                    m_appModel?.DisplayMessage(message.Title, message.Text);
+                    m_appModel?.DisplayMessage(message.Title, message.Text.Replace("\\n", "\n"));
                 }
             }
 
