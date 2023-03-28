@@ -146,5 +146,10 @@ namespace TheIdleScrolls_Core
         {
             return ResourceAccess.ParseResourceFile<T>("TheIdleScrolls_Core", file);
         }
+
+        public bool IsGameOver()
+        {
+            return m_world.GameOver;
+        }
     }
 }

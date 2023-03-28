@@ -26,11 +26,16 @@ namespace TheIdleScrollsApp
             IEntityConverter converter = new EntityJsonConverter(new ItemFactory());
 
             var dataHandler = new DataAccessHandler(converter, new BasicFileStorageHandler());
-            var gameRunner = new GameRunner(dataHandler);
-
+            
             try
             {
-                Application.Run(new MainWindow(gameRunner, playerName));
+                bool repeat = false;
+                do
+                {
+                    var gameRunner = new GameRunner(dataHandler);
+                    Application.Run(new MainWindow(gameRunner, playerName));
+                    repeat = gameRunner.IsGameOver();
+                } while (repeat);
             }
             catch (Exception e)
             {

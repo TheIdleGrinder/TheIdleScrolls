@@ -11,6 +11,8 @@ namespace TheIdleScrolls_Core
 {
     public class World
     {
+        public bool GameOver = false; // Corner cut: should this be part of the world?
+
         public string DungeonId = "";
         public int DungeonFloor = 0;
 

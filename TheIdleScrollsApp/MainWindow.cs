@@ -21,6 +21,8 @@ namespace TheIdleScrollsApp
         DateTime m_lastTickStart;
         readonly IUserInputHandler m_inputHandler;
 
+        bool m_timeToStop = false;
+
         uint m_playerId = 0;
         int m_areaLevel = 0;
         int m_maxWilderness = 0;
@@ -84,6 +86,11 @@ namespace TheIdleScrollsApp
 
         private void timerTick_Tick(object sender, EventArgs e)
         {
+            if (m_timeToStop)
+            {
+                Close();
+            }
+
             var tickStart = DateTime.Now;
             var lastTickDuration = (tickStart - m_lastTickStart).TotalMilliseconds;
             m_lastTickStart = tickStart;
@@ -393,7 +400,12 @@ namespace TheIdleScrollsApp
 
         public void ShowMessageBox(string title, string text)
         {
-            Thread t = new(() => MessageBox.Show(text, title));
+            Thread t = new(() => 
+            { 
+                MessageBox.Show(text, title);
+                if (m_runner.IsGameOver()) // CornerCut: Binding this check to message boxes seems weird
+                    m_timeToStop = true;
+            });
             t.Start();
         }
 

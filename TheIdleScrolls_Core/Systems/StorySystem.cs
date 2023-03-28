@@ -27,8 +27,9 @@ namespace TheIdleScrolls_Core.Systems
             if (storyComp.FinalFight.State != FinalFight.Status.NotStarted && world.DungeonId != TutorialSystem.FinalStoryDungeon)
             {
                 // Reset game speed
+                world.GameOver = false;
                 world.SpeedMultiplier = 1.0;
-                storyComp.FinalFight.State = FinalFight.Status.NotStarted;
+                storyComp.FinalFight.State = FinalFight.Status.NotStarted;                
             }
 
             if (storyComp.FinalFight.State == FinalFight.Status.NotStarted)
@@ -93,6 +94,7 @@ namespace TheIdleScrolls_Core.Systems
                     Properties.LocalizedStrings.STORY_END_TITLE, 
                     String.Format(Properties.LocalizedStrings.STORY_END_TEXT, playtime)));
                 storyComp.FinalFight.State = FinalFight.Status.Finished;
+                world.GameOver = true;
             }
         }
     }
