@@ -256,7 +256,9 @@
     <value>The Crypt</value>
   </data>
   <data name="CRYPT_DESCRIPTION" xml:space="preserve">
-    <value>There is something stirring beneath the graveyard...\n\nThis dungeon awards armor pieces</value>
+    <value>There is something stirring beneath the graveyard...
+
+This dungeon awards armor pieces</value>
   </data>
   <data name="DRAGON" xml:space="preserve">
     <value>Dragon</value>
@@ -526,7 +528,9 @@
     <value>Den of Rats</value>
   </data>
   <data name="RATDEN_DESCRIPTION" xml:space="preserve">
-    <value>Fighting rats, clearing some kind of den... A good start to a glorious adventure.\n\nThis dungeon awards weapons</value>
+    <value>Fighting rats, clearing some kind of den... A good start to a glorious adventure.
+
+This dungeon awards weapons</value>
   </data>
   <data name="SBL" xml:space="preserve">
     <value>Short Blade</value>
@@ -544,7 +548,9 @@
     <value>Cutlass</value>
   </data>
   <data name="STORY_END_TEXT" xml:space="preserve">
-    <value>At the threshold between worlds you encounter the demonic champion.\n\nTime to finish: {0:0} s</value>
+    <value>At the threshold between worlds you encounter the demonic champion.
+
+Time to finish: {0:0} s</value>
   </data>
   <data name="STORY_END_TITLE" xml:space="preserve">
     <value>Convergence</value>

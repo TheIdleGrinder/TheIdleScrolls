@@ -475,7 +475,9 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die There is something stirring beneath the graveyard...\n\nThis dungeon awards armor pieces ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die There is something stirring beneath the graveyard...
+        ///
+        ///This dungeon awards armor pieces ähnelt.
         /// </summary>
         internal static string CRYPT_DESCRIPTION {
             get {
@@ -1285,7 +1287,9 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Fighting rats, clearing some kind of den... A good start to a glorious adventure.\n\nThis dungeon awards weapons ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fighting rats, clearing some kind of den... A good start to a glorious adventure.
+        ///
+        ///This dungeon awards weapons ähnelt.
         /// </summary>
         internal static string RATDEN_DESCRIPTION {
             get {
@@ -1339,7 +1343,9 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion.\n\nTime to finish: {0:0} s ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion.
+        ///
+        ///Time to finish: {0:0} s ähnelt.
         /// </summary>
         internal static string STORY_END_TEXT {
             get {
