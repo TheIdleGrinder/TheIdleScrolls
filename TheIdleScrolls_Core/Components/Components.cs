@@ -211,6 +211,8 @@ namespace TheIdleScrolls_Core.Components
 
     public class TravellerComponent : IComponent
     {
+        public bool Active = true;
+
         public int MaxWilderness = 0;
 
         public HashSet<string> AvailableDungeons = new();

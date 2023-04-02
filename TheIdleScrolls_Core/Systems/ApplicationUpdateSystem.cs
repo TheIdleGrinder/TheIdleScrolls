@@ -197,7 +197,7 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // React to tutorial messages
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TutorialMessage>())
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TutorialMessage>() || coordinator.MessageTypeIsOnBoard<StoryProgressMessage>())
             {
                 var progress = player.GetComponent<PlayerProgressComponent>()?.Data?.TutorialProgress;
                 if (progress != null)
@@ -205,7 +205,7 @@ namespace TheIdleScrolls_Core.Systems
                     m_appModel?.SetFeatureAvailable(GameFeature.Inventory, player.HasComponent<InventoryComponent>());
                     m_appModel?.SetFeatureAvailable(GameFeature.Armor, progress.Contains(TutorialStep.Armor));
                     m_appModel?.SetFeatureAvailable(GameFeature.Abilities, progress.Contains(TutorialStep.Abilities));
-                    m_appModel?.SetFeatureAvailable(GameFeature.Travel, player.HasComponent<TravellerComponent>());
+                    m_appModel?.SetFeatureAvailable(GameFeature.Travel, player.GetComponent<TravellerComponent>()?.Active ?? false);
                     m_appModel?.SetFeatureAvailable(GameFeature.Crafting, progress.Contains(TutorialStep.Reforging));
                 }
 

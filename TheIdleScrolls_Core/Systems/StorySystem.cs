@@ -37,6 +37,11 @@ namespace TheIdleScrolls_Core.Systems
                 world.GameOver = false;
                 world.SpeedMultiplier = 1.0;
                 storyComp.FinalFight.State = FinalFight.Status.NotStarted;
+                var travelComp = m_player.GetComponent<TravellerComponent>();
+                if (travelComp != null)
+                {
+                    travelComp.Active = true;
+                }
             }
 
             if (storyComp.FinalFight.State == FinalFight.Status.NotStarted)
@@ -86,6 +91,14 @@ namespace TheIdleScrolls_Core.Systems
                     if (mob == null)
                         throw new Exception("Final mob was not found");
                     ScaleMobHpAndTimeLimit(m_player, mob, world);
+                }
+
+                // Prevent player from fleeing
+                var travelComp = m_player.GetComponent<TravellerComponent>();
+                if (travelComp != null)
+                {
+                    travelComp.Active = false;
+                    coordinator.PostMessage(this, new StoryProgressMessage());
                 }
 
                 if (duration >= slopeDuration)
@@ -141,4 +154,41 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
     }
+
+    public class StoryMessage : IMessage
+    {
+        readonly string content = "";
+
+        public StoryMessage(string content)
+        {
+            this.content = content;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return content;
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.VeryHigh;
+        }
+    }
+
+    /// <summary>
+    /// Potentially placeholder. Used to notify other systems of the fact that a quest state has changed.
+    /// </summary>
+    public class StoryProgressMessage : IMessage
+    {
+        string IMessage.BuildMessage()
+        {
+            return "Story was progressed";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
+        }
+    }
+
 }
