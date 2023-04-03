@@ -17,10 +17,12 @@ namespace TheIdleScrolls_JSON
 {
     public static class ComponentFromJson
     {
+        #pragma warning disable IDE0060
         public static bool SetFromJson(this MiniECS.IComponent component, JsonNode json)
         {
             return false;
         }
+        #pragma warning restore IDE0060
 
         static List<Entity> ItemListFromJsonArray(JsonArray jsonItems)
         {
@@ -103,7 +105,7 @@ namespace TheIdleScrolls_JSON
                     if (jsonAbility == null)
                         continue;
                     var fields = jsonAbility.ToString().Split('/');
-                    if (fields.Count() != 3)
+                    if (fields.Length != 3)
                         throw new Exception($"Invalid number of fields in stored ability: {jsonAbility}");
                     string key = fields[0];
                     int level = Int32.Parse(fields[1]);
@@ -239,6 +241,22 @@ namespace TheIdleScrolls_JSON
             try
             {
                 component.Coins = json["Coins"]!.GetValue<int>();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static bool SetFromJson(this StoryProgressComponent component, JsonNode json)
+        {
+            try
+            {
+                component.FinalFight.State = json["Finished"]!.GetValue<bool>()
+                    ? FinalFight.Status.Finished 
+                    : FinalFight.Status.NotStarted;
+                
                 return true;
             }
             catch (Exception)

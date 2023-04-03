@@ -160,6 +160,15 @@ namespace TheIdleScrolls_Storage
             return json;
         }
 
+        public static JsonObject? ToJson(this StoryProgressComponent component)
+        {
+            JsonObject json = new()
+            {
+                { "Finished", component.FinalFight.State == FinalFight.Status.Finished }
+            };
+            return json;
+        }
+
         public static JsonObject JsonFromSth<T>(T thing)
         {
             return (JsonObject)JsonObject.Parse(JsonSerializer.Serialize(thing))!;

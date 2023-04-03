@@ -31,6 +31,9 @@ namespace TheIdleScrolls_Core.Systems
             if (storyComp == null)
                 return;
 
+            if (storyComp.FinalFight.State == FinalFight.Status.Finished)
+                return;
+
             if (storyComp.FinalFight.State != FinalFight.Status.NotStarted && world.DungeonId != TutorialSystem.FinalStoryDungeon)
             {
                 // Reset game speed
