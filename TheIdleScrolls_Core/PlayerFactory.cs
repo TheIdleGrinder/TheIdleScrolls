@@ -29,7 +29,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new AbilitiesComponent());
             player.AddComponent(new AchievementsComponent());
             player.AddComponent(new CoinPurseComponent());
-            player.AddComponent(new StoryProgressComponent());
+            player.AddComponent(new QuestProgressComponent());
 
             return player;
         }

@@ -27,7 +27,7 @@ namespace TheIdleScrolls_Core.Systems
             if (m_player == null)
                 return;
 
-            var storyComp = m_player.GetComponent<StoryProgressComponent>();
+            var storyComp = m_player.GetComponent<QuestProgressComponent>();
             if (storyComp == null)
                 return;
 

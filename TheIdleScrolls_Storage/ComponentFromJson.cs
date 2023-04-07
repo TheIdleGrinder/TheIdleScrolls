@@ -249,7 +249,7 @@ namespace TheIdleScrolls_JSON
             }
         }
 
-        public static bool SetFromJson(this StoryProgressComponent component, JsonNode json)
+        public static bool SetFromJson(this QuestProgressComponent component, JsonNode json)
         {
             try
             {

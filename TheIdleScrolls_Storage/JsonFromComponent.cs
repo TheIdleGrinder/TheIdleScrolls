@@ -160,7 +160,7 @@ namespace TheIdleScrolls_Storage
             return json;
         }
 
-        public static JsonObject? ToJson(this StoryProgressComponent component)
+        public static JsonObject? ToJson(this QuestProgressComponent component)
         {
             JsonObject json = new()
             {
