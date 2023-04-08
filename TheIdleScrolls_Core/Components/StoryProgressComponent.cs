@@ -24,7 +24,7 @@ namespace TheIdleScrolls_Core.Components
     namespace QuestStates
     {
         public enum GettingStarted { Inventory, Armor, Abilities, Travel }
-        public enum FinalFight { NotStarted, Slowing, Pause, End, Finished }
+        public enum FinalFight { None = -1, NotStarted, Slowing, Pause, End, Finished }
     }
 
     public class QuestProgressComponent : IComponent
@@ -53,8 +53,6 @@ namespace TheIdleScrolls_Core.Components
 
     public struct FinalFight
     {
-        public enum Status { NotStarted, Slowing, Pause, End, Finished }
-        public Status State = FinalFight.Status.NotStarted;
         public DateTime StartTime = DateTime.MinValue;
 
         public FinalFight() {}

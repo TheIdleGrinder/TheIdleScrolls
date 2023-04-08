@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using QuestStates = TheIdleScrolls_Core.Components.QuestStates;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -15,11 +16,15 @@ namespace TheIdleScrolls_Core.Systems
 
         Entity? m_player = null;
 
+        bool m_firstUpdate = true;
+
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             m_player ??= coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
             
             HandleFinalFight(world, coordinator);
+
+            m_firstUpdate = false;
         }
 
         void HandleFinalFight(World world, Coordinator coordinator)
@@ -31,30 +36,34 @@ namespace TheIdleScrolls_Core.Systems
             if (storyComp == null)
                 return;
 
-            if (storyComp.FinalFight.State == FinalFight.Status.Finished)
+            var progress = (QuestStates.FinalFight)storyComp.GetQuestProgress(QuestId.FinalFight);
+            // Reset state of unfinished final fight on first update. Necessary to avoid being 'trapped' upon restarting game during the final fight
+            if (progress != QuestStates.FinalFight.Finished && m_firstUpdate)
+                progress = QuestStates.FinalFight.NotStarted;
+            if (progress < 0 || progress == QuestStates.FinalFight.Finished)
                 return;
+            
+            //if (progress != QuestStates.FinalFight.NotStarted && world.DungeonId != TutorialSystem.FinalStoryDungeon)
+            //{
+            //    // Reset game speed
+            //    world.GameOver = false;
+            //    world.SpeedMultiplier = 1.0;
+            //    storyComp.SetQuestProgress(QuestId.FinalFight, (int)QuestStates.FinalFight.NotStarted);
+            //    var travelComp = m_player.GetComponent<TravellerComponent>();
+            //    if (travelComp != null)
+            //    {
+            //        travelComp.Active = true;
+            //    }
+            //}
 
-            if (storyComp.FinalFight.State != FinalFight.Status.NotStarted && world.DungeonId != TutorialSystem.FinalStoryDungeon)
-            {
-                // Reset game speed
-                world.GameOver = false;
-                world.SpeedMultiplier = 1.0;
-                storyComp.FinalFight.State = FinalFight.Status.NotStarted;
-                var travelComp = m_player.GetComponent<TravellerComponent>();
-                if (travelComp != null)
-                {
-                    travelComp.Active = true;
-                }
-            }
-
-            if (storyComp.FinalFight.State == FinalFight.Status.NotStarted)
+            if (progress == QuestStates.FinalFight.NotStarted)
             {
                 if (world.IsInDungeon()
                     && world.DungeonId == TutorialSystem.FinalStoryDungeon
                     && world.RemainingEnemies == 1
                     && coordinator.GetEntities<MobComponent>().FirstOrDefault() != null)
                 {
-                    storyComp.FinalFight.State = FinalFight.Status.Slowing;
+                    storyComp.SetQuestProgress(QuestId.FinalFight, (int)QuestStates.FinalFight.Slowing);
                     storyComp.FinalFight.StartTime = DateTime.Now;
 
                     // Transform mob into final boss
@@ -65,24 +74,10 @@ namespace TheIdleScrolls_Core.Systems
                     mob.AddComponent(new MobDamageComponent(1.0));
                     world.TimeLimit.Reset();
 
-                    // Set HP high enough to prevent deafeating the boss
-                    //var attackComp = m_player.GetComponent<AttackComponent>();
-                    //if (attackComp != null)
-                    //{
-                    //    double dps = attackComp.RawDamage / attackComp.Cooldown.Duration;
-                    //    mob.AddComponent(new LifePoolComponent((int)(dps * slopeDuration)));
-                    //}
-
-                    //var defenseComp = m_player.GetComponent<DefenseComponent>();
-                    //if (defenseComp != null)
-                    //{
-                    //    double multi = 1.0 + (defenseComp.Armor / 100.0); // CornerCut: Have central function for bonus
-                    //    world.TimeLimit.Reset(1.0 * slopeDuration / multi);
-                    //}
                     ScaleMobHpAndTimeLimit(m_player, mob, world);
                 }
             }
-            else if (storyComp.FinalFight.State == FinalFight.Status.Slowing)
+            else if (progress == QuestStates.FinalFight.Slowing)
             {
                 double duration = (DateTime.Now - storyComp.FinalFight.StartTime).Seconds;
                 world.SpeedMultiplier = 1.0 - Math.Min(Math.Pow(duration, 0.25) / Math.Pow(slopeDuration, 0.25), 1.0);
@@ -106,18 +101,18 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (duration >= slopeDuration)
                 {
-                    storyComp.FinalFight.State = FinalFight.Status.Pause;
+                    storyComp.SetQuestProgress(QuestId.FinalFight, (int)QuestStates.FinalFight.Pause);
                 }
             }
-            else if (storyComp.FinalFight.State == FinalFight.Status.Pause)
+            else if (progress == QuestStates.FinalFight.Pause)
             {
                 double duration = (DateTime.Now - storyComp.FinalFight.StartTime).Seconds - slopeDuration;
                 if (duration >= pauseDuration)
                 {
-                    storyComp.FinalFight.State = FinalFight.Status.End;
+                    storyComp.SetQuestProgress(QuestId.FinalFight, (int)QuestStates.FinalFight.End);
                 }
             }
-            else if (storyComp.FinalFight.State == FinalFight.Status.End)
+            else if (progress == QuestStates.FinalFight.End)
             {
                 var progComp = m_player.GetComponent<PlayerProgressComponent>();
                 double playtime = (progComp != null) ? progComp.Data.Playtime : 0;
@@ -127,7 +122,7 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this, new TutorialMessage(TutorialStep.Finished,
                     Properties.LocalizedStrings.STORY_END_TITLE,
                     String.Format(Properties.LocalizedStrings.STORY_END_TEXT, playtime)));
-                storyComp.FinalFight.State = FinalFight.Status.Finished;
+                storyComp.SetQuestProgress(QuestId.FinalFight, (int)QuestStates.FinalFight.Finished);
                 world.GameOver = true;
             }
         }
