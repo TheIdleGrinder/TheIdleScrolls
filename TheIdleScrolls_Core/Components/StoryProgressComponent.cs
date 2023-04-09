@@ -31,7 +31,7 @@ namespace TheIdleScrolls_Core.Components
     {
         public FinalFight FinalFight = new();
 
-        readonly Dictionary<QuestId, int> Quests = new();
+        public Dictionary<QuestId, int> Quests = new();
 
         public int GetQuestProgress(QuestId quest)
         {
@@ -48,6 +48,11 @@ namespace TheIdleScrolls_Core.Components
             {
                 Quests.Remove(quest);
             }
+        }
+
+        public void SetQuestProgress<T>(QuestId quest, T progress) where T : Enum
+        {
+            SetQuestProgress(quest, Convert.ToInt32(progress));
         }
     }
 

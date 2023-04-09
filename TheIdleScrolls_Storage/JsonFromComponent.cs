@@ -164,7 +164,8 @@ namespace TheIdleScrolls_Storage
         {
             JsonObject json = new()
             {
-                { "Finished", component.FinalFight.State == FinalFight.Status.Finished }
+                //{ "Finished", component.FinalFight.State == FinalFight.Status.Finished },
+                { "QuestStates", JsonFromSth(component.Quests) }
             };
             return json;
         }

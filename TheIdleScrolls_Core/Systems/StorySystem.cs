@@ -39,7 +39,10 @@ namespace TheIdleScrolls_Core.Systems
             var progress = (QuestStates.FinalFight)storyComp.GetQuestProgress(QuestId.FinalFight);
             // Reset state of unfinished final fight on first update. Necessary to avoid being 'trapped' upon restarting game during the final fight
             if (progress != QuestStates.FinalFight.Finished && m_firstUpdate)
+            {
                 progress = QuestStates.FinalFight.NotStarted;
+                storyComp.SetQuestProgress(QuestId.FinalFight, progress);
+            }
             if (progress < 0 || progress == QuestStates.FinalFight.Finished)
                 return;
             
@@ -63,7 +66,7 @@ namespace TheIdleScrolls_Core.Systems
                     && world.RemainingEnemies == 1
                     && coordinator.GetEntities<MobComponent>().FirstOrDefault() != null)
                 {
-                    storyComp.SetQuestProgress(QuestId.FinalFight, (int)QuestStates.FinalFight.Slowing);
+                    storyComp.SetQuestProgress(QuestId.FinalFight, QuestStates.FinalFight.Slowing);
                     storyComp.FinalFight.StartTime = DateTime.Now;
 
                     // Transform mob into final boss
@@ -101,7 +104,7 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (duration >= slopeDuration)
                 {
-                    storyComp.SetQuestProgress(QuestId.FinalFight, (int)QuestStates.FinalFight.Pause);
+                    storyComp.SetQuestProgress(QuestId.FinalFight, QuestStates.FinalFight.Pause);
                 }
             }
             else if (progress == QuestStates.FinalFight.Pause)
@@ -109,7 +112,7 @@ namespace TheIdleScrolls_Core.Systems
                 double duration = (DateTime.Now - storyComp.FinalFight.StartTime).Seconds - slopeDuration;
                 if (duration >= pauseDuration)
                 {
-                    storyComp.SetQuestProgress(QuestId.FinalFight, (int)QuestStates.FinalFight.End);
+                    storyComp.SetQuestProgress(QuestId.FinalFight, QuestStates.FinalFight.End);
                 }
             }
             else if (progress == QuestStates.FinalFight.End)
@@ -122,7 +125,7 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this, new TutorialMessage(TutorialStep.Finished,
                     Properties.LocalizedStrings.STORY_END_TITLE,
                     String.Format(Properties.LocalizedStrings.STORY_END_TEXT, playtime)));
-                storyComp.SetQuestProgress(QuestId.FinalFight, (int)QuestStates.FinalFight.Finished);
+                storyComp.SetQuestProgress(QuestId.FinalFight, QuestStates.FinalFight.Finished);
                 world.GameOver = true;
             }
         }

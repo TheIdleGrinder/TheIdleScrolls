@@ -253,10 +253,10 @@ namespace TheIdleScrolls_JSON
         {
             try
             {
-                component.FinalFight.State = json["Finished"]!.GetValue<bool>()
-                    ? FinalFight.Status.Finished 
-                    : FinalFight.Status.NotStarted;
-                
+                //component.FinalFight.State = json["Finished"]!.GetValue<bool>()
+                //    ? FinalFight.Status.Finished 
+                //    : FinalFight.Status.NotStarted;
+                component.Quests = JsonSerializer.Deserialize<Dictionary<QuestId, int>>(json["QuestStates"]!)!;
                 return true;
             }
             catch (Exception)
