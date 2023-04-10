@@ -114,7 +114,6 @@ namespace TheIdleScrolls_Core.Systems
                     new TutorialMessage(TutorialStep.Abilities, "Live and Learn",
                     $"The more you use weapons of one type, the better you will become at handling them. Watch your " +
                     $"attack speed increase along with your ability level."));
-
             }
             if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Travel) && lvl >= LvlTravel)
             {
@@ -124,7 +123,6 @@ namespace TheIdleScrolls_Core.Systems
                     new TutorialMessage(TutorialStep.Travel, "Freedom of Movement",
                     $"You can now travel between areas. Pick a spot to grind or push forward to unlock higher zones." +
                     $"\n  - Unlocked manual travel between areas"));
-
             }
             if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Defeated)
                 && progComp.Data.Losses == 1)

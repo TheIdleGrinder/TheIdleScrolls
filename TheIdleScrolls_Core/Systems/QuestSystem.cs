@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Items;
 using QuestStates = TheIdleScrolls_Core.Components.QuestStates;
 
 namespace TheIdleScrolls_Core.Systems
@@ -22,10 +23,118 @@ namespace TheIdleScrolls_Core.Systems
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             m_player ??= coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
-            
+
+            HandleGettingStarted(world, coordinator);
             HandleFinalFight(world, coordinator);
 
             m_firstUpdate = false;
+        }
+
+        void HandleGettingStarted(World world, Coordinator coordinator)
+        {
+            const int LvlInventory = 2;
+            const int LvlMobAttacks = 6;
+            const int LvlArmor = 8;
+            const int LvlAbilities = 4;
+            const int LvlTravel = 10;
+
+            if (m_player == null)
+                return;
+
+            int level = m_player.GetLevel();
+
+            var storyComp = m_player.GetComponent<QuestProgressComponent>();
+            if (storyComp == null)
+                return;
+
+            var progress = (QuestStates.GettingStarted)storyComp.GetQuestProgress(QuestId.GettingStarted);
+            if (progress < QuestStates.GettingStarted.Inventory && level >= LvlInventory)
+            {
+                if (!m_player.HasComponent<InventoryComponent>())
+                {
+                    InventoryComponent invComp = new();
+                    List<ItemIdentifier> weapons = (new List<string>() { "SBL0", "LBL0", "AXE0", "BLN0", "POL0" })
+                        .Select(i => new ItemIdentifier(i)).ToList();
+                    ItemFactory factory = new();
+
+                    m_player.AddComponent(invComp);
+                    m_player.AddComponent(new EquipmentComponent());
+                    string itemString = "";
+                    foreach (var weaponCode in weapons)
+                    {
+                        Entity? weapon = factory.ExpandCode(weaponCode);
+                        if (weapon != null)
+                        {
+                            itemString += $"\n  - Received '{weapon.GetName()}'";
+                            coordinator.AddEntity(weapon);
+                            coordinator.PostMessage(this, new ItemReceivedMessage(m_player, weapon));
+                        }
+                    }
+
+                    coordinator.PostMessage(this,
+                        new QuestProgressMessage(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Inventory,
+                        $"You have unlocked the inventory. Time to gear up!" +
+                        $"\nDouble click on an item in your inventory to equip it." +
+                        $"\n  - Unlocked inventory{itemString}"));
+                }
+                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory);
+            }
+
+            if (progress < QuestStates.GettingStarted.Outside && level >= LvlMobAttacks)
+            {
+                coordinator.PostMessage(this,
+                    new QuestProgressMessage(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Outside,
+                    $"From this point on, mobs are going to fight back. Watch the countdown near the mob. If time runs out, you lose the fight."));
+                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Outside);
+            }
+
+            if (progress < QuestStates.GettingStarted.Armor && level >= LvlArmor)
+            {
+                List<string> items = new() { "LAR0", "HAR0" };
+                ItemFactory factory = new();
+
+                string itemString = "";
+                foreach (var itemCode in items)
+                {
+                    Entity? item = factory.ExpandCode(itemCode);
+                    if (item != null)
+                    {
+                        itemString += $"\n  - Received '{item.GetName()}'";
+                        coordinator.AddEntity(item);
+                        coordinator.PostMessage(this, new ItemReceivedMessage(m_player, item));
+                    }
+                }
+
+                coordinator.PostMessage(this,
+                    new QuestProgressMessage(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Armor,
+                    $"Those mobs are getting nasty. Use armor to slow down the countdown during fights. " +
+                    $"Wearing armor encumbers your character, reducing attack speed. " +
+                    $"Heavier armor means more encumbrance, but also better protection." +
+                    $"{itemString}"));
+                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Armor);
+            }
+
+            if (progress < QuestStates.GettingStarted.Abilities && level >= LvlAbilities)
+            {
+                coordinator.PostMessage(this,
+                    new QuestProgressMessage(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Abilities,
+                    $"The more you use weapons of one type, the better you will become at handling them. Watch your " +
+                    $"attack speed increase along with your ability level."));
+                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Abilities);
+            }
+
+            if (progress < QuestStates.GettingStarted.Travel && level >= LvlTravel)
+            {
+                if (m_player.HasComponent<TravellerComponent>())
+                {
+                    m_player.AddComponent(new TravellerComponent());
+                    coordinator.PostMessage(this,
+                        new QuestProgressMessage(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Travel,
+                        $"You can now travel between areas. Pick a spot to grind or push forward to unlock higher zones." +
+                        $"\n  - Unlocked manual travel between areas"));
+                }
+                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Travel);
+            }
         }
 
         void HandleFinalFight(World world, Coordinator coordinator)
@@ -47,19 +156,6 @@ namespace TheIdleScrolls_Core.Systems
             if (progress < 0 || progress == QuestStates.FinalFight.Finished)
                 return;
             
-            //if (progress != QuestStates.FinalFight.NotStarted && world.DungeonId != TutorialSystem.FinalStoryDungeon)
-            //{
-            //    // Reset game speed
-            //    world.GameOver = false;
-            //    world.SpeedMultiplier = 1.0;
-            //    storyComp.SetQuestProgress(QuestId.FinalFight, (int)QuestStates.FinalFight.NotStarted);
-            //    var travelComp = m_player.GetComponent<TravellerComponent>();
-            //    if (travelComp != null)
-            //    {
-            //        travelComp.Active = true;
-            //    }
-            //}
-
             if (progress == QuestStates.FinalFight.NotStarted)
             {
                 if (world.IsInDungeon()
