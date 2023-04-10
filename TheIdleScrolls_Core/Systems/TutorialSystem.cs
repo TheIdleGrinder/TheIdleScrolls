@@ -246,12 +246,14 @@ namespace TheIdleScrolls_Core.Systems
         public TutorialStep Progress { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
+        public QuestProgressMessage? QuestMessage { get; set; } // Optionally attach to a quest progress message for combined displaying
 
-        public TutorialMessage(TutorialStep progress, string title, string text)
+        public TutorialMessage(TutorialStep progress, string title, string text, QuestProgressMessage? questMessage = null)
         {
             Progress = progress;
             Title = title;
             Text = text;
+            QuestMessage = questMessage;
         }
 
         string IMessage.BuildMessage()

@@ -78,6 +78,14 @@ namespace TheIdleScrolls_Core.Systems
                     world.TimeLimit.Reset();
 
                     ScaleMobHpAndTimeLimit(m_player, mob, world);
+
+                    // Prevent player from fleeing
+                    var travelComp = m_player.GetComponent<TravellerComponent>();
+                    if (travelComp != null)
+                    {
+                        travelComp.Active = false;
+                        coordinator.PostMessage(this, new QuestProgressMessage(QuestId.FinalFight, (int)QuestStates.FinalFight.Slowing));
+                    }
                 }
             }
             else if (progress == QuestStates.FinalFight.Slowing)
@@ -92,14 +100,6 @@ namespace TheIdleScrolls_Core.Systems
                     if (mob == null)
                         throw new Exception("Final mob was not found");
                     ScaleMobHpAndTimeLimit(m_player, mob, world);
-                }
-
-                // Prevent player from fleeing
-                var travelComp = m_player.GetComponent<TravellerComponent>();
-                if (travelComp != null)
-                {
-                    travelComp.Active = false;
-                    coordinator.PostMessage(this, new StoryProgressMessage());
                 }
 
                 if (duration >= slopeDuration)
@@ -179,16 +179,36 @@ namespace TheIdleScrolls_Core.Systems
     /// <summary>
     /// Potentially placeholder. Used to notify other systems of the fact that a quest state has changed.
     /// </summary>
-    public class StoryProgressMessage : IMessage
+    public class QuestProgressMessage : IMessage
     {
+        public QuestId Quest { get; }
+        public int Progress { get; }
+        public string? QuestMessage { get; }
+
         string IMessage.BuildMessage()
         {
-            return "Story was progressed";
+            if (QuestMessage != null)
+            {
+                return $"{Quest}|{Progress}: {QuestMessage}";
+            }
+            else
+            {
+                return $"Quest progressed: {Quest}|{Progress}";
+            }
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()
         {
-            return IMessage.PriorityLevel.Debug;
+            return (QuestMessage != null) 
+                ? IMessage.PriorityLevel.VeryHigh 
+                : IMessage.PriorityLevel.Debug;
+        }
+
+        public QuestProgressMessage(QuestId quest, int progress, string? message = null)
+        {
+            Quest = quest;
+            Progress = progress;
+            QuestMessage = message;
         }
     }
 

@@ -197,7 +197,7 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // React to tutorial messages
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TutorialMessage>() || coordinator.MessageTypeIsOnBoard<StoryProgressMessage>())
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TutorialMessage>() || coordinator.MessageTypeIsOnBoard<QuestProgressMessage>())
             {
                 var progress = player.GetComponent<PlayerProgressComponent>()?.Data?.TutorialProgress;
                 if (progress != null)
