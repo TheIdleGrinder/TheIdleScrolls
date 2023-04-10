@@ -9,7 +9,8 @@ using QuestStates = TheIdleScrolls_Core.Components.QuestStates;
 
 namespace TheIdleScrolls_Core.Systems
 {
-    public class StorySystem : AbstractSystem
+
+    public class QuestSystem : AbstractSystem
     {
         const double slopeDuration = 10.0;
         const double pauseDuration = 5.0;
