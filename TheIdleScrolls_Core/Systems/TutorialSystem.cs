@@ -235,6 +235,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"As your crafting ability improves, higher rarity levels become available and their probability increases.\n" +
                     $"\n  - You can reforge the rarity of items using the context menu\n" +
                     $"\n  - Selecting an items and pressing CTRL+F works as well"));
+                m_player.GetComponent<PlayerComponent>()?.SetFeatureState(GameFeature.Crafting, true);
             }
         }
     }
