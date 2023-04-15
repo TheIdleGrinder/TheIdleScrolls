@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Storage;
@@ -175,6 +176,19 @@ namespace TheIdleScrolls_JSON
             try
             {
                 component.Name = json["Name"]!.GetValue<string>();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static bool SetFromJson(this PlayerComponent component, JsonNode json)
+        {
+            try
+            {
+                component.AvailableFeatures = JsonSerializer.Deserialize<HashSet<GameFeature>>(json["Features"]!)!;
                 return true;
             }
             catch (Exception)

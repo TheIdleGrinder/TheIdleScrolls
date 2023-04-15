@@ -114,6 +114,15 @@ namespace TheIdleScrolls_Storage
             return json;
         }
 
+        public static JsonObject? ToJson(this PlayerComponent component)
+        {
+            JsonObject json = new()
+            {
+                { "Features", JsonFromSth(component.AvailableFeatures) }
+            };
+            return json;
+        }
+
         public static JsonObject? ToJson(this ItemComponent component)
         {
             JsonObject json = new()
