@@ -63,7 +63,15 @@ namespace TheIdleScrolls_Core.Components
 
     public class PlayerComponent : IComponent
     {
+        public HashSet<GameFeature> AvailableFeatures { get; set; } = new();
 
+        public void SetFeatureState(GameFeature feature, bool available)
+        {
+            if (available)
+                AvailableFeatures.Add(feature);
+            else
+                AvailableFeatures.Remove(feature);
+        }
     }
 
     public class AttackComponent : IComponent

@@ -38,14 +38,29 @@ namespace TheIdleScrolls_Core.Systems
             const int LvlAbilities = 4;
             const int LvlTravel = 10;
 
+            
+
             if (m_player == null)
                 return;
 
             int level = m_player.GetLevel();
 
+            var playerComp = m_player.GetComponent<PlayerComponent>();
             var storyComp = m_player.GetComponent<QuestProgressComponent>();
-            if (storyComp == null)
+            if (playerComp == null || storyComp == null)
                 return;
+
+            var setFeatureState = (GameFeature feature, bool state) => 
+            {
+                playerComp.SetFeatureState(feature, state);
+                coordinator.PostMessage(this, new FeatureStateMessage(feature, state));
+            };
+
+            var setQuestState = (QuestId quest, int progress, string message) =>
+            {
+                storyComp.SetQuestProgress(quest, progress);
+                coordinator.PostMessage(this, new QuestProgressMessage(quest, progress, message));
+            };
 
             var progress = (QuestStates.GettingStarted)storyComp.GetQuestProgress(QuestId.GettingStarted);
             if (progress < QuestStates.GettingStarted.Inventory && level >= LvlInventory)
@@ -71,21 +86,19 @@ namespace TheIdleScrolls_Core.Systems
                         }
                     }
 
-                    coordinator.PostMessage(this,
-                        new QuestProgressMessage(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Inventory,
+                    setQuestState(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Inventory,
                         $"You have unlocked the inventory. Time to gear up!" +
                         $"\nDouble click on an item in your inventory to equip it." +
-                        $"\n  - Unlocked inventory{itemString}"));
+                        $"\n  - Unlocked inventory{itemString}");
                 }
                 storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory);
+                setFeatureState(GameFeature.Inventory, true);
             }
 
             if (progress < QuestStates.GettingStarted.Outside && level >= LvlMobAttacks)
             {
-                coordinator.PostMessage(this,
-                    new QuestProgressMessage(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Outside,
-                    $"From this point on, mobs are going to fight back. Watch the countdown near the mob. If time runs out, you lose the fight."));
-                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Outside);
+                setQuestState(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Outside,
+                    $"From this point on, mobs are going to fight back. Watch the countdown near the mob. If time runs out, you lose the fight.");
             }
 
             if (progress < QuestStates.GettingStarted.Armor && level >= LvlArmor)
@@ -105,22 +118,20 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
 
-                coordinator.PostMessage(this,
-                    new QuestProgressMessage(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Armor,
+                setQuestState(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Armor,
                     $"Those mobs are getting nasty. Use armor to slow down the countdown during fights. " +
                     $"Wearing armor encumbers your character, reducing attack speed. " +
                     $"Heavier armor means more encumbrance, but also better protection." +
-                    $"{itemString}"));
-                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Armor);
+                    $"{itemString}");
+                setFeatureState(GameFeature.Armor, true);
             }
 
             if (progress < QuestStates.GettingStarted.Abilities && level >= LvlAbilities)
             {
-                coordinator.PostMessage(this,
-                    new QuestProgressMessage(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Abilities,
+                setQuestState(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Abilities,
                     $"The more you use weapons of one type, the better you will become at handling them. Watch your " +
-                    $"attack speed increase along with your ability level."));
-                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Abilities);
+                    $"attack speed increase along with your ability level.");
+                setFeatureState(GameFeature.Abilities, true);
             }
 
             if (progress < QuestStates.GettingStarted.Travel && level >= LvlTravel)
@@ -128,12 +139,12 @@ namespace TheIdleScrolls_Core.Systems
                 if (m_player.HasComponent<TravellerComponent>())
                 {
                     m_player.AddComponent(new TravellerComponent());
-                    coordinator.PostMessage(this,
-                        new QuestProgressMessage(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Travel,
+                    setQuestState(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Travel,
                         $"You can now travel between areas. Pick a spot to grind or push forward to unlock higher zones." +
-                        $"\n  - Unlocked manual travel between areas"));
+                        $"\n  - Unlocked manual travel between areas");
                 }
                 storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Travel);
+                setFeatureState(GameFeature.Travel, true);
             }
         }
 
@@ -306,6 +317,28 @@ namespace TheIdleScrolls_Core.Systems
             Quest = quest;
             Progress = progress;
             QuestMessage = message;
+        }
+    }
+
+    public class FeatureStateMessage : IMessage
+    {
+        public GameFeature Feature { get; }
+        public bool Enabled { get; }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Feature '{Feature}' has been {(Enabled ? "en" : "dis")}abled";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
+        }
+
+        public FeatureStateMessage(GameFeature feature, bool enabled)
+        {
+            Feature = feature;
+            Enabled = enabled;
         }
     }
 
