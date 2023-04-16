@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Storage;
 
 namespace TheIdleScrolls_JSON
@@ -188,7 +189,9 @@ namespace TheIdleScrolls_JSON
         {
             try
             {
-                component.AvailableFeatures = JsonSerializer.Deserialize<HashSet<GameFeature>>(json["Features"]!)!;
+                var features = JsonSerializer.Deserialize<List<GameFeature>>(json["Features"]!)!.ToHashSet();
+                if (features != null)
+                   component.AvailableFeatures = features;
                 return true;
             }
             catch (Exception)
