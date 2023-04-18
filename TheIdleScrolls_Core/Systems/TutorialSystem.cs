@@ -11,11 +11,6 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class TutorialSystem : AbstractSystem
     {
-        const int LvlInventory = 2;
-        const int LvlMobAttacks = 6;
-        const int LvlArmor = 8;
-        const int LvlAbilities = 4;
-        const int LvlTravel = 10;
         const int ItemCountForSelling = 12;
         const int CoinsForReforging = 200;
 
@@ -45,85 +40,52 @@ namespace TheIdleScrolls_Core.Systems
 
             var achievementComp = coordinator.GetEntities<AchievementsComponent>().FirstOrDefault()?.GetComponent<AchievementsComponent>();
 
+            var addTutorialProgress = (TutorialStep step, string title, string text, QuestProgressMessage questMessage) =>
+            {
+                if (!progComp.Data.TutorialProgress.Contains(step))
+                {
+                    coordinator.PostMessage(this, new TutorialMessage(step, title, text, questMessage));
+                    progComp.Data.TutorialProgress.Add(step);
+                }
+            };
+
+            foreach (var message in coordinator.FetchMessagesByType<QuestProgressMessage>())
+            {
+                if (message.Quest == QuestId.GettingStarted)
+                {
+                    switch ((Components.QuestStates.GettingStarted)message.Progress)
+                    {
+                        case Components.QuestStates.GettingStarted.Inventory:
+                            addTutorialProgress(TutorialStep.Inventory, "Level Up!",
+                                "Double click on an item in your inventory to equip it.", message);
+                            break;
+                        case Components.QuestStates.GettingStarted.Abilities:
+                            addTutorialProgress(TutorialStep.Abilities, "Live and Learn",
+                                "The more you use weapons of one type, the better you will become at handling them. Watch your " +
+                                "attack speed increase along with your ability level.", message);
+                            break;
+                        case Components.QuestStates.GettingStarted.Outside:
+                            addTutorialProgress(TutorialStep.MobAttacks, "Training is Over",
+                                "From this point on, mobs are going to fight back. Watch the countdown " +
+                                "near the mob. If time runs out, you lose the fight.", message);
+                            break;
+                        case Components.QuestStates.GettingStarted.Armor:
+                            addTutorialProgress(TutorialStep.Armor, "It's Dangerous to Go Alone",
+                                "Those mobs are getting nasty. Use armor to slow down the countdown during fights. " +
+                                "Wearing armor encumbers your character, reducing attack speed. " +
+                                "Heavier armor means more encumbrance, but also better protection.", message);
+                            break;
+                        case Components.QuestStates.GettingStarted.Travel:
+                            addTutorialProgress(TutorialStep.Travel, "Freedom of Movement", 
+                                "You can now travel between areas. Pick a spot to grind or push forward to unlock higher zones.", message);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
             // Evaluate conditions for current tutorial stage
-            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Inventory) && lvl >= LvlInventory)
-            {
-                InventoryComponent invComp = new();
-                List<ItemIdentifier> weapons = (new List<string>() { "SBL0", "LBL0", "AXE0", "BLN0", "POL0" })
-                    .Select(i => new ItemIdentifier(i)).ToList();
-                ItemFactory factory = new();
-
-                m_player.AddComponent(invComp);
-                m_player.AddComponent(new EquipmentComponent());
-                string itemString = "";
-                foreach (var weaponCode in weapons)
-                {
-                    Entity? weapon = factory.ExpandCode(weaponCode);
-                    if (weapon != null)
-                    {
-                        itemString += $"\n  - Received '{weapon.GetName()}'";
-                        coordinator.AddEntity(weapon);
-                        coordinator.PostMessage(this, new ItemReceivedMessage(m_player, weapon));
-                    }
-                }
-
-                progComp.Data.TutorialProgress.Add(TutorialStep.Inventory);
-                coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Inventory, "Level Up!", 
-                    $"You have unlocked the inventory. Time to gear up!" +
-                    $"\nDouble click on an item in your inventory to equip it." +
-                    $"\n  - Unlocked inventory{itemString}"));
-            }
-            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.MobAttacks) && lvl >= LvlMobAttacks)
-            {
-                progComp.Data.TutorialProgress.Add(TutorialStep.MobAttacks);
-                coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.MobAttacks, "Training is Over",
-                    $"From this point on, mobs are going to fight back. Watch the countdown near the mob. If time runs out, you lose the fight."));
-            
-            }
-            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Armor) && lvl >= LvlArmor)
-            {
-                List<string> items = new() { "LAR0", "HAR0" };
-                ItemFactory factory = new();
-
-                string itemString = "";
-                foreach (var itemCode in items)
-                {
-                    Entity? item = factory.ExpandCode(itemCode);
-                    if (item != null)
-                    {
-                        itemString += $"\n  - Received '{item.GetName()}'";
-                        coordinator.AddEntity(item);
-                        coordinator.PostMessage(this, new ItemReceivedMessage(m_player, item));
-                    }
-                }
-
-                progComp.Data.TutorialProgress.Add(TutorialStep.Armor);
-                coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Armor, "It's Dangerous to Go Alone", 
-                    $"Those mobs are getting nasty. Use armor to slow down the countdown during fights. " +
-                    $"Wearing armor encumbers your character, reducing attack speed. " +
-                    $"Heavier armor means more encumbrance, but also better protection." +
-                    $"{itemString}"));
-            }
-            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Abilities) && lvl >= LvlAbilities)
-            {
-                progComp.Data.TutorialProgress.Add(TutorialStep.Abilities);
-                coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Abilities, "Live and Learn",
-                    $"The more you use weapons of one type, the better you will become at handling them. Watch your " +
-                    $"attack speed increase along with your ability level."));
-            }
-            if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Travel) && lvl >= LvlTravel)
-            {
-                m_player.AddComponent(new TravellerComponent());
-                progComp.Data.TutorialProgress.Add(TutorialStep.Travel);
-                coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Travel, "Freedom of Movement",
-                    $"You can now travel between areas. Pick a spot to grind or push forward to unlock higher zones." +
-                    $"\n  - Unlocked manual travel between areas"));
-            }
             if (!progComp.Data.TutorialProgress.Contains(TutorialStep.Defeated)
                 && progComp.Data.Losses == 1)
             {

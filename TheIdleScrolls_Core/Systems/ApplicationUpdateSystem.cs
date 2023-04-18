@@ -197,23 +197,63 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // React to tutorial messages
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TutorialMessage>() || coordinator.MessageTypeIsOnBoard<QuestProgressMessage>())
-            {
-                var progress = player.GetComponent<PlayerProgressComponent>()?.Data?.TutorialProgress;
-                if (progress != null)
-                {
-                    m_appModel?.SetFeatureAvailable(GameFeature.Inventory, player.HasComponent<InventoryComponent>());
-                    m_appModel?.SetFeatureAvailable(GameFeature.Armor, progress.Contains(TutorialStep.Armor));
-                    m_appModel?.SetFeatureAvailable(GameFeature.Abilities, progress.Contains(TutorialStep.Abilities));
-                    m_appModel?.SetFeatureAvailable(GameFeature.Travel, player.GetComponent<TravellerComponent>()?.Active ?? false);
-                    m_appModel?.SetFeatureAvailable(GameFeature.Crafting, progress.Contains(TutorialStep.Reforging));
-                }
+            //if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TutorialMessage>() || coordinator.MessageTypeIsOnBoard<QuestProgressMessage>())
+            //{
+            //    var progress = player.GetComponent<PlayerProgressComponent>()?.Data?.TutorialProgress;
+            //    if (progress != null)
+            //    {
+            //        m_appModel?.SetFeatureAvailable(GameFeature.Inventory, player.HasComponent<InventoryComponent>());
+            //        m_appModel?.SetFeatureAvailable(GameFeature.Armor, progress.Contains(TutorialStep.Armor));
+            //        m_appModel?.SetFeatureAvailable(GameFeature.Abilities, progress.Contains(TutorialStep.Abilities));
+            //        m_appModel?.SetFeatureAvailable(GameFeature.Travel, player.GetComponent<TravellerComponent>()?.Active ?? false);
+            //        m_appModel?.SetFeatureAvailable(GameFeature.Crafting, progress.Contains(TutorialStep.Reforging));
+            //    }
 
-                var messages = coordinator.FetchMessagesByType<TutorialMessage>();
-                foreach (var message in messages)
+            //    var messages = coordinator.FetchMessagesByType<TutorialMessage>();
+            //    foreach (var message in messages)
+            //    {
+            //        m_appModel?.DisplayMessage(message.Title, message.Text.Replace("\\n", "\n"));
+            //    }
+            //}
+
+            // Handle messages: Attach tutorial messages to quest messages, then handle remaining tutorial messages
+            var questMessages = coordinator.FetchMessagesByType<QuestProgressMessage>();
+            var tutorialMessages = coordinator.FetchMessagesByType<TutorialMessage>();
+            foreach (var questMessage in questMessages)
+            {
+                string title = questMessage.Quest.ToString();
+                string text = questMessage.QuestMessage ?? "";
+                // Loop over attached tutorial messages, though there is probably never more than one
+                foreach (TutorialMessage tutMessage in tutorialMessages.Where(m => m.QuestMessage == questMessage))
                 {
-                    m_appModel?.DisplayMessage(message.Title, message.Text.Replace("\\n", "\n"));
+                    if (tutMessage.Title != String.Empty)
+                    {
+                        title = tutMessage.Title; // CornerCut: multiple tutorial messages would override each other
+                    }
+
+                    text += (text != String.Empty ? "\n\n" : "") + tutMessage.Text;
                 }
+                m_appModel?.DisplayMessage(title, text);
+            }
+            foreach (var tutorialMessage in tutorialMessages.Where(m => m.QuestMessage == null))
+            {
+                m_appModel?.DisplayMessage(tutorialMessage.Title, tutorialMessage.Text);
+            }
+
+
+            // Enable previously unlocked features
+            if (m_firstUpdate)
+            {
+                var availableFeatures = player.GetComponent<PlayerComponent>()?.AvailableFeatures ?? new();
+                foreach (var feature in availableFeatures)
+                {
+                    m_appModel?.SetFeatureAvailable(feature, true);
+                }
+            }
+            // React to feature state messages
+            foreach (var featureMessage in coordinator.FetchMessagesByType<FeatureStateMessage>())
+            {
+                m_appModel?.SetFeatureAvailable(featureMessage.Feature, featureMessage.Enabled);
             }
 
             // Add log messages
