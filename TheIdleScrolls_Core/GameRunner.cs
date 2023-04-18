@@ -68,6 +68,10 @@ namespace TheIdleScrolls_Core
                 globalEntity.AddComponent(new NameComponent(globalEntityName));
                 globalEntity.AddComponent(new AchievementsComponent());
             }
+            if (globalEntity.GetComponent<PlayerProgressComponent>() == null)
+            {
+                globalEntity.AddComponent(new PlayerProgressComponent()); // so far only used for tutorial progress
+            }
             m_coordinator.AddEntity(globalEntity);
             m_world.GlobalEntity = globalEntity;
 

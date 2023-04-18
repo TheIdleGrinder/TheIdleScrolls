@@ -137,7 +137,7 @@ namespace TheIdleScrolls_Core.Systems
                 if (!m_player.HasComponent<TravellerComponent>())
                 {
                     m_player.AddComponent(new TravellerComponent());
-                    setQuestState(QuestId.GettingStarted, progress | QuestStates.GettingStarted.Travel,
+                    setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Travel,
                         $"You can now travel between areas. Pick a spot to grind or push forward to unlock higher zones." +
                         $"\n  - Unlocked manual travel between areas");
                 }

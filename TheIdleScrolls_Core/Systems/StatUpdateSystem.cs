@@ -162,7 +162,7 @@ namespace TheIdleScrolls_Core.Systems
                 m_initialFullUpdates--; 
         }
 
-        int GetAbilityLevel(Entity entity, string familyId)
+        static int GetAbilityLevel(Entity entity, string familyId)
         {
             return entity.GetComponent<AbilitiesComponent>()?.GetAbility(familyId)?.Level ?? -1;
         }

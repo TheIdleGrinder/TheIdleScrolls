@@ -31,7 +31,8 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
 
-            if (coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>())
+            if (coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>() 
+                || coordinator.MessageTypeIsOnBoard<TutorialMessage>())
             {
                 Entity? globalEntity = coordinator.GetEntities<AchievementsComponent>().FirstOrDefault();
                 if (globalEntity != null)

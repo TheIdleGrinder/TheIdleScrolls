@@ -8,9 +8,9 @@ namespace MiniECS
 {
     public class Coordinator
     {
-        List<Entity> m_entities = new();
-        List<ISystem> m_systems = new();
-        MessageBoard m_messageBoard = new();
+        readonly List<Entity> m_entities = new();
+        readonly List<ISystem> m_systems = new();
+        readonly MessageBoard m_messageBoard = new();
 
         public void AddEntity(Entity entity)
         {

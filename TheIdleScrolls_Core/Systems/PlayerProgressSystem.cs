@@ -13,7 +13,7 @@ namespace TheIdleScrolls_Core.Systems
         Entity? m_player = null;
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            m_player ??= coordinator.GetEntities<PlayerProgressComponent>().FirstOrDefault();
+            m_player ??= coordinator.GetEntities<PlayerComponent, PlayerProgressComponent>().FirstOrDefault();
             if (m_player == null)
                 return;
 
