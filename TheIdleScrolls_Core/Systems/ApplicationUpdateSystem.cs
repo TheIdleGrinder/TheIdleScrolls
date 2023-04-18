@@ -244,10 +244,12 @@ namespace TheIdleScrolls_Core.Systems
             // Enable previously unlocked features
             if (m_firstUpdate)
             {
+                var allFeatures = Enum.GetValues(typeof(GameFeature));
                 var availableFeatures = player.GetComponent<PlayerComponent>()?.AvailableFeatures ?? new();
-                foreach (var feature in availableFeatures)
+                foreach (var anonymousFeature in Enum.GetValues(typeof(GameFeature)))
                 {
-                    m_appModel?.SetFeatureAvailable(feature, true);
+                    var feature = (GameFeature)anonymousFeature;
+                    m_appModel?.SetFeatureAvailable(feature, availableFeatures.Contains(feature));
                 }
             }
             // React to feature state messages
