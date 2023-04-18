@@ -57,7 +57,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         case Components.QuestStates.GettingStarted.Inventory:
                             addTutorialProgress(TutorialStep.Inventory, "Level Up!",
-                                "Double click on an item in your inventory to equip it.", message);
+                                "You have unlocked the inventory. Double click on an item in your inventory to equip it.", message);
                             break;
                         case Components.QuestStates.GettingStarted.Abilities:
                             addTutorialProgress(TutorialStep.Abilities, "Live and Learn",
@@ -71,13 +71,15 @@ namespace TheIdleScrolls_Core.Systems
                             break;
                         case Components.QuestStates.GettingStarted.Armor:
                             addTutorialProgress(TutorialStep.Armor, "It's Dangerous to Go Alone",
-                                "Those mobs are getting nasty. Use armor to slow down the countdown during fights. " +
-                                "Wearing armor encumbers your character, reducing attack speed. " +
+                                "Wearing armor slows down the countdown during fights but also encumbers your character, reducing attack speed. " +
                                 "Heavier armor means more encumbrance, but also better protection.", message);
                             break;
                         case Components.QuestStates.GettingStarted.Travel:
                             addTutorialProgress(TutorialStep.Travel, "Freedom of Movement", 
-                                "You can now travel between areas. Pick a spot to grind or push forward to unlock higher zones.", message);
+                                "Click the arrow buttons to move between zones. Higher level areas become accessible after defeating" +
+                                "a mob in the previous zone. Checking 'Go on after win' will advance to the next zone as a mob has been defeated." +
+                                "\nUpon losing a fight, your character will automatically move down one area and 'Go on after win' is deactivated.", 
+                                message);
                             break;
                         default:
                             break;
@@ -198,6 +200,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n  - You can reforge the rarity of items using the context menu\n" +
                     $"\n  - Selecting an items and pressing CTRL+F works as well"));
                 m_player.GetComponent<PlayerComponent>()?.SetFeatureState(GameFeature.Crafting, true);
+                coordinator.PostMessage(this, new FeatureStateMessage(GameFeature.Crafting, true));
             }
         }
     }

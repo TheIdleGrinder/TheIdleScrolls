@@ -23,7 +23,7 @@ namespace TheIdleScrolls_Core.Components
 
     namespace QuestStates
     {
-        public enum GettingStarted { None = -1, Inventory, Outside, Armor, Abilities, Travel }
+        public enum GettingStarted { None = -1, Inventory, Abilities, Outside, Armor, Travel }
         public enum FinalFight { None = -1, NotStarted, Slowing, Pause, End, Finished }
     }
 
@@ -33,9 +33,9 @@ namespace TheIdleScrolls_Core.Components
 
         public Dictionary<QuestId, int> Quests = new();
 
-        public int GetQuestProgress(QuestId quest)
+        public int GetQuestProgress(QuestId quest, int defaultValue = -1)
         {
-            return Quests.GetValueOrDefault(quest, -1);
+            return Quests.GetValueOrDefault(quest, defaultValue);
         }
 
         public void SetQuestProgress(QuestId quest, int progress)

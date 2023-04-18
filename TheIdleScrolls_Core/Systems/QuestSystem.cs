@@ -36,9 +36,7 @@ namespace TheIdleScrolls_Core.Systems
             const int LvlMobAttacks = 6;
             const int LvlArmor = 8;
             const int LvlAbilities = 4;
-            const int LvlTravel = 10;
-
-            
+            const int LvlTravel = 10;            
 
             if (m_player == null)
                 return;
@@ -56,14 +54,19 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this, new FeatureStateMessage(feature, state));
             };
 
-            var setQuestState = (QuestId quest, int progress, string message) =>
+            var setQuestState = (QuestId quest, QuestStates.GettingStarted progress, string message) =>
             {
                 storyComp.SetQuestProgress(quest, progress);
-                coordinator.PostMessage(this, new QuestProgressMessage(quest, progress, message));
+                coordinator.PostMessage(this, new QuestProgressMessage(quest, (int)progress, message));
             };
 
             var progress = (QuestStates.GettingStarted)storyComp.GetQuestProgress(QuestId.GettingStarted);
-            if (progress < QuestStates.GettingStarted.Inventory && level >= LvlInventory)
+            var isStepDone = (QuestStates.GettingStarted step) =>
+            {
+                return progress >= step;
+            };
+
+            if (!isStepDone(QuestStates.GettingStarted.Inventory) && level >= LvlInventory)
             {
                 if (!m_player.HasComponent<InventoryComponent>())
                 {
@@ -86,22 +89,20 @@ namespace TheIdleScrolls_Core.Systems
                         }
                     }
 
-                    setQuestState(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Inventory,
-                        $"You have unlocked the inventory. Time to gear up!" +
-                        $"\nDouble click on an item in your inventory to equip it." +
-                        $"\n  - Unlocked inventory{itemString}");
+                    setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory,
+                        "Here, take some weapons. Time to gear up!");
                 }
                 storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory);
                 setFeatureState(GameFeature.Inventory, true);
             }
 
-            if (progress < QuestStates.GettingStarted.Outside && level >= LvlMobAttacks)
+            if (!isStepDone(QuestStates.GettingStarted.Outside) && level >= LvlMobAttacks)
             {
-                setQuestState(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Outside,
-                    $"From this point on, mobs are going to fight back. Watch the countdown near the mob. If time runs out, you lose the fight.");
+                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Outside,
+                    "Alright, after beating up all those dummies you should be ready to take on an actual challenge.");
             }
 
-            if (progress < QuestStates.GettingStarted.Armor && level >= LvlArmor)
+            if (!isStepDone(QuestStates.GettingStarted.Armor) && level >= LvlArmor)
             {
                 List<string> items = new() { "LAR0", "HAR0" };
                 ItemFactory factory = new();
@@ -118,28 +119,25 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
 
-                setQuestState(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Armor,
-                    $"Those mobs are getting nasty. Use armor to slow down the countdown during fights. " +
-                    $"Wearing armor encumbers your character, reducing attack speed. " +
-                    $"Heavier armor means more encumbrance, but also better protection." +
+                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Armor,
+                    $"Those mobs are getting nasty, better put on some armor!" +
                     $"{itemString}");
                 setFeatureState(GameFeature.Armor, true);
             }
 
-            if (progress < QuestStates.GettingStarted.Abilities && level >= LvlAbilities)
+            if (!isStepDone(QuestStates.GettingStarted.Abilities) && level >= LvlAbilities)
             {
-                setQuestState(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Abilities,
-                    $"The more you use weapons of one type, the better you will become at handling them. Watch your " +
-                    $"attack speed increase along with your ability level.");
+                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Abilities,
+                    "");
                 setFeatureState(GameFeature.Abilities, true);
             }
 
-            if (progress < QuestStates.GettingStarted.Travel && level >= LvlTravel)
+            if (!isStepDone(QuestStates.GettingStarted.Travel) && level >= LvlTravel)
             {
-                if (m_player.HasComponent<TravellerComponent>())
+                if (!m_player.HasComponent<TravellerComponent>())
                 {
                     m_player.AddComponent(new TravellerComponent());
-                    setQuestState(QuestId.GettingStarted, (int)QuestStates.GettingStarted.Travel,
+                    setQuestState(QuestId.GettingStarted, progress | QuestStates.GettingStarted.Travel,
                         $"You can now travel between areas. Pick a spot to grind or push forward to unlock higher zones." +
                         $"\n  - Unlocked manual travel between areas");
                 }
