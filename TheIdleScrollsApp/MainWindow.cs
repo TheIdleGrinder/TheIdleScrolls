@@ -145,6 +145,7 @@ namespace TheIdleScrollsApp
                 lblEqHelmet.Visible = available;
                 lblEqGloves.Visible = available;
                 lblEqBoots.Visible = available;
+                lblCoins.Visible = available;
             }
             else if (GameFeature.Abilities == area)
             {
