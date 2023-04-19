@@ -128,8 +128,7 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Finished, "",
                     "Congratulations you cleared the final dungeon and completed the game." +
-                    $"\n  Playtime: {time:0} seconds" +
-                    $"\n\nFeel free to keep grinding and earning achievements or reset your character to try for a faster time!"));                    
+                    $"\nFeel free to keep grinding and earning achievements or create a new character to try for a faster time!"));                    
             }
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Evasion)
                 && (m_player.GetComponent<DefenseComponent>()?.Evasion ?? 0) > 0)

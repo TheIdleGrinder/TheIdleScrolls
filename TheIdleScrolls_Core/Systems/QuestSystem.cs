@@ -90,7 +90,7 @@ namespace TheIdleScrolls_Core.Systems
                     }
 
                     setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory,
-                        "Here, take some weapons. Time to gear up!");
+                        $"Here, take some weapons. Time to gear up!{itemString}");
                 }
                 storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory);
                 setFeatureState(GameFeature.Inventory, true);

@@ -32,7 +32,10 @@ namespace TheIdleScrolls_Core.Systems
                 CoinPurseComponent? purseComp = owner.GetComponent<CoinPurseComponent>();
                 if (purseComp == null || purseComp.Coins < cost)
                 {
-                    throw new Exception($"{owner.GetName()} does not have {cost} coins for reforging {item.GetName()}");
+                    coordinator.PostMessage(this, 
+                        new TextMessage($"{owner.GetName()} does not have {cost} coins for reforging {item.GetName()}", 
+                        IMessage.PriorityLevel.VeryHigh));
+                    continue;
                 }
                 // Get ability value
                 int abilityLevel = owner.GetComponent<AbilitiesComponent>()?.GetAbility(Properties.Constants.Key_Ability_Crafting)?.Level ?? 0;

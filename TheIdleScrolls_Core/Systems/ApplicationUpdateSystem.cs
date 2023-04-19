@@ -196,26 +196,6 @@ namespace TheIdleScrolls_Core.Systems
                 m_appModel?.SetAutoProceedStatus(message?.AutoProceed ?? false);
             }
 
-            // React to tutorial messages
-            //if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TutorialMessage>() || coordinator.MessageTypeIsOnBoard<QuestProgressMessage>())
-            //{
-            //    var progress = player.GetComponent<PlayerProgressComponent>()?.Data?.TutorialProgress;
-            //    if (progress != null)
-            //    {
-            //        m_appModel?.SetFeatureAvailable(GameFeature.Inventory, player.HasComponent<InventoryComponent>());
-            //        m_appModel?.SetFeatureAvailable(GameFeature.Armor, progress.Contains(TutorialStep.Armor));
-            //        m_appModel?.SetFeatureAvailable(GameFeature.Abilities, progress.Contains(TutorialStep.Abilities));
-            //        m_appModel?.SetFeatureAvailable(GameFeature.Travel, player.GetComponent<TravellerComponent>()?.Active ?? false);
-            //        m_appModel?.SetFeatureAvailable(GameFeature.Crafting, progress.Contains(TutorialStep.Reforging));
-            //    }
-
-            //    var messages = coordinator.FetchMessagesByType<TutorialMessage>();
-            //    foreach (var message in messages)
-            //    {
-            //        m_appModel?.DisplayMessage(message.Title, message.Text.Replace("\\n", "\n"));
-            //    }
-            //}
-
             // Handle messages: Attach tutorial messages to quest messages, then handle remaining tutorial messages
             var questMessages = coordinator.FetchMessagesByType<QuestProgressMessage>();
             var tutorialMessages = coordinator.FetchMessagesByType<TutorialMessage>();
@@ -233,7 +213,8 @@ namespace TheIdleScrolls_Core.Systems
 
                     text += (text != String.Empty ? "\n\n" : "") + tutMessage.Text;
                 }
-                m_appModel?.DisplayMessage(title, text);
+                if (text != String.Empty)
+                    m_appModel?.DisplayMessage(title, text);
             }
             foreach (var tutorialMessage in tutorialMessages.Where(m => m.QuestMessage == null))
             {
