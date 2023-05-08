@@ -1,0 +1,31 @@
+﻿using MiniECS;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TheIdleScrolls_Core.Components;
+
+namespace TheIdleScrolls_Core.Quests
+{
+    public abstract class AbstractQuest
+    {
+        const int QuestNotFound = -99;
+
+        public QuestId Id => GetId();
+
+        public abstract QuestId GetId();
+
+        public abstract void UpdateEntity(Entity entity, Coordinator coordinator, World world, double dt, Action<IMessage> postMessageCallback);
+
+        protected int ExtractQuestStateFromEntity(Entity entity)
+        {
+            return entity.GetComponent<QuestProgressComponent>()?.GetQuestProgress(Id) ?? QuestNotFound;
+        }
+
+        protected void SetQuestStateInEntity(Entity entity, int progress)
+        {
+            entity.GetComponent<QuestProgressComponent>()?.SetQuestProgress(Id, progress);
+        }
+    }
+}

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Quests;
 using QuestStates = TheIdleScrolls_Core.Components.QuestStates;
 
 namespace TheIdleScrolls_Core.Systems
@@ -20,14 +21,50 @@ namespace TheIdleScrolls_Core.Systems
 
         bool m_firstUpdate = true;
 
+        readonly List<AbstractQuest> m_quests;
+
+        public QuestSystem()
+        {
+            m_quests = new List<AbstractQuest>() 
+            { 
+                new GettingStartedQuest() 
+            };
+        }
+
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             m_player ??= coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
 
-            HandleGettingStarted(world, coordinator);
+            if (m_player == null)
+                return;
+
+            //HandleGettingStarted(world, coordinator);
+            GettingStartedQuest gettingStartedQuest = new();
+            gettingStartedQuest.UpdateEntity(m_player, coordinator, world, dt, 
+                (IMessage message) => 
+                {
+                    coordinator.PostMessage(this, message as dynamic);
+                }
+            );
+
+            foreach (AbstractQuest quest in m_quests)
+            {
+                quest.UpdateEntity(m_player, coordinator, world, dt,
+                    (IMessage message) =>
+                    {
+                        coordinator.PostMessage(this, message as dynamic);
+                    }
+                );
+            }
+
             HandleFinalFight(world, coordinator);
 
             m_firstUpdate = false;
+        }
+
+        private void SendMessage(Coordinator coordinator, IMessage message)
+        {
+            coordinator.PostMessage(this, message as dynamic);
         }
 
         void HandleGettingStarted(World world, Coordinator coordinator)
