@@ -80,10 +80,12 @@
             this.lblCoins = new System.Windows.Forms.Label();
             this.lblEqChest = new System.Windows.Forms.Label();
             this.lblEqWeapon = new System.Windows.Forms.Label();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
             this.gridInventory = new System.Windows.Forms.DataGridView();
             this.cMenuInventory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cMenuInventorySell = new System.Windows.Forms.ToolStripMenuItem();
             this.cMenuInventoryReforge = new System.Windows.Forms.ToolStripMenuItem();
+            this.rtbItemDescription = new System.Windows.Forms.RichTextBox();
             this.tabAbilities = new System.Windows.Forms.TabPage();
             this.gridAbilities = new System.Windows.Forms.DataGridView();
             this.tabAchievements = new System.Windows.Forms.TabPage();
@@ -114,6 +116,10 @@
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridInventory)).BeginInit();
             this.cMenuInventory.SuspendLayout();
             this.tabAbilities.SuspendLayout();
@@ -701,7 +707,7 @@
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.gridInventory);
+            this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
             this.splitContainer3.Size = new System.Drawing.Size(643, 501);
             this.splitContainer3.SplitterDistance = 108;
             this.splitContainer3.SplitterWidth = 1;
@@ -784,6 +790,24 @@
             this.lblEqWeapon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblEqWeapon.DoubleClick += new System.EventHandler(this.lblEqWeapon_DoubleClick);
             // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.gridInventory);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.rtbItemDescription);
+            this.splitContainer4.Size = new System.Drawing.Size(643, 392);
+            this.splitContainer4.SplitterDistance = 306;
+            this.splitContainer4.TabIndex = 1;
+            // 
             // gridInventory
             // 
             this.gridInventory.AllowUserToAddRows = false;
@@ -800,11 +824,12 @@
             this.gridInventory.RowTemplate.Height = 25;
             this.gridInventory.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridInventory.Size = new System.Drawing.Size(643, 392);
+            this.gridInventory.Size = new System.Drawing.Size(306, 392);
             this.gridInventory.TabIndex = 0;
             this.gridInventory.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.gridInventory_CellContextMenuStripNeeded);
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
             this.gridInventory.RowPrePaint += new System.Windows.Forms.DataGridViewRowPrePaintEventHandler(this.gridInventory_RowPrePaint);
+            this.gridInventory.SelectionChanged += new System.EventHandler(this.gridInventory_SelectionChanged);
             this.gridInventory.KeyUp += new System.Windows.Forms.KeyEventHandler(this.gridInventory_KeyUp);
             // 
             // cMenuInventory
@@ -829,6 +854,16 @@
             this.cMenuInventoryReforge.Size = new System.Drawing.Size(115, 22);
             this.cMenuInventoryReforge.Text = "Reforge";
             this.cMenuInventoryReforge.Click += new System.EventHandler(this.cMenuInventoryReforge_Click);
+            // 
+            // rtbItemDescription
+            // 
+            this.rtbItemDescription.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.rtbItemDescription.Location = new System.Drawing.Point(0, 0);
+            this.rtbItemDescription.Name = "rtbItemDescription";
+            this.rtbItemDescription.ReadOnly = true;
+            this.rtbItemDescription.Size = new System.Drawing.Size(333, 392);
+            this.rtbItemDescription.TabIndex = 0;
+            this.rtbItemDescription.Text = "";
             // 
             // tabAbilities
             // 
@@ -1017,6 +1052,10 @@
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridInventory)).EndInit();
             this.cMenuInventory.ResumeLayout(false);
             this.tabAbilities.ResumeLayout(false);
@@ -1102,5 +1141,7 @@
         private Button btnDungeon11;
         private Button btnDungeon10;
         private Label lblEqOffHand;
+        private SplitContainer splitContainer4;
+        private RichTextBox rtbItemDescription;
     }
 }

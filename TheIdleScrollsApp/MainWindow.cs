@@ -67,8 +67,10 @@ namespace TheIdleScrollsApp
             gridInventory.DataSource = m_Inventory;
             gridInventory.Columns[0].Visible = false;
             gridInventory.Columns[1].MinimumWidth = 175;
+            gridInventory.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             gridInventory.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             gridInventory.Columns[3].MinimumWidth = 35;
+            gridInventory.Columns[2].Visible = false;
             gridInventory.Columns[3].Visible = false;
             gridInventory.Columns[4].Visible = false;
             gridInventory.Columns[5].Visible = false;
@@ -310,6 +312,16 @@ namespace TheIdleScrollsApp
             lblAttack.Text = "Attack" + ((m_Equipment.Hand != null) ? $"\n({m_Equipment.Hand?.Name})" : "");
         }
 
+        private void ShowItemDescription(ItemRepresentation item)
+        {
+            string fullDescription = item.Name + "\n" + item.Description.Replace("; ", "\n");
+            rtbItemDescription.Text = fullDescription;
+            rtbItemDescription.Select(0, item.Name.Length);
+            rtbItemDescription.SelectionColor = GetColorForRarity(item.Rarity);
+            rtbItemDescription.SelectionFont = new Font(rtbItemDescription.SelectionFont, GetFontStyleForRarity(item.Rarity, item.Crafted));
+            rtbItemDescription.DeselectAll();
+        }
+
         public void SetAbilities(List<AbilityRepresentation> abilities)
         {
             m_abilities = new(abilities);
@@ -547,6 +559,15 @@ namespace TheIdleScrollsApp
             else if (e.KeyCode == Keys.F && e.Control)
             {
                 cMenuInventoryReforge_Click(sender, e); // Wrong sender does not matter here
+            }
+        }
+
+        private void gridInventory_SelectionChanged(object sender, EventArgs e)
+        {
+            int row = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
+            if (row >= 0 && row < m_Inventory.Count)
+            {
+                ShowItemDescription(m_Inventory[row]);
             }
         }
     }
