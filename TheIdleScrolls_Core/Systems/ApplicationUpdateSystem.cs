@@ -270,19 +270,34 @@ namespace TheIdleScrolls_Core.Systems
             var weaponComp = item.GetComponent<WeaponComponent>();
             var armorComp = item.GetComponent<ArmorComponent>();
             var forgeComp = item.GetComponent<ItemReforgeableComponent>();
-            string description = $"[{itemComp?.FamilyName ?? "??"}]";
+            string description = $"Type: {itemComp?.FamilyName ?? "??"}";
+            if (equipComp != null)
+            {
+                List<string> slotStrings = new();
+                var slots = (EquipmentSlot[])Enum.GetValues(typeof(EquipmentSlot));
+                foreach (var slot in slots)
+                {
+                    int count = equipComp.Slots.Count(s => s == slot);
+                    if (count == 0)
+                    {
+                        continue;
+                    }
+                    slotStrings.Add((count > 1 ? $"{count}x" : "") + slot.ToString());
+                }
+                description += $"; Used Slot(s): {string.Join(", ", slotStrings)}";
+            }
             if (weaponComp != null)
             {
-                description += $"; {weaponComp.Damage} Damage; {weaponComp.Cooldown} s/A";
+                description += $"; Damage: {weaponComp.Damage}; Attack Time: {weaponComp.Cooldown} s";
             }
             if (armorComp != null)
             {
-                description += armorComp.Armor != 0.0 ? $"; {armorComp.Armor} Armor" : "";
-                description += armorComp.Evasion != 0.0 ? $"; {armorComp.Evasion} Evasion" : "";
+                description += armorComp.Armor != 0.0 ? $"; Armor: {armorComp.Armor}" : "";
+                description += armorComp.Evasion != 0.0 ? $"; Evasion: {armorComp.Evasion}" : "";
             }
             if (equipComp != null)
             {
-                description += equipComp.Encumbrance != 0.0 ? $"; {equipComp.Encumbrance} Encumbrance" : "";
+                description += equipComp.Encumbrance != 0.0 ? $"; Encumbrance: {equipComp.Encumbrance}%" : "";
             }
 
             return new ItemRepresentation(

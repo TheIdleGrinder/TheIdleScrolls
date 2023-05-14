@@ -36,7 +36,7 @@ namespace Test_TheIdleScrolls_Core
             Assert.That(itemKingdom.Families[0].Genera, Has.Count.EqualTo(3));
             Assert.That(itemKingdom.Families[0].Genera[0].Weapon, Is.Not.Null);
             Assert.That(itemKingdom.Families[0].Genera[0].Equippable, Is.Not.Null);
-            Assert.That(itemKingdom.Families[0].Genera[0].Equippable!.Slot, Is.EqualTo("Hand"));
+            Assert.That(itemKingdom.Families[0].Genera[0].Equippable!.Slots, Is.EqualTo(new List<string>() { "Hand" }));
             Assert.That(itemKingdom.Families[0].Genera[0].Armor, Is.Null);
         }
     }
