@@ -84,6 +84,22 @@ namespace TheIdleScrollsApp
             {
                 cMenuInventory.Items[i].Visible = false;
             }
+
+            lblEqHelmet.MouseEnter += (s, e) => ShowItemDescription(m_Equipment.Head);
+            lblEqChest.MouseEnter += (s, e) => ShowItemDescription(m_Equipment.Chest);
+            lblEqGloves.MouseEnter += (s, e) => ShowItemDescription(m_Equipment.Arms);
+            lblEqBoots.MouseEnter += (s, e) => ShowItemDescription(m_Equipment.Legs);
+            lblEqWeapon.MouseEnter += (s, e) => ShowItemDescription(m_Equipment.Hand);
+            lblEqOffHand.MouseEnter += (s, e) => ShowItemDescription(
+                ((m_Equipment.OffHand?.Rarity ?? -1) < 0) // Use main hand in case a 2H weapon is equipped
+                ? m_Equipment.Hand
+                : m_Equipment.OffHand);
+            lblEqHelmet.MouseLeave += (s, e) => ShowItemDescription(null);
+            lblEqChest.MouseLeave += (s, e) => ShowItemDescription(null);
+            lblEqGloves.MouseLeave += (s, e) => ShowItemDescription(null);
+            lblEqBoots.MouseLeave += (s, e) => ShowItemDescription(null);
+            lblEqWeapon.MouseLeave += (s, e) => ShowItemDescription(null);
+            lblEqOffHand.MouseLeave += (s, e) => ShowItemDescription(null);
         }
 
         private void timerTick_Tick(object sender, EventArgs e)
@@ -299,7 +315,6 @@ namespace TheIdleScrollsApp
                 label.Text = item?.Name ?? label.Tag.ToString();
                 label.ForeColor = GetColorForRarity(rarity);
                 label.Font = new Font(label.Font, GetFontStyleForRarity(rarity, item?.Crafted ?? false));
-                toolTip.SetToolTip(label, item?.Description?.Replace("; ", "\n") ?? "");
             };
 
             SetLabelItem(lblEqWeapon, m_Equipment.Hand);
@@ -312,14 +327,25 @@ namespace TheIdleScrollsApp
             lblAttack.Text = "Attack" + ((m_Equipment.Hand != null) ? $"\n({m_Equipment.Hand?.Name})" : "");
         }
 
-        private void ShowItemDescription(ItemRepresentation item)
+        private void ShowItemDescription(ItemRepresentation? item)
         {
-            string fullDescription = item.Name + "\n" + item.Description.Replace("; ", "\n");
-            rtbItemDescription.Text = fullDescription;
-            rtbItemDescription.Select(0, item.Name.Length);
-            rtbItemDescription.SelectionColor = GetColorForRarity(item.Rarity);
-            rtbItemDescription.SelectionFont = new Font(rtbItemDescription.SelectionFont, GetFontStyleForRarity(item.Rarity, item.Crafted));
-            rtbItemDescription.DeselectAll();
+            if (item == null)
+            {
+                int row = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
+                if (row >= 0 && row < m_Inventory.Count)
+                {
+                    item = m_Inventory[row];
+                }
+            }
+            if (item != null)
+            {
+                string fullDescription = item.Name + "\n" + item.Description.Replace("; ", "\n");
+                rtbItemDescription.Text = fullDescription;
+                rtbItemDescription.Select(0, item.Name.Length);
+                rtbItemDescription.SelectionColor = GetColorForRarity(item.Rarity);
+                rtbItemDescription.SelectionFont = new Font(rtbItemDescription.SelectionFont, GetFontStyleForRarity(item.Rarity, item.Crafted));
+                rtbItemDescription.DeselectAll();
+            }
         }
 
         public void SetAbilities(List<AbilityRepresentation> abilities)
@@ -564,11 +590,7 @@ namespace TheIdleScrollsApp
 
         private void gridInventory_SelectionChanged(object sender, EventArgs e)
         {
-            int row = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
-            if (row >= 0 && row < m_Inventory.Count)
-            {
-                ShowItemDescription(m_Inventory[row]);
-            }
+            ShowItemDescription(null); // Defaults to first selected item in inventory list
         }
     }
 
