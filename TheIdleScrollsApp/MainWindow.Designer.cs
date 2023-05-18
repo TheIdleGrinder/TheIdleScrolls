@@ -73,6 +73,8 @@
             this.lblCharName = new System.Windows.Forms.Label();
             this.tabInventory = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.lblInventoryDefense = new System.Windows.Forms.Label();
+            this.lblInventoryOffense = new System.Windows.Forms.Label();
             this.lblEqOffHand = new System.Windows.Forms.Label();
             this.lblEqBoots = new System.Windows.Forms.Label();
             this.lblEqGloves = new System.Windows.Forms.Label();
@@ -697,6 +699,8 @@
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.lblInventoryDefense);
+            this.splitContainer3.Panel1.Controls.Add(this.lblInventoryOffense);
             this.splitContainer3.Panel1.Controls.Add(this.lblEqOffHand);
             this.splitContainer3.Panel1.Controls.Add(this.lblEqBoots);
             this.splitContainer3.Panel1.Controls.Add(this.lblEqGloves);
@@ -709,14 +713,33 @@
             // 
             this.splitContainer3.Panel2.Controls.Add(this.splitContainer4);
             this.splitContainer3.Size = new System.Drawing.Size(643, 501);
-            this.splitContainer3.SplitterDistance = 108;
+            this.splitContainer3.SplitterDistance = 144;
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 6;
+            // 
+            // lblInventoryDefense
+            // 
+            this.lblInventoryDefense.AutoSize = true;
+            this.lblInventoryDefense.Location = new System.Drawing.Point(536, 12);
+            this.lblInventoryDefense.Name = "lblInventoryDefense";
+            this.lblInventoryDefense.Size = new System.Drawing.Size(89, 30);
+            this.lblInventoryDefense.TabIndex = 11;
+            this.lblInventoryDefense.Text = "Armor: 999999\r\nEvasion: 999999\r\n";
+            this.lblInventoryDefense.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // lblInventoryOffense
+            // 
+            this.lblInventoryOffense.AutoSize = true;
+            this.lblInventoryOffense.Location = new System.Drawing.Point(13, 12);
+            this.lblInventoryOffense.Name = "lblInventoryOffense";
+            this.lblInventoryOffense.Size = new System.Drawing.Size(97, 30);
+            this.lblInventoryOffense.TabIndex = 10;
+            this.lblInventoryOffense.Text = "Damage: 999.999\r\nDPS:         999,999\r\n";
             // 
             // lblEqOffHand
             // 
             this.lblEqOffHand.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqOffHand.Location = new System.Drawing.Point(415, 44);
+            this.lblEqOffHand.Location = new System.Drawing.Point(425, 59);
             this.lblEqOffHand.Name = "lblEqOffHand";
             this.lblEqOffHand.Size = new System.Drawing.Size(200, 23);
             this.lblEqOffHand.TabIndex = 9;
@@ -727,7 +750,7 @@
             // lblEqBoots
             // 
             this.lblEqBoots.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqBoots.Location = new System.Drawing.Point(312, 76);
+            this.lblEqBoots.Location = new System.Drawing.Point(322, 106);
             this.lblEqBoots.Name = "lblEqBoots";
             this.lblEqBoots.Size = new System.Drawing.Size(200, 23);
             this.lblEqBoots.TabIndex = 8;
@@ -738,7 +761,7 @@
             // lblEqGloves
             // 
             this.lblEqGloves.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqGloves.Location = new System.Drawing.Point(106, 76);
+            this.lblEqGloves.Location = new System.Drawing.Point(116, 106);
             this.lblEqGloves.Name = "lblEqGloves";
             this.lblEqGloves.Size = new System.Drawing.Size(200, 23);
             this.lblEqGloves.TabIndex = 7;
@@ -749,7 +772,7 @@
             // lblEqHelmet
             // 
             this.lblEqHelmet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqHelmet.Location = new System.Drawing.Point(209, 12);
+            this.lblEqHelmet.Location = new System.Drawing.Point(219, 12);
             this.lblEqHelmet.Name = "lblEqHelmet";
             this.lblEqHelmet.Size = new System.Drawing.Size(200, 23);
             this.lblEqHelmet.TabIndex = 6;
@@ -760,7 +783,7 @@
             // lblCoins
             // 
             this.lblCoins.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblCoins.Location = new System.Drawing.Point(525, 91);
+            this.lblCoins.Location = new System.Drawing.Point(525, 127);
             this.lblCoins.Margin = new System.Windows.Forms.Padding(0);
             this.lblCoins.Name = "lblCoins";
             this.lblCoins.Size = new System.Drawing.Size(116, 15);
@@ -771,7 +794,7 @@
             // lblEqChest
             // 
             this.lblEqChest.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqChest.Location = new System.Drawing.Point(209, 44);
+            this.lblEqChest.Location = new System.Drawing.Point(219, 59);
             this.lblEqChest.Name = "lblEqChest";
             this.lblEqChest.Size = new System.Drawing.Size(200, 23);
             this.lblEqChest.TabIndex = 5;
@@ -782,7 +805,7 @@
             // lblEqWeapon
             // 
             this.lblEqWeapon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblEqWeapon.Location = new System.Drawing.Point(3, 44);
+            this.lblEqWeapon.Location = new System.Drawing.Point(13, 59);
             this.lblEqWeapon.Name = "lblEqWeapon";
             this.lblEqWeapon.Size = new System.Drawing.Size(200, 23);
             this.lblEqWeapon.TabIndex = 3;
@@ -804,8 +827,8 @@
             // splitContainer4.Panel2
             // 
             this.splitContainer4.Panel2.Controls.Add(this.rtbItemDescription);
-            this.splitContainer4.Size = new System.Drawing.Size(643, 392);
-            this.splitContainer4.SplitterDistance = 306;
+            this.splitContainer4.Size = new System.Drawing.Size(643, 356);
+            this.splitContainer4.SplitterDistance = 316;
             this.splitContainer4.TabIndex = 1;
             // 
             // gridInventory
@@ -824,7 +847,7 @@
             this.gridInventory.RowTemplate.Height = 25;
             this.gridInventory.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.gridInventory.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.gridInventory.Size = new System.Drawing.Size(306, 392);
+            this.gridInventory.Size = new System.Drawing.Size(316, 356);
             this.gridInventory.TabIndex = 0;
             this.gridInventory.CellContextMenuStripNeeded += new System.Windows.Forms.DataGridViewCellContextMenuStripNeededEventHandler(this.gridInventory_CellContextMenuStripNeeded);
             this.gridInventory.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridInventory_CellMouseDoubleClick);
@@ -861,7 +884,7 @@
             this.rtbItemDescription.Location = new System.Drawing.Point(0, 0);
             this.rtbItemDescription.Name = "rtbItemDescription";
             this.rtbItemDescription.ReadOnly = true;
-            this.rtbItemDescription.Size = new System.Drawing.Size(333, 392);
+            this.rtbItemDescription.Size = new System.Drawing.Size(323, 356);
             this.rtbItemDescription.TabIndex = 0;
             this.rtbItemDescription.Text = "";
             // 
@@ -1049,6 +1072,7 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tabInventory.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
+            this.splitContainer3.Panel1.PerformLayout();
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
@@ -1143,5 +1167,7 @@
         private Label lblEqOffHand;
         private SplitContainer splitContainer4;
         private RichTextBox rtbItemDescription;
+        private Label lblInventoryDefense;
+        private Label lblInventoryOffense;
     }
 }

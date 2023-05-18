@@ -154,15 +154,16 @@ namespace TheIdleScrollsApp
                 tabControl1.TabPages["tabInventory"].Text = available ? "Inventory" : "";
                 lblEqWeapon.Visible = available;
                 lblEqOffHand.Visible = available;
+                lblInventoryOffense.Visible = available;
                 gridInventory.Visible = available;
             } 
             else if (GameFeature.Armor == area)
             {
-
                 lblEqChest.Visible = available;
                 lblEqHelmet.Visible = available;
                 lblEqGloves.Visible = available;
                 lblEqBoots.Visible = available;
+                lblInventoryDefense.Visible = available;
                 lblCoins.Visible = available;
             }
             else if (GameFeature.Abilities == area)
@@ -251,6 +252,7 @@ namespace TheIdleScrollsApp
         {
             lblAttackRawDmg.Text = raw.ToString("0.##");
             lblAttackDps.Text = dps.ToString("0.0#");
+            lblInventoryOffense.Text = $"Damage: {raw:0.##}\nDPS:         {dps:0.0#}";
         }
 
         public void SetAttackCooldown(double duration, double remaining)
@@ -262,6 +264,7 @@ namespace TheIdleScrollsApp
         {
             lblDefArmor.Text = armor.ToString("0.0#");
             lblDefEvasion.Text = evasion.ToString("0.0#");
+            lblInventoryDefense.Text = $"{(armor > 0 ? $"Armor: {armor:0.0#}\n" : "")}\n{(evasion > 0 ? $"Evasion: {evasion:0.0#}": "")}";
         }
 
         public void SetInventory(List<ItemRepresentation> items)
