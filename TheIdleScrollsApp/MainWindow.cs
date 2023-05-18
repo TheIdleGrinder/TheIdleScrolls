@@ -94,12 +94,27 @@ namespace TheIdleScrollsApp
                 ((m_Equipment.OffHand?.Rarity ?? -1) < 0) // Use main hand in case a 2H weapon is equipped
                 ? m_Equipment.Hand
                 : m_Equipment.OffHand);
+
             lblEqHelmet.MouseLeave += (s, e) => ShowItemDescription(null);
             lblEqChest.MouseLeave += (s, e) => ShowItemDescription(null);
             lblEqGloves.MouseLeave += (s, e) => ShowItemDescription(null);
             lblEqBoots.MouseLeave += (s, e) => ShowItemDescription(null);
             lblEqWeapon.MouseLeave += (s, e) => ShowItemDescription(null);
             lblEqOffHand.MouseLeave += (s, e) => ShowItemDescription(null);
+
+            lblEqHelmet.DoubleClick += (s, e) => UnequipItem(m_Equipment.Head);
+            lblEqChest.DoubleClick += (s, e) => UnequipItem(m_Equipment.Chest);
+            lblEqGloves.DoubleClick += (s, e) => UnequipItem(m_Equipment.Arms);
+            lblEqBoots.DoubleClick += (s, e) => UnequipItem(m_Equipment.Legs);
+            lblEqWeapon.DoubleClick += (s, e) => UnequipItem(m_Equipment.Hand);
+            lblEqOffHand.DoubleClick += (s, e) => UnequipItem(m_Equipment.OffHand);
+
+            cMenuInventorySell.Click += (s, e) => SellFirstSelectedItem();
+            cMenuInventoryReforge.Click += (s, e) => ReforgeFirstSelectedItem();
+
+            btnEquipItem.Click += (s, e) => EquipFirstSelectedItem();
+            btnSellItem.Click += (s, e) => SellFirstSelectedItem();
+            btnReforgeItem.Click += (s, e) => ReforgeFirstSelectedItem();
         }
 
         private void timerTick_Tick(object sender, EventArgs e)
@@ -156,6 +171,8 @@ namespace TheIdleScrollsApp
                 lblEqOffHand.Visible = available;
                 lblInventoryOffense.Visible = available;
                 gridInventory.Visible = available;
+                rtbItemDescription.Visible = available;
+                btnEquipItem.Visible = available;
             } 
             else if (GameFeature.Armor == area)
             {
@@ -165,6 +182,7 @@ namespace TheIdleScrollsApp
                 lblEqBoots.Visible = available;
                 lblInventoryDefense.Visible = available;
                 lblCoins.Visible = available;
+                btnSellItem.Visible = available;
             }
             else if (GameFeature.Abilities == area)
             {
@@ -179,6 +197,7 @@ namespace TheIdleScrollsApp
             else if (GameFeature.Crafting == area)
             {
                 m_canReforge = available;
+                btnReforgeItem.Visible = available;
             }
         }
 
@@ -459,39 +478,10 @@ namespace TheIdleScrollsApp
             m_inputHandler.EquipItem(m_playerId, item.Id);
         }
 
-        private void lblEqWeapon_DoubleClick(object sender, EventArgs e)
+        private void UnequipItem(ItemRepresentation? item)
         {
-            if (m_Equipment.Hand != null)
-                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Hand.Id);
-        }
-
-        private void lblEqOffHand_DoubleClick(object sender, EventArgs e)
-        {
-            if (m_Equipment.OffHand != null)
-                m_inputHandler.UnequipItem(m_playerId, m_Equipment.OffHand.Id);
-        }
-
-        private void lblEqChest_DoubleClick(object sender, EventArgs e)
-        {
-            if (m_Equipment.Chest != null)
-                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Chest.Id);
-        }
-        private void lblEqHelmet_DoubleClick(object sender, EventArgs e)
-        {
-            if (m_Equipment.Head != null)
-                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Head.Id);
-        }
-
-        private void lblEqGloves_DoubleClick(object sender, EventArgs e)
-        {
-            if (m_Equipment.Arms != null)
-                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Arms.Id);
-        }
-
-        private void lblEqBoots_DoubleClick(object sender, EventArgs e)
-        {
-            if (m_Equipment.Legs != null)
-                m_inputHandler.UnequipItem(m_playerId, m_Equipment.Legs.Id);
+            if (item != null)
+                m_inputHandler.UnequipItem(m_playerId, item.Id);
         }
 
         private void btnAreaPrev_Click(object sender, EventArgs e)
@@ -549,7 +539,16 @@ namespace TheIdleScrollsApp
             }
         }
 
-        private void cMenuInventorySell_Click(object sender, EventArgs e)
+        private void EquipFirstSelectedItem()
+        {
+            int row = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
+            if (row != -1)
+            {
+                m_inputHandler.EquipItem(m_playerId, m_Inventory[row].Id);
+            }
+        }
+
+        private void SellFirstSelectedItem()
         {
             int row = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
             if (row != -1)
@@ -558,7 +557,7 @@ namespace TheIdleScrollsApp
             }
         }
 
-        private void cMenuInventoryReforge_Click(object sender, EventArgs e)
+        private void ReforgeFirstSelectedItem()
         {
             int row = gridInventory.Rows.GetFirstRow(DataGridViewElementStates.Selected);
             if (row != -1)
@@ -587,7 +586,7 @@ namespace TheIdleScrollsApp
             }
             else if (e.KeyCode == Keys.F && e.Control)
             {
-                cMenuInventoryReforge_Click(sender, e); // Wrong sender does not matter here
+                ReforgeFirstSelectedItem();
             }
         }
 
@@ -595,6 +594,7 @@ namespace TheIdleScrollsApp
         {
             ShowItemDescription(null); // Defaults to first selected item in inventory list
         }
+
     }
 
     class Equipment

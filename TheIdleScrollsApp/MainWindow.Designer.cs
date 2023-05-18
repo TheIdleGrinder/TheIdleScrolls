@@ -87,6 +87,8 @@
             this.cMenuInventory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cMenuInventorySell = new System.Windows.Forms.ToolStripMenuItem();
             this.cMenuInventoryReforge = new System.Windows.Forms.ToolStripMenuItem();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnEquipItem = new System.Windows.Forms.Button();
             this.rtbItemDescription = new System.Windows.Forms.RichTextBox();
             this.tabAbilities = new System.Windows.Forms.TabPage();
             this.gridAbilities = new System.Windows.Forms.DataGridView();
@@ -102,6 +104,8 @@
             this.textBoxStats = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFooter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnSellItem = new System.Windows.Forms.Button();
+            this.btnReforgeItem = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -124,6 +128,7 @@
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridInventory)).BeginInit();
             this.cMenuInventory.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.tabAbilities.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridAbilities)).BeginInit();
             this.tabAchievements.SuspendLayout();
@@ -745,7 +750,6 @@
             this.lblEqOffHand.TabIndex = 9;
             this.lblEqOffHand.Tag = "Weapon/Shield";
             this.lblEqOffHand.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblEqOffHand.DoubleClick += new System.EventHandler(this.lblEqOffHand_DoubleClick);
             // 
             // lblEqBoots
             // 
@@ -756,7 +760,6 @@
             this.lblEqBoots.TabIndex = 8;
             this.lblEqBoots.Tag = "Boots";
             this.lblEqBoots.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblEqBoots.DoubleClick += new System.EventHandler(this.lblEqBoots_DoubleClick);
             // 
             // lblEqGloves
             // 
@@ -767,7 +770,6 @@
             this.lblEqGloves.TabIndex = 7;
             this.lblEqGloves.Tag = "Gloves";
             this.lblEqGloves.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblEqGloves.DoubleClick += new System.EventHandler(this.lblEqGloves_DoubleClick);
             // 
             // lblEqHelmet
             // 
@@ -778,7 +780,6 @@
             this.lblEqHelmet.TabIndex = 6;
             this.lblEqHelmet.Tag = "Helmet";
             this.lblEqHelmet.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblEqHelmet.DoubleClick += new System.EventHandler(this.lblEqHelmet_DoubleClick);
             // 
             // lblCoins
             // 
@@ -800,7 +801,6 @@
             this.lblEqChest.TabIndex = 5;
             this.lblEqChest.Tag = "Chest Armor";
             this.lblEqChest.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblEqChest.DoubleClick += new System.EventHandler(this.lblEqChest_DoubleClick);
             // 
             // lblEqWeapon
             // 
@@ -811,7 +811,6 @@
             this.lblEqWeapon.TabIndex = 3;
             this.lblEqWeapon.Tag = "Weapon";
             this.lblEqWeapon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblEqWeapon.DoubleClick += new System.EventHandler(this.lblEqWeapon_DoubleClick);
             // 
             // splitContainer4
             // 
@@ -826,6 +825,7 @@
             // 
             // splitContainer4.Panel2
             // 
+            this.splitContainer4.Panel2.Controls.Add(this.flowLayoutPanel1);
             this.splitContainer4.Panel2.Controls.Add(this.rtbItemDescription);
             this.splitContainer4.Size = new System.Drawing.Size(643, 356);
             this.splitContainer4.SplitterDistance = 316;
@@ -869,14 +869,32 @@
             this.cMenuInventorySell.Name = "cMenuInventorySell";
             this.cMenuInventorySell.Size = new System.Drawing.Size(115, 22);
             this.cMenuInventorySell.Text = "Sell";
-            this.cMenuInventorySell.Click += new System.EventHandler(this.cMenuInventorySell_Click);
             // 
             // cMenuInventoryReforge
             // 
             this.cMenuInventoryReforge.Name = "cMenuInventoryReforge";
             this.cMenuInventoryReforge.Size = new System.Drawing.Size(115, 22);
             this.cMenuInventoryReforge.Text = "Reforge";
-            this.cMenuInventoryReforge.Click += new System.EventHandler(this.cMenuInventoryReforge_Click);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Controls.Add(this.btnEquipItem);
+            this.flowLayoutPanel1.Controls.Add(this.btnSellItem);
+            this.flowLayoutPanel1.Controls.Add(this.btnReforgeItem);
+            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 325);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(323, 31);
+            this.flowLayoutPanel1.TabIndex = 1;
+            // 
+            // btnEquipItem
+            // 
+            this.btnEquipItem.Location = new System.Drawing.Point(3, 3);
+            this.btnEquipItem.Name = "btnEquipItem";
+            this.btnEquipItem.Size = new System.Drawing.Size(100, 23);
+            this.btnEquipItem.TabIndex = 1;
+            this.btnEquipItem.Text = "Equip";
+            this.btnEquipItem.UseVisualStyleBackColor = true;
             // 
             // rtbItemDescription
             // 
@@ -1045,6 +1063,24 @@
             this.lblFooter.Size = new System.Drawing.Size(118, 17);
             this.lblFooter.Text = "toolStripStatusLabel1";
             // 
+            // btnSellItem
+            // 
+            this.btnSellItem.Location = new System.Drawing.Point(109, 3);
+            this.btnSellItem.Name = "btnSellItem";
+            this.btnSellItem.Size = new System.Drawing.Size(100, 23);
+            this.btnSellItem.TabIndex = 2;
+            this.btnSellItem.Text = "Sell";
+            this.btnSellItem.UseVisualStyleBackColor = true;
+            // 
+            // btnReforgeItem
+            // 
+            this.btnReforgeItem.Location = new System.Drawing.Point(215, 3);
+            this.btnReforgeItem.Name = "btnReforgeItem";
+            this.btnReforgeItem.Size = new System.Drawing.Size(100, 23);
+            this.btnReforgeItem.TabIndex = 3;
+            this.btnReforgeItem.Text = "Reforge";
+            this.btnReforgeItem.UseVisualStyleBackColor = true;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1082,6 +1118,7 @@
             this.splitContainer4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridInventory)).EndInit();
             this.cMenuInventory.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.tabAbilities.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridAbilities)).EndInit();
             this.tabAchievements.ResumeLayout(false);
@@ -1169,5 +1206,9 @@
         private RichTextBox rtbItemDescription;
         private Label lblInventoryDefense;
         private Label lblInventoryOffense;
+        private Button btnEquipItem;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Button btnSellItem;
+        private Button btnReforgeItem;
     }
 }

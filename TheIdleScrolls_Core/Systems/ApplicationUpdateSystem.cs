@@ -269,6 +269,7 @@ namespace TheIdleScrolls_Core.Systems
             var equipComp = item.GetComponent<EquippableComponent>();
             var weaponComp = item.GetComponent<WeaponComponent>();
             var armorComp = item.GetComponent<ArmorComponent>();
+            var valueComp = item.GetComponent<ItemValueComponent>();
             var forgeComp = item.GetComponent<ItemReforgeableComponent>();
             string description = $"Type: {itemComp?.FamilyName ?? "??"}";
             if (equipComp != null)
@@ -298,6 +299,10 @@ namespace TheIdleScrolls_Core.Systems
             if (equipComp != null)
             {
                 description += equipComp.Encumbrance != 0.0 ? $"; Encumbrance: {equipComp.Encumbrance}%" : "";
+            }
+            if (valueComp != null)
+            {
+                description += $"; Value: {valueComp.Value}";
             }
 
             return new ItemRepresentation(
