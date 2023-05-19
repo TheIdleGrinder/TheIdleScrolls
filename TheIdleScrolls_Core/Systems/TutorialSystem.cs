@@ -199,6 +199,12 @@ namespace TheIdleScrolls_Core.Systems
                     $"As your crafting ability improves, higher rarity levels become available and their probability increases.\n" +
                     $"\n  - You can reforge the rarity of items using the context menu\n" +
                     $"\n  - Selecting an items and pressing CTRL+F works as well"));
+            }
+            // Enable feature for player if reforging has been unlocked globally
+            if (globalProgress.Data.TutorialProgress.Contains(TutorialStep.Reforging)
+                && !(m_player.GetComponent<PlayerComponent>()?.AvailableFeatures?.Contains(GameFeature.Crafting) ?? true)
+                && (m_player.GetComponent<PlayerProgressComponent>()?.Data.TotalCoins ?? 0) > CoinsForReforging)
+            {
                 m_player.GetComponent<PlayerComponent>()?.SetFeatureState(GameFeature.Crafting, true);
                 coordinator.PostMessage(this, new FeatureStateMessage(GameFeature.Crafting, true));
             }
