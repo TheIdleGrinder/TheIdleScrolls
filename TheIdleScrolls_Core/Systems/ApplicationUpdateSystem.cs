@@ -271,7 +271,12 @@ namespace TheIdleScrolls_Core.Systems
             var armorComp = item.GetComponent<ArmorComponent>();
             var valueComp = item.GetComponent<ItemValueComponent>();
             var forgeComp = item.GetComponent<ItemReforgeableComponent>();
+            var levelComp = item.GetComponent<LevelComponent>();
             string description = $"Type: {itemComp?.FamilyName ?? "??"}";
+            if (levelComp != null)
+            {
+                description += $"; Drop Level: {levelComp.Level}";
+            }
             if (equipComp != null)
             {
                 List<string> slotStrings = new();
@@ -285,7 +290,7 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     slotStrings.Add((count > 1 ? $"{count}x" : "") + slot.ToString());
                 }
-                description += $"; Used Slot(s): {string.Join(", ", slotStrings)}";
+                description += $"; Used Slot(s): {string.Join(", ", slotStrings)}; ";
             }
             if (weaponComp != null)
             {
@@ -302,7 +307,7 @@ namespace TheIdleScrolls_Core.Systems
             }
             if (valueComp != null)
             {
-                description += $"; Value: {valueComp.Value}";
+                description += $"; ; Value: {valueComp.Value}c";
             }
 
             return new ItemRepresentation(

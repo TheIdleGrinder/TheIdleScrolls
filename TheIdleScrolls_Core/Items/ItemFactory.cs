@@ -84,6 +84,9 @@ namespace TheIdleScrolls_Core.Items
                 SetItemRarity(item, itemIdentifier.RarityLevel);
             }
 
+            // Add drop level
+            item.AddComponent(new LevelComponent() { Level = GetItemDropLevel(itemIdentifier) });
+
             UpdateItemValue(item);
             UpdateReforgingCost(item);
 

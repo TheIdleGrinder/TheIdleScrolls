@@ -361,11 +361,14 @@ namespace TheIdleScrollsApp
             }
             if (item != null)
             {
-                string fullDescription = item.Name + "\n" + item.Description.Replace("; ", "\n");
+                string fullDescription = item.Name
+                    + "\n\n" + item.Description.Replace("; ", "\n")
+                    + $"\nForging Cost: {item.ReforgingCost}c";
                 rtbItemDescription.Text = fullDescription;
                 rtbItemDescription.Select(0, item.Name.Length);
                 rtbItemDescription.SelectionColor = GetColorForRarity(item.Rarity);
-                rtbItemDescription.SelectionFont = new Font(rtbItemDescription.SelectionFont, GetFontStyleForRarity(item.Rarity, item.Crafted));
+                rtbItemDescription.SelectionFont = new Font(rtbItemDescription.SelectionFont, 
+                    GetFontStyleForRarity(item.Rarity, item.Crafted) | FontStyle.Bold);
                 rtbItemDescription.DeselectAll();
             }
         }
