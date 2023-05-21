@@ -17,6 +17,8 @@ namespace TheIdleScrolls_Core
 
         public void SetPlayerItems(List<ItemRepresentation> inventory, List<ItemRepresentation> equipment);
 
+        public void SetPlayerEncumbrance(double encumbrance);
+
         public void SetPlayerCoins(int coins);
 
         public void SetPlayerAttack(double damage, double cooldown, double remainingCooldown);

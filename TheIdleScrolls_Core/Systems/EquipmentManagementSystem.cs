@@ -18,6 +18,7 @@ namespace TheIdleScrolls_Core.Systems
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             HashSet<Entity> changedInventories = new();
+            HashSet<Entity> changedEquipments = new();
 
             foreach (var itemMessage in coordinator.FetchMessagesByType<ItemReceivedMessage>())
             {
@@ -115,6 +116,7 @@ namespace TheIdleScrolls_Core.Systems
                         coordinator.PostMessage(this, new ItemMovedMessage(owner, item, move.Equip));
                     }
                 }
+                changedEquipments.Add(owner);
                 changedInventories.Add(owner);
             }
 
@@ -148,6 +150,15 @@ namespace TheIdleScrolls_Core.Systems
             foreach (var entity in changedInventories)
             {
                 coordinator.PostMessage(this, new InventoryChangedMessage(entity));
+            }
+
+            foreach (var entity in changedEquipments)
+            {
+                var equipComp = entity.GetComponent<EquipmentComponent>();
+                if (equipComp == null)
+                    continue; // Can't happen
+                // CornerCut: The whole handling of encumbrance is not very elegant. How do we inform the app in a smoother way?
+                coordinator.PostMessage(this, new EncumbranceChangedMessage(entity, equipComp.TotalEncumbrance)); 
             }
         }
     }
@@ -243,6 +254,28 @@ namespace TheIdleScrolls_Core.Systems
         IMessage.PriorityLevel IMessage.GetPriority()
         {
             return IMessage.PriorityLevel.Debug;
+        }
+    }
+
+    public class EncumbranceChangedMessage : IMessage
+    {
+        public Entity Entity { get; set; }
+        public double Encumbrance { get; set; }
+
+        public EncumbranceChangedMessage(Entity entity, double encumbrance)
+        {
+            Entity = entity;
+            Encumbrance = encumbrance;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Encumbrance on entity {Entity.GetName()} changed to {Encumbrance}";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Low;
         }
     }
 

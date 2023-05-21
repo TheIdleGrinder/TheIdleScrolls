@@ -80,6 +80,12 @@ namespace TheIdleScrolls_Core.Systems
                 m_appModel?.SetPlayerItems(invItems, equipItems);
             }
 
+            // Update encumbrance
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<EncumbranceChangedMessage>())
+            {
+                m_appModel?.SetPlayerEncumbrance(player.GetComponent<EquipmentComponent>()?.TotalEncumbrance ?? 0.0);
+            }
+
             // Update coins
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<CoinsChangedMessage>())
             {

@@ -122,5 +122,10 @@ namespace TheIdleScrollsApp
         {
             GetTargetOrNull()?.SetPlayerCoins(coins);
         }
+
+        public void SetPlayerEncumbrance(double encumbrance)
+        {
+            GetTargetOrNull()?.SetEncumbrance(encumbrance);
+        }
     }
 }

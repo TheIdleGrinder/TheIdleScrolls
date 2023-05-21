@@ -73,6 +73,7 @@
             this.lblCharName = new System.Windows.Forms.Label();
             this.tabInventory = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.lblEncumbrance = new System.Windows.Forms.Label();
             this.lblInventoryDefense = new System.Windows.Forms.Label();
             this.lblInventoryOffense = new System.Windows.Forms.Label();
             this.lblEqOffHand = new System.Windows.Forms.Label();
@@ -89,6 +90,8 @@
             this.cMenuInventoryReforge = new System.Windows.Forms.ToolStripMenuItem();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnEquipItem = new System.Windows.Forms.Button();
+            this.btnSellItem = new System.Windows.Forms.Button();
+            this.btnReforgeItem = new System.Windows.Forms.Button();
             this.rtbItemDescription = new System.Windows.Forms.RichTextBox();
             this.tabAbilities = new System.Windows.Forms.TabPage();
             this.gridAbilities = new System.Windows.Forms.DataGridView();
@@ -104,8 +107,6 @@
             this.textBoxStats = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFooter = new System.Windows.Forms.ToolStripStatusLabel();
-            this.btnSellItem = new System.Windows.Forms.Button();
-            this.btnReforgeItem = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -704,6 +705,7 @@
             // 
             // splitContainer3.Panel1
             // 
+            this.splitContainer3.Panel1.Controls.Add(this.lblEncumbrance);
             this.splitContainer3.Panel1.Controls.Add(this.lblInventoryDefense);
             this.splitContainer3.Panel1.Controls.Add(this.lblInventoryOffense);
             this.splitContainer3.Panel1.Controls.Add(this.lblEqOffHand);
@@ -722,12 +724,20 @@
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 6;
             // 
+            // lblEncumbrance
+            // 
+            this.lblEncumbrance.Location = new System.Drawing.Point(517, 41);
+            this.lblEncumbrance.Name = "lblEncumbrance";
+            this.lblEncumbrance.Size = new System.Drawing.Size(108, 15);
+            this.lblEncumbrance.TabIndex = 12;
+            this.lblEncumbrance.Text = "Encumbrance: 99%\r\n";
+            this.lblEncumbrance.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // lblInventoryDefense
             // 
-            this.lblInventoryDefense.AutoSize = true;
-            this.lblInventoryDefense.Location = new System.Drawing.Point(536, 12);
+            this.lblInventoryDefense.Location = new System.Drawing.Point(517, 8);
             this.lblInventoryDefense.Name = "lblInventoryDefense";
-            this.lblInventoryDefense.Size = new System.Drawing.Size(89, 30);
+            this.lblInventoryDefense.Size = new System.Drawing.Size(108, 30);
             this.lblInventoryDefense.TabIndex = 11;
             this.lblInventoryDefense.Text = "Armor: 999999\r\nEvasion: 999999\r\n";
             this.lblInventoryDefense.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -735,7 +745,7 @@
             // lblInventoryOffense
             // 
             this.lblInventoryOffense.AutoSize = true;
-            this.lblInventoryOffense.Location = new System.Drawing.Point(13, 12);
+            this.lblInventoryOffense.Location = new System.Drawing.Point(13, 8);
             this.lblInventoryOffense.Name = "lblInventoryOffense";
             this.lblInventoryOffense.Size = new System.Drawing.Size(97, 30);
             this.lblInventoryOffense.TabIndex = 10;
@@ -895,6 +905,24 @@
             this.btnEquipItem.TabIndex = 1;
             this.btnEquipItem.Text = "Equip";
             this.btnEquipItem.UseVisualStyleBackColor = true;
+            // 
+            // btnSellItem
+            // 
+            this.btnSellItem.Location = new System.Drawing.Point(109, 3);
+            this.btnSellItem.Name = "btnSellItem";
+            this.btnSellItem.Size = new System.Drawing.Size(100, 23);
+            this.btnSellItem.TabIndex = 2;
+            this.btnSellItem.Text = "Sell";
+            this.btnSellItem.UseVisualStyleBackColor = true;
+            // 
+            // btnReforgeItem
+            // 
+            this.btnReforgeItem.Location = new System.Drawing.Point(215, 3);
+            this.btnReforgeItem.Name = "btnReforgeItem";
+            this.btnReforgeItem.Size = new System.Drawing.Size(100, 23);
+            this.btnReforgeItem.TabIndex = 3;
+            this.btnReforgeItem.Text = "Reforge";
+            this.btnReforgeItem.UseVisualStyleBackColor = true;
             // 
             // rtbItemDescription
             // 
@@ -1063,24 +1091,6 @@
             this.lblFooter.Size = new System.Drawing.Size(118, 17);
             this.lblFooter.Text = "toolStripStatusLabel1";
             // 
-            // btnSellItem
-            // 
-            this.btnSellItem.Location = new System.Drawing.Point(109, 3);
-            this.btnSellItem.Name = "btnSellItem";
-            this.btnSellItem.Size = new System.Drawing.Size(100, 23);
-            this.btnSellItem.TabIndex = 2;
-            this.btnSellItem.Text = "Sell";
-            this.btnSellItem.UseVisualStyleBackColor = true;
-            // 
-            // btnReforgeItem
-            // 
-            this.btnReforgeItem.Location = new System.Drawing.Point(215, 3);
-            this.btnReforgeItem.Name = "btnReforgeItem";
-            this.btnReforgeItem.Size = new System.Drawing.Size(100, 23);
-            this.btnReforgeItem.TabIndex = 3;
-            this.btnReforgeItem.Text = "Reforge";
-            this.btnReforgeItem.UseVisualStyleBackColor = true;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1210,5 +1220,6 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private Button btnSellItem;
         private Button btnReforgeItem;
+        private Label lblEncumbrance;
     }
 }

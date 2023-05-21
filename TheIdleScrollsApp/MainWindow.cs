@@ -349,6 +349,11 @@ namespace TheIdleScrollsApp
             lblAttack.Text = "Attack" + ((m_Equipment.Hand != null) ? $"\n({m_Equipment.Hand?.Name})" : "");
         }
 
+        public void SetEncumbrance(double encumbrance)
+        {
+            lblEncumbrance.Text = $"Encumbrance: {encumbrance}%";
+        }
+
         private void ShowItemDescription(ItemRepresentation? item)
         {
             if (item == null)

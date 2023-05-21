@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +25,7 @@ namespace TheIdleScrolls_Core.Components
     {
         readonly List<EquipmentSlot> m_freeSlots;
         readonly List<Entity> m_items = new();
+        double m_encumbrance = 0.0;
 
         public EquipmentComponent(List<EquipmentSlot> equipmentSlots)
         {
@@ -42,6 +44,8 @@ namespace TheIdleScrolls_Core.Components
             };
         }
 
+        public double TotalEncumbrance => m_encumbrance;
+
         public bool EquipItem(Entity item)
         {
             if (!item.HasComponent<ItemComponent>())
@@ -56,6 +60,7 @@ namespace TheIdleScrolls_Core.Components
             List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
             requiredSlots.ForEach(s => m_freeSlots.Remove(s));
             m_items.Add(item);
+            UpdateEncumbrance();
             return true;
         }
 
@@ -67,20 +72,8 @@ namespace TheIdleScrolls_Core.Components
                 List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
                 requiredSlots.ForEach(s => m_freeSlots.Add(s));
             }
+            UpdateEncumbrance();
             return removed;
-        }
-
-        public bool UnequipItemFromSlot(EquipmentSlot slot)
-        {
-            var item = GetItemInSlot(slot);
-            if (item != null)
-            {
-                return UnequipItem(item);
-            }
-            else
-            {
-                return false;
-            }
         }
 
         public List<EquipmentSlot> GetMissingEquipmentSlotsForItem(Entity item)
@@ -143,6 +136,13 @@ namespace TheIdleScrolls_Core.Components
         public List<EquipmentSlot> GetFreeSlots()
         {
             return m_freeSlots.ToList();
+        }
+
+        void UpdateEncumbrance()
+        {
+            m_encumbrance = m_items
+                .Select(i => i.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0)
+                .Sum();
         }
     }
 }
