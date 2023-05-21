@@ -272,6 +272,24 @@ This dungeon awards armor pieces</value>
   <data name="DUMMY" xml:space="preserve">
     <value>Training Dummy</value>
   </data>
+  <data name="Equip_ArmArmor" xml:space="preserve">
+    <value>Gloves</value>
+  </data>
+  <data name="Equip_ChestArmor" xml:space="preserve">
+    <value>Body Armor</value>
+  </data>
+  <data name="Equip_HeadArmor" xml:space="preserve">
+    <value>Helmet</value>
+  </data>
+  <data name="Equip_LegArmor" xml:space="preserve">
+    <value>Boots</value>
+  </data>
+  <data name="Equip_Shield" xml:space="preserve">
+    <value>Shield</value>
+  </data>
+  <data name="Equip_Weapon" xml:space="preserve">
+    <value>Weapon</value>
+  </data>
   <data name="HAR" xml:space="preserve">
     <value>Heavy Armor</value>
   </data>

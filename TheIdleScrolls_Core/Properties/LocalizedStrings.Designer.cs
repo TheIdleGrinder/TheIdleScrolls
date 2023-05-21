@@ -522,6 +522,60 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gloves ähnelt.
+        /// </summary>
+        internal static string Equip_ArmArmor {
+            get {
+                return ResourceManager.GetString("Equip_ArmArmor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Body Armor ähnelt.
+        /// </summary>
+        internal static string Equip_ChestArmor {
+            get {
+                return ResourceManager.GetString("Equip_ChestArmor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Helmet ähnelt.
+        /// </summary>
+        internal static string Equip_HeadArmor {
+            get {
+                return ResourceManager.GetString("Equip_HeadArmor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boots ähnelt.
+        /// </summary>
+        internal static string Equip_LegArmor {
+            get {
+                return ResourceManager.GetString("Equip_LegArmor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shield ähnelt.
+        /// </summary>
+        internal static string Equip_Shield {
+            get {
+                return ResourceManager.GetString("Equip_Shield", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Weapon ähnelt.
+        /// </summary>
+        internal static string Equip_Weapon {
+            get {
+                return ResourceManager.GetString("Equip_Weapon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Heavy Armor ähnelt.
         /// </summary>
         internal static string HAR {

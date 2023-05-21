@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Properties;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Systems
@@ -272,11 +273,8 @@ namespace TheIdleScrolls_Core.Systems
             var valueComp = item.GetComponent<ItemValueComponent>();
             var forgeComp = item.GetComponent<ItemReforgeableComponent>();
             var levelComp = item.GetComponent<LevelComponent>();
-            string description = $"Type: {itemComp?.FamilyName ?? "??"}";
-            if (levelComp != null)
-            {
-                description += $"; Drop Level: {levelComp.Level}";
-            }
+            string typeName = GetItemTypeName(item);
+            string description = $"Type: {typeName}";            
             if (equipComp != null)
             {
                 List<string> slotStrings = new();
@@ -290,8 +288,14 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     slotStrings.Add((count > 1 ? $"{count}x" : "") + slot.ToString());
                 }
-                description += $"; Used Slot(s): {string.Join(", ", slotStrings)}; ";
+                description += $"; Used Slot(s): {string.Join(", ", slotStrings)}";
             }
+            description += $"; Skill: {itemComp?.FamilyName ?? "??"}";
+            if (levelComp != null)
+            {
+                description += $"; Drop Level: {levelComp.Level}";
+            }
+            description += "; ";
             if (weaponComp != null)
             {
                 description += $"; Damage: {weaponComp.Damage}; Attack Time: {weaponComp.Cooldown} s";
@@ -320,6 +324,28 @@ namespace TheIdleScrolls_Core.Systems
                 forgeComp?.Cost ?? -1,
                 forgeComp?.Reforged ?? false
                 );
+        }
+
+        static string GetItemTypeName(Entity item)
+        {
+            if (item.IsWeapon())
+                return LocalizedStrings.Equip_Weapon;
+            if (item.IsShield())
+                return LocalizedStrings.Equip_Shield;
+            var slots = item.GetComponent<EquippableComponent>()?.Slots ?? new();
+            if (slots.Count == 0 || !item.IsArmor()) // Should not happen with the current item kingdom
+                return "??";
+
+            if (slots.Count > 1)
+                return "Custom Gear"; // Does not currently exist
+            return slots[0] switch
+            {
+                EquipmentSlot.Head => LocalizedStrings.Equip_HeadArmor,
+                EquipmentSlot.Chest => LocalizedStrings.Equip_ChestArmor,
+                EquipmentSlot.Arms => LocalizedStrings.Equip_ArmArmor,
+                EquipmentSlot.Legs => LocalizedStrings.Equip_LegArmor,
+                _ => "??",
+            };
         }
 
         static List<IMessage> FilterMessages(HashSet<IMessage.PriorityLevel> relevantMessages, List<IMessage> messages)
