@@ -73,7 +73,7 @@
             this.lblCharName = new System.Windows.Forms.Label();
             this.tabInventory = new System.Windows.Forms.TabPage();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
-            this.lblEncumbrance = new System.Windows.Forms.Label();
+            this.lblInventoryEncumbrance = new System.Windows.Forms.Label();
             this.lblInventoryDefense = new System.Windows.Forms.Label();
             this.lblInventoryOffense = new System.Windows.Forms.Label();
             this.lblEqOffHand = new System.Windows.Forms.Label();
@@ -107,6 +107,8 @@
             this.textBoxStats = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblFooter = new System.Windows.Forms.ToolStripStatusLabel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lblEncumbrance = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -500,18 +502,21 @@
             this.tableLayoutPanel1.Controls.Add(this.lblAttackCooldown, 3, 1);
             this.tableLayoutPanel1.Controls.Add(this.lblAttackRawDmg, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.lblAttack, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.lblEncumbrance, 1, 5);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 157);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(20, 1, 20, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(20, 0, 20, 0);
-            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowCount = 6;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(643, 164);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(643, 190);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // lblDefEvasion
@@ -519,9 +524,9 @@
             this.lblDefEvasion.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDefEvasion.Location = new System.Drawing.Point(228, 126);
+            this.lblDefEvasion.Location = new System.Drawing.Point(228, 122);
             this.lblDefEvasion.Name = "lblDefEvasion";
-            this.lblDefEvasion.Size = new System.Drawing.Size(125, 37);
+            this.lblDefEvasion.Size = new System.Drawing.Size(125, 33);
             this.lblDefEvasion.TabIndex = 7;
             this.lblDefEvasion.Text = "1.0";
             this.lblDefEvasion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -531,9 +536,9 @@
             this.lblDefArmor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDefArmor.Location = new System.Drawing.Point(228, 90);
+            this.lblDefArmor.Location = new System.Drawing.Point(228, 88);
             this.lblDefArmor.Name = "lblDefArmor";
-            this.lblDefArmor.Size = new System.Drawing.Size(125, 35);
+            this.lblDefArmor.Size = new System.Drawing.Size(125, 33);
             this.lblDefArmor.TabIndex = 6;
             this.lblDefArmor.Text = "0.0";
             this.lblDefArmor.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -543,9 +548,9 @@
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.Location = new System.Drawing.Point(24, 126);
+            this.label3.Location = new System.Drawing.Point(24, 122);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(197, 37);
+            this.label3.Size = new System.Drawing.Size(197, 33);
             this.label3.TabIndex = 7;
             this.label3.Text = "Evasion";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -555,9 +560,9 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.label1.Location = new System.Drawing.Point(24, 90);
+            this.label1.Location = new System.Drawing.Point(24, 88);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(197, 35);
+            this.label1.Size = new System.Drawing.Size(197, 33);
             this.label1.TabIndex = 6;
             this.label1.Text = "Armor";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -595,7 +600,7 @@
             this.lblAttackDps.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.lblAttackDps.Location = new System.Drawing.Point(360, 33);
             this.lblAttackDps.Name = "lblAttackDps";
-            this.lblAttackDps.Size = new System.Drawing.Size(125, 35);
+            this.lblAttackDps.Size = new System.Drawing.Size(125, 33);
             this.lblAttackDps.TabIndex = 0;
             this.lblAttackDps.Text = "1.0";
             this.lblAttackDps.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -619,7 +624,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAttackCooldown.Location = new System.Drawing.Point(492, 33);
             this.lblAttackCooldown.Name = "lblAttackCooldown";
-            this.lblAttackCooldown.Size = new System.Drawing.Size(127, 35);
+            this.lblAttackCooldown.Size = new System.Drawing.Size(127, 33);
             this.lblAttackCooldown.TabIndex = 0;
             this.lblAttackCooldown.Text = "1.0";
             this.lblAttackCooldown.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -631,7 +636,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAttackRawDmg.Location = new System.Drawing.Point(228, 33);
             this.lblAttackRawDmg.Name = "lblAttackRawDmg";
-            this.lblAttackRawDmg.Size = new System.Drawing.Size(125, 35);
+            this.lblAttackRawDmg.Size = new System.Drawing.Size(125, 33);
             this.lblAttackRawDmg.TabIndex = 0;
             this.lblAttackRawDmg.Text = "1.0";
             this.lblAttackRawDmg.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -643,7 +648,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAttack.Location = new System.Drawing.Point(24, 33);
             this.lblAttack.Name = "lblAttack";
-            this.lblAttack.Size = new System.Drawing.Size(197, 35);
+            this.lblAttack.Size = new System.Drawing.Size(197, 33);
             this.lblAttack.TabIndex = 0;
             this.lblAttack.Text = "Attack";
             this.lblAttack.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -705,7 +710,7 @@
             // 
             // splitContainer3.Panel1
             // 
-            this.splitContainer3.Panel1.Controls.Add(this.lblEncumbrance);
+            this.splitContainer3.Panel1.Controls.Add(this.lblInventoryEncumbrance);
             this.splitContainer3.Panel1.Controls.Add(this.lblInventoryDefense);
             this.splitContainer3.Panel1.Controls.Add(this.lblInventoryOffense);
             this.splitContainer3.Panel1.Controls.Add(this.lblEqOffHand);
@@ -724,14 +729,14 @@
             this.splitContainer3.SplitterWidth = 1;
             this.splitContainer3.TabIndex = 6;
             // 
-            // lblEncumbrance
+            // lblInventoryEncumbrance
             // 
-            this.lblEncumbrance.Location = new System.Drawing.Point(517, 41);
-            this.lblEncumbrance.Name = "lblEncumbrance";
-            this.lblEncumbrance.Size = new System.Drawing.Size(108, 15);
-            this.lblEncumbrance.TabIndex = 12;
-            this.lblEncumbrance.Text = "Encumbrance: 99%\r\n";
-            this.lblEncumbrance.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblInventoryEncumbrance.Location = new System.Drawing.Point(517, 41);
+            this.lblInventoryEncumbrance.Name = "lblInventoryEncumbrance";
+            this.lblInventoryEncumbrance.Size = new System.Drawing.Size(108, 15);
+            this.lblInventoryEncumbrance.TabIndex = 12;
+            this.lblInventoryEncumbrance.Text = "Encumbrance: 99%\r\n";
+            this.lblInventoryEncumbrance.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // lblInventoryDefense
             // 
@@ -1091,6 +1096,30 @@
             this.lblFooter.Size = new System.Drawing.Size(118, 17);
             this.lblFooter.Text = "toolStripStatusLabel1";
             // 
+            // label4
+            // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label4.Location = new System.Drawing.Point(24, 156);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(197, 33);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Encumbrance";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblEncumbrance
+            // 
+            this.lblEncumbrance.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblEncumbrance.Location = new System.Drawing.Point(228, 156);
+            this.lblEncumbrance.Name = "lblEncumbrance";
+            this.lblEncumbrance.Size = new System.Drawing.Size(125, 33);
+            this.lblEncumbrance.TabIndex = 9;
+            this.lblEncumbrance.Text = "1.0";
+            this.lblEncumbrance.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1220,6 +1249,8 @@
         private FlowLayoutPanel flowLayoutPanel1;
         private Button btnSellItem;
         private Button btnReforgeItem;
+        private Label lblInventoryEncumbrance;
+        private Label label4;
         private Label lblEncumbrance;
     }
 }

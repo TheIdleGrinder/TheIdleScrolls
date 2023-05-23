@@ -351,7 +351,8 @@ namespace TheIdleScrollsApp
 
         public void SetEncumbrance(double encumbrance)
         {
-            lblEncumbrance.Text = $"Encumbrance: {encumbrance}%";
+            lblEncumbrance.Text = $"{encumbrance:#.##}%";
+            lblInventoryEncumbrance.Text = $"Encumbrance: {encumbrance:#.##}%";
         }
 
         private void ShowItemDescription(ItemRepresentation? item)
