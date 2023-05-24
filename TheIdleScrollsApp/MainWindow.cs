@@ -52,6 +52,8 @@ namespace TheIdleScrollsApp
             m_inputHandler = m_runner.GetUserInputHandler();
             m_runner.SetAppInterface(new MainWindowUpdater(this));
 
+            ConnectEvents();
+
             timerTick.Interval = TimePerTick;
             timerTick.Enabled = true;
             timerTick.Start();
@@ -115,6 +117,16 @@ namespace TheIdleScrollsApp
             btnEquipItem.Click += (s, e) => EquipFirstSelectedItem();
             btnSellItem.Click += (s, e) => SellFirstSelectedItem();
             btnReforgeItem.Click += (s, e) => ReforgeFirstSelectedItem();
+        }
+
+        private void ConnectEvents()
+        {
+            IGameEventEmitter emitter = m_runner.GetEventEmitter();
+
+            emitter.PlayerCharacterChanged += (CharacterRepresentation rep) => SetCharacter(rep.Id, rep.Name, rep.Class, rep.Level);
+            emitter.PlayerXpChanged += SetCharacterXP;
+            emitter.TimeLimitChanged += UpdateTimeLimit;
+
         }
 
         private void timerTick_Tick(object sender, EventArgs e)

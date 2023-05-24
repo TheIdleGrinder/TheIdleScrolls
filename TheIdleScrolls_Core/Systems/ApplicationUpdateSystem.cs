@@ -13,13 +13,33 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Systems
 {
-    public class ApplicationUpdateSystem : AbstractSystem
+    public class ApplicationUpdateSystem : AbstractSystem, IGameEventEmitter
     {
         IApplicationModel? m_appModel = null;
         bool m_firstUpdate = true;
         uint m_playerId = 0;
         readonly Cooldown m_abilityUpdate = new(1.0);
         readonly Cooldown m_statisticsUpdate = new(1.0);
+
+        public event PlayerCharacterChangedHandler? PlayerCharacterChanged;
+        public event CharacterXpChangedHandler? PlayerXpChanged;
+        public event TimeLimitChangedHandler? TimeLimitChanged;
+        public event ItemsChangedHandler? PlayerInventoryChanged;
+        public event ItemsChangedHandler? PlayerEquipmentChanged;
+        public event EncumbranceChangedHandler? PlayerEncumbranceChanged;
+        public event CoinsChangedHandler? PlayerCoinsChanged;
+        public event OffenseChangedHandler? PlayerOffenseChanged;
+        public event DefenseChangedHandler? PlayerDefenseChanged;
+        public event AbilitiesChangedHandler? PlayerAbilitiesChanged;
+        public event MobChangedHandler? MobChanged;
+        public event AreaChangedHandler? PlayerAreaChanged;
+        public event AutoProceedStateChangedHandler? PlayerAutoProceedStateChanged;
+        public event FeatureAvailabilityChangedHandler? FeatureAvailabilityChanged;
+        public event AccessibleAreasChangedHandler? AccessibleAreasChanged;
+        public event AchievementsChangedHandler? AchievementsChanged;
+        public event StatReportChangedHandler? StatReportChanged;
+        public event DisplayMessageHandler? DisplayMessageReceived;
+        public event NewLogMessagesHandler? NewLogMessages;
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -35,7 +55,7 @@ namespace TheIdleScrolls_Core.Systems
             {
                 int level = player.GetComponent<LevelComponent>()?.Level ?? 0;
                 string @class = PlayerFactory.GetCharacterClass(player).Localize();
-                m_appModel?.SetPlayerCharacter(new(m_playerId, player.GetName(), @class, level));
+                PlayerCharacterChanged?.Invoke(new(m_playerId, player.GetName(), @class, level));
             }
 
             // Update XP
@@ -44,7 +64,7 @@ namespace TheIdleScrolls_Core.Systems
                 int level = player.GetComponent<LevelComponent>()?.Level ?? 0;
                 int xp = player.GetComponent<XpGainerComponent>()?.Current ?? 0;
                 int target = player.GetComponent<XpGainerComponent>()?.TargetFunction(level) ?? 0;
-                m_appModel?.SetPlayerXP(xp, target);
+                PlayerXpChanged?.Invoke(xp, target);
             }
 
             // Update items
@@ -76,34 +96,34 @@ namespace TheIdleScrolls_Core.Systems
                             equipItems.Add(eItem);
                     }
                 }
-
-                m_appModel?.SetPlayerItems(invItems, equipItems);
+                PlayerInventoryChanged?.Invoke(invItems);
+                PlayerEquipmentChanged?.Invoke(equipItems);
             }
 
             // Update encumbrance
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<EncumbranceChangedMessage>())
             {
-                m_appModel?.SetPlayerEncumbrance(player.GetComponent<EquipmentComponent>()?.TotalEncumbrance ?? 0.0);
+                PlayerEncumbranceChanged?.Invoke(player.GetComponent<EquipmentComponent>()?.TotalEncumbrance ?? 0.0);
             }
 
             // Update coins
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<CoinsChangedMessage>())
             {
-                m_appModel?.SetPlayerCoins(player.GetComponent<CoinPurseComponent>()?.Coins ?? 0);
+                PlayerCoinsChanged?.Invoke(player.GetComponent<CoinPurseComponent>()?.Coins ?? 0);
             }
 
             // Update attack
             var attackComp = player.GetComponent<AttackComponent>();
             if (attackComp != null)
             {
-                m_appModel?.SetPlayerAttack(attackComp.RawDamage, attackComp.Cooldown.Duration, attackComp.Cooldown.Remaining);
+                PlayerOffenseChanged?.Invoke(attackComp.RawDamage, attackComp.Cooldown.Duration, attackComp.Cooldown.Remaining);
             }
 
             // Update defenses
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null && (m_firstUpdate || coordinator.MessageTypeIsOnBoard<StatsUpdatedMessage>()))
             {
-                m_appModel?.SetPlayerDefense(defenseComp.Armor, defenseComp.Evasion);
+                PlayerDefenseChanged?.Invoke(defenseComp.Armor, defenseComp.Evasion);
             }
 
             // Update Abilities
@@ -116,7 +136,7 @@ namespace TheIdleScrolls_Core.Systems
                         .Where(a => a.Level > 1 || a.XP > 0) // CornerCut: Filter out crafting ability before first use
                         .Select(a => new AbilityRepresentation(a.Key, a.Key.Localize(), a.Level, a.XP, a.TargetXP))
                         .ToList();
-                    m_appModel?.SetPlayerAbilities(representations);
+                    PlayerAbilitiesChanged?.Invoke(representations);
                 }
             }
 
@@ -129,14 +149,14 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     var rep = GenerateMobRepresentation(mob);
                     if (rep != null)
-                        m_appModel?.SetMob(rep);
+                        MobChanged?.Invoke(rep);
                 }
             }
 
             // Update area
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TravelMessage>())
             {
-                m_appModel?.SetArea(world.Zone.Name, world.Zone.Level, world.IsInDungeon());
+                PlayerAreaChanged?.Invoke(world.Zone.Name, world.Zone.Level, world.IsInDungeon());
             }
 
             // Update accessible areas
@@ -161,7 +181,7 @@ namespace TheIdleScrolls_Core.Systems
                         ));
                     }
                 }
-                m_appModel?.SetAccessibleAreas(maxWilderness, dungeons);
+                AccessibleAreasChanged?.Invoke(maxWilderness, dungeons);
             }
 
             // Update achievements
@@ -178,7 +198,7 @@ namespace TheIdleScrolls_Core.Systems
                             (a.Hidden && a.Status != AchievementStatus.Awarded) ? hiddenInfo : a.Description, 
                             a.Status == Achievements.AchievementStatus.Awarded)
                     ).ToList();
-                    m_appModel?.SetAchievements(achievements, achComp.Achievements.Count);
+                    AchievementsChanged?.Invoke(achievements, achComp.Achievements.Count);
                 }
             }
 
@@ -189,18 +209,18 @@ namespace TheIdleScrolls_Core.Systems
                 if (progComp != null)
                 {
                     var report = progComp.Data.GetReport(world);
-                    m_appModel?.SetStatisticsReport(report);
+                    StatReportChanged?.Invoke(report);
                 }
             }
 
             // Update time limit
-            m_appModel?.SetTimeLimit(world.TimeLimit.Remaining, world.TimeLimit.Duration);
+            TimeLimitChanged?.Invoke(world.TimeLimit.Remaining, world.TimeLimit.Duration);
 
             // Update auto proceed
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AutoProceedStatusMessage>())
             {
                 var message = coordinator.FetchMessagesByType<AutoProceedStatusMessage>().LastOrDefault();
-                m_appModel?.SetAutoProceedStatus(message?.AutoProceed ?? false);
+                PlayerAutoProceedStateChanged?.Invoke(message?.AutoProceed ?? false);
             }
 
             // Handle messages: Attach tutorial messages to quest messages, then handle remaining tutorial messages
@@ -221,11 +241,11 @@ namespace TheIdleScrolls_Core.Systems
                     text += (text != String.Empty ? "\n\n" : "") + tutMessage.Text;
                 }
                 if (text != String.Empty)
-                    m_appModel?.DisplayMessage(title, text);
+                    DisplayMessageReceived?.Invoke(title, text);
             }
             foreach (var tutorialMessage in tutorialMessages.Where(m => m.QuestMessage == null))
             {
-                m_appModel?.DisplayMessage(tutorialMessage.Title, tutorialMessage.Text);
+                DisplayMessageReceived?.Invoke(tutorialMessage.Title, tutorialMessage.Text);
             }
 
 
@@ -237,18 +257,18 @@ namespace TheIdleScrolls_Core.Systems
                 foreach (var anonymousFeature in Enum.GetValues(typeof(GameFeature)))
                 {
                     var feature = (GameFeature)anonymousFeature;
-                    m_appModel?.SetFeatureAvailable(feature, availableFeatures.Contains(feature));
+                    FeatureAvailabilityChanged?.Invoke(feature, availableFeatures.Contains(feature));
                 }
             }
             // React to feature state messages
             foreach (var featureMessage in coordinator.FetchMessagesByType<FeatureStateMessage>())
             {
-                m_appModel?.SetFeatureAvailable(featureMessage.Feature, featureMessage.Enabled);
+                FeatureAvailabilityChanged?.Invoke(featureMessage.Feature, featureMessage.Enabled);
             }
 
             // Add log messages
             var relevantMessages = m_appModel?.GetRelevantMessagePriorties() ?? new();
-            m_appModel?.AddLogMessages(FilterMessages(relevantMessages, coordinator.FetchAllMessages()).Select(m => m.Message).ToList());
+            NewLogMessages?.Invoke(FilterMessages(relevantMessages, coordinator.FetchAllMessages()).Select(m => m.Message).ToList());
 
             m_firstUpdate = false;
         }

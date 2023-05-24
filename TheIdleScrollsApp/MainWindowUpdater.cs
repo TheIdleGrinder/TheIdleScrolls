@@ -33,7 +33,7 @@ namespace TheIdleScrollsApp
 
         public void SetPlayerXP(int currentXP, int targetXP)
         {
-            GetTargetOrNull()?.SetCharacterXP(currentXP, targetXP);
+            //GetTargetOrNull()?.SetCharacterXP(currentXP, targetXP);
         }
 
         public void SetPlayerItems(List<ItemRepresentation> inventory, List<ItemRepresentation> equipment)
@@ -70,7 +70,7 @@ namespace TheIdleScrollsApp
 
         public void SetTimeLimit(double remaining, double duration)
         {
-            GetTargetOrNull()?.UpdateTimeLimit(remaining, duration);
+            //GetTargetOrNull()?.UpdateTimeLimit(remaining, duration);
         }
 
         public void SetAutoProceedStatus(bool enabled)
