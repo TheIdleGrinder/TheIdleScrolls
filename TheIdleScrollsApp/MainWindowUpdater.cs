@@ -50,11 +50,11 @@ namespace TheIdleScrollsApp
 
         public void SetPlayerAbilities(List<TheIdleScrolls_Core.AbilityRepresentation> abilities)
         {
-            var reps = abilities.Select(a => new AbilityRepresentation(a.Key, 
-                a.Name, 
-                a.Level, 
-                $"{(1.0 * a.XP / a.TargetXP):0 %}")).ToList();
-            GetTargetOrNull()?.SetAbilities(reps);
+            //var reps = abilities.Select(a => new AbilityRepresentation(a.Key, 
+            //    a.Name, 
+            //    a.Level, 
+            //    $"{(1.0 * a.XP / a.TargetXP):0 %}")).ToList();
+            //GetTargetOrNull()?.SetAbilities(reps);
         }
 
         public void SetMob(MobRepresentation mob)

@@ -125,8 +125,23 @@ namespace TheIdleScrollsApp
 
             emitter.PlayerCharacterChanged += (CharacterRepresentation rep) => SetCharacter(rep.Id, rep.Name, rep.Class, rep.Level);
             emitter.PlayerXpChanged += SetCharacterXP;
+            emitter.PlayerInventoryChanged += SetInventory;
+            emitter.PlayerEquipmentChanged += SetEquipment;
+            emitter.PlayerEncumbranceChanged += SetEncumbrance;
+            emitter.PlayerCoinsChanged += SetPlayerCoins;
+            emitter.PlayerOffenseChanged += (double dmg, double cd, double remCd) => { SetAttackDamage(dmg, dmg / cd); SetAttackCooldown(cd, remCd); };
+            emitter.PlayerDefenseChanged += SetDefenses;
+            emitter.PlayerAbilitiesChanged += SetAbilities;
+            emitter.MobChanged += (MobRepresentation mob) => { SetMob(mob.Name, mob.Level); SetMobHP(mob.HP, mob.HpMax); };
+            emitter.PlayerAreaChanged += SetArea;
+            emitter.PlayerAutoProceedStateChanged += SetAutoProceed;
             emitter.TimeLimitChanged += UpdateTimeLimit;
-
+            emitter.FeatureAvailabilityChanged += SetFeatureAvailable;
+            emitter.AccessibleAreasChanged += SetAccessibleAreas;
+            emitter.AchievementsChanged += SetAchievements;
+            emitter.StatReportChanged += SetStatisticsReport;
+            emitter.DisplayMessageReceived += ShowMessageBox;
+            emitter.NewLogMessages += AddLogMessages;
         }
 
         private void timerTick_Tick(object sender, EventArgs e)
@@ -391,9 +406,13 @@ namespace TheIdleScrollsApp
             }
         }
 
-        public void SetAbilities(List<AbilityRepresentation> abilities)
+        public void SetAbilities(List<TheIdleScrolls_Core.AbilityRepresentation> abilities)
         {
-            m_abilities = new(abilities);
+            m_abilities = new(abilities.Select(a => new AbilityRepresentation(
+                a.Key,
+                a.Name,
+                a.Level,
+                $"{(1.0 * a.XP / a.TargetXP):0 %}")).ToList());
             gridAbilities.DataSource = m_abilities;
         }
 
