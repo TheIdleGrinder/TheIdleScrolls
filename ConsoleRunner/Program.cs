@@ -4,6 +4,7 @@ using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Storage;
+using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Storage;
 
 const int TimePerTick = 250;
@@ -17,6 +18,8 @@ var dataHandler = new DataAccessHandler(new EntityJsonConverter(new ItemFactory(
 var runner = new GameRunner(dataHandler);
 runner.Initialize(playerName);
 runner.SetAppInterface(new ConsoleUpdater());
+
+runner.GetEventEmitter().NewLogMessages += (messages) => { messages.ForEach(s => Console.WriteLine(s)); };
 
 var startTime = DateTime.Now;
 var tickStart = startTime;

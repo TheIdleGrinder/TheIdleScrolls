@@ -50,7 +50,7 @@ namespace TheIdleScrollsApp
             m_runner = runner;
             m_runner.Initialize(name);
             m_inputHandler = m_runner.GetUserInputHandler();
-            m_runner.SetAppInterface(new MainWindowUpdater(this));
+            m_runner.SetAppInterface(new MainWindowUpdater());
 
             ConnectEvents();
 
