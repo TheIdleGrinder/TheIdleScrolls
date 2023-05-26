@@ -9,10 +9,11 @@ using TheIdleScrolls_Core.Components;
 using System.Collections.Generic;
 using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Intrinsics.X86;
+using MiniECS;
 
 namespace TheIdleScrollsApp
 {
-    public partial class MainWindow : Form
+    public partial class MainWindow : Form, IApplicationModel
     {
         public enum Area { Inventory }
 
@@ -50,7 +51,7 @@ namespace TheIdleScrollsApp
             m_runner = runner;
             m_runner.Initialize(name);
             m_inputHandler = m_runner.GetUserInputHandler();
-            m_runner.SetAppInterface(new MainWindowUpdater());
+            m_runner.SetAppInterface(this);
 
             ConnectEvents();
 
@@ -635,6 +636,10 @@ namespace TheIdleScrollsApp
             ShowItemDescription(null); // Defaults to first selected item in inventory list
         }
 
+        public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties()
+        {
+            return new() { IMessage.PriorityLevel.VeryHigh, IMessage.PriorityLevel.High, IMessage.PriorityLevel.Medium };
+        }
     }
 
     class Equipment
