@@ -9,10 +9,11 @@ using TheIdleScrolls_Core.Components;
 using System.Collections.Generic;
 using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Intrinsics.X86;
+using MiniECS;
 
 namespace TheIdleScrollsApp
 {
-    public partial class MainWindow : Form
+    public partial class MainWindow : Form, IApplicationModel
     {
         public enum Area { Inventory }
 
@@ -50,7 +51,9 @@ namespace TheIdleScrollsApp
             m_runner = runner;
             m_runner.Initialize(name);
             m_inputHandler = m_runner.GetUserInputHandler();
-            m_runner.SetAppInterface(new MainWindowUpdater(this));
+            m_runner.SetAppInterface(this);
+
+            ConnectEvents();
 
             timerTick.Interval = TimePerTick;
             timerTick.Enabled = true;
@@ -115,6 +118,31 @@ namespace TheIdleScrollsApp
             btnEquipItem.Click += (s, e) => EquipFirstSelectedItem();
             btnSellItem.Click += (s, e) => SellFirstSelectedItem();
             btnReforgeItem.Click += (s, e) => ReforgeFirstSelectedItem();
+        }
+
+        private void ConnectEvents()
+        {
+            IGameEventEmitter emitter = m_runner.GetEventEmitter();
+
+            emitter.PlayerCharacterChanged += (CharacterRepresentation rep) => SetCharacter(rep.Id, rep.Name, rep.Class, rep.Level);
+            emitter.PlayerXpChanged += SetCharacterXP;
+            emitter.PlayerInventoryChanged += SetInventory;
+            emitter.PlayerEquipmentChanged += SetEquipment;
+            emitter.PlayerEncumbranceChanged += SetEncumbrance;
+            emitter.PlayerCoinsChanged += SetPlayerCoins;
+            emitter.PlayerOffenseChanged += (double dmg, double cd, double remCd) => { SetAttackDamage(dmg, dmg / cd); SetAttackCooldown(cd, remCd); };
+            emitter.PlayerDefenseChanged += SetDefenses;
+            emitter.PlayerAbilitiesChanged += SetAbilities;
+            emitter.MobChanged += (MobRepresentation mob) => { SetMob(mob.Name, mob.Level); SetMobHP(mob.HP, mob.HpMax); };
+            emitter.PlayerAreaChanged += SetArea;
+            emitter.PlayerAutoProceedStateChanged += SetAutoProceed;
+            emitter.TimeLimitChanged += UpdateTimeLimit;
+            emitter.FeatureAvailabilityChanged += SetFeatureAvailable;
+            emitter.AccessibleAreasChanged += SetAccessibleAreas;
+            emitter.AchievementsChanged += SetAchievements;
+            emitter.StatReportChanged += SetStatisticsReport;
+            emitter.DisplayMessageReceived += ShowMessageBox;
+            emitter.NewLogMessages += AddLogMessages;
         }
 
         private void timerTick_Tick(object sender, EventArgs e)
@@ -379,9 +407,13 @@ namespace TheIdleScrollsApp
             }
         }
 
-        public void SetAbilities(List<AbilityRepresentation> abilities)
+        public void SetAbilities(List<TheIdleScrolls_Core.AbilityRepresentation> abilities)
         {
-            m_abilities = new(abilities);
+            m_abilities = new(abilities.Select(a => new AbilityRepresentation(
+                a.Key,
+                a.Name,
+                a.Level,
+                $"{(1.0 * a.XP / a.TargetXP):0 %}")).ToList());
             gridAbilities.DataSource = m_abilities;
         }
 
@@ -604,6 +636,10 @@ namespace TheIdleScrollsApp
             ShowItemDescription(null); // Defaults to first selected item in inventory list
         }
 
+        public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties()
+        {
+            return new() { IMessage.PriorityLevel.VeryHigh, IMessage.PriorityLevel.High, IMessage.PriorityLevel.Medium };
+        }
     }
 
     class Equipment

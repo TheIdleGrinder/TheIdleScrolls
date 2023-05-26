@@ -11,42 +11,6 @@ namespace TheIdleScrolls_Core
 {
     public interface IApplicationModel
     {
-        public void SetPlayerCharacter(CharacterRepresentation character);
-
-        public void SetPlayerXP(int currentXP, int targetXP);
-
-        public void SetPlayerItems(List<ItemRepresentation> inventory, List<ItemRepresentation> equipment);
-
-        public void SetPlayerEncumbrance(double encumbrance);
-
-        public void SetPlayerCoins(int coins);
-
-        public void SetPlayerAttack(double damage, double cooldown, double remainingCooldown);
-
-        public void SetPlayerDefense(double armor, double evasion);
-
-        public void SetPlayerAbilities(List<AbilityRepresentation> abilities);
-
-        public void SetMob(MobRepresentation mob);
-
-        public void SetArea(string name, int level, bool isDungeon);
-
-        public void SetTimeLimit(double remaining, double duration);
-
-        public void SetAutoProceedStatus(bool enabled);
-
-        public void SetFeatureAvailable(GameFeature feature, bool available);
-
-        public void SetAccessibleAreas(int maxWilderness, List<DungeonRepresentation> dungeons);
-
-        public void SetAchievements(List<AchievementRepresentation> visibleAchievements, int achievementCount);
-
-        public void SetStatisticsReport(string report);
-
-        public void DisplayMessage(string title, string message);
-
-        public void AddLogMessages(List<string> messages);
-
         public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties();
     }
 

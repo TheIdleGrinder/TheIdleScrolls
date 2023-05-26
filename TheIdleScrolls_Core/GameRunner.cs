@@ -101,6 +101,11 @@ namespace TheIdleScrolls_Core
             return m_userInputHandler;
         }
 
+        public IGameEventEmitter GetEventEmitter()
+        {
+            return m_appUpdateSystem;
+        }
+
         public void SetAppInterface(IApplicationModel model)
         {
             m_appUpdateSystem.SetApplicationInterface(model);
