@@ -176,7 +176,7 @@ namespace TheIdleScrolls_Core.Systems
 
         string IMessage.BuildMessage()
         {
-            return $"Dungeon '{DungeonId}' completed" + ((FirstCompletion) ? " for the first time" : "");
+            return $"Dungeon '{DungeonId.Localize()}' completed" + ((FirstCompletion) ? " for the first time" : "");
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()

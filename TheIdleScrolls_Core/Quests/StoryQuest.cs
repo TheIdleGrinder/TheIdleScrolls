@@ -102,7 +102,7 @@ namespace TheIdleScrolls_Core.Quests
                 double playtime = (progComp != null) ? progComp.Data.Playtime : 0;
                 bool first = !entity.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(world.DungeonId) ?? true;
                 postMessageCallback(new ManualSaveRequest());
-                postMessageCallback(new DungeonCompletedMessage(world.DungeonId.Localize(), first));
+                postMessageCallback(new DungeonCompletedMessage(world.DungeonId, first));
                 postMessageCallback(new TutorialMessage(TutorialStep.Finished,
                     Properties.LocalizedStrings.STORY_END_TITLE,
                     String.Format(Properties.LocalizedStrings.STORY_END_TEXT, playtime)));
