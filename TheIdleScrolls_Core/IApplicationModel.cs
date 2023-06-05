@@ -14,13 +14,6 @@ namespace TheIdleScrolls_Core
         public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties();
     }
 
-    [Flags]
-    public enum LoggerFlags
-    {
-        NoDamage = 1 << 0,
-        NoXp = 1 << 1,
-    }
-
     public enum GameFeature { Inventory, Armor, Abilities, Travel, Crafting }
 
     public record CharacterRepresentation(uint Id, string Name, string Class, int Level);
