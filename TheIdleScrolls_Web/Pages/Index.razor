@@ -1,0 +1,21 @@
+﻿@page "/"
+@using TheIdleScrolls_Web.CoreWrapper
+
+<PageTitle>Index</PageTitle>
+
+<h1>Welcome, world!</h1>
+
+Welcome to your new app. Here are your previous characters:
+
+<ul>
+	@foreach (string charName in coreWrapper.GetSavedCharacters())
+	{
+		<li>@charName</li>
+	}
+</ul>
+
+@code
+{
+	private CoreWrapperModel coreWrapper = new();
+
+}
