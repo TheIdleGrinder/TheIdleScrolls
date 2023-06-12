@@ -1,4 +1,5 @@
-﻿using MiniECS;
+﻿using Microsoft.JSInterop;
+using MiniECS;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.Items;
@@ -11,10 +12,12 @@ namespace TheIdleScrolls_Web.CoreWrapper
     {
         DataAccessHandler dataHandler;
         GameRunner gameRunner;
+        IJSRuntime jsRuntime;
 
-        public CoreWrapperModel()
+        public CoreWrapperModel(IJSRuntime js)
         {
-            dataHandler = new DataAccessHandler(new EntityJsonConverter(new ItemFactory()), new BasicFileStorageHandler());
+            jsRuntime = js;
+            dataHandler = new DataAccessHandler(new EntityJsonConverter(new ItemFactory()), new LocalBrowserStorageHandler(js));
             gameRunner = new GameRunner(dataHandler);
         }
 
