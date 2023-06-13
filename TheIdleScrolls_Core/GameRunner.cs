@@ -61,7 +61,7 @@ namespace TheIdleScrolls_Core
         public void Initialize(string playerName = "Leeroy")
         {
             const string globalEntityName = "_perpetual";
-            Entity? globalEntity = m_dataHandler.LoadEntity(globalEntityName);
+            Entity? globalEntity = m_dataHandler.LoadEntity(globalEntityName).Result;
             if (globalEntity == null)
             {
                 globalEntity = new Entity();

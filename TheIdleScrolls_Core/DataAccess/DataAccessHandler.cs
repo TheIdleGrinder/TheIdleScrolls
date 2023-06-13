@@ -23,15 +23,15 @@ namespace TheIdleScrolls_Core.DataAccess
             m_storage = storageHandler;
         }
 
-        public void StoreEntity(Entity entity)
+        public Task StoreEntity(Entity entity)
         {
             string serialized = m_converter.SerializeEntity(entity);
-            m_storage.StoreData(entity.GetName(), serialized);
+            return m_storage.StoreData(entity.GetName(), serialized);
         }
 
-        public bool LoadEntity(string accessKey, Entity outputEntity)
+        public async Task<bool> LoadEntity(string accessKey, Entity outputEntity)
         {
-            string serialized = m_storage.LoadData(accessKey);
+            string serialized = await m_storage.LoadData(accessKey);
             if (serialized != "")
             {
                 var loaded = m_converter.DeserializeEntity(serialized);
@@ -47,14 +47,14 @@ namespace TheIdleScrolls_Core.DataAccess
             return false;
         }
 
-        public Entity? LoadEntity(string accessKey)
+        public async Task<Entity?> LoadEntity(string accessKey)
         {
             Entity entity = new();
-            var success = LoadEntity(accessKey, entity);
+            var success = await LoadEntity(accessKey, entity);
             return success ? entity : null;
         }
 
-        public List<string> ListStoredEntities()
+        public Task<List<string>> ListStoredEntities()
         {
             return m_storage.GetKeys();
         }
