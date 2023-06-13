@@ -38,7 +38,7 @@ namespace TheIdleScrolls_Core
         {
             var player = MakeNewPlayer(name);
 
-            dataHandler.LoadEntity(name, player);
+            dataHandler.LoadEntity(name, player).Wait();
 
             return player;
         }

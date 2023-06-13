@@ -19,39 +19,38 @@ namespace TheIdleScrolls_Core.Storage
             StorageDirectory = Path.Combine(appDataPath, "TheIdleGrind", "saves");
         }
 
-        public void DeleteData(string key)
+        public Task DeleteData(string key)
         {
             string path = BuildPath(key);
             if (File.Exists(path))
             {
                 File.Delete(path);
             }
+            return Task.CompletedTask;
         }
 
-        public List<string> GetKeys()
+        public Task<List<string>> GetKeys()
         {
-            return Directory.GetFiles(StorageDirectory)
+            return Task.FromResult(Directory.GetFiles(StorageDirectory)
                 .OrderByDescending(f => File.GetLastWriteTime(f))
                 .Where(f => f.EndsWith(FileExtension))
                 .Select(f => Path.GetFileNameWithoutExtension(f))
                 .Where(f => !f.StartsWith("_"))
-                .ToList();
+                .ToList());
         }
 
-        public string LoadData(string key)
+        public Task<string> LoadData(string key)
         {
             string path = BuildPath(key);
-            if (!File.Exists(path))
-                return "";
-            return File.ReadAllText(path);
+            return Task.FromResult(File.Exists(path) ? File.ReadAllText(path) : "");
         }
 
-        public void StoreData(string key, string data)
+        public Task StoreData(string key, string data)
         {
             string path = BuildPath(key);
             if (!CreateStorageDirectoryIfNecessary())
                 throw new DirectoryNotFoundException("Could not create save game folder");
-            Task.Factory.StartNew(() => File.WriteAllText(path, data)); // TODO: Check if this really saves any time
+            return Task.Run(() => File.WriteAllText(path, data));
         }
 
         string BuildPath(string fileName)

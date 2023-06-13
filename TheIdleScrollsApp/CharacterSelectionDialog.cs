@@ -24,7 +24,7 @@ namespace TheIdleScrollsApp
             m_accessHandler = dataAccessHandler;
             InitializeComponent();
 
-            m_characters = dataAccessHandler.ListStoredEntities();
+            m_characters = dataAccessHandler.ListStoredEntities().Result;
             CharacterName = inputName.Text = name;
             UpdateCharacterList();
         }

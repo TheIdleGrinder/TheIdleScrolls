@@ -10,12 +10,12 @@ namespace TheIdleScrolls_Core.Storage
 {
     public interface IStorageHandler<T>
     {
-        public void StoreData(string key, T data);
+        public Task StoreData(string key, T data);
 
-        public T LoadData(string key);
+        public Task<T> LoadData(string key);
 
-        public void DeleteData(string key);
+        public Task DeleteData(string key);
 
-        public List<string> GetKeys();
+        public Task<List<string>> GetKeys();
     }
 }
