@@ -12,28 +12,30 @@ namespace TheIdleScrolls_Web.CoreWrapper
 			m_localStorage = new LocalStorageAccessor(jSRuntime);
 		}
 
-		public async void DeleteData(string key)
+		public async Task DeleteData(string key)
 		{
 			await m_localStorage.RemoveAsync(key);
 		}
 
-		public List<string> GetKeys()
+		public async Task<List<string>> GetKeys()
 		{
-			return m_localStorage.GetValueAsync<List<string>>("_chars").Result;
+			string chars = await m_localStorage.GetValueAsync<string>("_chars");
+			return chars.Split().ToList();
 		}
 
-		public string LoadData(string key)
+		public async Task<string> LoadData(string key)
 		{
-			if (!GetKeys().Contains(key))
+			var keys = await GetKeys();
+			if (!keys.Contains(key))
 			{
 				return "";
 			}
-			return m_localStorage.GetValueAsync<string>(key).Result;
+			return await m_localStorage.GetValueAsync<string>(key);
 		}
 
-		public async void StoreData(string key, string data)
+		public async Task StoreData(string key, string data)
 		{
-			var storedChars = GetKeys();
+			var storedChars = await GetKeys();
 			if (!storedChars.Contains(key))
 			{
 				storedChars.Add(key);
