@@ -22,8 +22,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
         public List<string> StoredCharacters { get; set; } = new();
 
-
-
         public CoreWrapperModel(IJSRuntime js)
         {
             jsRuntime = js;

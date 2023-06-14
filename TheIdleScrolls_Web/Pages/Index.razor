@@ -1,20 +1,18 @@
 ﻿@page "/"
 @using TheIdleScrolls_Web.CoreWrapper
 
-@inject IJSRuntime JS
+@inject CoreWrapperModel CoreWrapper
 
-<PageTitle>Index</PageTitle>
-
-<h1>Welcome, world!</h1>
+<PageTitle>The Idle Scrolls</PageTitle>
 
 Welcome to your new app. Here are your previous characters:
 
-<button @onclick="ReadCharacters">Load</button>
+<button @onclick="ReadCharacters">Refresh</button>
 
-@if (coreWrapper?.StoredCharacters != null)
+@if (CoreWrapper.StoredCharacters != null)
 {
 	<ul>
-		@foreach (string charName in coreWrapper!.StoredCharacters) // null check above
+		@foreach (string charName in CoreWrapper.StoredCharacters) // null check above
 		{
 			<li>@charName</li>
 		}
@@ -23,18 +21,17 @@ Welcome to your new app. Here are your previous characters:
 
 @code
 {
-	private CoreWrapperModel? coreWrapper;
-
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
-		coreWrapper = new(JS);
 
-		coreWrapper.CharacterListChanged += (List<string> _) => StateHasChanged();
+		CoreWrapper.CharacterListChanged += (List<string> _) => StateHasChanged();
+
+		ReadCharacters();
 	}
 
-	void ReadCharacters()
+	async Task ReadCharacters()
 	{
-		coreWrapper?.UpdateSavedCharacters();
+		await CoreWrapper.UpdateSavedCharacters();
 	}
 }

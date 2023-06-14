@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test_TheIdleScrolls_Core", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test_TheIdleScrolls_JSON", "Test_TheIdleScrolls_JSON\Test_TheIdleScrolls_JSON.csproj", "{A3199ABC-A5B8-45DA-A06E-2E0565EBC117}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheIdleScrolls_Web", "TheIdleScrolls_Web\TheIdleScrolls_Web.csproj", "{21A839A1-4134-41D1-91C8-6FE97AAD9CB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheIdleScrolls_Web", "TheIdleScrolls_Web\TheIdleScrolls_Web.csproj", "{21A839A1-4134-41D1-91C8-6FE97AAD9CB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
