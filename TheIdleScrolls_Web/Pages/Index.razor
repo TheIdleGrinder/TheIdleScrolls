@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using TheIdleScrolls_Web.CoreWrapper
+@using TheIdleScrolls_Web.Components
 
 @inject CoreWrapperModel CoreWrapper
 
@@ -19,6 +20,8 @@ Welcome to your new app. Here are your previous characters:
 	</ul>
 }
 
+<MainGameContainer></MainGameContainer>
+
 @code
 {
 	protected override void OnInitialized()
@@ -26,6 +29,7 @@ Welcome to your new app. Here are your previous characters:
 		base.OnInitialized();
 
 		CoreWrapper.CharacterListChanged += (List<string> _) => StateHasChanged();
+		CoreWrapper.StateChanged += () => StateHasChanged();
 
 		ReadCharacters();
 	}

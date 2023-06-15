@@ -10,6 +10,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
 {
     public delegate void CharacterListChangeHandler(List<string> characters);
     public delegate void CharacterLoadedHandler();
+    public delegate void StateChangedHandler();
 
     public class CoreWrapperModel : IApplicationModel
     {
@@ -17,10 +18,14 @@ namespace TheIdleScrolls_Web.CoreWrapper
         GameRunner gameRunner;
         IJSRuntime jsRuntime;
 
+        bool gameLoopRunning = false;
+
         public event CharacterListChangeHandler? CharacterListChanged;
         public event CharacterLoadedHandler? CharacterLoaded;
+        public event StateChangedHandler? StateChanged;
 
         public List<string> StoredCharacters { get; set; } = new();
+
 
         public CoreWrapperModel(IJSRuntime js)
         {
@@ -45,6 +50,23 @@ namespace TheIdleScrolls_Web.CoreWrapper
         {
             gameRunner.Initialize(name);
             CharacterLoaded?.Invoke();
+        }
+
+        public async Task StartGameLoop()
+        {
+            const int frameTime = 50;
+            gameLoopRunning = true;
+            while (gameLoopRunning)
+            {
+                gameRunner.ExecuteTick(frameTime / 1000.0);
+                StateChanged?.Invoke();
+                await Task.Delay(frameTime);
+            }
+        }
+
+        public void StopGameLoop()
+        {
+            gameLoopRunning = false;
         }
     }
 }

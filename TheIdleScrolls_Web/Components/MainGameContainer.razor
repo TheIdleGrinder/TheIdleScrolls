@@ -1,5 +1,66 @@
-﻿<h3>MainGameContainer</h3>
+﻿@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="main-frame">
+    <div class="left-frame framed">
+@*        <CurrentAreaSelector></CurrentAreaSelector>
+        <FightStateIndicator></FightStateIndicator>*@
+    </div>
+    <div class="right-frame">
+        <div class="tabs">
+            <button class="tablinks @AddTabClass(Tab.Travel)" @onclick="@(() => SetTab(Tab.Travel))">Travel</button>
+            <button class="tablinks @AddTabClass(Tab.Inventory)" @onclick="@(() => SetTab(Tab.Inventory))">Inventory</button>
+            <button class="tablinks @AddTabClass(Tab.Abilities)" @onclick="@(() => SetTab(Tab.Abilities))">Abilities</button>
+            <button class="tablinks @AddTabClass(Tab.Achievements)" @onclick="@(() => SetTab(Tab.Achievements))">Achievements</button>
+            <button class="tablinks @AddTabClass(Tab.Stats)" @onclick="@(() => SetTab(Tab.Stats))">Stats</button>
+        </div>
+        @if (m_activeTab == Tab.Travel)
+        {
+            <div class="spaced-items">
+@*                <CharacterOverview></CharacterOverview>
+                <DungeonSelector></DungeonSelector>*@
+            </div>
+        }
+        @if (m_activeTab == Tab.Inventory)
+        {
+            @*<EquipmentDisplay></EquipmentDisplay>*@
+        }
+        @if (m_activeTab == Tab.Achievements)
+        {
+            @*<AchievementDisplay @ref="achievementDisplay"></AchievementDisplay>*@
+        }
+    </div>
+</div>
+
+<style>
+    :root {
+        --text-color: black;
+        --back-color: white;
+        --frame-color: slategray;
+        --min-height: 600px;
+    }
+
+    p {
+        font-size: 24px;
+    }
+
+</style>
 
 @code {
+    enum Tab { Travel, Inventory, Abilities, Achievements, Stats };
 
+    Tab m_activeTab = Tab.Travel;
+
+    //AchievementDisplay achievementDisplay = new();
+
+    void SetTab(Tab tab)
+    {
+        m_activeTab = tab;
+    }
+
+    string AddTabClass(Tab tab)
+    {
+        return (m_activeTab == tab) ? " active" : "";
+    }
 }
