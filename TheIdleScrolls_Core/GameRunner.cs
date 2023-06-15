@@ -58,10 +58,10 @@ namespace TheIdleScrolls_Core
             m_systems.Add(m_appUpdateSystem);
         }
 
-        public void Initialize(string playerName = "Leeroy")
+        public async Task Initialize(string playerName = "Leeroy")
         {
             const string globalEntityName = "_perpetual";
-            Entity? globalEntity = m_dataHandler.LoadEntity(globalEntityName).Result;
+            Entity? globalEntity = await m_dataHandler.LoadEntity(globalEntityName);
             if (globalEntity == null)
             {
                 globalEntity = new Entity();
@@ -75,7 +75,8 @@ namespace TheIdleScrolls_Core
             m_coordinator.AddEntity(globalEntity);
             m_world.GlobalEntity = globalEntity;
 
-            var player = PlayerFactory.MakeOrLoadPlayer(playerName, m_dataHandler);
+            Logger.LogMessage("Before loading the char");
+            var player = await PlayerFactory.MakeOrLoadPlayer(playerName, m_dataHandler);
             AddPlayerToCoordinator(player);
 
             Logger.LogMessage($"Player '{player.GetName()}' (Level {player.GetComponent<LevelComponent>()?.Level ?? 0}) spawned (#{player.Id})");

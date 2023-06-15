@@ -34,11 +34,11 @@ namespace TheIdleScrolls_Core
             return player;
         }
 
-        public static Entity MakeOrLoadPlayer(string name, DataAccessHandler dataHandler)
+        public static async Task<Entity> MakeOrLoadPlayer(string name, DataAccessHandler dataHandler)
         {
             var player = MakeNewPlayer(name);
 
-            dataHandler.LoadEntity(name, player).Wait();
+            await dataHandler.LoadEntity(name, player);
 
             return player;
         }

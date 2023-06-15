@@ -6,21 +6,27 @@
 
 <PageTitle>The Idle Scrolls</PageTitle>
 
-Welcome to your new app. Here are your previous characters:
-
-<button @onclick="ReadCharacters">Refresh</button>
-
-@if (CoreWrapper.StoredCharacters != null)
+@if (!CoreWrapper.GameLoopRunning)
 {
-	<ul>
-		@foreach (string charName in CoreWrapper.StoredCharacters) // null check above
-		{
-			<li>@charName</li>
-		}
-	</ul>
-}
+	<p>Welcome to your new app.Here are your previous characters:</p>
 
-<MainGameContainer></MainGameContainer>
+	<button @onclick="ReadCharacters">Refresh</button>
+
+	@if (CoreWrapper.StoredCharacters != null)
+	{
+		<ul>
+			@foreach (string charName in CoreWrapper.StoredCharacters.Where(c => !c.StartsWith("_"))) // null check above
+			{
+				<li @onclick=@(() => StartGame("Leeroy"))>@charName</li>
+			}
+		</ul>
+	}
+
+}
+else
+{
+	<MainGameContainer></MainGameContainer>
+}
 
 @code
 {
@@ -29,7 +35,7 @@ Welcome to your new app. Here are your previous characters:
 		base.OnInitialized();
 
 		CoreWrapper.CharacterListChanged += (List<string> _) => StateHasChanged();
-		CoreWrapper.StateChanged += () => StateHasChanged();
+		CoreWrapper.StateChanged += StateHasChanged;
 
 		ReadCharacters();
 	}
@@ -37,5 +43,12 @@ Welcome to your new app. Here are your previous characters:
 	async Task ReadCharacters()
 	{
 		await CoreWrapper.UpdateSavedCharacters();
+	}
+
+	async Task StartGame(string characterName)
+	{
+		await CoreWrapper.LoadCharacter(characterName);
+		CoreWrapper.StartGameLoop();
+		Console.WriteLine($"Game started as {characterName}");
 	}
 }

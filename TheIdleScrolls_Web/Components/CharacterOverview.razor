@@ -1,0 +1,56 @@
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="outer charOuter">
+    <h2>@CoreWrapper.Character.Name</h2>
+
+    <p>Level @CoreWrapper.Character.Level @CoreWrapper.Character.Class</p>
+
+    <progress title="@CoreWrapper.XpCurrent / @CoreWrapper.XpTarget XP" value="@CoreWrapper.XpCurrent" max="@CoreWrapper.XpTarget"></progress>
+
+@*    <hr class="thick">
+
+    <table>
+        <tr>
+            <td>Damage</td>
+            <td>12346</td>
+            <td>6173 / s</td>
+            <td><progress value="@AttackProgress" max="@AttackCooldown"></progress></td>
+        </tr>
+        <tr>
+            <td>Armor</td>
+            <td>12345</td>
+        </tr>
+        <tr>
+            <td>Evasion</td>
+            <td>0</td>
+        </tr>
+        <tr>
+            <td>Encumbrance</td>
+            <td>24%</td>
+        </tr>
+    </table>*@
+
+</div>
+
+
+@code {
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+    }
+    //int AttackCooldown => CooldownToInt(m_model.AttackCooldown);
+    //int AttackProgress => CooldownToInt(m_model.AttackCooldown) - CooldownToInt(m_model.AttackRemainingCooldown);
+
+    //protected override Task OnInitializedAsync()
+    //{
+    //    UpdateLoop();
+    //    return base.OnInitializedAsync();
+    //}
+
+    //string FormatTime(double time)
+    //{
+    //    return $"{time:0.##} s";
+    //}
+}

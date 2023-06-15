@@ -16,7 +16,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
     {
         DataAccessHandler dataHandler;
         GameRunner gameRunner;
-        IJSRuntime jsRuntime;
 
         bool gameLoopRunning = false;
 
@@ -24,15 +23,21 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public event CharacterLoadedHandler? CharacterLoaded;
         public event StateChangedHandler? StateChanged;
 
+        public bool GameLoopRunning => gameLoopRunning;
         public List<string> StoredCharacters { get; set; } = new();
-
+        public CharacterRepresentation Character { get; set; } = new(0, "Leeroy", "Adventurer", 0);
+        public int XpCurrent { get; set; } = 0;
+        public int XpTarget { get; set; } = 0;
 
         public CoreWrapperModel(IJSRuntime js)
         {
-            jsRuntime = js;
             dataHandler = new DataAccessHandler(new EntityJsonConverter(new ItemFactory()), new LocalBrowserStorageHandler(js));
             gameRunner = new GameRunner(dataHandler);
             gameRunner.SetAppInterface(this);
+
+            var emitter = gameRunner.GetEventEmitter();
+            emitter.PlayerCharacterChanged += (CharacterRepresentation cRep) => Character = cRep;
+            emitter.PlayerXpChanged += UpdateXp;
         }
 
         public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties()
@@ -46,9 +51,9 @@ namespace TheIdleScrolls_Web.CoreWrapper
             CharacterListChanged?.Invoke(StoredCharacters);
         }
 
-        public void LoadCharacter(string name)
+        public async Task LoadCharacter(string name)
         {
-            gameRunner.Initialize(name);
+            await gameRunner.Initialize(name);
             CharacterLoaded?.Invoke();
         }
 
@@ -67,6 +72,13 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public void StopGameLoop()
         {
             gameLoopRunning = false;
+        }
+
+        private void UpdateXp(int current, int target)
+        {
+            XpCurrent = current;
+            XpTarget = target;
+            Console.WriteLine($"XP: {XpCurrent}/{XpTarget}");
         }
     }
 }

@@ -1,0 +1,36 @@
+div.charOuter {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    width: 100%;
+}
+
+progress {
+    width: 70%;
+}
+
+hr.thick {
+    border: 0;
+    clear: both;
+    display: block;
+    width: 96%;
+    background-color: #999;
+    height: 3px;
+}
+
+tr {
+    border-bottom: 1px solid slategray;
+}
+
+td {
+    padding-left: 10px;
+    border-right: 1px dotted slategray;
+}
+
+tr:last-child {
+    border-bottom: none;
+}
+
+td:last-child {
+    border-right: none;
+}

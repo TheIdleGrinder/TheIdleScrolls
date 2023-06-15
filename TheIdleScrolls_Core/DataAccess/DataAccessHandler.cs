@@ -32,7 +32,7 @@ namespace TheIdleScrolls_Core.DataAccess
         public async Task<bool> LoadEntity(string accessKey, Entity outputEntity)
         {
             string serialized = await m_storage.LoadData(accessKey);
-            if (serialized != "")
+            if (serialized != String.Empty)
             {
                 var loaded = m_converter.DeserializeEntity(serialized);
                 if (loaded != null)

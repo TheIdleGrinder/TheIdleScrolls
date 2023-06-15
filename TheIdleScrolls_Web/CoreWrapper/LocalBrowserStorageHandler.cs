@@ -4,7 +4,8 @@ using TheIdleScrolls_Core.Storage;
 namespace TheIdleScrolls_Web.CoreWrapper
 {
 	public class LocalBrowserStorageHandler : IStorageHandler<string>
-	{ 
+	{
+		const string CharNameKey = "_chars";
 		readonly LocalStorageAccessor m_localStorage;
 
 		public LocalBrowserStorageHandler(IJSRuntime jSRuntime)
@@ -19,7 +20,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
 		public async Task<List<string>> GetKeys()
 		{
-			string chars = await m_localStorage.GetValueAsync<string>("_chars");
+			string chars = await m_localStorage.GetValueAsync<string>(CharNameKey);
 			return chars.Split().ToList();
 		}
 
@@ -39,9 +40,9 @@ namespace TheIdleScrolls_Web.CoreWrapper
 			if (!storedChars.Contains(key))
 			{
 				storedChars.Add(key);
-				await m_localStorage.SetValueAsync("_chars", storedChars);
+				await m_localStorage.SetValueAsync(CharNameKey, String.Join(" ", storedChars));
 			}
-			await m_localStorage.SetValueAsync<string>(key, data);
+			await m_localStorage.SetValueAsync(key, data);
 		}
 	}
 }
