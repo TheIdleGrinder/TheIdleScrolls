@@ -1,0 +1,74 @@
+﻿@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="outer">
+    @if (!InDungeon && CanTravel)
+    {
+        <button disabled=@IsAtMin @onclick="MoveDown">⮜</button>
+    }
+    <div class="inner">
+        <h3>@CoreWrapper.Area.Name</h3>
+        @if (InDungeon)
+            {
+                <button class="leave">Leave</button>
+            }
+    </div>
+    @if (!InDungeon && CanTravel)
+    {
+        <button disabled=@IsAtMax @onclick="MoveUp">⮞</button>
+    }
+</div>
+
+<style>
+    div.outer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 5px;
+        border: dashed 1px black;
+        background-color: var(--back-color);
+    }
+
+    div.inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    button {
+        min-width: 50px;
+        min-height: 30px;
+    }
+
+    button.leave {
+        padding: 5px 15%;
+    }
+
+</style>
+
+@code {
+    int AreaLevel => CoreWrapper.Area.Level;
+    bool InDungeon => CoreWrapper.Area.IsDungeon;
+    bool CanTravel => CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Travel);
+
+    bool IsAtMin => AreaLevel == 1;
+    bool IsAtMax => AreaLevel >= CoreWrapper.Accessible.MaxWilderness;
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+
+    private void MoveDown()
+    {
+        CoreWrapper.InputHandler.TravelIntoWilderness(AreaLevel - 1);
+    }
+
+    private void MoveUp()
+    {
+        CoreWrapper.InputHandler.TravelIntoWilderness(AreaLevel + 1);
+    }
+}

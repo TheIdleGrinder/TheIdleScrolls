@@ -1,0 +1,106 @@
+﻿@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="fightOuter">
+    @if (TimeActive)
+    {
+        <div class="fightInner">
+            <p class="timeText">Remaining: @(GetTimeString(Time)) / @(GetTimeString(TimeMax))</p>
+            <div class="progressFrame">
+                <div class="progressFill timeBar" style="width: @(PctString(Time, TimeMax));"></div>
+            </div>
+        </div>
+    }
+    @if (MobPresent)
+    {
+        <div class="fightInner" style="margin-top: 20px;">
+            <p style="margin-bottom: 0px;">@CoreWrapper.Mob.Name (Level @CoreWrapper.Mob.Level)</p>
+            <p class="healthText">HP: @Hp / @HpMax</p>
+            <div class="progressFrame">
+                <div class="progressFill healthBar" style="width: @(PctString(Hp, HpMax));"></div>
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    div.fightOuter {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        border: dashed 1px black;
+        background-color: var(--back-color);
+    }
+
+    div.fightInner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+    }
+
+    div.progressFrame {
+        display: flex;
+        flex-direction: row;
+        width: 70%;
+        background: slategray;
+        justify-content: center;
+        padding: 0px;
+    }
+
+    div.progressFill {
+        height: 30px;
+        border-style: none;
+    }
+
+    .timeBar {
+        background-color: limegreen;
+    }
+
+    .timeText {
+        color: limegreen;
+        margin-bottom: 0px;
+    }
+
+    .healthBar {
+        background-color: red;
+    }
+
+    .healthText {
+        color:red;
+        margin-bottom: 0px;
+    }
+</style>
+
+@code {
+    bool MobPresent => CoreWrapper.Mob.HP > 0;
+    bool TimeActive => CoreWrapper.TimeLimit.Maximum > 0.0;
+
+    int Hp => CoreWrapper.Mob.HP;
+    int HpMax => CoreWrapper.Mob.HpMax;
+    double Time => CoreWrapper.TimeLimit.Remaining;
+    double TimeMax => CoreWrapper.TimeLimit.Maximum;
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+
+    string GetTimeString(double time)
+    {
+        return $"{time:0.###} s";
+    }
+
+    string PctString(double current, double max)
+    {
+        return $"{current / max:0%}";
+    }
+
+    int TimeToInt(double time)
+    {
+        return (int)(time * 1000);
+    }
+}

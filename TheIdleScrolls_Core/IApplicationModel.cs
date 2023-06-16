@@ -24,4 +24,5 @@ namespace TheIdleScrolls_Core
     public record MobRepresentation(uint Id, string Name, int Level, int HP, int HpMax);
     public record DungeonRepresentation(string Id, string Name, int Level, string Description, int Rarity);
     public record AchievementRepresentation(string Title, string Description, bool Earned);
+    public record AreaRepresentation(string Name, int Level, bool IsDungeon);
 }

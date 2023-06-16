@@ -39,6 +39,7 @@
     protected override void OnInitialized()
     {
         CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
     }
     //int AttackCooldown => CooldownToInt(m_model.AttackCooldown);
     //int AttackProgress => CooldownToInt(m_model.AttackCooldown) - CooldownToInt(m_model.AttackRemainingCooldown);
