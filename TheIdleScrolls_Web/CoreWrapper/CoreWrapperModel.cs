@@ -42,11 +42,13 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public CharacterRepresentation Character { get; set; } = new(0, "", "", 0);
         public int XpCurrent { get; set; } = 0;
         public int XpTarget { get; set; } = 0;
-        public TimeLimit TimeLimit { get; set; } = new();
-        public AreaRepresentation Area { get; set; } = new("", 0, false);
-        public MobRepresentation Mob { get; set; } = new(0, "", 0, 0, 0);
+        public TimeLimit TimeLimit { get; private set; } = new();
+        public AreaRepresentation Area { get; private set; } = new("", 0, false);
+        public MobRepresentation Mob { get; private set; } = new(0, "", 0, 0, 0);
         public AccessibleAreas Accessible { get; } = new();
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
+        public Equipment Equipment { get; private set; } = new();
+        public List<ItemRepresentation> Inventory { get; private set; } = new();
 
 
         public bool IsFeatureAvailable(GameFeature feature) => AvailableFeatures.Contains(feature);
@@ -121,6 +123,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 else
                     AvailableFeatures.Remove(feature);
             };
+            emitter.PlayerEquipmentChanged += (List<ItemRepresentation> items) => Equipment.SetItems(items);
+            emitter.PlayerInventoryChanged += (List<ItemRepresentation> items) => Inventory = items;
         }
     }
 }

@@ -1,0 +1,43 @@
+@using TheIdleScrolls_Core
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="equipFrame">
+    <div class="equipLine">
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Head)">@GetItemName(ExactEquipSlot.Head, "Head")</p>
+    </div>
+    <div class="equipLine">
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.MainHand)">@GetItemName(ExactEquipSlot.MainHand, "Hand")</p>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Chest)">@GetItemName(ExactEquipSlot.Chest, "Chest")</p>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.OffHand)">@GetItemName(ExactEquipSlot.OffHand, "Hand")</p>
+    </div>
+    <div class="equipLine">
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Arms)">@GetItemName(ExactEquipSlot.Arms, "Arms")</p>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Legs)">@GetItemName(ExactEquipSlot.Legs, "Legs")</p>
+    </div>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+
+    ItemRepresentation? GetItem(ExactEquipSlot slot) => CoreWrapper.Equipment.GetItem(slot);
+    string GetItemName(ItemRepresentation? item, string _default) => (item != null) ? item.Name : _default;
+    string GetItemName(ExactEquipSlot slot, string _default) => GetItemName(GetItem(slot), _default);
+
+    string GetClassesForItem(ItemRepresentation? item)
+    {
+        string classes = "";
+        if (item == null)
+            classes += " emptySlot";
+        if (item?.Crafted ?? false)
+            classes += " crafted";
+
+        return classes;
+    }
+    string GetClassesForItem(ExactEquipSlot slot) => GetClassesForItem(GetItem(slot));
+}

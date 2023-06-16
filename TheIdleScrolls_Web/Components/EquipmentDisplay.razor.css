@@ -1,0 +1,29 @@
+div.equipFrame {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border: solid 1px gray;
+    background-color: var(--back-color);
+}
+
+div.equipLine {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+p.equipSlot {
+    font-size: 18px;
+    border: solid 1px black;
+    width: 30%;
+    margin: 10px;
+}
+
+p.emptySlot {
+    color: slategray;
+    font-style: italic;
+}
+
+p.crafted {
+    font: italic;
+}
