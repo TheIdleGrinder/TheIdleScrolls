@@ -1,0 +1,28 @@
+﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="framed">
+    <ul>
+        @foreach(var item in Items)
+        {
+            <li @ondblclick=@(() => EquipItem(item.Id))>@item.Name</li>
+        }
+    </ul>
+</div>
+
+@code {
+    List<ItemRepresentation> Items => CoreWrapper.Inventory;
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+
+    void EquipItem(uint id)
+    {
+        CoreWrapper.InputHandler.EquipItem(CoreWrapper.Character.Id, id);
+    }
+}

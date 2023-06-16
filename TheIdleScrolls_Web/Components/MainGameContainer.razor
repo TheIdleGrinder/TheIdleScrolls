@@ -24,7 +24,10 @@
         }
         @if (m_activeTab == Tab.Inventory)
         {
-            <EquipmentDisplay></EquipmentDisplay>
+            <div class="spaced-items">
+                <EquipmentDisplay></EquipmentDisplay>
+                <InventoryDisplay></InventoryDisplay>
+            </div>
         }
         @if (m_activeTab == Tab.Achievements)
         {
