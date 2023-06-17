@@ -12,18 +12,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
     public delegate void CharacterLoadedHandler();
     public delegate void StateChangedHandler();
 
-    public class TimeLimit
-    {
-        public double Remaining { get; set; } = 0.0;
-        public double Maximum { get; set; } = 0.0;
-    }
-
-    public class AccessibleAreas
-    {
-        public int MaxWilderness { get; set; } = 0;
-        public List<DungeonRepresentation> Dungeons { get; set; } = new();
-    }
-
     public class CoreWrapperModel : IApplicationModel
     {
         DataAccessHandler dataHandler;
@@ -49,6 +37,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
         public Equipment Equipment { get; private set; } = new();
         public List<ItemRepresentation> Inventory { get; private set; } = new();
+        public CharacterStats CharacterStats { get; private set; } = new();
+        
 
 
         public bool IsFeatureAvailable(GameFeature feature) => AvailableFeatures.Contains(feature);
@@ -125,6 +115,18 @@ namespace TheIdleScrolls_Web.CoreWrapper
             };
             emitter.PlayerEquipmentChanged += (List<ItemRepresentation> items) => Equipment.SetItems(items);
             emitter.PlayerInventoryChanged += (List<ItemRepresentation> items) => Inventory = items;
+            emitter.PlayerOffenseChanged += (double dmg, double cdMax, double cd) =>
+            {
+                CharacterStats.Damage = dmg;
+                CharacterStats.Cooldown = cdMax;
+                CharacterStats.CooldownRemaining = cd;
+            };
+            emitter.PlayerDefenseChanged += (double armor, double evasion) =>
+            {
+                CharacterStats.Armor = armor;
+                CharacterStats.Evasion = evasion;
+            };
+            emitter.PlayerEncumbranceChanged += (double encumbrance) => CharacterStats.Encumbrance = encumbrance;
         }
     }
 }

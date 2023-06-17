@@ -9,49 +9,45 @@
 
     <progress title="@CoreWrapper.XpCurrent / @CoreWrapper.XpTarget XP" value="@CoreWrapper.XpCurrent" max="@CoreWrapper.XpTarget"></progress>
 
-@*    <hr class="thick">
+    <hr class="thick">
 
     <table>
         <tr>
             <td>Damage</td>
-            <td>12346</td>
-            <td>6173 / s</td>
+            <td>@FormatValue(Stats.Damage)</td>
+            <td>@(FormatValue(Stats.Damage / Stats.Cooldown)) / s</td>
             <td><progress value="@AttackProgress" max="@AttackCooldown"></progress></td>
         </tr>
         <tr>
             <td>Armor</td>
-            <td>12345</td>
+            <td>@FormatValue(Stats.Armor)</td>
         </tr>
         <tr>
             <td>Evasion</td>
-            <td>0</td>
+            <td>@FormatValue(Stats.Evasion)</td>
         </tr>
         <tr>
             <td>Encumbrance</td>
-            <td>24%</td>
+            <td>@(FormatValue(Stats.Encumbrance)) %</td>
         </tr>
-    </table>*@
+    </table>
 
 </div>
 
 
 @code {
+    CharacterStats Stats => CoreWrapper.CharacterStats;
+
     protected override void OnInitialized()
     {
         CoreWrapper.StateChanged += StateHasChanged;
         base.OnInitialized();
     }
-    //int AttackCooldown => CooldownToInt(m_model.AttackCooldown);
-    //int AttackProgress => CooldownToInt(m_model.AttackCooldown) - CooldownToInt(m_model.AttackRemainingCooldown);
 
-    //protected override Task OnInitializedAsync()
-    //{
-    //    UpdateLoop();
-    //    return base.OnInitializedAsync();
-    //}
+    int AttackCooldown => CooldownToInt(Stats.Cooldown);
+    int AttackProgress => CooldownToInt(Stats.Cooldown) - CooldownToInt(Stats.CooldownRemaining);
 
-    //string FormatTime(double time)
-    //{
-    //    return $"{time:0.##} s";
-    //}
+    string FormatValue(double value) => $"{value:0.##}";
+    int CooldownToInt(double time) => (int)(time * 1000);    
+    string FormatTime(double time) => $"{time:0.##} s";
 }
