@@ -75,7 +75,6 @@ namespace TheIdleScrolls_Core
             m_coordinator.AddEntity(globalEntity);
             m_world.GlobalEntity = globalEntity;
 
-            Logger.LogMessage("Before loading the char");
             var player = await PlayerFactory.MakeOrLoadPlayer(playerName, m_dataHandler);
             AddPlayerToCoordinator(player);
 

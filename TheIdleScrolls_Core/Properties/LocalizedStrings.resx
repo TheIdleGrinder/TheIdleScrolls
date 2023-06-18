@@ -477,7 +477,7 @@ This dungeon awards armor pieces</value>
     <value>Imp</value>
   </data>
   <data name="MOB_LESSERDEMON" xml:space="preserve">
-    <value>Lessor Demon of the Void</value>
+    <value>Lesser Demon of the Void</value>
   </data>
   <data name="MOB_MARTIALARTIST" xml:space="preserve">
     <value>Martial Artist</value>

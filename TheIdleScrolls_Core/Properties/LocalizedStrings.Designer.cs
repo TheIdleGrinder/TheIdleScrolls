@@ -1134,7 +1134,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Lessor Demon of the Void ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lesser Demon of the Void ähnelt.
         /// </summary>
         internal static string MOB_LESSERDEMON {
             get {
