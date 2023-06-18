@@ -1,0 +1,37 @@
+@using TheIdleScrolls_Core
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="outer">
+    <div class="dungeons">
+        @foreach (var dungeon in Dungeons)
+            {
+                <button class="dungeon" @onclick="@(() => SelectedDungeon = dungeon)">@dungeon.Name</button>
+            }
+    </div>
+    <div class="right">
+        <div class="description">
+            @(SelectedDungeon?.Description ?? "")
+        </div>
+        <button class="enter" @onclick="EnterDungeon">Enter!</button>
+    </div>
+</div>
+
+@code {
+    List<DungeonRepresentation> Dungeons => CoreWrapper.Accessible.Dungeons;
+
+    DungeonRepresentation? SelectedDungeon = null;
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+
+    void EnterDungeon()
+    {
+        if (SelectedDungeon != null)
+            CoreWrapper.InputHandler.EnterDungeon(SelectedDungeon.Id);
+    }
+}

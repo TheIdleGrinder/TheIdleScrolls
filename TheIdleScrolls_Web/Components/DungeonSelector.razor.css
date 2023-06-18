@@ -1,0 +1,37 @@
+div.outer {
+    display: flex;
+    flex-direction: row;
+}
+
+div.dungeons {
+    display: table;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 65%;
+}
+
+div.right {
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    min-height: 200px;
+}
+
+div.description {
+    border: solid 1px var(--frame-color); 
+    padding: 5px;
+    flex: 1 0 auto;
+}
+
+button.dungeon {
+    padding: 5px 15px 5px 15px;
+    margin: 5px;
+    max-height: fit-content;
+}
+
+button.enter {
+    margin-top: 10px;
+    width: 35%;
+    flex: 0 1 auto;
+    align-self: center;
+}

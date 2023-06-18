@@ -11,7 +11,7 @@
         <h3>@CoreWrapper.Area.Name</h3>
         @if (InDungeon)
             {
-                <button class="leave">Leave</button>
+                <button class="leave" @onclick=@(() => CoreWrapper.InputHandler.LeaveDungeon())>Leave</button>
             }
     </div>
     @if (!InDungeon && CanTravel)
