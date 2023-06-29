@@ -10,6 +10,7 @@ using TheIdleScrolls_Core.Components;
 
 namespace TheIdleScrolls_Core.DataAccess
 {
+    [ObsoleteAttribute("This converter is obsolete and does not convert the entire entity", true)]
     public class BasicPlayerEntityConverter : IEntityConverter
     {
         public Entity? DeserializeEntity(string serialized)
