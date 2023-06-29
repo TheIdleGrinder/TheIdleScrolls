@@ -3,15 +3,24 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div class="framed">
-    <ul>
-        @foreach(var item in Items)
-        {
-            <li class="@(CssUtilities.GetClassesForItem(item))" @ondblclick=@(() => EquipItem(item.Id))>
-                @item.Name
-            </li>
-        }
-    </ul>
+<div class="scrolling-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Items)
+            {
+                <tr>
+                    <td class="@(CssUtilities.GetClassesForItem(item))" @ondblclick=@(() => EquipItem(item.Id))>
+                        @item.Name
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
 @code {
