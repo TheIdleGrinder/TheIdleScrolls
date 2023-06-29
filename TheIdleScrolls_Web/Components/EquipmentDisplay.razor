@@ -5,16 +5,28 @@
 
 <div class="equipFrame">
     <div class="equipLine">
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Head)">@GetItemName(ExactEquipSlot.Head, "Head")</p>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Head)" @onclick=@(() => UnequipItem(ExactEquipSlot.Head))>
+            @GetItemName(ExactEquipSlot.Head, "Head")
+        </p>
     </div>
     <div class="equipLine">
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.MainHand)">@GetItemName(ExactEquipSlot.MainHand, "Hand")</p>
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Chest)">@GetItemName(ExactEquipSlot.Chest, "Chest")</p>
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.OffHand)">@GetItemName(ExactEquipSlot.OffHand, "Hand")</p>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.MainHand)" @onclick=@(() => UnequipItem(ExactEquipSlot.MainHand))>
+           @GetItemName(ExactEquipSlot.MainHand, "Hand")
+        </p>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Chest)" @onclick=@(() => UnequipItem(ExactEquipSlot.Chest))>
+            @GetItemName(ExactEquipSlot.Chest, "Chest")
+        </p>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.OffHand)" @onclick=@(() => UnequipItem(ExactEquipSlot.OffHand))>
+            @GetItemName(ExactEquipSlot.OffHand, "Hand")
+        </p>
     </div>
     <div class="equipLine">
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Arms)">@GetItemName(ExactEquipSlot.Arms, "Arms")</p>
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Legs)">@GetItemName(ExactEquipSlot.Legs, "Legs")</p>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Arms)" @onclick=@(() => UnequipItem(ExactEquipSlot.Arms))>
+            @GetItemName(ExactEquipSlot.Arms, "Arms")
+        </p>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Legs)" @onclick=@(() => UnequipItem(ExactEquipSlot.Legs))>
+            @GetItemName(ExactEquipSlot.Legs, "Legs")
+        </p>
     </div>
 </div>
 
@@ -29,15 +41,14 @@
     string GetItemName(ItemRepresentation? item, string _default) => (item != null) ? item.Name : _default;
     string GetItemName(ExactEquipSlot slot, string _default) => GetItemName(GetItem(slot), _default);
 
-    string GetClassesForItem(ItemRepresentation? item)
-    {
-        string classes = "";
-        if (item == null)
-            classes += " emptySlot";
-        if (item?.Crafted ?? false)
-            classes += " crafted";
+    string GetClassesForItem(ExactEquipSlot slot) => CssUtilities.GetClassesForItem(GetItem(slot));
 
-        return classes;
+    void UnequipItem(ExactEquipSlot slot)
+    {
+        var item = GetItem(slot);
+        if (item != null)
+        {
+            CoreWrapper.InputHandler.UnequipItem(CoreWrapper.Character.Id, item.Id);
+        }
     }
-    string GetClassesForItem(ExactEquipSlot slot) => GetClassesForItem(GetItem(slot));
 }
