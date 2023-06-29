@@ -59,6 +59,64 @@ a, .btn-link {
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
-    }
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
+
+.rarity-none {
+    color: dimgray;
+    font-style: italic;
+}
+.rarity-0 {
+    color: black;
+}
+.rarity-1 {
+    color: purple;
+}
+.rarity-2 {
+    color: mediumblue;
+}
+.rarity-3 {
+    color: teal;
+}
+.rarity-4 {
+    color: forestgreen;
+}
+.rarity-5 {
+    color: yellowgreen;
+}
+.rarity-6 {
+    color: goldenrod;
+}
+.rarity-7 {
+    color: red;
+}
+.rare-item {
+    font-weight: bold;
+}
+
+table.scrolling {
+    position: relative;
+    border-collapse: collapse;
+    width: 100%;
+    max-height: 500px;
+    overflow: scroll;
+    border: 1px solid gray;
+}
+table.scrolling > thead {
+    background-color: lightblue;
+}
+table.scrolling > tbody > tr {
+    padding: 5px;
+    border-bottom: 1px solid gray;
+}
+th.scrolling {
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    position: sticky;
+    top: 0;
+}
+td.scrolling {
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+}

@@ -1,0 +1,36 @@
+@using TheIdleScrolls_Web.CoreWrapper
+@using TheIdleScrolls_Core
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="achOuter">
+    <div class="topRow">
+        <p>Completed: @AchievementsEarned / @TotalAchievements</p>
+    </div>
+    <div>
+        <table class="scrolling">
+            <thead>
+                <tr>
+                    <th class="scrolling">Title</th>
+                    <th class="scrolling">Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var achievement in Achievements)
+                {
+                    <tr class="@(achievement.Earned ? "earned" : "unearned")">
+                        <td class="scrolling">@achievement.Title</td>
+                        <td class="scrolling">@achievement.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@code {
+    List<AchievementRepresentation> Achievements => CoreWrapper.Achievements;
+    int TotalAchievements => CoreWrapper.AchievementCount;
+    int AchievementsEarned => Achievements.Count(a => a.Earned);
+}

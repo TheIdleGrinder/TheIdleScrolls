@@ -38,7 +38,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public Equipment Equipment { get; private set; } = new();
         public List<ItemRepresentation> Inventory { get; private set; } = new();
         public CharacterStats CharacterStats { get; private set; } = new();
-        
+        public List<AchievementRepresentation> Achievements { get; private set; } = new();
+        public int AchievementCount { get; private set; } = 0;
 
 
         public bool IsFeatureAvailable(GameFeature feature) => AvailableFeatures.Contains(feature);
@@ -127,6 +128,11 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 CharacterStats.Evasion = evasion;
             };
             emitter.PlayerEncumbranceChanged += (double encumbrance) => CharacterStats.Encumbrance = encumbrance;
+            emitter.AchievementsChanged += (List<AchievementRepresentation> achievements, int count) =>
+            {
+                Achievements = achievements;
+                AchievementCount = count;
+            };
         }
     }
 }

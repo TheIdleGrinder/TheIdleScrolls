@@ -1,0 +1,23 @@
+div.achOuter {
+    display: flex;
+    flex-direction: column;
+    background: var(--back-color);
+    padding: 5px;
+}
+
+div.topRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex: 0 1 auto;
+}
+
+tr.earned {
+    color: black;
+}
+
+tr.unearned {
+    color: gray;
+    font-style: italic;
+    background-color: lightgray;
+}

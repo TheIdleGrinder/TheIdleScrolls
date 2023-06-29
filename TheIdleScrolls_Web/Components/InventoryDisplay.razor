@@ -7,7 +7,9 @@
     <ul>
         @foreach(var item in Items)
         {
-            <li @ondblclick=@(() => EquipItem(item.Id))>@item.Name</li>
+            <li class="@(CssUtilities.GetClassesForItem(item))" @ondblclick=@(() => EquipItem(item.Id))>
+                @item.Name
+            </li>
         }
     </ul>
 </div>
