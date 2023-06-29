@@ -95,28 +95,36 @@ a, .btn-link {
     font-weight: bold;
 }
 
-table.scrolling {
+div.scrolling-table {
+    max-height: 500px;
+    width: 100%;
+    overflow-y: scroll;
+    border: 1px solid black;
+    flex: 0 1 auto;
+}
+
+div.scrolling-table table {
     position: relative;
     border-collapse: collapse;
     width: 100%;
-    max-height: 500px;
-    overflow: scroll;
+    height: 100%;
     border: 1px solid gray;
 }
-table.scrolling > thead {
+
+div.scrolling-table table thead tr th {
     background-color: lightblue;
-}
-table.scrolling > tbody > tr {
-    padding: 5px;
-    border-bottom: 1px solid gray;
-}
-th.scrolling {
     border-left: 1px solid gray;
     border-right: 1px solid gray;
     position: sticky;
     top: 0;
 }
-td.scrolling {
+
+div.scrolling-table table tbody tr {
+    padding: 5px;
+    border-bottom: 1px solid gray;
+}
+
+div.scrolling-table table tbody tr td {
     border-left: 1px solid gray;
     border-right: 1px solid gray;
 }
