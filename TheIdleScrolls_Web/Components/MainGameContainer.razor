@@ -29,6 +29,10 @@
                 <InventoryDisplay></InventoryDisplay>
             </div>
         }
+        @if (m_activeTab == Tab.Abilities)
+        {
+            <AbilitiesDisplay></AbilitiesDisplay>
+        }
         @if (m_activeTab == Tab.Achievements)
         {
             <AchievementDisplay></AchievementDisplay>

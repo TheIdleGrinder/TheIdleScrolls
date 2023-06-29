@@ -1,0 +1,36 @@
+﻿@using TheIdleScrolls_Web.CoreWrapper
+@using TheIdleScrolls_Core
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="scrolling-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Level</th>
+                <th>Progress</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ability in Abilities)
+            {
+                <tr>
+                    <td>@ability.Name</td>
+                    <td>@ability.Level</td>
+                    <td>@($"{1.0 * ability.XP / ability.TargetXP:0.##%}")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    List<AbilityRepresentation> Abilities => CoreWrapper.Abilities;
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+}

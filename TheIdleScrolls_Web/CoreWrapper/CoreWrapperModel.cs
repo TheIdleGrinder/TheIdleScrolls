@@ -39,6 +39,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<ItemRepresentation> Inventory { get; private set; } = new();
         public CharacterStats CharacterStats { get; private set; } = new();
         public List<AchievementRepresentation> Achievements { get; private set; } = new();
+        public List<AbilityRepresentation> Abilities { get; private set; } = new();
         public int AchievementCount { get; private set; } = 0;
 
 
@@ -133,6 +134,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 Achievements = achievements;
                 AchievementCount = count;
             };
+            emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
         }
     }
 }
