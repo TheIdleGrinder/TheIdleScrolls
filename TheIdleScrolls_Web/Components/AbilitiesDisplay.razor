@@ -18,7 +18,10 @@
                 <tr>
                     <td>@ability.Name</td>
                     <td>@ability.Level</td>
-                    <td>@($"{1.0 * ability.XP / ability.TargetXP:0.##%}")</td>
+                    <td class="ability-progress">
+                        <span class="progress-value">@($"{1.0 * ability.XP / ability.TargetXP:0%}")</span>
+                        <progress value="@ability.XP" max="@ability.TargetXP"></progress>
+                    </td>
                 </tr>
             }
         </tbody>

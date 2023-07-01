@@ -1,0 +1,15 @@
+﻿td.ability-progress {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+span.progress-value {
+    width: 40px;
+    text-align: left;
+    flex: 0 0 auto;
+}
+
+progress {
+    width: 80%;
+}
