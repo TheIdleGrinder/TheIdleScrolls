@@ -30,7 +30,7 @@ div.framed {
     width: 40%;
     background-color: aquamarine;
     min-height: var(--min-height);
-    max-height: 700px;
+/*    max-height: 700px;*/
 }
 
 .right-frame {
@@ -59,25 +59,30 @@ div.spaced-items {
     border: 1px solid #ccc;
     background-color: #f1f1f1;
     justify-content: left;
+    flex: 0 0 auto;
 }
 
-    .tabs button {
-        background-color: inherit;
-        float: left;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-    }
+.tabs button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
 
-        /* Change background color of buttons on hover */
-        .tabs button:hover {
-            background-color: #ddd;
-        }
+/* Change background color of buttons on hover */
+.tabs button:hover {
+    background-color: #ddd;
+}
 
-        /* Create an active/current tablink class */
-        .tabs button.active {
-            background-color: #ccc;
-        }body {
+/* Create an active/current tablink class */
+.tabs button.active {
+    background-color: #ccc;
+}body {
+}
+
+p {
+    font-size: 24px;
 }

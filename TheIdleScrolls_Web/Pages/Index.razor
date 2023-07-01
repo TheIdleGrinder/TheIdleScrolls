@@ -17,7 +17,7 @@
 		<ul>
 			@foreach (string charName in CoreWrapper.StoredCharacters.Where(c => !c.StartsWith("_"))) // null check above
 			{
-				<li @onclick=@(() => StartGame("Leeroy"))>@charName</li>
+				<li style="cursor:pointer" @onclick=@(() => StartGame(charName))>@charName</li>
 			}
 		</ul>
 	}
