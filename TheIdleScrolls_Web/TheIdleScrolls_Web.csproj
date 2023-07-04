@@ -17,5 +17,13 @@
     <ProjectReference Include="..\TheIdleScrolls_Storage\TheIdleScrolls_JSON.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\StatisticsDisplay.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Components\StatisticsDisplay.razor" />
+  </ItemGroup>
+
 
 </Project>

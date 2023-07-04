@@ -41,6 +41,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<AchievementRepresentation> Achievements { get; private set; } = new();
         public List<AbilityRepresentation> Abilities { get; private set; } = new();
         public int AchievementCount { get; private set; } = 0;
+        public string StatisticsReport { get; private set; } = String.Empty;
 
 
         public bool IsFeatureAvailable(GameFeature feature) => AvailableFeatures.Contains(feature);
@@ -135,6 +136,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 AchievementCount = count;
             };
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
+            emitter.StatReportChanged += (string report) => StatisticsReport = report;
         }
     }
 }

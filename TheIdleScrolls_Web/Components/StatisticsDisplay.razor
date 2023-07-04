@@ -1,0 +1,24 @@
+﻿@using TheIdleScrolls_Web.CoreWrapper
+@using TheIdleScrolls_Core
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="outer" style="display:flex; flex-direction:column; overflow-y:scroll">
+    <h3>Statistics</h3>
+    @foreach (var line in ReportLines)
+    {
+        <p>@line</p>
+    }
+</div>
+
+@code {
+    string StatReport => CoreWrapper.StatisticsReport;
+
+    List<string> ReportLines => StatReport.Split("\n").ToList();
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+}
