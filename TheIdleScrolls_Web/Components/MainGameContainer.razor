@@ -3,12 +3,13 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="main-frame">
-    <div class="left-frame framed">
+    <div class="left-frame" style="height: 600px">
         <CurrentAreaSelector></CurrentAreaSelector>
         <FightStateIndicator></FightStateIndicator>
     </div>
     <div class="right-frame">
-        <div class="tabs">
+        <CharacterOverview></CharacterOverview>
+        <div class="tabs" style="margin-top: 10px">
             <button class="tablinks @AddTabClass(Tab.Travel)" @onclick="@(() => SetTab(Tab.Travel))">Travel</button>
             <button class="tablinks @AddTabClass(Tab.Inventory)" @onclick="@(() => SetTab(Tab.Inventory))">Inventory</button>
             <button class="tablinks @AddTabClass(Tab.Abilities)" @onclick="@(() => SetTab(Tab.Abilities))">Abilities</button>
@@ -17,10 +18,7 @@
         </div>
         @if (m_activeTab == Tab.Travel)
         {
-            <div class="spaced-items">
-                <CharacterOverview></CharacterOverview>
-                <DungeonSelector></DungeonSelector>
-            </div>
+            <DungeonSelector></DungeonSelector>
         }
         @if (m_activeTab == Tab.Inventory)
         {
@@ -49,7 +47,6 @@
         --text-color: black;
         --back-color: white;
         --frame-color: slategray;
-        --min-height: 600px;
     }
 </style>
 
@@ -57,8 +54,6 @@
     enum Tab { Travel, Inventory, Abilities, Achievements, Stats };
 
     Tab m_activeTab = Tab.Travel;
-
-    //AchievementDisplay achievementDisplay = new();
 
     void SetTab(Tab tab)
     {

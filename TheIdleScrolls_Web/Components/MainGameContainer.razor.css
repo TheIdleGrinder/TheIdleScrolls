@@ -19,7 +19,6 @@ div.framed {
     display: flex;
     color: var(--text-color);
     background-color: var(--back-color);
-    height: var(--min-height);
     min-width: 1000px;
 }
 
@@ -29,16 +28,15 @@ div.framed {
     justify-content: space-between;
     width: 40%;
     background-color: aquamarine;
-    min-height: var(--min-height);
-/*    max-height: 700px;*/
+    height: 700px;    
 }
 
 .right-frame {
     display: flex;
     flex-direction: column;
     width: 60%;
-    background-color: coral;
-    min-height: var(--min-height);
+/*    background-color: coral;
+    min-height: var(--min-height);*/
     border: solid 1px slategray;
 }
 
