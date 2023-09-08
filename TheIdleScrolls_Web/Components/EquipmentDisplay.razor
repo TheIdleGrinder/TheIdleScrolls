@@ -5,26 +5,38 @@
 
 <div class="equipFrame">
     <div class="equipLine">
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Head)" @onclick=@(() => UnequipItem(ExactEquipSlot.Head))>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Head)" 
+        @onclick=@(() => SelectItem(ExactEquipSlot.Head))
+        @ondblclick=@(() => UnequipItem(ExactEquipSlot.Head))>
             @GetItemName(ExactEquipSlot.Head, "Head")
         </p>
     </div>
     <div class="equipLine">
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.MainHand)" @onclick=@(() => UnequipItem(ExactEquipSlot.MainHand))>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.MainHand)"
+        @onclick=@(() => SelectItem(ExactEquipSlot.MainHand))
+        @ondblclick=@(() => UnequipItem(ExactEquipSlot.MainHand))>
            @GetItemName(ExactEquipSlot.MainHand, "Hand")
         </p>
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Chest)" @onclick=@(() => UnequipItem(ExactEquipSlot.Chest))>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Chest)"
+        @onclick=@(() => SelectItem(ExactEquipSlot.Chest))
+        @ondblclick=@(() => UnequipItem(ExactEquipSlot.Chest))>
             @GetItemName(ExactEquipSlot.Chest, "Chest")
         </p>
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.OffHand)" @onclick=@(() => UnequipItem(ExactEquipSlot.OffHand))>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.OffHand)" 
+        @onclick=@(() => SelectItem(ExactEquipSlot.OffHand))
+        @ondblclick=@(() => UnequipItem(ExactEquipSlot.OffHand))>
             @GetItemName(ExactEquipSlot.OffHand, "Hand")
         </p>
     </div>
     <div class="equipLine">
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Arms)" @onclick=@(() => UnequipItem(ExactEquipSlot.Arms))>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Arms)" 
+        @onclick=@(() => SelectItem(ExactEquipSlot.Arms))
+        @ondblclick=@(() => UnequipItem(ExactEquipSlot.Arms))>
             @GetItemName(ExactEquipSlot.Arms, "Arms")
         </p>
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Legs)" @onclick=@(() => UnequipItem(ExactEquipSlot.Legs))>
+        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Legs)" 
+        @onclick=@(() => SelectItem(ExactEquipSlot.Legs))
+        @ondblclick=@(() => UnequipItem(ExactEquipSlot.Legs))>
             @GetItemName(ExactEquipSlot.Legs, "Legs")
         </p>
     </div>
@@ -41,7 +53,25 @@
     string GetItemName(ItemRepresentation? item, string _default) => (item != null) ? item.Name : _default;
     string GetItemName(ExactEquipSlot slot, string _default) => GetItemName(GetItem(slot), _default);
 
-    string GetClassesForItem(ExactEquipSlot slot) => CssUtilities.GetClassesForItem(GetItem(slot));
+    string GetClassesForItem(ExactEquipSlot slot) 
+    {
+        var item = GetItem(slot);
+        string result = CssUtilities.GetClassesForItem(item);
+        if (item != null)
+        {
+            result += CoreWrapper.IsItemHighlighted(item.Id) ? " selectedItem" : "";
+        }
+        return result;
+    }
+
+    void SelectItem(ExactEquipSlot slot)
+    {
+        var item = GetItem(slot);
+        if (item != null)
+        {
+            CoreWrapper.ToggleItemHighlight(item.Id);
+        }
+    }
 
     void UnequipItem(ExactEquipSlot slot)
     {

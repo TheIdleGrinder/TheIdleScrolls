@@ -43,7 +43,9 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public int AchievementCount { get; private set; } = 0;
         public string StatisticsReport { get; private set; } = String.Empty;
 
-
+        // (Ab)use wrapper to store the currently hightlighted item used in InventoryDisplay and EquipmentDisplay
+        public uint HighlightedItem { get; private set; } = uint.MaxValue;
+        
         public bool IsFeatureAvailable(GameFeature feature) => AvailableFeatures.Contains(feature);
 
         public CoreWrapperModel(IJSRuntime js)
@@ -137,6 +139,24 @@ namespace TheIdleScrolls_Web.CoreWrapper
             };
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
+        }
+
+        public bool ToggleItemHighlight(uint itemId)
+        {
+            if (HighlightedItem != itemId)
+            {
+                HighlightedItem = itemId;
+                return true;
+            }
+            else
+            {
+                HighlightedItem = uint.MaxValue;
+                return false;
+            }
+        }
+        public bool IsItemHighlighted(uint itemId)
+        {
+            return HighlightedItem == itemId;
         }
     }
 }

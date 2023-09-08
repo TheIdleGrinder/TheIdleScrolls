@@ -129,3 +129,11 @@ div.scrolling-table table tbody tr td {
     border-left: 1px solid gray;
     border-right: 1px solid gray;
 }
+
+div.scrolling-table table tbody tr td.selectable {
+    cursor: pointer;
+}
+
+.selectedItem {
+    background-color: lightskyblue;
+}
