@@ -37,6 +37,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
         public Equipment Equipment { get; private set; } = new();
         public List<ItemRepresentation> Inventory { get; private set; } = new();
+        public int Coins { get; private set; } = 0;
         public CharacterStats CharacterStats { get; private set; } = new();
         public List<AchievementRepresentation> Achievements { get; private set; } = new();
         public List<AbilityRepresentation> Abilities { get; private set; } = new();
@@ -120,6 +121,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             };
             emitter.PlayerEquipmentChanged += (List<ItemRepresentation> items) => Equipment.SetItems(items);
             emitter.PlayerInventoryChanged += (List<ItemRepresentation> items) => Inventory = items;
+            emitter.PlayerCoinsChanged += (int coins) => Coins = coins;
             emitter.PlayerOffenseChanged += (double dmg, double cdMax, double cd) =>
             {
                 CharacterStats.Damage = dmg;

@@ -5,15 +5,21 @@
 
 <div id="highlightedItemContainer">
     <div id="highlightedItem">
-        <span id="highlightedItemName" class="@(CssUtilities.GetClassesForItem(HighlightedItem))">@HighlightedItem?.Name</span>
+        <h5 id="highlightedItemName" class="@(CssUtilities.GetClassesForItem(HighlightedItem))">@HighlightedItem?.Name</h5>
         @foreach (string line in ItemDescriptionLines)
         {
             <span id="highlightedItemDescription">@line</span>
         }
     </div>
-    <button id="btnEquip" @onclick="ToggleEquip">@(IsItemEquipped(HighlightedItem) ? "Unequip" : "Equip")</button>
-    <button id="btnSell" @onclick="SellItem">Sell</button>
-    <button id="btnReforge" @onclick="ReforgeItem">Reforge</button>
+    <button id="btnEquip" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="ToggleEquip">
+        @(IsItemEquipped(HighlightedItem) ? "Unequip" : "Equip")
+    </button>
+    <button id="btnSell" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="SellItem">
+        @SellText
+    </button>
+    <button id="btnReforge" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="ReforgeItem">
+        @ReforgeText
+    </button>
 </div>
 
 <style>
@@ -32,10 +38,16 @@
         width: 80%;
         display: flex;
         flex-direction: column;
+        padding: 5px;
     }
 
     #highlightedItemName {
         
+    }
+
+    button.itemButton {
+        min-width: 150px;
+        max-width: 50%;
     }
 </style>
 
@@ -45,6 +57,9 @@
     List<string> ItemDescriptionLines => HighlightedItem?.Description?.Split(';')?.ToList() ?? new();
 
     uint CharId => CoreWrapper.Character.Id;
+
+    string SellText => "Sell" + ((HighlightedItem != null) ? $" (+{HighlightedItem?.Value}c)" : "");
+    string ReforgeText => "Reforge" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.ReforgingCost}c)" : "");
 
     protected override void OnInitialized()
     {
