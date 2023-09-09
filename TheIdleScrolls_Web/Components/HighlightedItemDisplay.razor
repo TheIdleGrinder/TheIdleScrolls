@@ -1,0 +1,92 @@
+﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div id="highlightedItemContainer">
+    <div id="highlightedItem">
+        <span id="highlightedItemName" class="@(CssUtilities.GetClassesForItem(HighlightedItem))">@HighlightedItem?.Name</span>
+        @foreach (string line in ItemDescriptionLines)
+        {
+            <span id="highlightedItemDescription">@line</span>
+        }
+    </div>
+    <button id="btnEquip" @onclick="ToggleEquip">@(IsItemEquipped(HighlightedItem) ? "Unequip" : "Equip")</button>
+    <button id="btnSell" @onclick="SellItem">Sell</button>
+    <button id="btnReforge" @onclick="ReforgeItem">Reforge</button>
+</div>
+
+<style>
+    #highlightedItemContainer {
+        flex: 1 1 0px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        gap: 5px;
+    }
+
+    #highlightedItem {
+        flex: 1 1 0px;
+        border: 1px solid black;
+        width: 80%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #highlightedItemName {
+        
+    }
+</style>
+
+@code {
+    ItemRepresentation? HighlightedItem => CoreWrapper.GetOwnedItem(CoreWrapper.HighlightedItem);
+
+    List<string> ItemDescriptionLines => HighlightedItem?.Description?.Split(';')?.ToList() ?? new();
+
+    uint CharId => CoreWrapper.Character.Id;
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+
+    bool IsItemEquipped(ItemRepresentation? item)
+    {
+        if (item == null)
+            return false;
+        return (CoreWrapper.Equipment.Items.Any(i => i.Id == item.Id));
+    }
+
+    void ToggleEquip()
+    {
+        if (HighlightedItem != null)
+        {
+            if (IsItemEquipped(HighlightedItem))
+            {
+                CoreWrapper.InputHandler.UnequipItem(CharId, HighlightedItem.Id);
+            }
+            else
+            {
+                CoreWrapper.InputHandler.EquipItem(CharId, HighlightedItem.Id);
+            }
+        }
+    }
+
+    void SellItem()
+    {
+        if (HighlightedItem != null)
+        {
+            CoreWrapper.InputHandler.SellItem(CharId, HighlightedItem.Id);
+        }
+    }
+
+    void ReforgeItem()
+    {
+        if (HighlightedItem != null)
+        {
+            CoreWrapper.InputHandler.ReforgeItem(CharId, HighlightedItem.Id);
+        }
+    }
+}

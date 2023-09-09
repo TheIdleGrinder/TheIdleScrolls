@@ -24,7 +24,10 @@
         {
             <div class="spaced-items">
                 <EquipmentDisplay></EquipmentDisplay>
-                <InventoryDisplay></InventoryDisplay>
+                <div style="display: flex; flex-direction: row;">
+                    <InventoryDisplay></InventoryDisplay>
+                    <HighlightedItemDisplay></HighlightedItemDisplay>
+                </div>
             </div>
         }
         @if (m_activeTab == Tab.Abilities)

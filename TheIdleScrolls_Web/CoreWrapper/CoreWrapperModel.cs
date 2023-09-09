@@ -158,5 +158,15 @@ namespace TheIdleScrolls_Web.CoreWrapper
         {
             return HighlightedItem == itemId;
         }
+
+        public ItemRepresentation? GetOwnedItem(uint itemId)
+        {
+            var result = Equipment.Items.FirstOrDefault(item => item.Id == itemId);
+            if (result == null)
+            {
+                result = Inventory.FirstOrDefault(item => item.Id == itemId);
+            }
+            return result;
+        }
     }
 }

@@ -36,6 +36,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public ItemRepresentation? Arms { get; set; }
         public ItemRepresentation? Legs { get; set; }
 
+        public List<ItemRepresentation> Items { get; private set; } = new();
+
         public Equipment()
         {
             Clear();
@@ -44,6 +46,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public void Clear()
         {
             Hand = OffHand = Chest = Head = Arms = Legs = null;
+            Items = new();
         }
 
         public ItemRepresentation? GetItem(ExactEquipSlot slot)
@@ -85,6 +88,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                     firstSlot = false;
                 }
             }
+            Items = items;
         }
     }
 }
