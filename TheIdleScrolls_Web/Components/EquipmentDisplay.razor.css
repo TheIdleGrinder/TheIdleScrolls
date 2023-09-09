@@ -19,6 +19,10 @@ p.equipSlot {
     margin: 10px;
 }
 
+p.hiddenSlot {
+    visibility: hidden;
+}
+
 p.emptySlot {
     font-style: italic;
 }

@@ -11,8 +11,14 @@
         <CharacterOverview></CharacterOverview>
         <div class="tabs" style="margin-top: 10px">
             <button class="tablinks @AddTabClass(Tab.Travel)" @onclick="@(() => SetTab(Tab.Travel))">Travel</button>
-            <button class="tablinks @AddTabClass(Tab.Inventory)" @onclick="@(() => SetTab(Tab.Inventory))">Inventory</button>
-            <button class="tablinks @AddTabClass(Tab.Abilities)" @onclick="@(() => SetTab(Tab.Abilities))">Abilities</button>
+            @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Inventory))
+            {
+                <button class="tablinks @AddTabClass(Tab.Inventory)" @onclick="@(() => SetTab(Tab.Inventory))">Inventory</button>
+            }
+            @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Abilities))
+            {
+                <button class="tablinks @AddTabClass(Tab.Abilities)" @onclick="@(() => SetTab(Tab.Abilities))">Abilities</button>
+            }
             <button class="tablinks @AddTabClass(Tab.Achievements)" @onclick="@(() => SetTab(Tab.Achievements))">Achievements</button>
             <button class="tablinks @AddTabClass(Tab.Stats)" @onclick="@(() => SetTab(Tab.Stats))">Stats</button>
         </div>

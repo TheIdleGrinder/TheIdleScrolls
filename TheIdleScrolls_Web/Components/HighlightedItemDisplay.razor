@@ -17,9 +17,12 @@
     <button id="btnSell" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="SellItem">
         @SellText
     </button>
-    <button id="btnReforge" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="ReforgeItem">
-        @ReforgeText
-    </button>
+    @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting))
+    {
+        <button id="btnReforge" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="ReforgeItem">
+            @ReforgeText
+        </button>
+    }
 </div>
 
 <style>

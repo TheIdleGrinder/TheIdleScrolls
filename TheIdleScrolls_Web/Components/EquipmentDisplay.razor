@@ -65,6 +65,10 @@
         {
             result += CoreWrapper.IsItemHighlighted(item.Id) ? " selectedItem" : "";
         }
+        if (CoreWrapper.IsFeatureAvailable(GameFeature.Armor) && slot != ExactEquipSlot.MainHand && slot != ExactEquipSlot.OffHand)
+        {
+            result += " hiddenSlot";
+        }
         return result;
     }
 
