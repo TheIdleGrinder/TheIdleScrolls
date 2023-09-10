@@ -21,7 +21,8 @@
 			}
 		</ul>
 	}
-
+	<input type="text" @bind="@NewCharName"/>
+	<button @onclick=@(() => StartGame(NewCharName))>Create</button>
 }
 else
 {
@@ -30,6 +31,8 @@ else
 
 @code
 {
+	string NewCharName { get; set; } = "";
+
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
