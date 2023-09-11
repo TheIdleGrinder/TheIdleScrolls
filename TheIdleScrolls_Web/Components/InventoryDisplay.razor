@@ -39,15 +39,19 @@
 @code {
     List<ItemRepresentation> Items => CoreWrapper.Inventory;
 
+    int selectedIndex = -1;
+
     protected override void OnInitialized()
     {
         CoreWrapper.StateChanged += StateHasChanged;
+        CoreWrapper.StateChanged += UpdateSelectedItem;
         base.OnInitialized();
     }
 
     void SelectItem(uint id)
     {
         CoreWrapper.ToggleItemHighlight(id);
+        selectedIndex = Items.FindIndex(item => item.Id == id);
         StateHasChanged();
     }
 
@@ -59,5 +63,23 @@
     string GetSelectionClass(ItemRepresentation item)
     {
         return CoreWrapper.IsItemHighlighted(item.Id) ? "selectedItem" : "";
+    }
+
+    void UpdateSelectedItem()
+    {
+        // Reset selected index if an equipped or no item is highlighted
+        if (CoreWrapper.HighlightedItem == uint.MaxValue || CoreWrapper.Equipment.Items.Any(item => item.Id == CoreWrapper.HighlightedItem))
+        {
+            selectedIndex = -1;
+        }
+        // Select a new item if the previously selected one is gone (e.g. was sold)
+        if (selectedIndex >= 0 && (selectedIndex >= Items.Count || !CoreWrapper.IsItemHighlighted(Items[selectedIndex].Id)))
+        {
+            selectedIndex = Math.Min(selectedIndex, Items.Count - 1);
+            if (selectedIndex >= 0)
+            {
+                SelectItem(Items[selectedIndex].Id);
+            }
+        }
     }
 }
