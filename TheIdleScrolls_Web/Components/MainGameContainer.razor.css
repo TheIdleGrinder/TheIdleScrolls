@@ -20,6 +20,7 @@ div.framed {
     color: var(--text-color);
     background-color: var(--back-color);
     min-width: 1000px;
+    max-height: calc(100vh - 100px);
 }
 
 .left-frame {
@@ -34,10 +35,11 @@ div.framed {
 .right-frame {
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
+    box-sizing: border-box;
     width: 60%;
-/*    background-color: coral;
-    min-height: var(--min-height);*/
-    border: solid 1px slategray;
+    border: solid 3px darkgreen;
+    max-height: inherit;
 }
 
 .left-frame + .right-frame {
@@ -46,7 +48,10 @@ div.framed {
 
 div.spaced-items {
     height: 100%;
+    max-height: 100%;
     display: flex;
+    flex: 1 1 auto;
+    box-sizing: border-box;
     flex-direction: column;
     justify-content: space-between;
 }

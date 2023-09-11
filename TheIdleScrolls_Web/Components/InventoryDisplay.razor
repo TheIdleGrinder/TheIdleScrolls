@@ -3,7 +3,7 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div style="flex: 1 1 0px">
+<div id="inventoryContainer">
     <div class="scrolling-table">
         <table>
             <thead>
@@ -26,6 +26,15 @@
         </table>
     </div>
 </div>
+
+<style>
+    #inventoryContainer {
+        flex: 1 1 auto;
+        margin: 10px;
+        box-sizing: border-box;
+        max-height: 100%;
+    }
+</style>
 
 @code {
     List<ItemRepresentation> Items => CoreWrapper.Inventory;

@@ -3,7 +3,7 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div class="scrolling-table">
+<div id="abilitiesTable" class="scrolling-table">
     <table>
         <thead>
             <tr>
@@ -27,6 +27,13 @@
         </tbody>
     </table>
 </div>
+
+<style>
+    #abilitiesTable {
+        box-sizing: border-box;
+        height: inherit;
+    }
+</style>
 
 @code {
     List<AbilityRepresentation> Abilities => CoreWrapper.Abilities;

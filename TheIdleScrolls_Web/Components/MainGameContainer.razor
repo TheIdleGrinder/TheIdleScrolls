@@ -22,32 +22,36 @@
             <button class="tablinks @AddTabClass(Tab.Achievements)" @onclick="@(() => SetTab(Tab.Achievements))">Achievements</button>
             <button class="tablinks @AddTabClass(Tab.Stats)" @onclick="@(() => SetTab(Tab.Stats))">Stats</button>
         </div>
-        @if (m_activeTab == Tab.Travel)
-        {
-            <DungeonSelector></DungeonSelector>
-        }
-        @if (m_activeTab == Tab.Inventory)
-        {
-            <div class="spaced-items">
-                <EquipmentDisplay></EquipmentDisplay>
-                <div style="display: flex; flex-direction: row;">
-                    <InventoryDisplay></InventoryDisplay>
-                    <HighlightedItemDisplay></HighlightedItemDisplay>
+        <div id="tabbedContainer">
+            @if (m_activeTab == Tab.Travel)
+            {
+                <DungeonSelector></DungeonSelector>
+            }
+            @if (m_activeTab == Tab.Inventory)
+            {
+                <div class="spaced-items">
+                    <div style="flex: 0 0 auto; height: 175px">
+                        <EquipmentDisplay></EquipmentDisplay>
+                    </div>
+                    <div style="display: flex; flex-direction: row; flex: 1 1 auto; max-height: inherit">
+                        <InventoryDisplay></InventoryDisplay>
+                        <HighlightedItemDisplay></HighlightedItemDisplay>
+                    </div>
                 </div>
-            </div>
-        }
-        @if (m_activeTab == Tab.Abilities)
-        {
-            <AbilitiesDisplay></AbilitiesDisplay>
-        }
-        @if (m_activeTab == Tab.Achievements)
-        {
-            <AchievementDisplay></AchievementDisplay>
-        }
-        @if (m_activeTab == Tab.Stats)
-        {
-            <StatisticsDisplay></StatisticsDisplay>
-        }
+            }
+            @if (m_activeTab == Tab.Abilities)
+            {
+                <AbilitiesDisplay></AbilitiesDisplay>
+            }
+            @if (m_activeTab == Tab.Achievements)
+            {
+                <AchievementDisplay></AchievementDisplay>
+            }
+            @if (m_activeTab == Tab.Stats)
+            {
+                <StatisticsDisplay></StatisticsDisplay>
+            }
+        </div>
     </div>
 </div>
 
@@ -57,12 +61,25 @@
         --back-color: white;
         --frame-color: slategray;
     }
+
+    #tabbedContainer {
+        flex: 1 1 auto;
+        width: 100%;
+        max-height: 600px;
+        border: 2px dotted purple;
+    }
 </style>
 
 @code {
     enum Tab { Travel, Inventory, Abilities, Achievements, Stats };
 
     Tab m_activeTab = Tab.Travel;
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
 
     void SetTab(Tab tab)
     {

@@ -3,6 +3,8 @@ div.achOuter {
     flex-direction: column;
     background: var(--back-color);
     padding: 5px;
+    box-sizing: border-box;
+    max-height: inherit;
 }
 
 div.topRow {

@@ -3,13 +3,24 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div class="outer" style="display:flex; flex-direction:column; overflow-y:scroll">
+<div id="statContainer">
     <h3>Statistics</h3>
     @foreach (var line in ReportLines)
     {
         <p>@line</p>
     }
 </div>
+
+<style>
+    #statContainer {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        overflow-y: auto;
+        box-sizing: border-box;
+        max-height: inherit;
+    }
+</style>
 
 @code {
     string StatReport => CoreWrapper.StatisticsReport;
