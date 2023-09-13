@@ -8,8 +8,10 @@
         <FightStateIndicator></FightStateIndicator>
     </div>
     <div class="right-frame">
-        <CharacterOverview></CharacterOverview>
-        <div class="tabs" style="margin-top: 10px">
+        <div id="charOverview">
+            <CharacterOverview></CharacterOverview>
+        </div>
+        <div class="tabs">
             <button class="tablinks @AddTabClass(Tab.Travel)" @onclick="@(() => SetTab(Tab.Travel))">Travel</button>
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Inventory))
             {
@@ -29,11 +31,11 @@
             }
             @if (m_activeTab == Tab.Inventory)
             {
-                <div class="spaced-items">
-                    <div style="flex: 0 0 auto; height: 175px">
+                <div id="inventoryPage">
+                    <div id="equipmentArea">
                         <EquipmentDisplay></EquipmentDisplay>
                     </div>
-                    <div style="display: flex; flex-direction: row; flex: 1 1 auto; max-height: inherit">
+                    <div id="inventoryArea">
                         <InventoryDisplay></InventoryDisplay>
                         <HighlightedItemDisplay></HighlightedItemDisplay>
                     </div>
@@ -63,10 +65,51 @@
     }
 
     #tabbedContainer {
-        flex: 1 1 auto;
+        max-height: 100%;
         width: 100%;
-        max-height: 600px;
         border: 2px dotted purple;
+        grid-area: tabbed-area;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    #inventoryPage {
+        display: grid;
+        grid-template-rows: min-content max-content;
+        grid-template-areas:
+            "equipment"
+            "inventory";
+        position: relative;
+        /*position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;*/
+    }
+
+    #equipmentArea {
+        grid-area: equipment;
+/*        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;*/
+    }
+
+    #inventoryArea {
+        grid-area: inventory;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-height: 100%;
+        display: flex;
+        flex-direction: row;
+        border: 3px dashed red;
     }
 </style>
 

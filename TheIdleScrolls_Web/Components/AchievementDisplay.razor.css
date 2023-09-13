@@ -5,6 +5,7 @@ div.achOuter {
     padding: 5px;
     box-sizing: border-box;
     max-height: inherit;
+    width: 100%;
 }
 
 div.topRow {

@@ -96,12 +96,14 @@ a, .btn-link {
 }
 
 div.scrolling-table {
-    max-height: 100%;
     width: 100%;
+    overflow: hidden;
     overflow-y: auto;
     background-color: white;
     border: 1px solid black;
     flex: 1 1 auto;
+    max-height: inherit;
+    border: 1px solid orange;
 }
 
 div.scrolling-table table {
