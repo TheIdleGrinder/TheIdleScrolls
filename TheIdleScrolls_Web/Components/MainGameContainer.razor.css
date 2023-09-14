@@ -10,9 +10,7 @@ h1 {
 div.framed {
     color: green;
     background-color: lightgreen;
-    border-color: black;
-    border-style: solid;
-    border-width: 3px;
+    border: 3px solid black;
 }
 
 .main-frame {
@@ -23,7 +21,6 @@ div.framed {
     box-sizing: border-box;
     margin: 10px;
     gap: 20px;
-    border: 3px dashed orange;
     position: relative;
 
     display: grid;
@@ -38,8 +35,8 @@ div.framed {
     justify-content: space-between;
     width: 100%;
     background-color: aquamarine;
+    border: solid 3px black;
     height: 650px;
-    
     grid-area: left;
 }
 
@@ -47,7 +44,7 @@ div.framed {
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-    border: solid 3px darkgreen;
+    border: solid 3px black;
     
     grid-area: right;
     position: absolute;
@@ -76,11 +73,6 @@ div.spaced-items {
 #charOverview {
     grid-area: character;
     margin-bottom: 10px;
-/*    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;*/
 }
 
 .tabs {
@@ -90,11 +82,6 @@ div.spaced-items {
     background-color: #f1f1f1;
     justify-content: left;
     grid-area: tab-buttons;
-/*    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;*/
 }
 
 .tabs button {
