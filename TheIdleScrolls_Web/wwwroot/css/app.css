@@ -95,6 +95,16 @@ a, .btn-link {
     font-weight: bold;
 }
 
+hr.thick {
+    border: 0;
+    clear: both;
+    display: block;
+    margin-left: 2%;
+    width: 96%;
+    background-color: #999;
+    height: 3px;
+}
+
 div.scrolling-table {
     width: 100%;
     overflow: hidden;
@@ -109,7 +119,7 @@ div.scrolling-table table {
     position: relative;
     border-collapse: collapse;
     width: 100%;
-    border: 1px solid gray;
+    /*border: 1px solid gray;*/
     flex: inherit;
 }
 

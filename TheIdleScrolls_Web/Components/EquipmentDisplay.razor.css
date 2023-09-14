@@ -2,7 +2,6 @@ div.equipFrame {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    border: solid 1px gray;
     background-color: var(--back-color);
 }
 

@@ -12,7 +12,9 @@
         }
     </div>
     <button id="btnEquip" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="ToggleEquip">
-        @(IsItemEquipped(HighlightedItem) ? "Unequip" : "Equip")
+        @(
+            IsItemEquipped(HighlightedItem) ? "Unequip" : "Equip"
+            )
     </button>
     <button id="btnSell" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="SellItem">
         @SellText
@@ -23,36 +25,49 @@
             @ReforgeText
         </button>
     }
+    @if (CoreWrapper.Coins > 0)
+    {
+        <span id="coins">Purse: @(
+        CoreWrapper.Coins
+        )c</span>
+    }
 </div>
 
 <style>
     #highlightedItemContainer {
-        flex: 1 1 0px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        box-sizing: border-box;
-        gap: 5px;
+    flex: 1 1 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 5px;
     }
 
     #highlightedItem {
-        flex: 1 1 0px;
-        border: 1px solid black;
-        width: 80%;
-        min-height: 250px;
-        display: flex;
-        flex-direction: column;
-        padding: 5px;
-        box-sizing: border-box;
+    flex: 1 1 0px;
+    border: 1px solid black;
+    width: 80%;
+    min-height: 100px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    box-sizing: border-box;
     }
 
     #highlightedItemName {
-        
+
+    }
+
+    #coins {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
     }
 
     button.itemButton {
-        min-width: 150px;
-        max-width: 50%;
+    min-width: 150px;
+    max-width: 50%;
     }
 </style>
 
@@ -63,7 +78,21 @@
 
     uint CharId => CoreWrapper.Character.Id;
 
-    string SellText => "Sell" + ((HighlightedItem != null) ? $" (+{HighlightedItem?.Value}c)" : "");
+    string SellText 
+    { 
+        get 
+        { 
+            if (HighlightedItem == null)
+            {
+                return "Sell";
+            }
+            else if (HighlightedItem.Value > 0)
+            {
+                return $"Sell (+{HighlightedItem.Value}c)";
+            }
+            return "Throw out"; 
+        } 
+    }
     string ReforgeText => "Reforge" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.ReforgingCost}c)" : "");
 
     protected override void OnInitialized()

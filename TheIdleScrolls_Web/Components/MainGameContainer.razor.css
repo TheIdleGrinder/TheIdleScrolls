@@ -44,7 +44,6 @@ div.framed {
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-    border: solid 3px black;
     
     grid-area: right;
     position: absolute;

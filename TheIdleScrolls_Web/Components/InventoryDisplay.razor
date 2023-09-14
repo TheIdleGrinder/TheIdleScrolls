@@ -3,30 +3,28 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-@*<div id="inventoryContainer">*@
-    <div id="inventoryContainer" class="scrolling-table">
-        <table>
-            <thead>
+<div id="inventoryContainer" class="scrolling-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Items)
+            {
                 <tr>
-                    <th>Item</th>
+                    <td class="selectable @(GetSelectionClass(item)) @(CssUtilities.GetClassesForItem(item))" 
+                    @onclick=@(() => SelectItem(item.Id))
+                    @ondblclick=@(() => EquipItem(item.Id))
+                    @onkeypress="HandleKeyPress">
+                        @item.Name
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Items)
-                {
-                    <tr>
-                        <td class="selectable @(GetSelectionClass(item)) @(CssUtilities.GetClassesForItem(item))" 
-                        @onclick=@(() => SelectItem(item.Id))
-                        @ondblclick=@(() => EquipItem(item.Id))
-                        @onkeypress="HandleKeyPress">
-                            @item.Name
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-@*</div>*@
+            }
+        </tbody>
+    </table>
+</div>
 
 <style>
     #inventoryContainer {

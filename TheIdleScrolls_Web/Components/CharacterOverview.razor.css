@@ -11,15 +11,6 @@ progress {
     width: 70%;
 }
 
-hr.thick {
-    border: 0;
-    clear: both;
-    display: block;
-    width: 96%;
-    background-color: #999;
-    height: 3px;
-}
-
 tr {
     border-bottom: 1px solid slategray;
 }
