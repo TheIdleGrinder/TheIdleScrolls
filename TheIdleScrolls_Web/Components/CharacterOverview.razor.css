@@ -16,8 +16,8 @@ tr {
 }
 
 td {
-    padding-left: 10px;
-    border-right: 1px dotted slategray;
+/*    padding-left: 10px;
+    border-right: 1px dotted slategray;*/
 }
 
 tr:last-child {

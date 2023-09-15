@@ -13,22 +13,25 @@
 
     <table>
         <tr>
-            <td>Damage</td>
+            <th>Damage</th>
             <td>@FormatValue(Stats.Damage)</td>
-            <td>@(FormatValue(Stats.Damage / Stats.Cooldown)) / s</td>
-            <td><progress value="@AttackProgress" max="@AttackCooldown"></progress></td>
-        </tr>
-        <tr>
-            <td>Armor</td>
+            <th>Armor</th>
             <td>@FormatValue(Stats.Armor)</td>
         </tr>
         <tr>
-            <td>Evasion</td>
+            <th>Attack Time</th>
+            <td>@FormatValue(Stats.Cooldown) s</td>
+            <th>Evasion</th>
             <td>@FormatValue(Stats.Evasion)</td>
         </tr>
         <tr>
-            <td>Encumbrance</td>
+            <th title="Damage per second">DPS</th>
+            <td>@(FormatValue(Stats.Damage / Stats.Cooldown))</td>
+            <th>Encumbrance</th>
             <td>@(FormatValue(Stats.Encumbrance)) %</td>
+        </tr>
+        <tr>
+            <td colspan="2"><progress value="@AttackProgress" max="@AttackCooldown"></progress></td>
         </tr>
     </table>
 </div>
