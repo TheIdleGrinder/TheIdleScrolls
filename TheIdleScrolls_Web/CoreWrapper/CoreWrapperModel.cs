@@ -34,6 +34,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public AreaRepresentation Area { get; private set; } = new("", 0, false);
         public MobRepresentation Mob { get; private set; } = new(0, "", 0, 0, 0);
         public AccessibleAreas Accessible { get; } = new();
+        public bool AutoProceedActive { get; private set; } = false;
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
         public Equipment Equipment { get; private set; } = new();
         public List<ItemRepresentation> Inventory { get; private set; } = new();
@@ -112,6 +113,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 Accessible.MaxWilderness = maxWild;
                 Accessible.Dungeons = dungeons;
             };
+            emitter.PlayerAutoProceedStateChanged += (bool active) => AutoProceedActive = active;
             emitter.FeatureAvailabilityChanged += (GameFeature feature, bool available) =>
             {
                 if (available)

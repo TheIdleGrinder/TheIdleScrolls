@@ -3,32 +3,65 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="outer">
-    @if (!InDungeon && CanTravel)
-    {
-        <button disabled=@IsAtMin @onclick="MoveDown">⮜</button>
-    }
-    <div class="inner">
+    <div id="area-and-arrows">
+        <button id="btnPrevArea" class="@(GetArrowClass())" disabled=@IsAtMin @onclick="MoveDown">⮜</button>
         <h3>@CoreWrapper.Area.Name</h3>
-        @if (InDungeon)
-            {
-                <button class="leave" @onclick=@(() => CoreWrapper.InputHandler.LeaveDungeon())>Leave</button>
-            }
+        <button id="btnNextArea" class="@(GetArrowClass())" disabled=@IsAtMax @onclick="MoveUp">⮞</button>
     </div>
-    @if (!InDungeon && CanTravel)
+    
+    <div id="dungeon-button">
+        <button id="btnLeave" class="@(GetLeaveButtonClass())" @onclick=@(() => CoreWrapper.InputHandler.LeaveDungeon())>Leave</button>
+    </div>
+
+    @if (CanTravel && !InDungeon)
     {
-        <button disabled=@IsAtMax @onclick="MoveUp">⮞</button>
+        <div id="proceed-button">
+            <label>Proceed when possible</label>
+            <input type="checkbox" checked="@CoreWrapper.AutoProceedActive" @onclick="ToggleAutoProceed"/>        
+        </div>
     }
 </div>
 
 <style>
     div.outer {
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        border: dashed 1px black;
+        background-color: var(--back-color);
+        flex: 0 0 auto;
+    }
+
+    #btnPrevArea {
+
+    }
+
+    #btnNextArea {
+        
+    }
+
+    #proceed-button {
+        position: absolute;
+        display: flex;
+        flex-direction: row;
+        bottom: 10px;
+        right: 10px;
+        gap: 10px;
+    }
+
+    #area-and-arrows {
         width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 5px;
-        border: dashed 1px black;
-        background-color: var(--back-color);
+    }
+
+    #dungeon-button {
+        width: inherit;
+        display: flex;
+        justify-content: center;
     }
 
     div.inner {
@@ -42,8 +75,13 @@
         min-height: 30px;
     }
 
-    button.leave {
-        padding: 5px 15%;
+    .hidden {
+        visibility: hidden;
+    }
+
+    #btnLeave {
+        padding: 5px 10% 5px 10%;
+        max-width: 200px;
     }
 
 </style>
@@ -70,5 +108,28 @@
     private void MoveUp()
     {
         CoreWrapper.InputHandler.TravelIntoWilderness(AreaLevel + 1);
+    }
+
+    private void ToggleAutoProceed()
+    {
+        CoreWrapper.InputHandler.SetAutoProceed(!CoreWrapper.AutoProceedActive);
+    }
+
+    private string GetArrowClass()
+    {
+        if (InDungeon || !CanTravel)
+        {
+            return "hidden";
+        }
+        return string.Empty;
+    }
+
+    private string GetLeaveButtonClass()
+    {
+        if (!InDungeon)
+        {
+            return "hidden";
+        }
+        return string.Empty;
     }
 }
