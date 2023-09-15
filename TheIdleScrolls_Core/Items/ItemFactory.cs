@@ -126,7 +126,7 @@ namespace TheIdleScrolls_Core.Items
         public static void UpdateReforgingCost(Entity item)
         {
             ItemIdentifier id = item.GetComponent<ItemComponent>()?.Code ?? throw new Exception($"Entity {item.GetName()} is not an item");
-            double baseCost = 20.0;
+            double baseCost = 10.0;
             int tier = (int)Math.Sqrt(id.GetGenusDescription().DropLevel);
             double matMulti = id.GetMaterial().PowerMultiplier;
 
