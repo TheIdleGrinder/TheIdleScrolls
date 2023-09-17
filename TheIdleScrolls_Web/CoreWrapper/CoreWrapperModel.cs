@@ -47,6 +47,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public int AchievementCount { get; private set; } = 0;
         public string StatisticsReport { get; private set; } = String.Empty;
         public List<TitledMessage> TitledMessages { get; private set; } = new();
+        public List<ExpiringMessage> ExpiringMessages { get; private set; } = new();
 
         // (Ab)use wrapper to store the currently hightlighted item used in InventoryDisplay and EquipmentDisplay
         public uint HighlightedItem { get; private set; } = uint.MaxValue;
@@ -149,6 +150,14 @@ namespace TheIdleScrolls_Web.CoreWrapper
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
             emitter.DisplayMessageReceived += (string title, string message) => TitledMessages.Add(new(title, message));
+            emitter.NewLogMessages += (List<string> messages) =>
+            {
+                foreach (var message in messages)
+                {
+                    ExpiringMessages.Add(new(message, 5.0));
+                }
+                ExpiringMessages = ExpiringMessages.Where(m => !m.Expired).ToList();
+            };
         }
 
         public void MarkTopMessageAsRead()
