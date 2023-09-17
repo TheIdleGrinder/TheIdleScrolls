@@ -12,6 +12,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
     public delegate void CharacterLoadedHandler();
     public delegate void StateChangedHandler();
 
+    public record TitledMessage(string Title, string Message);
+
     public class CoreWrapperModel : IApplicationModel
     {
         DataAccessHandler dataHandler;
@@ -44,6 +46,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<AbilityRepresentation> Abilities { get; private set; } = new();
         public int AchievementCount { get; private set; } = 0;
         public string StatisticsReport { get; private set; } = String.Empty;
+        public List<TitledMessage> TitledMessages { get; private set; } = new();
 
         // (Ab)use wrapper to store the currently hightlighted item used in InventoryDisplay and EquipmentDisplay
         public uint HighlightedItem { get; private set; } = uint.MaxValue;
@@ -56,6 +59,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
             gameRunner = new GameRunner(dataHandler);
             gameRunner.SetAppInterface(this);
             ConnectEvents();
+
+            TitledMessages.Add(new("test title", "this is a test message. look at its layout!\n- new line\n  - indented line\n- another line"));
         }
 
         public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties()
@@ -143,6 +148,13 @@ namespace TheIdleScrolls_Web.CoreWrapper
             };
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
+            emitter.DisplayMessageReceived += (string title, string message) => TitledMessages.Add(new(title, message));
+        }
+
+        public void MarkTopMessageAsRead()
+        {
+            if (TitledMessages.Count > 0)
+                TitledMessages.RemoveAt(0);
         }
 
         public bool ToggleItemHighlight(uint itemId)

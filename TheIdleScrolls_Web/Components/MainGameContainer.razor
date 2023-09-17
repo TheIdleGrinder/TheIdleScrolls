@@ -56,6 +56,21 @@
             }
         </div>
     </div>
+    @if (CoreWrapper.TitledMessages.Count > 0)
+    {
+        <div id="bigMessageArea">
+            <h5>@CoreWrapper.TitledMessages[0].Title</h5>
+            <div style="display:flex; flex-direction:inherit">
+                @foreach (string line in CoreWrapper.TitledMessages[0].Message.Split('\n'))
+                {
+                    <span>@line</span>
+                }
+            </div>
+            <button @onclick="@CoreWrapper.MarkTopMessageAsRead" style="width: 100px;">
+                Ok
+            </button>
+        </div>
+    }
 </div>
 
 <style>
@@ -111,6 +126,22 @@
         padding: 10px;
         padding-top: 0px;
         grid-template-columns: 1fr 1fr;
+    }
+
+    #bigMessageArea {
+        position:absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 50%;
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        background-color: lightgoldenrodyellow;
+        border: 5px solid brown;
+        padding: 20px;
     }
 </style>
 
