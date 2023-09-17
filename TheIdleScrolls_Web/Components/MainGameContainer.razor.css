@@ -10,12 +10,12 @@ h1 {
 div.framed {
     color: green;
     background-color: lightgreen;
-    border: 3px solid black;
+    border: 3px solid var(--frame-color);
 }
 
 .main-frame {
     color: var(--text-color);
-    background-color: var(--back-color);
+    /*background-color: var(--back-color);*/
     width: 100%;
     height: calc(100vh - 120px);
     box-sizing: border-box;
@@ -34,8 +34,8 @@ div.framed {
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    background-color: aquamarine;
-    border: solid 3px black;
+    background-color: var(--back-color);
+    border: solid 3px var(--frame-color);
     height: 650px;
     grid-area: left;
 }

@@ -59,7 +59,10 @@
     @if (CoreWrapper.TitledMessages.Count > 0)
     {
         <div id="bigMessageArea">
-            <h5>@CoreWrapper.TitledMessages[0].Title</h5>
+            @if (CoreWrapper.TitledMessages[0].Title != string.Empty)
+            {
+                <h4>@CoreWrapper.TitledMessages[0].Title</h4>
+            }
             <div style="display:flex; flex-direction:inherit">
                 @foreach (string line in CoreWrapper.TitledMessages[0].Message.Split('\n'))
                 {
@@ -74,12 +77,6 @@
 </div>
 
 <style>
-    :root {
-        --text-color: black;
-        --back-color: white;
-        --frame-color: slategray;
-    }
-
     #tabbedContainer {
         max-height: 100%;
         width: 100%;
@@ -89,7 +86,8 @@
         left: 0;
         right: 0;
         bottom: 0;
-        border: 1px solid darkgray;
+        border: 1px solid var(--frame-color);
+        background-color: var(--back-color);
     }
 
     #inventoryPage {
@@ -139,8 +137,8 @@
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
-        background-color: lightgoldenrodyellow;
-        border: 5px solid brown;
+        background-color: var(--back-color-special);
+        border: 5px solid var(--frame-color);
         padding: 20px;
     }
 </style>
