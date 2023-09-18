@@ -178,7 +178,7 @@
       "Prerequisite": "dng_open:THRESHOLD",
       "Condition": "dng:THRESHOLD > 0",
       "Title": "I Shall Have No Remorse",
-      "Description": "Hold of the demonic invasion at the Threshold"
+      "Description": "Hold off the demonic invasion at the Threshold"
     },
     {
       "Id": "HC:WILDERNESS",
