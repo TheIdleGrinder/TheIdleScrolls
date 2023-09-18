@@ -102,7 +102,7 @@ namespace TheIdleScrolls_Core.Systems
 
         IMessage.PriorityLevel IMessage.GetPriority()
         {
-            return IMessage.PriorityLevel.High;
+            return IMessage.PriorityLevel.Medium;
         }
     }
 }
