@@ -14,6 +14,7 @@ namespace TheIdleScrolls_Core.Systems
     public class DungeonSystem : AbstractSystem
     {
         Entity? m_player = null;
+        bool m_firstUpdate = true;
 
         int m_wildernessLevel = 1;
 
@@ -48,11 +49,13 @@ namespace TheIdleScrolls_Core.Systems
                         if (condExpression.Evaluate(m_player, world) >= 1.0)
                         {
                             travelComp.AvailableDungeons.Add(dungeon.Name);
-                            coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Name.Localize()));
+                            if (!m_firstUpdate)
+                                coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Name.Localize()));
                         }
                     }
                 }
             }
+            m_firstUpdate = false;
 
             // Handle requests
             // Note current zone, if in wilderness
