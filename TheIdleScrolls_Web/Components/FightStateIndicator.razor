@@ -3,6 +3,9 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="fightOuter">
+    <div id="imageContainer">
+        <img src="/images/hourglass_broadsword.png" class="pixelart" style="width: 256px" />
+    </div>
     @if (TimeActive)
     {
         <div class="fightInner">
@@ -25,6 +28,14 @@
 </div>
 
 <style>
+    #imageContainer {
+        width: 100%;
+        padding: 25px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
     div.fightOuter {
         width: 100%;
         display: flex;
