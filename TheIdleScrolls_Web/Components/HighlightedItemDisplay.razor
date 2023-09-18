@@ -16,12 +16,12 @@
             IsItemEquipped(HighlightedItem) ? "Unequip" : "Equip"
             )
     </button>
-    <button id="btnSell" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="SellItem">
+    <button id="btnSell" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="SellItem">
         @SellText
     </button>
     @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting))
     {
-        <button id="btnReforge" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="ReforgeItem">
+        <button id="btnReforge" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="ReforgeItem">
             @ReforgeText
         </button>
     }
