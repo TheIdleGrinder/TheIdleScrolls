@@ -21,8 +21,12 @@
 			}
 		</ul>
 	}
-	<input type="text" @bind="@NewCharName"/>
-	<button @onclick=@(() => StartGame(NewCharName))>Create</button>
+	<form action="" onsubmit=@(() => StartGame(NewCharName))>
+		<input type="text" required pattern="[A-Za-z][A-Za-z0-9_\-]+" 
+			title="Must start with a letter. May contain letters, digits, - and _" 
+			@bind="@NewCharName"/>
+		<button>Create</button>
+	</form>
 }
 else
 {

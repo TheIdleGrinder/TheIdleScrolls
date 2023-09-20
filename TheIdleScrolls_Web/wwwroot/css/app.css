@@ -71,6 +71,10 @@ a, .btn-link {
     --frame-color-special: brown;
 }
 
+input:invalid {
+    border: 2px dashed red;
+}
+
 .rarity-none {
     color: dimgray;
     font-style: italic;
