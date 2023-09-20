@@ -60,8 +60,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
             gameRunner = new GameRunner(dataHandler);
             gameRunner.SetAppInterface(this);
             ConnectEvents();
-
-            TitledMessages.Add(new("test title", "this is a test message. look at its layout!\n- new line\n  - indented line\n- another line"));
         }
 
         public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties()
