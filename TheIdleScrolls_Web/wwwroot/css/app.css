@@ -110,6 +110,9 @@ input:invalid {
 .rare-item {
     font-weight: bold;
 }
+.crafted-item {
+    font-style: italic;
+}
 
 hr.thick {
     border: 0;

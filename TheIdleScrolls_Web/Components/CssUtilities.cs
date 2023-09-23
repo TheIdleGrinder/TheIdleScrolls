@@ -19,7 +19,7 @@ namespace TheIdleScrolls_Web.Components
             }
 
             if (item?.Crafted ?? false)
-                classes += " crafted";
+                classes += " crafted-item";
 
             return classes;
         }

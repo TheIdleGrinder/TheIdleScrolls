@@ -6,10 +6,16 @@
 <div id="highlightedItemContainer">
     <div id="highlightedItem">
         <h5 id="highlightedItemName" class="@(CssUtilities.GetClassesForItem(HighlightedItem))">@HighlightedItem?.Name</h5>
-        @foreach (string line in ItemDescriptionLines)
+        @if (HighlightedItem?.Crafted ?? false)
         {
-            <span id="highlightedItemDescription">@line</span>
+            <span id="crafted-line">Crafted</span>
         }
+        <div id="description-lines">
+            @foreach (string line in ItemDescriptionLines)
+            {
+                <span>@line</span>
+            }
+        </div>
     </div>
     <button id="btnEquip" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="ToggleEquip">
         @(
@@ -56,7 +62,18 @@
     }
 
     #highlightedItemName {
+        margin-bottom: 0px;
+    }
 
+    #crafted-line {
+        font-style: italic;
+        color: slategray;
+    }
+
+    #description-lines {
+        margin-top: 5px;
+        display: inherit;
+        flex-direction: inherit;
     }
 
     #coins {
