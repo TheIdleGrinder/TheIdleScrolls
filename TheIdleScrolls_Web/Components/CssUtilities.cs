@@ -23,5 +23,19 @@ namespace TheIdleScrolls_Web.Components
 
             return classes;
         }
+
+        public static string GetClassesForDungeon(DungeonRepresentation dungeon)
+        {
+            string classes = $"rarity-{dungeon.Rarity}";
+            if (dungeon.Rarity > 0)
+            {
+                classes += " rare-item";
+            }
+            if (dungeon.Rarity > 1)
+            {
+                classes += " crafted-item";
+            }
+            return classes;
+        }
     }
 }

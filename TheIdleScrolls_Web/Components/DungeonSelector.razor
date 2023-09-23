@@ -7,11 +7,17 @@
     <div class="dungeons">
         @foreach (var dungeon in Dungeons)
             {
-                <button class="dungeon" @onclick="@(() => SelectedDungeon = dungeon)">@dungeon.Name</button>
+                <button class="dungeon @CssUtilities.GetClassesForDungeon(dungeon)" @onclick="@(() => SelectedDungeon = dungeon)">
+                    @dungeon.Name
+                </button>
             }
     </div>
     <div class="right">
         <div class="description">
+            @if (SelectedDungeon != null)
+            {
+                <span id="headline">@SelectedDungeon?.Name - Level @SelectedDungeon?.Level</span>
+            }        
             @(SelectedDungeon?.Description ?? "")
         </div>
         <button class="enter" @onclick="EnterDungeon">Enter!</button>
