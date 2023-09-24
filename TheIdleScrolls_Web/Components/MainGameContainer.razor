@@ -3,15 +3,16 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="main-frame">
-    <div class="left-frame" >
+    <div class="left-frame play-area-frame" >
         <CurrentAreaSelector></CurrentAreaSelector>
+        <hr class="thick">
         <FightStateIndicator></FightStateIndicator>
     </div>
     <div class="right-frame">
-        <div id="charOverview">
+        <div id="charOverview" class="play-area-frame">
             <CharacterOverview></CharacterOverview>
         </div>
-        <div class="tabs">
+        <div class="tabs play-area-frame-top">
             <button class="tablinks @AddTabClass(Tab.Travel)" @onclick="@(() => SetTab(Tab.Travel))">Travel</button>
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Inventory))
             {
@@ -24,14 +25,14 @@
             <button class="tablinks @AddTabClass(Tab.Achievements)" @onclick="@(() => SetTab(Tab.Achievements))">Achievements</button>
             <button class="tablinks @AddTabClass(Tab.Stats)" @onclick="@(() => SetTab(Tab.Stats))">Stats</button>
         </div>
-        <div id="tabbedContainer">
+        <div id="tabbedContainer" class="play-area-frame-bottom">
             @if (m_activeTab == Tab.Travel)
             {
                 <DungeonSelector></DungeonSelector>
             }
             @if (m_activeTab == Tab.Inventory)
             {
-                <div id="inventoryPage">
+                <div id="inventoryPage" class="outer">
                     <div id="equipmentArea">
                         <EquipmentDisplay></EquipmentDisplay>
                     </div>
@@ -94,8 +95,9 @@
         left: 0;
         right: 0;
         bottom: 0;
-        border: 1px solid var(--frame-color);
-        background-color: var(--back-color);
+        /*border: 1px solid var(--frame-color);*/
+        /*background-color: var(--back-color);*/
+        /*border-top: none;*/
     }
 
     #inventoryPage {
@@ -164,6 +166,7 @@
     div.timed-message {
         background-color: var(--back-color-special);
         border: 2px solid var(--frame-color-special);
+        border-radius: 8px 8px;
         width: 100%;
         padding: 5px;
         overflow-x: hidden;

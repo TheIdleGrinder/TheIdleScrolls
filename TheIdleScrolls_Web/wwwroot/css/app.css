@@ -69,6 +69,7 @@ a, .btn-link {
     --back-color-special: lightgoldenrodyellow;
     --frame-color: slategray;
     --frame-color-special: brown;
+    --border-radius: 8px;
 }
 
 h1.banner-title {
@@ -122,6 +123,25 @@ hr.thick {
     width: 96%;
     background-color: #999;
     height: 3px;
+}
+
+div.play-area-frame {
+    border: 2px solid var(--frame-color);
+    border-radius: var(--border-radius) var(--border-radius);
+}
+
+div.play-area-frame-top {
+    border: 2px solid var(--frame-color);
+    border-bottom: none;
+    border-top-left-radius: var(--border-radius) var(--border-radius);
+    border-top-right-radius: var(--border-radius) var(--border-radius);
+}
+
+div.play-area-frame-bottom {
+    border: 2px solid var(--frame-color);
+    border-top: none;
+    border-bottom-left-radius: var(--border-radius) var(--border-radius);
+    border-bottom-right-radius: var(--border-radius) var(--border-radius);
 }
 
 div.scrolling-table {
