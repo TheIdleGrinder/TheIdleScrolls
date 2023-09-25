@@ -13,7 +13,10 @@
             <CharacterOverview></CharacterOverview>
         </div>
         <div class="tabs play-area-frame-top">
-            <button class="tablinks @AddTabClass(Tab.Travel)" @onclick="@(() => SetTab(Tab.Travel))">Travel</button>
+            @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Travel))
+            {
+                <button class="tablinks @AddTabClass(Tab.Travel)" @onclick="@(() => SetTab(Tab.Travel))">Travel</button>
+            }
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Inventory))
             {
                 <button class="tablinks @AddTabClass(Tab.Inventory)" @onclick="@(() => SetTab(Tab.Inventory))">Inventory</button>
@@ -176,7 +179,7 @@
 @code {
     enum Tab { Travel, Inventory, Abilities, Achievements, Stats };
 
-    Tab m_activeTab = Tab.Travel;
+    Tab m_activeTab = Tab.Achievements;
 
     protected override void OnInitialized()
     {
