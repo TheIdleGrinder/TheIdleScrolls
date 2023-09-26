@@ -54,6 +54,7 @@ else
 
 	async Task StartGame(string characterName)
 	{
+		CoreWrapper.Reset();
 		await CoreWrapper.LoadCharacter(characterName);
 		CoreWrapper.StartGameLoop();
 		Console.WriteLine($"Game started as {characterName}");

@@ -16,6 +16,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
     public class CoreWrapperModel : IApplicationModel
     {
+        IJSRuntime jSRuntime;
         DataAccessHandler dataHandler;
         GameRunner gameRunner;
 
@@ -56,10 +57,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
         public CoreWrapperModel(IJSRuntime js)
         {
-            dataHandler = new DataAccessHandler(new EntityJsonConverter(new ItemFactory()), new LocalBrowserStorageHandler(js));
-            gameRunner = new GameRunner(dataHandler);
-            gameRunner.SetAppInterface(this);
-            ConnectEvents();
+            jSRuntime = js;
+            Reset();
         }
 
         public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties()
@@ -81,19 +80,31 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
         public async Task StartGameLoop()
         {
+            Console.WriteLine("Starting game loop");
             const int frameTime = 50;
             gameLoopRunning = true;
             while (gameLoopRunning)
             {
-                gameRunner.ExecuteTick(frameTime / 1000.0);
-                StateChanged?.Invoke();
-                await Task.Delay(frameTime);
+                try
+                {
+                    Console.WriteLine("Tick");
+                    gameRunner.ExecuteTick(frameTime / 1000.0);
+                    StateChanged?.Invoke();
+                    await Task.Delay(frameTime);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Exception caught: {e.Message}");
+                    StopGameLoop();
+                }
             }
+            Console.WriteLine("Game loop finished");
         }
 
         public void StopGameLoop()
         {
             gameLoopRunning = false;
+            StateChanged?.Invoke();
         }
 
         private void ConnectEvents()
@@ -158,10 +169,22 @@ namespace TheIdleScrolls_Web.CoreWrapper
             };
         }
 
+        public void Reset()
+        {
+            StopGameLoop();
+            dataHandler = new DataAccessHandler(new EntityJsonConverter(new ItemFactory()), new LocalBrowserStorageHandler(jSRuntime));
+            gameRunner = new GameRunner(dataHandler);
+            gameRunner.SetAppInterface(this);
+            ConnectEvents();
+        }
+
         public void MarkTopMessageAsRead()
         {
             if (TitledMessages.Count > 0)
                 TitledMessages.RemoveAt(0);
+
+            if (gameRunner.IsGameOver())
+                StopGameLoop();
         }
 
         public bool ToggleItemHighlight(uint itemId)

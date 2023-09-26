@@ -1,4 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using TheIdleScrolls_Web.CoreWrapper
+
+@inherits LayoutComponentBase
+
+@inject CoreWrapperModel CoreWrapper
 
 <div class="page">
 @*    <div class="sidebar">
@@ -7,7 +11,7 @@
 
     <main>
         <div class="top-row px-4">
-            <h1 class="banner-title">The Idle Scrolls</h1>
+            <h1 class="banner-title" style="cursor: pointer" @onclick="Reset">The Idle Scrolls</h1>
         </div>
 
         <article class="content px-4">
@@ -15,3 +19,11 @@
         </article>
     </main>
 </div>
+
+@code {
+    private void Reset()
+    {
+        if (CoreWrapper.GameLoopRunning)
+            CoreWrapper.StopGameLoop();
+    }
+}
