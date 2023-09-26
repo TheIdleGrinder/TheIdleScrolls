@@ -87,7 +87,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
             {
                 try
                 {
-                    Console.WriteLine("Tick");
                     gameRunner.ExecuteTick(frameTime / 1000.0);
                     StateChanged?.Invoke();
                     await Task.Delay(frameTime);
