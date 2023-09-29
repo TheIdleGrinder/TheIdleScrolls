@@ -31,7 +31,21 @@
         <div id="tabbedContainer" class="play-area-frame-bottom">
             @if (m_activeTab == Tab.Travel)
             {
-                <DungeonSelector></DungeonSelector>
+                <div id="travelPage">
+                    <div style="display: flex; flex-direction: column; max-height: 100%; overflow-y: auto">
+@*                        @for (int i = 5; i < CoreWrapper.Accessible.MaxWilderness; i += 5)
+                        {
+                            int level = i;
+                            <button @onclick=@(() => CoreWrapper.InputHandler.TravelIntoWilderness(level))>
+                                Wilderness @i
+                            </button>
+                        }
+                        <button @onclick=@(() => CoreWrapper.InputHandler.TravelIntoWilderness(CoreWrapper.Accessible.MaxWilderness))>
+                            Wilderness @CoreWrapper.Accessible.MaxWilderness
+                        </button>*@
+                    </div>
+                    <DungeonSelector></DungeonSelector>
+                </div>
             }
             @if (m_activeTab == Tab.Inventory)
             {
@@ -101,6 +115,18 @@
         /*border: 1px solid var(--frame-color);*/
         /*background-color: var(--back-color);*/
         /*border-top: none;*/
+    }
+
+    #travelPage {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        position: absolute;
+        width: 100%;
+        max-height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 
     #inventoryPage {

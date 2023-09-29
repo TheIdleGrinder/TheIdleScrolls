@@ -4,21 +4,24 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="outer">
-    <div class="dungeons">
+    <div id="dungeonButtonsArea">
         @foreach (var dungeon in Dungeons)
-            {
-                <button class="dungeon @CssUtilities.GetClassesForDungeon(dungeon)" @onclick="@(() => SelectedDungeon = dungeon)">
-                    @dungeon.Name
-                </button>
-            }
+        {
+            <button class="dungeon @CssUtilities.GetClassesForDungeon(dungeon)" @onclick="@(() => SelectedDungeon = dungeon)">
+                @dungeon.Name
+            </button>
+        }        
     </div>
-    <div class="right">
-        <div class="description">
+    <div id="dungeonDescriptionArea">
+        <div id="dungeonDescription">
             @if (SelectedDungeon != null)
             {
-                <span id="headline">@SelectedDungeon?.Name - Level @SelectedDungeon?.Level</span>
-            }        
-            @(SelectedDungeon?.Description ?? "")
+                <span id="headline">@SelectedDungeon!.Name - Level @SelectedDungeon!.Level</span>
+                @foreach (string line in SelectedDungeon!.Description.Split('\n'))
+                {
+                    <span>@line</span>
+                }
+            }
         </div>
         <button class="enter" @onclick="EnterDungeon">Enter!</button>
     </div>
