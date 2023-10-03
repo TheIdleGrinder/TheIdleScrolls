@@ -226,10 +226,10 @@
     <value>Kensai</value>
   </data>
   <data name="CLASS_POL_HAR" xml:space="preserve">
-    <value>Ranger</value>
+    <value>Hoplite</value>
   </data>
   <data name="CLASS_POL_LAR" xml:space="preserve">
-    <value>Hoplite</value>
+    <value>Ranger</value>
   </data>
   <data name="CLASS_POL_X" xml:space="preserve">
     <value>Hunter</value>

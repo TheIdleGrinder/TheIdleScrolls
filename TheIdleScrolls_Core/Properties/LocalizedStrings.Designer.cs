@@ -385,7 +385,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Ranger ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hoplite ähnelt.
         /// </summary>
         internal static string CLASS_POL_HAR {
             get {
@@ -394,7 +394,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hoplite ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ranger ähnelt.
         /// </summary>
         internal static string CLASS_POL_LAR {
             get {
