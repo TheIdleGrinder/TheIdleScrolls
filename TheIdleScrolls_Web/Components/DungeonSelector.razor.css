@@ -8,7 +8,7 @@ div.outer {
 #dungeonButtonsArea {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     overflow-y: auto;
     width: 100%;
