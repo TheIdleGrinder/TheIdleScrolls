@@ -53,46 +53,26 @@ namespace TheIdleScrolls_Core.Systems
 
                         if (!equipmentComp.CanEquipItem(item))
                         {
+                            //Try finding a single(!) item to replace
                             List<EquipmentSlot> missing = equipmentComp.GetMissingEquipmentSlotsForItem(item);
-                            // CornerCut: Don't try to figure out situations with multiple missing slots
-                            if (missing.Count == 1)
+                            // Shields replace shields, weapons replace weapons first
+                            Entity? prevItem = FindBlockingItem(equipmentComp, missing, item.IsWeapon(), item.IsShield());
+                            // If no shield or weapon to replace is found, try the other type next
+                            // CornerCut: This does not work for items that are both weapons and shields
+                            if (prevItem == null && (item.IsWeapon() || item.IsShield()))
                             {
-                                // Shields always replace shields
-                                if (item.IsShield())
-                                {
-                                    Entity? prevShield = equipmentComp.GetItems().Where(i => i.IsShield()).FirstOrDefault();
-                                    if (prevShield != null)
-                                    {
-                                        if (equipmentComp.UnequipItem(prevShield))
-                                            inventoryComp.AddItem(prevShield);
-                                    }
-                                }
-                                else if (item.IsWeapon()) // Weapons replace weapons before shields
-                                {
-                                    Entity? prevWeapon = equipmentComp.GetItems().Where(i => i.IsWeapon()).FirstOrDefault();
-                                    if (prevWeapon != null)
-                                    {
-                                        if (equipmentComp.UnequipItem(prevWeapon))
-                                            inventoryComp.AddItem(prevWeapon);
-                                    }
-                                }
-
-                                if (!equipmentComp.CanEquipItem(item))
-                                {
-                                    // Remove previous item from slot
-                                    var previousItem = equipmentComp.GetItemInSlot(missing.First());
-                                    if (previousItem != null)
-                                    {
-                                        if (equipmentComp.UnequipItem(previousItem))
-                                            inventoryComp.AddItem(previousItem);
-                                    }
-                                }
+                                prevItem = FindBlockingItem(equipmentComp, missing, item.IsShield(), item.IsWeapon());
                             }
-                            else if (missing.Count > 1)
+                                
+                            if (prevItem != null)
                             {
-                                coordinator.PostMessage(this, 
-                                    new TextMessage($"Too many occupied equipment slots to equip {item.GetName()}", IMessage.PriorityLevel.VeryHigh)
-                                );
+                                if (equipmentComp.UnequipItem(prevItem))
+                                    inventoryComp.AddItem(prevItem);
+                            }
+                            else
+                            {
+                                coordinator.PostMessage(this,
+                                    new TextMessage($"Too many occupied equipment slots to equip {item.GetName()}", IMessage.PriorityLevel.VeryHigh));
                             }
                         }
 
@@ -160,6 +140,34 @@ namespace TheIdleScrolls_Core.Systems
                 // CornerCut: The whole handling of encumbrance is not very elegant. How do we inform the app in a smoother way?
                 coordinator.PostMessage(this, new EncumbranceChangedMessage(entity, equipComp.TotalEncumbrance)); 
             }
+        }
+
+        /// <summary>
+        /// Attempts to find a single item occupying a list of equipment slots
+        /// </summary>
+        /// <param name="equipment"></param>
+        /// <param name="slots"></param>
+        /// <param name="onlyWeapons"></param>
+        /// <param name="onlyShields"></param>
+        /// <returns></returns>
+        private Entity? FindBlockingItem(EquipmentComponent equipment, List<EquipmentSlot> slots, bool onlyWeapons, bool onlyShields)
+        {
+            foreach (var item in equipment.GetItems().Where(i => (!onlyWeapons || i.IsWeapon()) && (!onlyShields || i.IsShield())))
+            {
+                if (AIsSubsetOfB(slots, item.GetComponent<EquippableComponent>()?.Slots ?? new()))
+                    return item;
+            }
+            return null;
+        }
+
+        private bool AIsSubsetOfB(List<EquipmentSlot> a, List<EquipmentSlot> b)
+        {
+            foreach (var slot in a)
+            {
+                if (a.Count(s => s == slot) > b.Count(s => s == slot))
+                    return false;
+            }
+            return true;
         }
     }
 
