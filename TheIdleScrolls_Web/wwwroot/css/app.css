@@ -76,8 +76,16 @@ h1.banner-title {
     font-family: 'Vinque';
 }
 
-input:invalid {
-    border: 2px dashed red;
+input {
+    border: 2px solid black;
+}
+
+input:required {
+    
+}
+
+input:not(:placeholder-shown):invalid {
+    border-color: red;
 }
 
 .rarity-none {
