@@ -17,6 +17,7 @@ p.equipSlot {
     width: 30%;
     margin: 10px;
     overflow: hidden;
+    cursor: pointer;
 }
 
 p.hiddenSlot {
