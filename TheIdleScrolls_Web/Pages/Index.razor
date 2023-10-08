@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using TheIdleScrolls_Core.DataAccess
 @using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Web.Components
 
@@ -15,9 +16,12 @@
 	@if (CoreWrapper.StoredCharacters != null)
 	{
 		<ul>
-			@foreach (string charName in CoreWrapper.StoredCharacters.Where(c => !c.StartsWith("_"))) // null check above
+			@foreach (var metaData in Characters) // null check above
 			{
-				<li style="cursor:pointer" @onclick=@(() => StartGame(charName))>@charName</li>
+				if (metaData != null)
+				{
+					<li style="cursor:pointer" @onclick=@(() => StartGame(metaData.Name))>@metaData.Name - Level @metaData.Level @metaData.Class</li>
+				}
 			}
 		</ul>
 	}
@@ -37,6 +41,8 @@ else
 {
 	string NewCharName { get; set; } = "";
 
+	List<CharacterMetaData> Characters { get; set; } = new();
+
 	protected override void OnInitialized()
 	{
 		base.OnInitialized();
@@ -50,6 +56,14 @@ else
 	async Task ReadCharacters()
 	{
 		await CoreWrapper.UpdateSavedCharacters();
+		Characters.Clear();
+		foreach (var charName in CoreWrapper.StoredCharacters.Where(c => !c.StartsWith("_")))
+		{
+			var metaData = await CoreWrapper.GetCharacterMetaData(charName);
+			if (metaData != null)
+				Characters.Add(metaData);
+		}
+		StateHasChanged();
 	}
 
 	async Task StartGame(string characterName)

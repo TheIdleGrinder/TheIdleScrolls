@@ -78,6 +78,11 @@ namespace TheIdleScrolls_Web.CoreWrapper
             CharacterLoaded?.Invoke();
         }
 
+        public async Task<CharacterMetaData?> GetCharacterMetaData(string name)
+        {
+            return await dataHandler.GetCharacterMetaData(name);
+        }
+
         public async Task StartGameLoop()
         {
             Console.WriteLine("Starting game loop");
