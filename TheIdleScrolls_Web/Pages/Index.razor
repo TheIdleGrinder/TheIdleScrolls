@@ -61,6 +61,13 @@ else
 
 		CoreWrapper.CharacterListChanged += (List<string> _) => StateHasChanged();
 		CoreWrapper.StateChanged += StateHasChanged;
+		CoreWrapper.GameLoopRunStateChanged += (bool active) =>
+		{
+			if (!active)
+			{
+				_ = ReadCharacters();
+			}
+		};
 
 		_ = ReadCharacters();
 	}

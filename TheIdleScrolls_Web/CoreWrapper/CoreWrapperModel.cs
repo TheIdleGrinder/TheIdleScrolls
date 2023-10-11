@@ -13,6 +13,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
     public delegate void CharacterListChangeHandler(List<string> characters);
     public delegate void CharacterLoadedHandler();
     public delegate void StateChangedHandler();
+    public delegate void GameLoopRunStateChangedHandler(bool running);
 
     public record TitledMessage(string Title, string Message);
 
@@ -27,6 +28,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public event CharacterListChangeHandler? CharacterListChanged;
         public event CharacterLoadedHandler? CharacterLoaded;
         public event StateChangedHandler? StateChanged;
+        public event GameLoopRunStateChangedHandler? GameLoopRunStateChanged;
 
         public IUserInputHandler InputHandler { get => gameRunner.GetUserInputHandler(); }
 
@@ -90,6 +92,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             Console.WriteLine("Starting game loop");
             const int frameTime = 50;
             gameLoopRunning = true;
+            GameLoopRunStateChanged?.Invoke(gameLoopRunning);
             while (gameLoopRunning)
             {
                 try
@@ -110,6 +113,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public void StopGameLoop()
         {
             gameLoopRunning = false;
+            GameLoopRunStateChanged?.Invoke(gameLoopRunning);
             StateChanged?.Invoke();
         }
 
