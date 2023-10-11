@@ -1,5 +1,7 @@
 ﻿using Microsoft.JSInterop;
 using MiniECS;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection.Metadata;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.Items;
@@ -173,6 +175,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
             };
         }
 
+        [MemberNotNull(nameof(dataHandler))]
+        [MemberNotNull(nameof(gameRunner))]
         public void Reset()
         {
             StopGameLoop();

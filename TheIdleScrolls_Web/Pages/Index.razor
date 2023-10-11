@@ -62,7 +62,7 @@ else
 		CoreWrapper.CharacterListChanged += (List<string> _) => StateHasChanged();
 		CoreWrapper.StateChanged += StateHasChanged;
 
-		ReadCharacters();
+		_ = ReadCharacters();
 	}
 
 	async Task ReadCharacters()
@@ -82,7 +82,7 @@ else
 	{
 		CoreWrapper.Reset();
 		await CoreWrapper.LoadCharacter(characterName);
-		CoreWrapper.StartGameLoop();
+		_ = CoreWrapper.StartGameLoop();
 		Console.WriteLine($"Game started as {characterName}");
 	}
 }
