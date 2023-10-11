@@ -37,11 +37,18 @@ namespace TheIdleScrolls_Web.CoreWrapper
 		public async Task StoreData(string key, string data)
 		{
 			var storedChars = await GetKeys();
+
+			// Put name at the front of the character list => characters are ordered by recency of play
+			if (storedChars.Count > 0 && storedChars.First() != key)
+			{
+				storedChars.Remove(key);
+			}
 			if (!storedChars.Contains(key))
 			{
-				storedChars.Add(key);
+				storedChars.Insert(0, key);
 				await m_localStorage.SetValueAsync(CharNameKey, String.Join(" ", storedChars));
 			}
+
 			await m_localStorage.SetValueAsync(key, data);
 		}
 	}
