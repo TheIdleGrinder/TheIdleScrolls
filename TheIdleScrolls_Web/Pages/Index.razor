@@ -9,33 +9,45 @@
 
 @if (!CoreWrapper.GameLoopRunning)
 {
-	<p>Here are your previous characters:</p>
+	<p>Enter the name of a new character</p>
+	<form action="" onsubmit=@(() => StartGame(NewCharName))>
+		<input type="text" required pattern="[A-Za-z][A-Za-z0-9_\-]+"
+		   title="Must start with a letter. May contain letters, digits, - and _"
+		   @bind="@NewCharName" placeholder="" 
+		   style="margin-left: 10px;"/>
+		<button>Create</button>
+	</form>
 
-	<button @onclick="ReadCharacters">Refresh</button>
-
-	@if (CoreWrapper.StoredCharacters != null)
+	@if (CoreWrapper.StoredCharacters != null && CoreWrapper.StoredCharacters.Count > 0)
 	{
-		<ul>
-			@foreach (var metaData in Characters) // null check above
+		<p style="margin-top: 20px">Or select an existing one</p>
+		<div id="storedCharsFrame">
+			@foreach (var metaData in Characters)
 			{
 				if (metaData != null)
 				{
-					<li style="cursor:pointer" @onclick=@(() => StartGame(metaData.Name))>@metaData.Name - Level @metaData.Level @metaData.Class</li>
+					<CharacterTile Character=@metaData OnClicked="StartGame"/> 
+					Console.WriteLine("Char: " + metaData.Name);
 				}
 			}
-		</ul>
+		</div>
 	}
-	<form action="" onsubmit=@(() => StartGame(NewCharName))>
-		<input type="text" required pattern="[A-Za-z][A-Za-z0-9_\-]+" 
-			title="Must start with a letter. May contain letters, digits, - and _" 
-			@bind="@NewCharName" placeholder=""/>
-		<button>Create</button>
-	</form>
 }
 else
 {
-	<MainGameContainer></MainGameContainer>
+	<MainGameContainer/>
 }
+
+<style>
+	#storedCharsFrame {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		margin: 10px;
+		gap: 10px;
+		width: 600px;
+	}
+</style>
 
 @code
 {

@@ -1,0 +1,45 @@
+﻿@using TheIdleScrolls_Core.DataAccess
+
+<div id="charTileFrame" @onclick="TileClicked">
+    <h5>@Character.Name</h5>
+    <div id="charTileLower">
+        <h6>@Character.Class</h6>
+        <h6>Level @Character.Level</h6>
+    </div>
+
+</div>
+
+<style>
+    #charTileFrame {
+        border: 2px solid var(--frame-color);
+        background-color: var(--back-color);
+        width: 250px;
+        height: auto;
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        cursor: pointer;
+    }
+    #charTileFrame:hover {
+        background-color: var(--back-color-special);
+    }
+    #charTileLower {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public CharacterMetaData Character { get; set; } = new("???", 0, "???");
+
+    [Parameter]
+    public EventCallback<string> OnClicked { get; set; }
+
+    private async Task TileClicked()
+    {
+        await OnClicked.InvokeAsync(Character.Name);
+    }
+}

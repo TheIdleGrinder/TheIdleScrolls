@@ -16,7 +16,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
     public class CoreWrapperModel : IApplicationModel
     {
-        IJSRuntime jSRuntime;
+        readonly IJSRuntime jSRuntime;
         DataAccessHandler dataHandler;
         GameRunner gameRunner;
 
