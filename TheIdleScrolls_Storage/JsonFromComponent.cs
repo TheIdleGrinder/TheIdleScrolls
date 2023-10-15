@@ -184,6 +184,15 @@ namespace TheIdleScrolls_Storage
             return json;
         }
 
+        public static JsonObject? ToJson(this LocationComponent component)
+        {
+            JsonObject json = new()
+            {
+                { "Location", component.CurrentLocation.ToString() }
+            };
+            return json;
+        }
+
         public static JsonObject JsonFromSth<T>(T thing)
         {
             return (JsonObject)JsonObject.Parse(JsonSerializer.Serialize(thing))!;

@@ -30,6 +30,7 @@ namespace TheIdleScrolls_Storage
                 typeof(ItemComponent),
                 typeof(LevelComponent),
                 typeof(LifePoolComponent),
+                typeof(LocationComponent),
                 typeof(NameComponent),
                 typeof(PlayerComponent),
                 typeof(PlayerProgressComponent),

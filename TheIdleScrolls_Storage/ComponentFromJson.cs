@@ -11,6 +11,7 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Storage;
@@ -274,6 +275,19 @@ namespace TheIdleScrolls_JSON
                 //    ? FinalFight.Status.Finished 
                 //    : FinalFight.Status.NotStarted;
                 component.Quests = JsonSerializer.Deserialize<Dictionary<QuestId, int>>(json["QuestStates"]!)!;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static bool SetFromJson(this LocationComponent component, JsonNode json)
+        {
+            try
+            {
+                component.CurrentLocation = Location.FromString(json["Location"]!.GetValue<string>());
                 return true;
             }
             catch (Exception)
