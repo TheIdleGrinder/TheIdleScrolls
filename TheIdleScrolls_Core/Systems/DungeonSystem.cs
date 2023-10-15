@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Utility;
 

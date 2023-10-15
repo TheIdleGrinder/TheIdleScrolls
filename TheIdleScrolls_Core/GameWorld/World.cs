@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Utility;
 
-namespace TheIdleScrolls_Core
+namespace TheIdleScrolls_Core.GameWorld
 {
     public class World
     {
@@ -17,7 +17,7 @@ namespace TheIdleScrolls_Core
         public int DungeonFloor = 0;
 
         public ZoneDescription Zone;
-        public int RemainingEnemies = Int32.MaxValue;
+        public int RemainingEnemies = int.MaxValue;
 
         public double XpMultiplier = 1.0;
         public double SpeedMultiplier = 1.0;

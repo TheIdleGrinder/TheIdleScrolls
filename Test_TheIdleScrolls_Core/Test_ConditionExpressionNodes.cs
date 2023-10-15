@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Utility;
+using TheIdleScrolls_Core.World;
 
 namespace Test_TheIdleScrolls_Core
 {

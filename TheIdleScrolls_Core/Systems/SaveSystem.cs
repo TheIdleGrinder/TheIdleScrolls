@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.DataAccess;
+using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Storage;
 using TheIdleScrolls_Core.Utility;
 

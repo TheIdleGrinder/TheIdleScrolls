@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Quests;
 using QuestStates = TheIdleScrolls_Core.Components.QuestStates;

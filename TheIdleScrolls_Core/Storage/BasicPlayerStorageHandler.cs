@@ -15,7 +15,7 @@ namespace TheIdleScrolls_Core.Storage
 
         public BasicFileStorageHandler()
         {
-            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            string appDataPath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData);
             StorageDirectory = Path.Combine(appDataPath, "TheIdleGrind", "saves");
         }
 

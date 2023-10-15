@@ -7,6 +7,7 @@ using TheIdleScrolls_Core.Utility;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Achievements;
 using MiniECS;
+using TheIdleScrolls_Core.World;
 
 namespace Test_TheIdleScrolls_Core
 {
