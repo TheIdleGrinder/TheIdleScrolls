@@ -8,8 +8,8 @@ namespace TheIdleScrolls_Core.GameWorld
 {
     public interface IWorldMap : IZoneGenerator
     {
-        public ZoneDescription? GetNextLocation(Location location);
+        public Location? GetNextLocation(Location location);
 
-        public ZoneDescription? GetPreviousLocation(Location location);
+        public Location? GetPreviousLocation(Location location);
     }
 }
