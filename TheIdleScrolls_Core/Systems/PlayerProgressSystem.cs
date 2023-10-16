@@ -21,6 +21,9 @@ namespace TheIdleScrolls_Core.Systems
             var progComp = m_player.GetComponent<PlayerProgressComponent>();
             if (progComp == null)
                 return;
+            var locationComp = m_player.GetComponent<LocationComponent>();
+            if (locationComp == null)
+                return;
 
             // Update playtime
             progComp.Data.Playtime += dt;
@@ -28,7 +31,7 @@ namespace TheIdleScrolls_Core.Systems
             // Update kills and highest area
             var kills = coordinator.FetchMessagesByType<DeathMessage>();
             progComp.Data.Kills += kills.Count;
-            if (kills.Count > 0 && !world.IsInDungeon())
+            if (kills.Count > 0 && !locationComp.InDungeon)
             {
                 var lvl = kills.First().Victim.GetComponent<LevelComponent>()?.Level ?? 0;
                 progComp.Data.HighestWildernessKill = Math.Max(lvl, progComp.Data.HighestWildernessKill);

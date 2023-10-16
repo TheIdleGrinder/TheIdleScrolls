@@ -23,7 +23,7 @@ namespace TheIdleScrolls_Core.Systems
                     var killer = coordinator.GetEntity(killerId) ?? throw new Exception("Killer not found");
                     if (victim.HasComponent<XpGiverComponent>() && killer.HasComponent<XpGainerComponent>())
                     {
-                        int sourceLevel = world.Zone.Level;
+                        int sourceLevel = victim.GetComponent<LevelComponent>()?.Level ?? 1;
                         int targetLevel = killer.GetComponent<LevelComponent>()?.Level ?? sourceLevel;
                         double overlevelMalus = Math.Pow(0.975, Math.Max(0, targetLevel - sourceLevel));
 

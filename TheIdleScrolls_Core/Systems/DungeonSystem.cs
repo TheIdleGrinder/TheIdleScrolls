@@ -27,6 +27,9 @@ namespace TheIdleScrolls_Core.Systems
             m_player ??= coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
             if (m_player == null)
                 return;
+            var locationComp = m_player.GetComponent<LocationComponent>();
+            if (locationComp == null)
+                return;
 
             var progLevel = m_player.GetComponent<PlayerProgressComponent>()?.Data.HighestWildernessKill ?? 0;
             var dungeonsDone = m_player.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeons().Count ?? 0;
@@ -64,9 +67,9 @@ namespace TheIdleScrolls_Core.Systems
             var request = coordinator.FetchMessagesByType<EnterDungeonRequest>().LastOrDefault();
             if (request != null)
             {
-                if (!world.IsInDungeon())
+                if (!locationComp.InDungeon)
                 {
-                    m_wildernessLevel = world.Zone.Level;
+                    m_wildernessLevel = locationComp.GetCurrentZone(world.Map)?.Level ?? 1;
                 }
                 coordinator.PostMessage(this, new TravelRequest(request.DungeonId, 0));
                 return;
@@ -87,7 +90,7 @@ namespace TheIdleScrolls_Core.Systems
                             // Update PlayerProgress
                             // Give reward
                             // return to wilderness
-            if (world.IsInDungeon())
+            if (locationComp.InDungeon)
             {
                 if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>())
                 {
@@ -96,18 +99,18 @@ namespace TheIdleScrolls_Core.Systems
                 }
 
                 var kills = coordinator.FetchMessagesByType<DeathMessage>().Count;
-                world.RemainingEnemies -= kills;
-                if (world.RemainingEnemies <= 0)
+                locationComp.RemainingEnemies -= kills;
+                if (locationComp.RemainingEnemies <= 0)
                 {
-                    if (world.AreaKingdom.GetDungeonFloorCount(world.DungeonId) > world.DungeonFloor + 1) // There are more floors
+                    if (world.AreaKingdom.GetDungeonFloorCount(locationComp.DungeonId) > locationComp.DungeonFloor + 1) // There are more floors
                     {
-                        coordinator.PostMessage(this, new TravelRequest(world.DungeonId, world.DungeonFloor + 1));
+                        coordinator.PostMessage(this, new TravelRequest(locationComp.DungeonId, locationComp.DungeonFloor + 1));
                     }
                     else // Dungeon cleared
                     {
-                        bool first = !m_player.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(world.DungeonId) ?? true;
-                        coordinator.PostMessage(this, new DungeonCompletedMessage(world.DungeonId, first));
-                        coordinator.PostMessage(this, new TravelRequest(world.DungeonId, 0));
+                        bool first = !m_player.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
+                        coordinator.PostMessage(this, new DungeonCompletedMessage(locationComp.DungeonId, first));
+                        coordinator.PostMessage(this, new TravelRequest(locationComp.DungeonId, 0));
                     }
                 }
             }

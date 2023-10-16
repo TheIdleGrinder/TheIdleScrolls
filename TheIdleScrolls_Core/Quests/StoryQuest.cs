@@ -27,7 +27,8 @@ namespace TheIdleScrolls_Core.Quests
         public override void UpdateEntity(Entity entity, Coordinator coordinator, World world, double dt, Action<IMessage> postMessageCallback)
         {
             var storyComp = entity.GetComponent<QuestProgressComponent>();
-            if (storyComp == null)
+            var locationComp = entity.GetComponent<LocationComponent>();
+            if (storyComp == null || locationComp == null)
                 return;
 
             var progress = (QuestStates.FinalFight)storyComp.GetQuestProgress(QuestId.FinalFight);
@@ -43,9 +44,9 @@ namespace TheIdleScrolls_Core.Quests
 
             if (progress == QuestStates.FinalFight.NotStarted)
             {
-                if (world.IsInDungeon()
-                    && world.DungeonId == TutorialSystem.FinalStoryDungeon
-                    && world.RemainingEnemies == 1
+                if (locationComp.InDungeon
+                    && locationComp.DungeonId == TutorialSystem.FinalStoryDungeon
+                    && locationComp.RemainingEnemies == 1
                     && coordinator.GetEntities<MobComponent>().FirstOrDefault() != null)
                 {
                     storyComp.SetQuestProgress(QuestId.FinalFight, QuestStates.FinalFight.Slowing);
@@ -101,9 +102,9 @@ namespace TheIdleScrolls_Core.Quests
             {
                 var progComp = entity.GetComponent<PlayerProgressComponent>();
                 double playtime = (progComp != null) ? progComp.Data.Playtime : 0;
-                bool first = !entity.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(world.DungeonId) ?? true;
+                bool first = !entity.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
                 postMessageCallback(new ManualSaveRequest());
-                postMessageCallback(new DungeonCompletedMessage(world.DungeonId, first));
+                postMessageCallback(new DungeonCompletedMessage(locationComp.DungeonId, first));
                 postMessageCallback(new TutorialMessage(TutorialStep.Finished,
                     Properties.LocalizedStrings.STORY_END_TITLE,
                     String.Format(Properties.LocalizedStrings.STORY_END_TEXT, playtime)));

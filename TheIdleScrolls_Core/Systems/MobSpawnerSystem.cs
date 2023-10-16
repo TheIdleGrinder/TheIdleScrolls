@@ -23,42 +23,54 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            if (NeedToSpawnMob(world, coordinator, dt))
+            foreach (Entity player in coordinator.GetEntities<PlayerComponent>())
             {
-                var mob = CreateRandomMob(world);
+                var locationComp = player.GetComponent<LocationComponent>();
+                if (locationComp == null)
+                    continue;
+                
+                var zone = locationComp.GetCurrentZone(world.Map);
+                if (zone == null)
+                    throw new Exception($"Player {player.GetName()} is not in a valid zone");
 
-                if (world.IsInDungeon() && world.Zone.MobCount > 1)
+                // Check if a new mob needs to be spawned
+                // TODO: Give mobs LocationComponent and actually check if a mob is at the players location
+                var mobCount = coordinator.GetEntities<MobComponent>().Count;
+                if (mobCount > 0 || locationComp.RemainingEnemies <= 0)
                 {
-                    string name = mob.GetName();
-                    int mobNo = world.Zone.MobCount - world.RemainingEnemies + 1;
-                    name += $" [{mobNo}/{world.Zone.MobCount}]";
-                    mob.GetComponent<NameComponent>()!.Name = name;
+                    continue;
                 }
 
+                List<MobDescription> additionalMobs = (locationComp.InDungeon) 
+                    ? world.AreaKingdom.GetLocalEnemies(locationComp.DungeonId) 
+                    : new();
+                var mob = CreateRandomMob(zone, additionalMobs);
+
+                if (locationComp.InDungeon && zone.MobCount > 1)
+                {
+                    string name = mob.GetName();
+                    int mobNo = zone.MobCount - locationComp.RemainingEnemies + 1;
+                    name += $" [{mobNo}/{zone.MobCount}]";
+                    mob.GetComponent<NameComponent>()!.Name = name;
+                }
                 coordinator.AddEntity(mob);
                 coordinator.PostMessage(this, new MobSpawnMessage(mob));
             }
         }
 
-        private Entity CreateRandomMob(World world)
+        private Entity CreateRandomMob(ZoneDescription zone, List<MobDescription> additionalMobs)
         {
-            int level = world.Zone.Level;
-            var allMobs = m_descriptions.Concat(world.GetLocalMobs());
+            int level = zone.Level;
+            var allMobs = m_descriptions.Concat(additionalMobs);
             var validMobs = allMobs.Where(m => m.MinLevel <= level && m.MaxLevel >= level);
-            if (world.Zone.MobTypes.Any())
+            if (zone.MobTypes.Any())
             {
-                validMobs = validMobs.Where(m => world.Zone.MobTypes.Contains(m.Name));
+                validMobs = validMobs.Where(m => zone.MobTypes.Contains(m.Name));
             }
             if (validMobs == null || !validMobs.Any())
                 throw new Exception($"No valid mobs for area level {level}");
             int index = new Random().Next(validMobs.Count());
-            return m_factory.MakeMob(validMobs.ElementAt(index), level);
-        }
-
-        bool NeedToSpawnMob(World world, Coordinator coordinator, double dt)
-        {
-            var mobCount = coordinator.GetEntities<MobComponent>().Count;
-            return mobCount == 0 && world.RemainingEnemies > 0;
+            return MobFactory.MakeMob(validMobs.ElementAt(index), level);
         }
     }
 

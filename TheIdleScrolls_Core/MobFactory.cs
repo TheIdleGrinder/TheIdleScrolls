@@ -19,12 +19,10 @@ namespace TheIdleScrolls_Core
 
     public class MobFactory
     {
-        static double BaseHpMultiplier = 10.0;
-        static double DifficultyScaling = 1.0;
+        static readonly double BaseHpMultiplier = 10.0;
+        static readonly double DifficultyScaling = 1.0;
 
-        List<MobDescription> m_mobs = new();
-
-        public Entity MakeMob(MobDescription description, int level)
+        public static Entity MakeMob(MobDescription description, int level)
         {
             if (level < description.MinLevel || level > description.MaxLevel)
                 throw new Exception($"Invalid level for {description.Name.Localize()}: {level} (valid: {description.MinLevel} - {description.MaxLevel})");
@@ -42,14 +40,14 @@ namespace TheIdleScrolls_Core
             return mob;
         }
 
-        int CalculateHP(MobDescription description, int level)
+        static int CalculateHP(MobDescription description, int level)
         {
             double hp = Math.Pow(level, DifficultyScaling) * description.HP * BaseHpMultiplier;
             hp *= Math.Pow(1.1, Math.Pow(level, 0.75)); // Sub-exponential scaling for HP
             return (int)Math.Min(Math.Round(hp), 1_000_000_000); // Limit HP to 1B
         }
 
-        int CalculateXpValue(MobDescription description, int level)
+        static int CalculateXpValue(MobDescription description, int level)
         {
             double dmgMulti = 0.5 + 0.5 * description.Damage;
             double hp = CalculateHP(description, level);
@@ -57,7 +55,7 @@ namespace TheIdleScrolls_Core
             return (int)Math.Min(xp, 2_500_000);
         }
 
-        double CalculateDamage(MobDescription description, int level)
+        static double CalculateDamage(MobDescription description, int level)
         {
             return description.Damage * (1.0 + Math.Max(0, level - 10) / 100.0);
         }

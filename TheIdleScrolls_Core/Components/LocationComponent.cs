@@ -16,12 +16,21 @@ namespace TheIdleScrolls_Core.Components
 
         public int DungeonFloor { get; set; } = 0;
 
-        /// <summary>
-        /// Corner cut: Store the data pertaining to the current zone in the component. 
-        /// This is only used for player characters to keep track of remaining monsters.
-        /// </summary>
-        public ZoneDescription CurrentZone { get; set; } = new();
+        // CornerCut: Keep track of remaining enemies here, used to check the dungeon progress of player characters
+        public int RemainingEnemies { get; set; } = Int32.MaxValue;
 
         public bool InDungeon => DungeonId != string.Empty;
+
+        public ZoneDescription? GetCurrentZone(WorldMap map)
+        {
+            if (InDungeon)
+            {
+                return map.GetDungeonZone(DungeonId, DungeonFloor);
+            }
+            else
+            {
+                return map.GetZone(CurrentLocation);
+            }
+        }
     }
 }

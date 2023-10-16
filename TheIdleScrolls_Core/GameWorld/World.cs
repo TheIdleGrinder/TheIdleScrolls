@@ -13,12 +13,6 @@ namespace TheIdleScrolls_Core.GameWorld
     {
         public bool GameOver = false; // Corner cut: should this be part of the world?
 
-        public string DungeonId = "";
-        public int DungeonFloor = 0;
-
-        public ZoneDescription Zone;
-        public int RemainingEnemies = int.MaxValue;
-
         public double XpMultiplier = 1.0;
         public double SpeedMultiplier = 1.0;
         public double RarityMultiplier = 1.0;
@@ -28,26 +22,26 @@ namespace TheIdleScrolls_Core.GameWorld
 
         public AreaKingdomDescription AreaKingdom = new();
 
+        public WorldMap Map = new();
+
         public Entity GlobalEntity = new(); // Stores character-independent data, that needs to be saved regularly (e.g. achievement status)
 
         public Cooldown TimeLimit = new(10.0);
 
         public World()
         {
-            Zone = new();
             TimeLimit.SingleShot = true;
+            Map.Dungeons = AreaKingdom.Dungeons;
         }
 
-        public bool IsInDungeon()
+        public ZoneDescription? GetZone(Location location)
         {
-            return DungeonId != "";
+            return Map.GetZone(location);
         }
 
-        public List<MobDescription> GetLocalMobs()
+        public ZoneDescription? GetDungeonZone(string dungeonId, int floor)
         {
-            if (!IsInDungeon())
-                return new();
-            return AreaKingdom.GetLocalEnemies(DungeonId);
+            return Map.GetDungeonZone(dungeonId, floor);
         }
     }
 }

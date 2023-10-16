@@ -24,12 +24,22 @@ namespace TheIdleScrolls_Core.Systems
 
             var travelComp = player.GetComponent<TravellerComponent>();
             var progComp = player.GetComponent<PlayerProgressComponent>();
+            var locationComp = player.GetComponent<LocationComponent>();
+
+            if (travelComp == null)
+            {
+                throw new Exception("Player entity is missing required component: Traveller");
+            }
+            if (locationComp == null)
+            {
+                throw new Exception("Player entity is missing required component: Location");
+            }
 
             if (m_firstUpdate)
             {
-                if (world.IsInDungeon())
+                if (locationComp.InDungeon)
                 {
-                    Travel(world.DungeonId, 0, world, coordinator);
+                    Travel(locationComp.DungeonId, 0, world, coordinator);
                 }
                 else
                 { 
@@ -37,6 +47,10 @@ namespace TheIdleScrolls_Core.Systems
                     if (travelComp != null)
                     {
                         startingZone = progComp?.Data.HighestWildernessKill ?? 0;
+                    }
+                    if (locationComp != null)
+                    {
+                        startingZone = locationComp.GetCurrentZone(world.Map)?.Level ?? 0;
                     }
                     if (startingZone == 0)
                     {
@@ -60,9 +74,18 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             var playerLvl = player.GetComponent<LevelComponent>()?.Level ?? 0;
+            if (locationComp == null)
+            {
+                throw new Exception("Player entity is missing required component: Location");
+            }
+            var currentZone = locationComp.GetCurrentZone(world.Map);
+            if (currentZone == null)
+            {
+                throw new Exception("Player is not in a valid zone");
+            }
 
             // Travel if player has no traveller component
-            if (travelComp == null && playerLvl != world.Zone.Level)
+            if (travelComp == null && playerLvl != (locationComp.GetCurrentZone(world.Map)?.Level ?? 0))
             {
                 Travel("", playerLvl, world, coordinator);
             }
@@ -73,15 +96,15 @@ namespace TheIdleScrolls_Core.Systems
                 int limit = travelComp?.MaxWilderness ?? Int32.MaxValue;
                 Travel(travelRequest.AreaId, Math.Min(travelRequest.ZoneNumber, limit), world, coordinator); // CornerCut: Checks limit for dungeons
             }
-            else if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>() && !world.IsInDungeon()) // Player lost battle
+            else if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>() && !locationComp.InDungeon) // Player lost battle
             {
-                if (world.Zone.Level > 1)
-                    Travel("", world.Zone.Level - 1, world, coordinator);
+                if (currentZone.Level > 1)
+                    Travel("", currentZone.Level - 1, world, coordinator);
                 coordinator.PostMessage(this, new AutoProceedRequest(false));
             }
-            else if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed && !world.IsInDungeon())
+            else if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed && !locationComp.InDungeon)
             {
-                Travel("", world.Zone.Level + 1, world, coordinator);
+                Travel("", currentZone.Level + 1, world, coordinator);
             }
 
             // Handle changes to auto proceed status

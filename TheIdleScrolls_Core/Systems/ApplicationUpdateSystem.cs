@@ -157,7 +157,13 @@ namespace TheIdleScrolls_Core.Systems
             // Update area
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TravelMessage>())
             {
-                PlayerAreaChanged?.Invoke(world.Zone.Name, world.Zone.Level, world.IsInDungeon());
+                var locationComp = player.GetComponent<LocationComponent>();
+                if (locationComp == null)
+                {
+                    throw new Exception("Player has no LocationComponent");
+                }
+                var zone = locationComp.GetCurrentZone(world.Map) ?? new();
+                PlayerAreaChanged?.Invoke(zone.Name, zone.Level, locationComp.InDungeon);
             }
 
             // Update accessible areas

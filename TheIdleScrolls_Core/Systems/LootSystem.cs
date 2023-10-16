@@ -24,27 +24,32 @@ namespace TheIdleScrolls_Core.Systems
             if (m_player == null)
                 return;
 
+            var locationComp = m_player.GetComponent<LocationComponent>();
+            if (locationComp == null)
+                return;
+
             foreach (var _ in coordinator.FetchMessagesByType<DeathMessage>())
             {
                 double dropChance = WildDropChance * world.QuantityMultiplier;
                 if (new Random().NextDouble() < dropChance)
                 {
-                    int MinDropLevel = Math.Min(world.Zone.Level - 20, MinDropCutoff);
-                    LootTableParameters parameters = new(world.Zone.Level, MinDropLevel, 0, 0.0); // 0 rarity => no "magic" items from normal mobs
+                    var zone = locationComp.GetCurrentZone(world.Map) ?? new();
+                    int MinDropLevel = Math.Min(zone.Level - 20, MinDropCutoff);
+                    LootTableParameters parameters = new(zone.Level, MinDropLevel, 0, 0.0); // 0 rarity => no "magic" items from normal mobs
                     GiveRandomLoot(parameters, coordinator);
                 }
             }
 
             foreach (var dungeon in coordinator.FetchMessagesByType<DungeonCompletedMessage>())
             {
-                GiveDungeonReward(world, coordinator, dungeon.FirstCompletion);
+                GiveDungeonReward(dungeon.DungeonId, world, coordinator, dungeon.FirstCompletion);
             }
         }
 
-        void GiveDungeonReward(World world, Coordinator coordinator, bool firstClear)
+        void GiveDungeonReward(string dungeonId, World world, Coordinator coordinator, bool firstClear)
         {
             double rarity = world.RarityMultiplier * (firstClear ? FirstClearRarityBonus : 1.0);
-            var dungeon = world.AreaKingdom.GetDungeon(world.DungeonId) ?? throw new Exception($"Invalid dungeon id: {world.DungeonId}");
+            var dungeon = world.AreaKingdom.GetDungeon(dungeonId) ?? throw new Exception($"Invalid dungeon id: {dungeonId}");
             LootTableParameters parameters = new(dungeon.Level, dungeon.Rewards.MinDropLevel, 0, rarity);
             GiveRandomLoot(parameters, coordinator);
         }
