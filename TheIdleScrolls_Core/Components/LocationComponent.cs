@@ -32,5 +32,25 @@ namespace TheIdleScrolls_Core.Components
                 return map.GetZone(CurrentLocation);
             }
         }
+
+        public bool EnterDungeon(string dungeonId)
+        {
+            DungeonId = dungeonId;
+            DungeonFloor = 0;
+            return true; // Placeholder for future checks
+        }
+
+        public bool LeaveDungeon()
+        {
+            DungeonId = string.Empty;
+            DungeonFloor = -1;
+            return true;
+        }
+
+        public bool TravelToLocation(Location location)
+        {
+            CurrentLocation = location;
+            return LeaveDungeon();
+        }
     }
 }

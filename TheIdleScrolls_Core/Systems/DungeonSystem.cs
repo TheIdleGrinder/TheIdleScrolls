@@ -17,8 +17,6 @@ namespace TheIdleScrolls_Core.Systems
         Entity? m_player = null;
         bool m_firstUpdate = true;
 
-        int m_wildernessLevel = 1;
-
         int m_highestWilderness = 0; // Used to determine whether accessible dungeons need to be checked again
         int m_dungeonsDone = 0;
 
@@ -67,18 +65,26 @@ namespace TheIdleScrolls_Core.Systems
             var request = coordinator.FetchMessagesByType<EnterDungeonRequest>().LastOrDefault();
             if (request != null)
             {
-                if (!locationComp.InDungeon)
+                if (world.Map.GetDungeonsAtLocation(locationComp.CurrentLocation).Any(d => d.Name == request.DungeonId))
                 {
-                    m_wildernessLevel = locationComp.GetCurrentZone(world.Map)?.Level ?? 1;
+                    locationComp.EnterDungeon(request.DungeonId);
+                    coordinator.PostMessage(this, 
+                        new AreaChangedMessage(m_player, locationComp.CurrentLocation, request.DungeonId, 0, AreaChangeType.EnteredDungeon));
                 }
-                coordinator.PostMessage(this, new TravelRequest(request.DungeonId, 0));
-                return;
+                else
+                {
+                    coordinator.PostMessage(this, 
+                        new TextMessage($"Dungeon {request.DungeonId} is not at the player's location", 
+                        IMessage.PriorityLevel.High));
+                }
             }
 
             // Leave dungeon if requested
             if (coordinator.MessageTypeIsOnBoard<LeaveDungeonRequest>())
             {
-                coordinator.PostMessage(this, new TravelRequest("", m_wildernessLevel));
+                locationComp.LeaveDungeon();
+                coordinator.PostMessage(this, 
+                    new AreaChangedMessage(m_player, locationComp.CurrentLocation, string.Empty, -1, AreaChangeType.LeftDungeon));
             }
 
             // In dungeon?
@@ -94,7 +100,9 @@ namespace TheIdleScrolls_Core.Systems
             {
                 if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>())
                 {
-                    coordinator.PostMessage(this, new TravelRequest("", m_wildernessLevel));
+                    locationComp.LeaveDungeon();
+                    coordinator.PostMessage(this,
+                        new AreaChangedMessage(m_player, locationComp.CurrentLocation, string.Empty, -1, AreaChangeType.LeftDungeon));
                     return;
                 }
 
@@ -104,13 +112,19 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     if (world.AreaKingdom.GetDungeonFloorCount(locationComp.DungeonId) > locationComp.DungeonFloor + 1) // There are more floors
                     {
-                        coordinator.PostMessage(this, new TravelRequest(locationComp.DungeonId, locationComp.DungeonFloor + 1));
+                        locationComp.DungeonFloor += 1;
+                        locationComp.RemainingEnemies = locationComp.GetCurrentZone(world.Map)?.MobCount ?? Int32.MaxValue;
+                        coordinator.PostMessage(this,
+                            new AreaChangedMessage(m_player, locationComp.CurrentLocation, 
+                                locationComp.DungeonId, locationComp.DungeonFloor, AreaChangeType.FloorChange));
                     }
                     else // Dungeon cleared
                     {
                         bool first = !m_player.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
                         coordinator.PostMessage(this, new DungeonCompletedMessage(locationComp.DungeonId, first));
-                        coordinator.PostMessage(this, new TravelRequest(locationComp.DungeonId, 0));
+                        locationComp.EnterDungeon(locationComp.DungeonId);
+                        coordinator.PostMessage(this,
+                            new AreaChangedMessage(m_player, locationComp.CurrentLocation, locationComp.DungeonId, 0, AreaChangeType.EnteredDungeon));
                     }
                 }
             }

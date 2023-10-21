@@ -26,6 +26,11 @@ namespace TheIdleScrollsApp
             m_requests.Add(new ItemMoveRequest(playerId, itemId, true));
         }
 
+        public void UnequipItem(uint playerId, uint itemId)
+        {
+            m_requests.Add(new ItemMoveRequest(playerId, itemId, false));
+        }
+
         public void SellItem(uint playerId, uint itemId)
         {
             m_requests.Add(new SellItemRequest(playerId, itemId));
@@ -48,12 +53,22 @@ namespace TheIdleScrollsApp
 
         public void TravelIntoWilderness(int areaLevel)
         {
-            m_requests.Add(new TravelRequest("", areaLevel));
+            m_requests.Add(new TravelRequest(areaLevel, 0)); // CornerCut: for now this works, this function will be removed later
         }
 
-        public void UnequipItem(uint playerId, uint itemId)
+        public void TravelToLocation(int x, int y)
         {
-            m_requests.Add(new ItemMoveRequest(playerId, itemId, false));
+            m_requests.Add(new TravelRequest(x, y));
+        }
+
+        public void TravelToNextLocation()
+        {
+            m_requests.Add(new SingleStepTravelRequest(true));
+        }
+
+        public void TravelToPreviousLocation()
+        {
+            m_requests.Add(new SingleStepTravelRequest(false));
         }
 
         public override void Update(World world, Coordinator coordinator, double dt)
@@ -66,6 +81,5 @@ namespace TheIdleScrollsApp
             }
             processed.ForEach(m => m_requests.Remove(m)); // Don't use Clear to prevent (unlikely) timing issues
         }
-
     }
 }

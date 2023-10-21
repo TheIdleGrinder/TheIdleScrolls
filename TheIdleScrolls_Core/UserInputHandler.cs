@@ -20,6 +20,12 @@ namespace TheIdleScrolls_Core
 
         public void TravelIntoWilderness(int areaLevel);
 
+        public void TravelToLocation(int x, int y);
+
+        public void TravelToNextLocation();
+
+        public void TravelToPreviousLocation();
+
         public void EnterDungeon(string dungeonId);
 
         public void LeaveDungeon();

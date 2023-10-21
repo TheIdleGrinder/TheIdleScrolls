@@ -81,7 +81,7 @@ namespace TheIdleScrolls_Core.Systems
             var currentZone = locationComp.GetCurrentZone(world.Map);
             if (currentZone == null)
             {
-                throw new Exception("Player is not in a valid zone");
+                throw new Exception($"Player {player.GetName()} is not in a valid zone");
             }
 
             // Travel if player has no traveller component
@@ -173,18 +173,41 @@ namespace TheIdleScrolls_Core.Systems
 
     public class TravelRequest : IMessage
     {
-        public string AreaId { get; set; }
-        public int ZoneNumber { get; set; }
+        public Location Location { get; set; }
 
-        public TravelRequest(string areaId, int zoneNumber)
+        public TravelRequest(Location location)
         {
-            AreaId = areaId;
-            ZoneNumber = zoneNumber;
+            Location = location;
+        }
+
+        public TravelRequest(int x, int y)
+        {
+            Location = new(x, y);
         }
 
         string IMessage.BuildMessage()
         {
-            return $"Request: Travel to area '{AreaId}' (#{ZoneNumber})";
+            return $"Request: Travel to coordinates [{Location}]";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
+        }
+    }
+
+    public class SingleStepTravelRequest : IMessage
+    {
+        public bool Forward { get; set; }
+
+        public SingleStepTravelRequest(bool forward)
+        {
+            Forward = forward;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Request: Travel to {((Forward) ? "next" : "previous")} location";
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()
