@@ -37,7 +37,7 @@ namespace TheIdleScrolls_Core.Systems
 
             if (m_firstUpdate)
             {
-                if (locationComp.InDungeon)
+/*                if (locationComp.InDungeon)
                 {
                     Travel(locationComp.DungeonId, 0, world, coordinator);
                 }
@@ -57,7 +57,8 @@ namespace TheIdleScrolls_Core.Systems
                         startingZone = player.GetComponent<LevelComponent>()?.Level ?? 1;
                     }
                     Travel("", startingZone, world, coordinator);
-                }                
+                }  */ 
+                
 
                 m_firstUpdate = false;
                 coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed)); // CornerCut: make info accessible to app
@@ -85,26 +86,46 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Travel if player has no traveller component
-            if (travelComp == null && playerLvl != (locationComp.GetCurrentZone(world.Map)?.Level ?? 0))
+            if (travelComp == null && playerLvl > (locationComp.GetCurrentZone(world.Map)?.Level ?? 0))
             {
-                Travel("", playerLvl, world, coordinator);
+                coordinator.PostMessage(this, new TravelRequest(world.Map.GetNextLocation(locationComp.CurrentLocation)!));
+            }
+
+            // Translate Battle lost => Travel one zone back
+            if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>() && !locationComp.InDungeon) // Player lost battle
+            {
+                coordinator.PostMessage(this, new SingleStepTravelRequest(false));
+                coordinator.PostMessage(this, new AutoProceedRequest(false));
+            }
+            // Translate Death (victory) && auto proceed => Travel one zone forward
+            if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed && !locationComp.InDungeon)
+            {
+                coordinator.PostMessage(this, new SingleStepTravelRequest(true));
+            }
+
+            // Translate latest single-step travel to regular travel request
+            var singleStepRequest = coordinator.FetchMessagesByType<SingleStepTravelRequest>().LastOrDefault();
+            if (singleStepRequest != null)
+            {
+                Location? target = singleStepRequest.Forward
+                    ? world.Map.GetNextLocation(locationComp.CurrentLocation)
+                    : world.Map.GetPreviousLocation(locationComp.CurrentLocation);
+                if (target != null)
+                    coordinator.PostMessage(this, new TravelRequest(target));
             }
 
             var travelRequest = coordinator.FetchMessagesByType<TravelRequest>().LastOrDefault();
             if (travelRequest != null)
             {
                 int limit = travelComp?.MaxWilderness ?? Int32.MaxValue;
-                Travel(travelRequest.AreaId, Math.Min(travelRequest.ZoneNumber, limit), world, coordinator); // CornerCut: Checks limit for dungeons
-            }
-            else if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>() && !locationComp.InDungeon) // Player lost battle
-            {
-                if (currentZone.Level > 1)
-                    Travel("", currentZone.Level - 1, world, coordinator);
-                coordinator.PostMessage(this, new AutoProceedRequest(false));
-            }
-            else if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed && !locationComp.InDungeon)
-            {
-                Travel("", currentZone.Level + 1, world, coordinator);
+                var zone = world.GetZone(travelRequest.Location);
+                if (zone != null && zone.Level <= limit)
+                {
+                    if (locationComp.TravelToLocation(travelRequest.Location))
+                    {
+                        coordinator.PostMessage(this, new AreaChangedMessage(player, locationComp.CurrentLocation));
+                    }
+                }
             }
 
             // Handle changes to auto proceed status
@@ -114,18 +135,6 @@ namespace TheIdleScrolls_Core.Systems
                 m_autoProceed = autoProcRequest.AutoProceed;
                 coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed));
             }
-        }
-
-        void Travel(string areaId, int zoneNumber, World world, Coordinator coordinator)
-        {
-            coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id));
-            world.Zone = world.AreaKingdom.GetZoneDescription(areaId, zoneNumber);
-            string areaName = world.Zone.Name;
-            world.DungeonId = areaId;
-            world.DungeonFloor = zoneNumber;
-            world.RemainingEnemies = world.Zone.MobCount;
-            world.TimeLimit.Reset(world.TimeLimit.Duration * world.Zone.TimeMultiplier);
-            coordinator.PostMessage(this, new TravelMessage(areaName, world.Zone.Level));
         }
     }
 

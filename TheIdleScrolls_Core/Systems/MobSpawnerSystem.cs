@@ -23,6 +23,13 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
+            // Despawn all mobs if the character moved to a new area
+            // CornerCut: technically, only mobs that were involved in a fight with the travelling player should be removed
+            if (coordinator.MessageTypeIsOnBoard<AreaChangedMessage>())
+            {
+                coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id));
+            }
+
             foreach (Entity player in coordinator.GetEntities<PlayerComponent>())
             {
                 var locationComp = player.GetComponent<LocationComponent>();

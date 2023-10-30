@@ -20,7 +20,7 @@ namespace TheIdleScrolls_Core.GameWorld
 
         public ItemKingdomDescription ItemKingdom = new();
 
-        public AreaKingdomDescription AreaKingdom = new();
+        public AreaKingdomDescription AreaKingdom { get; private set; } = new();
 
         public WorldMap Map = new();
 
@@ -31,6 +31,12 @@ namespace TheIdleScrolls_Core.GameWorld
         public World()
         {
             TimeLimit.SingleShot = true;
+            Map.Dungeons = AreaKingdom.Dungeons;
+        }
+
+        public void SetAreas(AreaKingdomDescription areas)
+        {
+            AreaKingdom = areas;
             Map.Dungeons = AreaKingdom.Dungeons;
         }
 

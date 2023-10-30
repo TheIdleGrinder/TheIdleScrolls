@@ -155,7 +155,7 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Update area
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<TravelMessage>())
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AreaChangedMessage>())
             {
                 var locationComp = player.GetComponent<LocationComponent>();
                 if (locationComp == null)

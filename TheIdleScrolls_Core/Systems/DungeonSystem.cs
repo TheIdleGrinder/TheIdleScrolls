@@ -62,19 +62,22 @@ namespace TheIdleScrolls_Core.Systems
             // Handle requests
             // Note current zone, if in wilderness
             // Send travel request
+            bool floorChanged = false;
             var request = coordinator.FetchMessagesByType<EnterDungeonRequest>().LastOrDefault();
             if (request != null)
             {
                 if (world.Map.GetDungeonsAtLocation(locationComp.CurrentLocation).Any(d => d.Name == request.DungeonId))
                 {
                     locationComp.EnterDungeon(request.DungeonId);
+                    floorChanged = true;
+                    
                     coordinator.PostMessage(this, 
                         new AreaChangedMessage(m_player, locationComp.CurrentLocation, request.DungeonId, 0, AreaChangeType.EnteredDungeon));
                 }
                 else
                 {
                     coordinator.PostMessage(this, 
-                        new TextMessage($"Dungeon {request.DungeonId} is not at the player's location", 
+                        new TextMessage($"Dungeon {request.DungeonId.Localize()} is not at the player's location", 
                         IMessage.PriorityLevel.High));
                 }
             }
@@ -91,13 +94,14 @@ namespace TheIdleScrolls_Core.Systems
                 // Time expired => return to wilderness
                 // Mob defeated => check remaining
                     // No mobs remaining => check floor
-                        // Next floor exists => send travel request
+                        // Next floor exists => move there
                         // No next floor
                             // Update PlayerProgress
                             // Give reward
                             // return to wilderness
             if (locationComp.InDungeon)
             {
+
                 if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>())
                 {
                     locationComp.LeaveDungeon();
@@ -113,7 +117,7 @@ namespace TheIdleScrolls_Core.Systems
                     if (world.AreaKingdom.GetDungeonFloorCount(locationComp.DungeonId) > locationComp.DungeonFloor + 1) // There are more floors
                     {
                         locationComp.DungeonFloor += 1;
-                        locationComp.RemainingEnemies = locationComp.GetCurrentZone(world.Map)?.MobCount ?? Int32.MaxValue;
+                        floorChanged = true;
                         coordinator.PostMessage(this,
                             new AreaChangedMessage(m_player, locationComp.CurrentLocation, 
                                 locationComp.DungeonId, locationComp.DungeonFloor, AreaChangeType.FloorChange));
@@ -123,9 +127,20 @@ namespace TheIdleScrolls_Core.Systems
                         bool first = !m_player.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
                         coordinator.PostMessage(this, new DungeonCompletedMessage(locationComp.DungeonId, first));
                         locationComp.EnterDungeon(locationComp.DungeonId);
+                        floorChanged = true;
                         coordinator.PostMessage(this,
                             new AreaChangedMessage(m_player, locationComp.CurrentLocation, locationComp.DungeonId, 0, AreaChangeType.EnteredDungeon));
                     }
+                }
+
+                if (locationComp.InDungeon && floorChanged)
+                {
+                    var zone = world.Map.GetDungeonZone(locationComp.DungeonId, locationComp.DungeonFloor);
+                    if (zone == null)
+                    {
+                        throw new Exception($"Player entered invalid dungeon: {locationComp.DungeonId}");
+                    }
+                    locationComp.RemainingEnemies = zone.MobCount;
                 }
             }
         }

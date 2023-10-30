@@ -100,12 +100,12 @@
 
     private void MoveDown()
     {
-        CoreWrapper.InputHandler.TravelIntoWilderness(AreaLevel - 1);
+        CoreWrapper.InputHandler.TravelToPreviousLocation();
     }
 
     private void MoveUp()
     {
-        CoreWrapper.InputHandler.TravelIntoWilderness(AreaLevel + 1);
+        CoreWrapper.InputHandler.TravelToNextLocation();
     }
 
     private void ToggleAutoProceed()

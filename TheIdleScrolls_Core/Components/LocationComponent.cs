@@ -21,6 +21,8 @@ namespace TheIdleScrolls_Core.Components
 
         public bool InDungeon => DungeonId != string.Empty;
 
+        public bool InOverworld => !InDungeon;
+
         public ZoneDescription? GetCurrentZone(WorldMap map)
         {
             if (InDungeon)
