@@ -12,13 +12,28 @@
         <div class="worldMapRow">
             @for (int x = 0; x < Cells.GetLength(1); x++)
             {
-                <div class="worldMapCell">@Cells[y, x]</div>
+                <div class="worldMapCell" style=@GetCellStyle(Cells[y, x])>@(Cells[y, x]?.Level ?? 0)</div>
             }            
         </div>
     }
 </div>
 
 <style>
+    :root {
+        --color-biome-dungeon: slategray;
+        --color-biome-grassland: lawngreen;
+        --color-biome-forest: green;
+        --color-biome-rainforest: darkgreen;
+        --color-biome-swamp: olive;
+        --color-biome-savannah: goldenrod;
+        --color-biome-desert: yellow;
+        --color-biome-oasis: springgreen;
+        --color-biome-tundra: teal;
+        --color-biome-icydesert: lightblue;
+        --color-biome-wasteland: gray;
+        --color-biome-none: black;
+    }
+
     #worldMapFrame {
         max-width: 800px;
         max-height: 800px;
@@ -48,7 +63,7 @@
 </style>
 
 @code {
-    int[,] Cells = { };
+    ZoneDescription?[,] Cells = { };
 
     protected override void OnInitialized()
     {
@@ -67,16 +82,34 @@
         int xMax = locations.Select(l => l.X).Max();
         int yMin = locations.Select(l => l.Y).Min();
         int yMax = locations.Select(l => l.Y).Max();
-        Cells = new int[yMax - yMin + 1, xMax - xMin + 1];
+        Cells = new ZoneDescription?[yMax - yMin + 1, xMax - xMin + 1];
         for (int y = yMin; y <= yMax; y++)
         {
             for (int x = xMin; x <= xMax; x++)
             {
                 var zone = worldMap.GetZone(new(x, y));
-                int level = zone?.Level ?? 0;
-                Cells[y - yMin, x - xMin] = level;
+                Cells[y - yMin, x - xMin] = zone;
             }
         }
         base.OnInitialized();
+    }
+
+    string GetCellStyle(ZoneDescription? zone)
+    {
+        string biomeName = (zone?.Biome) switch {
+            Biome.Dungeon => "dungeon",
+            Biome.Grassland => "grassland",
+            Biome.Forest => "forest",
+            Biome.RainForest => "rainforest",
+            Biome.Swamp => "swamp",
+            Biome.Savannah => "savannah",
+            Biome.Desert => "desert",
+            Biome.Oasis => "oasis",
+            Biome.Tundra => "tundra",
+            Biome.IcyDesert => "icydesert",
+            Biome.Wasteland => "wasteland",
+            _ => "none"
+        };
+        return $"background-color: var(--color-biome-{biomeName})";
     }
 }
