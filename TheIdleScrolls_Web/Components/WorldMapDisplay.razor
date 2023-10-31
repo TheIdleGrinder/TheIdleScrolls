@@ -1,0 +1,64 @@
+﻿@page "/map"
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<h3>World Map Display</h3>
+
+<div id="worldMapFrame">
+    @for (int y = 0; y < Cells.GetLength(0); y++)
+    {
+        <div class="worldMapRow">
+            @for (int x = 0; x < Cells.GetLength(1); x++)
+            {
+                <div class="worldMapCell">@Cells[y, x]</div>
+            }            
+        </div>
+    }
+</div>
+
+<style>
+    #worldMapFrame {
+        width: 800px;
+        height: 800px;
+        border: 3px solid var(--frame-color);
+        background-color: var(--back-color-special);
+        overflow: scroll;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .worldMapRow {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        overflow: visible;
+    }
+
+    .worldMapCell {
+        width: 40px;
+        height: 40px;
+        border: 1px solid black;
+        background-color: lawngreen;
+        flex-basis: 40px;
+        flex-shrink: 0;
+    }
+</style>
+
+@code {
+    int[,] Cells = { };
+
+    protected override void OnInitialized()
+    {
+        int rows = 30;
+        int columns = 50;
+        Cells = new int[rows, columns];
+        int i = 0;
+        for (int y = 0; y < Cells.Length; y++)
+        {
+            Cells[y % rows, y / rows] = i++;
+        }
+        base.OnInitialized();
+    }
+}
