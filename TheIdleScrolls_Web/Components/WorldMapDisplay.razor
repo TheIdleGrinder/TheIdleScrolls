@@ -67,7 +67,6 @@
         int xMax = locations.Select(l => l.X).Max();
         int yMin = locations.Select(l => l.Y).Min();
         int yMax = locations.Select(l => l.Y).Max();
-        Console.WriteLine($"X: {xMin}-{xMax} / Y: {yMin}-{yMax}");
         Cells = new int[yMax - yMin + 1, xMax - xMin + 1];
         for (int y = yMin; y <= yMax; y++)
         {
@@ -75,7 +74,6 @@
             {
                 var zone = worldMap.GetZone(new(x, y));
                 int level = zone?.Level ?? 0;
-                Console.WriteLine($"@{x}/{y}: Level {level}");
                 Cells[y - yMin, x - xMin] = level;
             }
         }

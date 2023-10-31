@@ -10,43 +10,6 @@ namespace TheIdleScrolls_Core
     {
         public List<DungeonDescription> Dungeons { get; set; } = new();
 
-        public ZoneDescription GetZoneDescription(string areaId, int zoneNumber)
-        {
-            if (areaId == "") // Wilderness
-            {
-                return GetWildernessZoneDescription(zoneNumber);
-            }
-            else 
-            { 
-                var dungeon = Dungeons.Find(d => d.Name == areaId);
-                if (dungeon == null)
-                    throw new Exception($"Invalid dungeon id: {areaId}");
-                if (zoneNumber < 0 || zoneNumber >= dungeon.Floors.Count)
-                    throw new Exception($"Dungeon '{dungeon.Name.Localize()}' has no floor {zoneNumber}");
-                var floor = dungeon.Floors[zoneNumber];
-                return new ZoneDescription()
-                {
-                    Name = $"{dungeon.Name.Localize()} - Floor {zoneNumber + 1}",
-                    Level = dungeon.Level,
-                    MobTypes = floor.MobTypes,
-                    MobCount = floor.MobCount,
-                    TimeMultiplier = floor.TimeMultiplier
-                };
-            }
-        }
-
-        ZoneDescription GetWildernessZoneDescription(int level)
-        {
-            return new ZoneDescription()
-            {
-                Name = $"Wilderness - Level {level}",
-                Level = level,
-                MobTypes = new(),
-                MobCount = Int32.MaxValue,
-                TimeMultiplier = 1.0
-            };
-        }
-
         public List<MobDescription> GetLocalEnemies(string areaId)
         {
             foreach (var dungeon in Dungeons)
@@ -104,17 +67,5 @@ namespace TheIdleScrolls_Core
         {
 
         }
-    }
-
-    /// <summary>
-    /// Description of a generic zone (both wilderness and dungeon)
-    /// </summary>
-    public class ZoneDescription
-    {
-        public string Name { get; set; } = "??";
-        public int Level { get; set; } = 0; // CornerCut: Use Level==0 to check for invalid zone
-        public double TimeMultiplier { get; set; } = 1.0;
-        public int MobCount { get; set; } = 1;
-        public List<string> MobTypes { get; set; } = new();
     }
 }

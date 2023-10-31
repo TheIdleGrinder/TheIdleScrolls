@@ -35,6 +35,7 @@ namespace TheIdleScrolls_Core.GameWorld
             return new ZoneDescription()
             {
                 Name = $"{dungeon.Name.Localize()} - Floor {floor + 1}",
+                Biome = Biome.Dungeon,
                 Level = dungeon.Level,
                 MobTypes = dungeonFloor.MobTypes,
                 MobCount = dungeonFloor.MobCount,
@@ -60,10 +61,14 @@ namespace TheIdleScrolls_Core.GameWorld
         {
             if (location.Y != 0)
                 return null;
+
+
+
             int level = location.X + MinLevel;
             return new()
             {
                 Name = $"Wilderness - Level {level}",
+                Biome = Biome.Grassland,
                 Level = level,
                 MobTypes = new(),
                 MobCount = Int32.MaxValue,
