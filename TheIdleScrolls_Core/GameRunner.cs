@@ -29,6 +29,7 @@ namespace TheIdleScrolls_Core
         public ulong Ticks { get { return m_ticks; } }
 
         public DataAccessHandler DataAccessHandler { get { return m_dataHandler; } }
+        public WorldMap WorldMap { get { return m_world.Map; } }
 
         public GameRunner(DataAccessHandler dataHandler)
         {

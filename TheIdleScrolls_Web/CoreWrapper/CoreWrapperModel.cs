@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection.Metadata;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.DataAccess;
+using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Storage;
 using TheIdleScrolls_Storage;
@@ -54,6 +55,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<TitledMessage> TitledMessages { get; private set; } = new();
         public List<ExpiringMessage> ExpiringMessages { get; private set; } = new();
 
+
+        public WorldMap WorldMap => gameRunner.WorldMap;
         // (Ab)use wrapper to store the currently hightlighted item used in InventoryDisplay and EquipmentDisplay
         public uint HighlightedItem { get; private set; } = uint.MaxValue;
         
