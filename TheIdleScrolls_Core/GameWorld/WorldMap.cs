@@ -62,18 +62,26 @@ namespace TheIdleScrolls_Core.GameWorld
             if (location.Y != 0)
                 return null;
 
-
-
             int level = location.X + MinLevel;
             return new()
             {
                 Name = $"Wilderness - Level {level}",
-                Biome = Biome.Grassland,
+                Biome = CalculateBiome(level),
                 Level = level,
                 MobTypes = new(),
                 MobCount = Int32.MaxValue,
                 TimeMultiplier = 1.0
             };
+        }
+
+        private static Biome CalculateBiome(int areaLevel)
+        {
+            if (areaLevel <= 5)
+            {
+                return Biome.Dungeon;
+            }
+            int biomeCount = Enum.GetValues(typeof(Biome)).Length - 1; // -1 for dungeon
+            return Enum.GetValues<Biome>()[((areaLevel - 5) / 10) % biomeCount + 1];
         }
     }
 }
