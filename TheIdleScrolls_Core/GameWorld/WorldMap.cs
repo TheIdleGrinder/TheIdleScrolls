@@ -64,9 +64,12 @@ namespace TheIdleScrolls_Core.GameWorld
 
             int level = location.X + MinLevel;
             Biome biome = CalculateBiome(level);
+            string name = (biome == Biome.Dungeon) 
+                ? "Training Grounds" // First 5 zones are marked as dungeon
+                : biome.ToLocalizedString();
             return new()
             {
-                Name = $"{biome} - Level {level}",
+                Name = $"{name} - Level {level}",
                 Biome = biome,
                 Level = level,
                 MobTypes = new(),

@@ -142,6 +142,105 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Desert ähnelt.
+        /// </summary>
+        internal static string BIOME_DESERT {
+            get {
+                return ResourceManager.GetString("BIOME_DESERT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dungeon ähnelt.
+        /// </summary>
+        internal static string BIOME_DUNGEON {
+            get {
+                return ResourceManager.GetString("BIOME_DUNGEON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Forest ähnelt.
+        /// </summary>
+        internal static string BIOME_FOREST {
+            get {
+                return ResourceManager.GetString("BIOME_FOREST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Grassland ähnelt.
+        /// </summary>
+        internal static string BIOME_GRASSLAND {
+            get {
+                return ResourceManager.GetString("BIOME_GRASSLAND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Icy Desert ähnelt.
+        /// </summary>
+        internal static string BIOME_ICE {
+            get {
+                return ResourceManager.GetString("BIOME_ICE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Oasis ähnelt.
+        /// </summary>
+        internal static string BIOME_OASIS {
+            get {
+                return ResourceManager.GetString("BIOME_OASIS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rainforest ähnelt.
+        /// </summary>
+        internal static string BIOME_RAINFOREST {
+            get {
+                return ResourceManager.GetString("BIOME_RAINFOREST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Savannah ähnelt.
+        /// </summary>
+        internal static string BIOME_SAVANNAH {
+            get {
+                return ResourceManager.GetString("BIOME_SAVANNAH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Swamp ähnelt.
+        /// </summary>
+        internal static string BIOME_SWAMP {
+            get {
+                return ResourceManager.GetString("BIOME_SWAMP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tundra ähnelt.
+        /// </summary>
+        internal static string BIOME_TUNDRA {
+            get {
+                return ResourceManager.GetString("BIOME_TUNDRA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wasteland ähnelt.
+        /// </summary>
+        internal static string BIOME_WASTELAND {
+            get {
+                return ResourceManager.GetString("BIOME_WASTELAND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Blunt Weapon ähnelt.
         /// </summary>
         internal static string BLN {

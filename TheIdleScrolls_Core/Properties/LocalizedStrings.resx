@@ -144,6 +144,39 @@
   <data name="BEAR" xml:space="preserve">
     <value>Bear</value>
   </data>
+  <data name="BIOME_DESERT" xml:space="preserve">
+    <value>Desert</value>
+  </data>
+  <data name="BIOME_DUNGEON" xml:space="preserve">
+    <value>Dungeon</value>
+  </data>
+  <data name="BIOME_FOREST" xml:space="preserve">
+    <value>Forest</value>
+  </data>
+  <data name="BIOME_GRASSLAND" xml:space="preserve">
+    <value>Grassland</value>
+  </data>
+  <data name="BIOME_ICE" xml:space="preserve">
+    <value>Icy Desert</value>
+  </data>
+  <data name="BIOME_OASIS" xml:space="preserve">
+    <value>Oasis</value>
+  </data>
+  <data name="BIOME_RAINFOREST" xml:space="preserve">
+    <value>Rainforest</value>
+  </data>
+  <data name="BIOME_SAVANNAH" xml:space="preserve">
+    <value>Savannah</value>
+  </data>
+  <data name="BIOME_SWAMP" xml:space="preserve">
+    <value>Swamp</value>
+  </data>
+  <data name="BIOME_TUNDRA" xml:space="preserve">
+    <value>Tundra</value>
+  </data>
+  <data name="BIOME_WASTELAND" xml:space="preserve">
+    <value>Wasteland</value>
+  </data>
   <data name="BLN" xml:space="preserve">
     <value>Blunt Weapon</value>
   </data>
