@@ -63,10 +63,11 @@ namespace TheIdleScrolls_Core.GameWorld
                 return null;
 
             int level = location.X + MinLevel;
+            Biome biome = CalculateBiome(level);
             return new()
             {
-                Name = $"Wilderness - Level {level}",
-                Biome = CalculateBiome(level),
+                Name = $"{biome} - Level {level}",
+                Biome = biome,
                 Level = level,
                 MobTypes = new(),
                 MobCount = Int32.MaxValue,
