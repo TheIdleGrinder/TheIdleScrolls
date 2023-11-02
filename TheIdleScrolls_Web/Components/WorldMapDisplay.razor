@@ -27,7 +27,7 @@
         --color-biome-swamp: olive;
         --color-biome-savannah: goldenrod;
         --color-biome-desert: yellow;
-        --color-biome-oasis: springgreen;
+        --color-biome-oasis: limegreen;
         --color-biome-tundra: teal;
         --color-biome-icydesert: lightblue;
         --color-biome-wasteland: gray;
@@ -69,7 +69,7 @@
 
     protected override void OnInitialized()
     {
-        var worldMap = CoreWrapper.WorldMap;
+        var worldMap = new WorldMap();
         List<Location> locations = new();
 
         Location? next = new(0, 0);
