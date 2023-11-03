@@ -73,9 +73,8 @@
         List<Location> locations = new();
 
         Location? next = new(0, 0);
-        for (int i = 0; i < 225; i++)
+        for (int i = 0; i < 300; i++)
         {
-            Console.WriteLine($"Location: {next.X}/{next.Y}");
             if (next == null)
                 break;
             locations.Add(next);
@@ -91,7 +90,7 @@
             for (int x = xMin; x <= xMax; x++)
             {
                 var zone = worldMap.GetZone(new(x, y));
-                Cells[y - yMin, x - xMin] = zone;
+                Cells[Cells.GetLength(0) - 1 - (y - yMin), x - xMin] = zone; // flip y-axis
             }
         }
         base.OnInitialized();
