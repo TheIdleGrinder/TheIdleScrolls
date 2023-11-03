@@ -11,6 +11,8 @@ namespace TheIdleScrolls_Core.GameWorld
     {
         private const int MinLevel = 1;
 
+        private IMapProgressPath _progressPath = new SpiralMapPath(MinLevel);
+
         public List<DungeonDescription> Dungeons { get; set; } = new();
 
         public List<DungeonDescription> GetDungeons()
@@ -45,24 +47,20 @@ namespace TheIdleScrolls_Core.GameWorld
 
         public Location? GetNextLocation(Location location)
         {
-            if (location.Y != 0)
-                return null;
-            return new(location.X + 1, 0);
+            return _progressPath.NextLocation(location);
         }
 
         public Location? GetPreviousLocation(Location location)
         {
-            if (location.Y != 0 || location.X == 0)
-                return null;
-            return new(location.X - 1, 0);
+            return _progressPath.PreviousLocation(location);
         }
 
         public ZoneDescription? GetZone(Location location)
         {
-            if (location.Y != 0)
+            int level = _progressPath.LocationLevel(location) ?? -1;
+            if (level < 0)
                 return null;
 
-            int level = location.X + MinLevel;
             Biome biome = CalculateBiome(level);
             string name = (biome == Biome.Dungeon) 
                 ? "Training Grounds" // First 5 zones are marked as dungeon

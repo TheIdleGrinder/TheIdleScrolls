@@ -8,7 +8,12 @@ namespace TheIdleScrolls_Core.GameWorld
 {
     internal class SpiralMapPath : IMapProgressPath
     {
-        const int MinLevel = 1;
+        private readonly int MinLevel = 1;
+
+        public SpiralMapPath(int minLevel = 1)
+        {
+            MinLevel = minLevel;
+        }
 
         public int? LocationLevel(Location location)
         {
@@ -27,12 +32,13 @@ namespace TheIdleScrolls_Core.GameWorld
         {
             int x = location.X;
             int y = location.Y;
+            int r = CalcRingIndex(location);
 
             if (x > Math.Abs(y)) // Right side of the square, but not at the top yet
                 return new(x, y + 1); // move up
-            else if (y > Math.Abs(x)) // top side of the square, but not at the left end yet
+            else if (y == r && x > -r) // top side of the square, but not at the left end yet
                 return new(x - 1, y); // move left
-            else if (-x > Math.Abs(y)) // left side of the square, but not at the bottom yet
+            else if (x == -r && y > -r) // left side of the square, but not at the bottom yet
                 return new(x, y - 1); // move down
             else
                 return new(x + 1, y); // move right
@@ -43,7 +49,22 @@ namespace TheIdleScrolls_Core.GameWorld
             int x = location.X;
             int y = location.Y;
 
-            throw new NotImplementedException();
+            if (x == 0 && y == 0)
+                return null;
+
+            Location left = new Location(x - 1, y);
+            if (NextLocation(left) == location)
+                return left;
+            Location up = new Location(x, y + 1);
+            if (NextLocation(up) == location)
+                return up;
+            Location right = new Location(x + 1, y);
+            if (NextLocation(right) == location)
+                return right;
+            Location down = new Location(x, y - 1);
+            if (NextLocation(down) == location)
+                return down;
+            return null;
         }
 
         private int CalcRingIndex(Location location)
