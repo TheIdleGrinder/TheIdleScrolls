@@ -27,6 +27,7 @@
             }
             <button class="tablinks @AddTabClass(Tab.Achievements)" @onclick="@(() => SetTab(Tab.Achievements))">Achievements</button>
             <button class="tablinks @AddTabClass(Tab.Stats)" @onclick="@(() => SetTab(Tab.Stats))">Stats</button>
+            <button class="tablinks @AddTabClass(Tab.Help)" @onclick="@(() => SetTab(Tab.Help))">Help</button>
         </div>
         <div id="tabbedContainer" class="play-area-frame-bottom">
             @if (m_activeTab == Tab.Travel)
@@ -71,6 +72,10 @@
             @if (m_activeTab == Tab.Stats)
             {
                 <StatisticsDisplay></StatisticsDisplay>
+            }
+            @if (m_activeTab == Tab.Help)
+            {
+                <HelpDisplay></HelpDisplay>
             }
         </div>
     </div>
@@ -203,7 +208,7 @@
 </style>
 
 @code {
-    enum Tab { Travel, Inventory, Abilities, Achievements, Stats };
+    enum Tab { Travel, Inventory, Abilities, Achievements, Stats, Help };
 
     Tab m_activeTab = Tab.Achievements;
 
