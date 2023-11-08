@@ -116,7 +116,7 @@ namespace TheIdleScrolls_Core.Systems
                     cooldown = (combinedCD / weaponCount);
                     if (weaponCount >= 2)
                     {
-                        apsMulti *= 1.2; // 20% AS bonus for dual wielding, just a dummy value for now
+                        apsMulti *= 1.2; // 20% AS bonus for dual wielding
                     }
                 }
                 else
@@ -124,7 +124,7 @@ namespace TheIdleScrolls_Core.Systems
                     var achComp = coordinator.GetEntities<AchievementsComponent>()?.FirstOrDefault()?.GetComponent<AchievementsComponent>();
                     if (achComp != null) // CornerCut: Hardcoded level and names
                     {
-                        // Add 1 evasion per level for each earned achievement in the Kensai-line
+                        // Add 1 evasion per level for each earned achievement in the Monk-line
                         int monks = achComp.Achievements.Count(a => a.Id.Contains("NOWEAPON") && a.Status == Achievements.AchievementStatus.Awarded);
                         baseDamage += level * monks * 0.05;
                     }
