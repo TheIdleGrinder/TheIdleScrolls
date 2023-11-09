@@ -116,7 +116,7 @@ namespace TheIdleScrolls_Core.Systems
                     cooldown = (combinedCD / weaponCount);
                     if (weaponCount >= 2)
                     {
-                        apsMulti *= 1.2; // 20% AS bonus for dual wielding
+                        apsMulti *= (1.0 + Definitions.DualWieldAttackSpeedMulti); // 20% AS bonus for dual wielding
                     }
                 }
                 else

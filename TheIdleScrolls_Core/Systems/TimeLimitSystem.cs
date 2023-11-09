@@ -79,7 +79,7 @@ namespace TheIdleScrolls_Core.Systems
                 if (attackValues.Any())
                 {
                     double armor = defComp?.Armor ?? 0.0;
-                    double armorBonus = 1.0 + armor / 100.0;
+                    double armorBonus = CalculateArmorBonusMultiplier(armor);
 
                     var multi = attackValues.Average();
                     world.TimeLimit.Update(multi * dt / armorBonus); // armor 'slows time'
@@ -98,7 +98,12 @@ namespace TheIdleScrolls_Core.Systems
 
         static double CalculateEvasionBonusMultiplier(double evasion)
         {
-            return 1.0 + evasion / 100.0;
+            return 1.0 + evasion * Definitions.EvasionBonusPerPoint;
+        }
+
+        static double CalculateArmorBonusMultiplier(double armor)
+        {
+            return 1.0 + armor * Definitions.ArmorSlowdownPerPoint;
         }
     }
 

@@ -12,8 +12,6 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class CraftingSystem : AbstractSystem
     {
-        const double AbilityBonusPerLevel = 0.02;
-
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             foreach (var reforgeReq in coordinator.FetchMessagesByType<ReforgeItemRequest>())
@@ -40,7 +38,7 @@ namespace TheIdleScrolls_Core.Systems
                 }
                 // Get ability value
                 int abilityLevel = owner.GetComponent<AbilitiesComponent>()?.GetAbility(Properties.Constants.Key_Ability_Crafting)?.Level ?? 0;
-                double rarityMulti = world.RarityMultiplier * (1.0 + AbilityBonusPerLevel * abilityLevel);
+                double rarityMulti = world.RarityMultiplier * (1.0 + Definitions.CraftingAbilityBonusPerLevel * abilityLevel);
                 // Calculate craft level
                 int craftLevel = itemLevel;
                 if (abilityLevel > 0) 
