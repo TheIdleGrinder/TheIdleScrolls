@@ -26,10 +26,6 @@ namespace TheIdleScrolls_Core.Systems
             var progComp = player.GetComponent<PlayerProgressComponent>();
             var locationComp = player.GetComponent<LocationComponent>();
 
-            if (travelComp == null)
-            {
-                throw new Exception("Player entity is missing required component: Traveller");
-            }
             if (locationComp == null)
             {
                 throw new Exception("Player entity is missing required component: Location");
@@ -37,29 +33,6 @@ namespace TheIdleScrolls_Core.Systems
 
             if (m_firstUpdate)
             {
-/*                if (locationComp.InDungeon)
-                {
-                    Travel(locationComp.DungeonId, 0, world, coordinator);
-                }
-                else
-                { 
-                    var startingZone = 0;
-                    if (travelComp != null)
-                    {
-                        startingZone = progComp?.Data.HighestWildernessKill ?? 0;
-                    }
-                    if (locationComp != null)
-                    {
-                        startingZone = locationComp.GetCurrentZone(world.Map)?.Level ?? 0;
-                    }
-                    if (startingZone == 0)
-                    {
-                        startingZone = player.GetComponent<LevelComponent>()?.Level ?? 1;
-                    }
-                    Travel("", startingZone, world, coordinator);
-                }  */ 
-                
-
                 m_firstUpdate = false;
                 coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed)); // CornerCut: make info accessible to app
             }
