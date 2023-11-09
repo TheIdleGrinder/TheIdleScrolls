@@ -124,6 +124,13 @@
 </style>
 
 @code {
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+
     bool Items => CoreWrapper.IsFeatureAvailable(GameFeature.Inventory);
     bool Armor => CoreWrapper.IsFeatureAvailable(GameFeature.Armor);
     bool Abilities => CoreWrapper.IsFeatureAvailable(GameFeature.Abilities);
