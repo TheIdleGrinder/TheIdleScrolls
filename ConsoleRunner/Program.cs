@@ -16,7 +16,7 @@ if (playerName == null || playerName == "")
 
 var dataHandler = new DataAccessHandler(new EntityJsonConverter(new ItemFactory()), new BasicFileStorageHandler());
 var runner = new GameRunner(dataHandler);
-runner.Initialize(playerName);
+_ = runner.Initialize(playerName);
 runner.SetAppInterface(new ConsoleUpdater());
 
 runner.GetEventEmitter().NewLogMessages += (messages) => { messages.ForEach(s => Console.WriteLine(s)); };
