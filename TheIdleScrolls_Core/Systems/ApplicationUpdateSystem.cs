@@ -9,6 +9,7 @@ using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Messages;
 using TheIdleScrolls_Core.Properties;
 using TheIdleScrolls_Core.Utility;
 
@@ -41,6 +42,7 @@ namespace TheIdleScrolls_Core.Systems
         public event StatReportChangedHandler? StatReportChanged;
         public event DisplayMessageHandler? DisplayMessageReceived;
         public event NewLogMessagesHandler? NewLogMessages;
+        public event DialogueMessageHandler DialogueMessageReceived;
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -255,6 +257,12 @@ namespace TheIdleScrolls_Core.Systems
                 DisplayMessageReceived?.Invoke(tutorialMessage.Title, tutorialMessage.Text);
             }
 
+            // Handle dialogue messages
+            var dialogues = coordinator.FetchMessagesByType<DialogueMessage>();
+            foreach (var dialogue in dialogues)
+            {
+                DialogueMessageReceived?.Invoke(dialogue);
+            }
 
             // Enable previously unlocked features
             if (m_firstUpdate)

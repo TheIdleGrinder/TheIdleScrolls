@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Messages;
 
 namespace TheIdleScrolls_Core
 {
@@ -23,6 +24,7 @@ namespace TheIdleScrolls_Core
     public delegate void AchievementsChangedHandler(List<AchievementRepresentation> achievements, int achievementCount);
     public delegate void StatReportChangedHandler(string report);
     public delegate void DisplayMessageHandler(string title, string message);
+    public delegate void DialogueMessageHandler(DialogueMessage message);
     public delegate void NewLogMessagesHandler(List<string> messages);
 
     public interface IGameEventEmitter
@@ -45,6 +47,7 @@ namespace TheIdleScrolls_Core
         event AchievementsChangedHandler AchievementsChanged;
         event StatReportChangedHandler StatReportChanged;
         event DisplayMessageHandler DisplayMessageReceived;
+        event DialogueMessageHandler DialogueMessageReceived;
         event NewLogMessagesHandler NewLogMessages;
     }
 }
