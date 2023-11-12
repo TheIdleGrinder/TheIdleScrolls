@@ -6,6 +6,7 @@ using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Messages;
 using TheIdleScrolls_Core.Storage;
 using TheIdleScrolls_Storage;
 
@@ -52,7 +53,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<AbilityRepresentation> Abilities { get; private set; } = new();
         public int AchievementCount { get; private set; } = 0;
         public string StatisticsReport { get; private set; } = String.Empty;
-        public List<TitledMessage> TitledMessages { get; private set; } = new();
+        public List<DialogueMessage> DialogueMessages { get; private set; } = new();
         public List<ExpiringMessage> ExpiringMessages { get; private set; } = new();
 
 
@@ -171,7 +172,11 @@ namespace TheIdleScrolls_Web.CoreWrapper
             };
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
-            emitter.DisplayMessageReceived += (string title, string message) => TitledMessages.Add(new(title, message));
+            emitter.DisplayMessageReceived += (string title, string message) =>
+            {
+                DialogueMessages.Add(new(string.Empty, title, string.Empty, message, new()));
+            };
+            emitter.DialogueMessageReceived += (DialogueMessage message) => DialogueMessages.Add(message);
             emitter.NewLogMessages += (List<string> messages) =>
             {
                 foreach (var message in messages)
@@ -195,11 +200,17 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
         public void MarkTopMessageAsRead()
         {
-            if (TitledMessages.Count > 0)
-                TitledMessages.RemoveAt(0);
+            if (DialogueMessages.Count > 0)
+                DialogueMessages.RemoveAt(0);
 
             if (gameRunner.IsGameOver())
                 StopGameLoop();
+        }
+
+        public void SendResponse(string response)
+        {
+            string id = DialogueMessages[0].ResponseId;
+            MarkTopMessageAsRead();
         }
 
         public bool ToggleItemHighlight(uint itemId)

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Messages;
 using TheIdleScrolls_Core.Systems;
 
 using QuestStates = TheIdleScrolls_Core.Components.QuestStates;
@@ -65,6 +66,7 @@ namespace TheIdleScrolls_Core.Quests
                     entity.AddComponent(invComp);
                     entity.AddComponent(new EquipmentComponent());
                     string itemString = "";
+                    var names = new List<string>();
                     foreach (var weaponCode in weapons)
                     {
                         Entity? weapon = factory.ExpandCode(weaponCode);
@@ -73,11 +75,13 @@ namespace TheIdleScrolls_Core.Quests
                             itemString += $"\n  - Received '{weapon.GetName()}'";
                             coordinator.AddEntity(weapon);
                             postMessageCallback(new ItemReceivedMessage(entity, weapon));
+                            names.Add(weapon.GetName());
                         }
                     }
 
                     setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory,
                         $"Here, take some weapons. Time to gear up!{itemString}");
+                    postMessageCallback(new DialogueMessage(QuestId.GettingStarted.ToString(), "Trainer", "Let's go!", "Pick a weapon", names));
                 }
                 storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory);
                 setFeatureState(GameFeature.Inventory, true);

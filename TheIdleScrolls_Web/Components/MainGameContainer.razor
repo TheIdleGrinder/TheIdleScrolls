@@ -79,23 +79,9 @@
             }
         </div>
     </div>
-    @if (CoreWrapper.TitledMessages.Count > 0)
+    @if (CoreWrapper.DialogueMessages.Count > 0)
     {
-        <div id="bigMessageArea">
-            @if (CoreWrapper.TitledMessages[0].Title != string.Empty)
-            {
-                <h4>@CoreWrapper.TitledMessages[0].Title</h4>
-            }
-            <div style="display:flex; flex-direction:inherit">
-                @foreach (string line in CoreWrapper.TitledMessages[0].Message.Split('\n'))
-                {
-                    <span>@line</span>
-                }
-            </div>
-            <button @onclick="@CoreWrapper.MarkTopMessageAsRead" style="width: 100px;">
-                Ok
-            </button>
-        </div>
+        <DialogueDisplay></DialogueDisplay>
     }
     <div id="timedMessageArea">
         @foreach (var message in CoreWrapper.ExpiringMessages.Where(m => !m.Expired))
@@ -168,22 +154,6 @@
         padding: 10px;
         padding-top: 0px;
         grid-template-columns: 1fr 1fr;
-    }
-
-    #bigMessageArea {
-        position:absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        height: 50%;
-        width: 50%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
-        background-color: var(--back-color-special);
-        border: 5px solid var(--frame-color);
-        padding: 20px;
     }
 
     #timedMessageArea {

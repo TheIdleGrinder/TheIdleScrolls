@@ -42,7 +42,7 @@ namespace TheIdleScrolls_Core.Systems
         public event StatReportChangedHandler? StatReportChanged;
         public event DisplayMessageHandler? DisplayMessageReceived;
         public event NewLogMessagesHandler? NewLogMessages;
-        public event DialogueMessageHandler DialogueMessageReceived;
+        public event DialogueMessageHandler? DialogueMessageReceived;
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
