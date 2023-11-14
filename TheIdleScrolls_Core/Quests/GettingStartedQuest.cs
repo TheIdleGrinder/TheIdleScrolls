@@ -16,6 +16,8 @@ namespace TheIdleScrolls_Core.Quests
 {
     internal class GettingStartedQuest : AbstractQuest
     {
+        List<Entity> rewardItems = new();
+
         public override QuestId GetId()
         {
             return QuestId.GettingStarted;
@@ -134,6 +136,57 @@ namespace TheIdleScrolls_Core.Quests
                 }
                 storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Travel);
                 setFeatureState(GameFeature.Travel, true);
+            }
+
+            if (!isStepDone(QuestStates.GettingStarted.Dungeon))
+            {
+                if (rewardItems.Count == 0 && coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
+                {
+                    // Generate list of items, store in rewardItems listk send names as response options
+                    ItemFactory factory = new();
+                    var itemCodes = new List<string>() { "SBL1", "LBL1", "AXE1", "BLN1", "POL1" };
+                    foreach (var itemCode in itemCodes)
+                    {
+                        var item = factory.ExpandCode(itemCode + "+1");
+                        if (item != null)
+                        {
+                            rewardItems.Add(item);
+                        }
+                        else
+                        {
+                            throw new Exception($"Invalid item code: {itemCode}");
+                        }
+                    }
+                    postMessageCallback(new DialogueMessage(GetId().ToString(), "", "", 
+                        "Good job clearing your first dungeon. Pick a reward.", 
+                        rewardItems.Select(i => i.GetName()).ToList())
+                    );
+                }
+                else if (rewardItems.Count > 0 && coordinator.MessageTypeIsOnBoard<DialogueResponseMessage>())
+                {
+                    var response = coordinator.FetchMessagesByType<DialogueResponseMessage>()
+                        .FirstOrDefault(m => m.ResponseId == GetId().ToString());
+                    if (response != null)
+                    {
+                        bool success = false;
+                        foreach (Entity item in rewardItems)
+                        {
+                            if (item.GetName() == response.Response)
+                            {
+                                coordinator.AddEntity(item);
+                                rewardItems.Clear();
+                                postMessageCallback(new ItemReceivedMessage(entity, item));
+                                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Dungeon, "");
+                                success = true;
+                                break;
+                            }
+                        }
+                        if (!success)
+                        {
+                            throw new Exception($"Invalid reward choice: {response.Response}");
+                        }
+                    }
+                }
             }
         }
     }
