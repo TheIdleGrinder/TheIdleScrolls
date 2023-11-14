@@ -9,6 +9,7 @@
         <h4>@message.Title</h4>
     }
     <div style="display:flex; flex-direction:inherit">
+
         @foreach (string line in message.Message.Split('\n'))
         {
             <span>
@@ -60,6 +61,6 @@
 
     void SendResponse(string response)
     {
-        CoreWrapper.MarkTopMessageAsRead();
+        CoreWrapper.SendResponse(response);
     }
 }

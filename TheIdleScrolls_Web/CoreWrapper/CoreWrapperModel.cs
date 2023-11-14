@@ -211,6 +211,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         {
             string id = DialogueMessages[0].ResponseId;
             MarkTopMessageAsRead();
+            gameRunner.GetUserInputHandler().SendDialogueResponse(id, response);
         }
 
         public bool ToggleItemHighlight(uint itemId)

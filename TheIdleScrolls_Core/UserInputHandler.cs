@@ -31,6 +31,8 @@ namespace TheIdleScrolls_Core
         public void LeaveDungeon();
 
         public void SetAutoProceed(bool autoProceed);
+
+        public void SendDialogueResponse(string id, string response);
     }
 
 }

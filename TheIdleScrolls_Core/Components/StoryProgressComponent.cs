@@ -23,7 +23,7 @@ namespace TheIdleScrolls_Core.Components
 
     namespace QuestStates
     {
-        public enum GettingStarted { None = -1, Inventory, Abilities, Outside, Armor, Travel }
+        public enum GettingStarted { None = -1, Inventory, Abilities, Outside, Armor, Travel, Dungeon }
         public enum FinalFight { None = -1, NotStarted, Slowing, Pause, End, Finished }
     }
 

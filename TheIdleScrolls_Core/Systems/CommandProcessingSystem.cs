@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Messages;
 using TheIdleScrolls_Core.Systems;
 
 namespace TheIdleScrollsApp
@@ -69,6 +70,11 @@ namespace TheIdleScrollsApp
         public void TravelToPreviousLocation()
         {
             m_requests.Add(new SingleStepTravelRequest(false));
+        }
+
+        public void SendDialogueResponse(string id, string response)
+        {
+            m_requests.Add(new DialogueResponseMessage(id, response));
         }
 
         public override void Update(World world, Coordinator coordinator, double dt)
