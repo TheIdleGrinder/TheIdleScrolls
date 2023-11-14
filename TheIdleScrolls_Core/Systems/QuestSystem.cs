@@ -35,15 +35,6 @@ namespace TheIdleScrolls_Core.Systems
             if (m_player == null)
                 return;
 
-            //HandleGettingStarted(world, coordinator);
-            GettingStartedQuest gettingStartedQuest = new();
-            gettingStartedQuest.UpdateEntity(m_player, coordinator, world, dt, 
-                (IMessage message) => 
-                {
-                    coordinator.PostMessage(this, message as dynamic);
-                }
-            );
-
             foreach (AbstractQuest quest in m_quests)
             {
                 quest.UpdateEntity(m_player, coordinator, world, dt,
