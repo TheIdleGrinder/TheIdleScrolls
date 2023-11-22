@@ -16,7 +16,7 @@ namespace TheIdleScrolls_Core.Quests
 {
     internal class GettingStartedQuest : AbstractQuest
     {
-        List<Entity> rewardItems = new();
+        readonly List<Entity> rewardItems = new();
 
         public override QuestId GetId()
         {
@@ -158,7 +158,8 @@ namespace TheIdleScrolls_Core.Quests
                         }
                     }
                     postMessageCallback(new DialogueMessage(GetId().ToString(), "", "", 
-                        "Good job clearing your first dungeon. Pick a reward.", 
+                        "Good job clearing your first dungeon. The people of the nearby village are impressed by your heroism" +
+                        " and offer you a reward of your choice:", 
                         rewardItems.Select(i => i.GetName()).ToList())
                     );
                 }
