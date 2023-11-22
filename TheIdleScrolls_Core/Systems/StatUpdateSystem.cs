@@ -67,16 +67,21 @@ namespace TheIdleScrolls_Core.Systems
 
                     if (itemComp != null && weaponComp != null)
                     {
-                        combinedDmg += weaponComp.Damage;
+                        double localDmg = weaponComp.Damage;
                         double localCD = weaponComp.Cooldown;
                         weaponCount++;
 
                         int abilityLvl = GetAbilityLevel(player, itemComp.Code.FamilyId);
                         if (abilityLvl > 0)
                         {
-                            localCD /= (0.5 + 0.02 * abilityLvl); // CornerCut: Make this less 'hidden'
+                            double localDmgMulti = Functions.CalculateAbilityAttackDamageBonus(abilityLvl) + 1.0;
+                            localDmg *= localDmgMulti;
+
+                            double speedMulti = Functions.CalculateAbilityAttackSpeedBonus(abilityLvl) + 1.0;
+                            localCD /= speedMulti;
                         }
 
+                        combinedDmg += localDmg;
                         combinedCD += localCD;
                     }
 
@@ -134,7 +139,7 @@ namespace TheIdleScrolls_Core.Systems
             var attackComp = player.GetComponent<AttackComponent>();
             if (attackComp != null)
             {
-                dmgMulti *= level; // level bonus
+                dmgMulti *= (1.0 + Definitions.AttackBonusPerLevel); // level bonus
 
                 var rawDamage = baseDamage * dmgMulti;
                 cooldown /= apsMulti;
