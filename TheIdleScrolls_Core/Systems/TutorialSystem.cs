@@ -79,7 +79,7 @@ namespace TheIdleScrolls_Core.Systems
                         case Components.QuestStates.GettingStarted.Travel:
                             addTutorialProgress(TutorialStep.Travel, "Freedom of Movement", 
                                 "Click the arrow buttons to move between zones. Higher level areas become accessible after defeating" +
-                                "a mob in the previous zone. Checking 'Go on after win' will advance to the next zone as a mob has been defeated." +
+                                "a mob in the previous zone. Checking 'Proceed when possible' will advance to the next zone as a mob has been defeated." +
                                 "\nUpon losing a fight, your character will automatically move down one area and 'Go on after win' is deactivated.", 
                                 message);
                             break;
@@ -187,8 +187,7 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Selling, "I'm not a... pack animal",
                     $"Items are piling up in your inventory. Selling them will make it less cluttered and also earn you some pretty coins.\n" +
-                    $"\n  - You can sell items from you inventory using the context menu\n" +
-                    $"\n  - Selecting one or more items and pressing DEL works as well"));
+                    $"\n  - You can sell items from you inventory to gain coins"));
             }
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Reforging)
                 && (m_player.GetComponent<PlayerProgressComponent>()?.Data.TotalCoins ?? 0) > CoinsForReforging)
@@ -198,8 +197,7 @@ namespace TheIdleScrolls_Core.Systems
                     new TutorialMessage(TutorialStep.Reforging, "Let's put those coins to use",
                     $"You can unburden yourself of some cumbersome coinage by reforging your items. This will reroll their rarity to a random value." +
                     $"As your crafting ability improves, higher rarity levels become available and their probability increases.\n" +
-                    $"\n  - You can reforge the rarity of items using the context menu\n" +
-                    $"\n  - Selecting an items and pressing CTRL+F works as well"));
+                    $"\n  - You can now spend coins to reforge the rarity of items"));
             }
             // Enable feature for player if reforging has been unlocked globally
             if (globalProgress.Data.TutorialProgress.Contains(TutorialStep.Reforging)
