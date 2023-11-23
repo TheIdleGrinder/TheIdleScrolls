@@ -9,7 +9,7 @@
         {
             <h4>@message.Title</h4>
         }
-        <div style="display:flex; flex-direction:inherit">
+        <div style="display:flex; flex-direction:column">
 
             @foreach (string line in message.Message.Split('\n'))
             {
@@ -26,9 +26,11 @@
     <div>
         @if (message.ResponseOptions.Count == 0)
         {
-            <button @onclick="@CoreWrapper.MarkTopMessageAsRead" style="width: 100px;">
-                Ok
-            </button>
+            <div style="display: flex; justify-content: center">
+                <button @onclick="@CoreWrapper.MarkTopMessageAsRead" style="width: 100px;">
+                    Ok
+                </button>
+            </div>
         }
         else
         {
@@ -63,7 +65,7 @@
 
     #textMessageArea {
         display: flex;
-        flex-direction: inherit;
+        flex-direction: column;
         align-items: center;
     }
 

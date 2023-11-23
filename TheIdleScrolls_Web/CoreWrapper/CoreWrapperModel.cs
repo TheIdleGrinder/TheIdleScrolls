@@ -174,7 +174,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
             emitter.DisplayMessageReceived += (string title, string message) =>
             {
-                DialogueMessages.Add(new(string.Empty, title, string.Empty, message, new()));
+                DialogueMessages.Add(new(string.Empty, string.Empty, title, message, new()));
             };
             emitter.DialogueMessageReceived += (DialogueMessage message) => DialogueMessages.Add(message);
             emitter.NewLogMessages += (List<string> messages) =>
