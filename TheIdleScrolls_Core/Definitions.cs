@@ -9,7 +9,7 @@ namespace TheIdleScrolls_Core
     public static class Definitions
     {
         public const double AttackBonusPerLevel = 0.1;
-        public const double AttackDamagePerAbilityLevel = 0.01;
+        public const double AttackDamagePerAbilityLevel = 0.02;
         public const double AttackSpeedPerAbilityLevel = 0.01;
         public const double DualWieldAttackSpeedMulti = 0.2;        
 
@@ -19,8 +19,8 @@ namespace TheIdleScrolls_Core
         public const double CraftingAbilityBonusPerLevel = 0.02;
 
         public const int MobBaseHp = 10;
-        public const double EarlyHpScaling = 1.075;
-        public const double LaterHpScaling = 1.032;
+        public const double EarlyHpScaling = 1.056;
+        public const double LaterHpScaling = 1.035;
         public const int ScalingSwitchLevel = 70;
     }
 

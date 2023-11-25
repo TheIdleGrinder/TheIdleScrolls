@@ -563,12 +563,12 @@
     },
     {
       "Id": "MAT_L1",
-      "PowerMultiplier": 2.0,
+      "PowerMultiplier": 1.5,
       "MinimumLevel": 20
     },
     {
       "Id": "MAT_L2",
-      "PowerMultiplier": 3.0,
+      "PowerMultiplier": 2.25,
       "MinimumLevel": 40
     },
     {
@@ -578,12 +578,12 @@
     },
     {
       "Id": "MAT_M1",
-      "PowerMultiplier": 2.0,
+      "PowerMultiplier": 1.5,
       "MinimumLevel": 20
     },
     {
       "Id": "MAT_M2",
-      "PowerMultiplier": 3.0,
+      "PowerMultiplier": 2.25,
       "MinimumLevel": 40
     },
     {
@@ -593,12 +593,12 @@
     },
     {
       "Id": "MAT_W1",
-      "PowerMultiplier": 2.0,
+      "PowerMultiplier": 1.5,
       "MinimumLevel": 20
     },
     {
       "Id": "MAT_W2",
-      "PowerMultiplier": 3.0,
+      "PowerMultiplier": 2.25,
       "MinimumLevel": 40
     }
   ]
