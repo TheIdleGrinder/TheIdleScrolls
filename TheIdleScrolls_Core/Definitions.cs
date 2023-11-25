@@ -43,7 +43,14 @@ namespace TheIdleScrolls_Core
                 * Math.Pow(Definitions.EarlyHpScaling, Math.Min(mobLevel, Definitions.ScalingSwitchLevel))
                 * Math.Pow(Definitions.LaterHpScaling, Math.Max(mobLevel - Definitions.ScalingSwitchLevel, 0))
                 * (1.0 + Definitions.AttackBonusPerLevel * (mobLevel - 1))
-                );
+            );
+        }
+
+        public static double CalculateMobDamage(int mobLevel, double multiplier = 1.0)
+        {
+            return multiplier
+                * (1.0 + 0.02 * mobLevel)
+                * Math.Pow(Math.Pow(1.5, 1.0 / 20), Math.Min(mobLevel, Definitions.ScalingSwitchLevel) );
         }
     }
 }

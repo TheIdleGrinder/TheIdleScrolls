@@ -12,7 +12,7 @@ namespace TheIdleScrolls_Core.Systems
     internal class TimeLimitSystem : AbstractSystem
     {
         const double BaseDuration = 10.0;
-        const double DifficultyScaling = 1.2;
+        const double DifficultyScaling = 1.0;
 
         Entity? m_player = null;
 
@@ -44,7 +44,7 @@ namespace TheIdleScrolls_Core.Systems
             if (newTimeLimit)
             {
                 int level = m_player.GetLevel();
-                double levelMulti = level / Math.Pow(zone?.Level ?? 1, DifficultyScaling);  
+                double levelMulti = level / Math.Pow(zone?.Level ?? level, DifficultyScaling);  
 
                 double duration = BaseDuration * levelMulti * (zone?.TimeMultiplier ?? 1.0);
                 if (!attackValues.Any())
@@ -81,7 +81,7 @@ namespace TheIdleScrolls_Core.Systems
                     double armor = defComp?.Armor ?? 0.0;
                     double armorBonus = CalculateArmorBonusMultiplier(armor);
 
-                    var multi = attackValues.Average();
+                    var multi = Functions.CalculateMobDamage(zone?.Level ?? m_player.GetLevel(), attackValues.Average());
                     world.TimeLimit.Update(multi * dt / armorBonus); // armor 'slows time'
 
                     if (world.TimeLimit.HasFinished) // Player lost the fight
