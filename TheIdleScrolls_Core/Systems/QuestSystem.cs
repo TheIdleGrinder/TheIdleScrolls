@@ -47,7 +47,7 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
-    public class StoryMessage : IMessage
+/*    public class StoryMessage : IMessage
     {
         readonly string content = "";
 
@@ -65,7 +65,7 @@ namespace TheIdleScrolls_Core.Systems
         {
             return IMessage.PriorityLevel.VeryHigh;
         }
-    }
+    }*/
 
     /// <summary>
     /// Potentially placeholder. Used to notify other systems of the fact that a quest state has changed.
@@ -90,9 +90,7 @@ namespace TheIdleScrolls_Core.Systems
 
         IMessage.PriorityLevel IMessage.GetPriority()
         {
-            return (QuestMessage != null) 
-                ? IMessage.PriorityLevel.VeryHigh 
-                : IMessage.PriorityLevel.Debug;
+            return IMessage.PriorityLevel.Debug;
         }
 
         public QuestProgressMessage(QuestId quest, int progress, string? message = null)
