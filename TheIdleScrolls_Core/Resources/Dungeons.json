@@ -254,7 +254,7 @@
         }
       ],
       "Rewards": {
-        "MinDropLevel": 20,
+        "MinDropLevel": 21,
         "UseLeveledLoot": true,
         "SpecialRewards": []
       }
@@ -293,7 +293,7 @@
         }
       ],
       "Rewards": {
-        "MinDropLevel": 25,
+        "MinDropLevel": 31,
         "UseLeveledLoot": true,
         "SpecialRewards": []
       }
@@ -354,7 +354,7 @@
         }
       ],
       "Rewards": {
-        "MinDropLevel": 35,
+        "MinDropLevel": 41,
         "UseLeveledLoot": true,
         "SpecialRewards": []
       }
@@ -477,7 +477,7 @@
         }
       ],
       "Rewards": {
-        "MinDropLevel": 40,
+        "MinDropLevel": 51,
         "UseLeveledLoot": true,
         "SpecialRewards": []
       }
@@ -536,7 +536,7 @@
         }
       ],
       "Rewards": {
-        "MinDropLevel": 46,
+        "MinDropLevel": 61,
         "UseLeveledLoot": true,
         "SpecialRewards": []
       }
@@ -575,7 +575,7 @@
         }
       ],
       "Rewards": {
-        "MinDropLevel": 50,
+        "MinDropLevel": 61,
         "UseLeveledLoot": true,
         "SpecialRewards": []
       }

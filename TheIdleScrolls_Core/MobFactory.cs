@@ -58,7 +58,7 @@ namespace TheIdleScrolls_Core
 
         static double CalculateDamage(MobDescription description, int level)
         {
-            return description.Damage * (1.0 + Math.Max(0, level - 10) / 100.0);
+            return Functions.CalculateMobDamage(level, description.Damage);
         }
     }
 }

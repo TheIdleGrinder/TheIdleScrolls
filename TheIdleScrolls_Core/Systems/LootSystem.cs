@@ -12,7 +12,7 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class LootSystem : AbstractSystem
     {
-        const double WildDropChance = 0.025;
+        const double WildDropChance = 0.04;
         const double FirstClearRarityBonus = 2.5;
         const int MinDropCutoff = 51;
 
@@ -34,7 +34,9 @@ namespace TheIdleScrolls_Core.Systems
                 if (new Random().NextDouble() < dropChance)
                 {
                     var zone = locationComp.GetCurrentZone(world.Map) ?? new();
-                    int MinDropLevel = Math.Min(zone.Level - 20, MinDropCutoff);
+                    // -17: dungeons are mostly at multiples of 10, so this excludes weapons at -20
+                    // -9: only include the most recent tiers of items
+                    int MinDropLevel = Math.Min(zone.Level - 20, MinDropCutoff); 
                     LootTableParameters parameters = new(zone.Level, MinDropLevel, 0, 0.0); // 0 rarity => no "magic" items from normal mobs
                     GiveRandomLoot(parameters, coordinator);
                 }

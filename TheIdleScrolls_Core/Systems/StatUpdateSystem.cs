@@ -94,7 +94,7 @@ namespace TheIdleScrolls_Core.Systems
                         int abilityLvl = GetAbilityLevel(player, itemComp.Code.FamilyId);
                         if (abilityLvl != -1)
                         {
-                            var multi = 1.0 + 0.01 * abilityLvl;
+                            var multi = 1.0 + Functions.CalculateAbilityDefenseBonus(abilityLvl);
                             localArmor *= multi;
                             localEvasion *= multi;
                         }

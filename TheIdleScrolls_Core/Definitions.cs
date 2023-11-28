@@ -11,14 +11,15 @@ namespace TheIdleScrolls_Core
         public const double AttackBonusPerLevel = 0.1;
         public const double AttackDamagePerAbilityLevel = 0.02;
         public const double AttackSpeedPerAbilityLevel = 0.01;
-        public const double DualWieldAttackSpeedMulti = 0.2;        
+        public const double DualWieldAttackSpeedMulti = 0.2;
+        public const double DefensePerAbilityLevel = 0.02;
 
         public const double ArmorSlowdownPerPoint = 0.01;
         public const double EvasionBonusPerPoint = 0.01;
 
         public const double CraftingAbilityBonusPerLevel = 0.02;
 
-        public const int MobBaseHp = 10;
+        public const int MobBaseHp = 20;
         public const double EarlyHpScaling = 1.056;
         public const double LaterHpScaling = 1.035;
         public const int ScalingSwitchLevel = 70;
@@ -36,6 +37,11 @@ namespace TheIdleScrolls_Core
             return Math.Pow(1.0 + Definitions.AttackDamagePerAbilityLevel, abilityLevel) - 1.0;
         }
 
+        public static double CalculateAbilityDefenseBonus(int abilityLevel)
+        {
+            return Math.Pow(1.0 + Definitions.DefensePerAbilityLevel, abilityLevel) - 1.0;
+        }
+
         public static int CalculateMobHp(int mobLevel, double multiplier = 1.0)
         {
             return (int) Math.Min(1_000_000_000, 
@@ -49,8 +55,8 @@ namespace TheIdleScrolls_Core
         public static double CalculateMobDamage(int mobLevel, double multiplier = 1.0)
         {
             return multiplier
-                * (1.0 + 0.02 * mobLevel)
-                * Math.Pow(Math.Pow(1.5, 1.0 / 20), Math.Min(mobLevel, Definitions.ScalingSwitchLevel) );
+                * (1.0 + CalculateAbilityDefenseBonus(mobLevel)) // Scale parallel-ish to players armor ability
+                * Math.Pow(Math.Pow(1.45, 1.0 / 20), Math.Min(mobLevel, Definitions.ScalingSwitchLevel) );
         }
     }
 }

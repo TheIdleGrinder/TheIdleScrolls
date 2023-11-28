@@ -81,7 +81,7 @@ namespace TheIdleScrolls_Core.Systems
                     double armor = defComp?.Armor ?? 0.0;
                     double armorBonus = CalculateArmorBonusMultiplier(armor);
 
-                    var multi = Functions.CalculateMobDamage(zone?.Level ?? m_player.GetLevel(), attackValues.Average());
+                    var multi = attackValues.Average();
                     world.TimeLimit.Update(multi * dt / armorBonus); // armor 'slows time'
 
                     if (world.TimeLimit.HasFinished) // Player lost the fight

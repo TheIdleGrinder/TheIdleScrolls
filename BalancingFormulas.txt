@@ -1,4 +1,4 @@
-DPS Entwicklung:
+Erwartete DPS Entwicklung:
 
 (1 + L * x) * (A * S)^x * (1.5 ^ (1 / G))^min(x, L)
 
@@ -8,3 +8,4 @@ D = 1.02	More Damage pro (Ability) Level
 S = 1.01	More Attack Speed pro (Ability) Level
 G = 20		Waffen verbessert sich um 50% alle ~G Level
 P = 70		Ende der Waffenprogression => ab hier steigt Schaden nur durch Stats
+
