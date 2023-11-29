@@ -51,7 +51,7 @@
     int AttackCooldown => CooldownToInt(Stats.Cooldown);
     int AttackProgress => CooldownToInt(Stats.Cooldown) - CooldownToInt(Stats.CooldownRemaining);
 
-    string FormatValue(double value) => $"{value:0.##}";
+    string FormatValue(double value) => value.ToBigIntString();
     int CooldownToInt(double time) => (int)(time * 1000);    
     string FormatTime(double time) => $"{time:0.##} s";
 }
