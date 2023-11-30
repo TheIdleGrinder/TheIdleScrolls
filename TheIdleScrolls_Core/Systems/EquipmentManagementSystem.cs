@@ -121,6 +121,7 @@ namespace TheIdleScrolls_Core.Systems
                         coordinator.PostMessage(this, new CoinsChangedMessage(owner, value));
                     }
                     changedInventories.Add(owner);
+                    coordinator.RemoveEntity(sale.ItemId);
                 }
                 else 
                 {

@@ -58,5 +58,13 @@ namespace TheIdleScrolls_Web.Components
                 _ => $"{fraction:0}"
             } + suffix;
         }
+
+        public static string ToBigIntString(this double value)
+        {
+            if (value < 1e5 || value > Int32.MaxValue)
+                return $"{value:0.##}";
+
+            return ((int)value).ToBigIntString();
+        }
     }
 }
