@@ -19,9 +19,6 @@ namespace TheIdleScrolls_Core
 
     public class MobFactory
     {
-        static readonly double BaseHpMultiplier = 5.0;
-        static readonly double DifficultyScaling = 1.2;
-
         public static Entity MakeMob(MobDescription description, int level)
         {
             if (level < description.MinLevel || level > description.MaxLevel)
