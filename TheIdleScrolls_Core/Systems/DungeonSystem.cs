@@ -40,7 +40,7 @@ namespace TheIdleScrolls_Core.Systems
                     m_dungeonsDone = dungeonsDone;
                     foreach (var dungeon in world.AreaKingdom.Dungeons)
                     {
-                        if (travelComp.AvailableDungeons.Contains(dungeon.Name))
+                        if (travelComp.AvailableDungeons.Contains(dungeon.Id))
                             continue;
                         string condition = dungeon.Condition;
                         if (condition == String.Empty)
@@ -50,9 +50,9 @@ namespace TheIdleScrolls_Core.Systems
                         var condExpression = ExpressionParser.Parse(condition);
                         if (condExpression.Evaluate(m_player, world) >= 1.0)
                         {
-                            travelComp.AvailableDungeons.Add(dungeon.Name);
+                            travelComp.AvailableDungeons.Add(dungeon.Id);
                             if (!m_firstUpdate)
-                                coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Name.Localize()));
+                                coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Id.Localize()));
                         }
                     }
                 }
@@ -66,7 +66,7 @@ namespace TheIdleScrolls_Core.Systems
             var request = coordinator.FetchMessagesByType<EnterDungeonRequest>().LastOrDefault();
             if (request != null)
             {
-                if (world.Map.GetDungeonsAtLocation(locationComp.CurrentLocation).Any(d => d.Name == request.DungeonId))
+                if (world.Map.GetDungeonsAtLocation(locationComp.CurrentLocation).Any(d => d.Id == request.DungeonId))
                 {
                     locationComp.EnterDungeon(request.DungeonId);
                     floorChanged = true;

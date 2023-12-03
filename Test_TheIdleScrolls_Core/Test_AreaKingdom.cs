@@ -19,7 +19,7 @@ namespace Test_TheIdleScrolls_Core
             var itemKingdom = ResourceAccess.ParseResourceFile<AreaKingdomDescription>("TheIdleScrolls_Core", "Dungeons.json");
             Assert.That(itemKingdom, Is.Not.Null);
             Assert.That(itemKingdom.Dungeons, Has.Count.GreaterThanOrEqualTo(2));
-            Assert.That(itemKingdom.Dungeons[0].Name, Is.Not.EqualTo(""));
+            Assert.That(itemKingdom.Dungeons[0].Id, Is.Not.EqualTo(""));
             Assert.That(itemKingdom.Dungeons[0].Level, Is.GreaterThan(0));
             Assert.That(itemKingdom.Dungeons[0].Floors, Has.Count.GreaterThan(0));
             Assert.That(itemKingdom.Dungeons[0].LocalMobs, Has.Count.GreaterThan(0));

@@ -121,7 +121,7 @@ namespace TheIdleScrolls_Core.Systems
                     cooldown = (combinedCD / weaponCount);
                     if (weaponCount >= 2)
                     {
-                        apsMulti *= (1.0 + Definitions.DualWieldAttackSpeedMulti); // 20% AS bonus for dual wielding
+                        apsMulti *= (1.0 + Definitions.Stats.DualWieldAttackSpeedMulti); // 20% AS bonus for dual wielding
                     }
                 }
                 else
@@ -139,7 +139,7 @@ namespace TheIdleScrolls_Core.Systems
             var attackComp = player.GetComponent<AttackComponent>();
             if (attackComp != null)
             {
-                dmgMulti *= (1.0 + Definitions.AttackBonusPerLevel * (level - 1)); // level bonus
+                dmgMulti *= (1.0 + Definitions.Stats.AttackBonusPerLevel * (level - 1)); // level bonus
 
                 var rawDamage = baseDamage * dmgMulti;
                 cooldown /= apsMulti;

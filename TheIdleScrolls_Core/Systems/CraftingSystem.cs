@@ -38,7 +38,7 @@ namespace TheIdleScrolls_Core.Systems
                 }
                 // Get ability value
                 int abilityLevel = owner.GetComponent<AbilitiesComponent>()?.GetAbility(Properties.Constants.Key_Ability_Crafting)?.Level ?? 0;
-                double rarityMulti = world.RarityMultiplier * (1.0 + Definitions.CraftingAbilityBonusPerLevel * abilityLevel);
+                double rarityMulti = world.RarityMultiplier * (1.0 + Definitions.Stats.CraftingAbilityBonusPerLevel * abilityLevel);
                 // Calculate craft level
                 int craftLevel = itemLevel;
                 if (abilityLevel > 0) 

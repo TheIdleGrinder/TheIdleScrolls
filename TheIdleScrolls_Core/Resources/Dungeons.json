@@ -1,7 +1,7 @@
 ﻿{
   "Dungeons": [
     {
-      "Name": "RATDEN",
+      "Id": "RATDEN",
       "Level": 12,
       "Rarity": 0,
       "Floors": [
@@ -60,7 +60,7 @@
       }
     },
     {
-      "Name": "CRYPT",
+      "Id": "CRYPT",
       "Level": 18,
       "Rarity": 0,
       "Floors": [
@@ -132,7 +132,7 @@
       }
     },
     {
-      "Name": "LIGHTHOUSE",
+      "Id": "LIGHTHOUSE",
       "Level": 20,
       "Condition": "Wilderness >= 20",
       "Rarity": 1,
@@ -191,7 +191,7 @@
       }
     },
     {
-      "Name": "TEMPLE",
+      "Id": "TEMPLE",
       "Level": 30,
       "Condition": "dng:LIGHTHOUSE",
       "Rarity": 1,
@@ -260,7 +260,7 @@
       }
     },
     {
-      "Name": "MERCCAMP",
+      "Id": "MERCCAMP",
       "Level": 40,
       "Condition": "Wilderness >= 40",
       "Rarity": 0,
@@ -299,7 +299,7 @@
       }
     },
     {
-      "Name": "CASTLE",
+      "Id": "CASTLE",
       "Level": 50,
       "Condition": "dng:TEMPLE",
       "Rarity": 1,
@@ -360,7 +360,7 @@
       }
     },
     {
-      "Name": "LABYRINTH",
+      "Id": "LABYRINTH",
       "Level": 60,
       "Condition": "dng:CASTLE",
       "Rarity": 1,
@@ -483,7 +483,7 @@
       }
     },
     {
-      "Name": "LIGHTHOUSE2",
+      "Id": "LIGHTHOUSE2",
       "Level": 70,
       "Condition": "dng:LABYRINTH",
       "Rarity": 1,
@@ -542,7 +542,7 @@
       }
     },
     {
-      "Name": "THRESHOLD",
+      "Id": "THRESHOLD",
       "Level": 75,
       "Condition": "dng:LIGHTHOUSE2",
       "Rarity": 1,
@@ -581,7 +581,7 @@
       }
     },
     {
-      "Name": "SUNKENCITY",
+      "Id": "SUNKENCITY",
       "Level": 150,
       "Condition": "Wilderness >= 150",
       "Rarity": 3,
@@ -657,7 +657,7 @@
       }
     },
     {
-      "Name": "ACADEMY",
+      "Id": "ACADEMY",
       "Level": 150,
       "Condition": "Wilderness >= 150",
       "Rarity": 3,
@@ -732,7 +732,7 @@
       }
     },
     {
-      "Name": "PAGODA",
+      "Id": "PAGODA",
       "Level": 150,
       "Condition": "Wilderness >= 150",
       "Rarity": 3,

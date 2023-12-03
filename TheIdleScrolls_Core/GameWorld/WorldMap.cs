@@ -27,7 +27,7 @@ namespace TheIdleScrolls_Core.GameWorld
 
         public ZoneDescription? GetDungeonZone(string dungeonId, int floor)
         {
-            var dungeon = Dungeons.Where(d => d.Name == dungeonId).FirstOrDefault();
+            var dungeon = Dungeons.Where(d => d.Id == dungeonId).FirstOrDefault();
             if (dungeon == null || floor < 0 || floor >= dungeon.Floors.Count)
             {
                 return null;
@@ -36,7 +36,7 @@ namespace TheIdleScrolls_Core.GameWorld
             
             return new ZoneDescription()
             {
-                Name = $"{dungeon.Name.Localize()} - Floor {floor + 1}",
+                Name = $"{dungeon.Id.Localize()} - Floor {floor + 1}",
                 Biome = Biome.Dungeon,
                 Level = dungeon.Level,
                 MobTypes = dungeonFloor.MobTypes,

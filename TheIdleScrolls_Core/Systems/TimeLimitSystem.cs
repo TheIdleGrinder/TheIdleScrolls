@@ -98,12 +98,12 @@ namespace TheIdleScrolls_Core.Systems
 
         static double CalculateEvasionBonusMultiplier(double evasion)
         {
-            return 1.0 + evasion * Definitions.EvasionBonusPerPoint;
+            return 1.0 + evasion * Definitions.Stats.EvasionBonusPerPoint;
         }
 
         static double CalculateArmorBonusMultiplier(double armor)
         {
-            return 1.0 + armor * Definitions.ArmorSlowdownPerPoint;
+            return 1.0 + armor * Definitions.Stats.ArmorSlowdownPerPoint;
         }
     }
 

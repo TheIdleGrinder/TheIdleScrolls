@@ -1,5 +1,6 @@
 ﻿@using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Definitions
 
 @inject CoreWrapperModel CoreWrapper
 
@@ -23,7 +24,7 @@
         <h4>Weapons</h4>
         <p>Weapons are occupy either one or both hand slots.</p> 
         <p>You are allowed to wield two one-handed weapons at the same time. Your attack damage while dual wielding is the average of the
-            weapons' damage values and you receive a multiplicative @($"{Definitions.DualWieldAttackSpeedMulti:0.#%}") boost to your attack speed.
+            weapons' damage values and you receive a multiplicative @($"{Stats.DualWieldAttackSpeedMulti:0.#%}") boost to your attack speed.
         </p>
     }
 
@@ -73,11 +74,11 @@
         <h4>Protection</h4>
         <p>There are several ways to protect yourself against dangerous enemies.</p>
         <p><strong>Armor: </strong>Being armored slows the speed at which you run out of time. Every point of armor rating provides
-            @($"{Definitions.ArmorSlowdownPerPoint:0.#%}") resistance to time loss. So @(1 / Definitions.ArmorSlowdownPerPoint) armor 
+            @($"{Stats.ArmorSlowdownPerPoint:0.#%}") resistance to time loss. So @(1 / Stats.ArmorSlowdownPerPoint) armor 
             points will halve the speed at which time runs out.
         </p>
         <p><strong>Evasion: </strong>Being evasive gives you additional time in fights. Every point of evasion rating increases the available
-            time by @($"{Definitions.EvasionBonusPerPoint:0.#%}"). So @(1 / Definitions.EvasionBonusPerPoint) evasion points will double 
+            time by @($"{Stats.EvasionBonusPerPoint:0.#%}"). So @(1 / Stats.EvasionBonusPerPoint) evasion points will double 
             the time limit.
         </p>
 
@@ -107,7 +108,7 @@
             exponentially less probable.
         </p>
         <p>Spending coins on reforging will train your crafting ability, which increases the probability of obtaining higher rarity levels
-            by @($"{Definitions.CraftingAbilityBonusPerLevel:0.#%}") per level. The maximum achievable rarity level is also determined by a 
+            by @($"{Stats.CraftingAbilityBonusPerLevel:0.#%}") per level. The maximum achievable rarity level is also determined by a 
             combination of the ability level and the drop level of the item.
         </p>
     }

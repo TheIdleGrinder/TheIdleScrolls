@@ -109,7 +109,7 @@ namespace TheIdleScrolls_Core.Systems
                     "monsters that have to be defeated to proceed. They are more challenging than wilderness areas " +
                     "of the same level, but completing dungeons will grant powerful rewards. Losing a fight in the dungeon will get you sent " +
                     "back to the wilderness." +
-                    $"\n  - Unlocked dungeon '{world.AreaKingdom.Dungeons[0].Name.Localize()}'")); // CornerCut: Assumes first dungeon is first to unlock
+                    $"\n  - Unlocked dungeon '{world.AreaKingdom.Dungeons[0].Id.Localize()}'")); // CornerCut: Assumes first dungeon is first to unlock
             }
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.DungeonComplete)
                 && coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
