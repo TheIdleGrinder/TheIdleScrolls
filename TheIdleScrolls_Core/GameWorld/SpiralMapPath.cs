@@ -52,22 +52,22 @@ namespace TheIdleScrolls_Core.GameWorld
             if (x == 0 && y == 0)
                 return null;
 
-            Location left = new Location(x - 1, y);
+            Location left = new(x - 1, y);
             if (NextLocation(left) == location)
                 return left;
-            Location up = new Location(x, y + 1);
+            Location up = new(x, y + 1);
             if (NextLocation(up) == location)
                 return up;
-            Location right = new Location(x + 1, y);
+            Location right = new(x + 1, y);
             if (NextLocation(right) == location)
                 return right;
-            Location down = new Location(x, y - 1);
+            Location down = new(x, y - 1);
             if (NextLocation(down) == location)
                 return down;
             return null;
         }
 
-        private int CalcRingIndex(Location location)
+        private static int CalcRingIndex(Location location)
         {
             return Math.Max(Math.Abs(location.X), Math.Abs(location.Y));
         }
