@@ -34,12 +34,6 @@ namespace TheIdleScrolls_Core.GameWorld
             Map.Dungeons = AreaKingdom.Dungeons;
         }
 
-        public void SetAreas(AreaKingdomDescription areas)
-        {
-            AreaKingdom = areas;
-            Map.Dungeons = AreaKingdom.Dungeons;
-        }
-
         public ZoneDescription? GetZone(Location location)
         {
             return Map.GetZone(location);

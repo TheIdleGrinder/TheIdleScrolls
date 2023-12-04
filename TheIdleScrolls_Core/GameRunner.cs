@@ -87,9 +87,6 @@ namespace TheIdleScrolls_Core
                 var mobs = ReadResourceFile<List<MobDescription>>("Mobs.json");
                 GetSystem<MobSpawnerSystem>()?.SetMobList(mobs);
 
-                var areas = ReadResourceFile<AreaKingdomDescription>("Dungeons.json");
-                m_world.SetAreas(areas);
-
                 m_world.ItemKingdom = ItemFactory.ItemKingdom;              
             }
             catch (Exception e)

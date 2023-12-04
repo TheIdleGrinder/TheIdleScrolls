@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core
 {
     public class AreaKingdomDescription
     {
-        public List<DungeonDescription> Dungeons { get; set; } = new();
+        public List<DungeonDescription> Dungeons { get; set; } = DungeonList.GetAllDungeons();
 
         public List<MobDescription> GetLocalEnemies(string areaId)
         {

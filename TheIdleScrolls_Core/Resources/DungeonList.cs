@@ -156,7 +156,7 @@ namespace TheIdleScrolls_Core.Resources
                         new(1, 1.1, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
                         new(3, 3.1, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
                         new(1, 1.0, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(3, 4.0, new() { "BOSS_CULTLEADER" })
+                        new(1, 4.0, new() { "BOSS_CULTLEADER" })
                     },
                     LocalMobs = new()
                     {
@@ -246,7 +246,7 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_HUFFEL", hP: 3.0, damage: 3.0),
+                        new("MOB_HUFFLE", hP: 3.0, damage: 3.0),
                         new("MOB_RAVEN", hP: 3.5, damage: 3.0),
                         new("MOB_SNAKE", hP: 4.0, damage: 3.5),
                         new("MOB_GRYPHON", hP: 4.5, damage: 3.8),
