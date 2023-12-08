@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Systems
@@ -52,7 +53,7 @@ namespace TheIdleScrolls_Core.Systems
                         {
                             travelComp.AvailableDungeons.Add(dungeon.Id);
                             if (!m_firstUpdate)
-                                coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Id.Localize()));
+                                coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Name));
                         }
                     }
                 }
@@ -66,6 +67,7 @@ namespace TheIdleScrolls_Core.Systems
             var request = coordinator.FetchMessagesByType<EnterDungeonRequest>().LastOrDefault();
             if (request != null)
             {
+                var dungeon = world.Map.GetDungeonsAtLocation(locationComp.CurrentLocation).Where(d => d.Id == request.DungeonId).FirstOrDefault();
                 if (world.Map.GetDungeonsAtLocation(locationComp.CurrentLocation).Any(d => d.Id == request.DungeonId))
                 {
                     locationComp.EnterDungeon(request.DungeonId);
@@ -77,7 +79,7 @@ namespace TheIdleScrolls_Core.Systems
                 else
                 {
                     coordinator.PostMessage(this, 
-                        new TextMessage($"Dungeon {request.DungeonId.Localize()} is not at the player's location", 
+                        new TextMessage($"Dungeon {DungeonList.GetDungeon(request.DungeonId)?.Name ?? "??"} is not at the player's location", 
                         IMessage.PriorityLevel.High));
                 }
             }
@@ -212,7 +214,7 @@ namespace TheIdleScrolls_Core.Systems
 
         string IMessage.BuildMessage()
         {
-            return $"Dungeon '{DungeonId.Localize()}' completed" + ((FirstCompletion) ? " for the first time" : "");
+            return $"Dungeon '{DungeonList.GetDungeon(DungeonId)?.Name ?? "??"}' completed" + ((FirstCompletion) ? " for the first time" : "");
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()

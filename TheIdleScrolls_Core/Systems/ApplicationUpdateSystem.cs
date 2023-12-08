@@ -183,7 +183,7 @@ namespace TheIdleScrolls_Core.Systems
                         if (!travelComp.AvailableDungeons.Contains(dungeon.Id))
                             continue;
                         dungeons.Add(new DungeonRepresentation(dungeon.Id, 
-                            dungeon.Id.Localize(),
+                            dungeon.Name,
                             dungeon.Level,
                             $"{dungeon.Id}_DESCRIPTION".Localize().Replace("\\n", "\n"),
                             dungeon.Rarity

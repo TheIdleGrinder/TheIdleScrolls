@@ -9,13 +9,23 @@ namespace TheIdleScrolls_Core.Resources
 {
     internal static class DungeonList
     {
-        public static List<DungeonDescription> GetAllDungeons()
+        public static DungeonDescription? GetDungeon(string dungeonId)
+        {
+            return s_dungeonDescriptions.Where(d => d.Id == dungeonId).FirstOrDefault();
+        }
+
+        static List<DungeonDescription> s_dungeonDescriptions = GenerateDungeons();
+
+        public static List<DungeonDescription> GetAllDungeons() => s_dungeonDescriptions;
+
+        static List<DungeonDescription> GenerateDungeons()
         {
             return new()
             {
                 new()
                 {
                     Id = Definitions.DungeonIds.DenOfRats,
+                    Name = Properties.Places.Dungeon_RatDen,
                     Level = 12,
                     Rarity = 0,
                     Condition = "",
@@ -37,6 +47,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.Crypt,
+                    Name = Properties.Places.Dungeon_Crypt,
                     Level = 18,
                     Rarity = 0,
                     Condition = "",
@@ -60,6 +71,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.Lighthouse,
+                    Name = Properties.Places.Dungeon_Lighthouse,
                     Level = 20,
                     Rarity = 1,
                     Condition = "Wilderness >= 20",
@@ -81,6 +93,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.Temple,
+                    Name = Properties.Places.Dungeon_Temple,
                     Level = 30,
                     Rarity = 1,
                     Condition = $"dng:{Definitions.DungeonIds.Lighthouse}",
@@ -103,6 +116,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.MercenaryCamp,
+                    Name = Properties.Places.Dungeon_MercenaryCamp,
                     Level = 40,
                     Rarity = 0,
                     Condition = "Wilderness >= 40",
@@ -121,6 +135,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.CultistCastle,
+                    Name = Properties.Places.Dungeon_CultistCastle,
                     Level = 50,
                     Rarity = 1,
                     Condition = $"dng:{Definitions.DungeonIds.Temple}",
@@ -142,6 +157,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.Labyrinth,
+                    Name = Properties.Places.Dungeon_Labyrinth,
                     Level = 60,
                     Rarity = 1,
                     Condition = $"dng:{Definitions.DungeonIds.CultistCastle}",
@@ -170,6 +186,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.ReturnToLighthouse,
+                    Name = Properties.Places.Dungeon_ReturnToLighthouse,
                     Level = 70,
                     Rarity = 1,
                     Condition = $"dng:{Definitions.DungeonIds.Labyrinth}",
@@ -191,6 +208,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.Threshold,
+                    Name = Properties.Places.Dungeon_Threshold,
                     Level = 75,
                     Rarity = 1,
                     Condition = $"dng:{Definitions.DungeonIds.ReturnToLighthouse}",
@@ -209,6 +227,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.EndgameTechnology,
+                    Name = Properties.Places.Dungeon_EndgameTechnology,
                     Level = 150,
                     Rarity = 3,
                     Condition = "Wilderness >= 150",
@@ -233,6 +252,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.EndgameMagic,
+                    Name = Properties.Places.Dungeon_EndgameMagic,
                     Level = 150,
                     Rarity = 3,
                     Condition = "Wilderness >= 150",
@@ -257,6 +277,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.EndgameDistantLands,
+                    Name = Properties.Places.Dungeon_EndgameDistant,
                     Level = 150,
                     Rarity = 3,
                     Condition = "Wilderness >= 150",

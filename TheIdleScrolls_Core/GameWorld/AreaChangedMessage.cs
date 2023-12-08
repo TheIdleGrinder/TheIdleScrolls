@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core.GameWorld
 {
@@ -41,9 +42,9 @@ namespace TheIdleScrolls_Core.GameWorld
             return Entity.GetName() + " " + AreaChangeType switch
             {
                 AreaChangeType.Travel => $"travelled to coordinates {Location}",
-                AreaChangeType.EnteredDungeon => $"entered {DungeonId.Localize()}",
-                AreaChangeType.LeftDungeon => $"left {DungeonId.Localize()}",
-                AreaChangeType.FloorChange => $"moved to floor {DungeonFloor + 1} of {DungeonId.Localize()}",
+                AreaChangeType.EnteredDungeon => $"entered {DungeonList.GetDungeon(DungeonId)?.Name ?? "??"}",
+                AreaChangeType.LeftDungeon => $"left {DungeonList.GetDungeon(DungeonId)?.Name ?? "??"}",
+                AreaChangeType.FloorChange => $"moved to floor {DungeonFloor + 1} of {DungeonList.GetDungeon(DungeonId)?.Name ?? "??"}",
                 _ => $"moved between areas"
             };
         }

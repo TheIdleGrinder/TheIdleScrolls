@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -102,6 +103,8 @@ namespace TheIdleScrolls_Core.Systems
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.DungeonOpen) 
                 && coordinator.MessageTypeIsOnBoard<DungeonOpenedMessage>())
             {
+                var message = coordinator.FetchMessagesByType<DungeonOpenedMessage>().FirstOrDefault();
+                var dungeon = DungeonList.GetDungeon(message!.DungeonId)!;
                 globalProgress.Data.TutorialProgress.Add(TutorialStep.DungeonOpen);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.DungeonOpen, "A New Challenge!",
@@ -109,7 +112,7 @@ namespace TheIdleScrolls_Core.Systems
                     "monsters that have to be defeated to proceed. They are more challenging than wilderness areas " +
                     "of the same level, but completing dungeons will grant powerful rewards. Losing a fight in the dungeon will get you sent " +
                     "back to the wilderness." +
-                    $"\n  - Unlocked dungeon '{world.AreaKingdom.Dungeons[0].Id.Localize()}'")); // CornerCut: Assumes first dungeon is first to unlock
+                    $"\n  - Unlocked dungeon '{dungeon.Name}'"));
             }
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.DungeonComplete)
                 && coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())

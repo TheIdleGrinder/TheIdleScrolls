@@ -12,6 +12,7 @@ namespace TheIdleScrolls_Core.GameWorld
     public class DungeonDescription
     {
         public string Id { get; set; } = "";
+        public string Name { get; set; } = "";
         public int Level { get; set; } = 1;
         public string Condition { get; set; } = "";
         public int Rarity { get; set; } = 0;

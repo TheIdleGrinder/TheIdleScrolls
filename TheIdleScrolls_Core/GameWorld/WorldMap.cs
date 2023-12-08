@@ -36,7 +36,7 @@ namespace TheIdleScrolls_Core.GameWorld
             
             return new ZoneDescription()
             {
-                Name = $"{dungeon.Id.Localize()} - Floor {floor + 1}",
+                Name = $"{dungeon.Name} - Floor {floor + 1}",
                 Biome = Biome.Dungeon,
                 Level = dungeon.Level,
                 MobTypes = dungeonFloor.MobTypes,
