@@ -120,37 +120,77 @@
   <data name="Dungeon_Crypt" xml:space="preserve">
     <value>The Crypt</value>
   </data>
+  <data name="Dungeon_Crypt_Description" xml:space="preserve">
+    <value>There is something stirring beneath the graveyard...
+
+This dungeon awards armor pieces</value>
+  </data>
   <data name="Dungeon_CultistCastle" xml:space="preserve">
     <value>Cult's Stronghold</value>
+  </data>
+  <data name="Dungeon_CultistCastle_Description" xml:space="preserve">
+    <value>The traiterous lord who had hired the mercenaries has turned his castle into the cult's base of operations.</value>
   </data>
   <data name="Dungeon_EndgameDistant" xml:space="preserve">
     <value>The Red Pagoda</value>
   </data>
+  <data name="Dungeon_EndgameDistant_Description" xml:space="preserve">
+    <value />
+  </data>
   <data name="Dungeon_EndgameMagic" xml:space="preserve">
     <value>Wizard Academy</value>
+  </data>
+  <data name="Dungeon_EndgameMagic_Description" xml:space="preserve">
+    <value />
   </data>
   <data name="Dungeon_EndgameTechnology" xml:space="preserve">
     <value>The Sunken City</value>
   </data>
+  <data name="Dungeon_EndgameTechnology_Description" xml:space="preserve">
+    <value>There's a forgotten city in a deep trench in the bottom of the sea...</value>
+  </data>
   <data name="Dungeon_Labyrinth" xml:space="preserve">
     <value>Labyrinth</value>
+  </data>
+  <data name="Dungeon_Labyrinth_Description" xml:space="preserve">
+    <value>Below the castle, there is a huge, labyrinthian dungeon. This must be where the leader of the cult is hiding.</value>
   </data>
   <data name="Dungeon_Lighthouse" xml:space="preserve">
     <value>The Lighthouse</value>
   </data>
+  <data name="Dungeon_Lighthouse_Description" xml:space="preserve">
+    <value>Cultists have holed up in the old lighthouse. The blue flames they lit have attracted more than just ships.</value>
+  </data>
   <data name="Dungeon_MercenaryCamp" xml:space="preserve">
     <value>Mercenary Camp</value>
+  </data>
+  <data name="Dungeon_MercenaryCamp_Description" xml:space="preserve">
+    <value>The cultists have acquired the services of a company of human mercenaries. Raiding their camp and killing their leader should drive them away.</value>
   </data>
   <data name="Dungeon_RatDen" xml:space="preserve">
     <value>Den of Rats</value>
   </data>
+  <data name="Dungeon_RatDen_Description" xml:space="preserve">
+    <value>Fighting rats, clearing some kind of den... A good start to a glorious adventure.
+
+This dungeon awards weapons</value>
+  </data>
   <data name="Dungeon_ReturnToLighthouse" xml:space="preserve">
     <value>The Lighthouse II</value>
+  </data>
+  <data name="Dungeon_ReturnToLighthouse_Description" xml:space="preserve">
+    <value>While you were fighting the cultist leader in his castle, his followers have returned to the old lighthouse to complete the ritual.</value>
   </data>
   <data name="Dungeon_Temple" xml:space="preserve">
     <value>Ancient Temple</value>
   </data>
+  <data name="Dungeon_Temple_Description" xml:space="preserve">
+    <value>The cultists have relocated to the catacombs below the ruins of an ancient elven temple.</value>
+  </data>
   <data name="Dungeon_Threshold" xml:space="preserve">
     <value>The Threshold</value>
+  </data>
+  <data name="Dungeon_Threshold_Description" xml:space="preserve">
+    <value>We were too late! The ritual has been completed and the gate between the dimensions has been opened. An army of demons is flooding through the rift. Stand fast and fight them off!</value>
   </data>
 </root>

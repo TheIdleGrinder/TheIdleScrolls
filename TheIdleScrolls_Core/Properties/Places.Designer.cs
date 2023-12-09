@@ -70,11 +70,31 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die There is something stirring beneath the graveyard...
+        ///
+        ///This dungeon awards armor pieces ähnelt.
+        /// </summary>
+        internal static string Dungeon_Crypt_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_Crypt_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Cult&apos;s Stronghold ähnelt.
         /// </summary>
         internal static string Dungeon_CultistCastle {
             get {
                 return ResourceManager.GetString("Dungeon_CultistCastle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The traiterous lord who had hired the mercenaries has turned his castle into the cult&apos;s base of operations. ähnelt.
+        /// </summary>
+        internal static string Dungeon_CultistCastle_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_CultistCastle_Description", resourceCulture);
             }
         }
         
@@ -88,11 +108,29 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string Dungeon_EndgameDistant_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_EndgameDistant_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Wizard Academy ähnelt.
         /// </summary>
         internal static string Dungeon_EndgameMagic {
             get {
                 return ResourceManager.GetString("Dungeon_EndgameMagic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string Dungeon_EndgameMagic_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_EndgameMagic_Description", resourceCulture);
             }
         }
         
@@ -106,11 +144,29 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die There&apos;s a forgotten city in a deep trench in the bottom of the sea... ähnelt.
+        /// </summary>
+        internal static string Dungeon_EndgameTechnology_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_EndgameTechnology_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Labyrinth ähnelt.
         /// </summary>
         internal static string Dungeon_Labyrinth {
             get {
                 return ResourceManager.GetString("Dungeon_Labyrinth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Below the castle, there is a huge, labyrinthian dungeon. This must be where the leader of the cult is hiding. ähnelt.
+        /// </summary>
+        internal static string Dungeon_Labyrinth_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_Labyrinth_Description", resourceCulture);
             }
         }
         
@@ -124,11 +180,29 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cultists have holed up in the old lighthouse. The blue flames they lit have attracted more than just ships. ähnelt.
+        /// </summary>
+        internal static string Dungeon_Lighthouse_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_Lighthouse_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Mercenary Camp ähnelt.
         /// </summary>
         internal static string Dungeon_MercenaryCamp {
             get {
                 return ResourceManager.GetString("Dungeon_MercenaryCamp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The cultists have acquired the services of a company of human mercenaries. Raiding their camp and killing their leader should drive them away. ähnelt.
+        /// </summary>
+        internal static string Dungeon_MercenaryCamp_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_MercenaryCamp_Description", resourceCulture);
             }
         }
         
@@ -142,11 +216,31 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fighting rats, clearing some kind of den... A good start to a glorious adventure.
+        ///
+        ///This dungeon awards weapons ähnelt.
+        /// </summary>
+        internal static string Dungeon_RatDen_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_RatDen_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The Lighthouse II ähnelt.
         /// </summary>
         internal static string Dungeon_ReturnToLighthouse {
             get {
                 return ResourceManager.GetString("Dungeon_ReturnToLighthouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die While you were fighting the cultist leader in his castle, his followers have returned to the old lighthouse to complete the ritual. ähnelt.
+        /// </summary>
+        internal static string Dungeon_ReturnToLighthouse_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_ReturnToLighthouse_Description", resourceCulture);
             }
         }
         
@@ -160,11 +254,29 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The cultists have relocated to the catacombs below the ruins of an ancient elven temple. ähnelt.
+        /// </summary>
+        internal static string Dungeon_Temple_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_Temple_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The Threshold ähnelt.
         /// </summary>
         internal static string Dungeon_Threshold {
             get {
                 return ResourceManager.GetString("Dungeon_Threshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die We were too late! The ritual has been completed and the gate between the dimensions has been opened. An army of demons is flooding through the rift. Stand fast and fight them off! ähnelt.
+        /// </summary>
+        internal static string Dungeon_Threshold_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_Threshold_Description", resourceCulture);
             }
         }
     }

@@ -16,6 +16,7 @@ namespace TheIdleScrolls_Core.GameWorld
         public int Level { get; set; } = 1;
         public string Condition { get; set; } = "";
         public int Rarity { get; set; } = 0;
+        public string Description { get; set; } = "";
         public List<DungeonFloorDescription> Floors { get; set; } = new();
         public List<MobDescription> LocalMobs { get; set; } = new();
         public DungeonRewardsDescription Rewards { get; set; } = new();

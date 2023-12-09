@@ -29,6 +29,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 12,
                     Rarity = 0,
                     Condition = "",
+                    Description = Properties.Places.Dungeon_RatDen_Description,
                     Floors = new()
                     {
                         new(2, 1.5, new() { "MOB_RAT" }),
@@ -51,6 +52,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 18,
                     Rarity = 0,
                     Condition = "",
+                    Description = Properties.Places.Dungeon_Crypt_Description,
                     Floors = new()
                     {
                         new(2, 2.2, new() { "MOB_ZOMBIE" }),
@@ -75,6 +77,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 20,
                     Rarity = 1,
                     Condition = "Wilderness >= 20",
+                    Description = Properties.Places.Dungeon_Lighthouse_Description,
                     Floors = new()
                     {
                         new(2, 2.5, new() { "MOB_CULTIST" }),
@@ -97,6 +100,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 30,
                     Rarity = 1,
                     Condition = $"dng:{Definitions.DungeonIds.Lighthouse}",
+                    Description = Properties.Places.Dungeon_Temple_Description,
                     Floors = new()
                     {
                         new(3, 3.6, new() { "MOB_CULTIST", "MOB_WARLOCK" }),
@@ -120,6 +124,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 40,
                     Rarity = 0,
                     Condition = "Wilderness >= 40",
+                    Description = Properties.Places.Dungeon_MercenaryCamp_Description,
                     Floors = new()
                     {
                         new(15, 1.0, new() { "MOB_MERCENARY" }),
@@ -139,6 +144,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 50,
                     Rarity = 1,
                     Condition = $"dng:{Definitions.DungeonIds.Temple}",
+                    Description = Properties.Places.Dungeon_CultistCastle_Description,
                     Floors = new()
                     {
                         new(4, 4.0, new() { "MOB_FANATIC", "MOB_WARLOCK" }),
@@ -161,6 +167,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 60,
                     Rarity = 1,
                     Condition = $"dng:{Definitions.DungeonIds.CultistCastle}",
+                    Description= Properties.Places.Dungeon_Labyrinth_Description,
                     Floors = new()
                     {
                         new(1, 1.5, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
@@ -190,6 +197,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 70,
                     Rarity = 1,
                     Condition = $"dng:{Definitions.DungeonIds.Labyrinth}",
+                    Description = Properties.Places.Dungeon_ReturnToLighthouse_Description,
                     Floors = new()
                     {
                         new(3, 2.5, new() { "MOB_VOIDCULTIST" }),
@@ -212,6 +220,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 75,
                     Rarity = 1,
                     Condition = $"dng:{Definitions.DungeonIds.ReturnToLighthouse}",
+                    Description = Properties.Places.Dungeon_Threshold_Description,
                     Floors = new()
                     {
                         new(25, 20.0, new() { "MOB_VOIDFIEND", "MOB_DEMON1", "MOB_DEMON2" })
@@ -231,6 +240,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 150,
                     Rarity = 3,
                     Condition = "Wilderness >= 150",
+                    Description = Properties.Places.Dungeon_EndgameTechnology_Description,
                     Floors = new()
                     {
                         new(3, 3.0, new() { "MOB_SHARK" }),
@@ -256,6 +266,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 150,
                     Rarity = 3,
                     Condition = "Wilderness >= 150",
+                    Description = Properties.Places.Dungeon_EndgameMagic_Description,
                     Floors = new()
                     {
                         new(5, 5.0, new() { "MOB_HUFFLE" }),
@@ -281,6 +292,7 @@ namespace TheIdleScrolls_Core.Resources
                     Level = 150,
                     Rarity = 3,
                     Condition = "Wilderness >= 150",
+                    Description = Properties.Places.Dungeon_EndgameDistant_Description,
                     Floors = new()
                     {
                         new(3, 3.0, new() { "MOB_MARTIALARTIST" }),
