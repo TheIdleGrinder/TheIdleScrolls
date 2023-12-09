@@ -70,24 +70,6 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Wizard Academy ähnelt.
-        /// </summary>
-        internal static string ACADEMY {
-            get {
-                return ResourceManager.GetString("ACADEMY", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string ACADEMY_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("ACADEMY_DESCRIPTION", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Axe ähnelt.
         /// </summary>
         internal static string AXE {
@@ -376,24 +358,6 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cult&apos;s Stronghold ähnelt.
-        /// </summary>
-        internal static string CASTLE {
-            get {
-                return ResourceManager.GetString("CASTLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The traiterous lord who had hired the mercenaries has turned his castle into the cult&apos;s base of operations. ähnelt.
-        /// </summary>
-        internal static string CASTLE_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("CASTLE_DESCRIPTION", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Viking ähnelt.
         /// </summary>
         internal static string CLASS_AXE_HAR {
@@ -561,26 +525,6 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string CLASS_X_X {
             get {
                 return ResourceManager.GetString("CLASS_X_X", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Crypt ähnelt.
-        /// </summary>
-        internal static string CRYPT {
-            get {
-                return ResourceManager.GetString("CRYPT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die There is something stirring beneath the graveyard...
-        ///
-        ///This dungeon awards armor pieces ähnelt.
-        /// </summary>
-        internal static string CRYPT_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("CRYPT_DESCRIPTION", resourceCulture);
             }
         }
         
@@ -783,24 +727,6 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Labyrinth ähnelt.
-        /// </summary>
-        internal static string LABYRINTH {
-            get {
-                return ResourceManager.GetString("LABYRINTH", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Below the castle, there is a huge, labyrinthian dungeon. This must be where the leader of the cult is hiding. ähnelt.
-        /// </summary>
-        internal static string LABYRINTH_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("LABYRINTH_DESCRIPTION", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Light Armor ähnelt.
         /// </summary>
         internal static string LAR {
@@ -954,42 +880,6 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Lighthouse ähnelt.
-        /// </summary>
-        internal static string LIGHTHOUSE {
-            get {
-                return ResourceManager.GetString("LIGHTHOUSE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cultists have holed up in the old lighthouse. The blue flames they lit have attracted more than just ships. ähnelt.
-        /// </summary>
-        internal static string LIGHTHOUSE_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("LIGHTHOUSE_DESCRIPTION", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Lighthouse II ähnelt.
-        /// </summary>
-        internal static string LIGHTHOUSE2 {
-            get {
-                return ResourceManager.GetString("LIGHTHOUSE2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die While you were fighting the cultist leader in his castle, his followers have returned to the old lighthouse to complete the ritual. ähnelt.
-        /// </summary>
-        internal static string LIGHTHOUSE2_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("LIGHTHOUSE2_DESCRIPTION", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Leather ähnelt.
         /// </summary>
         internal static string MAT_L0 {
@@ -1076,24 +966,6 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MAT_W2 {
             get {
                 return ResourceManager.GetString("MAT_W2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Mercenary Camp ähnelt.
-        /// </summary>
-        internal static string MERCCAMP {
-            get {
-                return ResourceManager.GetString("MERCCAMP", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The cultists have acquired the services of a company of human mercenaries. Raiding their camp and killing their leader should drive them away. ähnelt.
-        /// </summary>
-        internal static string MERCCAMP_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("MERCCAMP_DESCRIPTION", resourceCulture);
             }
         }
         
@@ -1368,24 +1240,6 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Red Pagoda ähnelt.
-        /// </summary>
-        internal static string PAGODA {
-            get {
-                return ResourceManager.GetString("PAGODA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string PAGODA_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("PAGODA_DESCRIPTION", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Polearm ähnelt.
         /// </summary>
         internal static string POL {
@@ -1427,26 +1281,6 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string POL3 {
             get {
                 return ResourceManager.GetString("POL3", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Den of Rats ähnelt.
-        /// </summary>
-        internal static string RATDEN {
-            get {
-                return ResourceManager.GetString("RATDEN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Fighting rats, clearing some kind of den... A good start to a glorious adventure.
-        ///
-        ///This dungeon awards weapons ähnelt.
-        /// </summary>
-        internal static string RATDEN_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("RATDEN_DESCRIPTION", resourceCulture);
             }
         }
         
@@ -1512,60 +1346,6 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string STORY_END_TITLE {
             get {
                 return ResourceManager.GetString("STORY_END_TITLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Sunken City ähnelt.
-        /// </summary>
-        internal static string SUNKENCITY {
-            get {
-                return ResourceManager.GetString("SUNKENCITY", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die There&apos;s a forgotten city in a deep trench in the bottom of the sea... ähnelt.
-        /// </summary>
-        internal static string SUNKENCITY_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("SUNKENCITY_DESCRIPTION", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Ancient Temple ähnelt.
-        /// </summary>
-        internal static string TEMPLE {
-            get {
-                return ResourceManager.GetString("TEMPLE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The cultists have relocated to the catacombs below the ruins of an ancient elven temple. ähnelt.
-        /// </summary>
-        internal static string TEMPLE_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("TEMPLE_DESCRIPTION", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Threshold ähnelt.
-        /// </summary>
-        internal static string THRESHOLD {
-            get {
-                return ResourceManager.GetString("THRESHOLD", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die We were too late! The ritual has been completed and the gate between the dimensions has been opened. An army of demons is flooding through the rift. Stand fast and fight them off! ähnelt.
-        /// </summary>
-        internal static string THRESHOLD_DESCRIPTION {
-            get {
-                return ResourceManager.GetString("THRESHOLD_DESCRIPTION", resourceCulture);
             }
         }
         

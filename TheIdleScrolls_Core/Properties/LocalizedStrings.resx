@@ -120,12 +120,6 @@
   <data name="ABL_CRAFT" xml:space="preserve">
     <value>Crafting</value>
   </data>
-  <data name="ACADEMY" xml:space="preserve">
-    <value>Wizard Academy</value>
-  </data>
-  <data name="ACADEMY_DESCRIPTION" xml:space="preserve">
-    <value />
-  </data>
   <data name="AXE" xml:space="preserve">
     <value>Axe</value>
   </data>
@@ -222,12 +216,6 @@
   <data name="BOSS_VOIDPRIEST" xml:space="preserve">
     <value>Priest of the Void</value>
   </data>
-  <data name="CASTLE" xml:space="preserve">
-    <value>Cult's Stronghold</value>
-  </data>
-  <data name="CASTLE_DESCRIPTION" xml:space="preserve">
-    <value>The traiterous lord who had hired the mercenaries has turned his castle into the cult's base of operations.</value>
-  </data>
   <data name="CLASS_AXE_HAR" xml:space="preserve">
     <value>Viking</value>
   </data>
@@ -284,14 +272,6 @@
   </data>
   <data name="CLASS_X_X" xml:space="preserve">
     <value>Monk</value>
-  </data>
-  <data name="CRYPT" xml:space="preserve">
-    <value>The Crypt</value>
-  </data>
-  <data name="CRYPT_DESCRIPTION" xml:space="preserve">
-    <value>There is something stirring beneath the graveyard...
-
-This dungeon awards armor pieces</value>
   </data>
   <data name="DRAGON" xml:space="preserve">
     <value>Dragon</value>
@@ -359,12 +339,6 @@ This dungeon awards armor pieces</value>
   <data name="HAR9" xml:space="preserve">
     <value>Greaves</value>
   </data>
-  <data name="LABYRINTH" xml:space="preserve">
-    <value>Labyrinth</value>
-  </data>
-  <data name="LABYRINTH_DESCRIPTION" xml:space="preserve">
-    <value>Below the castle, there is a huge, labyrinthian dungeon. This must be where the leader of the cult is hiding.</value>
-  </data>
   <data name="LAR" xml:space="preserve">
     <value>Light Armor</value>
   </data>
@@ -416,18 +390,6 @@ This dungeon awards armor pieces</value>
   <data name="LBL3" xml:space="preserve">
     <value>Curved Sword</value>
   </data>
-  <data name="LIGHTHOUSE" xml:space="preserve">
-    <value>The Lighthouse</value>
-  </data>
-  <data name="LIGHTHOUSE2" xml:space="preserve">
-    <value>The Lighthouse II</value>
-  </data>
-  <data name="LIGHTHOUSE2_DESCRIPTION" xml:space="preserve">
-    <value>While you were fighting the cultist leader in his castle, his followers have returned to the old lighthouse to complete the ritual.</value>
-  </data>
-  <data name="LIGHTHOUSE_DESCRIPTION" xml:space="preserve">
-    <value>Cultists have holed up in the old lighthouse. The blue flames they lit have attracted more than just ships.</value>
-  </data>
   <data name="MAT_L0" xml:space="preserve">
     <value>Leather</value>
   </data>
@@ -457,12 +419,6 @@ This dungeon awards armor pieces</value>
   </data>
   <data name="MAT_W2" xml:space="preserve">
     <value>Ash</value>
-  </data>
-  <data name="MERCCAMP" xml:space="preserve">
-    <value>Mercenary Camp</value>
-  </data>
-  <data name="MERCCAMP_DESCRIPTION" xml:space="preserve">
-    <value>The cultists have acquired the services of a company of human mercenaries. Raiding their camp and killing their leader should drive them away.</value>
   </data>
   <data name="MOB_ABOMINATION" xml:space="preserve">
     <value>Abomination</value>
@@ -554,12 +510,6 @@ This dungeon awards armor pieces</value>
   <data name="OGRE" xml:space="preserve">
     <value>Ogre</value>
   </data>
-  <data name="PAGODA" xml:space="preserve">
-    <value>The Red Pagoda</value>
-  </data>
-  <data name="PAGODA_DESCRIPTION" xml:space="preserve">
-    <value />
-  </data>
   <data name="POL" xml:space="preserve">
     <value>Polearm</value>
   </data>
@@ -574,14 +524,6 @@ This dungeon awards armor pieces</value>
   </data>
   <data name="POL3" xml:space="preserve">
     <value>War Pike</value>
-  </data>
-  <data name="RATDEN" xml:space="preserve">
-    <value>Den of Rats</value>
-  </data>
-  <data name="RATDEN_DESCRIPTION" xml:space="preserve">
-    <value>Fighting rats, clearing some kind of den... A good start to a glorious adventure.
-
-This dungeon awards weapons</value>
   </data>
   <data name="SBL" xml:space="preserve">
     <value>Short Blade</value>
@@ -605,24 +547,6 @@ Time to finish: {0:0} s</value>
   </data>
   <data name="STORY_END_TITLE" xml:space="preserve">
     <value>Convergence</value>
-  </data>
-  <data name="SUNKENCITY" xml:space="preserve">
-    <value>The Sunken City</value>
-  </data>
-  <data name="SUNKENCITY_DESCRIPTION" xml:space="preserve">
-    <value>There's a forgotten city in a deep trench in the bottom of the sea...</value>
-  </data>
-  <data name="TEMPLE" xml:space="preserve">
-    <value>Ancient Temple</value>
-  </data>
-  <data name="TEMPLE_DESCRIPTION" xml:space="preserve">
-    <value>The cultists have relocated to the catacombs below the ruins of an ancient elven temple.</value>
-  </data>
-  <data name="THRESHOLD" xml:space="preserve">
-    <value>The Threshold</value>
-  </data>
-  <data name="THRESHOLD_DESCRIPTION" xml:space="preserve">
-    <value>We were too late! The ritual has been completed and the gate between the dimensions has been opened. An army of demons is flooding through the rift. Stand fast and fight them off!</value>
   </data>
   <data name="WOLF" xml:space="preserve">
     <value>Wolf</value>
