@@ -543,7 +543,7 @@
   <data name="STORY_END_TEXT" xml:space="preserve">
     <value>At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops.
 
-Time to finish: {0:0} s</value>
+Time to finish: {0}</value>
   </data>
   <data name="STORY_END_TITLE" xml:space="preserve">
     <value>Convergence</value>

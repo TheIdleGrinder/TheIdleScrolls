@@ -101,7 +101,8 @@ namespace TheIdleScrolls_Core.Quests
             else if (progress == QuestStates.FinalFight.End)
             {
                 var progComp = entity.GetComponent<PlayerProgressComponent>();
-                double playtime = (progComp != null) ? progComp.Data.Playtime : 0;
+                double dblTime = (progComp != null) ? progComp.Data.Playtime : 0;
+                var playtime = TimeSpan.FromSeconds(dblTime).ToString(@"hh\:mm\:ss");
                 bool first = !entity.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
                 postMessageCallback(new ManualSaveRequest());
                 postMessageCallback(new DungeonCompletedMessage(locationComp.DungeonId, first));

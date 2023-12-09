@@ -1332,7 +1332,7 @@ namespace TheIdleScrolls_Core.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops.
         ///
-        ///Time to finish: {0:0} s ähnelt.
+        ///Time to finish: {0} ähnelt.
         /// </summary>
         internal static string STORY_END_TEXT {
             get {
