@@ -9,18 +9,6 @@ namespace TheIdleScrolls_Core.Components
 {
     public enum QuestId { GettingStarted, FinalFight }
 
-    public class Quest
-    {
-        public QuestId Id { get; }
-        public Dictionary<int, string> Messages { get; }
-
-        public Quest(QuestId id, Dictionary<int, string> messages)
-        {
-            Id = id;
-            Messages = messages;
-        }
-    }
-
     namespace QuestStates
     {
         public enum GettingStarted { None = -1, Inventory, Abilities, Outside, Armor, Travel, Dungeon }
@@ -29,9 +17,9 @@ namespace TheIdleScrolls_Core.Components
 
     public class QuestProgressComponent : IComponent
     {
-        public FinalFight FinalFight = new();
-
         public Dictionary<QuestId, int> Quests = new();
+
+        public Dictionary<string, dynamic> TemporaryData = new();
 
         public int GetQuestProgress(QuestId quest, int defaultValue = -1)
         {
@@ -54,12 +42,17 @@ namespace TheIdleScrolls_Core.Components
         {
             SetQuestProgress(quest, Convert.ToInt32(progress));
         }
-    }
 
-    public struct FinalFight
-    {
-        public DateTime StartTime = DateTime.MinValue;
+        public void StoreTemporaryData(string key, dynamic value)
+        {
+            TemporaryData[key] = value;
+        }
 
-        public FinalFight() {}
+        public T? RetrieveTemporaryData<T>(string key)
+        {
+            return TemporaryData.ContainsKey(key)
+                ? (T)TemporaryData[key]
+                : default;
+        }
     }
 }

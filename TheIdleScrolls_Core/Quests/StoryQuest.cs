@@ -1,6 +1,7 @@
 ﻿using MiniECS;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace TheIdleScrolls_Core.Quests
 
         public override void UpdateEntity(Entity entity, Coordinator coordinator, World world, double dt, Action<IMessage> postMessageCallback)
         {
+            const string StartTimeKey = "FinalFight_StartTime";
             var storyComp = entity.GetComponent<QuestProgressComponent>();
             var locationComp = entity.GetComponent<LocationComponent>();
             if (storyComp == null || locationComp == null)
@@ -50,7 +52,7 @@ namespace TheIdleScrolls_Core.Quests
                     && coordinator.GetEntities<MobComponent>().FirstOrDefault() != null)
                 {
                     storyComp.SetQuestProgress(QuestId.FinalFight, QuestStates.FinalFight.Slowing);
-                    storyComp.FinalFight.StartTime = DateTime.Now;
+                    storyComp.StoreTemporaryData(StartTimeKey, DateTime.Now);
 
                     // Transform mob into final boss
                     var mob = coordinator.GetEntities<MobComponent>().FirstOrDefault();
@@ -73,7 +75,8 @@ namespace TheIdleScrolls_Core.Quests
             }
             else if (progress == QuestStates.FinalFight.Slowing)
             {
-                double duration = (DateTime.Now - storyComp.FinalFight.StartTime).Seconds;
+                DateTime startTime = storyComp.RetrieveTemporaryData<DateTime>(StartTimeKey);
+                double duration = (DateTime.Now - startTime).Seconds;
                 world.SpeedMultiplier = 1.0 - Math.Min(Math.Pow(duration, 0.25) / Math.Pow(slopeDuration, 0.25), 1.0);
 
                 // Rescale HP and time on gear change
@@ -92,7 +95,8 @@ namespace TheIdleScrolls_Core.Quests
             }
             else if (progress == QuestStates.FinalFight.Pause)
             {
-                double duration = (DateTime.Now - storyComp.FinalFight.StartTime).Seconds - slopeDuration;
+                DateTime startTime = storyComp.RetrieveTemporaryData<DateTime>(StartTimeKey);
+                double duration = (DateTime.Now - startTime).Seconds - slopeDuration;
                 if (duration >= pauseDuration)
                 {
                     storyComp.SetQuestProgress(QuestId.FinalFight, QuestStates.FinalFight.End);
