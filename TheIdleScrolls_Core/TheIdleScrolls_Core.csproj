@@ -45,6 +45,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Places.resx</DependentUpon>
     </Compile>
+    <Compile Update="Properties\Quests.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Quests.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Images.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -68,6 +73,10 @@
     <EmbeddedResource Update="Properties\Places.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Places.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Quests.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Quests.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Images.resx">
       <Generator>ResXFileCodeGenerator</Generator>
