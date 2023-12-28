@@ -15,6 +15,19 @@ namespace TheIdleScrolls_Core.Quests
 {
     internal class StoryQuest : AbstractQuest
     {
+        enum States
+        {
+            NotStarted,
+            LighthouseOpen   = 05, LighthouseFinished   = 10,
+            TempleOpen       = 15, TempleFinished       = 20,
+            CastleOpen       = 25, CastleFinished       = 30,
+            LabyrinthOpen    = 35, LabyrinthFinished    = 40,
+            Lighthouse2Open  = 45, Lighthouse2Finished  = 50,
+            ThresholdOpen    = 55, ThresholdFinished    = 60
+        }
+
+        public enum FinalFightState { None = -1, NotStarted, Slowing, Pause, End, Finished }
+
         const double slopeDuration = 10.0;
         const double pauseDuration = 5.0;
 
@@ -22,36 +35,92 @@ namespace TheIdleScrolls_Core.Quests
 
         public override QuestId GetId()
         {
-            return QuestId.FinalFight;
+            return QuestId.Story;
         }
 
         public override void UpdateEntity(Entity entity, Coordinator coordinator, World world, double dt, Action<IMessage> postMessageCallback)
         {
+            const string FightStateKey = "FinalFight_State";
             const string StartTimeKey = "FinalFight_StartTime";
+
             var storyComp = entity.GetComponent<QuestProgressComponent>();
             var locationComp = entity.GetComponent<LocationComponent>();
             if (storyComp == null || locationComp == null)
                 return;
 
-            var progress = (QuestStates.FinalFight)storyComp.GetQuestProgress(QuestId.FinalFight);
-            // Reset state of unfinished final fight on first update. Necessary to avoid being 'trapped' upon restarting game during the final fight
-            if (progress != QuestStates.FinalFight.Finished && m_firstUpdate)
+            var UpdateState = (States state, string message) =>
             {
-                progress = QuestStates.FinalFight.NotStarted;
-                storyComp.SetQuestProgress(QuestId.FinalFight, progress);
-                m_firstUpdate = false;
-            }
-            if (progress < 0 || progress == QuestStates.FinalFight.Finished)
-                return;
+                storyComp.SetQuestProgress(GetId(), state);
+                postMessageCallback(new QuestProgressMessage(GetId(), (int)state, message == string.Empty ? null : message));
+            };
+            
+            var progress = (States)storyComp.GetQuestProgress(GetId());
+            var openDungeons = entity.GetComponent<TravellerComponent>()?.AvailableDungeons ?? new();
+            var completedDungeons = entity.GetComponent<PlayerProgressComponent>()?.Data?.GetClearedDungeons() ?? new();
 
-            if (progress == QuestStates.FinalFight.NotStarted)
+            // CornerCut: List of open dungeons is empty during the first frame, so some messages might be skipped when loading characters
+            //  that were played before the current version of the story quest
+
+            if (progress < States.LighthouseOpen && openDungeons.Contains(Definitions.DungeonIds.Lighthouse))
             {
-                if (locationComp.InDungeon
-                    && locationComp.DungeonId == TutorialSystem.FinalStoryDungeon
+                UpdateState(States.LighthouseOpen, Properties.Quests.Story_LighthouseOpen);
+            }
+            if (progress < States.LighthouseFinished && completedDungeons.Contains(Definitions.DungeonIds.Lighthouse))
+            {
+                UpdateState(States.LighthouseFinished, Properties.Quests.Story_LighthouseFinished);
+            }
+
+            if (progress < States.TempleOpen && openDungeons.Contains(Definitions.DungeonIds.Temple))
+            {
+                UpdateState(States.TempleOpen, Properties.Quests.Story_TempleOpen);
+            }
+            if (progress < States.TempleFinished && completedDungeons.Contains(Definitions.DungeonIds.Temple))
+            {
+                UpdateState(States.TempleFinished, Properties.Quests.Story_TempleFinished);
+            }
+
+            if (progress < States.CastleOpen && openDungeons.Contains(Definitions.DungeonIds.CultistCastle))
+            {
+                UpdateState(States.CastleOpen, Properties.Quests.Story_CastleOpen);
+            }
+            if (progress < States.CastleFinished && completedDungeons.Contains(Definitions.DungeonIds.CultistCastle))
+            {
+                UpdateState(States.CastleFinished, Properties.Quests.Story_CastleFinished);
+            }
+
+            if (progress < States.LabyrinthOpen && openDungeons.Contains(Definitions.DungeonIds.Labyrinth))
+            {
+                UpdateState(States.LabyrinthOpen, Properties.Quests.Story_LabyrinthOpen);
+            }
+            if (progress < States.LabyrinthFinished && completedDungeons.Contains(Definitions.DungeonIds.Labyrinth))
+            {
+                UpdateState(States.LabyrinthFinished, Properties.Quests.Story_LabyrinthFinished);
+            }
+
+            if (progress < States.Lighthouse2Open && openDungeons.Contains(Definitions.DungeonIds.ReturnToLighthouse))
+            {
+                UpdateState(States.Lighthouse2Open, Properties.Quests.Story_Lighthouse2Open);
+            }
+            if (progress < States.Lighthouse2Finished && completedDungeons.Contains(Definitions.DungeonIds.ReturnToLighthouse))
+            {
+                UpdateState(States.Lighthouse2Finished, Properties.Quests.Story_Lighthouse2Finished);
+            }
+
+            if (progress < States.ThresholdOpen && openDungeons.Contains(Definitions.DungeonIds.Threshold))
+            {
+                UpdateState(States.ThresholdOpen, Properties.Quests.Story_ThresholdOpen);
+            }
+
+            if (progress == States.ThresholdOpen)
+            {
+                FinalFightState ffState = storyComp.RetrieveTemporaryData<FinalFightState>(FightStateKey);
+                if (ffState == FinalFightState.NotStarted
+                    && locationComp.InDungeon
+                    && locationComp.DungeonId == Definitions.DungeonIds.Threshold
                     && locationComp.RemainingEnemies == 1
                     && coordinator.GetEntities<MobComponent>().FirstOrDefault() != null)
                 {
-                    storyComp.SetQuestProgress(QuestId.FinalFight, QuestStates.FinalFight.Slowing);
+                    storyComp.StoreTemporaryData(FightStateKey, FinalFightState.Slowing);
                     storyComp.StoreTemporaryData(StartTimeKey, DateTime.Now);
 
                     // Transform mob into final boss
@@ -69,53 +138,53 @@ namespace TheIdleScrolls_Core.Quests
                     if (travelComp != null)
                     {
                         travelComp.Active = false;
-                        postMessageCallback(new QuestProgressMessage(QuestId.FinalFight, (int)QuestStates.FinalFight.Slowing));
                     }
                 }
-            }
-            else if (progress == QuestStates.FinalFight.Slowing)
-            {
-                DateTime startTime = storyComp.RetrieveTemporaryData<DateTime>(StartTimeKey);
-                double duration = (DateTime.Now - startTime).Seconds;
-                world.SpeedMultiplier = 1.0 - Math.Min(Math.Pow(duration, 0.25) / Math.Pow(slopeDuration, 0.25), 1.0);
+                else if (ffState == FinalFightState.Slowing)
+                {
+                    DateTime startTime = storyComp.RetrieveTemporaryData<DateTime>(StartTimeKey);
+                    double duration = (DateTime.Now - startTime).Seconds;
+                    world.SpeedMultiplier = 1.0 - Math.Min(Math.Pow(duration, 0.25) / Math.Pow(slopeDuration, 0.25), 1.0);
 
-                // Rescale HP and time on gear change
-                if (coordinator.MessageTypeIsOnBoard<ItemMovedMessage>())
-                {
-                    var mob = coordinator.GetEntities<MobComponent>().FirstOrDefault();
-                    if (mob == null)
-                        throw new Exception("Final mob was not found");
-                    ScaleMobHpAndTimeLimit(entity, mob, world);
-                }
+                    // Rescale HP and time on gear change
+                    if (coordinator.MessageTypeIsOnBoard<ItemMovedMessage>())
+                    {
+                        var mob = coordinator.GetEntities<MobComponent>().FirstOrDefault();
+                        if (mob == null)
+                            throw new Exception("Final mob was not found");
+                        ScaleMobHpAndTimeLimit(entity, mob, world);
+                    }
 
-                if (duration >= slopeDuration)
+                    if (duration >= slopeDuration)
+                    {
+                        storyComp.StoreTemporaryData(FightStateKey, FinalFightState.Pause);
+                    }
+                }
+                else if (ffState == FinalFightState.Pause)
                 {
-                    storyComp.SetQuestProgress(QuestId.FinalFight, QuestStates.FinalFight.Pause);
+                    DateTime startTime = storyComp.RetrieveTemporaryData<DateTime>(StartTimeKey);
+                    double duration = (DateTime.Now - startTime).Seconds - slopeDuration;
+                    if (duration >= pauseDuration)
+                    {
+                        storyComp.StoreTemporaryData(FightStateKey, FinalFightState.End);
+                    }
+                }
+                else if (ffState == FinalFightState.End)
+                {
+                    var progComp = entity.GetComponent<PlayerProgressComponent>();
+                    double dblTime = (progComp != null) ? progComp.Data.Playtime : 0;
+                    var playtime = TimeSpan.FromSeconds(dblTime).ToString(@"hh\:mm\:ss");
+                    bool first = !entity.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
+                    postMessageCallback(new ManualSaveRequest());
+                    postMessageCallback(new DungeonCompletedMessage(locationComp.DungeonId, first));
+                    postMessageCallback(new TutorialMessage(TutorialStep.Finished,
+                        Properties.LocalizedStrings.STORY_END_TITLE,
+                        String.Format(Properties.LocalizedStrings.STORY_END_TEXT, playtime)));
+                    UpdateState(States.ThresholdFinished, String.Empty);
+                    world.GameOver = true;                    
                 }
             }
-            else if (progress == QuestStates.FinalFight.Pause)
-            {
-                DateTime startTime = storyComp.RetrieveTemporaryData<DateTime>(StartTimeKey);
-                double duration = (DateTime.Now - startTime).Seconds - slopeDuration;
-                if (duration >= pauseDuration)
-                {
-                    storyComp.SetQuestProgress(QuestId.FinalFight, QuestStates.FinalFight.End);
-                }
-            }
-            else if (progress == QuestStates.FinalFight.End)
-            {
-                var progComp = entity.GetComponent<PlayerProgressComponent>();
-                double dblTime = (progComp != null) ? progComp.Data.Playtime : 0;
-                var playtime = TimeSpan.FromSeconds(dblTime).ToString(@"hh\:mm\:ss");
-                bool first = !entity.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
-                postMessageCallback(new ManualSaveRequest());
-                postMessageCallback(new DungeonCompletedMessage(locationComp.DungeonId, first));
-                postMessageCallback(new TutorialMessage(TutorialStep.Finished,
-                    Properties.LocalizedStrings.STORY_END_TITLE,
-                    String.Format(Properties.LocalizedStrings.STORY_END_TEXT, playtime)));
-                storyComp.SetQuestProgress(QuestId.FinalFight, QuestStates.FinalFight.Finished);
-                world.GameOver = true;
-            }
+
             m_firstUpdate = false;
         }
 

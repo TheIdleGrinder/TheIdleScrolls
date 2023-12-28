@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace TheIdleScrolls_Core.Components
 {
-    public enum QuestId { GettingStarted, FinalFight }
+    public enum QuestId { GettingStarted, Story }
 
     namespace QuestStates
     {
         public enum GettingStarted { None = -1, Inventory, Abilities, Outside, Armor, Travel, Dungeon }
-        public enum FinalFight { None = -1, NotStarted, Slowing, Pause, End, Finished }
     }
 
     public class QuestProgressComponent : IComponent

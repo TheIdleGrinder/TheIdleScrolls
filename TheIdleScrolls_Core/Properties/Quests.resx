@@ -118,39 +118,53 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Story_CastleFinished" xml:space="preserve">
-    <value />
+    <value>Castle Finished</value>
+    <comment>s30</comment>
   </data>
   <data name="Story_CastleOpen" xml:space="preserve">
-    <value />
+    <value>Castle Open</value>
+    <comment>s25</comment>
   </data>
   <data name="Story_LabyrinthFinished" xml:space="preserve">
-    <value />
+    <value>Labyrinth Finished</value>
+    <comment>s40</comment>
   </data>
   <data name="Story_LabyrinthOpen" xml:space="preserve">
     <value />
+    <comment>s35</comment>
   </data>
   <data name="Story_Lighthouse2Finished" xml:space="preserve">
-    <value />
+    <value>Lighthouse II Finished</value>
+    <comment>s50</comment>
   </data>
   <data name="Story_Lighthouse2Open" xml:space="preserve">
-    <value />
+    <value>Lighthouse II Open</value>
+    <comment>s45</comment>
   </data>
   <data name="Story_LighthouseFinished" xml:space="preserve">
-    <value />
+    <value>Lighthouse Finished</value>
+    <comment>s10</comment>
   </data>
   <data name="Story_LighthouseOpen" xml:space="preserve">
-    <value />
+    <value>Lighthouse Open</value>
+    <comment>s.5</comment>
   </data>
   <data name="Story_TempleFinished" xml:space="preserve">
-    <value />
+    <value>Temple Finished</value>
+    <comment>s20</comment>
   </data>
   <data name="Story_TempleOpen" xml:space="preserve">
-    <value />
+    <value>Temple Open</value>
+    <comment>s15</comment>
   </data>
   <data name="Story_ThresholdFinished" xml:space="preserve">
-    <value />
+    <value>At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops.
+
+Time to finish: {0}</value>
+    <comment>s60</comment>
   </data>
   <data name="Story_ThresholdOpen" xml:space="preserve">
-    <value />
+    <value>Stand fast!</value>
+    <comment>s55</comment>
   </data>
 </root>

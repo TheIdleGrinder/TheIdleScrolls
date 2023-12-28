@@ -47,26 +47,6 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
-/*    public class StoryMessage : IMessage
-    {
-        readonly string content = "";
-
-        public StoryMessage(string content)
-        {
-            this.content = content;
-        }
-
-        string IMessage.BuildMessage()
-        {
-            return content;
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.VeryHigh;
-        }
-    }*/
-
     /// <summary>
     /// Potentially placeholder. Used to notify other systems of the fact that a quest state has changed.
     /// </summary>
