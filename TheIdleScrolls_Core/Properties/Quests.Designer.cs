@@ -88,7 +88,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Labyrinth Open ähnelt.
         /// </summary>
         internal static string Story_LabyrinthOpen {
             get {
@@ -129,6 +129,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string Story_LighthouseOpen {
             get {
                 return ResourceManager.GetString("Story_LighthouseOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Story started ähnelt.
+        /// </summary>
+        internal static string Story_QuestReceived {
+            get {
+                return ResourceManager.GetString("Story_QuestReceived", resourceCulture);
             }
         }
         

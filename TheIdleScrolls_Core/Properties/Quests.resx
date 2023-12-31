@@ -130,7 +130,7 @@
     <comment>s40</comment>
   </data>
   <data name="Story_LabyrinthOpen" xml:space="preserve">
-    <value />
+    <value>Labyrinth Open</value>
     <comment>s35</comment>
   </data>
   <data name="Story_Lighthouse2Finished" xml:space="preserve">
@@ -148,6 +148,10 @@
   <data name="Story_LighthouseOpen" xml:space="preserve">
     <value>Lighthouse Open</value>
     <comment>s.5</comment>
+  </data>
+  <data name="Story_QuestReceived" xml:space="preserve">
+    <value>Story started</value>
+    <comment>s.1</comment>
   </data>
   <data name="Story_TempleFinished" xml:space="preserve">
     <value>Temple Finished</value>

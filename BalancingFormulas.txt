@@ -1,6 +1,6 @@
 Erwartete DPS Entwicklung:
 
-(1 + L * x) * (A * S)^x * (1.5 ^ (1 / G))^min(x, L)
+(1 + L * x) * (A * S)^x * (1.5 ^ (1 / G))^min(x, P)
 
 x = Level
 L = 0.1		Additiver Schadensbonus pro Level

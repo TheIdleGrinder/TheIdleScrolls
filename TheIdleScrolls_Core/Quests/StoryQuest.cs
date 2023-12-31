@@ -18,6 +18,7 @@ namespace TheIdleScrolls_Core.Quests
         enum States
         {
             NotStarted,
+            QuestReceived    = 01,
             LighthouseOpen   = 05, LighthouseFinished   = 10,
             TempleOpen       = 15, TempleFinished       = 20,
             CastleOpen       = 25, CastleFinished       = 30,
@@ -28,10 +29,9 @@ namespace TheIdleScrolls_Core.Quests
 
         public enum FinalFightState { None = -1, NotStarted, Slowing, Pause, End, Finished }
 
+        const int startLevel = 20;
         const double slopeDuration = 10.0;
         const double pauseDuration = 5.0;
-
-        bool m_firstUpdate = true;
 
         public override QuestId GetId()
         {
@@ -61,6 +61,10 @@ namespace TheIdleScrolls_Core.Quests
             // CornerCut: List of open dungeons is empty during the first frame, so some messages might be skipped when loading characters
             //  that were played before the current version of the story quest
 
+            if (progress < States.QuestReceived && (entity.GetComponent<TravellerComponent>()?.MaxWilderness ?? 0) >= startLevel)
+            {
+                UpdateState(States.QuestReceived, Properties.Quests.Story_QuestReceived);
+            }
             if (progress < States.LighthouseOpen && openDungeons.Contains(Definitions.DungeonIds.Lighthouse))
             {
                 UpdateState(States.LighthouseOpen, Properties.Quests.Story_LighthouseOpen);
@@ -184,8 +188,6 @@ namespace TheIdleScrolls_Core.Quests
                     world.GameOver = true;                    
                 }
             }
-
-            m_firstUpdate = false;
         }
 
         static void ScaleMobHpAndTimeLimit(Entity player, Entity mob, World world)
