@@ -437,11 +437,11 @@
       "Description": "Complete the Beacon before the Crypt"
     },
     {
-      "Id": "STORYONLY",
-      "Prerequisite": "dng_open:THRESHOLD",
-      "Condition": "dng:THRESHOLD > 0 && dng:CRYPT <= 0 && dng:MERCCAMP <= 0 && Wilderness <= 25",
-      "Title": "No Distractions",
-      "Description": "Complete the Threshold without doing any side dungeons or progressing past wilderness level 25"
+      "Id": "EndgameBeforeStory",
+      "Prerequisite": "dng:SUNKENCITY > 0 || dng:ACADEMY > 0 || dng:PAGODA > 0",
+      "Condition": "dng:SUNKENCITY > 0 && dng:ACADEMY > 0 && dng:PAGODA > 0 && dng:THRESHOLD <= 0",
+      "Title": "Did I forget something?",
+      "Description": "Complete the endgame dungeons before finishing the story"
     },
     {
       "Id": "NOARMOR",

@@ -99,7 +99,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_Temple,
                     Level = 30,
                     Rarity = 1,
-                    Condition = $"dng:{Definitions.DungeonIds.Lighthouse}",
+                    Condition = $"dng:{Definitions.DungeonIds.Lighthouse} && Wilderness >= 30",
                     Description = Properties.Places.Dungeon_Temple_Description,
                     Floors = new()
                     {
@@ -143,7 +143,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_CultistCastle,
                     Level = 50,
                     Rarity = 1,
-                    Condition = $"dng:{Definitions.DungeonIds.Temple}",
+                    Condition = $"dng:{Definitions.DungeonIds.Temple} && Wilderness >= 50",
                     Description = Properties.Places.Dungeon_CultistCastle_Description,
                     Floors = new()
                     {
@@ -196,7 +196,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_ReturnToLighthouse,
                     Level = 70,
                     Rarity = 1,
-                    Condition = $"dng:{Definitions.DungeonIds.Labyrinth}",
+                    Condition = $"dng:{Definitions.DungeonIds.Labyrinth} && Wilderness >= 70",
                     Description = Properties.Places.Dungeon_ReturnToLighthouse_Description,
                     Floors = new()
                     {
