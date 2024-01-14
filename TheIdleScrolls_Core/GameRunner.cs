@@ -26,6 +26,10 @@ namespace TheIdleScrolls_Core
 
         readonly ApplicationUpdateSystem m_appUpdateSystem;
 
+        double m_prevSpeedMulti = -1.0;
+
+        public bool IsPaused { get { return m_prevSpeedMulti > 0.0; } }
+
         public ulong Ticks { get { return m_ticks; } }
 
         public DataAccessHandler DataAccessHandler { get { return m_dataHandler; } }
@@ -138,6 +142,24 @@ namespace TheIdleScrolls_Core
         public void AddSystem(AbstractSystem system)
         {
             m_systems.Add(system);
+        }
+
+        public void Pause()
+        {
+            if (!IsPaused)
+            {
+                m_prevSpeedMulti = m_world.SpeedMultiplier;
+                m_world.SpeedMultiplier = 0.0;
+            }
+        }
+
+        public void Unpause()
+        {
+            if (IsPaused)
+            {
+                m_world.SpeedMultiplier = m_prevSpeedMulti;
+                m_prevSpeedMulti = -1.0;
+            }
         }
 
         public T? GetSystem<T>() where T : AbstractSystem
