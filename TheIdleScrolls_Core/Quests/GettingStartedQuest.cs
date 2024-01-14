@@ -83,7 +83,6 @@ namespace TheIdleScrolls_Core.Quests
 
                     setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory,
                         $"Here, take some weapons. Time to gear up!{itemString}");
-                    postMessageCallback(new DialogueMessage(QuestId.GettingStarted.ToString(), "Trainer", "Let's go!", "Pick a weapon", names));
                 }
                 storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory);
                 setFeatureState(GameFeature.Inventory, true);
