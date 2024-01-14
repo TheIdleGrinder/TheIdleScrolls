@@ -90,7 +90,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Beneath the castle, there is a giant labyrinthine dungeon. The cult&apos;s inner sanctum has to be in there. ähnelt.
         /// </summary>
         internal static string Story_LabyrinthOpen {
             get {
@@ -117,7 +117,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The beacon&apos;s blue beam seems to have attracted the attention of more than just ships. The cultists have somehow opened a gateway to a different world. Fortunately, disturbing their ritual caused the gate to collapse before to many of the demonic beasts could make it through.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The beacon&apos;s blue beam seems to have attracted the attention of more than just ships. The cultists have somehow opened a gateway to a different world. Fortunately, disturbing their ritual caused the gate to collapse before too many of the demonic beasts could make it through.
         ///You need to keep an eye out for further activities of these cultists! ähnelt.
         /// </summary>
         internal static string Story_LighthouseFinished {
@@ -136,7 +136,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die There are rumours that a sinister cult of demon worshippers is operating in the area. You should look into that. ähnelt.
         /// </summary>
         internal static string Story_QuestReceived {
             get {

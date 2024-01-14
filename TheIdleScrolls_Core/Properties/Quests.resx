@@ -132,7 +132,7 @@ But your optimism wanes as you realize that his escape wasn't a defeat but a str
     <comment>s40</comment>
   </data>
   <data name="Story_LabyrinthOpen" xml:space="preserve">
-    <value />
+    <value>Beneath the castle, there is a giant labyrinthine dungeon. The cult's inner sanctum has to be in there.</value>
     <comment>s35</comment>
   </data>
   <data name="Story_Lighthouse2Finished" xml:space="preserve">
@@ -144,7 +144,7 @@ But your optimism wanes as you realize that his escape wasn't a defeat but a str
     <comment>s45</comment>
   </data>
   <data name="Story_LighthouseFinished" xml:space="preserve">
-    <value>The beacon's blue beam seems to have attracted the attention of more than just ships. The cultists have somehow opened a gateway to a different world. Fortunately, disturbing their ritual caused the gate to collapse before to many of the demonic beasts could make it through.
+    <value>The beacon's blue beam seems to have attracted the attention of more than just ships. The cultists have somehow opened a gateway to a different world. Fortunately, disturbing their ritual caused the gate to collapse before too many of the demonic beasts could make it through.
 You need to keep an eye out for further activities of these cultists!</value>
     <comment>s10</comment>
   </data>
@@ -153,7 +153,7 @@ You need to keep an eye out for further activities of these cultists!</value>
     <comment>s.5</comment>
   </data>
   <data name="Story_QuestReceived" xml:space="preserve">
-    <value />
+    <value>There are rumours that a sinister cult of demon worshippers is operating in the area. You should look into that.</value>
     <comment>s.1</comment>
   </data>
   <data name="Story_TempleFinished" xml:space="preserve">
