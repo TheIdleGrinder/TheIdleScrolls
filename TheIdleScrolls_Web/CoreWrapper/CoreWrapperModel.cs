@@ -175,6 +175,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             emitter.DisplayMessageReceived += (string title, string message) =>
             {
                 DialogueMessages.Add(new(string.Empty, string.Empty, title, message, new()));
+                gameRunner.Pause();
             };
             emitter.DialogueMessageReceived += (DialogueMessage message) => DialogueMessages.Add(message);
             emitter.NewLogMessages += (List<string> messages) =>
@@ -201,10 +202,19 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public void MarkTopMessageAsRead()
         {
             if (DialogueMessages.Count > 0)
+            {
                 DialogueMessages.RemoveAt(0);
+            }
+
+            if (DialogueMessages.Count <= 0)
+            {
+                gameRunner.Unpause();
+            }
 
             if (gameRunner.IsGameOver())
+            {
                 StopGameLoop();
+            }
         }
 
         public void SendResponse(string response)
