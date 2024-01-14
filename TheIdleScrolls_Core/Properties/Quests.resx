@@ -118,47 +118,50 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Story_CastleFinished" xml:space="preserve">
-    <value>Castle Finished</value>
+    <value />
     <comment>s30</comment>
   </data>
   <data name="Story_CastleOpen" xml:space="preserve">
-    <value>Castle Open</value>
+    <value>The time has come to confront the treacherous lord who commands the cult threatening the realm. Within the walls of this castle you hope to find their secret headquarter. Here, you might be able to put an end to their insidious activities once and for all.</value>
     <comment>s25</comment>
   </data>
   <data name="Story_LabyrinthFinished" xml:space="preserve">
-    <value>Labyrinth Finished</value>
+    <value>You stand victorious in the corridors beneath the cultists' castle. While the leader himself has eluded you, destroying their final hideout should spell the end of the cult’s sinister activities.
+
+But your optimism wanes as you realize that his escape wasn't a defeat but a strategic retreat: Several documents and maps identify an ancient lighthouse that sits atop a nearby cliff as the locus of a final ritual which will break down the walls between worlds. You need to pursue the remaining cultists and prevent their success at all costs!</value>
     <comment>s40</comment>
   </data>
   <data name="Story_LabyrinthOpen" xml:space="preserve">
-    <value>Labyrinth Open</value>
+    <value />
     <comment>s35</comment>
   </data>
   <data name="Story_Lighthouse2Finished" xml:space="preserve">
-    <value>Lighthouse II Finished</value>
+    <value>You confront the last of the cultists and their otherworldly allies, illuminated by the ghastly blue fire that burns atop the lighthouse. Suddenly, a surge of energy courses through the building, causing the azure flames to leap higher. There is a blinding flash, as the lighthouse's beams pierce the veil between worlds, burning the fabric of reality itself and creating a monstrous portal to the abyss beyond.</value>
     <comment>s50</comment>
   </data>
   <data name="Story_Lighthouse2Open" xml:space="preserve">
-    <value>Lighthouse II Open</value>
+    <value>As you approach the lighthouse, you do not have to ask yourself if the ritual has already started: Each step on the rocky ground resonates with a discordant energy, and the very fabric of the world seems to ripple and warp around you. Shadows, thrown by the setting sun, appear twisted into grotesque shapes, and the air is pulsing with an otherworldly hum. You need to put an end to this, before the last boundaries between the worlds are dissolved.</value>
     <comment>s45</comment>
   </data>
   <data name="Story_LighthouseFinished" xml:space="preserve">
-    <value>Lighthouse Finished</value>
+    <value>The beacon's blue beam seems to have attracted the attention of more than just ships. The cultists have somehow opened a gateway to a different world. Fortunately, disturbing their ritual caused the gate to collapse before to many of the demonic beasts could make it through.
+You need to keep an eye out for further activities of these cultists!</value>
     <comment>s10</comment>
   </data>
   <data name="Story_LighthouseOpen" xml:space="preserve">
-    <value>Lighthouse Open</value>
+    <value>You have found the old beacon near which the cultists have made their camp. It is not exactly hard to spot, given that its beam is lit by a strange blue flame.</value>
     <comment>s.5</comment>
   </data>
   <data name="Story_QuestReceived" xml:space="preserve">
-    <value>Story started</value>
+    <value />
     <comment>s.1</comment>
   </data>
   <data name="Story_TempleFinished" xml:space="preserve">
-    <value>Temple Finished</value>
+    <value>After driving away its inhabitants, you search their hideout for clues to their further activities and make a huge discovery: It appears that the head of the cult is a powerful lord from a neighbouring region. You have to continue your journey to his castle and confront him.</value>
     <comment>s20</comment>
   </data>
   <data name="Story_TempleOpen" xml:space="preserve">
-    <value>Temple Open</value>
+    <value>The cultists have established another hideout inside an ancient elvish temple. You need to drive them out before they manage to start another demonic incursion.</value>
     <comment>s15</comment>
   </data>
   <data name="Story_ThresholdFinished" xml:space="preserve">
@@ -168,7 +171,7 @@ Time to finish: {0}</value>
     <comment>s60</comment>
   </data>
   <data name="Story_ThresholdOpen" xml:space="preserve">
-    <value>Stand fast!</value>
+    <value>The portal to the demonic realm stands wide open, a mesmerizing yet terrifying spectacle. A once-controllable situation has spiraled into an existential crisis, and now, a malevolent army spills forth. You cannot know how long this gateway will remain open or if it will ever close again. All you can do now, is to guard the threshold against the encroaching darkness and drive back whatever foe attempts to cross it.</value>
     <comment>s55</comment>
   </data>
 </root>

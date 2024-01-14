@@ -156,10 +156,10 @@ This dungeon awards armor pieces</value>
     <value>Below the castle, there is a huge, labyrinthian dungeon. This must be where the leader of the cult is hiding.</value>
   </data>
   <data name="Dungeon_Lighthouse" xml:space="preserve">
-    <value>The Lighthouse</value>
+    <value>The Beacon</value>
   </data>
   <data name="Dungeon_Lighthouse_Description" xml:space="preserve">
-    <value>Cultists have holed up in the old lighthouse. The blue flames they lit have attracted more than just ships.</value>
+    <value>Cultists have holed up near the old beacon. The blue flames they lit have attracted more than just ships.</value>
   </data>
   <data name="Dungeon_MercenaryCamp" xml:space="preserve">
     <value>Mercenary Camp</value>
@@ -176,10 +176,10 @@ This dungeon awards armor pieces</value>
 This dungeon awards weapons</value>
   </data>
   <data name="Dungeon_ReturnToLighthouse" xml:space="preserve">
-    <value>The Lighthouse II</value>
+    <value>The Lighthouse</value>
   </data>
   <data name="Dungeon_ReturnToLighthouse_Description" xml:space="preserve">
-    <value>While you were fighting the cultist leader in his castle, his followers have returned to the old lighthouse to complete the ritual.</value>
+    <value>While you were fighting in the cultist leader's castle, he and his followers have hurried to the old lighthouse to complete the ritual.</value>
   </data>
   <data name="Dungeon_Temple" xml:space="preserve">
     <value>Ancient Temple</value>

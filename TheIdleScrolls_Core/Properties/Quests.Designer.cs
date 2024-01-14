@@ -61,7 +61,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Castle Finished ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string Story_CastleFinished {
             get {
@@ -70,7 +70,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Castle Open ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The time has come to confront the treacherous lord who commands the cult threatening the realm. Within the walls of this castle you hope to find their secret headquarter. Here, you might be able to put an end to their insidious activities once and for all. ähnelt.
         /// </summary>
         internal static string Story_CastleOpen {
             get {
@@ -79,7 +79,9 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Labyrinth Finished ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die You stand victorious in the corridors beneath the cultists&apos; castle. While the leader himself has eluded you, destroying their final hideout should spell the end of the cult’s sinister activities.
+        ///
+        ///But your optimism wanes as you realize that his escape wasn&apos;t a defeat but a strategic retreat: Several documents and maps identify an ancient lighthouse that sits atop a nearby cliff as the locus of a final ritual which will break down the walls between worlds. You need to pursue the remaining cultists and preven [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
         /// </summary>
         internal static string Story_LabyrinthFinished {
             get {
@@ -88,7 +90,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Labyrinth Open ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string Story_LabyrinthOpen {
             get {
@@ -97,7 +99,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Lighthouse II Finished ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die You confront the last of the cultists and their otherworldly allies, illuminated by the ghastly blue fire that burns atop the lighthouse. Suddenly, a surge of energy courses through the building, causing the azure flames to leap higher. There is a blinding flash, as the lighthouse&apos;s beams pierce the veil between worlds, burning the fabric of reality itself and creating a monstrous portal to the abyss beyond. ähnelt.
         /// </summary>
         internal static string Story_Lighthouse2Finished {
             get {
@@ -106,7 +108,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Lighthouse II Open ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die As you approach the lighthouse, you do not have to ask yourself if the ritual has already started: Each step on the rocky ground resonates with a discordant energy, and the very fabric of the world seems to ripple and warp around you. Shadows, thrown by the setting sun, appear twisted into grotesque shapes, and the air is pulsing with an otherworldly hum. You need to put an end to this, before the last boundaries between the worlds are dissolved. ähnelt.
         /// </summary>
         internal static string Story_Lighthouse2Open {
             get {
@@ -115,7 +117,8 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Lighthouse Finished ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The beacon&apos;s blue beam seems to have attracted the attention of more than just ships. The cultists have somehow opened a gateway to a different world. Fortunately, disturbing their ritual caused the gate to collapse before to many of the demonic beasts could make it through.
+        ///You need to keep an eye out for further activities of these cultists! ähnelt.
         /// </summary>
         internal static string Story_LighthouseFinished {
             get {
@@ -124,7 +127,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Lighthouse Open ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die You have found the old beacon near which the cultists have made their camp. It is not exactly hard to spot, given that its beam is lit by a strange blue flame. ähnelt.
         /// </summary>
         internal static string Story_LighthouseOpen {
             get {
@@ -133,7 +136,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Story started ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string Story_QuestReceived {
             get {
@@ -142,7 +145,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Temple Finished ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die After driving away its inhabitants, you search their hideout for clues to their further activities and make a huge discovery: It appears that the head of the cult is a powerful lord from a neighbouring region. You have to continue your journey to his castle and confront him. ähnelt.
         /// </summary>
         internal static string Story_TempleFinished {
             get {
@@ -151,7 +154,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Temple Open ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The cultists have established another hideout inside an ancient elvish temple. You need to drive them out before they manage to start another demonic incursion. ähnelt.
         /// </summary>
         internal static string Story_TempleOpen {
             get {
@@ -171,7 +174,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Stand fast! ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The portal to the demonic realm stands wide open, a mesmerizing yet terrifying spectacle. A once-controllable situation has spiraled into an existential crisis, and now, a malevolent army spills forth. You cannot know how long this gateway will remain open or if it will ever close again. All you can do now, is to guard the threshold against the encroaching darkness and drive back whatever foe attempts to cross it. ähnelt.
         /// </summary>
         internal static string Story_ThresholdOpen {
             get {

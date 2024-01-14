@@ -171,7 +171,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Lighthouse ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Beacon ähnelt.
         /// </summary>
         internal static string Dungeon_Lighthouse {
             get {
@@ -180,7 +180,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cultists have holed up in the old lighthouse. The blue flames they lit have attracted more than just ships. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cultists have holed up near the old beacon. The blue flames they lit have attracted more than just ships. ähnelt.
         /// </summary>
         internal static string Dungeon_Lighthouse_Description {
             get {
@@ -227,7 +227,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Lighthouse II ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Lighthouse ähnelt.
         /// </summary>
         internal static string Dungeon_ReturnToLighthouse {
             get {
@@ -236,7 +236,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die While you were fighting the cultist leader in his castle, his followers have returned to the old lighthouse to complete the ritual. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die While you were fighting in the cultist leader&apos;s castle, he and his followers have hurried to the old lighthouse to complete the ritual. ähnelt.
         /// </summary>
         internal static string Dungeon_ReturnToLighthouse_Description {
             get {
