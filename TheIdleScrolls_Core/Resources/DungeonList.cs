@@ -127,7 +127,7 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_MercenaryCamp_Description,
                     Floors = new()
                     {
-                        new(15, 1.0, new() { "MOB_MERCENARY" }),
+                        new(15, 10.0, new() { "MOB_MERCENARY" }),
                         new(1, 4.0, new() { "BOSS_MERCENARY" })
                     },
                     LocalMobs = new()
