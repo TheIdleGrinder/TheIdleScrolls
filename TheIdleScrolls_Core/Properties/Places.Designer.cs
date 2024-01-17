@@ -108,7 +108,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Atop a distant mountain, the Red Pagoda is overlooking the clouds and the lands below. ähnelt.
         /// </summary>
         internal static string Dungeon_EndgameDistant_Description {
             get {
@@ -162,7 +162,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Below the castle, there is a huge, labyrinthian dungeon. This must be where the leader of the cult is hiding. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Below the castle, there is a huge, labyrinthine dungeon. This must be where the leader of the cult is hiding. ähnelt.
         /// </summary>
         internal static string Dungeon_Labyrinth_Description {
             get {
@@ -180,7 +180,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cultists have holed up near the old beacon. The blue flames they lit have attracted more than just ships. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cultists have made their base at this beacon to prepare their ritual. ähnelt.
         /// </summary>
         internal static string Dungeon_Lighthouse_Description {
             get {
@@ -236,7 +236,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die While you were fighting in the cultist leader&apos;s castle, he and his followers have hurried to the old lighthouse to complete the ritual. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This ancient lighthouse is the nexus of the cult&apos;s final ritual. ähnelt.
         /// </summary>
         internal static string Dungeon_ReturnToLighthouse_Description {
             get {
@@ -272,7 +272,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die We were too late! The ritual has been completed and the gate between the dimensions has been opened. An army of demons is flooding through the rift. Stand fast and fight them off! ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The ritual has been completed and the gate between the dimensions has been opened. An army of demons is flooding through the rift. Stand fast and fight them off! ähnelt.
         /// </summary>
         internal static string Dungeon_Threshold_Description {
             get {
