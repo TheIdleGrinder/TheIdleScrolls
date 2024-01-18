@@ -57,13 +57,24 @@ namespace Test_TheIdleScrolls_Core
             Assert.That(comp.ListTags(), Has.Count.EqualTo(3));
         }
 
-        [Test]
-        public void Correct_tags_are_set_in_items()
+        [TestCase("W1", "POL", 1, 0, "2H")]
+        [TestCase("M2", "SBL", 2, 1, "1H")]
+        [TestCase("M1", "HAR", 2, 0, "Head")]
+        [TestCase("M0", "HAR", 0, 1, "Chest")]
+        [TestCase("L0", "LAR", 3, 2, "Arms")]
+        [TestCase("L2", "LAR", 9, 0, "Legs")]
+        public void Correct_tags_are_set_in_items(string material, string family, int genus, int rarity, string slots)
         {
-            var spear = ItemFactory.MakeItem(new("POL0"));
-            Assert.That(spear, Is.Not.Null);
-            Assert.That(spear.HasTag("2H"));
-            Assert.That(spear.HasTag("POL"));
+            var item = ItemFactory.MakeItem(new($"{material}-{family}{genus}+{rarity}"));
+            Assert.That(item, Is.Not.Null);
+            Assert.Multiple(() =>
+            {
+                Assert.That(item.HasTag(slots));
+                Assert.That(item.HasTag(family));
+                Assert.That(item.HasTag($"MAT_{material}"));
+            });
+            if (rarity > 0)
+                Assert.That(item!.HasTag($"+{rarity}"));
         }
     }
 }

@@ -141,11 +141,15 @@ namespace TheIdleScrolls_Core.Items
         {
             var tagsComp = new TagsComponent();
 
-            ItemIdentifier code = item.GetComponent<ItemComponent>()?.Code ?? new("");
+            ItemIdentifier code = item.GetComponent<ItemComponent>()!.Code; // CornerCut: better pass an item...
             tagsComp.AddTag(code.FamilyId);
             if (code.MaterialId != null)
             {
                 tagsComp.AddTag(code.MaterialId);
+            }
+            if (item.HasComponent<ItemRarityComponent>())
+            {
+                tagsComp.AddTag($"+{item.GetComponent<ItemRarityComponent>()!.RarityLevel}");
             }
             
             var slots = item.GetRequiredSlots();
