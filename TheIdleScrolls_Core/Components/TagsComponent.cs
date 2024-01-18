@@ -32,6 +32,12 @@ namespace TheIdleScrolls_Core.Components
 
         public bool RemoveTag(string tag) => m_tags.Remove(tag);
 
+        public void Reset(IEnumerable<string> tags)
+        {
+            m_tags.Clear();
+            AddTags(tags);
+        }
+
         public List<string> ListTags() => m_tags.OrderBy(x => x).ToList();
 
 

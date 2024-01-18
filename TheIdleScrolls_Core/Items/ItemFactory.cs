@@ -166,7 +166,7 @@ namespace TheIdleScrolls_Core.Items
                 }
                 else // Weapon
                 {
-                    tagsComp.AddTag($"{hands}{Definitions.Tags.HandSuffix}"); // CornerCut: should be based on constant
+                    tagsComp.AddTag($"{hands}{Definitions.Tags.HandSuffix}");
                 }
                 
             }

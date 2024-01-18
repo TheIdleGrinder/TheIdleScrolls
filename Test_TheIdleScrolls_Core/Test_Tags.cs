@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,8 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Systems;
+using TheIdleScrolls_Core.Definitions;
 
 namespace Test_TheIdleScrolls_Core
 {
@@ -55,6 +58,10 @@ namespace Test_TheIdleScrolls_Core
             Assert.That(comp.RemoveTag("A"));
             Assert.That(!comp.HasTag("A"));
             Assert.That(comp.ListTags(), Has.Count.EqualTo(3));
+
+            comp.Reset(new List<string>() { "E" });
+            Assert.That(comp.ListTags(), Has.Count.EqualTo(1));
+            Assert.That(comp.HasTag("E"));
         }
 
         [TestCase("W1", "POL", 1, 0, "2H")]
@@ -76,6 +83,51 @@ namespace Test_TheIdleScrolls_Core
             });
             if (rarity > 0)
                 Assert.That(item!.HasTag($"+{rarity}"));
+        }
+
+        [Test]
+        public void Correct_tags_are_set_in_player()
+        {
+            Entity player = new();
+            EquipmentComponent equipComp = new();
+            player.AddComponent(equipComp);
+
+            StatUpdateSystem.UpdatePlayerTags(player);
+            Assert.That(player.HasTag(Tags.Unarmored));
+            Assert.That(player.HasTag(Tags.Unarmed));
+
+
+            var sword = ItemFactory.MakeItem(new("M1-SBL1"));
+            Assert.That(sword, Is.Not.Null);
+            Assert.That(equipComp.EquipItem(sword));
+            StatUpdateSystem.UpdatePlayerTags(player);
+            Assert.That(!player.HasTag(Tags.Unarmed));
+
+            var sword2 = ItemFactory.MakeItem(new("M0-SBL1"));
+            Assert.That(sword2, Is.Not.Null);
+            Assert.That(equipComp.EquipItem(sword2));
+            StatUpdateSystem.UpdatePlayerTags(player);
+            Assert.That(player.HasTag(Tags.DualWield));
+
+            var axe = ItemFactory.MakeItem(new("M1-AXE1"));
+            Assert.That(axe, Is.Not.Null);
+            Assert.That(equipComp.UnequipItem(sword2));
+            Assert.That(equipComp.EquipItem(axe));
+            StatUpdateSystem.UpdatePlayerTags(player);
+            Assert.That(player.HasTag(Tags.DualWield));
+            Assert.That(player.HasTag(Tags.MixedWeapons));
+
+            var chest = ItemFactory.MakeItem(new("M1-HAR1"));
+            Assert.That(chest, Is.Not.Null);
+            Assert.That(equipComp.EquipItem(chest));
+            StatUpdateSystem.UpdatePlayerTags(player);
+            Assert.That(!player.HasTag(Tags.Unarmored));
+
+            var helmet = ItemFactory.MakeItem(new("L1-LAR2"));
+            Assert.That(helmet, Is.Not.Null);
+            Assert.That(equipComp.EquipItem(helmet));
+            StatUpdateSystem.UpdatePlayerTags(player);
+            Assert.That(player.HasTag(Tags.MixedArmor));
         }
     }
 }

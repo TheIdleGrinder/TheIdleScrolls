@@ -172,6 +172,46 @@ namespace TheIdleScrolls_Core.Systems
         {
             return entity.GetComponent<AbilitiesComponent>()?.GetAbility(familyId)?.Level ?? -1;
         }
+
+        public static void UpdatePlayerTags(Entity player)
+        {
+            List<string> tags = new();
+
+            var equipComp = player.GetComponent<EquipmentComponent>();
+            if (equipComp != null)
+            {
+                var items = equipComp.GetItems();
+                List<string> weapons = items.Where(i => i.IsWeapon()).Select(i => i.GetComponent<ItemComponent>()!.FamilyName).ToList();
+                if (weapons.Count == 0)
+                {
+                    tags.Add(Definitions.Tags.Unarmed);
+                }
+                else if (weapons.Count > 1)
+                {
+                    tags.Add(Definitions.Tags.DualWield);
+                    if (weapons.Any(f => f != weapons[0])) // different weapons
+                    {
+                        tags.Add(Definitions.Tags.MixedWeapons);
+                    }
+                }
+
+                HashSet<string> armors = items.Where(i => i.IsArmor()).Select(i => i.GetComponent<ItemComponent>()!.FamilyName).ToHashSet();
+                if (armors.Count == 0)
+                {
+                    tags.Add(Definitions.Tags.Unarmored);
+                }
+                else if (armors.Count > 1)
+                {
+                    tags.Add(Definitions.Tags.MixedArmor);
+                }
+            }
+
+            var comp = player.GetComponent<TagsComponent>();
+            if (comp == null)
+                player.AddComponent<TagsComponent>(new(tags));
+            else
+                player.GetComponent<TagsComponent>()?.Reset(tags);
+        }
     }
 
     record AttackStats(double Damage, double Cooldwon, List<string> WeaponFamilyIds);
