@@ -53,8 +53,9 @@ namespace TheIdleScrolls_Core.Items
             item.AddComponent(new ItemComponent(itemIdentifier));
             if (description.Equippable != null)
             {
+                var slots = description.Equippable.Slots.Select(s => EquipSlot.Parse(s)).ToList();
                 item.AddComponent(new EquippableComponent(
-                    description.Equippable.Slots.Select(s => EquipSlot.Parse(s)).ToList(),
+                    slots,
                     description.Equippable.Encumbrance));
             }
             if (description.Weapon != null)
@@ -87,8 +88,10 @@ namespace TheIdleScrolls_Core.Items
             // Add drop level
             item.AddComponent(new LevelComponent() { Level = GetItemDropLevel(itemIdentifier) });
 
+            DetermineTags(item);
             UpdateItemValue(item);
             UpdateReforgingCost(item);
+
 
             return item;
         }
@@ -132,6 +135,31 @@ namespace TheIdleScrolls_Core.Items
 
             int totalCost = (int)Math.Ceiling(baseCost * (tier + 1) * matMulti);
             item.AddComponent(new ItemReforgeableComponent() { Cost = totalCost });
+        }
+
+        public static void DetermineTags(Entity item)
+        {
+            var tagsComp = new TagsComponent();
+
+            ItemIdentifier code = item.GetComponent<ItemComponent>()?.Code ?? new("");
+            tagsComp.AddTag(code.FamilyId);
+            if (code.MaterialId != null)
+            {
+                tagsComp.AddTag(code.MaterialId);
+            }
+            
+            var slots = item.GetRequiredSlots();
+            foreach (var slot in slots.Where(s => s != EquipmentSlot.Hand))
+            {
+                tagsComp.AddTag(slot.ToString());
+            }
+            int hands = slots.Count(s => s == EquipmentSlot.Hand);
+            if (hands > 0)
+            {
+                tagsComp.AddTag($"{hands}H"); // CornerCut: should be based on constant
+            }
+
+            item.AddComponent(tagsComp);
         }
 
         public static int GetItemDropLevel(ItemIdentifier id)

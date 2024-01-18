@@ -69,6 +69,11 @@ namespace TheIdleScrolls_Core
                 return new();
             return equipComp.Slots;
         }
+
+        public static bool HasTag(this Entity entity, string tag)
+        {
+            return entity.GetComponent<TagsComponent>()?.HasTag(tag) ?? false;
+        }
     }
 
     public static class StringExtensions
