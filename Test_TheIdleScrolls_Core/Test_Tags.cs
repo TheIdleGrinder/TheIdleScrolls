@@ -63,6 +63,7 @@ namespace Test_TheIdleScrolls_Core
         [TestCase("M0", "HAR", 0, 1, "Chest")]
         [TestCase("L0", "LAR", 3, 2, "Arms")]
         [TestCase("L2", "LAR", 9, 0, "Legs")]
+        [TestCase("M2", "HAR", 5, 1, "Shield")]
         public void Correct_tags_are_set_in_items(string material, string family, int genus, int rarity, string slots)
         {
             var item = ItemFactory.MakeItem(new($"{material}-{family}{genus}+{rarity}"));

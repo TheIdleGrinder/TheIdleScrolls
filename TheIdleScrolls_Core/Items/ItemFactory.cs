@@ -149,7 +149,7 @@ namespace TheIdleScrolls_Core.Items
             }
             if (item.HasComponent<ItemRarityComponent>())
             {
-                tagsComp.AddTag($"+{item.GetComponent<ItemRarityComponent>()!.RarityLevel}");
+                tagsComp.AddTag($"{Definitions.Tags.RarityPrefix}{item.GetComponent<ItemRarityComponent>()!.RarityLevel}");
             }
             
             var slots = item.GetRequiredSlots();
@@ -160,7 +160,15 @@ namespace TheIdleScrolls_Core.Items
             int hands = slots.Count(s => s == EquipmentSlot.Hand);
             if (hands > 0)
             {
-                tagsComp.AddTag($"{hands}H"); // CornerCut: should be based on constant
+                if (item.IsShield())
+                {
+                    tagsComp.AddTag(Definitions.Tags.Shield);
+                }
+                else // Weapon
+                {
+                    tagsComp.AddTag($"{hands}{Definitions.Tags.HandSuffix}"); // CornerCut: should be based on constant
+                }
+                
             }
 
             item.AddComponent(tagsComp);

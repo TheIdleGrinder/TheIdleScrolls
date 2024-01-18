@@ -42,6 +42,18 @@ namespace TheIdleScrolls_Core
             public const string EndgameMagic = "ACADEMY";
             public const string EndgameDistantLands = "PAGODA";
         }
+
+        public static class Tags
+        {
+            public const string RarityPrefix = "+";
+            public const string HandSuffix = "H";
+            public const string Shield = "Shield";
+            public const string Unarmed = "Unarmed";
+            public const string Unarmored = "Unarmored";
+            public const string DualWield = "DualWield";
+            public const string MixedWeapons = "MixedWeapons";
+            public const string MixedArmor = "MixedArmor";
+        }
     }
 
     public static class Functions
