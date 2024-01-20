@@ -82,7 +82,18 @@ namespace Test_TheIdleScrolls_Core
                 Assert.That(item.HasTag($"MAT_{material}"));
             });
             if (rarity > 0)
+            {
                 Assert.That(item!.HasTag($"+{rarity}"));
+            }
+            if (item.IsWeapon())
+            {
+                Assert.That(item.HasTag(Tags.Weapon));
+                Assert.That(item.HasTag(Tags.Melee));
+            }
+            if (item.IsArmor())
+            {
+                Assert.That(item.HasTag(Tags.Armor));
+            }
         }
 
         [Test]

@@ -151,6 +151,14 @@ namespace TheIdleScrolls_Core.Items
             {
                 tagsComp.AddTag($"{Definitions.Tags.RarityPrefix}{item.GetComponent<ItemRarityComponent>()!.RarityLevel}");
             }
+            if (item.IsWeapon())
+            {
+                tagsComp.AddTags(new List<string>(){ Definitions.Tags.Weapon, Definitions.Tags.Melee}); // CornerCut: no ranged weapons exist yet
+            }
+            if (item.IsArmor())
+            {
+                tagsComp.AddTag(Definitions.Tags.Armor);
+            }
             
             var slots = item.GetRequiredSlots();
             foreach (var slot in slots.Where(s => s != EquipmentSlot.Hand))
