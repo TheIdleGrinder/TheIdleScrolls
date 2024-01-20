@@ -36,6 +36,7 @@ namespace TheIdleScrolls_Core.Systems
             if (player == null)
                 return;
 
+            UpdatePlayerTags(player);
             int level = player.GetComponent<LevelComponent>()?.Level ?? 1;
 
             var equipComp = player.GetComponent<EquipmentComponent>();
