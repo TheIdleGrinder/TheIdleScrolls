@@ -26,8 +26,8 @@ namespace TheIdleScrolls_Core.Modifiers
 
         public bool IsApplicable(IEnumerable<string> tags)
         {
-            return RequiredTags.All.All(t => tags.Contains(t))
-                && RequiredTags.Any.Any(t => tags.Contains(t));
+            return (RequiredTags.All.All(t => tags.Contains(t)))
+                && (RequiredTags.Any.Count == 0 || RequiredTags.Any.Any(t => tags.Contains(t)));
         }
     }
 
