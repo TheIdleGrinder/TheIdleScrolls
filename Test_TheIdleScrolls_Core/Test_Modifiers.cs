@@ -27,5 +27,43 @@ namespace Test_TheIdleScrolls_Core
             };
             Assert.That(modifier.IsApplicable(tags.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList()), Is.EqualTo(result));
         }
+
+        [Test]
+        public void ApplyAllApplicable_works()
+        {
+            List<Modifier> modifiers = new();
+            List<string> tags = new();
+
+            Assert.That(modifiers.ApplyAllApplicable(1.0, tags), Is.EqualTo(1.0));
+
+            modifiers.Add(new("addBase", ModifierType.AddBase, 1.0, new() { "A" }, new()));
+            Assert.That(modifiers.ApplyAllApplicable(4.0, tags), Is.EqualTo(4.0));
+
+            tags.Add("A");
+            Assert.That(modifiers.ApplyAllApplicable(1.0, tags), Is.EqualTo(2.0));
+            Assert.That(modifiers.ApplyAllApplicable(2.2, tags), Is.EqualTo(3.2));
+
+            modifiers.Add(new("increase", ModifierType.Increase, 0.5, new(), new() { "A" }));
+            Assert.That(modifiers.ApplyAllApplicable(1.0, tags), Is.EqualTo(3.0));
+
+            modifiers.Add(new("addBase2", ModifierType.AddBase, 2.0, new(), new() { "B" }));
+            Assert.That(modifiers.ApplyAllApplicable(1.0, tags), Is.EqualTo(3.0));
+
+            tags.Add("B");
+            Assert.That(modifiers.ApplyAllApplicable(5.0, tags), Is.EqualTo(12.0));
+
+            modifiers.Add(new("increase2", ModifierType.Increase, 0.5, new(), new() { "A" }));
+            Assert.That(modifiers.ApplyAllApplicable(9.2, tags), Is.EqualTo(24.4));
+
+            modifiers.Add(new("flat", ModifierType.AddFlat, 0.5, new(), new()));
+            Assert.That(modifiers.ApplyAllApplicable(9.2, tags), Is.EqualTo(24.9));
+
+            modifiers.Add(new("more", ModifierType.More, 0.5, new(), new()));
+            Assert.That(modifiers.ApplyAllApplicable(5.0, tags), Is.EqualTo(24.5));
+
+            modifiers.Add(new("more2", ModifierType.More, 0.5, new(), new()));
+            Assert.That(modifiers.ApplyAllApplicable(1.0, tags), Is.EqualTo(18.5));
+        }
     }
+
 }

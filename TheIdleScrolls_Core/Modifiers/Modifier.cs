@@ -24,6 +24,16 @@ namespace TheIdleScrolls_Core.Modifiers
 
         public (HashSet<string> All, HashSet<string> Any) RequiredTags { get; set; }
 
+        public Modifier() { }
+
+        public Modifier(string id, ModifierType type, double value, HashSet<string> tagsAll, HashSet<string> tagsAny)
+        {
+            Id = id;
+            Type = type;
+            Value = value;
+            RequiredTags = (tagsAll, tagsAny);
+        }
+
         public bool IsApplicable(IEnumerable<string> tags)
         {
             return (RequiredTags.All.All(t => tags.Contains(t)))
