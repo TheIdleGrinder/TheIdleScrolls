@@ -22,6 +22,11 @@ namespace TheIdleScrolls_Core.Components
             return Modifiers.Remove(id);
         }
 
+        public void Clear()
+        {
+            Modifiers.Clear();
+        }
+
         public double ApplyApplicableModifiers(double baseValue, IEnumerable<string> tags)
         {
             return Modifiers.Values.ApplyAllApplicable(baseValue, tags);

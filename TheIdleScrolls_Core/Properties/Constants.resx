@@ -117,7 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Key_Ability_Axe" xml:space="preserve">
+    <value>AXE</value>
+  </data>
+  <data name="Key_Ability_Blunt" xml:space="preserve">
+    <value>BLN</value>
+  </data>
   <data name="Key_Ability_Crafting" xml:space="preserve">
     <value>ABL_CRAFT</value>
+  </data>
+  <data name="Key_Ability_HeavyArmor" xml:space="preserve">
+    <value>HAR</value>
+  </data>
+  <data name="Key_Ability_LightArmor" xml:space="preserve">
+    <value>LAR</value>
+  </data>
+  <data name="Key_Ability_LongBlade" xml:space="preserve">
+    <value>LBL</value>
+  </data>
+  <data name="Key_Ability_Polearm" xml:space="preserve">
+    <value>POL</value>
+  </data>
+  <data name="Key_Ability_ShortBlade" xml:space="preserve">
+    <value>SBL</value>
   </data>
 </root>

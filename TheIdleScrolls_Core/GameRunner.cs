@@ -54,6 +54,7 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new TutorialSystem());
             m_systems.Add(new EquipmentManagementSystem());
             m_systems.Add(new AbilitiesSystem());
+            m_systems.Add(new ModifierSystem());
             m_systems.Add(new StatUpdateSystem());
             m_systems.Add(new DungeonSystem());
             m_systems.Add(new LootSystem());
