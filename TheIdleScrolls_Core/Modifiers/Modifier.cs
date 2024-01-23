@@ -52,5 +52,23 @@ namespace TheIdleScrolls_Core.Modifiers
             result = applicable.Aggregate(result, (total, mod) => total + (mod.Type == ModifierType.AddFlat ? mod.Value : 0.0));
             return result;
         }
+
+        public static string ToString(this Modifier modifier)
+        {
+            double absValue = Math.Abs(modifier.Value);
+            string valueString = (modifier.Type, modifier.Value > 0) switch
+            {
+                (ModifierType.AddBase, true) => $"+{absValue}",
+                (ModifierType.AddBase, false) => $"-{absValue}",
+                (ModifierType.Increase, true) => $"{absValue:0.#%} increased",
+                (ModifierType.Increase, false) => $"{absValue:0.#%} reduced",
+                (ModifierType.More, true) => $"{absValue:0.#%} more",
+                (ModifierType.More, false) => $"{absValue:0.#%} less",
+                (ModifierType.AddFlat, _) => $"{absValue} additional",
+                _ => "??"
+            };
+
+            return $"[{modifier.Id}] {valueString}";
+        }
     }
 }
