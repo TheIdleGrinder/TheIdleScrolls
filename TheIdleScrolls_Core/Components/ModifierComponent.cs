@@ -31,5 +31,10 @@ namespace TheIdleScrolls_Core.Components
         {
             return Modifiers.Values.ApplyAllApplicable(baseValue, tags);
         }
+
+        public List<Modifier> GetModifiers()
+        {
+            return Modifiers.Values.ToList();
+        }
     }
 }

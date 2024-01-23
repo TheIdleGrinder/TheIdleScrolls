@@ -33,6 +33,7 @@ namespace TheIdleScrolls_Core.Systems
         public event OffenseChangedHandler? PlayerOffenseChanged;
         public event DefenseChangedHandler? PlayerDefenseChanged;
         public event AbilitiesChangedHandler? PlayerAbilitiesChanged;
+        public event ModifiersChangedHandler? PlayerModifiersChanged;
         public event MobChangedHandler? MobChanged;
         public event AreaChangedHandler? PlayerAreaChanged;
         public event AutoProceedStateChangedHandler? PlayerAutoProceedStateChanged;
@@ -140,6 +141,16 @@ namespace TheIdleScrolls_Core.Systems
                         .Select(a => new AbilityRepresentation(a.Key, a.Key.Localize(), a.Level, a.XP, a.TargetXP))
                         .ToList();
                     PlayerAbilitiesChanged?.Invoke(representations);
+                }
+            }
+
+            // Update modifiers
+            if (coordinator.MessageTypeIsOnBoard<ModifiersUpdatedMessage>())
+            {
+                var modComp = player.GetComponent<ModifierComponent>();
+                if (modComp != null)
+                {
+                    PlayerModifiersChanged?.Invoke(modComp.GetModifiers().Select(m => m?.ToString() ?? "??").ToList()); ;
                 }
             }
 

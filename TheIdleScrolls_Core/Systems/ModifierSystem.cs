@@ -67,6 +67,10 @@ namespace TheIdleScrolls_Core.Systems
                             modComp.AddModifier(new($"{key}", Modifiers.ModifierType.More, defenseMult, new()
                                 { Definitions.Tags.Defense, key }, new()));
                         }
+                        if (key == Properties.Constants.Key_Ability_Crafting)
+                        {
+                            // skip, this is handled by the crafting system for now
+                        }
                     }
                 }
 
