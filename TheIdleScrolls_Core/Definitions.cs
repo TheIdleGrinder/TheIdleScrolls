@@ -47,6 +47,9 @@ namespace TheIdleScrolls_Core
         {
             public const string RarityPrefix = "+";
             public const string HandSuffix = "H";
+            public const string Damage = "Damage";
+            public const string AttackSpeed = "AttackSpeed";
+            public const string Defense = "Defense";
             public const string Weapon = "Weapon";
             public const string Armor = "Armor";
             public const string Shield = "Shield";

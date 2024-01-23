@@ -31,6 +31,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new CoinPurseComponent());
             player.AddComponent(new QuestProgressComponent());
             player.AddComponent(new LocationComponent());
+            player.AddComponent(new ModifierComponent());
 
             return player;
         }
