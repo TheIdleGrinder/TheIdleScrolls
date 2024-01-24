@@ -45,12 +45,14 @@ namespace TheIdleScrolls_Core.Systems
             double evasion = 0.0;
             double encumbrance = 0.0;
 
-            double baseDamage = 2.0;
+            double rawDamage = 2.0;
             double cooldown = 1.0;
 
             double dmgMulti = 1.0;
             double apsMulti = 1.0;
 
+            var globalTags = player.GetTags();
+            var modComp = player.GetComponent<ModifierComponent>();
 
             if (equipComp != null)
             {
@@ -65,6 +67,7 @@ namespace TheIdleScrolls_Core.Systems
                     var weaponComp = item.GetComponent<WeaponComponent>();
                     var armorComp = item.GetComponent<ArmorComponent>();
                     encumbrance += item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
+                    var localTags = globalTags.Concat(item.GetTags()).ToList();
 
                     if (itemComp != null && weaponComp != null)
                     {
@@ -72,14 +75,11 @@ namespace TheIdleScrolls_Core.Systems
                         double localCD = weaponComp.Cooldown;
                         weaponCount++;
 
-                        int abilityLvl = GetAbilityLevel(player, itemComp.Code.FamilyId);
-                        if (abilityLvl > 0)
+                        if (modComp != null)
                         {
-                            double localDmgMulti = Functions.CalculateAbilityAttackDamageBonus(abilityLvl) + 1.0;
-                            localDmg *= localDmgMulti;
-
-                            double speedMulti = Functions.CalculateAbilityAttackSpeedBonus(abilityLvl) + 1.0;
-                            localCD /= speedMulti;
+                            localDmg = modComp.ApplyApplicableModifiers(localDmg, localTags.Append(Definitions.Tags.Damage));
+                            localCD = 1.0 / modComp.ApplyApplicableModifiers(1.0 / localCD, 
+                                localTags.Append(Definitions.Tags.AttackSpeed)); // invert due to speed/cooldown mismatch
                         }
 
                         combinedDmg += localDmg;
@@ -92,12 +92,10 @@ namespace TheIdleScrolls_Core.Systems
                         var localEvasion = armorComp.Evasion;
                         armorCount++;
 
-                        int abilityLvl = GetAbilityLevel(player, itemComp.Code.FamilyId);
-                        if (abilityLvl != -1)
+                        if (modComp != null)
                         {
-                            var multi = 1.0 + Functions.CalculateAbilityDefenseBonus(abilityLvl);
-                            localArmor *= multi;
-                            localEvasion *= multi;
+                            localArmor = modComp.ApplyApplicableModifiers(localArmor, localTags.Append(Definitions.Tags.Defense));
+                            localEvasion = modComp.ApplyApplicableModifiers(localEvasion, localTags.Append(Definitions.Tags.Defense));
                         }
 
                         armor += localArmor;
@@ -118,7 +116,7 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (weaponCount > 0)
                 {
-                    baseDamage = (combinedDmg / weaponCount);
+                    rawDamage = (combinedDmg / weaponCount);
                     cooldown = (combinedCD / weaponCount);
                     if (weaponCount >= 2)
                     {
@@ -132,7 +130,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         // Add 1 evasion per level for each earned achievement in the Monk-line
                         int monks = achComp.Achievements.Count(a => a.Id.Contains("NOWEAPON") && a.Status == Achievements.AchievementStatus.Awarded);
-                        baseDamage += level * monks * 0.05;
+                        rawDamage += level * monks * 0.05;
                     }
                 }
             }
@@ -140,9 +138,6 @@ namespace TheIdleScrolls_Core.Systems
             var attackComp = player.GetComponent<AttackComponent>();
             if (attackComp != null)
             {
-                dmgMulti *= (1.0 + Definitions.Stats.AttackBonusPerLevel * (level - 1)); // level bonus
-
-                var rawDamage = baseDamage * dmgMulti;
                 cooldown /= apsMulti;
                 cooldown *= 1.0 + encumbrance / 100.0; // Encumbrance slows attack speed multiplicatively
                 

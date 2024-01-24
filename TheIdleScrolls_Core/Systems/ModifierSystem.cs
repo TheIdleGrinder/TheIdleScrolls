@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
@@ -72,6 +73,13 @@ namespace TheIdleScrolls_Core.Systems
                             // skip, this is handled by the crafting system for now
                         }
                     }
+                }
+
+                var levelComp = entity.GetComponent<LevelComponent>();
+                if (levelComp != null)
+                {
+                    double bonus = Definitions.Stats.AttackBonusPerLevel * (levelComp.Level - 1);
+                    modComp.AddModifier(new("level_dmg", Modifiers.ModifierType.Increase, bonus, new() { Definitions.Tags.Damage }, new()));
                 }
 
                 coordinator.PostMessage(this, new ModifiersUpdatedMessage(entity));

@@ -74,6 +74,11 @@ namespace TheIdleScrolls_Core
         {
             return entity.GetComponent<TagsComponent>()?.HasTag(tag) ?? false;
         }
+
+        public static List<string> GetTags(this Entity entity)
+        {
+            return entity.GetComponent<TagsComponent>()?.ListTags() ?? new();
+        }
     }
 
     public static class StringExtensions
