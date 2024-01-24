@@ -10,6 +10,7 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Messages;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Properties;
 using TheIdleScrolls_Core.Utility;
 
@@ -150,7 +151,7 @@ namespace TheIdleScrolls_Core.Systems
                 var modComp = player.GetComponent<ModifierComponent>();
                 if (modComp != null)
                 {
-                    PlayerModifiersChanged?.Invoke(modComp.GetModifiers().Select(m => m?.ToString() ?? "??").ToList()); ;
+                    PlayerModifiersChanged?.Invoke(modComp.GetModifiers().Select(m => m?.ToPrettyString() ?? "??").ToList()); ;
                 }
             }
 

@@ -39,7 +39,7 @@ namespace TheIdleScrolls_Core
         event OffenseChangedHandler PlayerOffenseChanged;
         event DefenseChangedHandler PlayerDefenseChanged;
         event AbilitiesChangedHandler PlayerAbilitiesChanged;
-        event AbilitiesChangedHandler PlayerModifiersChanged;
+        event ModifiersChangedHandler PlayerModifiersChanged;
         event MobChangedHandler MobChanged;
         event AreaChangedHandler PlayerAreaChanged;
         event AutoProceedStateChangedHandler PlayerAutoProceedStateChanged;

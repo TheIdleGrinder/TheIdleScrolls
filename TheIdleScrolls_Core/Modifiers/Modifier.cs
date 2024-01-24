@@ -53,7 +53,7 @@ namespace TheIdleScrolls_Core.Modifiers
             return result;
         }
 
-        public static string ToString(this Modifier modifier)
+        public static string ToPrettyString(this Modifier modifier)
         {
             double absValue = Math.Abs(modifier.Value);
             string valueString = (modifier.Type, modifier.Value > 0) switch
