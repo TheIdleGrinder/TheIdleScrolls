@@ -60,6 +60,7 @@ namespace TheIdleScrolls_Core
             public const string DualWield = "DualWield";
             public const string MixedWeapons = "MixedWeapons";
             public const string MixedArmor = "MixedArmor";
+            public const string FirstStrike = "FirstStrike";
         }
     }
 

@@ -171,10 +171,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 AchievementCount = count;
             };
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
-            emitter.PlayerModifiersChanged += (List<string> mods) =>
-            {
-                Console.WriteLine(String.Join('\n', mods));
-            };
+            
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
             emitter.DisplayMessageReceived += (string title, string message) =>
             {
