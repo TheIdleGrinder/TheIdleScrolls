@@ -48,9 +48,6 @@ namespace TheIdleScrolls_Core.Systems
             double rawDamage = 2.0;
             double cooldown = 1.0;
 
-            double dmgMulti = 1.0;
-            double apsMulti = 1.0;
-
             var globalTags = player.GetTags();
             var modComp = player.GetComponent<ModifierComponent>();
 
@@ -118,10 +115,6 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     rawDamage = (combinedDmg / weaponCount);
                     cooldown = (combinedCD / weaponCount);
-                    if (weaponCount >= 2)
-                    {
-                        apsMulti *= (1.0 + Definitions.Stats.DualWieldAttackSpeedMulti); // 20% AS bonus for dual wielding
-                    }
                 }
                 else
                 {
@@ -138,7 +131,6 @@ namespace TheIdleScrolls_Core.Systems
             var attackComp = player.GetComponent<AttackComponent>();
             if (attackComp != null)
             {
-                cooldown /= apsMulti;
                 cooldown *= 1.0 + encumbrance / 100.0; // Encumbrance slows attack speed multiplicatively
                 
                 attackComp.RawDamage = Math.Round(rawDamage);
@@ -164,11 +156,6 @@ namespace TheIdleScrolls_Core.Systems
                 m_initialFullUpdates--; 
         }
 
-        static int GetAbilityLevel(Entity entity, string familyId)
-        {
-            return entity.GetComponent<AbilitiesComponent>()?.GetAbility(familyId)?.Level ?? -1;
-        }
-
         public static void UpdatePlayerTags(Entity player)
         {
             List<string> tags = new();
@@ -182,7 +169,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     tags.Add(Definitions.Tags.Unarmed);
                 }
-                else if (weapons.Count > 1)
+                else if (weapons.Count >= 2)
                 {
                     tags.Add(Definitions.Tags.DualWield);
                     if (weapons.Any(f => f != weapons[0])) // different weapons

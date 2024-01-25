@@ -82,6 +82,10 @@ namespace TheIdleScrolls_Core.Systems
                     modComp.AddModifier(new("level_dmg", Modifiers.ModifierType.Increase, bonus, new() { Definitions.Tags.Damage }, new()));
                 }
 
+                // Dual wield attack speed bonus
+                modComp.AddModifier(new("dualWield_aps", Modifiers.ModifierType.More, Definitions.Stats.DualWieldAttackSpeedMulti,
+                    new() { Definitions.Tags.DualWield, Definitions.Tags.AttackSpeed }, new()));
+
                 coordinator.PostMessage(this, new ModifiersUpdatedMessage(entity));
             }
 
