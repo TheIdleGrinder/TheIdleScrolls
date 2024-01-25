@@ -52,7 +52,7 @@ namespace TheIdleScrolls_Core.Modifiers
             return result;
         }
 
-        public static string ToPrettyString(this Modifier modifier)
+        public static string ToPrettyString(this Modifier modifier, bool showId = false)
         {
             double absValue = Math.Abs(modifier.Value);
             string valueString = (modifier.Type, modifier.Value > 0) switch
@@ -71,13 +71,14 @@ namespace TheIdleScrolls_Core.Modifiers
                 Definitions.Tags.AttackSpeed,
                 Definitions.Tags.Defense
             };
+            string idString = showId ? $"[{modifier.Id}] " : "";
             string target = String.Join(", ", modifier.RequiredTags.Where(t => specialTags.Contains(t)).Select(s => s.Localize()));
             if (target == String.Empty)
                 target = "???";
             string tagString = String.Join(", ", modifier.RequiredTags.Where(t => !specialTags.Contains(t)).Select(s => s.Localize()));
             bool anyTags = tagString.Length > 0;
 
-            return $"[{modifier.Id}] {valueString} {target}{(anyTags ? " with " : "")}{tagString}";
+            return $"{idString}{valueString} {target}{(anyTags ? " with " : "")}{tagString}";
         }
     }
 }
