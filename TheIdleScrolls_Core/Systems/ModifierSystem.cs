@@ -58,15 +58,15 @@ namespace TheIdleScrolls_Core.Systems
                             double dmgMult = Functions.CalculateAbilityAttackDamageBonus(ability.Level);
                             double speedMult = Functions.CalculateAbilityAttackSpeedBonus(ability.Level);
                             modComp.AddModifier(new($"{key}_dmg", Modifiers.ModifierType.More, dmgMult, new()
-                                { Definitions.Tags.Damage, key }, new()));
+                                { Definitions.Tags.Damage, key }));
                             modComp.AddModifier(new($"{key}_aps", Modifiers.ModifierType.More, speedMult, new()
-                                { Definitions.Tags.AttackSpeed, key }, new()));
+                                { Definitions.Tags.AttackSpeed, key }));
                         }
                         if (ArmorAbilities.Contains(key))
                         {
                             double defenseMult = Functions.CalculateAbilityDefenseBonus(ability.Level);
                             modComp.AddModifier(new($"{key}", Modifiers.ModifierType.More, defenseMult, new()
-                                { Definitions.Tags.Defense, key }, new()));
+                                { Definitions.Tags.Defense, key }));
                         }
                         if (key == Properties.Constants.Key_Ability_Crafting)
                         {
@@ -79,12 +79,12 @@ namespace TheIdleScrolls_Core.Systems
                 if (levelComp != null)
                 {
                     double bonus = Definitions.Stats.AttackBonusPerLevel * (levelComp.Level - 1);
-                    modComp.AddModifier(new("level_dmg", Modifiers.ModifierType.Increase, bonus, new() { Definitions.Tags.Damage }, new()));
+                    modComp.AddModifier(new("level_dmg", Modifiers.ModifierType.Increase, bonus, new() { Definitions.Tags.Damage }));
                 }
 
                 // Dual wield attack speed bonus
                 modComp.AddModifier(new("dualWield_aps", Modifiers.ModifierType.More, Definitions.Stats.DualWieldAttackSpeedMulti,
-                    new() { Definitions.Tags.DualWield, Definitions.Tags.AttackSpeed }, new()));
+                    new() { Definitions.Tags.DualWield, Definitions.Tags.AttackSpeed }));
 
                 coordinator.PostMessage(this, new ModifiersUpdatedMessage(entity));
             }

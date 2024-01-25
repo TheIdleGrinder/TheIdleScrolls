@@ -22,22 +22,21 @@ namespace TheIdleScrolls_Core.Modifiers
 
         public double Value { get; set; }
 
-        public (HashSet<string> All, HashSet<string> Any) RequiredTags { get; set; }
+        public HashSet<string> RequiredTags { get; set; } = new();
 
         public Modifier() { }
 
-        public Modifier(string id, ModifierType type, double value, HashSet<string> tagsAll, HashSet<string> tagsAny)
+        public Modifier(string id, ModifierType type, double value, HashSet<string> tags)
         {
             Id = id;
             Type = type;
             Value = value;
-            RequiredTags = (tagsAll, tagsAny);
+            RequiredTags = tags;
         }
 
         public bool IsApplicable(IEnumerable<string> tags)
         {
-            return (RequiredTags.All.All(t => tags.Contains(t)))
-                && (RequiredTags.Any.Count == 0 || RequiredTags.Any.Any(t => tags.Contains(t)));
+            return RequiredTags.All(t => tags.Contains(t));
         }
     }
 
@@ -72,15 +71,13 @@ namespace TheIdleScrolls_Core.Modifiers
                 Definitions.Tags.AttackSpeed,
                 Definitions.Tags.Defense
             };
-            string target = String.Join(", ", modifier.RequiredTags.All.Where(t => specialTags.Contains(t)).Select(s => s.Localize()));
+            string target = String.Join(", ", modifier.RequiredTags.Where(t => specialTags.Contains(t)).Select(s => s.Localize()));
             if (target == String.Empty)
                 target = "???";
-            string andString = String.Join(", ", modifier.RequiredTags.All.Where(t => !specialTags.Contains(t)).Select(s => s.Localize()));
-            string orString = String.Join(" or ", modifier.RequiredTags.Any.Select(s => s.Localize()));
-            bool anyTags = andString.Length > 0 || orString.Length > 0;
-            bool bothTags = andString.Length > 0 && orString.Length > 0;
+            string tagString = String.Join(", ", modifier.RequiredTags.Where(t => !specialTags.Contains(t)).Select(s => s.Localize()));
+            bool anyTags = tagString.Length > 0;
 
-            return $"[{modifier.Id}] {valueString} {target}{(anyTags ? " with " : "")}{andString}{(bothTags ? " and " : "")}{orString}";
+            return $"[{modifier.Id}] {valueString} {target}{(anyTags ? " with " : "")}{tagString}";
         }
     }
 }
