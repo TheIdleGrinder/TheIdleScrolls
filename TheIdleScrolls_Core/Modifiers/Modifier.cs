@@ -67,12 +67,20 @@ namespace TheIdleScrolls_Core.Modifiers
                 (ModifierType.AddFlat, _) => $"{modifier.Value} additional",
                 _ => "??"
             };
-            string andString = String.Join(", ", modifier.RequiredTags.All.Select(s => s.Localize()));
+            List<string> specialTags = new() { 
+                Definitions.Tags.Damage,
+                Definitions.Tags.AttackSpeed,
+                Definitions.Tags.Defense
+            };
+            string target = String.Join(", ", modifier.RequiredTags.All.Where(t => specialTags.Contains(t)).Select(s => s.Localize()));
+            if (target == String.Empty)
+                target = "???";
+            string andString = String.Join(", ", modifier.RequiredTags.All.Where(t => !specialTags.Contains(t)).Select(s => s.Localize()));
             string orString = String.Join(" or ", modifier.RequiredTags.Any.Select(s => s.Localize()));
             bool anyTags = andString.Length > 0 || orString.Length > 0;
             bool bothTags = andString.Length > 0 && orString.Length > 0;
 
-            return $"[{modifier.Id}] {valueString}{(anyTags ? " with " : "")}{andString}{(bothTags ? " and " : "")}{orString}";
+            return $"[{modifier.Id}] {valueString} {target}{(anyTags ? " with " : "")}{andString}{(bothTags ? " and " : "")}{orString}";
         }
     }
 }
