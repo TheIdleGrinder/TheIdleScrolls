@@ -13,8 +13,10 @@ namespace TheIdleScrolls_Core.Modifiers
         BattleStarted,
         BattleFinished,
         AttackPerformed,
+        LevelUp,
         AbilityIncreased,
-        EquipmentChanged
+        EquipmentChanged,
+        AchievementUnlocked
     }
 
     public class Perk
