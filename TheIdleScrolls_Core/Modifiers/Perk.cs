@@ -30,14 +30,12 @@ namespace TheIdleScrolls_Core.Modifiers
             = (Entity e, World w, Coordinator c) => { return new(); };
 
         public Perk(string id, string name, string description, 
-            List<Modifier> modifiers, 
             HashSet<UpdateTrigger> updateTriggers, 
             Func<Entity, World, Coordinator, List<Modifier>> modifiersFunc)
         {
             Id = id;
             Name = name;
             Description = description;
-            Modifiers = modifiers;
             UpdateTriggers = updateTriggers;
             ModifiersFunc = modifiersFunc;
         }
