@@ -96,6 +96,7 @@ namespace TheIdleScrolls_Core.Systems
                 }
             );
             perksComponent.AddPerk(dualWield);
+            
         }
     }
 }
