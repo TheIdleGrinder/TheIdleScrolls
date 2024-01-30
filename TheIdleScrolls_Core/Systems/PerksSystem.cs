@@ -51,6 +51,7 @@ namespace TheIdleScrolls_Core.Systems
                     if (perk.UpdateTriggers.Any(t => updateTriggers.Contains(t)))
                     {
                         UpdatePerk(perk);
+                        coordinator.PostMessage(this, new PerkUpdatedMessage(entity, perk));
                     }
                 }
             }
@@ -125,5 +126,23 @@ namespace TheIdleScrolls_Core.Systems
             );
             perksComponent.AddPerk(damagePerLevel);
         }
+    }
+
+    // Message that is posted when a perk has been added or updated
+    public class PerkUpdatedMessage : IMessage
+    {
+        public PerkUpdatedMessage(Entity owner, Perk perk)
+        {
+            Owner = owner;
+            Perk = perk;
+        }
+
+        public Perk Perk { get; }
+
+        public Entity Owner { get; }
+
+        string IMessage.BuildMessage() => $"Perk '{Perk.Name}' was updated for entity {Owner.GetName()}";
+
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 }
