@@ -41,5 +41,23 @@ namespace TheIdleScrolls_Core.Modifiers
                 }
             );
         }
+
+        public static Perk MakeDefensiveAbilityBasedPerk(string id, string ability, double defensePerLevel)
+        {
+            return new(
+                id,
+                $"{ability.Localize()}: {id.Localize()}",
+                                $"{defensePerLevel:0.#%} more armor and evasion rating with {ability.Localize()}",
+                new() { UpdateTrigger.AbilityIncreased },
+                delegate (Entity entity, World world, Coordinator coordinator)
+                {
+                    int level = entity.GetComponent<AbilitiesComponent>()?.GetAbility(ability)?.Level ?? 0;
+                    List<Modifier> mods = new();
+                    double bonus = Math.Pow(1.0 + defensePerLevel, level) - 1.0;
+                        mods.Add(new(id + "_def", ModifierType.More, bonus, new() { ability, Definitions.Tags.Defense }));
+                    return mods;
+                }
+            );
+        }
     }
 }

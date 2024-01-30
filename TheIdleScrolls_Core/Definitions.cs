@@ -27,6 +27,20 @@ namespace TheIdleScrolls_Core
             public const int ScalingSwitchLevel = 70;
         }
 
+        public static class Abilities
+        {
+            public static readonly string[] Weapons = new[] { Properties.Constants.Key_Ability_Axe,
+                                                              Properties.Constants.Key_Ability_Blunt,
+                                                              Properties.Constants.Key_Ability_LongBlade,
+                                                              Properties.Constants.Key_Ability_Polearm,
+                                                              Properties.Constants.Key_Ability_ShortBlade
+            };
+
+            public static readonly string[] Armors = new[] { Properties.Constants.Key_Ability_HeavyArmor,
+                                                             Properties.Constants.Key_Ability_LightArmor
+            };
+        }
+
         public static class DungeonIds
         {
             public const string DenOfRats = "RATDEN";

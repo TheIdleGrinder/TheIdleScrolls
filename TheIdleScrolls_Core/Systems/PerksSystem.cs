@@ -83,6 +83,19 @@ namespace TheIdleScrolls_Core.Systems
 
         void AddBasicPerks(PerksComponent perksComponent)
         {
+            // Create perks for weapon abilities
+            foreach (string ability in Definitions.Abilities.Weapons)
+            {
+                perksComponent.AddPerk(PerkFactory.MakeOffensiveAbilityBasedPerk(ability, $"Ability: {ability.Localize()}",
+                    Definitions.Stats.AttackDamagePerAbilityLevel, Definitions.Stats.AttackSpeedPerAbilityLevel));
+            }
+            // Create perks for armor abilities
+            foreach (string ability in Definitions.Abilities.Armors)
+            {
+                perksComponent.AddPerk(PerkFactory.MakeDefensiveAbilityBasedPerk(ability, $"Ability: {ability.Localize()}",
+                    Definitions.Stats.DefensePerAbilityLevel));
+            }
+            // Create perk for dual wielding
             Perk dualWield = new("dw", "Dual Wielding", 
                 $"{Definitions.Stats.DualWieldAttackSpeedMulti:0.#%}% more attack speed while dual wielding",
                 new(), 
@@ -91,12 +104,25 @@ namespace TheIdleScrolls_Core.Systems
                     return new()
                     {
                         new("dw_aps", ModifierType.More, Definitions.Stats.DualWieldAttackSpeedMulti,
-                        new() { Definitions.Tags.AttackSpeed, Definitions.Tags.DualWield })
+                            new() { Definitions.Tags.AttackSpeed, Definitions.Tags.DualWield })
                     };
                 }
             );
             perksComponent.AddPerk(dualWield);
-            
+            // Create perk for damage per level
+            Perk damagePerLevel = new("dpl", "Damage per Level",
+                $"{Definitions.Stats.AttackBonusPerLevel:0.#%}% more damage per level",
+                new() { UpdateTrigger.LevelUp },
+                delegate (Entity entity, World world, Coordinator coordinator)
+                {
+                    int level = entity.GetComponent<LevelComponent>()?.Level ?? 0;
+                    return new()
+                    {
+                        new("dpl_dmg", ModifierType.Increase, level * Definitions.Stats.AttackBonusPerLevel,
+                            new() { Definitions.Tags.Damage })
+                    };
+                }
+            );
         }
     }
 }
