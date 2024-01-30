@@ -25,7 +25,7 @@ namespace TheIdleScrolls_Core.Systems
                 var perksComp = entity.GetComponent<PerksComponent>()!; // has to exist
                 var modsComp = entity.GetComponent<ModifierComponent>();
 
-                var UpdatePerk = (Perk perk) =>
+                void UpdatePerk(Perk perk)
                 {
                     if (modsComp != null)
                     {
@@ -36,7 +36,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         perk.Modifiers.ForEach(m => modsComp.AddModifier(m));
                     }
-                };
+                }
 
                 if (FirstUpdate)
                 {
@@ -81,7 +81,7 @@ namespace TheIdleScrolls_Core.Systems
             return triggers;
         }
 
-        void AddBasicPerks(PerksComponent perksComponent)
+        static void AddBasicPerks(PerksComponent perksComponent)
         {
             // Create perks for weapon abilities
             foreach (string ability in Definitions.Abilities.Weapons)
@@ -111,7 +111,7 @@ namespace TheIdleScrolls_Core.Systems
             perksComponent.AddPerk(dualWield);
             // Create perk for damage per level
             Perk damagePerLevel = new("dpl", "Damage per Level",
-                $"{Definitions.Stats.AttackBonusPerLevel:0.#%}% more damage per level",
+                $"{Definitions.Stats.AttackBonusPerLevel:0.#%}% increased damage per level",
                 new() { UpdateTrigger.LevelUp },
                 delegate (Entity entity, World world, Coordinator coordinator)
                 {
@@ -123,6 +123,7 @@ namespace TheIdleScrolls_Core.Systems
                     };
                 }
             );
+            perksComponent.AddPerk(damagePerLevel);
         }
     }
 }
