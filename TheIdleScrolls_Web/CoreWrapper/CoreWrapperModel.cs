@@ -171,7 +171,18 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 AchievementCount = count;
             };
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
-            
+            emitter.PlayerPerksChanged += (List<PerkRepresentation> perks) =>
+            {
+                foreach (var perk in perks)
+                {
+                    Console.WriteLine("Perk: " + perk.Name);
+                    Console.WriteLine(perk.Description);
+                    foreach (var mod in perk.Modifiers)
+                    {
+                        Console.WriteLine("  - " + mod);
+                    }
+                };
+            };
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
             emitter.DisplayMessageReceived += (string title, string message) =>
             {

@@ -87,13 +87,13 @@ namespace TheIdleScrolls_Core.Systems
             // Create perks for weapon abilities
             foreach (string ability in Definitions.Abilities.Weapons)
             {
-                perksComponent.AddPerk(PerkFactory.MakeOffensiveAbilityBasedPerk(ability, $"Ability: {ability.Localize()}",
+                perksComponent.AddPerk(PerkFactory.MakeOffensiveAbilityBasedPerk(ability, ability,
                     Definitions.Stats.AttackDamagePerAbilityLevel, Definitions.Stats.AttackSpeedPerAbilityLevel));
             }
             // Create perks for armor abilities
             foreach (string ability in Definitions.Abilities.Armors)
             {
-                perksComponent.AddPerk(PerkFactory.MakeDefensiveAbilityBasedPerk(ability, $"Ability: {ability.Localize()}",
+                perksComponent.AddPerk(PerkFactory.MakeDefensiveAbilityBasedPerk(ability, ability,
                     Definitions.Stats.DefensePerAbilityLevel));
             }
             // Create perk for dual wielding
@@ -119,7 +119,7 @@ namespace TheIdleScrolls_Core.Systems
                     int level = entity.GetComponent<LevelComponent>()?.Level ?? 0;
                     return new()
                     {
-                        new("dpl_dmg", ModifierType.Increase, level * Definitions.Stats.AttackBonusPerLevel,
+                        new("dpl_dmg", ModifierType.Increase, (level - 1) * Definitions.Stats.AttackBonusPerLevel,
                             new() { Definitions.Tags.Damage })
                     };
                 }

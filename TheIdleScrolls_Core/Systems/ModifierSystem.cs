@@ -14,21 +14,6 @@ namespace TheIdleScrolls_Core.Systems
     {
         int m_initialFullUpdates = 2; // CornerCut: Do a full update on the first two frames to give all other systems time to setup all components
 
-        static List<string> WeaponAbilities = new()
-        {
-            Properties.Constants.Key_Ability_Axe,
-            Properties.Constants.Key_Ability_Blunt,
-            Properties.Constants.Key_Ability_LongBlade,
-            Properties.Constants.Key_Ability_Polearm,
-            Properties.Constants.Key_Ability_ShortBlade,
-        };
-
-        static List<string> ArmorAbilities = new()
-        {
-            Properties.Constants.Key_Ability_HeavyArmor,
-            Properties.Constants.Key_Ability_LightArmor,
-        };
-
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             bool doUpdate = m_initialFullUpdates > 0
@@ -53,7 +38,7 @@ namespace TheIdleScrolls_Core.Systems
                     foreach (var ability in abilityComp.GetAbilities())
                     {
                         string key = ability.Key;
-                        if (WeaponAbilities.Contains(key))
+                        if (Definitions.Abilities.Weapons.Contains(key))
                         {
                             double dmgMult = Functions.CalculateAbilityAttackDamageBonus(ability.Level);
                             double speedMult = Functions.CalculateAbilityAttackSpeedBonus(ability.Level);
@@ -62,7 +47,7 @@ namespace TheIdleScrolls_Core.Systems
                             modComp.AddModifier(new($"{key}_aps", Modifiers.ModifierType.More, speedMult, new()
                                 { Definitions.Tags.AttackSpeed, key }));
                         }
-                        if (ArmorAbilities.Contains(key))
+                        if (Definitions.Abilities.Armors.Contains(key))
                         {
                             double defenseMult = Functions.CalculateAbilityDefenseBonus(ability.Level);
                             modComp.AddModifier(new($"{key}", Modifiers.ModifierType.More, defenseMult, new()

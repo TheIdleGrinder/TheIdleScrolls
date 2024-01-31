@@ -18,7 +18,7 @@ namespace TheIdleScrolls_Core.Modifiers
             bool aps = speedPerLevel != 0;
             return new(
                 id, 
-                $"{ability.Localize()}: {id.Localize()}",
+                $"Ability: {ability.Localize()}",
                 $"{(dmg ? $"{damagePerLevel:0.#%} more damage " : "")}" + 
                     $"{(dmg && aps ? "and " : "")}{(aps ? $"{speedPerLevel:0.#%} more attack speed " : "")}" +
                     $"with {ability.Localize()} weapons",
@@ -46,7 +46,7 @@ namespace TheIdleScrolls_Core.Modifiers
         {
             return new(
                 id,
-                $"{ability.Localize()}: {id.Localize()}",
+                $"Ability: {ability.Localize()}",
                                 $"{defensePerLevel:0.#%} more armor and evasion rating with {ability.Localize()}",
                 new() { UpdateTrigger.AbilityIncreased },
                 delegate (Entity entity, World world, Coordinator coordinator)

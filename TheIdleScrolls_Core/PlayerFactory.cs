@@ -32,6 +32,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new QuestProgressComponent());
             player.AddComponent(new LocationComponent());
             player.AddComponent(new ModifierComponent());
+            player.AddComponent(new PerksComponent());
 
             return player;
         }
