@@ -25,6 +25,7 @@
             {
                 <button class="tablinks @AddTabClass(Tab.Abilities)" @onclick="@(() => SetTab(Tab.Abilities))">Abilities</button>
             }
+            <button class="tablinks @AddTabClass(Tab.Perks)" @onclick="@(() => SetTab(Tab.Perks))">Perks</button>
             <button class="tablinks @AddTabClass(Tab.Achievements)" @onclick="@(() => SetTab(Tab.Achievements))">Achievements</button>
             <button class="tablinks @AddTabClass(Tab.Stats)" @onclick="@(() => SetTab(Tab.Stats))">Stats</button>
             <button class="tablinks @AddTabClass(Tab.Help)" @onclick="@(() => SetTab(Tab.Help))">Help</button>
@@ -64,6 +65,10 @@
             @if (m_activeTab == Tab.Abilities)
             {
                 <AbilitiesDisplay></AbilitiesDisplay>
+            }
+            @if (m_activeTab == Tab.Perks)
+            {
+                <PerksDisplay></PerksDisplay>
             }
             @if (m_activeTab == Tab.Achievements)
             {
@@ -178,7 +183,7 @@
 </style>
 
 @code {
-    enum Tab { Travel, Inventory, Abilities, Achievements, Stats, Help };
+    enum Tab { Travel, Inventory, Abilities, Achievements, Stats, Help, Perks };
 
     Tab m_activeTab = Tab.Achievements;
 

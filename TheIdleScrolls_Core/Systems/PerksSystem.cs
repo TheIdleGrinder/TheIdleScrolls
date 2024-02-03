@@ -98,7 +98,7 @@ namespace TheIdleScrolls_Core.Systems
             }
             // Create perk for dual wielding
             Perk dualWield = new("dw", "Dual Wielding", 
-                $"{Definitions.Stats.DualWieldAttackSpeedMulti:0.#%}% more attack speed while dual wielding",
+                $"{Definitions.Stats.DualWieldAttackSpeedMulti:0.#%} more attack speed while dual wielding",
                 new(), 
                 delegate
                 {
@@ -112,7 +112,7 @@ namespace TheIdleScrolls_Core.Systems
             perksComponent.AddPerk(dualWield);
             // Create perk for damage per level
             Perk damagePerLevel = new("dpl", "Damage per Level",
-                $"{Definitions.Stats.AttackBonusPerLevel:0.#%}% increased damage per level",
+                $"{Definitions.Stats.AttackBonusPerLevel:0.#%} increased damage per level",
                 new() { UpdateTrigger.LevelUp },
                 delegate (Entity entity, World world, Coordinator coordinator)
                 {

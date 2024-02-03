@@ -51,6 +51,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public CharacterStats CharacterStats { get; private set; } = new();
         public List<AchievementRepresentation> Achievements { get; private set; } = new();
         public List<AbilityRepresentation> Abilities { get; private set; } = new();
+        public List<PerkRepresentation> Perks { get; private set; } = new();
         public int AchievementCount { get; private set; } = 0;
         public string StatisticsReport { get; private set; } = String.Empty;
         public List<DialogueMessage> DialogueMessages { get; private set; } = new();
@@ -171,18 +172,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 AchievementCount = count;
             };
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
-            emitter.PlayerPerksChanged += (List<PerkRepresentation> perks) =>
-            {
-                foreach (var perk in perks)
-                {
-                    Console.WriteLine("Perk: " + perk.Name);
-                    Console.WriteLine(perk.Description);
-                    foreach (var mod in perk.Modifiers)
-                    {
-                        Console.WriteLine("  - " + mod);
-                    }
-                };
-            };
+            emitter.PlayerPerksChanged += (List<PerkRepresentation> perks) => Perks = perks;
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
             emitter.DisplayMessageReceived += (string title, string message) =>
             {

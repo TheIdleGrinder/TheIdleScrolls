@@ -36,8 +36,8 @@ namespace TheIdleScrolls_Core
                                                               Properties.Constants.Key_Ability_ShortBlade
             };
 
-            public static readonly string[] Armors = new[] { Properties.Constants.Key_Ability_HeavyArmor,
-                                                             Properties.Constants.Key_Ability_LightArmor
+            public static readonly string[] Armors = new[] { Properties.Constants.Key_Ability_LightArmor,
+                                                             Properties.Constants.Key_Ability_HeavyArmor
             };
         }
 

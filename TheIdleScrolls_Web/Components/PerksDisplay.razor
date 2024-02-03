@@ -1,0 +1,54 @@
+﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="perks-container">
+    @foreach (var perk in CoreWrapper.Perks)
+    {
+        <div class="perk">
+            <div class="perk-name">@perk.Name</div>
+            <div class="perk-description">@perk.Description</div>
+            <div class="perk-modifiers">
+                @foreach (var modifier in perk.Modifiers)
+                {
+                    <div class="perk-modifier">➤ @modifier</div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
+<style>
+    .perks-container {
+        padding: 5px;
+        max-height: 100%;
+        overflow-y: auto;
+    }
+
+    .perk {
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid var(--frame-color);
+    }
+
+    .perk-name {
+        font-weight: bold;
+    }
+
+    .perk-description {
+        margin: 2px;
+    }
+
+    .perk-modifier {
+        margin: 2px;
+        margin-left: 7px;
+        font-style: italic;
+    }
+
+</style>
+
+@code {
+
+}

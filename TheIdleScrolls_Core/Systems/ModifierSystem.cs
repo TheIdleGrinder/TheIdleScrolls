@@ -10,6 +10,9 @@ using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Systems
 {
+    /// <summary>
+    /// Updates modifiers for all entities with a ModifierComponent. Obsolete and should be replaced by the PerksSystem.
+    /// </summary>
     public class ModifierSystem : AbstractSystem
     {
         int m_initialFullUpdates = 2; // CornerCut: Do a full update on the first two frames to give all other systems time to setup all components
