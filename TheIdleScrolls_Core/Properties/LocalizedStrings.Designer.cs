@@ -556,6 +556,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dual Wielding ähnelt.
+        /// </summary>
+        internal static string DualWield {
+            get {
+                return ResourceManager.GetString("DualWield", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Training Dummy ähnelt.
         /// </summary>
         internal static string DUMMY {

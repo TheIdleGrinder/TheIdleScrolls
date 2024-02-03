@@ -75,7 +75,9 @@ namespace TheIdleScrolls_Core.Modifiers
             string target = String.Join(", ", modifier.RequiredTags.Where(t => specialTags.Contains(t)).Select(s => s.Localize()));
             if (target == String.Empty)
                 target = "???";
-            string tagString = String.Join(", ", modifier.RequiredTags.Where(t => !specialTags.Contains(t)).Select(s => s.Localize()));
+            string tagString = String.Join(", ", modifier.RequiredTags
+                .Where(t => !specialTags.Contains(t))
+                .Select(s => s.Localize() + (Definitions.Abilities.Weapons.Contains(s) ? "s" : "")));
             bool anyTags = tagString.Length > 0;
 
             return $"{idString}{valueString} {target}{(anyTags ? " with " : "")}{tagString}";

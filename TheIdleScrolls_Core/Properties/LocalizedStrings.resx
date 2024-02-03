@@ -282,6 +282,9 @@
   <data name="DRAGON3" xml:space="preserve">
     <value>Bigger Dragon</value>
   </data>
+  <data name="DualWield" xml:space="preserve">
+    <value>Dual Wielding</value>
+  </data>
   <data name="DUMMY" xml:space="preserve">
     <value>Training Dummy</value>
   </data>
