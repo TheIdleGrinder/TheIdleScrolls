@@ -13,7 +13,7 @@ namespace TheIdleScrolls_Core.Components
         Start, Inventory, MobAttacks, Armor, Abilities, 
         Travel, Defeated, DungeonOpen, DungeonComplete, Finished, 
         Evasion, Unarmed, FlatCircle, Selling, Reforging,
-        ItemFound
+        ItemFound, Perks
     }
 
     public class PlayerProgressComponent : IComponent

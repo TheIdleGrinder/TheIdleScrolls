@@ -16,7 +16,7 @@ namespace TheIdleScrolls_Core.Systems
         const int ItemCountForSelling = 12;
         const int CoinsForReforging = 200;
 
-        public const string FinalStoryDungeon = "THRESHOLD";
+        public const string FinalStoryDungeon = Definitions.DungeonIds.Threshold;
         const string UnarmoredKey = "NOARMOR";
         const string UnarmedKey = "NOWEAPON";
 
@@ -66,6 +66,11 @@ namespace TheIdleScrolls_Core.Systems
                             addTutorialProgress(TutorialStep.Abilities, "Live and Learn",
                                 "The more you use weapons of one type, the better you will become at handling them. Watch your " +
                                 "attack speed increase along with your ability level.", message);
+                            break;
+                        case Components.QuestStates.GettingStarted.Perks:
+                            addTutorialProgress(TutorialStep.Perks, "Perks of the Trade",
+                                "You can see the exact values of your ability bonus by checking the 'Perks' tab. As you continue playing and earning " +
+                                "achievements, you will also unlock additional perks.", message);
                             break;
                         case Components.QuestStates.GettingStarted.Outside:
                             addTutorialProgress(TutorialStep.MobAttacks, "Training is Over",

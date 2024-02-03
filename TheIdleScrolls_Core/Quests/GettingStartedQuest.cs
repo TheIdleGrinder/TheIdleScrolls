@@ -29,6 +29,7 @@ namespace TheIdleScrolls_Core.Quests
             const int LvlMobAttacks = 6;
             const int LvlArmor = 8;
             const int LvlAbilities = 4;
+            const int LvlPerks = 5;
             const int LvlTravel = 10;
 
             int level = entity.GetLevel();
@@ -87,7 +88,13 @@ namespace TheIdleScrolls_Core.Quests
                 storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory);
                 setFeatureState(GameFeature.Inventory, true);
             }
-
+            if (!isStepDone(QuestStates.GettingStarted.Perks) && level >= LvlPerks)
+            {
+                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Perks,
+                    "");                
+                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Perks);
+                setFeatureState(GameFeature.Perks, true);
+            }   
             if (!isStepDone(QuestStates.GettingStarted.Outside) && level >= LvlMobAttacks)
             {
                 setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Outside,
