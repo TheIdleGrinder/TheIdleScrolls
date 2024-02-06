@@ -88,11 +88,13 @@ namespace TheIdleScrolls_Core.Quests
                 storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory);
                 setFeatureState(GameFeature.Inventory, true);
             }
-            if (!isStepDone(QuestStates.GettingStarted.Perks) && level >= LvlPerks)
+            if (!(isStepDone(QuestStates.GettingStarted.Perks) && playerComp.AvailableFeatures.Contains(GameFeature.Perks)) 
+                && level >= LvlPerks)
             {
-                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Perks,
-                    "");                
-                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Perks);
+                if (!isStepDone(QuestStates.GettingStarted.Perks))
+                {
+                    setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Perks, "");
+                }
                 setFeatureState(GameFeature.Perks, true);
             }   
             if (!isStepDone(QuestStates.GettingStarted.Outside) && level >= LvlMobAttacks)
