@@ -64,6 +64,14 @@
         </ul>
     }
 
+    @if (Perks)
+    {
+        <h4>Perks</h4>
+        <p>Perks are passive abilities that provide a variety of bonuses to your character. Some perks are unlocked right from the start, while 
+            others are unlocked by earning achievements. You can view your unlocked perks in the perks screen.
+        </p>
+    }
+
     @if (Armor)
     {
         <h4>Time Limit</h4>
@@ -135,6 +143,7 @@
     bool Items => CoreWrapper.IsFeatureAvailable(GameFeature.Inventory);
     bool Armor => CoreWrapper.IsFeatureAvailable(GameFeature.Armor);
     bool Abilities => CoreWrapper.IsFeatureAvailable(GameFeature.Abilities);
+    bool Perks => CoreWrapper.IsFeatureAvailable(GameFeature.Perks);
     bool Travel => CoreWrapper.IsFeatureAvailable(GameFeature.Travel);
     bool Crafting => CoreWrapper.IsFeatureAvailable(GameFeature.Crafting);
 }
