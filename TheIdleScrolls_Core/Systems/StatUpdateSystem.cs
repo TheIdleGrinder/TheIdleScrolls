@@ -125,6 +125,12 @@ namespace TheIdleScrolls_Core.Systems
                         int monks = achComp.Achievements.Count(a => a.Id.Contains("NOWEAPON") && a.Status == Achievements.AchievementStatus.Awarded);
                         rawDamage += level * monks * 0.05;
                     }
+
+                    if (modComp != null)
+                    {
+                        rawDamage = modComp.ApplyApplicableModifiers(rawDamage, globalTags.Append(Definitions.Tags.Damage));
+                        cooldown = 1.0 / modComp.ApplyApplicableModifiers(1.0 / cooldown, globalTags.Append(Definitions.Tags.AttackSpeed)); // invert due to speed/cooldown mismatch
+                    }
                 }
             }
 
