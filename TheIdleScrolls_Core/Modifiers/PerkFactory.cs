@@ -59,5 +59,68 @@ namespace TheIdleScrolls_Core.Modifiers
                 }
             );
         }
+
+        public static Perk MakeAbilityLevelBasedPerk(string id,
+                                                     string name,
+                                                     string description,
+                                                     string ability,
+                                                     ModifierType modType,
+                                                     double valuePerLevel, 
+                                                     IEnumerable<string> tags)
+        {
+            return new(
+                id,
+                name,
+                description,
+                new() { UpdateTrigger.AbilityIncreased },
+                delegate (Entity entity, World world, Coordinator coordinator)
+                {
+                    int level = entity.GetComponent<AbilitiesComponent>()?.GetAbility(ability)?.Level ?? 0;
+                    double bonus = level * valuePerLevel;
+                    return new() { new(id, modType, bonus, tags.Append(ability).ToHashSet()) };
+                }
+            );
+        }
+
+        public static Perk MakeCharacterLevelBasedPerk(string id,
+                                                       string name,
+                                                       string description,
+                                                       ModifierType modType,
+                                                       double valuePerLevel,
+                                                       IEnumerable<string> tags)
+        {
+            return new(
+                id,
+                name,
+                description,
+                new() { UpdateTrigger.LevelUp },
+                delegate (Entity entity, World world, Coordinator coordinator)
+                {
+                    int level = entity.GetComponent<LevelComponent>()?.Level ?? 0;
+                    double bonus = level * valuePerLevel;
+                    return new() { new(id, modType, bonus, tags.ToHashSet()) };
+                }
+            );
+        }
+
+        public static Perk MakeSimplePerk(string id,
+                                          string name,
+                                          string description,
+                                          UpdateTrigger trigger,
+                                          ModifierType modType,
+                                          double value,
+                                          IEnumerable<string> tags)
+        {
+            return new(
+                id,
+                name,
+                description,
+                new() { trigger },
+                delegate (Entity entity, World world, Coordinator coordinator)
+                {
+                    return new() { new(id, modType, value, tags.ToHashSet()) };
+                }
+            );
+        }
     }
 }
