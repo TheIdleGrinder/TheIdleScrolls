@@ -39,23 +39,23 @@ namespace TheIdleScrolls_Core.Quests
             if (playerComp == null || storyComp == null)
                 return;
 
-            var setFeatureState = (GameFeature feature, bool state) =>
+            void setFeatureState(GameFeature feature, bool state)
             {
                 playerComp.SetFeatureState(feature, state);
                 postMessageCallback(new FeatureStateMessage(feature, state));
-            };
+            }
 
-            var setQuestState = (QuestId quest, QuestStates.GettingStarted progress, string message) =>
+            void setQuestState(QuestId quest, QuestStates.GettingStarted progress, string message)
             {
                 storyComp.SetQuestProgress(quest, progress);
                 postMessageCallback(new QuestProgressMessage(quest, (int)progress, message));
-            };
+            }
 
             var progress = (QuestStates.GettingStarted)storyComp.GetQuestProgress(QuestId.GettingStarted);
-            var isStepDone = (QuestStates.GettingStarted step) =>
+            bool isStepDone(QuestStates.GettingStarted step)
             {
                 return progress >= step;
-            };
+            }
 
             if (!isStepDone(QuestStates.GettingStarted.Inventory) && level >= LvlInventory)
             {

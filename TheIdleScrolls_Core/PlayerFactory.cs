@@ -69,20 +69,18 @@ namespace TheIdleScrolls_Core
             {
                 return "CLASS_DEFAULT".Localize();
             }
-            List<string> weapons = new() { "AXE", "BLN", "LBL", "POL", "SBL" };
-            List<string> armor = new() { "HAR", "LAR" };
 
-            var BestAbility = (List<string> keys) =>
+            string BestAbility(IEnumerable<string> keys)
             {
                 return keys
                 .Select(k => abiComp.GetAbility(k))
                 .Where(a => a != null && a.Level >= level * 2 / 3)
                 .OrderByDescending(a => a!.Level)
                 .FirstOrDefault()?.Key ?? "X";
-            };
+            }
 
-            string bestWeapon = BestAbility(weapons);
-            string bestArmor = BestAbility(armor);
+            string bestWeapon = BestAbility(Definitions.Abilities.Weapons);
+            string bestArmor = BestAbility(Definitions.Abilities.Armors);
             return $"CLASS_{bestWeapon}_{bestArmor}";
         }
     }
