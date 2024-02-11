@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Achievements
@@ -11,12 +12,13 @@ namespace TheIdleScrolls_Core.Achievements
     public class Achievement
     {
         public string Id { get; set; } = "";
-        public AchievementStatus Status { get; set; }
+        public AchievementStatus Status { get; set; } = AchievementStatus.Unavailable;
         public IConditionExpressionNode Prerequisite { get; set; } = new NumericNode(0.0);
         public IConditionExpressionNode Condition { get; set; } = new NumericNode(0.0);
         public bool Hidden { get; set; } = false;
-        public string Title { get; set; } = "";
+        public string Title { get; set; } = "???";
         public string Description { get; set; } = "";
+        public Perk? Perk { get; set; } = null;
 
         public Achievement(AchievementDescription description)
         {
