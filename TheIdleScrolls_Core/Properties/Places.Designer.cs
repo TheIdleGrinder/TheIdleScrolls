@@ -61,7 +61,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Crypt ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crypt ähnelt.
         /// </summary>
         internal static string Dungeon_Crypt {
             get {
@@ -171,7 +171,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Beacon ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Beacon ähnelt.
         /// </summary>
         internal static string Dungeon_Lighthouse {
             get {
@@ -227,7 +227,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Lighthouse ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lighthouse ähnelt.
         /// </summary>
         internal static string Dungeon_ReturnToLighthouse {
             get {

@@ -61,6 +61,87 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die LVL01 ähnelt.
+        /// </summary>
+        internal static string Achievement_Lvl01 {
+            get {
+                return ResourceManager.GetString("Achievement_Lvl01", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die LVL02 ähnelt.
+        /// </summary>
+        internal static string Achievement_Lvl02 {
+            get {
+                return ResourceManager.GetString("Achievement_Lvl02", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die LVL03 ähnelt.
+        /// </summary>
+        internal static string Achievement_Lvl03 {
+            get {
+                return ResourceManager.GetString("Achievement_Lvl03", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die LVL04 ähnelt.
+        /// </summary>
+        internal static string Achievement_Lvl04 {
+            get {
+                return ResourceManager.GetString("Achievement_Lvl04", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die LVL05 ähnelt.
+        /// </summary>
+        internal static string Achievement_Lvl05 {
+            get {
+                return ResourceManager.GetString("Achievement_Lvl05", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die LVL06 ähnelt.
+        /// </summary>
+        internal static string Achievement_Lvl06 {
+            get {
+                return ResourceManager.GetString("Achievement_Lvl06", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die LVL07 ähnelt.
+        /// </summary>
+        internal static string Achievement_Lvl07 {
+            get {
+                return ResourceManager.GetString("Achievement_Lvl07", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die LVL08 ähnelt.
+        /// </summary>
+        internal static string Achievement_Lvl08 {
+            get {
+                return ResourceManager.GetString("Achievement_Lvl08", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die LVL09 ähnelt.
+        /// </summary>
+        internal static string Achievement_Lvl09 {
+            get {
+                return ResourceManager.GetString("Achievement_Lvl09", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die AXE ähnelt.
         /// </summary>
         internal static string Key_Ability_Axe {

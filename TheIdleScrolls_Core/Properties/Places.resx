@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Dungeon_Crypt" xml:space="preserve">
-    <value>The Crypt</value>
+    <value>Crypt</value>
   </data>
   <data name="Dungeon_Crypt_Description" xml:space="preserve">
     <value>There is something stirring beneath the graveyard...
@@ -156,7 +156,7 @@ This dungeon awards armor pieces</value>
     <value>Below the castle, there is a huge, labyrinthine dungeon. This must be where the leader of the cult is hiding.</value>
   </data>
   <data name="Dungeon_Lighthouse" xml:space="preserve">
-    <value>The Beacon</value>
+    <value>Beacon</value>
   </data>
   <data name="Dungeon_Lighthouse_Description" xml:space="preserve">
     <value>Cultists have made their base at this beacon to prepare their ritual.</value>
@@ -176,7 +176,7 @@ This dungeon awards armor pieces</value>
 This dungeon awards weapons</value>
   </data>
   <data name="Dungeon_ReturnToLighthouse" xml:space="preserve">
-    <value>The Lighthouse</value>
+    <value>Lighthouse</value>
   </data>
   <data name="Dungeon_ReturnToLighthouse_Description" xml:space="preserve">
     <value>This ancient lighthouse is the nexus of the cult's final ritual.</value>

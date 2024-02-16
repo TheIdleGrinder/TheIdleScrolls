@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Systems
@@ -29,10 +30,10 @@ namespace TheIdleScrolls_Core.Systems
 
             if (achievementsComp.Achievements.Count == 0)
             {
-                var kingdom = ResourceAccess.ParseResourceFile<AchievementKingdomDescription>("TheIdleScrolls_Core", "Achievements.json");
-                foreach (var achievement in kingdom.Achievements)
+                var achievements = AchievementList.GetAllAchievements();
+                foreach (var achievement in achievements)
                 {
-                    achievementsComp.AddAchievement(new Achievement(achievement));
+                    achievementsComp.AddAchievement(achievement);
                 }
             }
 
