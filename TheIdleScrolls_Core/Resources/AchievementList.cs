@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -6,6 +7,8 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
+using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Resources
@@ -299,7 +302,15 @@ namespace TheIdleScrolls_Core.Resources
                 "Wollt Ihr Ewig Leben?!",
                 $"Complete the {Properties.Places.Dungeon_Lighthouse} without ever raising an armor ability",
                 new NumericNode(1.0),
-                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10")));
+                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10"))
+                {
+                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("NOARMOR",
+                        "Unarmored I",
+                        "Gain evasion rating for each level",
+                        ModifierType.AddBase,
+                        0.5,
+                        new List<string>() { Definitions.Tags.Unarmored })
+                });
             achievements.Add(new(
                 "HC:NOARMOR",
                 "Not Today",

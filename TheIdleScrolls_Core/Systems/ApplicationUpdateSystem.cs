@@ -231,7 +231,8 @@ namespace TheIdleScrolls_Core.Systems
                         .Select(a => new AchievementRepresentation(
                             a.Title,
                             (a.Hidden && a.Status != AchievementStatus.Awarded) ? hiddenInfo : a.Description, 
-                            a.Status == Achievements.AchievementStatus.Awarded)
+                            a.Status == Achievements.AchievementStatus.Awarded,
+                            a.Perk?.Name ?? "")
                     ).ToList();
                     AchievementsChanged?.Invoke(achievements, achComp.Achievements.Count);
                 }
