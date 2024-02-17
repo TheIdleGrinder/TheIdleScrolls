@@ -3,31 +3,88 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div class="achOuter">
-    <div class="topRow">
-        <p>Completed: @AchievementsEarned / @TotalAchievements</p>
-    </div>
-    <div class="scrolling-table">
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var achievement in Achievements)
+<div class="ach-container">
+
+    <div class="ach-list">
+        @foreach (var achievement in Achievements)
+        {
+            <div class="achievement @(achievement.Earned ? "ach-earned" : "ach-unearned")">
+                <div class="ach-title">@achievement.Title</div>
+                <div class="ach-description">@achievement.Description</div>
+                @if (achievement.Reward != string.Empty)
                 {
-                    <tr class="@(achievement.Earned ? "earned" : "unearned")">
-                        <td>@achievement.Title</td>
-                        <td>@achievement.Description</td>
-                    </tr>
+                    <div class="ach-reward">Reward: @achievement.Reward</div>
                 }
-            </tbody>
-        </table>
+            </div>
+        }
+    </div>
+
+    <div class="ach-header">
+        <p>Completed: @AchievementsEarned / @TotalAchievements</p>
     </div>
 </div>
 
+<style>
+    .ach-container {
+        padding: 5px;
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        padding: 0;
+    }
+
+    .ach-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex: 0 0 auto;
+        margin: 0;
+        padding: 5px;
+        border-top: 2px solid var(--frame-color);
+    }
+
+    .ach-list {
+        display: flex;
+        flex-direction: column;
+        /* justify-content: center; */
+        flex: 1 1 auto;
+        max-height: 100%;
+        overflow-y: auto;
+        margin: 0;
+    }
+
+    .achievement {
+        margin: 5px;
+        padding: 5px;
+        /* width: 70%; */
+        border: 1px solid var(--frame-color);
+    }
+
+    .ach-earned {
+        color: black;
+    }
+
+    .ach-unearned {
+        color: gray;
+        font-style: italic;
+        background-color: lightgray;
+    }
+
+    .ach-title {
+        font-weight: bold;
+    }
+
+    .ach-description {
+        margin: 2px;
+    }
+
+    .ach-reward {
+        margin: 2px;
+        margin-left: 12px;
+    }
+</style>
 
 @code {
     List<AchievementRepresentation> Achievements => CoreWrapper.Achievements;
