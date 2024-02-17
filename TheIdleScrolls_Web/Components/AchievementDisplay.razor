@@ -1,4 +1,4 @@
-@using TheIdleScrolls_Web.CoreWrapper
+﻿@using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Core
 
 @inject CoreWrapperModel CoreWrapper
@@ -13,7 +13,7 @@
                 <div class="ach-description">@achievement.Description</div>
                 @if (achievement.Reward != string.Empty)
                 {
-                    <div class="ach-reward">Reward: @achievement.Reward</div>
+                    <div class="ach-reward">➤ Reward: @achievement.Reward</div>
                 }
             </div>
         }
@@ -26,12 +26,11 @@
 
 <style>
     .ach-container {
-        padding: 5px;
+        padding: 0;
         max-height: 100%;
         display: flex;
         flex-direction: column;
         overflow-y: auto;
-        padding: 0;
     }
 
     .ach-header {
@@ -48,11 +47,11 @@
     .ach-list {
         display: flex;
         flex-direction: column;
-        /* justify-content: center; */
         flex: 1 1 auto;
         max-height: 100%;
         overflow-y: auto;
         margin: 0;
+        padding: 5px;
     }
 
     .achievement {
@@ -64,12 +63,13 @@
 
     .ach-earned {
         color: black;
+        background-color: var(--back-color-special);
     }
 
     .ach-unearned {
         color: gray;
         font-style: italic;
-        background-color: lightgray;
+        background-color: white;
     }
 
     .ach-title {
@@ -78,11 +78,12 @@
 
     .ach-description {
         margin: 2px;
+        margin-left: 5px;
     }
 
     .ach-reward {
         margin: 2px;
-        margin-left: 12px;
+        margin-left: 5px;
     }
 </style>
 
