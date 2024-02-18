@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
@@ -14,6 +15,7 @@ namespace TheIdleScrolls_Core.Systems
     public class PerksSystem : AbstractSystem
     {
         bool FirstUpdate = true;
+        bool FirstAchievementUpdate = true;
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -36,19 +38,48 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         perk.Modifiers.ForEach(m => modsComp.AddModifier(m));
                     }
+                    perksComp.MarkPerkAsUpdated(perk);
                 }
 
+                // Add basic perks
                 if (FirstUpdate)
                 {
                     AddBasicPerks(perksComp);
                     perksComp.GetPerks().ForEach(m => UpdatePerk(m));
                 }
 
+                // Add perks from previous achievements
+                if (FirstAchievementUpdate)
+                {
+                    var achComp = world.GlobalEntity.GetComponent<AchievementsComponent>();
+                    if (achComp != null && achComp.Achievements.Count > 0)
+                    { 
+                        foreach (var achievement in achComp.Achievements)
+                        {
+                            if (achievement.Status == AchievementStatus.Awarded && achievement.Perk != null)
+                            {
+                                perksComp.AddPerk(achievement.Perk);
+                            }
+                        }
+                        FirstAchievementUpdate = false;
+                    }
+                }
+
+                // Check for freshly unlocked achievements and their perks
+                foreach (var message in coordinator.FetchMessagesByType<AchievementStatusMessage>())
+                {
+                    if (message.Achievement.Status == AchievementStatus.Awarded && message.Achievement.Perk != null)
+                    {
+                        perksComp.AddPerk(message.Achievement.Perk);
+                    }
+                }
+
                 // Update Modifiers
-                
+                var changedPerks = perksComp.GetChangedPerks();
                 foreach (var perk in perksComp.GetPerks())
                 {
-                    if (perk.UpdateTriggers.Any(t => updateTriggers.Contains(t)))
+                    if (perk.UpdateTriggers.Any(t => updateTriggers.Contains(t)) 
+                        || changedPerks.Contains(perk))
                     {
                         UpdatePerk(perk);
                         coordinator.PostMessage(this, new PerkUpdatedMessage(entity, perk));

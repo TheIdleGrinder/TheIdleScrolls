@@ -20,7 +20,7 @@ namespace TheIdleScrolls_Core.Resources
             return s_achievements.Where(a => a.Id == id).FirstOrDefault();
         }
 
-        static List<Achievement> s_achievements = GenerateAchievements();
+        static readonly List<Achievement> s_achievements = GenerateAchievements();
 
         public static List<Achievement> GetAllAchievements() => s_achievements;
 

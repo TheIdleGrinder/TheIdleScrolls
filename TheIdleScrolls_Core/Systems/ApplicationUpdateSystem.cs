@@ -185,11 +185,7 @@ namespace TheIdleScrolls_Core.Systems
             // Update area
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AreaChangedMessage>())
             {
-                var locationComp = player.GetComponent<LocationComponent>();
-                if (locationComp == null)
-                {
-                    throw new Exception("Player has no LocationComponent");
-                }
+                var locationComp = player.GetComponent<LocationComponent>() ?? throw new Exception("Player has no LocationComponent");
                 var zone = locationComp.GetCurrentZone(world.Map) ?? new();
                 PlayerAreaChanged?.Invoke(zone.Name, zone.Level, locationComp.InDungeon);
             }
