@@ -120,6 +120,9 @@
   <data name="ABL_CRAFT" xml:space="preserve">
     <value>Crafting</value>
   </data>
+  <data name="ArmorRating" xml:space="preserve">
+    <value>Armor Rating</value>
+  </data>
   <data name="AXE" xml:space="preserve">
     <value>Axe</value>
   </data>
@@ -305,6 +308,9 @@
   </data>
   <data name="Equip_Weapon" xml:space="preserve">
     <value>Weapon</value>
+  </data>
+  <data name="EvasionRating" xml:space="preserve">
+    <value>Evasion Rating</value>
   </data>
   <data name="HAR" xml:space="preserve">
     <value>Heavy Armor</value>

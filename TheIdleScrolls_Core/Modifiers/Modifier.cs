@@ -54,6 +54,23 @@ namespace TheIdleScrolls_Core.Modifiers
 
         public static string ToPrettyString(this Modifier modifier, bool showId = false)
         {
+            List<string> specialTags = new() {
+                Definitions.Tags.Damage,
+                Definitions.Tags.AttackSpeed,
+                Definitions.Tags.Defense,
+                Definitions.Tags.ArmorRating,
+                Definitions.Tags.EvasionRating
+            };
+            specialTags = specialTags.Where(t => modifier.RequiredTags.Contains(t)).ToList();
+            List<string> whileTags = new()
+            {
+                Definitions.Tags.Unarmed,
+                Definitions.Tags.Unarmored,
+                Definitions.Tags.DualWield,
+            };
+            whileTags = whileTags.Where(t => modifier.RequiredTags.Contains(t)).ToList();
+            List<string> withTags = modifier.RequiredTags.Except(specialTags).Except(whileTags).ToList();
+
             double absValue = Math.Abs(modifier.Value);
             string valueString = (modifier.Type, modifier.Value > 0) switch
             {
@@ -66,21 +83,19 @@ namespace TheIdleScrolls_Core.Modifiers
                 (ModifierType.AddFlat, _) => $"{modifier.Value} additional",
                 _ => "??"
             };
-            List<string> specialTags = new() { 
-                Definitions.Tags.Damage,
-                Definitions.Tags.AttackSpeed,
-                Definitions.Tags.Defense
-            };
+            
             string idString = showId ? $"[{modifier.Id}] " : "";
-            string target = String.Join(", ", modifier.RequiredTags.Where(t => specialTags.Contains(t)).Select(s => s.Localize()));
+            string target = String.Join(", ", specialTags.Select(s => s.Localize()));
             if (target == String.Empty)
                 target = "???";
-            string tagString = String.Join(", ", modifier.RequiredTags
-                .Where(t => !specialTags.Contains(t))
-                .Select(s => s.Localize() + (Definitions.Abilities.Weapons.Contains(s) ? "s" : "")));
-            bool anyTags = tagString.Length > 0;
 
-            return $"{idString}{valueString} {target}{(anyTags ? " with " : "")}{tagString}";
+            string whileString = String.Join(", ", whileTags.Select(s => s.Localize()));
+            string withString = String.Join(", ", withTags
+                .Select(s => s.Localize() + (Definitions.Abilities.Weapons.Contains(s) ? "s" : "")));
+
+            return $"{idString}{valueString} {target}" +
+                $"{((withString.Length > 0) ? " with " : "")}{withString}" +
+                $"{((whileString.Length > 0) ? " while " : "")}{whileString}";
         }
     }
 }

@@ -70,6 +70,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Armor Rating ähnelt.
+        /// </summary>
+        internal static string ArmorRating {
+            get {
+                return ResourceManager.GetString("ArmorRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Axe ähnelt.
         /// </summary>
         internal static string AXE {
@@ -624,6 +633,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string Equip_Weapon {
             get {
                 return ResourceManager.GetString("Equip_Weapon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Evasion Rating ähnelt.
+        /// </summary>
+        internal static string EvasionRating {
+            get {
+                return ResourceManager.GetString("EvasionRating", resourceCulture);
             }
         }
         
