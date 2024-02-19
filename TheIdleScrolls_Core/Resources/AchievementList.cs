@@ -309,41 +309,81 @@ namespace TheIdleScrolls_Core.Resources
                         "Gain evasion rating for each level",
                         ModifierType.AddBase,
                         0.5,
-                        new List<string>() { Definitions.Tags.Unarmored })
+                        new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored })
                 });
             achievements.Add(new(
                 "HC:NOARMOR",
                 "Not Today",
                 "Complete the Beacon without ever raising an armor ability or losing a fight",
                 ExpressionParser.Parse("NOARMOR"),
-                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0")));
+                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
+                {
+                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR",
+                        "Unarmored II",
+                        "Gain evasion rating for each level",
+                        ModifierType.AddBase,
+                        0.5,
+                        new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored })
+                });
             achievements.Add(new(
                 "HC:NOARMOR_50",
                 "Kensai",
                 "Reach level 50 without ever raising an armor ability or losing a fight",
                 ExpressionParser.Parse("HC:NOARMOR"),
-                ExpressionParser.Parse("Level >= 50 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0")));
+                ExpressionParser.Parse("Level >= 50 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
+                {
+                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
+                        "Unarmored III",
+                        "Gain evasion rating for each level",
+                        ModifierType.AddBase,
+                        0.5,
+                        new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored })
+                });
 
             achievements.Add(new(
                 "NOWEAPON",
                 "Boxer",
                 "Reach level 15 without ever raising a weapon ability",
                 new NumericNode(1.0),
-                ExpressionParser.Parse("Level >= 15 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10")));
+                ExpressionParser.Parse("Level >= 15 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
+                {
+                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("NOWEAPON",
+                        "Unarmed I",
+                        "Gain unarmed damage for each level",
+                        ModifierType.AddBase,
+                        0.05,
+                        new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed })
+                });
             achievements.Add(new(
                 "HC:NOWEAPON",
                 "I Am The Greatest!",
                 $"Complete the {Properties.Places.Dungeon_Lighthouse} without ever raising a weapon ability or losing a fight",
                 ExpressionParser.Parse("NOWEAPON"),
                 ExpressionParser.Parse($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:AXE <= 10 " +
-                    $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10 && Losses == 0")));
+                    $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10 && Losses == 0"))
+                {
+                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
+                        "Unarmed II",
+                        "Gain unarmed damage for each level",
+                        ModifierType.AddBase,
+                        0.05,
+                        new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed })
+                });
             achievements.Add(new(
                 "HC:NOWEAPON_50",
                 "Path of the Monk",
                 "Reach level 50 without ever raising a weapon ability or losing a fight",
                 ExpressionParser.Parse("HC:NOWEAPON"),
                 ExpressionParser.Parse("Level >= 50 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 " +
-                    "&& abl:POL <= 10 && abl:SBL <= 10 && Losses == 0")));
+                    "&& abl:POL <= 10 && abl:SBL <= 10 && Losses == 0"))
+                {
+                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON_50",
+                        "Unarmed III",
+                        "Gain unarmed damage for each level",
+                        ModifierType.AddBase,
+                        0.05,
+                        new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed })
+                });
 
             achievements.Add(new(
                 "HC:NOARMOR+NOWEAPON",
