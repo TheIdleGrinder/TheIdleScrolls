@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.Intrinsics.X86;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
@@ -27,7 +28,8 @@ namespace TheIdleScrolls_Core.Systems
                 || coordinator.MessageTypeIsOnBoard<LevelUpSystem.LevelUpMessage>()
                 || coordinator.MessageTypeIsOnBoard<ItemMovedMessage>()
                 || coordinator.MessageTypeIsOnBoard<AbilityImprovedMessage>()
-                || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>();
+                || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>()
+                || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>();
 
             if (!doUpdate)
                 return;
@@ -91,8 +93,10 @@ namespace TheIdleScrolls_Core.Systems
 
                         if (modComp != null)
                         {
-                            localArmor = modComp.ApplyApplicableModifiers(localArmor, localTags.Append(Definitions.Tags.Defense));
-                            localEvasion = modComp.ApplyApplicableModifiers(localEvasion, localTags.Append(Definitions.Tags.Defense));
+                            localArmor = modComp.ApplyApplicableModifiers(localArmor, 
+                                localTags.Append(Definitions.Tags.Defense).Append(Definitions.Tags.ArmorRating));
+                            localEvasion = modComp.ApplyApplicableModifiers(localEvasion, 
+                                localTags.Append(Definitions.Tags.Defense).Append(Definitions.Tags.EvasionRating));
                         }
 
                         armor += localArmor;
@@ -102,13 +106,8 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (armorCount == 0)
                 {
-                    var achComp = coordinator.GetEntities<AchievementsComponent>()?.FirstOrDefault()?.GetComponent<AchievementsComponent>();
-                    if (achComp != null && level >= 7) // CornerCut: Hardcoded level and names
-                    {
-                        // Add 1 evasion per level for each earned achievement in the Kensai-line
-                        int kensais = achComp.Achievements.Count(a => a.Id.Contains("NOARMOR") && a.Status == Achievements.AchievementStatus.Awarded);
-                        evasion += level * kensais * 0.5;
-                    }
+                    armor = modComp?.ApplyApplicableModifiers(armor, globalTags.Append(Definitions.Tags.ArmorRating)) ?? armor;
+                    evasion = modComp?.ApplyApplicableModifiers(evasion, globalTags.Append(Definitions.Tags.EvasionRating)) ?? evasion;
                 }
 
                 if (weaponCount > 0)
@@ -118,19 +117,10 @@ namespace TheIdleScrolls_Core.Systems
                 }
                 else
                 {
-                    var achComp = coordinator.GetEntities<AchievementsComponent>()?.FirstOrDefault()?.GetComponent<AchievementsComponent>();
-                    if (achComp != null) // CornerCut: Hardcoded level and names
-                    {
-                        // Add 1 evasion per level for each earned achievement in the Monk-line
-                        int monks = achComp.Achievements.Count(a => a.Id.Contains("NOWEAPON") && a.Status == Achievements.AchievementStatus.Awarded);
-                        rawDamage += level * monks * 0.05;
-                    }
-
-                    if (modComp != null)
-                    {
-                        rawDamage = modComp.ApplyApplicableModifiers(rawDamage, globalTags.Append(Definitions.Tags.Damage));
-                        cooldown = 1.0 / modComp.ApplyApplicableModifiers(1.0 / cooldown, globalTags.Append(Definitions.Tags.AttackSpeed)); // invert due to speed/cooldown mismatch
-                    }
+                    rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, globalTags.Append(Definitions.Tags.Damage)) ?? rawDamage;
+                    // invert attack speed due to speed/cooldown mismatch
+                    cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown, 
+                        globalTags.Append(Definitions.Tags.AttackSpeed)) ?? cooldown; 
                 }
             }
 

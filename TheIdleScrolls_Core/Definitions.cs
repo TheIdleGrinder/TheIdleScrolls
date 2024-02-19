@@ -64,6 +64,8 @@ namespace TheIdleScrolls_Core
             public const string Damage = "Damage";
             public const string AttackSpeed = "AttackSpeed";
             public const string Defense = "Defense";
+            public const string ArmorRating = "ArmorRating";
+            public const string EvasionRating = "EvasionRating";
             public const string Weapon = "Weapon";
             public const string Armor = "Armor";
             public const string Shield = "Shield";
