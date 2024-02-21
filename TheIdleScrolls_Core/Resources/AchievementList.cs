@@ -339,34 +339,36 @@ namespace TheIdleScrolls_Core.Resources
                         0.5,
                         new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored })
                 });
-
+            int noWeaponLevel = 5;
+            double noWeaponBaseDamageBonus = 2.5;
             achievements.Add(new(
                 "NOWEAPON",
                 "Boxer",
-                "Reach level 15 without ever raising a weapon ability",
+                $"Reach level {noWeaponLevel} without ever raising a weapon ability",
                 new NumericNode(1.0),
-                ExpressionParser.Parse("Level >= 15 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
+                ExpressionParser.Parse($"Level >= {noWeaponLevel} && abl:AXE <= 10 && abl:BLN <= 10 " +
+                    $"&& abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
                 {
-                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("NOWEAPON",
+                    Perk = PerkFactory.MakeStaticPerk("NOWEAPON",
                         "Unarmed I",
-                        "Gain unarmed damage for each level",
+                        $"Increased base damage with unarmed attacks",
                         ModifierType.AddBase,
-                        0.05,
+                        noWeaponBaseDamageBonus,
                         new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed })
                 });
             achievements.Add(new(
                 "HC:NOWEAPON",
                 "I Am The Greatest!",
-                $"Complete the {Properties.Places.Dungeon_Lighthouse} without ever raising a weapon ability or losing a fight",
+                $"Complete the {Properties.Places.Dungeon_RatDen} without ever raising a weapon ability or losing a fight",
                 ExpressionParser.Parse("NOWEAPON"),
-                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:AXE <= 10 " +
+                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.DenOfRats} > 0 && abl:AXE <= 10 " +
                     $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10 && Losses == 0"))
                 {
                     Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
                         "Unarmed II",
                         "Gain unarmed damage for each level",
                         ModifierType.AddBase,
-                        0.05,
+                        0.1,
                         new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed })
                 });
             achievements.Add(new(
@@ -391,7 +393,18 @@ namespace TheIdleScrolls_Core.Resources
                 "Defeat a level 75 enemy in the wilderness without raising any ability or losing a fight",
                 ExpressionParser.Parse("HC:NOWEAPON_50"),
                 ExpressionParser.Parse("Wilderness >= 75 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 " +
-                    "&& abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0")));
+                    "&& abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
+                {
+                    Perk = PerkFactory.MakeCharacterLevelBasedMultiModPerk("HC:NOARMOR+NOWEAPON",
+                        "Convergent Paths",
+                        "Gain unarmed damage and unarmored evasion rating for each level",
+                        new() { ModifierType.AddBase, ModifierType.AddBase },
+                        new() { 0.05, 0.5 },
+                        new() { 
+                            new string[] { Definitions.Tags.Damage, Definitions.Tags.Unarmed },
+                            new string[] { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored }
+                        })
+                });
 
 
             return achievements;

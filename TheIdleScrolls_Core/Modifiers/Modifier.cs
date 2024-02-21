@@ -74,13 +74,13 @@ namespace TheIdleScrolls_Core.Modifiers
             double absValue = Math.Abs(modifier.Value);
             string valueString = (modifier.Type, modifier.Value > 0) switch
             {
-                (ModifierType.AddBase, true) => $"+{absValue}",
-                (ModifierType.AddBase, false) => $"-{absValue}",
-                (ModifierType.Increase, true) => $"{absValue:0.#%} increased",
-                (ModifierType.Increase, false) => $"{absValue:0.#%} reduced",
-                (ModifierType.More, true) => $"{absValue:0.#%} more",
-                (ModifierType.More, false) => $"{absValue:0.#%} less",
-                (ModifierType.AddFlat, _) => $"{modifier.Value} additional",
+                (ModifierType.AddBase, true) => $"+{absValue:0.##}",
+                (ModifierType.AddBase, false) => $"-{absValue:0.##}",
+                (ModifierType.Increase, true) => $"{absValue:0.##%} increased",
+                (ModifierType.Increase, false) => $"{absValue:0.##%} reduced",
+                (ModifierType.More, true) => $"{absValue:0.##%} more",
+                (ModifierType.More, false) => $"{absValue:0.##%} less",
+                (ModifierType.AddFlat, _) => $"{modifier.Value:0.##} additional",
                 _ => "??"
             };
             

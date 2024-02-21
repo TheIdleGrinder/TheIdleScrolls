@@ -89,6 +89,18 @@ namespace TheIdleScrolls_Core.Modifiers
                                                        double valuePerLevel,
                                                        IEnumerable<string> tags)
         {
+            return MakeCharacterLevelBasedMultiModPerk(id, name, description, 
+                new() { modType }, new() { valuePerLevel }, new() { tags }
+            );
+        }
+
+        public static Perk MakeCharacterLevelBasedMultiModPerk(string id,
+                                                       string name,
+                                                       string description,
+                                                       List<ModifierType> modTypes,
+                                                       List<double> valuesPerLevel,
+                                                       List<IEnumerable<string>> tags)
+        {
             return new(
                 id,
                 name,
@@ -97,16 +109,20 @@ namespace TheIdleScrolls_Core.Modifiers
                 delegate (Entity entity, World world, Coordinator coordinator)
                 {
                     int level = entity.GetComponent<LevelComponent>()?.Level ?? 0;
-                    double bonus = level * valuePerLevel;
-                    return new() { new(id, modType, bonus, tags.ToHashSet()) };
+                    List<Modifier> mods = new();
+                    for (int i = 0; i < modTypes.Count; i++)
+                    {
+                        double bonus = level * valuesPerLevel[i];
+                        mods.Add(new($"{id}_{i}", modTypes[i], bonus, tags[i].ToHashSet()));
+                    }
+                    return mods;
                 }
             );
         }
 
-        public static Perk MakeSimplePerk(string id,
+        public static Perk MakeStaticPerk(string id,
                                           string name,
                                           string description,
-                                          UpdateTrigger trigger,
                                           ModifierType modType,
                                           double value,
                                           IEnumerable<string> tags)
@@ -115,7 +131,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 id,
                 name,
                 description,
-                new() { trigger },
+                new(),
                 delegate (Entity entity, World world, Coordinator coordinator)
                 {
                     return new() { new(id, modType, value, tags.ToHashSet()) };
