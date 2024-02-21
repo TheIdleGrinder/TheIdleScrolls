@@ -52,8 +52,7 @@ namespace TheIdleScrolls_Core.Systems
             {
                 if (achievement.Status == AchievementStatus.Unavailable)
                 {
-                    double result = achievement.Prerequisite.Evaluate(player, world);
-                    if (result >= 1.0)
+                    if (achievement.Prerequisite(player, world))
                     {
                         achievement.Status = AchievementStatus.Available;
                         coordinator.PostMessage(this, new AchievementStatusMessage(achievement));
@@ -72,8 +71,7 @@ namespace TheIdleScrolls_Core.Systems
             {
                 if (achievement.Status == AchievementStatus.Available)
                 {
-                    double result = achievement.Condition.Evaluate(player, world);
-                    if (result >= 1.0)
+                    if (achievement.Condition(player, world))
                     {
                         achievement.Status = AchievementStatus.Awarded;
                         coordinator.PostMessage(this, new AchievementStatusMessage(achievement));

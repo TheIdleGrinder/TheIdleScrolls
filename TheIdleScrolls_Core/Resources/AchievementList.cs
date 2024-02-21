@@ -26,6 +26,7 @@ namespace TheIdleScrolls_Core.Resources
 
         static List<Achievement> GenerateAchievements()
         {
+            static bool tautology(Entity e, World w) => true;
             var achievements = new List<Achievement>();
 
             // Level achievements
@@ -38,12 +39,12 @@ namespace TheIdleScrolls_Core.Resources
                     Id = $"LVL{level}",
                     Title = $"Level {level}",
                     Description = $"Reach level {level}",
-                    Condition = ExpressionParser.Parse($"Level >= {level}"),
+                    Condition = ExpressionParser.ParseToFunction($"Level >= {level}"),
                     Hidden = false
                 };
                 if (i > 0)
                 {
-                    achievement.Prerequisite = ExpressionParser.Parse($"LVL{levels[i - 1]}");
+                    achievement.Prerequisite = ExpressionParser.ParseToFunction($"LVL{levels[i - 1]}");
                 }
                 achievements.Add(achievement);
             }
@@ -66,12 +67,12 @@ namespace TheIdleScrolls_Core.Resources
                     Id = $"WILD{level}",
                     Title = wildernessLevels[i].Name,
                     Description = $"Reach wilderness level {level}",
-                    Condition = ExpressionParser.Parse($"WildernessLevel >= {level}"),
+                    Condition = ExpressionParser.ParseToFunction($"WildernessLevel >= {level}"),
                     Hidden = false
                 };
                 if (i > 0)
                 {
-                    achievement.Prerequisite = ExpressionParser.Parse($"WILD{wildernessLevels[i - 1].Level}");
+                    achievement.Prerequisite = ExpressionParser.ParseToFunction($"WILD{wildernessLevels[i - 1].Level}");
                 }
                 achievements.Add(achievement);
             }
@@ -93,12 +94,12 @@ namespace TheIdleScrolls_Core.Resources
                     Id = $"KILL{count}",
                     Title = killCounts[i].Name,
                     Description = $"Defeat {count} enemies with a single character",
-                    Condition = ExpressionParser.Parse($"Kills >= {count}"),
+                    Condition = ExpressionParser.ParseToFunction($"Kills >= {count}"),
                     Hidden = false
                 };
                 if (i > 0)
                 {
-                    achievement.Prerequisite = ExpressionParser.Parse($"KILL{killCounts[i - 1].Count}");
+                    achievement.Prerequisite = ExpressionParser.ParseToFunction($"KILL{killCounts[i - 1].Count}");
                 }
                 achievements.Add(achievement);
             }
@@ -122,8 +123,8 @@ namespace TheIdleScrolls_Core.Resources
                     Id = $"DNG:{id}",
                     Title = title,
                     Description = $"Complete the {name}",
-                    Prerequisite = ExpressionParser.Parse($"dng_open:{id}"),
-                    Condition = ExpressionParser.Parse($"dng:{id} > 0"),
+                    Prerequisite = ExpressionParser.ParseToFunction($"dng_open:{id}"),
+                    Condition = ExpressionParser.ParseToFunction($"dng:{id} > 0"),
                     Hidden = false
                 };
                 if (id == Definitions.DungeonIds.Threshold)
@@ -138,24 +139,24 @@ namespace TheIdleScrolls_Core.Resources
             achievements.Add(new("HC:WILDERNESS",
                 "Attentive Grinder",
                 $"Defeat a level {hcWildLevel} enemy in the wilderness without ever losing a fight",
-                ExpressionParser.Parse("WILD50"),
-                ExpressionParser.Parse($"Wilderness >= {hcWildLevel} && Losses == 0")));
+                ExpressionParser.ParseToFunction("WILD50"),
+                ExpressionParser.ParseToFunction($"Wilderness >= {hcWildLevel} && Losses == 0")));
 
             achievements.Add(new($"HC:{Definitions.DungeonIds.Crypt}",
                 "Attentive Dungeoneer",
                 $"Complete the Crypt without ever losing a fight",
-                ExpressionParser.Parse($"DNG:{Definitions.DungeonIds.Crypt}"),
-                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.Crypt} > 0 && Losses == 0")));
+                ExpressionParser.ParseToFunction($"DNG:{Definitions.DungeonIds.Crypt}"),
+                ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Crypt} > 0 && Losses == 0")));
             achievements.Add(new($"HC:{Definitions.DungeonIds.Lighthouse}",
                 "So that All May Find You",
                 "Complete the Beacon without ever losing a fight",
-                ExpressionParser.Parse($"DNG:{Definitions.DungeonIds.Lighthouse}"),
-                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && Losses == 0")));
+                ExpressionParser.ParseToFunction($"DNG:{Definitions.DungeonIds.Lighthouse}"),
+                ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && Losses == 0")));
             achievements.Add(new($"HC:{Definitions.DungeonIds.ReturnToLighthouse}",
                 "Hardcore",
                 "Complete the Lighthouse without ever losing a fight",
-                ExpressionParser.Parse($"DNG:{Definitions.DungeonIds.ReturnToLighthouse}"),
-                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.ReturnToLighthouse} > 0 && Losses == 0")));
+                ExpressionParser.ParseToFunction($"DNG:{Definitions.DungeonIds.ReturnToLighthouse}"),
+                ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.ReturnToLighthouse} > 0 && Losses == 0")));
 
             // Ability achievements
             (int Level, string Rank)[] ranks = new (int, string)[]
@@ -172,8 +173,9 @@ namespace TheIdleScrolls_Core.Resources
                     $"WEAP{level}",
                     $"Weapon {ranks[i].Rank}",
                     $"Reach ability level {level} for any weapon type",
-                    (i > 0) ? ExpressionParser.Parse($"WEAP{ranks[i - 1].Level}") : new NumericNode(1.0),
-                    ExpressionParser.Parse($"abl:AXE >= {level} || abl:BLN >= {level} || abl:LBL >= {level} || abl:POL >= {level} || abl:SBL >= {level}")));
+                    (i > 0) ? ExpressionParser.ParseToFunction($"WEAP{ranks[i - 1].Level}") : tautology,
+                    ExpressionParser.ParseToFunction($"abl:AXE >= {level} || abl:BLN >= {level} || abl:LBL >= {level} " +
+                        $"|| abl:POL >= {level} || abl:SBL >= {level}")));
             }
             for (int i = 0; i < ranks.Length; i++)
             {
@@ -182,8 +184,8 @@ namespace TheIdleScrolls_Core.Resources
                 $"ARMOR{level}",
                 $"Armor {ranks[i].Rank}",
                 $"Reach ability level {level} for any armor type",
-                (i > 0) ? ExpressionParser.Parse($"ARMOR{ranks[i - 1].Level}") : new NumericNode(1.0),
-                ExpressionParser.Parse($"abl:LAR >= {level} || abl:HAR >= {level}")));
+                (i > 0) ? ExpressionParser.ParseToFunction($"ARMOR{ranks[i - 1].Level}") : tautology,
+                ExpressionParser.ParseToFunction($"abl:LAR >= {level} || abl:HAR >= {level}")));
             }
 
             // 'of all trades' achievements
@@ -201,8 +203,9 @@ namespace TheIdleScrolls_Core.Resources
                 $"{oAllRanks[i].Rank[..1]}oALL",
                 $"{oAllRanks[i].Rank} of All Trades",
                 $"Reach ability level {level} for all weapon and armor types with a single character",
-                (i > 0) ? ExpressionParser.Parse($"{oAllRanks[i - 1].Rank[..1]}oALL") : new NumericNode(1.0),
-                ExpressionParser.Parse($"abl:AXE >= {level} && abl:BLN >= {level} && abl:LBL >= {level} && abl:POL >= {level} && abl:SBL >= {level} && abl:LAR >= {level} && abl:HAR >= {level}")));
+                (i > 0) ? ExpressionParser.ParseToFunction($"{oAllRanks[i - 1].Rank[..1]}oALL") : tautology,
+                ExpressionParser.ParseToFunction($"abl:AXE >= {level} && abl:BLN >= {level} && abl:LBL >= {level} " +
+                    $"&& abl:POL >= {level} && abl:SBL >= {level} && abl:LAR >= {level} && abl:HAR >= {level}")));
             }
 
             // Crafting achievements
@@ -213,8 +216,8 @@ namespace TheIdleScrolls_Core.Resources
                     $"CRAFTING{level}",
                     $"{ranks[i].Rank} Blacksmith",
                     $"Train Crafting ability to level {level}",
-                    (i > 0) ? ExpressionParser.Parse($"CRAFTING{ranks[i - 1].Level}") : new NumericNode(1.0),
-                    ExpressionParser.Parse($"abl:ABL_CRAFT >= {level}")));
+                    (i > 0) ? ExpressionParser.ParseToFunction($"CRAFTING{ranks[i - 1].Level}") : tautology,
+                    ExpressionParser.ParseToFunction($"abl:ABL_CRAFT >= {level}")));
             }
             string[] craftNames = { "Transmuted", "Augmented", "Regal", "Exalted", "Divine" };
             for (int i = 0; i < craftNames.Length; i++)
@@ -223,15 +226,15 @@ namespace TheIdleScrolls_Core.Resources
                     $"BestReforge+{i + 1}",
                     $"{craftNames[i]} Craft",
                     $"Reforge an item to +{i + 1} rarity",
-                    (i > 0) ? ExpressionParser.Parse($"BestReforge+{i}") : new NumericNode(1.0),
-                    ExpressionParser.Parse($"BestReforge >= {i + 1}")));
+                    (i > 0) ? ExpressionParser.ParseToFunction($"BestReforge+{i}") : tautology,
+                    ExpressionParser.ParseToFunction($"BestReforge >= {i + 1}")));
             }
             Achievement tier0Reforge = new(
                 "G0Reforge+3",
                 "Still not Viable",
                 "Reforge a training item to +3 rarity or higher",
-                ExpressionParser.Parse("BestReforge+3"),
-                ExpressionParser.Parse("BestG0Craft >= 3")
+                ExpressionParser.ParseToFunction("BestReforge+3"),
+                ExpressionParser.ParseToFunction("BestG0Craft >= 3")
                 )
             {
                 Hidden = true
@@ -254,8 +257,8 @@ namespace TheIdleScrolls_Core.Resources
                     $"TotalCoins{i}",
                     $"{ranks[i].Rank}",
                     $"Collect a total of {coins} coins with a single character",
-                    (i > 0) ? ExpressionParser.Parse($"TotalCoins{i - 1}") : new NumericNode(1.0),
-                    ExpressionParser.Parse($"TotalCoins >= {coins}")));
+                    (i > 0) ? ExpressionParser.ParseToFunction($"TotalCoins{i - 1}") : tautology,
+                    ExpressionParser.ParseToFunction($"TotalCoins >= {coins}")));
             }
             ranks = new (int, string)[]
             {
@@ -271,8 +274,8 @@ namespace TheIdleScrolls_Core.Resources
                     $"MaxCoins{i}",
                     $"{ranks[i].Rank}",
                     $"Stockpile {coins} coins",
-                    (i > 0) ? ExpressionParser.Parse($"MaxCoins{i - 1}") : new NumericNode(1.0),
-                    ExpressionParser.Parse($"MaxCoins >= {coins}")));
+                    (i > 0) ? ExpressionParser.ParseToFunction($"MaxCoins{i - 1}") : tautology,
+                    ExpressionParser.ParseToFunction($"MaxCoins >= {coins}")));
             }
 
             // Miscellaneous achievements
@@ -280,20 +283,20 @@ namespace TheIdleScrolls_Core.Resources
                 "Instructions Unclear",
                 "Instructions Unclear",
                 "Lose a fight before reaching level 12",
-                new NumericNode(1.0),
-                ExpressionParser.Parse("Losses > 0 && Level < 12")));
+                tautology,
+                ExpressionParser.ParseToFunction("Losses > 0 && Level < 12")));
             achievements.Add(new(
                 "NOCRYPT",
                 "Untainted",
                 "Complete the Beacon before the Crypt",
-                new NumericNode(1.0),
-                ExpressionParser.Parse("dng:CRYPT <= 0 && dng:LIGHTHOUSE > 0")));
+                tautology,
+                ExpressionParser.ParseToFunction("dng:CRYPT <= 0 && dng:LIGHTHOUSE > 0")));
             achievements.Add(new(
                 "EndgameBeforeStory",
                 "Did I forget something?",
                 "Complete the endgame dungeons before finishing the story",
-                ExpressionParser.Parse("dng:SUNKENCITY > 0 || dng:ACADEMY > 0 || dng:PAGODA > 0"),
-                ExpressionParser.Parse("dng:SUNKENCITY > 0 && dng:ACADEMY > 0 && dng:PAGODA > 0 && dng:THRESHOLD <= 0")));
+                ExpressionParser.ParseToFunction("dng:SUNKENCITY > 0 || dng:ACADEMY > 0 || dng:PAGODA > 0"),
+                ExpressionParser.ParseToFunction("dng:SUNKENCITY > 0 && dng:ACADEMY > 0 && dng:PAGODA > 0 && dng:THRESHOLD <= 0")));
 
 
             // Unarmored/Unarmed achievements
@@ -301,8 +304,8 @@ namespace TheIdleScrolls_Core.Resources
                 "NOARMOR",
                 "Wollt Ihr Ewig Leben?!",
                 $"Complete the {Properties.Places.Dungeon_Lighthouse} without ever raising an armor ability",
-                new NumericNode(1.0),
-                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10"))
+                tautology,
+                ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10"))
                 {
                     Perk = PerkFactory.MakeCharacterLevelBasedPerk("NOARMOR",
                         "Unarmored I",
@@ -315,8 +318,8 @@ namespace TheIdleScrolls_Core.Resources
                 "HC:NOARMOR",
                 "Not Today",
                 "Complete the Beacon without ever raising an armor ability or losing a fight",
-                ExpressionParser.Parse("NOARMOR"),
-                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
+                ExpressionParser.ParseToFunction("NOARMOR"),
+                ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
                 {
                     Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR",
                         "Unarmored II",
@@ -329,8 +332,8 @@ namespace TheIdleScrolls_Core.Resources
                 "HC:NOARMOR_50",
                 "Kensai",
                 "Reach level 50 without ever raising an armor ability or losing a fight",
-                ExpressionParser.Parse("HC:NOARMOR"),
-                ExpressionParser.Parse("Level >= 50 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
+                ExpressionParser.ParseToFunction("HC:NOARMOR"),
+                ExpressionParser.ParseToFunction("Level >= 50 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
                 {
                     Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
                         "Unarmored III",
@@ -345,8 +348,8 @@ namespace TheIdleScrolls_Core.Resources
                 "NOWEAPON",
                 "Boxer",
                 $"Reach level {noWeaponLevel} without ever raising a weapon ability",
-                new NumericNode(1.0),
-                ExpressionParser.Parse($"Level >= {noWeaponLevel} && abl:AXE <= 10 && abl:BLN <= 10 " +
+                tautology,
+                ExpressionParser.ParseToFunction($"Level >= {noWeaponLevel} && abl:AXE <= 10 && abl:BLN <= 10 " +
                     $"&& abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
                 {
                     Perk = PerkFactory.MakeStaticPerk("NOWEAPON",
@@ -360,8 +363,8 @@ namespace TheIdleScrolls_Core.Resources
                 "HC:NOWEAPON",
                 "I Am The Greatest!",
                 $"Complete the {Properties.Places.Dungeon_RatDen} without ever raising a weapon ability or losing a fight",
-                ExpressionParser.Parse("NOWEAPON"),
-                ExpressionParser.Parse($"dng:{Definitions.DungeonIds.DenOfRats} > 0 && abl:AXE <= 10 " +
+                ExpressionParser.ParseToFunction("NOWEAPON"),
+                ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.DenOfRats} > 0 && abl:AXE <= 10 " +
                     $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10 && Losses == 0"))
                 {
                     Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
@@ -375,8 +378,8 @@ namespace TheIdleScrolls_Core.Resources
                 "HC:NOWEAPON_50",
                 "Path of the Monk",
                 "Reach level 50 without ever raising a weapon ability or losing a fight",
-                ExpressionParser.Parse("HC:NOWEAPON"),
-                ExpressionParser.Parse("Level >= 50 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 " +
+                ExpressionParser.ParseToFunction("HC:NOWEAPON"),
+                ExpressionParser.ParseToFunction("Level >= 50 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 " +
                     "&& abl:POL <= 10 && abl:SBL <= 10 && Losses == 0"))
                 {
                     Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON_50",
@@ -391,8 +394,8 @@ namespace TheIdleScrolls_Core.Resources
                 "HC:NOARMOR+NOWEAPON",
                 "The Paths Converge",
                 "Defeat a level 75 enemy in the wilderness without raising any ability or losing a fight",
-                ExpressionParser.Parse("HC:NOWEAPON_50"),
-                ExpressionParser.Parse("Wilderness >= 75 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 " +
+                ExpressionParser.ParseToFunction("HC:NOWEAPON_50"),
+                ExpressionParser.ParseToFunction("Wilderness >= 75 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 " +
                     "&& abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
                 {
                     Perk = PerkFactory.MakeCharacterLevelBasedMultiModPerk("HC:NOARMOR+NOWEAPON",

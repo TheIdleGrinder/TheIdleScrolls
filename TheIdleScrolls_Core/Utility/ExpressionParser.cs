@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Utility
 {
@@ -57,6 +59,12 @@ namespace TheIdleScrolls_Core.Utility
                 // Interpret string as a variable description
                 return new VariableNode(conditionString.Trim());
             }
+        }
+
+        public static Func<Entity, World, bool> ParseToFunction(string conditionString)
+        {
+            var node = Parse(conditionString);
+            return (e, w) => node.Evaluate(e, w) >= 1.0;
         }
 
         private static ComparisonNode.Comparator ParseComparator(string comparatorString)
