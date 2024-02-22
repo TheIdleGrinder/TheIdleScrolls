@@ -68,6 +68,19 @@ namespace TheIdleScrolls_Core.Modifiers
                                                      double valuePerLevel, 
                                                      IEnumerable<string> tags)
         {
+            return MakeAbilityLevelBasedMultiModPerk(id, name, description, 
+                new() { ability }, new() { modType }, new() { valuePerLevel }, new() { tags }
+            );
+        }
+
+        public static Perk MakeAbilityLevelBasedMultiModPerk(string id,
+                                                             string name,
+                                                             string description,
+                                                             List<string> abilities,
+                                                             List<ModifierType> modTypes,
+                                                             List<double> valuesPerLevel,
+                                                             List<IEnumerable<string>> tags)
+        {
             return new(
                 id,
                 name,
@@ -75,9 +88,14 @@ namespace TheIdleScrolls_Core.Modifiers
                 new() { UpdateTrigger.AbilityIncreased },
                 delegate (Entity entity, World world, Coordinator coordinator)
                 {
-                    int level = entity.GetComponent<AbilitiesComponent>()?.GetAbility(ability)?.Level ?? 0;
-                    double bonus = level * valuePerLevel;
-                    return new() { new(id, modType, bonus, tags.Append(ability).ToHashSet()) };
+                    List<Modifier> mods = new();
+                    for (int i = 0; i < modTypes.Count; i++)
+                    {
+                        int level = entity.GetComponent<AbilitiesComponent>()?.GetAbility(abilities[i])?.Level ?? 0;
+                        double bonus = Math.Pow(1.0 + valuesPerLevel[i], level) - 1.0;
+                        mods.Add(new($"{id}_{i}", modTypes[i], bonus, tags[i].Append(abilities[i]).ToHashSet()));
+                    }
+                    return mods;
                 }
             );
         }

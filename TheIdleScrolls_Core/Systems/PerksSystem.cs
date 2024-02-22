@@ -115,18 +115,43 @@ namespace TheIdleScrolls_Core.Systems
 
         static void AddBasicPerks(PerksComponent perksComponent)
         {
-            // Create perks for weapon abilities
+            // Create perk for weapon abilities
+            List<string> abilities = new();
+            List<ModifierType> modifiers = new();
+            List<double> values = new();
+            List<IEnumerable<string>> tags = new();
             foreach (string ability in Definitions.Abilities.Weapons)
             {
-                perksComponent.AddPerk(PerkFactory.MakeOffensiveAbilityBasedPerk(ability, ability,
-                    Definitions.Stats.AttackDamagePerAbilityLevel, Definitions.Stats.AttackSpeedPerAbilityLevel));
+                abilities.Add(ability);
+                abilities.Add(ability);
+                modifiers.Add(ModifierType.More);
+                modifiers.Add(ModifierType.More);
+                values.Add(Definitions.Stats.AttackDamagePerAbilityLevel);
+                values.Add(Definitions.Stats.AttackSpeedPerAbilityLevel);
+                tags.Add(new List<string>() { Definitions.Tags.Damage });
+                tags.Add(new List<string>() { Definitions.Tags.AttackSpeed });
             }
+            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("wpn", "Abilities: Weapons",
+                    "Increases damage and attack speed of weapon abilities",
+                    abilities, modifiers,
+                    values,
+                    tags
+                ));
+
             // Create perks for armor abilities
-            foreach (string ability in Definitions.Abilities.Armors)
+            /*foreach (string ability in Definitions.Abilities.Armors)
             {
                 perksComponent.AddPerk(PerkFactory.MakeDefensiveAbilityBasedPerk(ability, ability,
                     Definitions.Stats.DefensePerAbilityLevel));
-            }
+            }*/
+            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("amr", "Abilities: Armor",
+                "Increases armor and evasion rating of armor abilities",
+                Definitions.Abilities.Armors.ToList(), 
+                new() { ModifierType.More, ModifierType.More },
+                new() { Definitions.Stats.DefensePerAbilityLevel, Definitions.Stats.DefensePerAbilityLevel },
+                new() { new List<string>() { Definitions.Tags.Defense }, new List<string>() { Definitions.Tags.Defense } }));
+
+
             // Create perk for dual wielding
             Perk dualWield = new("dw", "Dual Wielding", 
                 $"{Definitions.Stats.DualWieldAttackSpeedMulti:0.#%} more attack speed while dual wielding",
@@ -140,7 +165,7 @@ namespace TheIdleScrolls_Core.Systems
                     };
                 }
             );
-            perksComponent.AddPerk(dualWield);
+            
             // Create perk for damage per level
             Perk damagePerLevel = new("dpl", "Damage per Level",
                 $"{Definitions.Stats.AttackBonusPerLevel:0.#%} increased damage per level",
@@ -155,7 +180,9 @@ namespace TheIdleScrolls_Core.Systems
                     };
                 }
             );
+
             perksComponent.AddPerk(damagePerLevel);
+            perksComponent.AddPerk(dualWield);
         }
     }
 

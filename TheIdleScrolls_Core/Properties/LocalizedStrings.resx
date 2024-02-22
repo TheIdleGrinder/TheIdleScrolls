@@ -123,6 +123,9 @@
   <data name="ArmorRating" xml:space="preserve">
     <value>Armor Rating</value>
   </data>
+  <data name="AttackSpeed" xml:space="preserve">
+    <value>Attack Speed</value>
+  </data>
   <data name="AXE" xml:space="preserve">
     <value>Axe</value>
   </data>

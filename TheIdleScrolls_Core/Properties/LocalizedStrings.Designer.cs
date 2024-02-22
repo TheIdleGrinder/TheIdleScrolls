@@ -79,6 +79,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Attack Speed ähnelt.
+        /// </summary>
+        internal static string AttackSpeed {
+            get {
+                return ResourceManager.GetString("AttackSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Axe ähnelt.
         /// </summary>
         internal static string AXE {
