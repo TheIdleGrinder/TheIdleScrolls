@@ -131,25 +131,23 @@ namespace TheIdleScrolls_Core.Systems
                 tags.Add(new List<string>() { Definitions.Tags.Damage });
                 tags.Add(new List<string>() { Definitions.Tags.AttackSpeed });
             }
-            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("wpn", "Abilities: Weapons",
-                    "Increases damage and attack speed of weapon abilities",
-                    abilities, modifiers,
-                    values,
-                    tags
-                ));
+            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("WeaponAbilities", "Abilities: Weapons",
+                "Increases damage and attack speed of weapon abilities",
+                abilities, modifiers,
+                values,
+                tags,
+                true)
+            );
 
-            // Create perks for armor abilities
-            /*foreach (string ability in Definitions.Abilities.Armors)
-            {
-                perksComponent.AddPerk(PerkFactory.MakeDefensiveAbilityBasedPerk(ability, ability,
-                    Definitions.Stats.DefensePerAbilityLevel));
-            }*/
-            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("amr", "Abilities: Armor",
+            // Create perk for armor abilities
+            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("ArmorAbilities", "Abilities: Armor",
                 "Increases armor and evasion rating of armor abilities",
                 Definitions.Abilities.Armors.ToList(), 
                 new() { ModifierType.More, ModifierType.More },
                 new() { Definitions.Stats.DefensePerAbilityLevel, Definitions.Stats.DefensePerAbilityLevel },
-                new() { new List<string>() { Definitions.Tags.Defense }, new List<string>() { Definitions.Tags.Defense } }));
+                new() { new List<string>() { Definitions.Tags.Defense }, new List<string>() { Definitions.Tags.Defense } },
+                true)
+            );
 
 
             // Create perk for dual wielding

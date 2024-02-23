@@ -66,10 +66,11 @@ namespace TheIdleScrolls_Core.Modifiers
                                                      string ability,
                                                      ModifierType modType,
                                                      double valuePerLevel, 
-                                                     IEnumerable<string> tags)
+                                                     IEnumerable<string> tags,
+                                                     bool exponentialMore = false)
         {
             return MakeAbilityLevelBasedMultiModPerk(id, name, description, 
-                new() { ability }, new() { modType }, new() { valuePerLevel }, new() { tags }
+                new() { ability }, new() { modType }, new() { valuePerLevel }, new() { tags }, exponentialMore
             );
         }
 
@@ -79,7 +80,8 @@ namespace TheIdleScrolls_Core.Modifiers
                                                              List<string> abilities,
                                                              List<ModifierType> modTypes,
                                                              List<double> valuesPerLevel,
-                                                             List<IEnumerable<string>> tags)
+                                                             List<IEnumerable<string>> tags,
+                                                             bool exponentialMore = false)
         {
             return new(
                 id,
@@ -92,7 +94,9 @@ namespace TheIdleScrolls_Core.Modifiers
                     for (int i = 0; i < modTypes.Count; i++)
                     {
                         int level = entity.GetComponent<AbilitiesComponent>()?.GetAbility(abilities[i])?.Level ?? 0;
-                        double bonus = Math.Pow(1.0 + valuesPerLevel[i], level) - 1.0;
+                        double bonus = level * valuesPerLevel[i];
+                        if (modTypes[i] == ModifierType.More && exponentialMore)
+                            bonus = Math.Pow(1.0 + valuesPerLevel[i], level) - 1.0;
                         mods.Add(new($"{id}_{i}", modTypes[i], bonus, tags[i].Append(abilities[i]).ToHashSet()));
                     }
                     return mods;
@@ -105,10 +109,11 @@ namespace TheIdleScrolls_Core.Modifiers
                                                        string description,
                                                        ModifierType modType,
                                                        double valuePerLevel,
-                                                       IEnumerable<string> tags)
+                                                       IEnumerable<string> tags,
+                                                       bool exponentialMore = false)
         {
             return MakeCharacterLevelBasedMultiModPerk(id, name, description, 
-                new() { modType }, new() { valuePerLevel }, new() { tags }
+                new() { modType }, new() { valuePerLevel }, new() { tags }, exponentialMore
             );
         }
 
@@ -117,7 +122,8 @@ namespace TheIdleScrolls_Core.Modifiers
                                                        string description,
                                                        List<ModifierType> modTypes,
                                                        List<double> valuesPerLevel,
-                                                       List<IEnumerable<string>> tags)
+                                                       List<IEnumerable<string>> tags, 
+                                                       bool exponentialMore = false)
         {
             return new(
                 id,
@@ -131,6 +137,8 @@ namespace TheIdleScrolls_Core.Modifiers
                     for (int i = 0; i < modTypes.Count; i++)
                     {
                         double bonus = level * valuesPerLevel[i];
+                        if (modTypes[i] == ModifierType.More && exponentialMore)
+                            bonus = Math.Pow(1.0 + valuesPerLevel[i], level) - 1.0;
                         mods.Add(new($"{id}_{i}", modTypes[i], bonus, tags[i].ToHashSet()));
                     }
                     return mods;

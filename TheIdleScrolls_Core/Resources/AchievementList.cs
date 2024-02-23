@@ -343,7 +343,8 @@ namespace TheIdleScrolls_Core.Resources
                         new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored })
                 });
             int noWeaponLevel = 5;
-            double noWeaponBaseDamageBonus = 2.5;
+            double noWeaponBaseDamageBonus = 3.0;
+            double noWeaponLevelDamageBonus = 0.1;
             achievements.Add(new(
                 "NOWEAPON",
                 "Boxer",
@@ -360,35 +361,53 @@ namespace TheIdleScrolls_Core.Resources
                         new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed })
                 });
             achievements.Add(new(
-                "HC:NOWEAPON",
-                "I Am The Greatest!",
-                $"Complete the {Properties.Places.Dungeon_RatDen} without ever raising a weapon ability or losing a fight",
+                "NOWEAPON_DNG",
+                "Iron Fists",
+                $"Complete the {Properties.Places.Dungeon_RatDen} without ever raising a weapon ability",
                 ExpressionParser.ParseToFunction("NOWEAPON"),
                 ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.DenOfRats} > 0 && abl:AXE <= 10 " +
-                    $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10 && Losses == 0"))
+                    $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
                 {
                     Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
                         "Unarmed II",
-                        "Gain unarmed damage for each level",
+                        $"Gain +{noWeaponLevelDamageBonus:0.#} unarmed damage for each level",
                         ModifierType.AddBase,
-                        0.1,
+                        noWeaponLevelDamageBonus,
                         new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed })
                 });
+            achievements.Add(new(
+                "NOWEAPON_DNG2",
+                "I Am The Greatest!",
+                $"Complete the {Properties.Places.Dungeon_Lighthouse} without ever raising a weapon ability",
+                ExpressionParser.ParseToFunction("NOWEAPON_DNG"),
+                ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:AXE <= 10 " +
+                    $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
+            {
+                Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
+                        "Unarmed III",
+                        $"Gain {Definitions.Stats.AttackBonusPerLevel:0.#%} increased unarmed damage per character level",
+                        ModifierType.Increase,
+                        Definitions.Stats.AttackBonusPerLevel,
+                        new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed })
+            });
             achievements.Add(new(
                 "HC:NOWEAPON_50",
                 "Path of the Monk",
                 "Reach level 50 without ever raising a weapon ability or losing a fight",
-                ExpressionParser.ParseToFunction("HC:NOWEAPON"),
+                ExpressionParser.ParseToFunction("NOWEAPON_DNG2"),
                 ExpressionParser.ParseToFunction("Level >= 50 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 " +
                     "&& abl:POL <= 10 && abl:SBL <= 10 && Losses == 0"))
-                {
-                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON_50",
-                        "Unarmed III",
-                        "Gain unarmed damage for each level",
-                        ModifierType.AddBase,
-                        0.05,
-                        new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed })
-                });
+            {
+                Perk = PerkFactory.MakeCharacterLevelBasedMultiModPerk("HC:NOWEAPON_50",
+                        "Unarmed IV",
+                        "Character level scales unarmed damage like abilities scale weapon damage",
+                        new() { ModifierType.More, ModifierType.More },
+                        new() { Definitions.Stats.AttackDamagePerAbilityLevel, Definitions.Stats.AttackSpeedPerAbilityLevel },
+                        new() {
+                            new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed },
+                            new List<string>() { Definitions.Tags.AttackSpeed, Definitions.Tags.Unarmed }
+                        })
+            });
 
             achievements.Add(new(
                 "HC:NOARMOR+NOWEAPON",
