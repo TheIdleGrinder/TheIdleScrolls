@@ -45,9 +45,11 @@ namespace TheIdleScrolls_Core.Systems
             double armor = 0.0;
             double evasion = 0.0;
             double encumbrance = 0.0;
+            int armorCount = 0;
 
             double rawDamage = 2.0;
             double cooldown = 1.0;
+            int weaponCount = 0;
 
             var globalTags = player.GetTags();
             var modComp = player.GetComponent<ModifierComponent>();
@@ -56,8 +58,6 @@ namespace TheIdleScrolls_Core.Systems
             {
                 double combinedDmg = 0.0;
                 double combinedCD = 0.0;
-                int weaponCount = 0;
-                int armorCount = 0;
 
                 foreach (var item in equipComp.GetItems())
                 {
@@ -103,25 +103,26 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
 
-                if (armorCount == 0)
-                {
-                    var tags = globalTags.Append(Definitions.Tags.Defense);
-                    armor = modComp?.ApplyApplicableModifiers(armor, tags.Append(Definitions.Tags.ArmorRating)) ?? armor;
-                    evasion = modComp?.ApplyApplicableModifiers(evasion, tags.Append(Definitions.Tags.EvasionRating)) ?? evasion;
-                }
-
                 if (weaponCount > 0)
                 {
                     rawDamage = (combinedDmg / weaponCount);
                     cooldown = (combinedCD / weaponCount);
-                }
-                else
-                {
-                    rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, globalTags.Append(Definitions.Tags.Damage)) ?? rawDamage;
-                    // invert attack speed due to speed/cooldown mismatch
-                    cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown, 
-                        globalTags.Append(Definitions.Tags.AttackSpeed)) ?? cooldown; 
-                }
+                }                
+            }
+
+            if (weaponCount == 0)
+            {
+                rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, globalTags.Append(Definitions.Tags.Damage)) ?? rawDamage;
+                // invert attack speed due to speed/cooldown mismatch
+                cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
+                    globalTags.Append(Definitions.Tags.AttackSpeed)) ?? cooldown;
+            }
+
+            if (armorCount == 0)
+            {
+                var tags = globalTags.Append(Definitions.Tags.Defense);
+                armor = modComp?.ApplyApplicableModifiers(armor, tags.Append(Definitions.Tags.ArmorRating)) ?? armor;
+                evasion = modComp?.ApplyApplicableModifiers(evasion, tags.Append(Definitions.Tags.EvasionRating)) ?? evasion;
             }
 
             var attackComp = player.GetComponent<AttackComponent>();
@@ -140,11 +141,8 @@ namespace TheIdleScrolls_Core.Systems
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null)
             {
-                if (equipComp != null)
-                {
-                    defenseComp.Evasion = evasion; 
-                    defenseComp.Armor = armor;
-                }
+                defenseComp.Evasion = evasion; 
+                defenseComp.Armor = armor;
             }
             
             coordinator.PostMessage(this, new StatsUpdatedMessage());
@@ -183,6 +181,11 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     tags.Add(Definitions.Tags.MixedArmor);
                 }
+            }
+            else // No equipment => unarmed, unarmored
+            {
+                tags.Add(Definitions.Tags.Unarmed);
+                tags.Add(Definitions.Tags.Unarmored);
             }
 
             var comp = player.GetComponent<TagsComponent>();
