@@ -300,6 +300,8 @@ namespace TheIdleScrolls_Core.Resources
 
 
             // Unarmored/Unarmed achievements
+            double noArmorBaseEvasion1 = 0.5;
+            double noArmorBaseEvasion2 = 1.0;
             achievements.Add(new(
                 "NOARMOR",
                 "Wollt Ihr Ewig Leben?!",
@@ -308,10 +310,10 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10"))
                 {
                     Perk = PerkFactory.MakeCharacterLevelBasedPerk("NOARMOR",
-                        "Unarmored I",
-                        "Gain evasion rating for each level",
+                        "Elusive",
+                        $"Gain +{noArmorBaseEvasion1:0.#} evasion rating for each level",
                         ModifierType.AddBase,
-                        0.5,
+                        noArmorBaseEvasion1,
                         new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored })
                 });
             achievements.Add(new(
@@ -322,29 +324,32 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
                 {
                     Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR",
-                        "Unarmored II",
-                        "Gain evasion rating for each level",
+                        "Ethereal Form",
+                        $"Gain +{noArmorBaseEvasion2:0.#} evasion rating for each level",
                         ModifierType.AddBase,
-                        0.5,
+                        noArmorBaseEvasion2,
                         new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored })
                 });
             achievements.Add(new(
                 "HC:NOARMOR_50",
-                "Kensai",
+                "Armored in Faith",
                 "Reach level 50 without ever raising an armor ability or losing a fight",
                 ExpressionParser.ParseToFunction("HC:NOARMOR"),
                 ExpressionParser.ParseToFunction("Level >= 50 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
                 {
-                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
-                        "Unarmored III",
-                        "Gain evasion rating for each level",
-                        ModifierType.AddBase,
-                        0.5,
-                        new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored })
-                });
+                Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
+                        "Armored in Faith",
+                        "Character level scales unarmored evasion rating like abilities scale regular armors",
+                        ModifierType.More,
+                        Definitions.Stats.DefensePerAbilityLevel,
+                        new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored },
+                        true)
+            });
+
             int noWeaponLevel = 5;
             double noWeaponBaseDamageBonus = 3.0;
             double noWeaponLevelDamageBonus = 0.1;
+            double noWeaponMaxLevel = 40;
             achievements.Add(new(
                 "NOWEAPON",
                 "Boxer",
@@ -354,7 +359,7 @@ namespace TheIdleScrolls_Core.Resources
                     $"&& abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
                 {
                     Perk = PerkFactory.MakeStaticPerk("NOWEAPON",
-                        "Unarmed I",
+                        "Boxer",
                         $"Increased base damage with unarmed attacks",
                         ModifierType.AddBase,
                         noWeaponBaseDamageBonus,
@@ -362,14 +367,14 @@ namespace TheIdleScrolls_Core.Resources
                 });
             achievements.Add(new(
                 "NOWEAPON_DNG",
-                "Iron Fists",
+                "Prize Fighter",
                 $"Complete the {Properties.Places.Dungeon_RatDen} without ever raising a weapon ability",
                 ExpressionParser.ParseToFunction("NOWEAPON"),
                 ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.DenOfRats} > 0 && abl:AXE <= 10 " +
                     $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
                 {
                     Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
-                        "Unarmed II",
+                        "Iron Fists",
                         $"Gain +{noWeaponLevelDamageBonus:0.#} unarmed damage for each level",
                         ModifierType.AddBase,
                         noWeaponLevelDamageBonus,
@@ -384,47 +389,48 @@ namespace TheIdleScrolls_Core.Resources
                     $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
             {
                 Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
-                        "Unarmed III",
+                        "Force of Spirit",
                         $"Gain {Definitions.Stats.AttackBonusPerLevel:0.#%} increased unarmed damage per character level",
                         ModifierType.Increase,
                         Definitions.Stats.AttackBonusPerLevel,
                         new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed })
             });
             achievements.Add(new(
-                "HC:NOWEAPON_50",
+                $"HC:NOWEAPON_{noWeaponMaxLevel}",
                 "Path of the Monk",
-                "Reach level 50 without ever raising a weapon ability or losing a fight",
+                $"Reach level {noWeaponMaxLevel} without ever raising a weapon ability or losing a fight",
                 ExpressionParser.ParseToFunction("NOWEAPON_DNG2"),
-                ExpressionParser.ParseToFunction("Level >= 50 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 " +
+                ExpressionParser.ParseToFunction($"Level >= {noWeaponMaxLevel} && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 " +
                     "&& abl:POL <= 10 && abl:SBL <= 10 && Losses == 0"))
             {
-                Perk = PerkFactory.MakeCharacterLevelBasedMultiModPerk("HC:NOWEAPON_50",
-                        "Unarmed IV",
+                Perk = PerkFactory.MakeCharacterLevelBasedMultiModPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
+                        "The Blade Within",
                         "Character level scales unarmed damage like abilities scale weapon damage",
                         new() { ModifierType.More, ModifierType.More },
                         new() { Definitions.Stats.AttackDamagePerAbilityLevel, Definitions.Stats.AttackSpeedPerAbilityLevel },
                         new() {
                             new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed },
                             new List<string>() { Definitions.Tags.AttackSpeed, Definitions.Tags.Unarmed }
-                        })
+                        },
+                        true)
             });
 
             achievements.Add(new(
                 "HC:NOARMOR+NOWEAPON",
-                "The Paths Converge",
+                "One with Nothing",
                 "Defeat a level 75 enemy in the wilderness without raising any ability or losing a fight",
-                ExpressionParser.ParseToFunction("HC:NOWEAPON_50"),
+                ExpressionParser.ParseToFunction($"HC:NOWEAPON_{noWeaponMaxLevel}"),
                 ExpressionParser.ParseToFunction("Wilderness >= 75 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 " +
                     "&& abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
                 {
-                    Perk = PerkFactory.MakeCharacterLevelBasedMultiModPerk("HC:NOARMOR+NOWEAPON",
-                        "Convergent Paths",
-                        "Gain unarmed damage and unarmored evasion rating for each level",
-                        new() { ModifierType.AddBase, ModifierType.AddBase },
-                        new() { 0.05, 0.5 },
+                    Perk = PerkFactory.MakeStaticMultiModPerk("HC:NOARMOR+NOWEAPON",
+                        "Luminous Being",
+                        "Gain a significant bonus to damage and defense while unarmed and unarmored",
+                        new() { ModifierType.More, ModifierType.More },
+                        new() { 0.5, 0.5 },
                         new() { 
-                            new string[] { Definitions.Tags.Damage, Definitions.Tags.Unarmed },
-                            new string[] { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored }
+                            new string[] { Definitions.Tags.Damage, Definitions.Tags.Unarmed, Definitions.Tags.Unarmored },
+                            new string[] { Definitions.Tags.Defense, Definitions.Tags.Unarmed, Definitions.Tags.Unarmored }
                         })
                 });
 

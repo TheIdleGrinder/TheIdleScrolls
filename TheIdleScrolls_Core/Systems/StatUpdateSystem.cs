@@ -105,8 +105,9 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (armorCount == 0)
                 {
-                    armor = modComp?.ApplyApplicableModifiers(armor, globalTags.Append(Definitions.Tags.ArmorRating)) ?? armor;
-                    evasion = modComp?.ApplyApplicableModifiers(evasion, globalTags.Append(Definitions.Tags.EvasionRating)) ?? evasion;
+                    var tags = globalTags.Append(Definitions.Tags.Defense);
+                    armor = modComp?.ApplyApplicableModifiers(armor, tags.Append(Definitions.Tags.ArmorRating)) ?? armor;
+                    evasion = modComp?.ApplyApplicableModifiers(evasion, tags.Append(Definitions.Tags.EvasionRating)) ?? evasion;
                 }
 
                 if (weaponCount > 0)

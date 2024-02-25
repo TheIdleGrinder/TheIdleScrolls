@@ -164,5 +164,29 @@ namespace TheIdleScrolls_Core.Modifiers
                 }
             );
         }
+
+        public static Perk MakeStaticMultiModPerk(string id,
+                                                  string name,
+                                                  string description,
+                                                  List<ModifierType> modTypes,
+                                                  List<double> values,
+                                                  List<IEnumerable<string>> tags)
+        {
+            return new(
+                id,
+                name,
+                description,
+                new(),
+                delegate (Entity entity, World world, Coordinator coordinator)
+                {
+                    List<Modifier> mods = new();
+                    for (int i = 0; i < modTypes.Count; i++)
+                    {
+                        mods.Add(new($"{id}_{i}", modTypes[i], values[i], tags[i].ToHashSet()));
+                    }
+                    return mods;
+                }
+            );
+        }
     }
 }
