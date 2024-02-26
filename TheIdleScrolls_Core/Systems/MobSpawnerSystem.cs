@@ -13,8 +13,8 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class MobSpawnerSystem : AbstractSystem
     {
-        MobFactory m_factory = new();
         List<MobDescription> m_descriptions = new();
+        int m_skipFrames = 1;
 
         public void SetMobList(List<MobDescription> mobs)
         {
@@ -23,6 +23,13 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
+            // Skip 
+            if (m_skipFrames > 0)
+            {
+                m_skipFrames--;
+                return;
+            }
+
             // Despawn all mobs if the character moved to a new area
             // CornerCut: technically, only mobs that were involved in a fight with the travelling player should be removed
             if (coordinator.MessageTypeIsOnBoard<AreaChangedMessage>())
@@ -36,9 +43,8 @@ namespace TheIdleScrolls_Core.Systems
                 if (locationComp == null)
                     continue;
                 
-                var zone = locationComp.GetCurrentZone(world.Map);
-                if (zone == null)
-                    throw new Exception($"Player {player.GetName()} is not in a valid zone");
+                var zone = locationComp.GetCurrentZone(world.Map) 
+                    ?? throw new Exception($"Player {player.GetName()} is not in a valid zone");
 
                 // Check if a new mob needs to be spawned
                 // TODO: Give mobs LocationComponent and actually check if a mob is at the players location
