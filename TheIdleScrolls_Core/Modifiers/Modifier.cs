@@ -72,7 +72,7 @@ namespace TheIdleScrolls_Core.Modifiers
             List<string> withTags = modifier.RequiredTags.Except(specialTags).Except(whileTags).ToList();
 
             double absValue = Math.Abs(modifier.Value);
-            string valueString = (modifier.Type, modifier.Value > 0) switch
+            string valueString = (modifier.Type, modifier.Value >= 0) switch
             {
                 (ModifierType.AddBase, true) => $"+{absValue:0.##}",
                 (ModifierType.AddBase, false) => $"-{absValue:0.##}",

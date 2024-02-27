@@ -471,7 +471,24 @@ namespace TheIdleScrolls_Core.Resources
         {
             return (id, level) switch
             {
-                ("LAR", 50) => new("LAR50", "Elegant Parry", $"Gain {10} additional evasion while using a shield",
+                ("SBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Sneak Attack",
+                                $"Deal double damage with short blades on your first attack every battle",
+                                ModifierType.More,
+                                1.0,
+                                new string[] { Definitions.Tags.Damage, Properties.Constants.Key_Ability_ShortBlade, Definitions.Tags.FirstStrike }),
+                ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 50)
+                            => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Adept",
+                                $"Gain a {0.1:0.#%} damage multiplier with {id.Localize()} weapons",
+                                ModifierType.More,
+                                0.1,
+                                new List<string>() { Definitions.Tags.Damage, id }),
+                ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 100) 
+                            => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master", 
+                                $"Gain a {0.1:0.#%} damage multiplier", 
+                                ModifierType.More,
+                                0.1,
+                                new List<string>() { Definitions.Tags.Damage }),
+                ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Gain {10} additional evasion while using a shield",
                                 new() { UpdateTrigger.EquipmentChanged },
                                 (e, w, c) =>
                                 {
@@ -482,6 +499,19 @@ namespace TheIdleScrolls_Core.Resources
                                                 Definitions.Tags.EvasionRating, 
                                                 Properties.Constants.Key_Ability_LightArmor }
                                         ) 
+                                    };
+                                }),
+                ("HAR", 50) => new($"{id}{level}", "Bulwark", $"Double defenses from equipped shield",
+                                new() { UpdateTrigger.EquipmentChanged },
+                                (e, w, c) =>
+                                {
+                                    double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
+                                        ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
+                                    return new() { new("ShieldArmor", ModifierType.AddBase, shieldArmor,
+                                        new() { Definitions.Tags.Shield,
+                                                Definitions.Tags.Defense,
+                                                Properties.Constants.Key_Ability_HeavyArmor }
+                                        )
                                     };
                                 }),
                 _ => null
