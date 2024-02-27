@@ -330,7 +330,7 @@
           "Armor": {
             "BaseArmor": 18.0,
             "BaseEvasion": 0.0
-          }
+          } 
         },
         {
           "DropLevel": 26,

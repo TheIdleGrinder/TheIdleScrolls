@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Modifiers;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -92,10 +93,9 @@ namespace TheIdleScrolls_Core.Systems
 
                         if (modComp != null)
                         {
-                            localArmor = modComp.ApplyApplicableModifiers(localArmor, 
-                                localTags.Append(Definitions.Tags.Defense).Append(Definitions.Tags.ArmorRating));
-                            localEvasion = modComp.ApplyApplicableModifiers(localEvasion, 
-                                localTags.Append(Definitions.Tags.Defense).Append(Definitions.Tags.EvasionRating));
+                            var tags = localTags.Append(Definitions.Tags.Defense);
+                            localArmor = modComp.ApplyApplicableModifiers(localArmor, tags.Append(Definitions.Tags.ArmorRating));
+                            localEvasion = modComp.ApplyApplicableModifiers(localEvasion, tags.Append(Definitions.Tags.EvasionRating));
                         }
 
                         armor += localArmor;

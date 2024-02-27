@@ -7,6 +7,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
+using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Utility;
@@ -166,27 +167,50 @@ namespace TheIdleScrolls_Core.Resources
                 ( 75, "Expert"),
                 (100, "Master")
             };
-            for (int i = 0; i < ranks.Length; i++)
+            foreach (string weapFamily in Definitions.Abilities.Weapons)
             {
-                int level = ranks[i].Level;
-                achievements.Add(new(
-                    $"WEAP{level}",
-                    $"Weapon {ranks[i].Rank}",
-                    $"Reach ability level {level} for any weapon type",
-                    (i > 0) ? ExpressionParser.ParseToFunction($"WEAP{ranks[i - 1].Level}") : tautology,
-                    ExpressionParser.ParseToFunction($"abl:AXE >= {level} || abl:BLN >= {level} || abl:LBL >= {level} " +
-                        $"|| abl:POL >= {level} || abl:SBL >= {level}")));
+                for (int i = 0; i < ranks.Length; i++)
+                {
+                    int level = ranks[i].Level;
+                    Achievement achievement = new(
+                        $"{weapFamily}{level}",
+                        $"{weapFamily.Localize()} {ranks[i].Rank}",
+                        $"Reach ability level {level} for {weapFamily.Localize()} weapons",
+                        (i > 0) ? ExpressionParser.ParseToFunction($"{weapFamily}{ranks[i - 1].Level}") : tautology,
+                        ExpressionParser.ParseToFunction($"abl:{weapFamily} >= {level}"));
+                    achievements.Add(achievement);
+                }
             }
-            for (int i = 0; i < ranks.Length; i++)
+            foreach (string armorFamily in Definitions.Abilities.Armors)
             {
-                int level = ranks[i].Level;
-                achievements.Add(new(
-                $"ARMOR{level}",
-                $"Armor {ranks[i].Rank}",
-                $"Reach ability level {level} for any armor type",
-                (i > 0) ? ExpressionParser.ParseToFunction($"ARMOR{ranks[i - 1].Level}") : tautology,
-                ExpressionParser.ParseToFunction($"abl:LAR >= {level} || abl:HAR >= {level}")));
+                for (int i = 0; i < ranks.Length; i++)
+                {
+                    int level = ranks[i].Level;
+                    Achievement achievement = new(
+                        $"{armorFamily}{level}",
+                        $"{armorFamily.Localize()} {ranks[i].Rank}",
+                        $"Reach ability level {level} for {armorFamily.Localize()}",
+                        (i > 0) ? ExpressionParser.ParseToFunction($"{armorFamily}{ranks[i - 1].Level}") : tautology,
+                        ExpressionParser.ParseToFunction($"abl:{armorFamily} >= {level}"));
+                    achievements.Add(achievement);
+                }
             }
+
+            //if (i == 1)
+            //{
+            //    double percentage = 10.0;
+            //    achievement.Perk = new("ShieldEvasion", 
+            //        "Elegant Parry", 
+            //        $"Gain {percentage} additional evasion while using a shield", 
+            //        new() { UpdateTrigger.EquipmentChanged },
+            //        (e, w, c) => 
+            //        { 
+            //            double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
+            //                ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
+            //            return new() { new("ShieldEvasion", ModifierType.AddFlat, percentage, 
+            //                new() { Definitions.Tags.Shield, Definitions.Tags.EvasionRating }) };
+            //        });
+            //}
 
             // 'of all trades' achievements
             (int Level, string Rank)[] oAllRanks = new (int, string)[]
