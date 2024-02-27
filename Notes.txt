@@ -1,0 +1,7 @@
+Verteilung der Defense auf Armor Slots:
+
+Head:	
+Chest:	
+Arms:	
+Legs:	
+Shield:	
