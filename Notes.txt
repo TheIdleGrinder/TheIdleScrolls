@@ -1,7 +1,63 @@
-Verteilung der Defense auf Armor Slots:
+# Verteilung der Defense auf Armor Slots:
 
-Head:	
-Chest:	
-Arms:	
-Legs:	
-Shield:	
+Head:	20
+Chest:	30
+Arms:	15
+Legs:	15
+Shield:	20
+Total:	100
+
+
+# Achievement Perks
+
+LVL25 : 
+LVL50 : 
+LVL75 : 
+LVL100: 
+
+WLD20 : 
+WLD50 : 
+WLD75 : 
+WLD100: 
+WLD150: 
+
+KLL50 : 
+KLL200: 
+KLL500: 
+KLL1k : 
+KLL5k : 
+
+LAR25 :	
+LAR50 : Evasion mit Schild
+LAR75 : 
+LAR100: 10% more globale Defense
+
+HAR25 : 
+HAR50 : Mehr Armor vom Schild
+HAR75 : weniger Encumbrance?
+HAR100: 10% more globale Defense
+
+AXE25 : 
+AXE50 : 
+AXE75 : 
+AXE100: 10% more globaler Schaden
+
+BLN25 : 
+BLN50 : 
+BLN75 : 
+BLN100: 10% more globaler Schaden
+
+LBL25 : 
+LBL50 : 
+LBL75 : 
+LBL100: 10% more globaler Schaden
+
+POL25 : 
+POL50 : 
+POL75 : 
+POL100: 10% more globaler Schaden
+
+SBL25 : 
+SBL50 : 
+SBL75 : 
+SBL100: 10% more globaler Schaden

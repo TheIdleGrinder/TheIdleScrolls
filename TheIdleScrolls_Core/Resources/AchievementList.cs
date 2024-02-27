@@ -47,6 +47,7 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     achievement.Prerequisite = ExpressionParser.ParseToFunction($"LVL{levels[i - 1]}");
                 }
+                achievement.Perk = GetPerkForLeveledAchievement("LVL", level);
                 achievements.Add(achievement);
             }
 
@@ -75,6 +76,7 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     achievement.Prerequisite = ExpressionParser.ParseToFunction($"WILD{wildernessLevels[i - 1].Level}");
                 }
+                achievement.Perk = GetPerkForLeveledAchievement("WILD", level);
                 achievements.Add(achievement);
             }
 
@@ -102,6 +104,7 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     achievement.Prerequisite = ExpressionParser.ParseToFunction($"KILL{killCounts[i - 1].Count}");
                 }
+                achievement.Perk = GetPerkForLeveledAchievement("KILL", count);
                 achievements.Add(achievement);
             }
 
@@ -177,7 +180,10 @@ namespace TheIdleScrolls_Core.Resources
                         $"{weapFamily.Localize()} {ranks[i].Rank}",
                         $"Reach ability level {level} for {weapFamily.Localize()} weapons",
                         (i > 0) ? ExpressionParser.ParseToFunction($"{weapFamily}{ranks[i - 1].Level}") : tautology,
-                        ExpressionParser.ParseToFunction($"abl:{weapFamily} >= {level}"));
+                        ExpressionParser.ParseToFunction($"abl:{weapFamily} >= {level}"))
+                    {
+                        Perk = GetPerkForLeveledAchievement(weapFamily, level)
+                    };
                     achievements.Add(achievement);
                 }
             }
@@ -191,26 +197,13 @@ namespace TheIdleScrolls_Core.Resources
                         $"{armorFamily.Localize()} {ranks[i].Rank}",
                         $"Reach ability level {level} for {armorFamily.Localize()}",
                         (i > 0) ? ExpressionParser.ParseToFunction($"{armorFamily}{ranks[i - 1].Level}") : tautology,
-                        ExpressionParser.ParseToFunction($"abl:{armorFamily} >= {level}"));
+                        ExpressionParser.ParseToFunction($"abl:{armorFamily} >= {level}"))
+                    {
+                        Perk = GetPerkForLeveledAchievement(armorFamily, level)
+                    };
                     achievements.Add(achievement);
                 }
             }
-
-            //if (i == 1)
-            //{
-            //    double percentage = 10.0;
-            //    achievement.Perk = new("ShieldEvasion", 
-            //        "Elegant Parry", 
-            //        $"Gain {percentage} additional evasion while using a shield", 
-            //        new() { UpdateTrigger.EquipmentChanged },
-            //        (e, w, c) => 
-            //        { 
-            //            double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
-            //                ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
-            //            return new() { new("ShieldEvasion", ModifierType.AddFlat, percentage, 
-            //                new() { Definitions.Tags.Shield, Definitions.Tags.EvasionRating }) };
-            //        });
-            //}
 
             // 'of all trades' achievements
             (int Level, string Rank)[] oAllRanks = new (int, string)[]
@@ -223,13 +216,17 @@ namespace TheIdleScrolls_Core.Resources
             for (int i = 0; i < oAllRanks.Length; i++)
             {
                 int level = oAllRanks[i].Level;
-                achievements.Add(new(
+                Achievement achievement = new(
                 $"{oAllRanks[i].Rank[..1]}oALL",
                 $"{oAllRanks[i].Rank} of All Trades",
                 $"Reach ability level {level} for all weapon and armor types with a single character",
                 (i > 0) ? ExpressionParser.ParseToFunction($"{oAllRanks[i - 1].Rank[..1]}oALL") : tautology,
                 ExpressionParser.ParseToFunction($"abl:AXE >= {level} && abl:BLN >= {level} && abl:LBL >= {level} " +
-                    $"&& abl:POL >= {level} && abl:SBL >= {level} && abl:LAR >= {level} && abl:HAR >= {level}")));
+                    $"&& abl:POL >= {level} && abl:SBL >= {level} && abl:LAR >= {level} && abl:HAR >= {level}"))
+                {
+                    Perk = GetPerkForLeveledAchievement("oALL", level)
+                };
+                achievements.Add(achievement);
             }
 
             // Crafting achievements
@@ -277,12 +274,16 @@ namespace TheIdleScrolls_Core.Resources
             for (int i = 0; i < ranks.Length; i++)
             {
                 int coins = ranks[i].Level;
-                achievements.Add(new(
+                Achievement achievement = new(
                     $"TotalCoins{i}",
                     $"{ranks[i].Rank}",
                     $"Collect a total of {coins} coins with a single character",
                     (i > 0) ? ExpressionParser.ParseToFunction($"TotalCoins{i - 1}") : tautology,
-                    ExpressionParser.ParseToFunction($"TotalCoins >= {coins}")));
+                    ExpressionParser.ParseToFunction($"TotalCoins >= {coins}"))
+                {
+                    Perk = GetPerkForLeveledAchievement("TotalCoins", coins)
+                };
+                achievements.Add(achievement);
             }
             ranks = new (int, string)[]
             {
@@ -294,12 +295,16 @@ namespace TheIdleScrolls_Core.Resources
             for (int i = 0; i < ranks.Length; i++)
             {
                 int coins = ranks[i].Level;
-                achievements.Add(new(
+                Achievement achievement = new(
                     $"MaxCoins{i}",
                     $"{ranks[i].Rank}",
                     $"Stockpile {coins} coins",
                     (i > 0) ? ExpressionParser.ParseToFunction($"MaxCoins{i - 1}") : tautology,
-                    ExpressionParser.ParseToFunction($"MaxCoins >= {coins}")));
+                    ExpressionParser.ParseToFunction($"MaxCoins >= {coins}"))
+                {
+                    Perk = GetPerkForLeveledAchievement("MaxCoins", coins)
+                };
+                achievements.Add(achievement);
             }
 
             // Miscellaneous achievements
@@ -460,6 +465,27 @@ namespace TheIdleScrolls_Core.Resources
 
 
             return achievements;
+        }
+
+        public static Perk? GetPerkForLeveledAchievement(string id, int level)
+        {
+            return (id, level) switch
+            {
+                ("LAR", 50) => new("LAR50", "Elegant Parry", $"Gain {10} additional evasion while using a shield",
+                                new() { UpdateTrigger.EquipmentChanged },
+                                (e, w, c) =>
+                                {
+                                    double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
+                                        ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
+                                    return new() { new("ShieldEvasion", ModifierType.AddFlat, 10.0, 
+                                        new() { Definitions.Tags.Shield, 
+                                                Definitions.Tags.EvasionRating, 
+                                                Properties.Constants.Key_Ability_LightArmor }
+                                        ) 
+                                    };
+                                }),
+                _ => null
+            };
         }
     }
 }
