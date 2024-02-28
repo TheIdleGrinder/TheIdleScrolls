@@ -471,6 +471,11 @@ namespace TheIdleScrolls_Core.Resources
         {
             return (id, level) switch
             {
+                ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
+                                $"First attack with {id.Localize()} weapons are twice as fast",
+                                ModifierType.More,
+                                1.0,
+                                new string[] { Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_Polearm, Definitions.Tags.FirstStrike }),
                 ("SBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Sneak Attack",
                                 $"Deal double damage with short blades on your first attack every battle",
                                 ModifierType.More,

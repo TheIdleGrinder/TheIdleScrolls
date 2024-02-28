@@ -28,6 +28,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         var target = coordinator.GetEntities<MobComponent>().FirstOrDefault();
                         attackComp.Target = target?.Id ?? 0;
+                        attackComp.ResetAttacks();
 
                         string attackerName = entity.GetComponent<NameComponent>()?.Name ?? $"Entity #{entity.Id}";
                         string targetName = target?.GetComponent<NameComponent>()?.Name ?? $"entity #{target?.Id ?? 0}" ?? "nothing";

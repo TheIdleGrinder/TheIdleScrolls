@@ -30,7 +30,9 @@ namespace TheIdleScrolls_Core.Systems
                 || coordinator.MessageTypeIsOnBoard<ItemMovedMessage>()
                 || coordinator.MessageTypeIsOnBoard<AbilityImprovedMessage>()
                 || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>()
-                || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>();
+                || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
+                || coordinator.MessageTypeIsOnBoard<TextMessage>() // CornerCut: This is a hack to force an update at the start of a battle
+                || coordinator.MessageTypeIsOnBoard<DamageDoneMessage>();
 
             if (!doUpdate)
                 return;
@@ -186,6 +188,11 @@ namespace TheIdleScrolls_Core.Systems
             {
                 tags.Add(Definitions.Tags.Unarmed);
                 tags.Add(Definitions.Tags.Unarmored);
+            }
+
+            if (player.GetComponent<AttackComponent>()?.FirstStrike ?? false) 
+            {
+                tags.Add(Definitions.Tags.FirstStrike);
             }
 
             var comp = player.GetComponent<TagsComponent>();

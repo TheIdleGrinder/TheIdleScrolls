@@ -44,6 +44,7 @@ namespace TheIdleScrolls_Core.Systems
                     var message = ApplyAttack(entity, target);
                     if (message != null)
                         coordinator.PostMessage(this, message);
+                    attackComp.PerformAttack(); // Track attack count in current battle
                 }
 
                 LifePoolComponent? hpComp = target.GetComponent<LifePoolComponent>();
