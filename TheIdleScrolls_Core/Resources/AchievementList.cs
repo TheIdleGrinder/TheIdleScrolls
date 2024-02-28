@@ -506,13 +506,13 @@ namespace TheIdleScrolls_Core.Resources
                                         ) 
                                     };
                                 }),
-                ("HAR", 50) => new($"{id}{level}", "Bulwark", $"Double defenses from equipped shield",
+                ("HAR", 50) => new($"{id}{level}", "Bulwark", $"{0.5:0.#%} multiplier to defenses from equipped heavy shield",
                                 new() { UpdateTrigger.EquipmentChanged },
                                 (e, w, c) =>
                                 {
                                     double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
-                                    return new() { new("ShieldArmor", ModifierType.AddBase, shieldArmor,
+                                    return new() { new("ShieldArmor", ModifierType.More, 0.5,
                                         new() { Definitions.Tags.Shield,
                                                 Definitions.Tags.Defense,
                                                 Properties.Constants.Key_Ability_HeavyArmor }
