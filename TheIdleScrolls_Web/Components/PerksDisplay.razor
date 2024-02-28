@@ -50,5 +50,9 @@
 </style>
 
 @code {
-
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
 }
