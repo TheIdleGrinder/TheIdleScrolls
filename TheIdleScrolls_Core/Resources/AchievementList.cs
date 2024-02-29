@@ -471,6 +471,29 @@ namespace TheIdleScrolls_Core.Resources
         {
             return (id, level) switch
             {
+                ("AXE", 25) => new($"{id}{level}", "Frenzy", $"Gain {0.05:0.#%} more attack speed with axes after every attack (up to {0.5:0.#%})",
+                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                (e, w, c) =>
+                                {
+                                    int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
+                                    return new() { new($"{id}{level}", ModifierType.More, Math.Max(attacks * 0.05, 0.5),
+                                        new() { Definitions.Tags.AttackSpeed,
+                                                Properties.Constants.Key_Ability_Axe }
+                                        )
+                                    };
+                                }),
+                ("BLN", 25) => new($"{id}{level}", "Armor Breaker", 
+                                $"Gain {0.05:0.#%} more damage with blunt weapons after every attack (up to {0.5:0.#%})",
+                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                (e, w, c) =>
+                                {
+                                    int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
+                                    return new() { new($"{id}{level}", ModifierType.More, Math.Max(attacks * 0.05, 0.5),
+                                        new() { Definitions.Tags.Damage,
+                                                Properties.Constants.Key_Ability_Blunt }
+                                        )
+                                    };
+                                }),
                 ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
                                 $"First attack with {id.Localize()} weapons are twice as fast",
                                 ModifierType.More,
@@ -486,13 +509,13 @@ namespace TheIdleScrolls_Core.Resources
                                 $"Gain a {0.1:0.#%} damage multiplier with {id.Localize()} weapons",
                                 ModifierType.More,
                                 0.1,
-                                new List<string>() { Definitions.Tags.Damage, id }),
+                                new string[] { Definitions.Tags.Damage, id }),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 100) 
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master", 
                                 $"Gain a {0.1:0.#%} damage multiplier", 
                                 ModifierType.More,
                                 0.1,
-                                new List<string>() { Definitions.Tags.Damage }),
+                                new string[] { Definitions.Tags.Damage }),
                 ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Gain {10} additional evasion while using a shield",
                                 new() { UpdateTrigger.EquipmentChanged },
                                 (e, w, c) =>

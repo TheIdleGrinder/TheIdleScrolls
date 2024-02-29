@@ -23,7 +23,7 @@ WLD150:
 
 KLL50 : 
 KLL200: 
-KLL500: 
+KLL500: 50% increased Damage
 KLL1k : 
 KLL5k : 
 
@@ -37,27 +37,27 @@ HAR50 : Mehr Armor vom Schild
 HAR75 : weniger Encumbrance?
 HAR100: 10% more globale Defense
 
-AXE25 : 
-AXE50 : 
+AXE25 : 5% more Attack Speed mit Äxten pro Angriff
+AXE50 : 10% more Schaden mit Äxten
 AXE75 : 
 AXE100: 10% more globaler Schaden
 
-BLN25 : 
-BLN50 : 
+BLN25 : 5% more Schaden mit stumpfen Waffen pro Angriff
+BLN50 : 10% more Schaden mit stumpfen Waffen
 BLN75 : 
 BLN100: 10% more globaler Schaden
 
-LBL25 : 
-LBL50 : 
+LBL25 : 100% more Attack Speed mit erstem Angriff
+LBL50 : 10% more Schaden mit langen Klingen
 LBL75 : 
 LBL100: 10% more globaler Schaden
 
-POL25 : 
-POL50 : 
+POL25 : 100% more Defense während erstem Angriff
+POL50 : 10% more Schaden mit Stangenwaffen
 POL75 : 
 POL100: 10% more globaler Schaden
 
-SBL25 : 
-SBL50 : 
+SBL25 : 100% more Schaden mit erstem Angriff
+SBL50 : 10% more Schaden mit kurzen Klingen
 SBL75 : 
 SBL100: 10% more globaler Schaden
