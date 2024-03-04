@@ -471,39 +471,113 @@ namespace TheIdleScrolls_Core.Resources
         {
             return (id, level) switch
             {
-                ("AXE", 25) => new($"{id}{level}", "Frenzy", $"Gain {0.05:0.#%} more attack speed with axes after every attack (up to {0.5:0.#%})",
+                ("AXE", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Furious Swings", 
+                                $"{0.2:0.#} extra attacks per second with {id.Localize()}s",
+                                ModifierType.AddFlat,
+                                0.2,
+                                new string[] { Definitions.Tags.AttackSpeed,
+                                               Properties.Constants.Key_Ability_Axe}),
+                ("BLN", 25) => new($"{id}{level}", "Stunning Blow", 
+                                $"Gain {20} base armor while using {id.Localize()} after first strike",
+                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                (e, w, c) =>
+                                {
+                                    bool firstStrike = (e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0) == 0;
+                                    bool usingBlunt = e.GetComponent<EquipmentComponent>()?.GetItems()
+                                        ?.Any(i => i.GetComponent<ItemComponent>()!.Code.FamilyId == Properties.Constants.Key_Ability_Blunt) ?? false;
+                                    return new() { new($"{id}{level}", ModifierType.AddBase, 
+                                        (!firstStrike && usingBlunt) ? 20 : 0,
+                                        new() { Definitions.Tags.ArmorRating }
+                                        )
+                                    };
+                                }),
+                ("LBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Quick Slash",
+                                $"{1.0:0.#%} more attack speed with first attack with {id.Localize()}s",
+                                ModifierType.More,
+                                1.0,
+                                new string[] { Definitions.Tags.AttackSpeed, 
+                                               Properties.Constants.Key_Ability_LongBlade, 
+                                               Definitions.Tags.FirstStrike }),
+                ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
+                                $"Double defense during the first attack with {id.Localize()}s",
+                                ModifierType.More,
+                                1.0,
+                                new string[] { Definitions.Tags.Defense, 
+                                               Properties.Constants.Key_Ability_Polearm, 
+                                               Definitions.Tags.FirstStrike }),
+                ("SBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Sneak Attack",
+                                $"Deal double damage with short blades on your first attack every battle",
+                                ModifierType.More,
+                                1.0,
+                                new string[] { Definitions.Tags.Damage, 
+                                               Properties.Constants.Key_Ability_ShortBlade, 
+                                               Definitions.Tags.FirstStrike }),
+                ("AXE", 75) => new($"{id}{level}", "Frenzy", 
+                                $"Gain {0.05:0.#%} more attack speed with {id.Localize()}s after every attack (up to {0.5:0.#%})",
                                 new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
                                 (e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
-                                    return new() { new($"{id}{level}", ModifierType.More, Math.Max(attacks * 0.05, 0.5),
+                                    return new() { new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
                                         new() { Definitions.Tags.AttackSpeed,
                                                 Properties.Constants.Key_Ability_Axe }
                                         )
                                     };
                                 }),
-                ("BLN", 25) => new($"{id}{level}", "Armor Breaker", 
-                                $"Gain {0.05:0.#%} more damage with blunt weapons after every attack (up to {0.5:0.#%})",
+                ("BLN", 75) => new($"{id}{level}", "Armor Breaker",
+                                $"Gain {0.05:0.#%} more damage with {id.Localize()} after every attack (up to {0.5:0.#%})",
                                 new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
                                 (e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
-                                    return new() { new($"{id}{level}", ModifierType.More, Math.Max(attacks * 0.05, 0.5),
+                                    return new() { new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
                                         new() { Definitions.Tags.Damage,
                                                 Properties.Constants.Key_Ability_Blunt }
                                         )
                                     };
                                 }),
-                ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
-                                $"First attack with {id.Localize()} weapons are twice as fast",
-                                ModifierType.More,
-                                1.0,
-                                new string[] { Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_Polearm, Definitions.Tags.FirstStrike }),
-                ("SBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Sneak Attack",
-                                $"Deal double damage with short blades on your first attack every battle",
-                                ModifierType.More,
-                                1.0,
-                                new string[] { Definitions.Tags.Damage, Properties.Constants.Key_Ability_ShortBlade, Definitions.Tags.FirstStrike }),
+                ("LBL", 75) => new($"{id}{level}", "Fluent Technique",
+                                $"Gain {0.25:0.#%} more damage or attack speed with {id.Localize()}s (changes after each attack)",
+                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                (e, w, c) =>
+                                {
+                                    int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
+                                    bool damage = (attacks % 2) == 0;
+                                    return new() { new($"{id}{level}_dmg", ModifierType.More, damage ? 0.25 : 0.0,
+                                            new() { Definitions.Tags.Damage,
+                                                Properties.Constants.Key_Ability_LongBlade }
+                                        ),
+                                        new($"{id}{level}_spd", ModifierType.More, damage ? 0.0 : 0.25,
+                                            new() { Definitions.Tags.AttackSpeed,
+                                                Properties.Constants.Key_Ability_LongBlade }
+                                        )
+                                    };
+                                }),
+                ("POL", 75) => new($"{id}{level}", "Skewer",
+                                $"Gain {0.05:0.#%} more damage with {id.Localize()}s after every attack (up to {0.5:0.#%})",
+                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                (e, w, c) =>
+                                {
+                                    int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
+                                    return new() { new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
+                                        new() { Definitions.Tags.Damage,
+                                            Properties.Constants.Key_Ability_Blunt }
+                                        )
+                                    };
+                                }),
+                ("SBL", 75) => new($"{id}{level}", "Critical Strikes",
+                                $"Deal {1.0:0.#%} more damage with {id.Localize()}s every third attack",
+                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                (e, w, c) =>
+                                {
+                                    int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
+                                    bool bonus = (attacks % 3) == 2; 
+                                    return new() { new($"{id}{level}", ModifierType.More, bonus ? 1.0 : 0.0,
+                                        new() { Definitions.Tags.Damage,
+                                            Properties.Constants.Key_Ability_ShortBlade }
+                                        )
+                                    };
+                                }),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 50)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Adept",
                                 $"Gain a {0.1:0.#%} damage multiplier with {id.Localize()} weapons",

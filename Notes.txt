@@ -37,14 +37,14 @@ HAR50 : Mehr Armor vom Schild
 HAR75 : weniger Encumbrance?
 HAR100: 10% more globale Defense
 
-AXE25 : 5% more Attack Speed mit Äxten pro Angriff
+AXE25 : +0.2 Angriffe/Sekunde
 AXE50 : 10% more Schaden mit Äxten
-AXE75 : 
+AXE75 : 5% more Attack Speed mit Äxten pro Angriff
 AXE100: 10% more globaler Schaden
 
-BLN25 : 5% more Schaden mit stumpfen Waffen pro Angriff
+BLN25 : +20 Armor nach erstem Angriff
 BLN50 : 10% more Schaden mit stumpfen Waffen
-BLN75 : 
+BLN75 : 5% more Schaden mit stumpfen Waffen pro Angriff
 BLN100: 10% more globaler Schaden
 
 LBL25 : 100% more Attack Speed mit erstem Angriff
@@ -61,3 +61,9 @@ SBL25 : 100% more Schaden mit erstem Angriff
 SBL50 : 10% more Schaden mit kurzen Klingen
 SBL75 : 
 SBL100: 10% more globaler Schaden
+
+Ideen:
+Combo: x% more damage mit jedem xten Angriff
+Pendel: Alterniert zwischen Bonus für Schaden und Speed
+??:	Base Damage pro Angriff
+Shield Bash: Armor-Wert des Schilds als Schadensbonus für jeden xten angriff
