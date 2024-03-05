@@ -471,6 +471,11 @@ namespace TheIdleScrolls_Core.Resources
         {
             return (id, level) switch
             {
+                ("KILL", 500) => PerkFactory.MakeStaticPerk($"{id}{level}", "",
+                                $"Gain {0.5:0.#%} increased damage",
+                                ModifierType.Increase,
+                                0.5,
+                                new string[] { Definitions.Tags.Damage }),
                 ("AXE", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Furious Swings", 
                                 $"{0.2:0.#} extra attacks per second with {id.Localize()}s",
                                 ModifierType.AddFlat,
@@ -616,6 +621,24 @@ namespace TheIdleScrolls_Core.Resources
                                         )
                                     };
                                 }),
+                ("LAR" or "HAR", 25)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Apprentice",
+                                    $"Gain a {0.1:0.#%} defense multiplier with {id.Localize()}",
+                                    ModifierType.More,
+                                    0.1,
+                                    new string[] { Definitions.Tags.Defense, id }),
+                ("LAR" or "HAR", 75)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", $"Comfortable in {id.Localize()}",
+                                    $"Gain a {0.1:0.#%} attack speed multiplier while wearing {id.Localize()}",
+                                    ModifierType.More,
+                                    0.1,
+                                    new string[] { Definitions.Tags.Defense, id }),
+                ("LAR" or "HAR", 100)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
+                                    $"Gain a {0.1:0.#%} defense multiplier",
+                                    ModifierType.More,
+                                    0.1,
+                                    new string[] { Definitions.Tags.Defense }),
                 _ => null
             };
         }
