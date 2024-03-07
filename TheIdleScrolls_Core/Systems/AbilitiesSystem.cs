@@ -18,7 +18,7 @@ namespace TheIdleScrolls_Core.Systems
         List<string> m_weaponFamilies = new();
         List<string> m_armorFamilies = new();
 
-        Dictionary<string, double> m_timePerItemClass = new();
+        readonly Dictionary<string, double> m_timePerItemClass = new();
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -37,9 +37,10 @@ namespace TheIdleScrolls_Core.Systems
                 bool levelIncrease = false;
                 foreach (var reforgeMsg in coordinator.FetchMessagesByType<ItemReforgedMessage>().Where(m => m.Owner == m_player))
                 {
-                    double multiplier = BaseXpMultiplier * world.XpMultiplier * Math.Pow(RarityXpMultiplier, reforgeMsg.RarityResult);
-                    int xp = (int)Math.Round(multiplier * reforgeMsg.CoinsPaid);
-                    AbilitiesComponent.AddXPResult result = abilitiesComp.AddXP(Properties.Constants.Key_Ability_Crafting, xp);
+                    // Base value is 1 XP per coin paid
+                    double xp = ApplyModifiers(Properties.Constants.Key_Ability_Crafting, reforgeMsg.CoinsPaid);
+                    xp *= BaseXpMultiplier * world.XpMultiplier * Math.Pow(RarityXpMultiplier, reforgeMsg.RarityResult);
+                    AbilitiesComponent.AddXPResult result = abilitiesComp.AddXP(Properties.Constants.Key_Ability_Crafting, (int)xp);
                     if (result == AbilitiesComponent.AddXPResult.LevelIncreased)
                         levelIncrease = true;
                 }
@@ -52,7 +53,6 @@ namespace TheIdleScrolls_Core.Systems
             {
                 if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<ItemMovedMessage>())
                 {
-                    ItemFactory itemFactory = new();
                     var equipmentComp = m_player.GetComponent<EquipmentComponent>();
                     if (equipmentComp == null)
                         return; // CornerCut: Assumes that all abilities are tied to items
@@ -72,7 +72,7 @@ namespace TheIdleScrolls_Core.Systems
                 AddXP(m_weaponFamilies, gain, coordinator);
                 AddXP(m_armorFamilies, gain, coordinator);
 
-                m_firstUpdate = false; // First update is only relevant for the fighting abilities
+                m_firstUpdate = false; // First update is not relevant for crafting etc., only for the fighting abilities
             }
         }
 
@@ -89,7 +89,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     m_timePerItemClass[item] = 0.0;
                 }
-                m_timePerItemClass[item] += share;
+                m_timePerItemClass[item] += ApplyModifiers(item, share);
 
                 if (m_timePerItemClass[item] > 1.0) // A full XP has been reached
                 {
@@ -106,6 +106,10 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
         }
+
+        double ApplyModifiers(string ability, double baseValue)
+            => m_player?.GetComponent<ModifierComponent>()
+                ?.ApplyApplicableModifiers(baseValue, new string[] { Definitions.Tags.AbilityXpGain, ability }) ?? baseValue;
     }
 
     public class AbilityImprovedMessage : IMessage

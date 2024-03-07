@@ -168,7 +168,8 @@ namespace TheIdleScrolls_Core.Resources
                 ( 25, "Apprentice"),
                 ( 50, "Adept"),
                 ( 75, "Expert"),
-                (100, "Master")
+                (100, "Master"),
+                (150, "Grandmaster")
             };
             foreach (string weapFamily in Definitions.Abilities.Weapons)
             {
@@ -238,7 +239,10 @@ namespace TheIdleScrolls_Core.Resources
                     $"{ranks[i].Rank} Blacksmith",
                     $"Train Crafting ability to level {level}",
                     (i > 0) ? ExpressionParser.ParseToFunction($"CRAFTING{ranks[i - 1].Level}") : tautology,
-                    ExpressionParser.ParseToFunction($"abl:ABL_CRAFT >= {level}")));
+                    ExpressionParser.ParseToFunction($"abl:ABL_CRAFT >= {level}"))
+                {
+                    Perk = GetPerkForLeveledAchievement("ABL_CRAFT", level)
+                });
             }
             string[] craftNames = { "Transmuted", "Augmented", "Regal", "Exalted", "Divine" };
             for (int i = 0; i < craftNames.Length; i++)
@@ -639,6 +643,12 @@ namespace TheIdleScrolls_Core.Resources
                                     ModifierType.More,
                                     0.1,
                                     new string[] { Definitions.Tags.Defense }),
+                ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "LAR" or "HAR" or "ABL_CRAFT", 150)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Savant",
+                                    $"{0.3:0.#%} increased experience gain for {id.Localize()} ability",
+                                    ModifierType.Increase,
+                                    0.3,
+                                    new string[] { Definitions.Tags.AbilityXpGain, id }),
                 _ => null
             };
         }

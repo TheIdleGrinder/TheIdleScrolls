@@ -54,14 +54,16 @@ namespace TheIdleScrolls_Core.Modifiers
 
         public static string ToPrettyString(this Modifier modifier, bool showId = false)
         {
-            List<string> specialTags = new() {
+            List<string> targetTags = new() {
                 Definitions.Tags.Damage,
                 Definitions.Tags.AttackSpeed,
                 Definitions.Tags.Defense,
                 Definitions.Tags.ArmorRating,
-                Definitions.Tags.EvasionRating
+                Definitions.Tags.EvasionRating,
+                Definitions.Tags.CharacterXpGain,
+                Definitions.Tags.AbilityXpGain,
             };
-            specialTags = specialTags.Where(t => modifier.RequiredTags.Contains(t)).ToList();
+            targetTags = targetTags.Where(t => modifier.RequiredTags.Contains(t)).ToList();
             List<string> whileTags = new()
             {
                 Definitions.Tags.Unarmed,
@@ -69,7 +71,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 Definitions.Tags.DualWield,
             };
             whileTags = whileTags.Where(t => modifier.RequiredTags.Contains(t)).ToList();
-            List<string> withTags = modifier.RequiredTags.Except(specialTags).Except(whileTags).ToList();
+            List<string> withTags = modifier.RequiredTags.Except(targetTags).Except(whileTags).ToList();
 
             double absValue = Math.Abs(modifier.Value);
             string valueString = (modifier.Type, modifier.Value >= 0) switch
@@ -85,7 +87,7 @@ namespace TheIdleScrolls_Core.Modifiers
             };
             
             string idString = showId ? $"[{modifier.Id}] " : "";
-            string target = String.Join(", ", specialTags.Select(s => s.Localize()));
+            string target = String.Join(", ", targetTags.Select(s => s.Localize()));
             if (target == String.Empty)
                 target = "???";
 

@@ -61,6 +61,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die experience gain ähnelt.
+        /// </summary>
+        internal static string AbilityXpGain {
+            get {
+                return ResourceManager.GetString("AbilityXpGain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Crafting ähnelt.
         /// </summary>
         internal static string ABL_CRAFT {
@@ -372,6 +381,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string BOSS_VOIDPRIEST {
             get {
                 return ResourceManager.GetString("BOSS_VOIDPRIEST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die experience gain ähnelt.
+        /// </summary>
+        internal static string CharacterXpGain {
+            get {
+                return ResourceManager.GetString("CharacterXpGain", resourceCulture);
             }
         }
         

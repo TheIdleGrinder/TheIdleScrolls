@@ -32,7 +32,7 @@ namespace TheIdleScrolls_Core.Utility
                     if (conditionString.Contains(op))
                     {
                         var fields = conditionString.Split(op).Select(s => s.Trim()).ToList();
-                        if (fields.Count() != 2)
+                        if (fields.Count != 2)
                         {
                             throw new ArgumentException($"Invalid condition expression: {conditionString}");
                         }
