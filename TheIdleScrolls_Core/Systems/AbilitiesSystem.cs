@@ -89,7 +89,8 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     m_timePerItemClass[item] = 0.0;
                 }
-                m_timePerItemClass[item] += ApplyModifiers(item, share);
+                double scaledShare = ApplyModifiers(item, share);
+                m_timePerItemClass[item] += scaledShare;
 
                 if (m_timePerItemClass[item] > 1.0) // A full XP has been reached
                 {

@@ -31,7 +31,7 @@ namespace TheIdleScrolls_Core.Resources
             var achievements = new List<Achievement>();
 
             // Level achievements
-            int[] levels = { 10, 20, 30, 40, 50, 75, 100 };
+            int[] levels = { 10, 20, 30, 40, 50, 75, 100, 150 };
             for (int i = 0; i < levels.Length; i++)
             {
                 int level = levels[i];
@@ -475,7 +475,12 @@ namespace TheIdleScrolls_Core.Resources
         {
             return (id, level) switch
             {
-                ("KILL", 500) => PerkFactory.MakeStaticPerk($"{id}{level}", "",
+                ("LVL", 150) => PerkFactory.MakeStaticPerk($"{id}{level}", "Experienced",
+                                $"Gain {0.3:0.#%} increased experience",
+                                ModifierType.Increase,
+                                0.3,
+                                new string[] { Definitions.Tags.CharacterXpGain }),
+                ("KILL", 1000) => PerkFactory.MakeStaticPerk($"{id}{level}", "Battle Tested",
                                 $"Gain {0.5:0.#%} increased damage",
                                 ModifierType.Increase,
                                 0.5,

@@ -27,7 +27,11 @@ namespace TheIdleScrolls_Core.Systems
                         int targetLevel = killer.GetComponent<LevelComponent>()?.Level ?? sourceLevel;
                         double overlevelMalus = Math.Pow(0.975, Math.Max(0, targetLevel - sourceLevel));
 
-                        int xp = victim.GetComponent<XpGiverComponent>()?.Amount ?? 0;
+                        int baseXp = victim.GetComponent<XpGiverComponent>()?.Amount ?? 0;
+                        // Apply applicable modifiers
+                        int xp = (int)(killer.GetComponent<ModifierComponent>()
+                            ?.ApplyApplicableModifiers(baseXp, new string[] { Definitions.Tags.CharacterXpGain }) 
+                            ?? baseXp);
                         xp = (int)Math.Round(xp * world.XpMultiplier * overlevelMalus);
                         killer.GetComponent<XpGainerComponent>()?.AddXp(xp);
                         coordinator.PostMessage(this, new XpGainMessage(killer, xp));
