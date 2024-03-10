@@ -145,20 +145,20 @@ namespace TheIdleScrolls_Core.Systems
                 globalProgress.Data.TutorialProgress.Add(TutorialStep.Evasion);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Evasion, "Travelling Light",
-                    $"You have proven your prowess in unarmored combat. Fighting with no armor now grants 0.5 " +
-                    $"points to you evasion rating per level for each owned achievement from the 'unarmored' line. " +
-                    $"\n  - Evasion increases the length of time limits by 1% per point."));
+                    $"You have proven your prowess in unarmored combat. While fighting without armor, you will now be able to " +
+                    $"use your evasiness to gain additional time to defeat your enemies." +
+                    $"\n  - Evasion increases the length of the time limit during combat."));
             }
-            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
-                && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey) 
-                    && a.Status == Achievements.AchievementStatus.Awarded) > 0))
-            {
-                globalProgress.Data.TutorialProgress.Add(TutorialStep.Unarmed);
-                coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Unarmed, "Iron Fists",
-                    $"You have proven your prowess in unarmed combat. Fighting without a weapon now grants 0.05 " +
-                    $"base damage per level for each owned achievement from the 'unarmed' line."));
-            }
+            //if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
+            //    && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey) 
+            //        && a.Status == Achievements.AchievementStatus.Awarded) > 0))
+            //{
+            //    globalProgress.Data.TutorialProgress.Add(TutorialStep.Unarmed);
+            //    coordinator.PostMessage(this,
+            //        new TutorialMessage(TutorialStep.Unarmed, "Iron Fists",
+            //        $"You have proven your prowess in unarmed combat. Fighting without a weapon now grants 0.05 " +
+            //        $"base damage per level for each owned achievement from the 'unarmed' line."));
+            //}
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.FlatCircle)
                 && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey)
                     && a.Id.Contains(UnarmoredKey)

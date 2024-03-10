@@ -604,13 +604,13 @@ namespace TheIdleScrolls_Core.Resources
                                 ModifierType.More,
                                 0.1,
                                 new string[] { Definitions.Tags.Damage }),
-                ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Light shields also grant evasion rating equal to {.5:0.#%} of their armor",
+                ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Light shields also grant evasion rating equal to {.25:0.#%} of their armor",
                                 new() { UpdateTrigger.EquipmentChanged },
                                 (e, w, c) =>
                                 {
                                     double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
-                                    return new() { new("ShieldEvasion", ModifierType.AddBase, 0.5 * shieldArmor, 
+                                    return new() { new("ShieldEvasion", ModifierType.AddBase, 0.25 * shieldArmor, 
                                         new() { Definitions.Tags.Shield, 
                                                 Definitions.Tags.EvasionRating, 
                                                 Properties.Constants.Key_Ability_LightArmor }
