@@ -40,6 +40,7 @@ namespace TheIdleScrolls_Core
             mob.AddComponent(new LevelComponent { Level = level });
             mob.AddComponent(new LifePoolComponent(CalculateHP(description, level)));
             mob.AddComponent(new XpGiverComponent { Amount = CalculateXpValue(description, level) });
+            mob.AddComponent(new AccuracyComponent(Functions.CalculateMobAccuracy(level)));
 
             double damage = CalculateDamage(description, level);
             if (damage > 0.0)

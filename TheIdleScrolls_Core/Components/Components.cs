@@ -230,6 +230,16 @@ namespace TheIdleScrolls_Core.Components
         }
     }
 
+    public class AccuracyComponent : IComponent
+    {
+        public double Accuracy { get; set; }
+
+        public AccuracyComponent(double accuracy)
+        {
+            Accuracy = accuracy;
+        }
+    }
+
     public class TravellerComponent : IComponent
     {
         public bool Active = true;

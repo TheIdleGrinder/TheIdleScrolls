@@ -32,6 +32,8 @@ namespace TheIdleScrolls_Core.Systems
 
             var attackValues = coordinator.GetEntities<MobDamageComponent>()
                 .Select(m => m.GetComponent<MobDamageComponent>()?.Multiplier ?? 1.0);
+            var accuracyValues = coordinator.GetEntities<AccuracyComponent>()
+                .Select(a => a.GetComponent<AccuracyComponent>()?.Accuracy ?? 1.0);
             var locationComp = m_player.GetComponent<LocationComponent>() ?? new();
             ZoneDescription? zone = locationComp.GetCurrentZone(world.Map);
 
@@ -63,10 +65,17 @@ namespace TheIdleScrolls_Core.Systems
             if (defComp != null && (newTimeLimit || (Math.Abs(defComp.Evasion - m_evasionUsed) > m_evasionUsed * 0.5)))
             {
                 double evasion = defComp.Evasion;
-                double evasionBonus = CalculateEvasionBonusMultiplier(evasion); // Evasion increases amount of time
+                double evasionPierce = 1.0;
+                if (accuracyValues.Any())
+                {
+                    evasionPierce = Math.Max(accuracyValues.Average(), 1.0);
+                }
+                double evasionBonus = CalculateEvasionBonusMultiplier(evasion / evasionPierce); // Evasion increases amount of time
+                Console.WriteLine($"Evasion: {evasion}, Evasion pierce: {evasionPierce}, bonus: {evasionBonus}");
                 if (!newTimeLimit)
                 {
-                    double previousBonus = CalculateEvasionBonusMultiplier(m_evasionUsed);
+                    // Evasion pierce should be the same, because this path is only taken for updates during combat
+                    double previousBonus = CalculateEvasionBonusMultiplier(m_evasionUsed / evasionPierce);
                     evasionBonus /= previousBonus; // Can't be 0
                 }
                 double newDuration = world.TimeLimit.Duration * evasionBonus;
@@ -78,11 +87,13 @@ namespace TheIdleScrolls_Core.Systems
             {
                 if (attackValues.Any())
                 {
-                    double armor = defComp?.Armor ?? 0.0;
-                    double armorBonus = CalculateArmorBonusMultiplier(armor);
+                    var damage = attackValues.Average();
+                    var armorPierce = Math.Max(attackValues.Average(), 1.0); // For now, mobs have the same armor pierce as damage
 
-                    var multi = attackValues.Average();
-                    world.TimeLimit.Update(multi * dt / armorBonus); // armor 'slows time'
+                    double armor = defComp?.Armor ?? 0.0;
+                    double armorBonus = CalculateArmorBonusMultiplier(armor / armorPierce);
+
+                    world.TimeLimit.Update(damage * dt / armorBonus); // armor 'slows time'
 
                     if (world.TimeLimit.HasFinished) // Player lost the fight
                     {

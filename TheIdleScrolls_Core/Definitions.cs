@@ -113,8 +113,16 @@ namespace TheIdleScrolls_Core
         public static double CalculateMobDamage(int mobLevel, double multiplier = 1.0)
         {
             return multiplier
-                * (1.0 + CalculateAbilityDefenseBonus(mobLevel)) // Scale parallel-ish to players armor ability
-                * Math.Pow(Math.Pow(1.45, 1.0 / 20), Math.Min(mobLevel, Definitions.Stats.ScalingSwitchLevel) );
+                * Math.Sqrt(
+                    (1.0 + CalculateAbilityDefenseBonus(mobLevel)) // Scale parallel-ish to players armor ability
+                    * Math.Pow(Math.Pow(1.45, 1.0 / 20), Math.Min(mobLevel, Definitions.Stats.ScalingSwitchLevel))
+                );
+        }
+
+        public static double CalculateMobAccuracy(int mobLevel)
+        {
+            // First implementation: Accuracy rating is identical to default damage
+            return CalculateMobDamage(mobLevel, 1.0);
         }
     }
 }
