@@ -43,14 +43,14 @@ namespace TheIdleScrolls_Core.Systems
 
             var achievementComp = coordinator.GetEntities<AchievementsComponent>().FirstOrDefault()?.GetComponent<AchievementsComponent>();
 
-            var addTutorialProgress = (TutorialStep step, string title, string text, QuestProgressMessage questMessage) =>
+            void addTutorialProgress(TutorialStep step, string title, string text, QuestProgressMessage questMessage)
             {
                 if (!globalProgress.Data.TutorialProgress.Contains(step))
                 {
                     coordinator.PostMessage(this, new TutorialMessage(step, title, text, questMessage));
                     globalProgress.Data.TutorialProgress.Add(step);
                 }
-            };
+            }
 
             foreach (var message in coordinator.FetchMessagesByType<QuestProgressMessage>())
             {
