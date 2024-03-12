@@ -58,9 +58,11 @@ namespace Test_TheIdleScrolls_Core
         {
             Assert.That(kingdom, Is.Not.Null);
             List<Achievement> achievements = new();
-            Assert.DoesNotThrow(() => kingdom.Achievements.ForEach(a => achievements.Add(new Achievement(a))));
-            Assert.That(achievements, Is.Not.Empty);
-
+            Assert.Multiple(() =>
+            {
+                Assert.DoesNotThrow(() => kingdom.Achievements.ForEach(a => achievements.Add(new Achievement(a))));
+                Assert.That(achievements, Is.Not.Empty);
+            });
             Entity player = PlayerFactory.MakeNewPlayer("Test");
             World world = new();
             Assert.DoesNotThrow(() => achievements.ForEach(a => a.Condition(player, world)));
