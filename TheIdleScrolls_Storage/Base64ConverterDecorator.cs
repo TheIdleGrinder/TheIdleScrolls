@@ -35,7 +35,14 @@ namespace TheIdleScrolls_Storage
 
         public bool DeserializeEntity(string serialized, out Entity entity)
         {
-            throw new NotImplementedException();
+            var result = DeserializeEntity(serialized);
+            if (result == null)
+            {
+                entity = new Entity();
+                return false;
+            }
+            entity = result;
+            return true;
         }
 
         public string SerializeEntity(Entity entity)

@@ -15,8 +15,7 @@ namespace TheIdleScrolls_Core.DataAccess
     {
         public Entity? DeserializeEntity(string serialized)
         {
-            Entity result = new();
-            var success = DeserializeEntity(serialized, out result);
+            var success = DeserializeEntity(serialized, out Entity result);
             return success ? result : null;
         }
 

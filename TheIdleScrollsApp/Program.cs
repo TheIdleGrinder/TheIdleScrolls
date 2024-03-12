@@ -23,7 +23,7 @@ namespace TheIdleScrollsApp
             ApplicationConfiguration.Initialize();
 
             //IEntityConverter converter = new BasicPlayerEntityConverter();
-            IEntityConverter converter = new EntityJsonConverter(new ItemFactory());
+            IEntityConverter converter = new EntityJsonConverter();
 
             var dataHandler = new DataAccessHandler(converter, new BasicFileStorageHandler());
             

@@ -195,7 +195,9 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public void Reset()
         {
             StopGameLoop();
-            dataHandler = new DataAccessHandler(new EntityJsonConverter(new ItemFactory()), new LocalBrowserStorageHandler(jSRuntime));
+            dataHandler = new DataAccessHandler(
+                new EntityJsonConverter(), 
+                new LocalBrowserStorageHandler(jSRuntime));
             gameRunner = new GameRunner(dataHandler);
             gameRunner.SetAppInterface(this);
             ConnectEvents();
@@ -246,11 +248,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
         public ItemRepresentation? GetOwnedItem(uint itemId)
         {
-            var result = Equipment.Items.FirstOrDefault(item => item.Id == itemId);
-            if (result == null)
-            {
-                result = Inventory.FirstOrDefault(item => item.Id == itemId);
-            }
+            var result = Equipment.Items.FirstOrDefault(item => item.Id == itemId) 
+                ?? Inventory.FirstOrDefault(item => item.Id == itemId);
             return result;
         }
     }

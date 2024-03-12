@@ -14,7 +14,7 @@ string? playerName = Console.ReadLine();
 if (playerName == null || playerName == "")
     playerName = "Leeroy";
 
-var dataHandler = new DataAccessHandler(new EntityJsonConverter(new ItemFactory()), new BasicFileStorageHandler());
+var dataHandler = new DataAccessHandler(new EntityJsonConverter(), new BasicFileStorageHandler());
 var runner = new GameRunner(dataHandler);
 _ = runner.Initialize(playerName);
 runner.SetAppInterface(new ConsoleUpdater());

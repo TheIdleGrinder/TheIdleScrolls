@@ -63,7 +63,7 @@ namespace Test_TheIdleScrolls_Core
 
             Entity player = PlayerFactory.MakeNewPlayer("Test");
             World world = new();
-            Assert.DoesNotThrow(() => achievements.ForEach(a => a.Condition.Evaluate(player, world)));
+            Assert.DoesNotThrow(() => achievements.ForEach(a => a.Condition(player, world)));
         }
     }
 }

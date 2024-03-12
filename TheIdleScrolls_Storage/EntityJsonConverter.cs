@@ -13,12 +13,7 @@ namespace TheIdleScrolls_Storage
 {
     public class EntityJsonConverter : IEntityConverter
     {
-        IItemCodeExpander m_itemCodeExpander;
-
-        public EntityJsonConverter(IItemCodeExpander codeExpander)
-        {
-            m_itemCodeExpander = codeExpander;
-        }
+        public EntityJsonConverter() { }
 
         public Entity? DeserializeEntity(string serialized)
         {
