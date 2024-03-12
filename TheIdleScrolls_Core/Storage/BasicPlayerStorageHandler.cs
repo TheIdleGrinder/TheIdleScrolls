@@ -53,6 +53,11 @@ namespace TheIdleScrolls_Core.Storage
             return Task.Run(() => File.WriteAllText(path, data));
         }
 
+        public Task ExportData(string data)
+        {
+            throw new NotImplementedException();
+        }
+
         string BuildPath(string fileName)
         {
             return Path.Combine(StorageDirectory, fileName + FileExtension);

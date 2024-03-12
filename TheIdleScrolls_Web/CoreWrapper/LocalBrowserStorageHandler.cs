@@ -51,5 +51,10 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
 			await m_localStorage.SetValueAsync(key, data);
 		}
+
+		public async Task ExportData(string data)
+		{
+            await m_localStorage.DownloadText(data);
+        }
 	}
 }

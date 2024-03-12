@@ -17,5 +17,7 @@ namespace TheIdleScrolls_Core.Storage
         public Task DeleteData(string key);
 
         public Task<List<string>> GetKeys();
+
+        public Task ExportData(T data);
     }
 }
