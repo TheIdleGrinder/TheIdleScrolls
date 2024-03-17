@@ -32,7 +32,11 @@
 		</div>
 	}
 
-	<button @onclick=@(() => CoreWrapper.ExportAll())>Export All</button>
+	<button @onclick=@(() => ShowSettings = true)>Settings</button>
+	@if (ShowSettings)
+    {
+		<MainOptionSettings OnClicked=@(() => ShowSettings = false)/>
+	}
 }
 else
 {
@@ -55,6 +59,8 @@ else
 	string NewCharName { get; set; } = "";
 
 	List<CharacterMetaData> Characters { get; set; } = new();
+
+	bool ShowSettings { get; set; } = false;
 
 	protected override void OnInitialized()
 	{

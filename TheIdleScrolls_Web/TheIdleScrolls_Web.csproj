@@ -28,6 +28,7 @@
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Components\CharacterTile.razor" />
     <_ContentIncludedByDefault Remove="Components\HelpDisplay.razor" />
+    <_ContentIncludedByDefault Remove="Components\MainOptionSettings.razor" />
     <_ContentIncludedByDefault Remove="Components\StatisticsDisplay.razor" />
   </ItemGroup>
 
@@ -41,6 +42,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Components\HelpDisplay.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\MainOptionSettings.razor" />
   </ItemGroup>
 
 

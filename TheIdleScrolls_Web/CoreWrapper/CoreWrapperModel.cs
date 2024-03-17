@@ -58,6 +58,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<ExpiringMessage> ExpiringMessages { get; private set; } = new();
 
 
+        public DataAccessHandler DataAccessHandler => dataHandler;
         public WorldMap WorldMap => gameRunner.WorldMap;
         // (Ab)use wrapper to store the currently hightlighted item used in InventoryDisplay and EquipmentDisplay
         public uint HighlightedItem { get; private set; } = uint.MaxValue;

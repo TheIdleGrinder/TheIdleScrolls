@@ -1,0 +1,102 @@
+﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div id="mainOptionsBackground">
+    <div id="mainOptionsFrame">
+        <h3>Settings</h3>
+        <textarea id="mainOptionsTextField" @bind="text"/>
+        <div id="mainOptionsImportExport">
+            <button @onclick="ImportClicked">Import</button>
+            <button @onclick="ExportClicked">Export</button>
+        </div>
+        <button @onclick="CloseClicked">Close</button>
+    </div>
+</div>
+
+<style>
+    #mainOptionsBackground {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    #mainOptionsFrame {
+        border: 2px solid var(--frame-color);
+        background-color: var(--back-color);
+        width: auto;
+        height: auto;
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    #mainOptionsFrame h3 {
+        text-align: center;
+    }
+
+    #mainOptionsTextField {
+        border: 1px solid var(--frame-color);
+        width: 500px;
+        height: 300px;
+        margin: 5px;
+        padding: 5px;
+        display: inline-block;
+        word-break: break-all;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        line-break: anywhere;
+        overflow-y: auto;
+    }
+    #mainOptionsImportExport {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin: 5px;
+        margin-bottom: 15px;
+    }
+
+</style>
+
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnClicked { get; set; }
+
+    string text = "";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _ = GetExportText();
+    }
+
+    async Task GetExportText()
+    {
+        text = await CoreWrapper.DataAccessHandler.GetExportText();
+        StateHasChanged();
+    }
+
+    private async Task CloseClicked()
+    {
+        await OnClicked.InvokeAsync("close");
+    }
+
+    private async Task ImportClicked()
+    {
+        await CoreWrapper.DataAccessHandler.ImportCharacters(text);
+    }
+
+    private async Task ExportClicked()
+    {
+        await CoreWrapper.DataAccessHandler.ExportAllCharacters();
+    }
+}

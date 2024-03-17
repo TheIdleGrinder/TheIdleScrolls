@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -64,16 +65,21 @@ namespace TheIdleScrolls_Core.DataAccess
             m_storage.DeleteData(accessKey);
         }
 
+        public async Task<string> GetExportText()
+        {
+			var chars = await ListStoredEntities();
+			List<string> data = new();
+			foreach (string charName in chars)
+			{
+				string charData = await m_storage.LoadData(charName);
+				data.Add(charData);
+			}
+			return String.Join("|", data); // CornerCut: assumes that the data is not going to contain the pipe character
+		}
+
         public async Task ExportAllCharacters()
         {
-            var chars = await ListStoredEntities();
-            List<string> data = new();
-            foreach (string charName in chars)
-            {
-                string charData = await m_storage.LoadData(charName);
-                data.Add(charData);
-            }
-            string export = String.Join("|", data); // CornerCut: assumes that the data is not going to contain the pipe character
+            string export = await GetExportText();
             await m_storage.ExportData(export);
         }
 
