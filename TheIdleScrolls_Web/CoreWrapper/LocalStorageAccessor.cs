@@ -54,10 +54,11 @@ namespace TheIdleScrolls_Web.CoreWrapper
             await _accessorJsRef.Value.InvokeVoidAsync("remove", key);
         }
 
-        public async Task DownloadText(string data)
+        public async Task DownloadText(string content)
         {
-            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(data);
-            await _accessorJsRef.Value.InvokeVoidAsync("downloadText", "tis_save.dat", bytes);
+            await WaitForReference();   
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(content);
+            await _accessorJsRef.Value.InvokeVoidAsync("downloadText", "tis_export.dat", bytes);
         }
     }
 }

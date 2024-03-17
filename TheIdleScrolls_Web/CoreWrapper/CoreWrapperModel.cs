@@ -252,5 +252,10 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 ?? Inventory.FirstOrDefault(item => item.Id == itemId);
             return result;
         }
+
+        public async Task ExportAll()
+        {
+            await gameRunner.DataAccessHandler.ExportAllCharacters();
+        }
     }
 }

@@ -63,5 +63,31 @@ namespace TheIdleScrolls_Core.DataAccess
         {
             m_storage.DeleteData(accessKey);
         }
+
+        public async Task ExportAllCharacters()
+        {
+            var chars = await ListStoredEntities();
+            List<string> data = new();
+            foreach (string charName in chars)
+            {
+                string charData = await m_storage.LoadData(charName);
+                data.Add(charData);
+            }
+            string export = String.Join("|", data); // CornerCut: assumes that the data is not going to contain the pipe character
+            await m_storage.ExportData(export);
+        }
+
+        public async Task ImportCharacters(string data)
+        {
+            string[] charData = data.Split('|');
+            foreach (string charString in charData)
+            {
+                Entity? entity = m_converter.DeserializeEntity(charString);
+                if (entity != null)
+                {
+                    await StoreEntity(entity);
+                }
+            }
+        }
     }
 }
