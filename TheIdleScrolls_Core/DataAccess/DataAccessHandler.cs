@@ -65,6 +65,15 @@ namespace TheIdleScrolls_Core.DataAccess
             m_storage.DeleteData(accessKey);
         }
 
+        public async Task DeleteAllStoredEntities()
+        {
+            var keys = await ListStoredEntities();
+            foreach (string key in keys)
+            {
+                DeleteStoredEntity(key);
+            }
+        }
+
         public async Task<string> GetExportText()
         {
 			var chars = await ListStoredEntities();

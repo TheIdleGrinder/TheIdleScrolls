@@ -11,6 +11,21 @@
             <button @onclick="ImportClicked">Import</button>
             <button @onclick="ExportClicked">Export</button>
         </div>
+        <div id="mainOptionsHardReset">
+            <button @onclick="HardResetClicked">Hard Reset</button>
+            @if (hardResetArmable)
+            {
+                @if (hardResetArmed)
+                {
+                    <div>⇦ Click again to hard reset</div>
+                }
+                else
+                {
+                    <div>Are you sure? Check the box ⇨</div>
+                }
+                <input type="checkbox" @onclick="HardResetArmedClicked" />
+            }
+        </div>
         <button @onclick="CloseClicked">Close</button>
     </div>
 </div>
@@ -49,6 +64,7 @@
         height: 300px;
         margin: 5px;
         padding: 5px;
+        justify-content: start;
         display: inline-block;
         word-break: break-all;
         word-wrap: break-word;
@@ -63,6 +79,14 @@
         margin: 5px;
         margin-bottom: 15px;
     }
+    #mainOptionsHardReset {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        margin: 5px;
+        margin-bottom: 15px;
+    }
 
 </style>
 
@@ -72,6 +96,9 @@
     public EventCallback<string> OnClicked { get; set; }
 
     string text = "";
+
+    bool hardResetArmable = false;
+    bool hardResetArmed = false;
 
     protected override void OnInitialized()
     {
@@ -98,5 +125,30 @@
     private async Task ExportClicked()
     {
         await CoreWrapper.DataAccessHandler.ExportAllCharacters();
+    }
+
+    private async Task HardResetClicked()
+    {
+        if (hardResetArmed)
+        {
+            await CoreWrapper.DataAccessHandler.DeleteAllStoredEntities();
+        }
+        else
+        {
+            hardResetArmable = true;
+        }
+    }
+
+    private void HardResetArmedClicked()
+    {
+        if (hardResetArmed)
+        {
+            hardResetArmable = false;
+            hardResetArmed = false;
+        }
+        else
+        {
+            hardResetArmed = true;
+        }
     }
 }
