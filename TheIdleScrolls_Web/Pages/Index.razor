@@ -32,10 +32,10 @@
 		</div>
 	}
 
-	<button @onclick=@(() => ShowSettings = true)>Settings</button>
+	<button id="settingsButton" @onclick=@(() => ShowSettings = true)>Settings</button>
 	@if (ShowSettings)
     {
-		<MainOptionSettings OnClicked=@(() => ShowSettings = false)/>
+		<MainOptionSettings OnClicked=@(() => ShowSettings = false) OnDataChanged="ReadCharacters" />
 	}
 }
 else
@@ -51,6 +51,10 @@ else
 		margin: 10px;
 		gap: 10px;
 		width: 600px;
+	}
+
+	#settingsButton {
+        margin-top: 20px;
 	}
 </style>
 
@@ -83,11 +87,14 @@ else
 	{
 		await CoreWrapper.UpdateSavedCharacters();
 		Characters.Clear();
-		foreach (var charName in CoreWrapper.StoredCharacters.Where(c => !c.StartsWith("_")))
+		var storedChars = CoreWrapper.StoredCharacters.Where(c => !c.StartsWith("_"));
+		foreach (var charName in storedChars)
 		{
 			var metaData = await CoreWrapper.GetCharacterMetaData(charName);
 			if (metaData != null)
+			{
 				Characters.Add(metaData);
+			}
 		}
 		StateHasChanged();
 	}

@@ -15,12 +15,21 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
 		public async Task DeleteData(string key)
 		{
-			await m_localStorage.RemoveAsync(key);
+			var storedChars = await GetKeys();
+			if (storedChars.Remove(key))
+			{
+                await m_localStorage.SetValueAsync(CharNameKey, String.Join(" ", storedChars).Trim());
+                await m_localStorage.RemoveAsync(key);
+            }
 		}
 
 		public async Task<List<string>> GetKeys()
 		{
 			string chars = await m_localStorage.GetValueAsync<string>(CharNameKey);
+			if (string.IsNullOrEmpty(chars))
+			{
+				return new List<string>();
+			}
 			return chars.Split().ToList();
 		}
 
@@ -46,7 +55,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
 			if (!storedChars.Contains(key))
 			{
 				storedChars.Insert(0, key);
-				await m_localStorage.SetValueAsync(CharNameKey, String.Join(" ", storedChars));
+				await m_localStorage.SetValueAsync(CharNameKey, String.Join(" ", storedChars).Trim());
 			}
 
 			await m_localStorage.SetValueAsync(key, data);

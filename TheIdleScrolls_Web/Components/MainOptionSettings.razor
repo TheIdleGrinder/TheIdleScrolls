@@ -95,6 +95,9 @@
     [Parameter]
     public EventCallback<string> OnClicked { get; set; }
 
+    [Parameter]
+    public EventCallback OnDataChanged { get; set;}
+
     string text = "";
 
     bool hardResetArmable = false;
@@ -120,6 +123,7 @@
     private async Task ImportClicked()
     {
         await CoreWrapper.DataAccessHandler.ImportCharacters(text);
+        await OnDataChanged.InvokeAsync();
     }
 
     private async Task ExportClicked()
@@ -132,6 +136,9 @@
         if (hardResetArmed)
         {
             await CoreWrapper.DataAccessHandler.DeleteAllStoredEntities();
+            await OnDataChanged.InvokeAsync();
+            hardResetArmable = false;
+            hardResetArmed = false;
         }
         else
         {

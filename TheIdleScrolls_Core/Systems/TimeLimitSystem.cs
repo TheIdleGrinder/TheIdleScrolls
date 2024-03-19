@@ -71,7 +71,6 @@ namespace TheIdleScrolls_Core.Systems
                     evasionPierce = Math.Max(accuracyValues.Average(), 1.0);
                 }
                 double evasionBonus = CalculateEvasionBonusMultiplier(evasion / evasionPierce); // Evasion increases amount of time
-                Console.WriteLine($"Evasion: {evasion}, Evasion pierce: {evasionPierce}, bonus: {evasionBonus}");
                 if (!newTimeLimit)
                 {
                     // Evasion pierce should be the same, because this path is only taken for updates during combat
