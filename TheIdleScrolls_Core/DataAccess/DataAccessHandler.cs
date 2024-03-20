@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -95,14 +96,27 @@ namespace TheIdleScrolls_Core.DataAccess
         public async Task ImportCharacters(string data)
         {
             string[] charData = data.Split('|');
+            List<Entity> entities = new();
             foreach (string charString in charData)
             {
-                Entity? entity = m_converter.DeserializeEntity(charString);
-                if (entity != null)
+                try
                 {
-                    await StoreEntity(entity);
+                    Entity? entity = m_converter.DeserializeEntity(charString);
+                    if (entity != null)
+                    {
+                        entities.Add(entity);
+                    }
                 }
+				catch (Exception)
+                {
+					throw new Exception("Invalid import data");
+				}
             }
+            // Only store entities if all of them were successfully deserialized
+            foreach (Entity entity in entities)
+            {
+				await StoreEntity(entity);
+			}
         }
     }
 }

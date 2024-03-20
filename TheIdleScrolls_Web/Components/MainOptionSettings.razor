@@ -122,8 +122,15 @@
 
     private async Task ImportClicked()
     {
-        await CoreWrapper.DataAccessHandler.ImportCharacters(text);
-        await OnDataChanged.InvokeAsync();
+        try
+        {
+            await CoreWrapper.DataAccessHandler.ImportCharacters(text);
+            await OnDataChanged.InvokeAsync();
+        }
+        catch (Exception e)
+        {
+            CoreWrapper.ExpiringMessages.Add(new(e.Message, 5.0));
+        }
     }
 
     private async Task ExportClicked()

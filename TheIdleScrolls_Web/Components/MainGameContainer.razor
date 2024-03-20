@@ -91,14 +91,7 @@
     {
         <DialogueDisplay></DialogueDisplay>
     }
-    <div id="timedMessageArea">
-        @foreach (var message in CoreWrapper.ExpiringMessages.Where(m => !m.Expired))
-        {
-            <div class="timed-message">
-                @message.Message
-            </div>
-        }
-    </div>
+
 </div>
 
 <style>
@@ -162,26 +155,6 @@
         padding: 10px;
         padding-top: 0px;
         grid-template-columns: 1fr 1fr;
-    }
-
-    #timedMessageArea {
-        position: absolute;
-        right: 0;
-        top: 0;
-        display: flex;
-        flex-direction: column;
-        width: 20vw;
-        margin: 20px;
-        gap: 10px;
-    }
-
-    div.timed-message {
-        background-color: var(--back-color-special);
-        border: 2px solid var(--frame-color-special);
-        border-radius: 8px 8px;
-        width: 100%;
-        padding: 5px;
-        overflow-x: hidden;
     }
 </style>
 

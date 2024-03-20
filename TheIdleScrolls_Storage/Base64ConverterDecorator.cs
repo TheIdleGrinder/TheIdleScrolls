@@ -1,6 +1,7 @@
 ﻿using MiniECS;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -30,7 +31,7 @@ namespace TheIdleScrolls_Storage
                 var decoded = Convert.FromBase64String(serialized);
                 decodedString = Encoding.UTF8.GetString(decoded);
             }
-			return InnerConverter.DeserializeEntity(decodedString);
+            return InnerConverter.DeserializeEntity(decodedString);
         }
 
         public bool DeserializeEntity(string serialized, out Entity entity)
