@@ -185,9 +185,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
             {
                 foreach (var message in messages)
                 {
-                    ExpiringMessages.Add(new(message, 5.0));
+                    AddExpiringMessage(message);
                 }
-                ExpiringMessages = ExpiringMessages.Where(m => !m.Expired).ToList();
             };
         }
 
@@ -221,6 +220,12 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 StopGameLoop();
             }
         }
+
+        public void AddExpiringMessage(string message)
+        {
+			ExpiringMessages.Add(new(message, 5.0));
+			ExpiringMessages = ExpiringMessages.Where(m => !m.Expired).ToList();
+		}
 
         public void SendResponse(string response)
         {

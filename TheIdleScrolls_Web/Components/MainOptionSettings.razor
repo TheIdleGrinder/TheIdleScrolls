@@ -129,7 +129,7 @@
         }
         catch (Exception e)
         {
-            CoreWrapper.ExpiringMessages.Add(new(e.Message, 5.0));
+            CoreWrapper.AddExpiringMessage(e.Message);
         }
     }
 

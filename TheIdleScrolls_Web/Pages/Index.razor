@@ -3,12 +3,10 @@
 @using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Web.Components
 
-@implements IDisposable
-
 @inject CoreWrapperModel CoreWrapper
 
 <PageTitle>The Idle Scrolls</PageTitle>
-
+<div style="position:relative">
 @if (!CoreWrapper.GameLoopRunning)
 {
 	<p>Enter the name of a new character</p>
@@ -44,15 +42,8 @@ else
 {
 	<MainGameContainer/>
 }
-<div id="timedMessageArea">
-	@foreach (var message in CoreWrapper.ExpiringMessages.Where(m => !m.Expired))
-	{
-		<div class="timed-message">
-			@message.Message
-		</div>
-	}
+<ExpiringMessagesDisplay/>
 </div>
-
 <style>
 	#storedCharsFrame {
 		display: flex;
@@ -66,26 +57,6 @@ else
 	#settingsButton {
         margin-top: 20px;
 	}
-
-	#timedMessageArea {
-		position: absolute;
-		right: 0;
-		top: 50px;
-		display: flex;
-		flex-direction: column;
-		width: 20vw;
-		margin: 20px;
-		gap: 10px;
-	}
-
-	div.timed-message {
-		background-color: var(--back-color-special);
-		border: 2px solid var(--frame-color-special);
-		border-radius: 8px 8px;
-		width: 100%;
-		padding: 5px;
-		overflow-x: hidden;
-	}
 </style>
 
 @code
@@ -95,8 +66,6 @@ else
 	List<CharacterMetaData> Characters { get; set; } = new();
 
 	bool ShowSettings { get; set; } = false;
-
-	PeriodicTimer periodicTimer = new(TimeSpan.FromMilliseconds(200));
 
 	protected override void OnInitialized()
 	{
@@ -113,13 +82,7 @@ else
 		};
 
 		_ = ReadCharacters();
-		UpdateLoop();
 	}
-
-	public void Dispose()
-    {
-        periodicTimer.Dispose();
-    }
 
 	async Task ReadCharacters()
 	{
@@ -143,16 +106,5 @@ else
 		await CoreWrapper.LoadCharacter(characterName);
 		_ = CoreWrapper.StartGameLoop();
 		Console.WriteLine($"Game started as {characterName}");
-	}
-
-	async void UpdateLoop()
-	{
-		while (await periodicTimer.WaitForNextTickAsync())
-		{
-			if (!CoreWrapper.GameLoopRunning)
-            {
-                await InvokeAsync(StateHasChanged);
-            }	
-		}
 	}
 }
