@@ -53,7 +53,7 @@ namespace TheIdleScrolls_Core.Systems
                         {
                             travelComp.AvailableDungeons.Add(dungeon.Id);
                             if (!m_firstUpdate)
-                                coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Name));
+                                coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Id));
                         }
                     }
                 }
@@ -137,12 +137,9 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (locationComp.InDungeon && floorChanged)
                 {
-                    var zone = world.Map.GetDungeonZone(locationComp.DungeonId, locationComp.DungeonFloor);
-                    if (zone == null)
-                    {
-                        throw new Exception($"Player entered invalid dungeon: {locationComp.DungeonId}");
-                    }
-                    locationComp.RemainingEnemies = zone.MobCount;
+                    var zone = world.Map.GetDungeonZone(locationComp.DungeonId, locationComp.DungeonFloor) 
+                        ?? throw new Exception($"Player entered invalid dungeon: {locationComp.DungeonId}");
+					locationComp.RemainingEnemies = zone.MobCount;
                 }
             }
         }
@@ -191,7 +188,7 @@ namespace TheIdleScrolls_Core.Systems
 
         string IMessage.BuildMessage()
         {
-            return $"Dungeon '{DungeonId}' is now open";
+            return $"Dungeon '{DungeonList.GetDungeon(DungeonId)?.Name ?? "??"}' is now open";
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()
