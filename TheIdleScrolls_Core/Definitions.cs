@@ -87,36 +87,70 @@ namespace TheIdleScrolls_Core
     {
         public static double CalculateAbilityAttackSpeedBonus(int abilityLevel)
         {
-            return Math.Pow(1.0 + Definitions.Stats.AttackSpeedPerAbilityLevel, abilityLevel) - 1.0;
+            //return Math.Pow(1.0 + Definitions.Stats.AttackSpeedPerAbilityLevel, abilityLevel) - 1.0;
+            return Definitions.Stats.AttackSpeedPerAbilityLevel * abilityLevel;
         }
 
         public static double CalculateAbilityAttackDamageBonus(int abilityLevel)
         {
-            return Math.Pow(1.0 + Definitions.Stats.AttackDamagePerAbilityLevel, abilityLevel) - 1.0;
+            //return Math.Pow(1.0 + Definitions.Stats.AttackDamagePerAbilityLevel, abilityLevel) - 1.0;
+            return Definitions.Stats.AttackDamagePerAbilityLevel * abilityLevel;
         }
 
         public static double CalculateAbilityDefenseBonus(int abilityLevel)
         {
-            return Math.Pow(1.0 + Definitions.Stats.DefensePerAbilityLevel, abilityLevel) - 1.0;
+            //return Math.Pow(1.0 + Definitions.Stats.DefensePerAbilityLevel, abilityLevel) - 1.0;
+            return Definitions.Stats.DefensePerAbilityLevel * abilityLevel;
+        }
+
+        public static double CalculateAssumedPlayerDamageMultiplier(int level)
+        {
+            var maxGearLevel = Definitions.Stats.ScalingSwitchLevel;
+            var rarityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 rarity at level 150
+            var materialBonusPerLevel = Math.Pow(1.5, 1.0 / (maxGearLevel / 3.0));
+
+            // Assumption: Ability levels somewhat align with character level
+            return (1.0 + CalculateAbilityAttackDamageBonus(level))                 // Ability damage bonus
+                * (1.0 + CalculateAbilityAttackSpeedBonus(level))                   // Ability attack speed bonus
+                * (1.0 + Definitions.Stats.AttackBonusPerLevel * (level - 1))       // Level scaling
+                * Math.Pow(materialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (3 tiers)
+                * (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of weapons
+                * (1.0 + level * rarityBonusPerLevel)                               // Smooth transition to +4 rarity at level 150
+                ;
+        }
+
+        public static double CalculateAssumedPlayerDefenseMultiplier(int level)
+        {
+            var maxGearLevel = Definitions.Stats.ScalingSwitchLevel;
+            var rarityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 rarity at level 150
+            var materialBonusPerLevel = Math.Pow(1.5, 1.0 / (maxGearLevel / 3.0));
+            return (1.0 + CalculateAbilityDefenseBonus(level))                    // Ability defense bonus
+				* Math.Pow(materialBonusPerLevel, Math.Min(level, maxGearLevel))  // Material scaling (3 tiers)
+				* (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))    // Smooth transition to highest tier of armor
+				* (1.0 + level * rarityBonusPerLevel)                             // Smooth transition to +4 rarity at level 150
+				;
         }
 
         public static int CalculateMobHp(int mobLevel, double multiplier = 1.0)
         {
-            return (int) Math.Min(1_000_000_000, 
+            // Old calculation, kept for future reference
+            //return (int) Math.Min(1_000_000_000, 
+            //    Definitions.Stats.MobBaseHp * multiplier
+            //    * Math.Pow(Definitions.Stats.EarlyHpScaling, Math.Min(mobLevel, Definitions.Stats.ScalingSwitchLevel))
+            //    * Math.Pow(Definitions.Stats.LaterHpScaling, Math.Max(mobLevel - Definitions.Stats.ScalingSwitchLevel, 0))
+            //    * (1.0 + Definitions.Stats.AttackBonusPerLevel * (mobLevel - 1))
+            //);
+            return (int) Math.Min(1_000_000_000,
                 Definitions.Stats.MobBaseHp * multiplier
-                * Math.Pow(Definitions.Stats.EarlyHpScaling, Math.Min(mobLevel, Definitions.Stats.ScalingSwitchLevel))
-                * Math.Pow(Definitions.Stats.LaterHpScaling, Math.Max(mobLevel - Definitions.Stats.ScalingSwitchLevel, 0))
-                * (1.0 + Definitions.Stats.AttackBonusPerLevel * (mobLevel - 1))
+                * CalculateAssumedPlayerDamageMultiplier(mobLevel)
+                * (0.75 + 0.01 * (mobLevel - 1))
             );
         }
 
         public static double CalculateMobDamage(int mobLevel, double multiplier = 1.0)
         {
             return multiplier
-                * Math.Sqrt(
-                    (1.0 + CalculateAbilityDefenseBonus(mobLevel)) // Scale parallel-ish to players armor ability
-                    * Math.Pow(Math.Pow(1.45, 1.0 / 20), Math.Min(mobLevel, Definitions.Stats.ScalingSwitchLevel))
-                );
+                * Math.Sqrt(CalculateAssumedPlayerDefenseMultiplier(mobLevel));
         }
 
         public static double CalculateMobAccuracy(int mobLevel)
