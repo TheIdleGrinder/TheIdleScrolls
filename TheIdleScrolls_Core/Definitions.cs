@@ -140,10 +140,11 @@ namespace TheIdleScrolls_Core
             //    * Math.Pow(Definitions.Stats.LaterHpScaling, Math.Max(mobLevel - Definitions.Stats.ScalingSwitchLevel, 0))
             //    * (1.0 + Definitions.Stats.AttackBonusPerLevel * (mobLevel - 1))
             //);
+            double mobBaseHpMultiplier = 0.9;
             return (int) Math.Min(1_000_000_000,
                 Definitions.Stats.MobBaseHp * multiplier
                 * CalculateAssumedPlayerDamageMultiplier(mobLevel)
-                * (0.75 + 0.01 * (mobLevel - 1))
+                * (mobBaseHpMultiplier + 0.01 * (mobLevel - 1))
             );
         }
 
