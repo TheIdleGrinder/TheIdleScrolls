@@ -5,13 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Crafting;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Systems
 {
     public class CraftingSystem : AbstractSystem
     {
+        Cooldown UpdateCrafts = new Cooldown(0.5);
+        double UpdateCraftsTime = 0.0;
+
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             foreach (var reforgeReq in coordinator.FetchMessagesByType<ReforgeItemRequest>())
@@ -19,13 +24,24 @@ namespace TheIdleScrolls_Core.Systems
                 // Fetch owner and item, check id validity
                 var owner = coordinator.GetEntity(reforgeReq.OwnerId) ?? throw new Exception($"Invalid entity id: {reforgeReq.OwnerId}");
                 var item = coordinator.GetEntity(reforgeReq.ItemId) ?? throw new Exception($"Invalid entity id: {reforgeReq.ItemId}");
+                var inventoryComp = owner.GetComponent<InventoryComponent>() ?? throw new Exception($"{owner.GetName()} does not have an inventory");
                 // Check ownership
-                if (!owner.GetComponent<InventoryComponent>()?.GetItems().Any(i => i.Id == item.Id) ?? false)
+                if (!inventoryComp.GetItems().Any(i => i.Id == item.Id))
                 {
                     throw new Exception($"{owner.GetName()} does have {item.GetName()} in inventory");
                 }
                 int itemLevel = ItemFactory.GetItemDropLevel(item.GetComponent<ItemComponent>()?.Code
                     ?? throw new Exception($"{item.GetName()} is not an item"));
+                // Check for crafting bench
+                var craftComp = owner.GetComponent<CraftingBenchComponent>() 
+                    ?? throw new Exception($"{owner.GetName()} is not able to craft items");
+                // Check for free crafting slots
+                if (!craftComp.HasFreeSlot)
+                {
+					coordinator.PostMessage(this, new TextMessage($"{owner.GetName()} has no free crafting slots", IMessage.PriorityLevel.VeryHigh));
+					continue;
+				}
+
                 // Check funds
                 int cost = item.GetComponent<ItemReforgeableComponent>()?.Cost ?? throw new Exception($"{item.GetName()} is not reforgeable");
                 CoinPurseComponent? purseComp = owner.GetComponent<CoinPurseComponent>();
@@ -36,23 +52,62 @@ namespace TheIdleScrolls_Core.Systems
                         IMessage.PriorityLevel.VeryHigh));
                     continue;
                 }
-                // Get ability value
-                int abilityLevel = owner.GetComponent<AbilitiesComponent>()?.GetAbility(Properties.Constants.Key_Ability_Crafting)?.Level ?? 0;
-                double rarityMulti = world.RarityMultiplier * (1.0 + Definitions.Stats.CraftingAbilityBonusPerLevel * abilityLevel);
-                // Calculate craft level
-                int craftLevel = itemLevel;
-                if (abilityLevel > 0) 
-                    craftLevel = Math.Min((abilityLevel + itemLevel) / 2, 100); // Craft level = average of item and ability level, capped at 100
-                // Spend coins
-                purseComp.RemoveCoins(cost);
-                coordinator.PostMessage(this, new CoinsChangedMessage(owner, -cost));
-                // Perform reforge
+				// Spend coins
+				purseComp.RemoveCoins(cost);
+				coordinator.PostMessage(this, new CoinsChangedMessage(owner, -cost));
 
-                int newRarity = ItemFactory.GetRandomRarity(craftLevel, rarityMulti);
-                ItemFactory.SetItemRarity(item, newRarity);
-                item.GetComponent<ItemReforgeableComponent>()!.Reforged = true;
-                // Send result message
-                coordinator.PostMessage(this, new ItemReforgedMessage(owner, item, cost, newRarity));
+                // Start reforging
+                craftComp.AddCraft(new(CraftingType.Reforge, item, 5.0, 0.5));
+                inventoryComp.RemoveItem(item);
+                coordinator.PostMessage(this, new CraftingStartedMessage(owner, item, cost, CraftingType.Reforge));
+                coordinator.PostMessage(this, new InventoryChangedMessage(owner));
+            }
+
+            // Updating twice per second is enough
+            UpdateCraftsTime += dt;
+            bool doUpdate = UpdateCrafts.Update(dt) > 0;
+            if (doUpdate)
+            {
+                UpdateCrafting(world, coordinator, UpdateCraftsTime);
+                UpdateCraftsTime = 0.0;
+            }
+        }
+
+        public void UpdateCrafting(World _, Coordinator coordinator, double dt)
+        {
+            foreach (var crafter in coordinator.GetEntities<CraftingBenchComponent>())
+            {
+                var bench = crafter.GetComponent<CraftingBenchComponent>()!; // has to exist due to filter above
+                List<uint> finishedCrafts = new();
+                foreach (var craft in bench.ActiveCrafts)
+                {
+                    craft.Update(dt);
+                    if (craft.HasFinished)
+                    {
+                        if (craft.Type == CraftingType.Reforge)
+                        {
+							int abilityLevel = crafter.GetComponent<AbilitiesComponent>()
+                                ?.GetAbility(Properties.Constants.Key_Ability_Crafting)?.Level ?? 1;
+							int rarity = craft.TargetItem.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
+                            double difficulty = Math.Pow(rarity + 1, 2) * 10;
+                            double percentage = (1.0 * abilityLevel) / (abilityLevel + difficulty);
+
+                            int newRarity = rarity + (percentage >= craft.Roll ? 1 : -1);
+                            if (newRarity >= 0)
+                            {
+                                ItemFactory.SetItemRarity(craft.TargetItem, newRarity);
+                            }
+                            coordinator.PostMessage(this, new ItemReforgedMessage(crafter, craft.TargetItem, newRarity > rarity));
+						}
+                        var invComp = crafter.GetComponent<InventoryComponent>()!; // CornerCut: technically not guaranteed
+                        invComp.AddItem(craft.TargetItem);
+                        finishedCrafts.Add(craft.ID);
+                    }
+                }
+                foreach (var id in finishedCrafts)
+                {
+					bench.RemoveCraft(id);
+				}
             }
         }
     }
@@ -79,29 +134,54 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
+    public class CraftingStartedMessage : IMessage
+    {
+		public Entity Owner { get; set; }
+		public Entity Item { get; set; }
+		public int CoinsPaid { get; set; }
+
+        public CraftingType Type { get; set; }
+
+		public CraftingStartedMessage(Entity owner, Entity item, int cost, CraftingType type)
+        {
+			Owner = owner;
+			Item = item;
+            CoinsPaid = cost;
+			Type = type;
+		}
+
+		string IMessage.BuildMessage()
+        {
+			return $"{Owner.GetName()} spent {CoinsPaid} to start {(Type == CraftingType.Reforge ? "reforging" : "crafting")} {Item.GetName()}";
+		}
+
+		IMessage.PriorityLevel IMessage.GetPriority()
+        {
+			return IMessage.PriorityLevel.High;
+		}
+	}
+
     public class ItemReforgedMessage : IMessage
     {
         public Entity Owner { get; set; }
         public Entity Item { get; set; }
-        public int CoinsPaid { get; set; }
-        public int RarityResult { get; set; }
+        public bool Success { get; set; }
 
-        public ItemReforgedMessage(Entity owner, Entity item, int coinsPaid, int rarityResult)
+        public ItemReforgedMessage(Entity owner, Entity item, bool success)
         {
             Owner = owner;
             Item = item;
-            CoinsPaid = coinsPaid;
-            RarityResult = rarityResult;
+            Success = success;
         }
 
         string IMessage.BuildMessage()
         {
-            return $"{Owner.GetName()} spent {CoinsPaid} to craft {Item.GetName()}";
+            return $"{Owner.GetName()} finished reforging {Item.GetName()}: Rarity {(Success ? "increased" : "reduced")}";
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()
         {
-            return IMessage.PriorityLevel.Medium;
+            return IMessage.PriorityLevel.High;
         }
     }
 }

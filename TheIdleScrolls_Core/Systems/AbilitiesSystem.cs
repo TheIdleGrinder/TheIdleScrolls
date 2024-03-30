@@ -35,11 +35,11 @@ namespace TheIdleScrolls_Core.Systems
             if (craftAbl != null)
             {
                 bool levelIncrease = false;
-                foreach (var reforgeMsg in coordinator.FetchMessagesByType<ItemReforgedMessage>().Where(m => m.Owner == m_player))
+                foreach (var reforgeMsg in coordinator.FetchMessagesByType<CraftingStartedMessage>().Where(m => m.Owner == m_player))
                 {
                     // Base value is 1 XP per coin paid
                     double xp = ApplyModifiers(Properties.Constants.Key_Ability_Crafting, reforgeMsg.CoinsPaid);
-                    xp *= BaseXpMultiplier * world.XpMultiplier * Math.Pow(RarityXpMultiplier, reforgeMsg.RarityResult);
+                    xp *= BaseXpMultiplier * world.XpMultiplier;
                     AbilitiesComponent.AddXPResult result = abilitiesComp.AddXP(Properties.Constants.Key_Ability_Crafting, (int)xp);
                     if (result == AbilitiesComponent.AddXPResult.LevelIncreased)
                         levelIncrease = true;
