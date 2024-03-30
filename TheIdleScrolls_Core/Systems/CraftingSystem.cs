@@ -17,6 +17,8 @@ namespace TheIdleScrolls_Core.Systems
         Cooldown UpdateCrafts = new Cooldown(0.5);
         double UpdateCraftsTime = 0.0;
 
+        Random Rng = new();
+
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             foreach (var reforgeReq in coordinator.FetchMessagesByType<ReforgeItemRequest>())
@@ -57,7 +59,9 @@ namespace TheIdleScrolls_Core.Systems
 				coordinator.PostMessage(this, new CoinsChangedMessage(owner, -cost));
 
                 // Start reforging
-                craftComp.AddCraft(new(CraftingType.Reforge, item, 5.0, 0.5));
+                double duration = 5.0; // TODO: Use item level?
+                double roll = Rng.NextDouble();
+                craftComp.AddCraft(new(CraftingType.Reforge, item, duration, roll));
                 inventoryComp.RemoveItem(item);
                 coordinator.PostMessage(this, new CraftingStartedMessage(owner, item, cost, CraftingType.Reforge));
                 coordinator.PostMessage(this, new InventoryChangedMessage(owner));
