@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Net.NetworkInformation;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -192,6 +193,26 @@ namespace TheIdleScrolls_Storage
             };
             return json;
         }
+
+        public static JsonObject? ToJson(this CraftingBenchComponent component)
+        {
+			JsonObject json = new()
+            {
+                { "Slots", component.CraftingSlots }
+			};
+			JsonArray crafts = new();
+			foreach (var craft in component.ActiveCrafts)
+			{
+                string type = ((int)craft.Type).ToString();
+                string item = craft.TargetItem.GetItemCode();
+                string duration = craft.Duration.Duration.ToString();
+                string remaining = craft.Duration.Remaining.ToString();
+                string roll = craft.Roll.ToString();
+				crafts.Add(String.Join('/', type, item, duration, remaining, roll));
+			}
+            json.Add("ActiveCrafts", crafts);
+			return json;
+		}
 
         public static JsonObject JsonFromSth<T>(T thing)
         {

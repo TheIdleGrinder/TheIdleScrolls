@@ -11,6 +11,7 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Crafting;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Systems;
@@ -295,5 +296,33 @@ namespace TheIdleScrolls_JSON
                 return false;
             }
         }
+
+        public static bool SetFromJson(this CraftingBenchComponent component, JsonNode json)
+        {
+			try
+            {
+				component.CraftingSlots = json["Slots"]!.GetValue<int>();
+				var jsonCrafts = json["ActiveCrafts"]!.AsArray();
+				foreach (var jsonCraft in jsonCrafts)
+                {
+                    string[] parts = jsonCraft!.ToString().Split('/');
+                    if (parts.Length != 5)
+						throw new Exception($"Invalid number of fields in stored craft: {jsonCraft}");
+                    CraftingType type = (CraftingType)Int32.Parse(parts[0]);
+					Entity item = ItemFactory.MakeItem(new(parts[1])) ?? throw new Exception($"Unable to make item from code {parts[1]}");
+                    double duration = Double.Parse(parts[2]);
+                    double remaining = Double.Parse(parts[3]);
+                    double roll = Double.Parse(parts[4]);
+					CraftingProcess process = new(type, item, duration, roll);
+                    process.Update(duration - remaining);
+                    component.ActiveCrafts.Add(process);
+				}
+				return true;
+			}
+			catch (Exception)
+            {
+				return false;
+			}
+		}
     }
 }

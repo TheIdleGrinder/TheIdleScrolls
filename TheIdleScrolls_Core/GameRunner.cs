@@ -121,6 +121,7 @@ namespace TheIdleScrolls_Core
 
             player.GetComponent<InventoryComponent>()?.GetItems()?.ForEach(i => m_coordinator.AddEntity(i));
             player.GetComponent<EquipmentComponent>()?.GetItems()?.ForEach(i => m_coordinator.AddEntity(i));
+            player.GetComponent<CraftingBenchComponent>()?.ActiveCrafts?.ForEach(c => m_coordinator.AddEntity(c.TargetItem));
         }
 
         public void ExecuteTick(double dt)
