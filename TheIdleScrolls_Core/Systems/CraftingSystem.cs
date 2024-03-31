@@ -14,10 +14,10 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class CraftingSystem : AbstractSystem
     {
-        Cooldown UpdateCrafts = new Cooldown(0.5);
+		readonly Cooldown UpdateCrafts = new(0.5);
         double UpdateCraftsTime = 0.0;
 
-        Random Rng = new();
+		readonly Random Rng = new();
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -68,13 +68,14 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Updating twice per second is enough
-            UpdateCraftsTime += dt;
-            bool doUpdate = UpdateCrafts.Update(dt) > 0;
-            if (doUpdate)
-            {
-                UpdateCrafting(world, coordinator, UpdateCraftsTime);
-                UpdateCraftsTime = 0.0;
-            }
+            //UpdateCraftsTime += dt;
+            //bool doUpdate = UpdateCrafts.Update(dt) > 0;
+            //if (doUpdate)
+            //{
+            //    UpdateCrafting(world, coordinator, UpdateCraftsTime);
+            //    UpdateCraftsTime = 0.0;
+            //}
+            UpdateCrafting(world, coordinator, dt);
         }
 
         public void UpdateCrafting(World _, Coordinator coordinator, double dt)

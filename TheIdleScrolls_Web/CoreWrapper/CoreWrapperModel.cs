@@ -103,9 +103,12 @@ namespace TheIdleScrolls_Web.CoreWrapper
             {
                 try
                 {
+                    var delay = Task.Delay(frameTime);
+                    System.Timers.Timer timer = new(frameTime);
                     gameRunner.ExecuteTick(frameTime / 1000.0);
                     StateChanged?.Invoke();
-                    await Task.Delay(frameTime);
+
+                    await delay;
                 }
                 catch (Exception e)
                 {
