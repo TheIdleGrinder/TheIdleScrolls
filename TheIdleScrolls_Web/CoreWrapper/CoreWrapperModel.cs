@@ -99,17 +99,26 @@ namespace TheIdleScrolls_Web.CoreWrapper
             const int frameTime = 50;
             gameLoopRunning = true;
             GameLoopRunStateChanged?.Invoke(gameLoopRunning);
+            long owedTime = 0;
             while (gameLoopRunning)
             {
                 try
                 {
+                    System.Diagnostics.Stopwatch sw = new();
+                    sw.Start();
                     var delay = Task.Delay(frameTime);
                     System.Timers.Timer timer = new(frameTime);
-                    gameRunner.ExecuteTick(frameTime / 1000.0);
+                    gameRunner.ExecuteTick((frameTime + owedTime) / 1000.0);
                     StateChanged?.Invoke();
+					owedTime = 0;
+					await delay;
+					sw.Stop();
 
-                    await delay;
-                }
+                    if (sw.ElapsedMilliseconds >= frameTime)
+                    {
+                        owedTime = sw.ElapsedMilliseconds - frameTime;
+                    }
+				}
                 catch (Exception e)
                 {
                     Console.WriteLine($"Exception caught: {e.Message}");
