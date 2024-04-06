@@ -104,14 +104,17 @@ namespace TheIdleScrolls_Web.CoreWrapper
             {
                 try
                 {
+                    // Somehow this runs the smoothest. Only using Task.Delay if frame time was not completely used loses ~3-4 secs per minute
                     System.Diagnostics.Stopwatch sw = new();
                     sw.Start();
+
                     var delay = Task.Delay(frameTime);
-                    System.Timers.Timer timer = new(frameTime);
+
                     gameRunner.ExecuteTick((frameTime + owedTime) / 1000.0);
                     StateChanged?.Invoke();
 					owedTime = 0;
 					await delay;
+
 					sw.Stop();
 
                     if (sw.ElapsedMilliseconds >= frameTime)
