@@ -79,12 +79,14 @@ namespace TheIdleScrolls_Core.Systems
 
         public void UpdateCrafting(World _, Coordinator coordinator, double dt)
         {
+            bool updated = false;
             foreach (var crafter in coordinator.GetEntities<CraftingBenchComponent>())
             {
                 var bench = crafter.GetComponent<CraftingBenchComponent>()!; // has to exist due to filter above
                 List<uint> finishedCrafts = new();
                 foreach (var craft in bench.ActiveCrafts)
                 {
+                    updated = true;
                     craft.Update(dt);
                     if (craft.HasFinished)
                     {
@@ -113,6 +115,10 @@ namespace TheIdleScrolls_Core.Systems
                 {
 					bench.RemoveCraft(id);
 				}
+            }
+            if (updated)
+            {
+                coordinator.PostMessage(this, new CraftingUpdateMessage());
             }
         }
     }
@@ -188,5 +194,12 @@ namespace TheIdleScrolls_Core.Systems
         {
             return IMessage.PriorityLevel.High;
         }
+    }
+
+    public class CraftingUpdateMessage : IMessage
+    {
+        string IMessage.BuildMessage() => $"Crafting progress has been updated";
+
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 }

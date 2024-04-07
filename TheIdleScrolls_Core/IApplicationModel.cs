@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Crafting;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core
@@ -26,4 +27,5 @@ namespace TheIdleScrolls_Core
     public record DungeonRepresentation(string Id, string Name, int Level, string Description, int Rarity);
     public record AchievementRepresentation(string Title, string Description, bool Earned, string Reward = "");
     public record AreaRepresentation(string Name, int Level, bool IsDungeon);
+    public record CraftingProcessRepresentation(CraftingType Type, ItemRepresentation Item, double Duration, double Remaining);
 }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Crafting;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Messages;
@@ -41,6 +42,7 @@ namespace TheIdleScrolls_Core.Systems
         public event AutoProceedStateChangedHandler? PlayerAutoProceedStateChanged;
         public event FeatureAvailabilityChangedHandler? FeatureAvailabilityChanged;
         public event AccessibleAreasChangedHandler? AccessibleAreasChanged;
+        public event CraftingProcessesChangedHandler? CraftingProcessesChanged;
         public event AchievementsChangedHandler? AchievementsChanged;
         public event StatReportChangedHandler? StatReportChanged;
         public event DisplayMessageHandler? DisplayMessageReceived;
@@ -213,6 +215,17 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
                 AccessibleAreasChanged?.Invoke(maxWilderness, dungeons);
+            }
+
+            // Update crafting processes
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<CraftingUpdateMessage>())
+            {
+                var craftComp = player.GetComponent<CraftingBenchComponent>();
+                if (craftComp != null)
+                {
+                    var representations = craftComp.ActiveCrafts.Select(c => GenerateCraftRepresentation(c)).ToList();
+                    CraftingProcessesChanged?.Invoke(representations);
+                }
             }
 
             // Update achievements
@@ -388,6 +401,12 @@ namespace TheIdleScrolls_Core.Systems
                 forgeComp?.Cost ?? -1,
                 forgeComp?.Reforged ?? false
                 );
+        }
+
+        static CraftingProcessRepresentation GenerateCraftRepresentation(CraftingProcess craft)
+        {
+            var item = GenerateItemRepresentation(craft.TargetItem) ?? throw new Exception($"Craft {craft.ID} contains invalid item");
+            return new CraftingProcessRepresentation(craft.Type, item, craft.Duration.Duration, craft.Duration.Remaining);
         }
 
         static string GetItemTypeName(Entity item)
