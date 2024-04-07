@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Components\CharacterTile.razor" />
+    <_ContentIncludedByDefault Remove="Components\CraftingProcessComponent.razor" />
     <_ContentIncludedByDefault Remove="Components\ExpiringMessagesDisplay.razor" />
     <_ContentIncludedByDefault Remove="Components\HelpDisplay.razor" />
     <_ContentIncludedByDefault Remove="Components\MainOptionSettings.razor" />
@@ -51,6 +52,10 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Components\ExpiringMessagesDisplay.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Components\CraftingProcessComponent.razor" />
   </ItemGroup>
 
 

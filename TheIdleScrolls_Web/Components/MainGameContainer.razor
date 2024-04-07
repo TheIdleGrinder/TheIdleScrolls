@@ -86,6 +86,13 @@
                 <HelpDisplay></HelpDisplay>
             }
         </div>
+        @if (CoreWrapper.Crafts.Count > 0)
+        {
+            @foreach (var craft in CoreWrapper.Crafts)
+            {
+                <CraftingProcessComponent Craft=@craft></CraftingProcessComponent>
+            }
+        }
     </div>
     @if (CoreWrapper.DialogueMessages.Count > 0)
     {

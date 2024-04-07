@@ -1,0 +1,30 @@
+﻿@using TheIdleScrolls_Core
+
+<div class="crafting-process-frame">
+    <div class="@CssUtilities.GetClassesForItem(Craft.Item)">@Craft.Item.Name</div>
+    <div>@($"{Craft.Remaining:0}")s / @($"{Craft.Duration:0.#}")s</div>
+</div>
+
+<style>
+    .crafting-process-frame {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        margin: 10px;
+        padding: 0.5em;
+        gap: 10px;
+        width: 50%;
+        border: 3px solid var(--frame-color-special);
+        background-color: var(--back-color-special);
+        border-radius: 8px;
+
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public CraftingProcessRepresentation Craft { get; set; }
+}
