@@ -68,14 +68,13 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Updating twice per second is enough
-            //UpdateCraftsTime += dt;
-            //bool doUpdate = UpdateCrafts.Update(dt) > 0;
-            //if (doUpdate)
-            //{
-            //    UpdateCrafting(world, coordinator, UpdateCraftsTime);
-            //    UpdateCraftsTime = 0.0;
-            //}
-            UpdateCrafting(world, coordinator, dt);
+            UpdateCraftsTime += dt;
+            bool doUpdate = UpdateCrafts.Update(dt) > 0;
+            if (doUpdate)
+            {
+                UpdateCrafting(world, coordinator, UpdateCraftsTime);
+                UpdateCraftsTime = 0.0;
+            }
         }
 
         public void UpdateCrafting(World _, Coordinator coordinator, double dt)
@@ -158,7 +157,7 @@ namespace TheIdleScrolls_Core.Systems
 
 		string IMessage.BuildMessage()
         {
-			return $"{Owner.GetName()} spent {CoinsPaid} to start {(Type == CraftingType.Reforge ? "reforging" : "crafting")} {Item.GetName()}";
+			return $"{Owner.GetName()} spent {CoinsPaid}c to start {(Type == CraftingType.Reforge ? "reforging" : "crafting")} {Item.GetName()}";
 		}
 
 		IMessage.PriorityLevel IMessage.GetPriority()
