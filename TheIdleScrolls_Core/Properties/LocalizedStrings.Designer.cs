@@ -907,7 +907,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Long Sword ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Broad Sword ähnelt.
         /// </summary>
         internal static string LBL1 {
             get {
@@ -916,7 +916,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Two-Handed Sword ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bastard Sword ähnelt.
         /// </summary>
         internal static string LBL2 {
             get {
