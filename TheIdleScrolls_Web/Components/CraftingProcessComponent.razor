@@ -2,7 +2,7 @@
 
 <div class="crafting-process-frame">
     <h4>@(GetCraftTypeName())</h4>
-    <div class="@CssUtilities.GetClassesForItem(Craft.Item)">@Craft.Item.Name</div>
+    <h6 class="@CssUtilities.GetClassesForItem(Craft.Item)">@Craft.Item.Name</h6>
     <div>@($"{Craft.Duration:0.#}") seconds</div>
     <div class="progressFrame craftingProgressBarFrame" style="justify-content: start">
         <div class="progressFill craftingProgressBar" style="width: @(PctString());"></div>
@@ -18,8 +18,8 @@
         margin: 0.5em;
         padding: 0.5em;
         gap: 10px;
-        border: 3px solid var(--frame-color-special);
-        background-color: var(--back-color-special);
+        border: 3px solid var(--frame-color);
+        background-color: var(--back-color);
         border-radius: 8px;
         align-items: center;
 

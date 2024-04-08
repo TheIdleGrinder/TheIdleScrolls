@@ -21,6 +21,10 @@
             {
                 <button class="tablinks @AddTabClass(Tab.Inventory)" @onclick="@(() => SetTab(Tab.Inventory))">Inventory</button>
             }
+            @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Crafting))
+            {
+                <button class="tablinks @AddTabClass(Tab.Crafting)" @onclick="@(() => SetTab(Tab.Crafting))">Crafting</button>
+            }
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Abilities))
             {
                 <button class="tablinks @AddTabClass(Tab.Abilities)" @onclick="@(() => SetTab(Tab.Abilities))">Abilities</button>
@@ -65,6 +69,15 @@
                     </div>
                 </div>
             }
+            @if (m_activeTab == Tab.Crafting)
+            {
+                 <div class="tabPage" id="craftingPage">
+                    @foreach (var craft in CoreWrapper.Crafts)
+                    {
+                        <CraftingProcessComponent Craft=@craft></CraftingProcessComponent>
+                    }
+                </div>
+            }
             @if (m_activeTab == Tab.Abilities)
             {
                 <AbilitiesDisplay></AbilitiesDisplay>
@@ -86,13 +99,6 @@
                 <HelpDisplay></HelpDisplay>
             }
         </div>
-        @if (CoreWrapper.Crafts.Count > 0)
-        {
-            @foreach (var craft in CoreWrapper.Crafts)
-            {
-                <CraftingProcessComponent Craft=@craft></CraftingProcessComponent>
-            }
-        }
     </div>
     @if (CoreWrapper.DialogueMessages.Count > 0)
     {
@@ -163,10 +169,28 @@
         padding-top: 0px;
         grid-template-columns: 1fr 1fr;
     }
+
+    .tabPage {
+        width: 100%;
+        max-height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    #craftingPage {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+/*         justify-content: center;
+        align-items: center; */
+    }
 </style>
 
 @code {
-    enum Tab { Travel, Inventory, Abilities, Achievements, Stats, Help, Perks };
+    enum Tab { Travel, Inventory, Crafting, Abilities, Achievements, Stats, Help, Perks };
 
     Tab m_activeTab = Tab.Achievements;
 
