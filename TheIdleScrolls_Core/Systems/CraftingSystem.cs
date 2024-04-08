@@ -95,8 +95,7 @@ namespace TheIdleScrolls_Core.Systems
 							int abilityLevel = crafter.GetComponent<AbilitiesComponent>()
                                 ?.GetAbility(Properties.Constants.Key_Ability_Crafting)?.Level ?? 1;
 							int rarity = craft.TargetItem.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
-                            double difficulty = Math.Pow(rarity + 1, 2) * 10;
-                            double percentage = (1.0 * abilityLevel) / (abilityLevel + difficulty);
+                            double percentage = Functions.CalculateReforgingSuccessRate(abilityLevel, rarity);
 
                             int newRarity = rarity + (percentage >= craft.Roll ? 1 : -1);
                             if (newRarity >= 0)

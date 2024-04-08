@@ -1,8 +1,13 @@
 ﻿@using TheIdleScrolls_Core
 
 <div class="crafting-process-frame">
+    <h4>@(GetCraftTypeName())</h4>
     <div class="@CssUtilities.GetClassesForItem(Craft.Item)">@Craft.Item.Name</div>
-    <div>@($"{Craft.Remaining:0}")s / @($"{Craft.Duration:0.#}")s</div>
+    <div>@($"{Craft.Duration:0.#}") seconds</div>
+    <div class="progressFrame craftingProgressBarFrame" style="justify-content: start">
+        <div class="progressFill craftingProgressBar" style="width: @(PctString());"></div>
+    </div>
+    <div>@($"{Craft.Remaining:0}") seconds left</div>
 </div>
 
 <style>
@@ -10,21 +15,47 @@
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
-        margin: 10px;
+        margin: 0.5em;
         padding: 0.5em;
         gap: 10px;
-        width: 50%;
         border: 3px solid var(--frame-color-special);
         background-color: var(--back-color-special);
         border-radius: 8px;
+        align-items: center;
 
         position: absolute;
-        top: 10px;
-        left: 10px;
+    }
+
+    div.craftingProgressBarFrame {
+        justify-content: start;
+        background-color: var(--back-color);
+        border: 1px solid var(--frame-color);
+        width: 250px;
+    }
+
+    div.craftingProgressBar {
+        background-color: lightseagreen;
+        height: 20px;
     }
 </style>
 
 @code {
     [Parameter]
     public CraftingProcessRepresentation Craft { get; set; }
+
+    private string GetCraftTypeName()
+    {
+        return Craft.Type switch
+        {
+            TheIdleScrolls_Core.Crafting.CraftingType.Craft => "Crafting",
+            TheIdleScrolls_Core.Crafting.CraftingType.Reforge => "Reforging",
+            _ => "??"
+        };
+    }
+
+    private string PctString()
+    {
+        double pct = 1 - (Craft.Remaining / Craft.Duration);
+        return $"{pct:0%}";
+    }
 }

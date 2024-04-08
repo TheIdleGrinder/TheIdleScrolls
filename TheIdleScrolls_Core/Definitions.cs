@@ -39,6 +39,8 @@ namespace TheIdleScrolls_Core
             public static readonly string[] Armors = new[] { Properties.Constants.Key_Ability_LightArmor,
                                                              Properties.Constants.Key_Ability_HeavyArmor
             };
+
+            public static readonly string Crafting = Properties.Constants.Key_Ability_Crafting;
         }
 
         public static class DungeonIds
@@ -158,6 +160,11 @@ namespace TheIdleScrolls_Core
         {
             // First implementation: Accuracy rating is identical to default damage
             return CalculateMobDamage(mobLevel, 1.0);
+        }
+
+        public static double CalculateReforgingSuccessRate(int abilityLevel, int currentRarity)
+        {
+            return abilityLevel / (abilityLevel + Math.Pow(currentRarity + 1, 2) * 10);
         }
     }
 }

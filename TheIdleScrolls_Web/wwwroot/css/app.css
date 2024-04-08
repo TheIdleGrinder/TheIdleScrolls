@@ -88,6 +88,20 @@ input:not(:placeholder-shown):invalid {
     border-color: red;
 }
 
+div.progressFrame {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    background: slategray;
+    justify-content: center;
+    padding: 0px;
+}
+
+div.progressFill {
+    height: 30px;
+    border-style: none;
+}
+
 .rarity-none {
     color: dimgray;
     font-style: italic;

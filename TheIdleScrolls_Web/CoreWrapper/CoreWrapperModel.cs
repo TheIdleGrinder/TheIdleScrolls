@@ -276,6 +276,12 @@ namespace TheIdleScrolls_Web.CoreWrapper
             return result;
         }
 
+        public double CalculateReforgingSuccessRate(int rarity)
+        {
+            int level = Abilities.FirstOrDefault(a => a.Key == TheIdleScrolls_Core.Definitions.Abilities.Crafting)?.Level ?? 0;
+            return Functions.CalculateReforgingSuccessRate(level, rarity);
+        }
+
         public async Task ExportAll()
         {
             await gameRunner.DataAccessHandler.ExportAllCharacters();
