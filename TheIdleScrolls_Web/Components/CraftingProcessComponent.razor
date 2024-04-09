@@ -1,9 +1,11 @@
 ﻿@using TheIdleScrolls_Core
 
+@* @inject CoreWrapperModel CoreWrapper *@
+
 <div class="crafting-process-frame">
     <h4>@(GetCraftTypeName())</h4>
     <h6 class="@CssUtilities.GetClassesForItem(Craft.Item)">@Craft.Item.Name</h6>
-    <div>@($"{Craft.Duration:0.#}") seconds</div>
+    @* <div>@($"{Craft.Duration:0.#}") seconds</div> *@
     <div class="progressFrame craftingProgressBarFrame" style="justify-content: start">
         <div class="progressFill craftingProgressBar" style="width: @(PctString());"></div>
     </div>
@@ -15,22 +17,18 @@
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
-        margin: 0.5em;
         padding: 0.5em;
-        gap: 10px;
         border: 3px solid var(--frame-color);
         background-color: var(--back-color);
         border-radius: 8px;
         align-items: center;
-
-        position: absolute;
     }
 
     div.craftingProgressBarFrame {
         justify-content: start;
         background-color: var(--back-color);
         border: 1px solid var(--frame-color);
-        width: 250px;
+        width: 220px;
     }
 
     div.craftingProgressBar {

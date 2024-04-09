@@ -72,10 +72,7 @@
             @if (m_activeTab == Tab.Crafting)
             {
                  <div class="tabPage" id="craftingPage">
-                    @foreach (var craft in CoreWrapper.Crafts)
-                    {
-                        <CraftingProcessComponent Craft=@craft></CraftingProcessComponent>
-                    }
+                    <CraftingDisplay></CraftingDisplay>
                 </div>
             }
             @if (m_activeTab == Tab.Abilities)

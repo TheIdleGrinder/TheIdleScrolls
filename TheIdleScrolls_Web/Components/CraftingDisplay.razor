@@ -1,0 +1,70 @@
+﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div id="crafting-display-outer">
+    <h5>Active Crafts (@CoreWrapper.Crafts.Count/1)</h5>
+    <div id="active-crafts">
+        @foreach (var craft in CoreWrapper.Crafts)
+        {
+            <CraftingProcessComponent Craft=@craft></CraftingProcessComponent>
+        }
+    </div>
+    <hr class="thick">
+    <div id="crafting-lower">
+        <InventoryDisplay></InventoryDisplay>
+        <HighlightedItemDisplay></HighlightedItemDisplay>
+    </div>
+</div>
+
+<style>
+#crafting-display-outer {
+    display: grid;
+    grid-template-rows: min-content min-content min-content auto;
+    padding: 0.5em;
+    position: relative;
+    width: 100%;
+    max-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    grid-template-areas:
+        "active-crafts"
+        "crafts"
+        "splitter"
+        "inventory";
+}
+
+#active-crafts {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x:auto;
+    gap: 0px;
+    justify-content: start;
+}
+
+#crafting-lower {
+    grid-area: inventory;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}}
+</style>
+
+@code {
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+}
