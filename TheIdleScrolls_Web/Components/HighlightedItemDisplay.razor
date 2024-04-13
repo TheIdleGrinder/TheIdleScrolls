@@ -4,7 +4,7 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div id="highlightedItemContainer">
-    <div id="highlightedItem">
+    <div id="highlightedItem" style="@(HighlightedItem == null ? "visibility:hidden" : "")">
         <h5 id="highlightedItemName" class="@(CssUtilities.GetClassesForItem(HighlightedItem))">@HighlightedItem?.Name</h5>
         @if (HighlightedItem?.Crafted ?? false)
         {

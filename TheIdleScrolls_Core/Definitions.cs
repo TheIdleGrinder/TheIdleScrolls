@@ -22,6 +22,8 @@ namespace TheIdleScrolls_Core
             public const double EvasionBonusPerPoint = 0.01;
 
             public const double CraftingAbilityBonusPerLevel = 0.02;
+            public const double ReforgingBaseDuration = 30.0;
+            public const double ReforgingDurationPerMaterialTier = 10.0;
 
             public const int MobBaseHp = 20;
             public const double EarlyHpScaling = 1.056;
@@ -172,7 +174,8 @@ namespace TheIdleScrolls_Core
         public static double CalculateReforgingDuration(Entity item)
         {
             var materialTier = (item.GetComponent<ItemMaterialComponent>()?.Tier + 1) ?? 0;
-            return 30.0 + 10.0 * materialTier;
+            return Definitions.Stats.ReforgingBaseDuration 
+                + Definitions.Stats.ReforgingDurationPerMaterialTier * materialTier;
         }
     }
 }

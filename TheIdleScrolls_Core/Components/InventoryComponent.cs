@@ -9,7 +9,7 @@ namespace TheIdleScrolls_Core.Components
 {
     public class InventoryComponent : IComponent
     {
-        HashSet<Entity> m_items = new();
+        List<Entity> m_items = new();
 
         public int ItemCount { get { return m_items.Count; } }
 
@@ -19,7 +19,8 @@ namespace TheIdleScrolls_Core.Components
             {
                 throw new Exception($"Entity {item.GetName()} has no 'Item' component");
             }
-            m_items.Add(item);
+            if (!m_items.Any(i => i.Id == item.Id))
+                m_items.Add(item);
         }
 
         public bool RemoveItem(Entity item)

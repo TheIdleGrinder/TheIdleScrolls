@@ -93,7 +93,6 @@ namespace TheIdleScrolls_Core.Systems
                             invItems.Add(invItem);
                     }
                 }
-                invItems = invItems.OrderBy(i => i.Id).ToList();
 
                 if (equipmentComp != null)
                 {
