@@ -7,7 +7,7 @@
     <table>
         <thead>
             <tr>
-                <th>Item</th>
+                <th>@Title</th>
             </tr>
         </thead>
         <tbody>
@@ -34,7 +34,11 @@
 </style>
 
 @code {
-    List<ItemRepresentation> Items => CoreWrapper.Inventory;
+    [Parameter]
+    public List<ItemRepresentation> Items { get; set; } = new();
+
+    [Parameter]
+    public string Title { get; set; } = "Items";
 
     int selectedIndex = -1;
 

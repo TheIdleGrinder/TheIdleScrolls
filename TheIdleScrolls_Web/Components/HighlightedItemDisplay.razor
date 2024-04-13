@@ -17,19 +17,30 @@
             }
         </div>
     </div>
-    <button id="btnEquip" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="ToggleEquip">
-        @(
-            IsItemEquipped(HighlightedItem) ? "Unequip" : "Equip"
-            )
-    </button>
-    <button id="btnSell" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="SellItem">
-        @SellText
-    </button>
-    @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting))
+    @if (IsItemOwned(HighlightedItem))
     {
-        <button id="btnReforge" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="ReforgeItem">
-            @ReforgeText
-        </button>
+        @if (EquipButtonVisible)
+        {
+            <button id="btnEquip" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="ToggleEquip">
+                @(IsItemEquipped(HighlightedItem) ? "Unequip" : "Equip")
+            </button>
+        }
+        @if (SellButtonVisible)
+        {
+            <button id="btnSell" class="itemButton" 
+                disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="SellItem"
+            >
+                @SellText
+            </button>
+        }
+        @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting) && ReforgeButtonVisible)
+        {
+            <div>Duration: @($"{HighlightedItem?.Reforging.Duration:0} seconds")</div>
+            <div>Odds: @($"{CoreWrapper.CalculateReforgingSuccessRate(HighlightedItem?.Rarity ?? 0):0%}")</div>
+            <button id="btnReforge" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="ReforgeItem">
+                @ReforgeText
+            </button>
+        }
     }
     @if (CoreWrapper.Coins > 0)
     {
@@ -89,7 +100,14 @@
 </style>
 
 @code {
-    ItemRepresentation? HighlightedItem => CoreWrapper.GetOwnedItem(CoreWrapper.HighlightedItem);
+    [Parameter]
+    public bool EquipButtonVisible { get; set; } = true;
+    [Parameter]
+    public bool SellButtonVisible { get; set; } = true;
+    [Parameter]
+    public bool ReforgeButtonVisible { get; set; } = true;
+
+    ItemRepresentation? HighlightedItem => CoreWrapper.GetItem(CoreWrapper.HighlightedItem);
 
     List<string> ItemDescriptionLines => HighlightedItem?.Description?.Split(';')?.ToList() ?? new();
 
@@ -110,7 +128,7 @@
             return "Throw out"; 
         } 
     }
-    string ReforgeText => "Reforge" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.ReforgingCost}c)" : "");
+    string ReforgeText => "Reforge" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Reforging.Cost ?? 0}c)" : "");
 
     protected override void OnInitialized()
     {
@@ -123,6 +141,13 @@
         if (item == null)
             return false;
         return (CoreWrapper.Equipment.Items.Any(i => i.Id == item.Id));
+    }
+
+    bool IsItemOwned(ItemRepresentation? item)
+    {
+        if (item == null)
+            return false;
+        return (IsItemEquipped(item) || CoreWrapper.Inventory.Any(i => i.Id == item.Id));
     }
 
     void ToggleEquip()

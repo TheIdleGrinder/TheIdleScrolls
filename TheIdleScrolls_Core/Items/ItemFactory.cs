@@ -108,7 +108,9 @@ namespace TheIdleScrolls_Core.Items
 
         public static void SetItemMaterial(Entity item, ItemMaterialDescription material)
         {
-            item.AddComponent(new ItemMaterialComponent(material.Id));
+            // CornerCut: Material id ends with the index, so extract it. If the last character is not a digit, it's a T0 training item
+            int tier = int.TryParse(material.Id[^1].ToString(), out int t) ? t : 0;
+            item.AddComponent(new ItemMaterialComponent(material.Id, tier));
             CalculateItemStats(item);
             UpdateItemName(item);
             UpdateItemValue(item);

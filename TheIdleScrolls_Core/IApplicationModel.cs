@@ -20,7 +20,8 @@ namespace TheIdleScrolls_Core
     public record CharacterRepresentation(uint Id, string Name, string Class, int Level);
     public record ItemRepresentation(uint Id, string Name, string Description, 
                                         List<EquipmentSlot> Slots, int Rarity, int Value,
-                                        int ReforgingCost, bool Crafted);
+                                        (int Cost, double Duration) Reforging, 
+                                        bool Crafted);
     public record AbilityRepresentation(string Key, string Name, int Level, int XP, int TargetXP);
     public record PerkRepresentation(string Name, string Description, List<string> Modifiers);
     public record MobRepresentation(uint Id, string Name, int Level, int HP, int HpMax);

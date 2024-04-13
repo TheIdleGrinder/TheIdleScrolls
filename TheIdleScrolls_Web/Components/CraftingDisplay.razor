@@ -13,8 +13,8 @@
     </div>
     <hr class="thick">
     <div id="crafting-lower">
-        <InventoryDisplay></InventoryDisplay>
-        <HighlightedItemDisplay></HighlightedItemDisplay>
+        <InventoryDisplay Title="Craftable" Items=@CoreWrapper.Inventory></InventoryDisplay>
+        <HighlightedItemDisplay EquipButtonVisible="false" SellButtonVisible="false"></HighlightedItemDisplay>
     </div>
 </div>
 
@@ -58,7 +58,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-}}
+}
 </style>
 
 @code {

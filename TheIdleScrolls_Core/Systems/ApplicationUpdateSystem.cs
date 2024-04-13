@@ -398,7 +398,7 @@ namespace TheIdleScrolls_Core.Systems
                 equipComp?.Slots ?? new() { EquipmentSlot.Hand },
                 itemComp?.Code.RarityLevel ?? 0,
                 item.GetComponent<ItemValueComponent>()?.Value ?? 0,
-                forgeComp?.Cost ?? -1,
+                (forgeComp?.Cost ?? -1, Functions.CalculateReforgingDuration(item)),
                 forgeComp?.Reforged ?? false
                 );
         }

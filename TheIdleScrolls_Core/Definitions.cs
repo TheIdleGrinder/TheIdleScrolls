@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Components;
 
 namespace TheIdleScrolls_Core
 {
@@ -165,6 +167,12 @@ namespace TheIdleScrolls_Core
         public static double CalculateReforgingSuccessRate(int abilityLevel, int currentRarity)
         {
             return abilityLevel / (abilityLevel + Math.Pow(currentRarity + 1, 2) * 10);
+        }
+
+        public static double CalculateReforgingDuration(Entity item)
+        {
+            var materialTier = (item.GetComponent<ItemMaterialComponent>()?.Tier + 1) ?? 0;
+            return 30.0 + 10.0 * materialTier;
         }
     }
 }

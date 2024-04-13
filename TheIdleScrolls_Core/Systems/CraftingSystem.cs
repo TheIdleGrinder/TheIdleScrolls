@@ -59,7 +59,7 @@ namespace TheIdleScrolls_Core.Systems
 				coordinator.PostMessage(this, new CoinsChangedMessage(owner, -cost));
 
                 // Start reforging
-                double duration = 50.0; // TODO: Use item level?
+                double duration = Functions.CalculateReforgingDuration(item); // TODO: Use item level?
                 double roll = Rng.NextDouble();
                 craftComp.AddCraft(new(CraftingType.Reforge, item, duration, roll));
                 inventoryComp.RemoveItem(item);

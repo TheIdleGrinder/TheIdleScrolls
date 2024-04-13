@@ -269,7 +269,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             return HighlightedItem == itemId;
         }
 
-        public ItemRepresentation? GetOwnedItem(uint itemId)
+        public ItemRepresentation? GetItem(uint itemId)
         {
             var result = Equipment.Items.FirstOrDefault(item => item.Id == itemId) 
                 ?? Inventory.FirstOrDefault(item => item.Id == itemId);
