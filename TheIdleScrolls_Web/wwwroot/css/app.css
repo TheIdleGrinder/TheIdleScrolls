@@ -154,7 +154,7 @@ div.play-area-frame {
 
 div.play-area-frame-top {
     border: 2px solid var(--frame-color);
-    border-bottom: none;
+    border-bottom-width: 1px;
     border-top-left-radius: var(--border-radius) var(--border-radius);
     border-top-right-radius: var(--border-radius) var(--border-radius);
 }
@@ -164,6 +164,36 @@ div.play-area-frame-bottom {
     border-top: none;
     border-bottom-left-radius: var(--border-radius) var(--border-radius);
     border-bottom-right-radius: var(--border-radius) var(--border-radius);
+}
+
+
+.tabs {
+    display: flex;
+    overflow: hidden;
+    border-bottom-width: 1px;
+    background-color: #f1f1f1;
+    justify-content: left;
+    grid-area: tab-buttons;
+}
+
+.tabs button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 14px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tabs button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tabs button.active {
+    background-color: #ccc;
 }
 
 div.scrolling-table {
