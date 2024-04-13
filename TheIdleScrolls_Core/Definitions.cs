@@ -173,7 +173,7 @@ namespace TheIdleScrolls_Core
 
         public static double CalculateReforgingDuration(Entity item)
         {
-            var materialTier = (item.GetComponent<ItemMaterialComponent>()?.Tier + 1) ?? 0;
+            var materialTier = item.GetComponent<ItemMaterialComponent>()?.Tier ?? 0;
             return Definitions.Stats.ReforgingBaseDuration 
                 + Definitions.Stats.ReforgingDurationPerMaterialTier * materialTier;
         }
