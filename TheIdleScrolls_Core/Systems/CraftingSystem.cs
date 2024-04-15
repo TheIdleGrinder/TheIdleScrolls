@@ -102,6 +102,7 @@ namespace TheIdleScrolls_Core.Systems
                             {
                                 ItemFactory.SetItemRarity(craft.TargetItem, newRarity);
                             }
+                            craft.TargetItem.GetComponent<ItemReforgeableComponent>()!.Reforged = true;
                             coordinator.PostMessage(this, new ItemReforgedMessage(crafter, craft.TargetItem, newRarity > rarity));
 						}
                         
