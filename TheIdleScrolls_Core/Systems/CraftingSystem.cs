@@ -26,45 +26,7 @@ namespace TheIdleScrolls_Core.Systems
                 // Fetch owner and item, check id validity
                 var owner = coordinator.GetEntity(reforgeReq.OwnerId) ?? throw new Exception($"Invalid entity id: {reforgeReq.OwnerId}");
                 var item = coordinator.GetEntity(reforgeReq.ItemId) ?? throw new Exception($"Invalid entity id: {reforgeReq.ItemId}");
-                var inventoryComp = owner.GetComponent<InventoryComponent>() ?? throw new Exception($"{owner.GetName()} does not have an inventory");
-                // Check ownership
-                if (!inventoryComp.GetItems().Any(i => i.Id == item.Id))
-                {
-                    throw new Exception($"{owner.GetName()} does have {item.GetName()} in inventory");
-                }
-                int itemLevel = ItemFactory.GetItemDropLevel(item.GetComponent<ItemComponent>()?.Code
-                    ?? throw new Exception($"{item.GetName()} is not an item"));
-                // Check for crafting bench
-                var craftComp = owner.GetComponent<CraftingBenchComponent>() 
-                    ?? throw new Exception($"{owner.GetName()} is not able to craft items");
-                // Check for free crafting slots
-                if (!craftComp.HasFreeSlot)
-                {
-					coordinator.PostMessage(this, new TextMessage($"{owner.GetName()} has no free crafting slots", IMessage.PriorityLevel.VeryHigh));
-					continue;
-				}
-
-                // Check funds
-                int cost = item.GetComponent<ItemReforgeableComponent>()?.Cost ?? throw new Exception($"{item.GetName()} is not reforgeable");
-                CoinPurseComponent? purseComp = owner.GetComponent<CoinPurseComponent>();
-                if (purseComp == null || purseComp.Coins < cost)
-                {
-                    coordinator.PostMessage(this, 
-                        new TextMessage($"{owner.GetName()} does not have {cost} coins for reforging {item.GetName()}", 
-                        IMessage.PriorityLevel.VeryHigh));
-                    continue;
-                }
-				// Spend coins
-				purseComp.RemoveCoins(cost);
-				coordinator.PostMessage(this, new CoinsChangedMessage(owner, -cost));
-
-                // Start reforging
-                double duration = Functions.CalculateReforgingDuration(item); // TODO: Use item level?
-                double roll = Rng.NextDouble();
-                craftComp.AddCraft(new(CraftingType.Reforge, item, duration, roll));
-                inventoryComp.RemoveItem(item);
-                coordinator.PostMessage(this, new CraftingStartedMessage(owner, item, cost, CraftingType.Reforge));
-                coordinator.PostMessage(this, new InventoryChangedMessage(owner));
+                HandleReforgeRequest(owner, item, (IMessage message) => coordinator.PostMessage(this, message));
             }
 
             // Updating twice per second is enough
@@ -75,6 +37,49 @@ namespace TheIdleScrolls_Core.Systems
                 UpdateCrafting(world, coordinator, UpdateCraftsTime);
                 UpdateCraftsTime = 0.0;
             }
+        }
+
+        public void HandleReforgeRequest(Entity owner, Entity item, Action<IMessage> postMessageCallback)
+        {
+            var inventoryComp = owner.GetComponent<InventoryComponent>() ?? throw new Exception($"{owner.GetName()} does not have an inventory");
+            // Check ownership
+            if (!inventoryComp.GetItems().Any(i => i.Id == item.Id))
+            {
+                throw new Exception($"{owner.GetName()} does have {item.GetName()} in inventory");
+            }
+            int itemLevel = ItemFactory.GetItemDropLevel(item.GetComponent<ItemComponent>()?.Code
+                ?? throw new Exception($"{item.GetName()} is not an item"));
+            // Check for crafting bench
+            var craftComp = owner.GetComponent<CraftingBenchComponent>()
+                ?? throw new Exception($"{owner.GetName()} is not able to craft items");
+            // Check for free crafting slots
+            if (!craftComp.HasFreeSlot)
+            {
+                postMessageCallback(new TextMessage($"{owner.GetName()} has no free crafting slots", IMessage.PriorityLevel.VeryHigh));
+                return;
+            }
+
+            // Check funds
+            int cost = item.GetComponent<ItemReforgeableComponent>()?.Cost ?? throw new Exception($"{item.GetName()} is not reforgeable");
+            CoinPurseComponent? purseComp = owner.GetComponent<CoinPurseComponent>();
+            if (purseComp == null || purseComp.Coins < cost)
+            {
+                postMessageCallback(new TextMessage(
+                    $"{owner.GetName()} does not have {cost} coins for reforging {item.GetName()}",
+                    IMessage.PriorityLevel.VeryHigh));
+                return;
+            }
+            // Spend coins
+            purseComp.RemoveCoins(cost);
+            postMessageCallback(new CoinsChangedMessage(owner, -cost));
+
+            // Start reforging
+            double duration = Functions.CalculateReforgingDuration(item); // TODO: Use item level?
+            double roll = Rng.NextDouble();
+            craftComp.AddCraft(new(CraftingType.Reforge, item, duration, roll));
+            inventoryComp.RemoveItem(item);
+            postMessageCallback(new CraftingStartedMessage(owner, item, cost, CraftingType.Reforge));
+            postMessageCallback(new InventoryChangedMessage(owner));
         }
 
         public void UpdateCrafting(World _, Coordinator coordinator, double dt)
@@ -102,10 +107,10 @@ namespace TheIdleScrolls_Core.Systems
                             {
                                 ItemFactory.SetItemRarity(craft.TargetItem, newRarity);
                             }
-                            craft.TargetItem.GetComponent<ItemReforgeableComponent>()!.Reforged = true;
                             coordinator.PostMessage(this, new ItemReforgedMessage(crafter, craft.TargetItem, newRarity > rarity));
 						}
-                        
+
+                        craft.TargetItem.GetComponent<ItemReforgeableComponent>()!.Reforged = true;
                         var invComp = crafter.GetComponent<InventoryComponent>()!; // CornerCut: technically not guaranteed
                         invComp.AddItem(craft.TargetItem);
                         finishedCrafts.Add(craft.ID);
@@ -120,6 +125,28 @@ namespace TheIdleScrolls_Core.Systems
             {
                 coordinator.PostMessage(this, new CraftingUpdateMessage());
             }
+        }
+    }
+
+    public class CraftItemRequest : IMessage
+    {
+        public uint OwnerId { get; set; }
+        public uint ItemId { get; set; }
+
+        public CraftItemRequest(uint ownerId, uint itemId)
+        {
+            OwnerId = ownerId;
+            ItemId = itemId;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Request: #{OwnerId} to craft copy of prototype item #{ItemId}";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
         }
     }
 
