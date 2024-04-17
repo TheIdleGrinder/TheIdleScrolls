@@ -64,10 +64,35 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        public Entity? HandleCraftRequest(Entity owner, uint prototypeId, Action<IMessage> postMessage)
+        public void HandleCraftRequest(Entity owner, uint prototypeId, Action<IMessage> postMessage)
         {
-            postMessage(new TextMessage("Crafting is not implemented yet", IMessage.PriorityLevel.VeryHigh));
-            return null;
+            // Check for crafting bench
+            var craftComp = GetBenchAndCheckSlots(owner, postMessage);
+            if (craftComp == null)
+            {
+                return;
+            }
+
+            // Check for prototype
+            Entity? prototype = craftComp.AvailablePrototypes.FirstOrDefault(i => i.Id == prototypeId)
+                ?? throw new Exception($"Invalid crafting prototype id: #{prototypeId}");
+
+            // Check funds, for now crafting cost = reforging cost
+            int cost = prototype.GetComponent<ItemReforgeableComponent>()?.Cost ?? throw new Exception($"{prototype.GetName()} has no value");
+            if (!CheckAndSpendCoins(owner, cost, postMessage))
+            {
+                return;
+            }
+
+            // Clone prototype
+            Entity? newItem = ItemFactory.MakeItem(prototype.GetComponent<ItemComponent>()?.Code
+                               ?? throw new Exception($"{prototype.GetName()} is not an item")) 
+                ?? throw new Exception($"Failed to create item from prototype #{prototypeId}");
+
+            // Start crafting
+            double duration = Functions.CalculateReforgingDuration(newItem);
+            craftComp.AddCraft(new(CraftingType.Craft, newItem, duration, 0.0));
+            postMessage(new CraftingStartedMessage(owner, newItem, cost, CraftingType.Craft));
         }
 
         public void HandleReforgeRequest(Entity owner, Entity item, Action<IMessage> postMessage)
@@ -157,6 +182,10 @@ namespace TheIdleScrolls_Core.Systems
                     craft.Update(dt);
                     if (craft.HasFinished)
                     {
+                        if (craft.Type == CraftingType.Craft)
+                        {
+                            coordinator.PostMessage(this, new ItemReceivedMessage(crafter, craft.TargetItem));
+                        }
                         if (craft.Type == CraftingType.Reforge)
                         {
 							int abilityLevel = crafter.GetComponent<AbilitiesComponent>()
