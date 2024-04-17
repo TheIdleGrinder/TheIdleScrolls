@@ -14,19 +14,44 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class CraftingSystem : AbstractSystem
     {
+        bool FirstUpdate = true;
 		readonly Cooldown UpdateCrafts = new(0.5);
+        List<Entity> ItemPrototypes = new();
         double UpdateCraftsTime = 0.0;
 
 		readonly Random Rng = new();
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
+            var postMessageCallback = (IMessage message) =>
+            {
+                coordinator.PostMessage(this, message);
+            };
+
+            if (FirstUpdate)
+            {
+                FirstUpdate = false;
+                foreach (var crafter in coordinator.GetEntities<CraftingBenchComponent>())
+                {
+                    var craftingBench = crafter.GetComponent<CraftingBenchComponent>()!;
+                    craftingBench.AvailablePrototypes = GetPrototypes()
+                        .Where(i => (i.GetComponent<LevelComponent>()?.Level ?? 0) <= craftingBench.MaxCraftingLevel)
+                        .ToList();
+                }
+            }
+
+            foreach (var craftReq in coordinator.FetchMessagesByType<CraftItemRequest>())
+            {
+                var owner = coordinator.GetEntity(craftReq.OwnerId) ?? throw new Exception($"Invalid entity id: {craftReq.OwnerId}");
+                HandleCraftRequest(owner, craftReq.ItemId, postMessageCallback);
+            }
+
             foreach (var reforgeReq in coordinator.FetchMessagesByType<ReforgeItemRequest>())
             {
                 // Fetch owner and item, check id validity
                 var owner = coordinator.GetEntity(reforgeReq.OwnerId) ?? throw new Exception($"Invalid entity id: {reforgeReq.OwnerId}");
                 var item = coordinator.GetEntity(reforgeReq.ItemId) ?? throw new Exception($"Invalid entity id: {reforgeReq.ItemId}");
-                HandleReforgeRequest(owner, item, (IMessage message) => coordinator.PostMessage(this, message));
+                HandleReforgeRequest(owner, item, postMessageCallback);
             }
 
             // Updating twice per second is enough
@@ -39,7 +64,13 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        public void HandleReforgeRequest(Entity owner, Entity item, Action<IMessage> postMessageCallback)
+        public Entity? HandleCraftRequest(Entity owner, uint prototypeId, Action<IMessage> postMessage)
+        {
+            postMessage(new TextMessage("Crafting is not implemented yet", IMessage.PriorityLevel.VeryHigh));
+            return null;
+        }
+
+        public void HandleReforgeRequest(Entity owner, Entity item, Action<IMessage> postMessage)
         {
             var inventoryComp = owner.GetComponent<InventoryComponent>() ?? throw new Exception($"{owner.GetName()} does not have an inventory");
             // Check ownership
@@ -49,37 +80,68 @@ namespace TheIdleScrolls_Core.Systems
             }
             int itemLevel = ItemFactory.GetItemDropLevel(item.GetComponent<ItemComponent>()?.Code
                 ?? throw new Exception($"{item.GetName()} is not an item"));
+            
             // Check for crafting bench
-            var craftComp = owner.GetComponent<CraftingBenchComponent>()
-                ?? throw new Exception($"{owner.GetName()} is not able to craft items");
-            // Check for free crafting slots
-            if (!craftComp.HasFreeSlot)
+            var craftComp = GetBenchAndCheckSlots(owner, postMessage);
+            if (craftComp == null)
             {
-                postMessageCallback(new TextMessage($"{owner.GetName()} has no free crafting slots", IMessage.PriorityLevel.VeryHigh));
                 return;
             }
 
             // Check funds
             int cost = item.GetComponent<ItemReforgeableComponent>()?.Cost ?? throw new Exception($"{item.GetName()} is not reforgeable");
-            CoinPurseComponent? purseComp = owner.GetComponent<CoinPurseComponent>();
-            if (purseComp == null || purseComp.Coins < cost)
+            if (!CheckAndSpendCoins(owner, cost, postMessage))
             {
-                postMessageCallback(new TextMessage(
-                    $"{owner.GetName()} does not have {cost} coins for reforging {item.GetName()}",
-                    IMessage.PriorityLevel.VeryHigh));
                 return;
             }
-            // Spend coins
-            purseComp.RemoveCoins(cost);
-            postMessageCallback(new CoinsChangedMessage(owner, -cost));
 
             // Start reforging
-            double duration = Functions.CalculateReforgingDuration(item); // TODO: Use item level?
+            double duration = Functions.CalculateReforgingDuration(item);
             double roll = Rng.NextDouble();
             craftComp.AddCraft(new(CraftingType.Reforge, item, duration, roll));
             inventoryComp.RemoveItem(item);
-            postMessageCallback(new CraftingStartedMessage(owner, item, cost, CraftingType.Reforge));
-            postMessageCallback(new InventoryChangedMessage(owner));
+            postMessage(new CraftingStartedMessage(owner, item, cost, CraftingType.Reforge));
+            postMessage(new InventoryChangedMessage(owner));
+        }
+
+        private static CraftingBenchComponent? GetBenchAndCheckSlots(Entity crafter, Action<IMessage> postMessage)
+        {
+            var craftComp = crafter.GetComponent<CraftingBenchComponent>()
+                ?? throw new Exception($"{crafter.GetName()} is not able to craft items");
+            if (!craftComp.HasFreeSlot)
+            {
+                postMessage(new TextMessage($"{crafter.GetName()} has no free crafting slots", IMessage.PriorityLevel.VeryHigh));
+                return null;
+            }
+            return craftComp;
+        }
+
+        private static bool CheckAndSpendCoins(Entity owner, int cost, Action<IMessage> postMessage)
+        {
+            CoinPurseComponent? purseComp = owner.GetComponent<CoinPurseComponent>();
+            if (purseComp == null || purseComp.Coins < cost)
+            {
+                postMessage(new TextMessage($"{owner.GetName()} does not have {cost} coins",
+                    IMessage.PriorityLevel.VeryHigh));
+                return false;
+            }
+            purseComp.RemoveCoins(cost);
+            postMessage(new CoinsChangedMessage(owner, -cost));
+            return true;
+        }
+
+        private List<Entity> GetPrototypes()
+        {
+            if (!ItemPrototypes.Any())
+            {
+                ItemPrototypes = LootTable.Generate(new(999, 0, 0, 0.0))
+                                        .GetItemCodes()
+                                        .Select(c => ItemFactory.MakeItem(new(c)))
+                                        .Where(i => i is not null)
+                                        .OfType<Entity>()
+                                        .ToList();
+            }
+            return ItemPrototypes;            
         }
 
         public void UpdateCrafting(World _, Coordinator coordinator, double dt)

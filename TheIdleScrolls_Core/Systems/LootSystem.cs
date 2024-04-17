@@ -89,6 +89,11 @@ namespace TheIdleScrolls_Core.Systems
             m_table[itemCode] = weight;
         }
 
+        public List<string> GetItemCodes()
+        {
+            return m_table.Keys.ToList();
+        }
+
         public string? GetRandomEntry()
         {
             if (!m_table.Any())

@@ -42,6 +42,7 @@ namespace TheIdleScrolls_Core.Systems
         public event AutoProceedStateChangedHandler? PlayerAutoProceedStateChanged;
         public event FeatureAvailabilityChangedHandler? FeatureAvailabilityChanged;
         public event AccessibleAreasChangedHandler? AccessibleAreasChanged;
+        public event AvailableCraftingRecipesChangedHandler? AvailableCraftingRecipesChanged;
         public event CraftingProcessesChangedHandler? CraftingProcessesChanged;
         public event AchievementsChangedHandler? AchievementsChanged;
         public event StatReportChangedHandler? StatReportChanged;
@@ -216,13 +217,29 @@ namespace TheIdleScrolls_Core.Systems
                 AccessibleAreasChanged?.Invoke(maxWilderness, dungeons);
             }
 
+            // Update available crafting recipes
+            if (m_firstUpdate)
+            {
+                var craftComp = player.GetComponent<CraftingBenchComponent>();
+                if (craftComp != null)
+                {
+                    var prototypes = craftComp.AvailablePrototypes
+                        .Select(p => GenerateItemRepresentation(p))
+                        .OfType<ItemRepresentation>()
+                        .ToList();
+                    AvailableCraftingRecipesChanged?.Invoke(prototypes);
+                }
+            }
+
             // Update crafting processes
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<CraftingUpdateMessage>())
             {
                 var craftComp = player.GetComponent<CraftingBenchComponent>();
                 if (craftComp != null)
                 {
-                    var representations = craftComp.ActiveCrafts.Select(c => GenerateCraftRepresentation(c)).ToList();
+                    var representations = craftComp.ActiveCrafts
+                        .Select(c => GenerateCraftRepresentation(c))
+                        .ToList();
                     CraftingProcessesChanged?.Invoke(representations);
                 }
             }

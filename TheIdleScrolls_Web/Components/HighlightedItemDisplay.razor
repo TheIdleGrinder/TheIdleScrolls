@@ -42,6 +42,17 @@
             </button>
         }
     }
+    else
+    {
+        @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting) && CraftButtonVisible && HighlightedItem != null)
+        {
+            <div>Duration: @($"{HighlightedItem?.Reforging.Duration:0} seconds")</div>
+            <button id="btnCraft" class="itemButton" disabled="@(HighlightedItem == null || IsItemOwned(HighlightedItem))" @onclick="CraftItem">
+                @CraftText
+            </button>
+        }
+    }
+
     @if (CoreWrapper.Coins > 0)
     {
         <span id="coins">Purse: @(
@@ -107,7 +118,9 @@
     [Parameter]
     public bool SellButtonVisible { get; set; } = true;
     [Parameter]
-    public bool ReforgeButtonVisible { get; set; } = true;
+    public bool ReforgeButtonVisible { get; set; } = false;
+    [Parameter]
+    public bool CraftButtonVisible { get; set; } = false;
 
     ItemRepresentation? HighlightedItem => CoreWrapper.GetItem(CoreWrapper.HighlightedItem);
 
@@ -131,6 +144,7 @@
         } 
     }
     string ReforgeText => "Reforge" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Reforging.Cost ?? 0}c)" : "");
+    string CraftText => "Craft" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Reforging.Cost ?? 0}c)" : "");
 
     protected override void OnInitialized()
     {
@@ -180,6 +194,14 @@
         if (HighlightedItem != null)
         {
             CoreWrapper.InputHandler.ReforgeItem(CharId, HighlightedItem.Id);
+        }
+    }
+
+void CraftItem()
+    {
+        if (HighlightedItem != null)
+        {
+            CoreWrapper.InputHandler.CraftItem(CharId, HighlightedItem.Id);
         }
     }
 }

@@ -23,6 +23,7 @@ namespace TheIdleScrolls_Core
     public delegate void TimeLimitChangedHandler(double remaining, double duration);
     public delegate void FeatureAvailabilityChangedHandler(GameFeature feature, bool available);
     public delegate void AccessibleAreasChangedHandler(int maxWilderness, List<DungeonRepresentation> dungeons);
+    public delegate void AvailableCraftingRecipesChangedHandler(List<ItemRepresentation> prototypes);
     public delegate void CraftingProcessesChangedHandler(List<CraftingProcessRepresentation> process);
     public delegate void AchievementsChangedHandler(List<AchievementRepresentation> achievements, int achievementCount);
     public delegate void StatReportChangedHandler(string report);
@@ -49,6 +50,7 @@ namespace TheIdleScrolls_Core
         event TimeLimitChangedHandler TimeLimitChanged;
         event FeatureAvailabilityChangedHandler FeatureAvailabilityChanged;
         event AccessibleAreasChangedHandler AccessibleAreasChanged;
+        event AvailableCraftingRecipesChangedHandler AvailableCraftingRecipesChanged;
         event CraftingProcessesChangedHandler CraftingProcessesChanged;
         event AchievementsChangedHandler AchievementsChanged;
         event StatReportChangedHandler StatReportChanged;

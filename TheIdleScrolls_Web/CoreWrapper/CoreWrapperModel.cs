@@ -43,6 +43,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public AreaRepresentation Area { get; private set; } = new("", 0, false);
         public MobRepresentation Mob { get; private set; } = new(0, "", 0, 0, 0);
         public AccessibleAreas Accessible { get; } = new();
+        public List<ItemRepresentation> CraftingRecipes { get; private set; } = new();
         public List<CraftingProcessRepresentation> Crafts { get; private set; } = new();
         public bool AutoProceedActive { get; private set; } = false;
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
@@ -160,6 +161,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 Accessible.MaxWilderness = maxWild;
                 Accessible.Dungeons = dungeons;
             };
+            emitter.AvailableCraftingRecipesChanged += (List<ItemRepresentation> recipes) => CraftingRecipes = recipes;
             emitter.CraftingProcessesChanged += (List<CraftingProcessRepresentation> processes) => Crafts = processes;
             emitter.PlayerAutoProceedStateChanged += (bool active) => AutoProceedActive = active;
             emitter.FeatureAvailabilityChanged += (GameFeature feature, bool available) =>
@@ -272,7 +274,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public ItemRepresentation? GetItem(uint itemId)
         {
             var result = Equipment.Items.FirstOrDefault(item => item.Id == itemId) 
-                ?? Inventory.FirstOrDefault(item => item.Id == itemId);
+                ?? Inventory.FirstOrDefault(item => item.Id == itemId)
+                ?? CraftingRecipes.FirstOrDefault(item => item.Id == itemId);
             return result;
         }
 
