@@ -28,16 +28,38 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this, message);
             };
 
-            if (FirstUpdate)
+            if (FirstUpdate || coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
             {
-                FirstUpdate = false;
+                int maxLevel = 0;
+                foreach (var message in coordinator.FetchMessagesByType<DungeonCompletedMessage>())
+                {
+                    maxLevel = Math.Max(maxLevel, world.AreaKingdom.GetDungeon(message.DungeonId)?.Level ?? 0);
+                }
+
                 foreach (var crafter in coordinator.GetEntities<CraftingBenchComponent>())
                 {
                     var craftingBench = crafter.GetComponent<CraftingBenchComponent>()!;
+                    
+                    var progressComp = crafter.GetComponent<PlayerProgressComponent>();
+                    if (progressComp != null)
+                    {
+                        maxLevel = Math.Max(maxLevel, progressComp.Data.GetClearedDungeons()
+                            .Select(dId => world.Map.Dungeons.Where(d => d.Id == dId).FirstOrDefault()?.Level ?? 0).Max());
+                    }
+                    
+                    if (maxLevel > craftingBench.MaxCraftingLevel)
+                    {
+                        craftingBench.MaxCraftingLevel = maxLevel;
+                    }
                     craftingBench.AvailablePrototypes = GetPrototypes()
                         .Where(i => (i.GetComponent<LevelComponent>()?.Level ?? 0) <= craftingBench.MaxCraftingLevel)
                         .ToList();
+
+                    if (!FirstUpdate)
+                        coordinator.PostMessage(this, new AvailableCraftsChanged());
                 }
+
+                FirstUpdate = false;
             }
 
             foreach (var craftReq in coordinator.FetchMessagesByType<CraftItemRequest>())
@@ -164,6 +186,7 @@ namespace TheIdleScrolls_Core.Systems
                                         .Select(c => ItemFactory.MakeItem(new(c)))
                                         .Where(i => i is not null)
                                         .OfType<Entity>()
+                                        .OrderBy(i => i.GetComponent<LevelComponent>()?.Level ?? 0)
                                         .ToList();
             }
             return ItemPrototypes;            
@@ -184,7 +207,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         if (craft.Type == CraftingType.Craft)
                         {
-                            coordinator.PostMessage(this, new ItemReceivedMessage(crafter, craft.TargetItem));
+                            coordinator.PostMessage(this, new ItemCraftedMessage(crafter, craft.TargetItem));
                         }
                         if (craft.Type == CraftingType.Reforge)
                         {
@@ -204,6 +227,7 @@ namespace TheIdleScrolls_Core.Systems
                         craft.TargetItem.GetComponent<ItemReforgeableComponent>()!.Reforged = true;
                         var invComp = crafter.GetComponent<InventoryComponent>()!; // CornerCut: technically not guaranteed
                         invComp.AddItem(craft.TargetItem);
+                        coordinator.PostMessage(this, new InventoryChangedMessage(crafter));
                         finishedCrafts.Add(craft.ID);
                     }
                 }
@@ -263,6 +287,13 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
+    public class AvailableCraftsChanged : IMessage
+    {
+        string IMessage.BuildMessage() => "New crafts unlocked!";
+
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
+    }
+
     public class CraftingStartedMessage : IMessage
     {
 		public Entity Owner { get; set; }
@@ -289,6 +320,25 @@ namespace TheIdleScrolls_Core.Systems
 			return IMessage.PriorityLevel.High;
 		}
 	}
+
+    public class ItemCraftedMessage : IMessage
+    {
+        public Entity Owner { get; set; }
+        public Entity Item { get; set; }
+
+        public ItemCraftedMessage(Entity owner, Entity item)
+        {
+            Owner = owner;
+            Item = item;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"{Owner.GetName()} finished crafting {Item.GetName()}";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
+    }
 
     public class ItemReforgedMessage : IMessage
     {

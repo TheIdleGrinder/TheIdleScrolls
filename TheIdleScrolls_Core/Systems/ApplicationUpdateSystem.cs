@@ -218,7 +218,7 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Update available crafting recipes
-            if (m_firstUpdate)
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AvailableCraftsChanged>())
             {
                 var craftComp = player.GetComponent<CraftingBenchComponent>();
                 if (craftComp != null)
