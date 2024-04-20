@@ -9,7 +9,7 @@
     <div class="progressFrame craftingProgressBarFrame" style="justify-content: start">
         <div class="progressFill craftingProgressBar" style="width: @(PctString());"></div>
     </div>
-    <div>@($"{Craft.Remaining:0}") seconds left</div>
+    <div id="timeDisplay" @onclick="ToggleTimeDisplayMode">@(GetTimeDisplay())</div>
 </div>
 
 <style>
@@ -35,11 +35,23 @@
         background-color: lightseagreen;
         height: 20px;
     }
+
+    #timeDisplay {
+        cursor: pointer;
+        margin-top: 0.5rem;
+    }
 </style>
 
 @code {
     [Parameter]
     public CraftingProcessRepresentation Craft { get; set; }
+
+    bool ShowRemainingTime = true;
+
+    private void ToggleTimeDisplayMode()
+    {
+        ShowRemainingTime = !ShowRemainingTime;
+    }
 
     private string GetCraftTypeName()
     {
@@ -55,5 +67,10 @@
     {
         double pct = 1 - (Craft.Remaining / Craft.Duration);
         return $"{pct:0%}";
+    }
+
+    private string GetTimeDisplay()
+    {
+        return ShowRemainingTime ? $"{Craft.Remaining:0} seconds left" : $"{Craft.Duration:0} seconds";
     }
 }
