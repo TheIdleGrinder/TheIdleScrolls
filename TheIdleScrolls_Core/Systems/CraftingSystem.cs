@@ -30,16 +30,16 @@ namespace TheIdleScrolls_Core.Systems
 
             if (FirstUpdate || coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
             {
-                int maxLevel = 0;
-                foreach (var message in coordinator.FetchMessagesByType<DungeonCompletedMessage>())
-                {
-                    maxLevel = Math.Max(maxLevel, world.AreaKingdom.GetDungeon(message.DungeonId)?.Level ?? 0);
-                }
-
                 foreach (var crafter in coordinator.GetEntities<CraftingBenchComponent>())
                 {
                     var craftingBench = crafter.GetComponent<CraftingBenchComponent>()!;
-                    
+
+                    int maxLevel = craftingBench.MaxCraftingLevel;
+                    foreach (var message in coordinator.FetchMessagesByType<DungeonCompletedMessage>())
+                    {
+                        maxLevel = Math.Max(maxLevel, world.AreaKingdom.GetDungeon(message.DungeonId)?.Level ?? 0);
+                    }
+
                     var progressComp = crafter.GetComponent<PlayerProgressComponent>();
                     if (progressComp != null)
                     {
