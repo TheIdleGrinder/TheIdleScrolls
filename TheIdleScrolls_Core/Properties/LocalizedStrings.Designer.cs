@@ -565,6 +565,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting Slot ähnelt.
+        /// </summary>
+        internal static string CraftingSlot {
+            get {
+                return ResourceManager.GetString("CraftingSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Dragon ähnelt.
         /// </summary>
         internal static string DRAGON {

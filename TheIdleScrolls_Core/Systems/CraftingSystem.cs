@@ -197,7 +197,7 @@ namespace TheIdleScrolls_Core.Systems
             bool updated = false;
             foreach (var crafter in coordinator.GetEntities<CraftingBenchComponent>())
             {
-                var bench = crafter.GetComponent<CraftingBenchComponent>()!; // has to exist due to filter above
+                var bench = UpdateCraftingBench(crafter)!; // has to exist due to filter above
                 List<uint> finishedCrafts = new();
                 foreach (var craft in bench.ActiveCrafts)
                 {
@@ -240,6 +240,24 @@ namespace TheIdleScrolls_Core.Systems
             {
                 coordinator.PostMessage(this, new CraftingUpdateMessage());
             }
+        }
+
+        private static CraftingBenchComponent? UpdateCraftingBench(Entity crafter)
+        {
+            var bench = crafter.GetComponent<CraftingBenchComponent>();
+            if (bench == null)
+            {
+                return null;
+            }
+
+            // Update number of slots
+            var modComp = crafter.GetComponent<ModifierComponent>();
+            if (modComp != null)
+            {
+                bench.CraftingSlots = (int)modComp.ApplyApplicableModifiers(1.0, new string[] { Definitions.Tags.CraftingSlot } );
+            }
+
+            return bench;
         }
     }
 

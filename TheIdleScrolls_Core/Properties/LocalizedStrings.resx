@@ -285,6 +285,9 @@
   <data name="CLASS_X_X" xml:space="preserve">
     <value>Monk</value>
   </data>
+  <data name="CraftingSlot" xml:space="preserve">
+    <value>Crafting Slot</value>
+  </data>
   <data name="DRAGON" xml:space="preserve">
     <value>Dragon</value>
   </data>
