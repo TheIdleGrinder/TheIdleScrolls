@@ -87,7 +87,8 @@ namespace TheIdleScrolls_Core
             public const string CharacterXpGain = "CharacterXpGain";
             public const string AbilityXpGain = "AbilityXpGain";
 
-            public const string CraftingSlot = "CraftingSlot";
+            public const string CraftingSlots = "CraftingSlot";
+            public const string ActiveCrafts = "ActiveCraftingSlot";
         }
     }
 

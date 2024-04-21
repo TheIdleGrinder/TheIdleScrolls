@@ -11,6 +11,7 @@ namespace TheIdleScrolls_Core.Components
 	public class CraftingBenchComponent : IComponent
 	{
 		public int CraftingSlots { get; set; } = 1;
+		public int MaxActiveCrafts { get; set; } = 1;
 		public int MaxCraftingLevel { get; set; } = 10;
 		public List<CraftingProcess> ActiveCrafts { get; } = new();
 		public List<Entity> AvailablePrototypes { get; set; } = new();

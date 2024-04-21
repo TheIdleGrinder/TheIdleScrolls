@@ -28,6 +28,6 @@ namespace TheIdleScrolls_Core
     public record DungeonRepresentation(string Id, string Name, int Level, string Description, int Rarity);
     public record AchievementRepresentation(string Title, string Description, bool Earned, string Reward = "");
     public record AreaRepresentation(string Name, int Level, bool IsDungeon);
-    public record CraftingBenchRepresentation(int MaxCraftingLevel, int Slots, List<CraftingProcessRepresentation> Crafts);
+    public record CraftingBenchRepresentation(int MaxCraftingLevel, int Slots, int MaxActive, List<CraftingProcessRepresentation> Crafts);
     public record CraftingProcessRepresentation(CraftingType Type, ItemRepresentation Item, double Duration, double Remaining);
 }

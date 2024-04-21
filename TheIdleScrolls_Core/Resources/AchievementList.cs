@@ -653,7 +653,7 @@ namespace TheIdleScrolls_Core.Resources
                                     $"You have one more crafting slot",
                                     ModifierType.AddFlat,
                                     1.0,
-                                    new string[] { Definitions.Tags.CraftingSlot }),
+                                    new string[] { Definitions.Tags.CraftingSlots }),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "LAR" or "HAR" or "ABL_CRAFT", 150)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Savant",
                                     $"{0.3:0.#%} increased experience gain for {id.Localize()} ability",

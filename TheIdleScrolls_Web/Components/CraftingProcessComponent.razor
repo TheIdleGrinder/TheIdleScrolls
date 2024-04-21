@@ -1,12 +1,9 @@
 ﻿@using TheIdleScrolls_Core
 
-@* @inject CoreWrapperModel CoreWrapper *@
-
-<div class="crafting-process-frame">
+<div class="crafting-process-frame @(GetComponentClasses())">
     <h4>@(GetCraftTypeName())</h4>
     <h6 class="@CssUtilities.GetClassesForItem(Craft.Item)">@Craft.Item.Name</h6>
-    @* <div>@($"{Craft.Duration:0.#}") seconds</div> *@
-    <div class="progressFrame craftingProgressBarFrame" style="justify-content: start">
+    <div class="progressFrame craftingProgressBarFrame @(GetComponentClasses())" style="justify-content: start">
         <div class="progressFill craftingProgressBar" style="width: @(PctString());"></div>
     </div>
     <div id="timeDisplay" @onclick="ToggleTimeDisplayMode">@(GetTimeDisplay())</div>
@@ -36,6 +33,11 @@
         height: 20px;
     }
 
+    div.queuedCraft {
+        background-color: lightgray;
+        opacity: 0.70;
+    }
+
     #timeDisplay {
         cursor: pointer;
         margin-top: 0.5rem;
@@ -47,6 +49,8 @@
     public CraftingProcessRepresentation Craft { get; set; }
 
     bool ShowRemainingTime = true;
+
+    bool CraftIsActive => Craft.Remaining < Craft.Duration;
 
     private void ToggleTimeDisplayMode()
     {
@@ -71,6 +75,13 @@
 
     private string GetTimeDisplay()
     {
-        return ShowRemainingTime ? $"{Craft.Remaining:0} seconds left" : $"{Craft.Duration:0} seconds";
+        return (ShowRemainingTime && CraftIsActive) 
+            ? $"{Craft.Remaining:0} seconds left" 
+            : $"{Craft.Duration:0} seconds";
+    }
+
+    string GetComponentClasses()
+    {
+        return (!CraftIsActive) ? "queuedCraft" : "";
     }
 }

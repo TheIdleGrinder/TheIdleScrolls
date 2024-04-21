@@ -62,7 +62,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 Definitions.Tags.EvasionRating,
                 Definitions.Tags.CharacterXpGain,
                 Definitions.Tags.AbilityXpGain,
-                Definitions.Tags.CraftingSlot
+                Definitions.Tags.CraftingSlots
             };
             targetTags = targetTags.Where(t => modifier.RequiredTags.Contains(t)).ToList();
             List<string> whileTags = new()

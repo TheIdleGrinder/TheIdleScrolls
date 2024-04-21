@@ -200,8 +200,13 @@ namespace TheIdleScrolls_Core.Systems
                 var (bench, benchChanged) = UpdateCraftingBench(crafter); // has to exist due to filter above
                 updated |= benchChanged;
                 List<uint> finishedCrafts = new();
+                int updatedCrafts = 0;
                 foreach (var craft in bench!.ActiveCrafts)
                 {
+                    if (updatedCrafts >= bench.MaxActiveCrafts)
+                    {
+                        break;
+                    }
                     updated = true;
                     craft.Update(dt);
                     if (craft.HasFinished)
@@ -231,6 +236,7 @@ namespace TheIdleScrolls_Core.Systems
                         coordinator.PostMessage(this, new InventoryChangedMessage(crafter));
                         finishedCrafts.Add(craft.ID);
                     }
+                    updatedCrafts++;
                 }
                 foreach (var id in finishedCrafts)
                 {
@@ -252,13 +258,16 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             bool updated = false;
+
             // Update number of slots
             var modComp = crafter.GetComponent<ModifierComponent>();
             if (modComp != null)
             {
                 int slots = bench.CraftingSlots;
-                bench.CraftingSlots = (int)modComp.ApplyApplicableModifiers(1.0, new string[] { Definitions.Tags.CraftingSlot } );
-                if (slots != bench.CraftingSlots)
+                int active = bench.MaxActiveCrafts;
+                bench.CraftingSlots = (int)modComp.ApplyApplicableModifiers(1.0, new string[] { Definitions.Tags.CraftingSlots } );
+                bench.MaxActiveCrafts = (int)modComp.ApplyApplicableModifiers(1.0, new string[] { Definitions.Tags.ActiveCrafts } );
+                if (slots != bench.CraftingSlots || active != bench.MaxActiveCrafts)
                 {
                     updated = true;
                 }

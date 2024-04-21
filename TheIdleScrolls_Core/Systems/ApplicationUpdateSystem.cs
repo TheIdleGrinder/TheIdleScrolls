@@ -240,7 +240,10 @@ namespace TheIdleScrolls_Core.Systems
                     var representations = craftComp.ActiveCrafts
                         .Select(c => GenerateCraftRepresentation(c))
                         .ToList();
-                    CraftingBenchRepresentation bench = new(craftComp.MaxCraftingLevel, craftComp.CraftingSlots, representations);
+                    CraftingBenchRepresentation bench = new(craftComp.MaxCraftingLevel, 
+                                                            craftComp.CraftingSlots, 
+                                                            craftComp.MaxActiveCrafts, 
+                                                            representations);
                     CraftingBenchChanged?.Invoke(bench);
                 }
             }

@@ -44,7 +44,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public MobRepresentation Mob { get; private set; } = new(0, "", 0, 0, 0);
         public AccessibleAreas Accessible { get; } = new();
         public List<ItemRepresentation> CraftingRecipes { get; private set; } = new();
-        public CraftingBenchRepresentation CraftingBench { get; private set; } = new(0, 0, new());
+        public CraftingBenchRepresentation CraftingBench { get; private set; } = new(0, 0, 0, new());
         public bool AutoProceedActive { get; private set; } = false;
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
         public Equipment Equipment { get; private set; } = new();
