@@ -197,9 +197,10 @@ namespace TheIdleScrolls_Core.Systems
             bool updated = false;
             foreach (var crafter in coordinator.GetEntities<CraftingBenchComponent>())
             {
-                var bench = UpdateCraftingBench(crafter)!; // has to exist due to filter above
+                var (bench, benchChanged) = UpdateCraftingBench(crafter); // has to exist due to filter above
+                updated |= benchChanged;
                 List<uint> finishedCrafts = new();
-                foreach (var craft in bench.ActiveCrafts)
+                foreach (var craft in bench!.ActiveCrafts)
                 {
                     updated = true;
                     craft.Update(dt);
@@ -242,22 +243,28 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        private static CraftingBenchComponent? UpdateCraftingBench(Entity crafter)
+        private static (CraftingBenchComponent?, bool) UpdateCraftingBench(Entity crafter)
         {
             var bench = crafter.GetComponent<CraftingBenchComponent>();
             if (bench == null)
             {
-                return null;
+                return (null, false);
             }
 
+            bool updated = false;
             // Update number of slots
             var modComp = crafter.GetComponent<ModifierComponent>();
             if (modComp != null)
             {
+                int slots = bench.CraftingSlots;
                 bench.CraftingSlots = (int)modComp.ApplyApplicableModifiers(1.0, new string[] { Definitions.Tags.CraftingSlot } );
+                if (slots != bench.CraftingSlots)
+                {
+                    updated = true;
+                }
             }
 
-            return bench;
+            return (bench, updated);
         }
     }
 
@@ -384,7 +391,7 @@ namespace TheIdleScrolls_Core.Systems
 
     public class CraftingUpdateMessage : IMessage
     {
-        string IMessage.BuildMessage() => $"Crafting progress has been updated";
+        string IMessage.BuildMessage() => $"Crafting bench state has been updated";
 
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }

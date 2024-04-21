@@ -44,7 +44,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public MobRepresentation Mob { get; private set; } = new(0, "", 0, 0, 0);
         public AccessibleAreas Accessible { get; } = new();
         public List<ItemRepresentation> CraftingRecipes { get; private set; } = new();
-        public List<CraftingProcessRepresentation> Crafts { get; private set; } = new();
+        public CraftingBenchRepresentation CraftingBench { get; private set; } = new(0, 0, new());
         public bool AutoProceedActive { get; private set; } = false;
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
         public Equipment Equipment { get; private set; } = new();
@@ -162,7 +162,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 Accessible.Dungeons = dungeons;
             };
             emitter.AvailableCraftingRecipesChanged += (List<ItemRepresentation> recipes) => CraftingRecipes = recipes;
-            emitter.CraftingProcessesChanged += (List<CraftingProcessRepresentation> processes) => Crafts = processes;
+            emitter.CraftingBenchChanged += (CraftingBenchRepresentation bench) => CraftingBench = bench;
             emitter.PlayerAutoProceedStateChanged += (bool active) => AutoProceedActive = active;
             emitter.FeatureAvailabilityChanged += (GameFeature feature, bool available) =>
             {

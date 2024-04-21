@@ -43,7 +43,7 @@ namespace TheIdleScrolls_Core.Systems
         public event FeatureAvailabilityChangedHandler? FeatureAvailabilityChanged;
         public event AccessibleAreasChangedHandler? AccessibleAreasChanged;
         public event AvailableCraftingRecipesChangedHandler? AvailableCraftingRecipesChanged;
-        public event CraftingProcessesChangedHandler? CraftingProcessesChanged;
+        public event CraftingBenchChangedHandler? CraftingBenchChanged;
         public event AchievementsChangedHandler? AchievementsChanged;
         public event StatReportChangedHandler? StatReportChanged;
         public event DisplayMessageHandler? DisplayMessageReceived;
@@ -240,7 +240,8 @@ namespace TheIdleScrolls_Core.Systems
                     var representations = craftComp.ActiveCrafts
                         .Select(c => GenerateCraftRepresentation(c))
                         .ToList();
-                    CraftingProcessesChanged?.Invoke(representations);
+                    CraftingBenchRepresentation bench = new(craftComp.MaxCraftingLevel, craftComp.CraftingSlots, representations);
+                    CraftingBenchChanged?.Invoke(bench);
                 }
             }
 

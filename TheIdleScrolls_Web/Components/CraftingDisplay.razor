@@ -4,10 +4,10 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div id="crafting-display-outer" class="wrapper">
-    <h5 style="grid-column:1/3">Active Crafts (@CoreWrapper.Crafts.Count/1)</h5>
+    <h5 style="grid-column:1/3">Active Crafts (@Crafts.Count/@CoreWrapper.CraftingBench.Slots)</h5>
     
     <div id="active-crafts">
-        @foreach (var craft in CoreWrapper.Crafts)
+        @foreach (var craft in Crafts)
         {
             <CraftingProcessComponent Craft=@craft></CraftingProcessComponent>
         }
@@ -94,6 +94,8 @@ div.wrapper {
     enum CraftingMode { Craft, Reforge }
 
     CraftingMode Mode = CraftingMode.Reforge;
+
+    List<CraftingProcessRepresentation> Crafts => CoreWrapper.CraftingBench.Crafts;
 
     private string GetTabButtonClasses(CraftingMode mode) => mode == Mode ? "active" : "";
 
