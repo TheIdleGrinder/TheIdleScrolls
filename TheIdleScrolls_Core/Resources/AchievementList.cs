@@ -649,11 +649,23 @@ namespace TheIdleScrolls_Core.Resources
                                     0.1,
                                     new string[] { Definitions.Tags.Defense }),
                 ("ABL_CRAFT", 25)
-                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Apprentice",
-                                    $"You have one more crafting slot",
+                                => new($"{id}{level}", "Crafting Apprentice", 
+                                    $"Gain an additional slot in the crafting queue for every 25 levels of the Crafting ability",
+                                    new() { UpdateTrigger.AbilityIncreased },
+                                    (e, w, c) =>
+                                    {
+                                        int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                                        return new() { new($"{id}{level}", ModifierType.AddFlat, (level / 25),
+                                            new() { Definitions.Tags.CraftingSlots }
+                                            )
+                                        };
+                                    }),
+                ("ABL_CRAFT", 50)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Journeyman",
+                                    $"Gain one more active crafting slot",
                                     ModifierType.AddFlat,
                                     1.0,
-                                    new string[] { Definitions.Tags.CraftingSlots }),
+                                    new string[] { Definitions.Tags.ActiveCrafts }),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "LAR" or "HAR" or "ABL_CRAFT", 150)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Savant",
                                     $"{0.3:0.#%} increased experience gain for {id.Localize()} ability",

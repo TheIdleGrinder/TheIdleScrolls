@@ -123,6 +123,9 @@
   <data name="ABL_CRAFT" xml:space="preserve">
     <value>Crafting</value>
   </data>
+  <data name="ActiveCraftingSlot" xml:space="preserve">
+    <value>Active Craft(s)</value>
+  </data>
   <data name="ArmorRating" xml:space="preserve">
     <value>Armor Rating</value>
   </data>
@@ -286,7 +289,7 @@
     <value>Monk</value>
   </data>
   <data name="CraftingSlot" xml:space="preserve">
-    <value>Crafting Slot</value>
+    <value>Crafting Slot(s)</value>
   </data>
   <data name="DRAGON" xml:space="preserve">
     <value>Dragon</value>

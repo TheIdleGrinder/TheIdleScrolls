@@ -79,6 +79,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Active Craft(s) ähnelt.
+        /// </summary>
+        internal static string ActiveCraftingSlot {
+            get {
+                return ResourceManager.GetString("ActiveCraftingSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Armor Rating ähnelt.
         /// </summary>
         internal static string ArmorRating {
@@ -565,7 +574,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting Slot ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting Slot(s) ähnelt.
         /// </summary>
         internal static string CraftingSlot {
             get {
