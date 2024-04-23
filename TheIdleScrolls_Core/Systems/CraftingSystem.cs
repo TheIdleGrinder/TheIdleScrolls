@@ -86,10 +86,10 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        public void HandleCraftRequest(Entity owner, uint prototypeId, Action<IMessage> postMessage)
+        public void HandleCraftRequest(Entity crafter, uint prototypeId, Action<IMessage> postMessage)
         {
             // Check for crafting bench
-            var craftComp = GetBenchAndCheckSlots(owner, postMessage);
+            var craftComp = GetBenchAndCheckSlots(crafter, postMessage);
             if (craftComp == null)
             {
                 return;
@@ -100,8 +100,8 @@ namespace TheIdleScrolls_Core.Systems
                 ?? throw new Exception($"Invalid crafting prototype id: #{prototypeId}");
 
             // Check funds, for now crafting cost = reforging cost
-            int cost = prototype.GetComponent<ItemReforgeableComponent>()?.Cost ?? throw new Exception($"{prototype.GetName()} has no value");
-            if (!CheckAndSpendCoins(owner, cost, postMessage))
+            int cost = Functions.CalculateCraftingCost(prototype, crafter);
+            if (!CheckAndSpendCoins(crafter, cost, postMessage))
             {
                 return;
             }
@@ -112,9 +112,9 @@ namespace TheIdleScrolls_Core.Systems
                 ?? throw new Exception($"Failed to create item from prototype #{prototypeId}");
 
             // Start crafting
-            double duration = Functions.CalculateReforgingDuration(newItem);
+            double duration = Functions.CalculateReforgingDuration(newItem, crafter);
             craftComp.AddCraft(new(CraftingType.Craft, newItem, duration, 0.0));
-            postMessage(new CraftingStartedMessage(owner, newItem, cost, CraftingType.Craft));
+            postMessage(new CraftingStartedMessage(crafter, newItem, cost, CraftingType.Craft));
         }
 
         public void HandleReforgeRequest(Entity owner, Entity item, Action<IMessage> postMessage)
@@ -136,14 +136,14 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Check funds
-            int cost = item.GetComponent<ItemReforgeableComponent>()?.Cost ?? throw new Exception($"{item.GetName()} is not reforgeable");
+            int cost = Functions.CalculateCraftingCost(item, owner);
             if (!CheckAndSpendCoins(owner, cost, postMessage))
             {
                 return;
             }
 
             // Start reforging
-            double duration = Functions.CalculateReforgingDuration(item);
+            double duration = Functions.CalculateReforgingDuration(item, owner);
             double roll = Rng.NextDouble();
             craftComp.AddCraft(new(CraftingType.Reforge, item, duration, roll));
             inventoryComp.RemoveItem(item);

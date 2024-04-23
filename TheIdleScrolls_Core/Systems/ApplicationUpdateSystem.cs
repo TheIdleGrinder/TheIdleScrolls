@@ -76,9 +76,10 @@ namespace TheIdleScrolls_Core.Systems
                 PlayerXpChanged?.Invoke(xp, target);
             }
 
-            // Update items
+            // Update items (update when perks change, because crafting cost/duration might change)
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<InventoryChangedMessage>()
-                || coordinator.MessageTypeIsOnBoard<ItemReforgedMessage>())
+                || coordinator.MessageTypeIsOnBoard<ItemReforgedMessage>()
+                || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>())
             {
                 var inventoryComp = player.GetComponent<InventoryComponent>();
                 var equipmentComp = player.GetComponent<EquipmentComponent>();
@@ -89,7 +90,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     foreach (var item in inventoryComp.GetItems())
                     {
-                        var invItem = GenerateItemRepresentation(item);
+                        var invItem = GenerateItemRepresentation(item, player);
                         if (invItem != null)
                             invItems.Add(invItem);
                     }
@@ -99,7 +100,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     foreach (var item in equipmentComp.GetItems().OrderBy(i => i.IsShield() ? 1: 0))
                     {
-                        var eItem = GenerateItemRepresentation(item);
+                        var eItem = GenerateItemRepresentation(item, player);
                         if (eItem != null)
                             equipItems.Add(eItem);
                     }
@@ -217,14 +218,15 @@ namespace TheIdleScrolls_Core.Systems
                 AccessibleAreasChanged?.Invoke(maxWilderness, dungeons);
             }
 
-            // Update available crafting recipes
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AvailableCraftsChanged>())
+            // Update available crafting recipes (update when perks change, because crafting cost/duration might change)
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AvailableCraftsChanged>() 
+                || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>())
             {
                 var craftComp = player.GetComponent<CraftingBenchComponent>();
                 if (craftComp != null)
                 {
                     var prototypes = craftComp.AvailablePrototypes
-                        .Select(p => GenerateItemRepresentation(p))
+                        .Select(p => GenerateItemRepresentation(p, player)) // Pass player as owner for modifiers to crafting cost, time
                         .OfType<ItemRepresentation>()
                         .ToList();
                     AvailableCraftingRecipesChanged?.Invoke(prototypes);
@@ -361,7 +363,7 @@ namespace TheIdleScrolls_Core.Systems
             return new MobRepresentation(mob.Id, mobName, mobLevel, mobHp, mobHpMax);
         }
 
-        static ItemRepresentation? GenerateItemRepresentation(Entity item)
+        static ItemRepresentation? GenerateItemRepresentation(Entity item, Entity? owner)
         {
             var itemComp = item.GetComponent<ItemComponent>();
             var equipComp = item.GetComponent<EquippableComponent>();
@@ -418,14 +420,15 @@ namespace TheIdleScrolls_Core.Systems
                 equipComp?.Slots ?? new() { EquipmentSlot.Hand },
                 itemComp?.Code.RarityLevel ?? 0,
                 item.GetComponent<ItemValueComponent>()?.Value ?? 0,
-                (forgeComp?.Cost ?? -1, Functions.CalculateReforgingDuration(item)),
+                (Functions.CalculateCraftingCost(item, owner), 
+                Functions.CalculateReforgingDuration(item, owner)),
                 forgeComp?.Reforged ?? false
                 );
         }
 
         static CraftingProcessRepresentation GenerateCraftRepresentation(CraftingProcess craft)
         {
-            var item = GenerateItemRepresentation(craft.TargetItem) ?? throw new Exception($"Craft {craft.ID} contains invalid item");
+            var item = GenerateItemRepresentation(craft.TargetItem, null) ?? throw new Exception($"Craft {craft.ID} contains invalid item");
             return new CraftingProcessRepresentation(craft.Type, item, craft.Duration.Duration, craft.Duration.Remaining);
         }
 

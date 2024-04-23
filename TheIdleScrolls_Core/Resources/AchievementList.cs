@@ -662,6 +662,18 @@ namespace TheIdleScrolls_Core.Resources
                                     }),
                 ("ABL_CRAFT", 50)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Journeyman",
+                                    $"Gain a discount for all crafts",
+                                    ModifierType.Increase,
+                                    -0.2,
+                                    new string[] { Definitions.Tags.CraftingCost }),
+                ("ABL_CRAFT", 75)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Expert",
+                                    $"Gain increased crafting speed",
+                                    ModifierType.Increase,
+                                    0.2,
+                                    new string[] { Definitions.Tags.CraftingSpeed }),
+                ("ABL_CRAFT", 100)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Journeyman",
                                     $"Gain one more active crafting slot",
                                     ModifierType.AddFlat,
                                     1.0,

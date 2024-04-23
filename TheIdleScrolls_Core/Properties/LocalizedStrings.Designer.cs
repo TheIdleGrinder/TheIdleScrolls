@@ -574,11 +574,29 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting Cost ähnelt.
+        /// </summary>
+        internal static string CraftingCost {
+            get {
+                return ResourceManager.GetString("CraftingCost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Crafting Slot(s) ähnelt.
         /// </summary>
         internal static string CraftingSlot {
             get {
                 return ResourceManager.GetString("CraftingSlot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting Speed ähnelt.
+        /// </summary>
+        internal static string CraftingSpeed {
+            get {
+                return ResourceManager.GetString("CraftingSpeed", resourceCulture);
             }
         }
         

@@ -89,6 +89,8 @@ namespace TheIdleScrolls_Core
 
             public const string CraftingSlots = "CraftingSlot";
             public const string ActiveCrafts = "ActiveCraftingSlot";
+            public const string CraftingSpeed = "CraftingSpeed";
+            public const string CraftingCost = "CraftingCost";
         }
     }
 
@@ -174,11 +176,22 @@ namespace TheIdleScrolls_Core
             return abilityLevel / (abilityLevel + Math.Pow(currentRarity + 1, 2) * 10);
         }
 
-        public static double CalculateReforgingDuration(Entity item)
+        public static double CalculateReforgingDuration(Entity item, Entity? crafter)
         {
             var materialTier = item.GetComponent<ItemMaterialComponent>()?.Tier ?? 0;
-            return Definitions.Stats.ReforgingBaseDuration 
+            double baseDuration = Definitions.Stats.ReforgingBaseDuration 
                 + Definitions.Stats.ReforgingDurationPerMaterialTier * materialTier;
+            double speed = crafter?.ApplyAllApplicableModifiers(1.0, new string[] { Definitions.Tags.CraftingSpeed }) ?? 1.0;
+            
+            // CornerCut: Minimum speed of 1% to prevent eternal crafts, realistically will never be below 1.0
+            return Math.Ceiling(baseDuration / Math.Max(speed, 0.01));
+        }
+
+        public static int CalculateCraftingCost(Entity item, Entity? crafter)
+        {
+            int baseCost = item.GetComponent<ItemReforgeableComponent>()?.Cost ?? 100;
+            double cost = crafter?.ApplyAllApplicableModifiers(baseCost, new string[] { Definitions.Tags.CraftingCost }) ?? baseCost;
+            return (int)Math.Ceiling(Math.Max(cost, 1.0));
         }
     }
 }

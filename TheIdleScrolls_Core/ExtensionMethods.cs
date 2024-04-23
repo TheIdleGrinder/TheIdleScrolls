@@ -79,6 +79,11 @@ namespace TheIdleScrolls_Core
         {
             return entity.GetComponent<TagsComponent>()?.ListTags() ?? new();
         }
+
+        public static double ApplyAllApplicableModifiers(this Entity entity, double baseValue, IEnumerable<string> tags)
+        {
+            return entity.GetComponent<ModifierComponent>()?.ApplyApplicableModifiers(baseValue, tags) ?? baseValue;
+        }
     }
 
     public static class StringExtensions
