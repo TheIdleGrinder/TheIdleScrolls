@@ -22,16 +22,18 @@ namespace TheIdleScrolls_Core.Crafting
 		public Cooldown Duration { get; }
 		public CraftingType Type { get; } = CraftingType.Craft;
 		public double Roll { get; set; } = 0.5;
+		public int CoinsSpent { get; set; } = 0;
 
 		public bool HasFinished => Duration.HasFinished;
 
-		public CraftingProcess(CraftingType type, Entity targetItem, double duration, double strength)
+		public CraftingProcess(CraftingType type, Entity targetItem, double duration, double strength, int cost)
 		{
 			ID = NextID++;
 			TargetItem = targetItem;
 			Duration = new Cooldown(duration);
 			Type = type;
 			Roll = strength;
+			CoinsSpent = cost;
 
 			Duration.SingleShot = true;
 		}

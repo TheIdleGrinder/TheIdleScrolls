@@ -429,7 +429,7 @@ namespace TheIdleScrolls_Core.Systems
         static CraftingProcessRepresentation GenerateCraftRepresentation(CraftingProcess craft)
         {
             var item = GenerateItemRepresentation(craft.TargetItem, null) ?? throw new Exception($"Craft {craft.ID} contains invalid item");
-            return new CraftingProcessRepresentation(craft.Type, item, craft.Duration.Duration, craft.Duration.Remaining);
+            return new CraftingProcessRepresentation(craft.Type, item, craft.Duration.Duration, craft.Duration.Remaining, craft.CoinsSpent);
         }
 
         static string GetItemTypeName(Entity item)

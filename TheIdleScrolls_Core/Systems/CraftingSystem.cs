@@ -113,7 +113,7 @@ namespace TheIdleScrolls_Core.Systems
 
             // Start crafting
             double duration = Functions.CalculateReforgingDuration(newItem, crafter);
-            craftComp.AddCraft(new(CraftingType.Craft, newItem, duration, 0.0));
+            craftComp.AddCraft(new(CraftingType.Craft, newItem, duration, 0.0, cost));
             postMessage(new CraftingStartedMessage(crafter, newItem, cost, CraftingType.Craft));
         }
 
@@ -145,7 +145,7 @@ namespace TheIdleScrolls_Core.Systems
             // Start reforging
             double duration = Functions.CalculateReforgingDuration(item, owner);
             double roll = Rng.NextDouble();
-            craftComp.AddCraft(new(CraftingType.Reforge, item, duration, roll));
+            craftComp.AddCraft(new(CraftingType.Reforge, item, duration, roll, cost));
             inventoryComp.RemoveItem(item);
             postMessage(new CraftingStartedMessage(owner, item, cost, CraftingType.Reforge));
             postMessage(new InventoryChangedMessage(owner));

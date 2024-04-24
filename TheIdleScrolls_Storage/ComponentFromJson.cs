@@ -306,14 +306,15 @@ namespace TheIdleScrolls_JSON
 				foreach (var jsonCraft in jsonCrafts)
                 {
                     string[] parts = jsonCraft!.ToString().Split('/');
-                    if (parts.Length != 5)
+                    if (parts.Length != 6)
 						throw new Exception($"Invalid number of fields in stored craft: {jsonCraft}");
                     CraftingType type = (CraftingType)Int32.Parse(parts[0]);
 					Entity item = ItemFactory.MakeItem(new(parts[1])) ?? throw new Exception($"Unable to make item from code {parts[1]}");
                     double duration = Double.Parse(parts[2]);
                     double remaining = Double.Parse(parts[3]);
                     double roll = Double.Parse(parts[4]);
-					CraftingProcess process = new(type, item, duration, roll);
+                    int cost = Int32.Parse(parts[5]);
+					CraftingProcess process = new(type, item, duration, roll, cost);
                     process.Update(duration - remaining);
                     component.ActiveCrafts.Add(process);
 				}
