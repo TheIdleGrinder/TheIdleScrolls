@@ -123,6 +123,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                     {
                         owedTime = sw.ElapsedMilliseconds - frameTime;
                     }
+                    //Console.WriteLine($"Frame time: {sw.ElapsedMilliseconds}ms");
 				}
                 catch (Exception e)
                 {

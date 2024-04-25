@@ -14,7 +14,9 @@
     <div id="active-crafts">
         @foreach (var craft in Crafts)
         {
-            <CraftingProcessComponent Craft=@craft></CraftingProcessComponent>
+            <CraftingProcessComponent Craft=@craft 
+                OnCancel=@(() => CoreWrapper.InputHandler.CancelCraft(CoreWrapper.Character.Id, craft.Item.Id))>
+            </CraftingProcessComponent>
         }
     </div>
     

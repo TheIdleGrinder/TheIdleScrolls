@@ -126,15 +126,22 @@ namespace TheIdleScrolls_Core
 
         public void ExecuteTick(double dt)
         {
-/*            var tickStart = DateTime.Now;*/
-
+            /*            var tickStart = DateTime.Now;*/
             dt *= m_world.SpeedMultiplier;
             m_ticks++;
 
+            System.Diagnostics.Stopwatch sw = new();
+
             foreach (var system in m_systems)
             {
+                sw.Restart();
+
                 m_coordinator.DeleteMessagesFromSender(system);
                 system.Update(m_world, m_coordinator, dt);
+
+                sw.Stop();
+                //if (sw.ElapsedMilliseconds > 5)
+                //    Console.WriteLine($"{system.GetType().Name} took {sw.ElapsedMilliseconds} ms");
             }
 
 /*            var tickDuration = DateTime.Now - tickStart;

@@ -79,7 +79,8 @@ namespace TheIdleScrolls_Core.Systems
             // Update items (update when perks change, because crafting cost/duration might change)
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<InventoryChangedMessage>()
                 || coordinator.MessageTypeIsOnBoard<ItemReforgedMessage>()
-                || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>())
+                || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
+            )
             {
                 var inventoryComp = player.GetComponent<InventoryComponent>();
                 var equipmentComp = player.GetComponent<EquipmentComponent>();
@@ -220,7 +221,8 @@ namespace TheIdleScrolls_Core.Systems
 
             // Update available crafting recipes (update when perks change, because crafting cost/duration might change)
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AvailableCraftsChanged>() 
-                || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>())
+                || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
+            )
             {
                 var craftComp = player.GetComponent<CraftingBenchComponent>();
                 if (craftComp != null)

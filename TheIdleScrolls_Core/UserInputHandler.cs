@@ -20,6 +20,8 @@ namespace TheIdleScrolls_Core
 
         public void ReforgeItem(uint playerId, uint itemId);
 
+        public void CancelCraft(uint playerId, uint itemId);
+
         public void TravelIntoWilderness(int areaLevel);
 
         public void TravelToLocation(int x, int y);

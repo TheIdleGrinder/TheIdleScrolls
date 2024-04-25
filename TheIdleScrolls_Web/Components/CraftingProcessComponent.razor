@@ -7,6 +7,7 @@
         <div class="progressFill craftingProgressBar" style="width: @(PctString());"></div>
     </div>
     <div id="timeDisplay" @onclick="ToggleTimeDisplayMode">@(GetTimeDisplay())</div>
+    <button id="btnCancel" onclick=@(() => OnCancel.InvokeAsync(Craft.Item.Id))>x</button>
 </div>
 
 <style>
@@ -19,6 +20,7 @@
         background-color: var(--back-color);
         border-radius: 8px;
         align-items: center;
+        position: relative;
     }
 
     div.craftingProgressBarFrame {
@@ -42,11 +44,27 @@
         cursor: pointer;
         margin-top: 0.5rem;
     }
+
+    #btnCancel {
+        position: absolute;
+        top: 1px;
+        right: 1px;
+        border: none;
+        cursor: pointer;
+        padding: 0px;
+        background-color: var(--back-color);
+        min-width: 1.5em;
+        min-height: 1.5em;
+        border-radius: 50%;
+    }
 </style>
 
 @code {
     [Parameter]
     public CraftingProcessRepresentation Craft { get; set; }
+
+    [Parameter]
+    public EventCallback<uint> OnCancel { get; set; }
 
     bool ShowRemainingTime = true;
 

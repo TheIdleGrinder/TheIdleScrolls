@@ -62,6 +62,12 @@ namespace TheIdleScrolls_Core.Systems
                 FirstUpdate = false;
             }
 
+            foreach (var cancelReq in coordinator.FetchMessagesByType<CancelCraftRequest>())
+            {
+                var crafter = coordinator.GetEntity(cancelReq.OwnerId) ?? throw new Exception($"Invalid entity id: {cancelReq.OwnerId}");
+                HandleCancelCraftRequest(crafter, cancelReq.ItemId, postMessageCallback);
+            }
+
             foreach (var craftReq in coordinator.FetchMessagesByType<CraftItemRequest>())
             {
                 var owner = coordinator.GetEntity(craftReq.OwnerId) ?? throw new Exception($"Invalid entity id: {craftReq.OwnerId}");
@@ -149,6 +155,24 @@ namespace TheIdleScrolls_Core.Systems
             inventoryComp.RemoveItem(item);
             postMessage(new CraftingStartedMessage(owner, item, cost, CraftingType.Reforge));
             postMessage(new InventoryChangedMessage(owner));
+        }
+
+        public void HandleCancelCraftRequest(Entity owner, uint itemId, Action<IMessage> postMessage)
+        {
+            var craftComp = owner.GetComponent<CraftingBenchComponent>() ?? throw new Exception($"{owner.GetName()} is not able to craft items");
+            var craftId = craftComp.ActiveCrafts.FirstOrDefault(c => c.TargetItem.Id == itemId)?.ID
+                ?? throw new Exception($"Crafting process for item #{itemId} not found");
+            var craft = craftComp.RemoveCraft(craftId) ?? throw new Exception($"Crafting process #{craftId} not found");
+            if (craft.Type == CraftingType.Reforge)
+            {
+                var invComp = owner.GetComponent<InventoryComponent>()!; // CornerCut: technically not guaranteed
+                invComp.AddItem(craft.TargetItem);
+                postMessage(new InventoryChangedMessage(owner));
+            }
+            var purseComp = owner.GetComponent<CoinPurseComponent>() ?? throw new Exception($"{owner.GetName()} does not have a coin purse");
+            purseComp.AddCoins(craft.CoinsSpent);
+            postMessage(new CoinsChangedMessage(owner, craft.CoinsSpent));
+            postMessage(new CraftingUpdateMessage());
         }
 
         private static CraftingBenchComponent? GetBenchAndCheckSlots(Entity crafter, Action<IMessage> postMessage)
@@ -321,6 +345,28 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
+    public class CancelCraftRequest : IMessage
+    {
+        public uint OwnerId { get; set; }
+        public uint ItemId { get; set; }
+
+        public CancelCraftRequest(uint ownerId, uint itemId)
+        {
+            OwnerId = ownerId;
+            ItemId = itemId;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"Request: #{OwnerId} cancel crafting of item #{ItemId}";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Debug;
+        }
+    }
+
     public class AvailableCraftsChanged : IMessage
     {
         string IMessage.BuildMessage() => "New crafts unlocked!";
@@ -351,7 +397,7 @@ namespace TheIdleScrolls_Core.Systems
 
 		IMessage.PriorityLevel IMessage.GetPriority()
         {
-			return IMessage.PriorityLevel.High;
+			return IMessage.PriorityLevel.Medium;
 		}
 	}
 
