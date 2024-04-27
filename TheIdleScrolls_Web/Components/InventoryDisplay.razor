@@ -1,4 +1,5 @@
 ﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Items
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
@@ -35,7 +36,7 @@
 
 @code {
     [Parameter]
-    public List<ItemRepresentation> Items { get; set; } = new();
+    public List<IItemEntity> Items { get; set; } = new();
 
     [Parameter]
     public string Title { get; set; } = "Items";
@@ -94,7 +95,7 @@
         }
     }
 
-    string GetSelectionClass(ItemRepresentation item)
+    string GetSelectionClass(IItemEntity item)
     {
         return CoreWrapper.IsItemHighlighted(item.Id) ? "selectedItem" : "";
     }

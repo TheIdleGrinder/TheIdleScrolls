@@ -1,4 +1,5 @@
 ﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Items
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
@@ -106,7 +107,7 @@ div.wrapper {
 
     private string GetTabButtonClasses(CraftingMode mode) => mode == Mode ? "active" : "";
 
-    private List<ItemRepresentation> GetItemsForMode()
+    private List<IItemEntity> GetItemsForMode()
     {
         return Mode switch
         {

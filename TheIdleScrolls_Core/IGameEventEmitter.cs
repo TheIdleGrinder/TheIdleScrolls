@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Messages;
 
 namespace TheIdleScrolls_Core
 {
     public delegate void PlayerCharacterChangedHandler(CharacterRepresentation character);
     public delegate void CharacterXpChangedHandler(int xp, int target);
-    public delegate void ItemsChangedHandler(List<ItemRepresentation> items);
+    public delegate void ItemsChangedHandler(List<IItemEntity> items);
     public delegate void EncumbranceChangedHandler(double encumbrance);
     public delegate void CoinsChangedHandler(int coins);
     public delegate void OffenseChangedHandler(double damage, double cooldown, double remainingCooldown);
@@ -23,7 +24,7 @@ namespace TheIdleScrolls_Core
     public delegate void TimeLimitChangedHandler(double remaining, double duration);
     public delegate void FeatureAvailabilityChangedHandler(GameFeature feature, bool available);
     public delegate void AccessibleAreasChangedHandler(int maxWilderness, List<DungeonRepresentation> dungeons);
-    public delegate void AvailableCraftingRecipesChangedHandler(List<ItemRepresentation> prototypes);
+    public delegate void AvailableCraftingRecipesChangedHandler(List<IItemEntity> prototypes);
     public delegate void CraftingBenchChangedHandler(CraftingBenchRepresentation craftinBench);
     public delegate void AchievementsChangedHandler(List<AchievementRepresentation> achievements, int achievementCount);
     public delegate void StatReportChangedHandler(string report);

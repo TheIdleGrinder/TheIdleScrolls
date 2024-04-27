@@ -43,12 +43,12 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public AreaRepresentation Area { get; private set; } = new("", 0, false);
         public MobRepresentation Mob { get; private set; } = new(0, "", 0, 0, 0);
         public AccessibleAreas Accessible { get; } = new();
-        public List<ItemRepresentation> CraftingRecipes { get; private set; } = new();
+        public List<IItemEntity> CraftingRecipes { get; private set; } = new();
         public CraftingBenchRepresentation CraftingBench { get; private set; } = new(0, 0, 0, new());
         public bool AutoProceedActive { get; private set; } = false;
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
         public Equipment Equipment { get; private set; } = new();
-        public List<ItemRepresentation> Inventory { get; private set; } = new();
+        public List<IItemEntity> Inventory { get; private set; } = new();
         public int Coins { get; private set; } = 0;
         public CharacterStats CharacterStats { get; private set; } = new();
         public List<AchievementRepresentation> Achievements { get; private set; } = new();
@@ -162,7 +162,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 Accessible.MaxWilderness = maxWild;
                 Accessible.Dungeons = dungeons;
             };
-            emitter.AvailableCraftingRecipesChanged += (List<ItemRepresentation> recipes) => CraftingRecipes = recipes;
+            emitter.AvailableCraftingRecipesChanged += (List<IItemEntity> recipes) => CraftingRecipes = recipes;
             emitter.CraftingBenchChanged += (CraftingBenchRepresentation bench) => CraftingBench = bench;
             emitter.PlayerAutoProceedStateChanged += (bool active) => AutoProceedActive = active;
             emitter.FeatureAvailabilityChanged += (GameFeature feature, bool available) =>
@@ -172,8 +172,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 else
                     AvailableFeatures.Remove(feature);
             };
-            emitter.PlayerEquipmentChanged += (List<ItemRepresentation> items) => Equipment.SetItems(items);
-            emitter.PlayerInventoryChanged += (List<ItemRepresentation> items) => Inventory = items;
+            emitter.PlayerEquipmentChanged += (List<IItemEntity> items) => Equipment.SetItems(items);
+            emitter.PlayerInventoryChanged += (List<IItemEntity> items) => Inventory = items;
             emitter.PlayerCoinsChanged += (int coins) => Coins = coins;
             emitter.PlayerOffenseChanged += (double dmg, double cdMax, double cd) =>
             {
@@ -272,7 +272,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             return HighlightedItem == itemId;
         }
 
-        public ItemRepresentation? GetItem(uint itemId)
+        public IItemEntity? GetItem(uint itemId)
         {
             var result = Equipment.Items.FirstOrDefault(item => item.Id == itemId) 
                 ?? Inventory.FirstOrDefault(item => item.Id == itemId)

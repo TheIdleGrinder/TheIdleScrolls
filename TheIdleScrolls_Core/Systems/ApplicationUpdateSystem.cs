@@ -84,30 +84,44 @@ namespace TheIdleScrolls_Core.Systems
             {
                 var inventoryComp = player.GetComponent<InventoryComponent>();
                 var equipmentComp = player.GetComponent<EquipmentComponent>();
-                var invItems = new List<ItemRepresentation>();
-                var equipItems = new List<ItemRepresentation>();
+                //var invItems = new List<ItemRepresentation>();
+                //var equipItems = new List<ItemRepresentation>();
+
+                //if (inventoryComp != null)
+                //{
+                //    foreach (var item in inventoryComp.GetItems())
+                //    {
+                //        var invItem = GenerateItemRepresentation(item, player);
+                //        if (invItem != null)
+                //            invItems.Add(invItem);
+                //    }
+                //}
+
+                //if (equipmentComp != null)
+                //{
+                //    foreach (var item in equipmentComp.GetItems().OrderBy(i => i.IsShield() ? 1: 0))
+                //    {
+                //        var eItem = GenerateItemRepresentation(item, player);
+                //        if (eItem != null)
+                //            equipItems.Add(eItem);
+                //    }
+                //}
 
                 if (inventoryComp != null)
                 {
-                    foreach (var item in inventoryComp.GetItems())
-                    {
-                        var invItem = GenerateItemRepresentation(item, player);
-                        if (invItem != null)
-                            invItems.Add(invItem);
-                    }
+                    List<IItemEntity> invItems = inventoryComp.GetItems()
+                        .Select(i => new ItemEntityWrapper(i, player))
+                        .ToList<IItemEntity>();
+                    PlayerInventoryChanged?.Invoke(invItems);
                 }
 
                 if (equipmentComp != null)
                 {
-                    foreach (var item in equipmentComp.GetItems().OrderBy(i => i.IsShield() ? 1: 0))
-                    {
-                        var eItem = GenerateItemRepresentation(item, player);
-                        if (eItem != null)
-                            equipItems.Add(eItem);
-                    }
+                    List<IItemEntity> equipItems = equipmentComp.GetItems()
+                        .Select(i => new ItemEntityWrapper(i, player))
+                        .ToList<IItemEntity>();
+                    PlayerEquipmentChanged?.Invoke(equipItems);
                 }
-                PlayerInventoryChanged?.Invoke(invItems);
-                PlayerEquipmentChanged?.Invoke(equipItems);
             }
 
             // Update encumbrance
@@ -228,9 +242,8 @@ namespace TheIdleScrolls_Core.Systems
                 if (craftComp != null)
                 {
                     var prototypes = craftComp.AvailablePrototypes
-                        .Select(p => GenerateItemRepresentation(p, player)) // Pass player as owner for modifiers to crafting cost, time
-                        .OfType<ItemRepresentation>()
-                        .ToList();
+                        .Select(p => new ItemEntityWrapper(p, player)) // Pass player as owner for modifiers to crafting cost, time
+                        .ToList<IItemEntity>();
                     AvailableCraftingRecipesChanged?.Invoke(prototypes);
                 }
             }
@@ -430,7 +443,7 @@ namespace TheIdleScrolls_Core.Systems
 
         static CraftingProcessRepresentation GenerateCraftRepresentation(CraftingProcess craft)
         {
-            var item = GenerateItemRepresentation(craft.TargetItem, null) ?? throw new Exception($"Craft {craft.ID} contains invalid item");
+            var item = new ItemEntityWrapper(craft.TargetItem, null);
             return new CraftingProcessRepresentation(craft.Type, item, craft.Duration.Duration, craft.Duration.Remaining, craft.CoinsSpent);
         }
 

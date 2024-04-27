@@ -1,4 +1,5 @@
 ﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Items
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
@@ -122,7 +123,7 @@
     [Parameter]
     public bool CraftButtonVisible { get; set; } = false;
 
-    ItemRepresentation? HighlightedItem => CoreWrapper.GetItem(CoreWrapper.HighlightedItem);
+    IItemEntity? HighlightedItem => CoreWrapper.GetItem(CoreWrapper.HighlightedItem);
 
     List<string> ItemDescriptionLines => HighlightedItem?.Description?.Split(';')?.ToList() ?? new();
 
@@ -152,14 +153,14 @@
         base.OnInitialized();
     }
 
-    bool IsItemEquipped(ItemRepresentation? item)
+    bool IsItemEquipped(IItemEntity? item)
     {
         if (item == null)
             return false;
         return (CoreWrapper.Equipment.Items.Any(i => i.Id == item.Id));
     }
 
-    bool IsItemOwned(ItemRepresentation? item)
+    bool IsItemOwned(IItemEntity? item)
     {
         if (item == null)
             return false;

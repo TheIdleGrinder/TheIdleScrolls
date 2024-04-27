@@ -9,8 +9,9 @@ using TheIdleScrolls_Core.Properties;
 
 namespace TheIdleScrolls_Core.Items
 {
-    internal class ItemEntityWrapper : IItemEntity
+    public class ItemEntityWrapper : IItemEntity
     {
+        public uint Id => Item.Id;
         public string Name => Item.GetName();
 
         public string Description => GenerateDescription();

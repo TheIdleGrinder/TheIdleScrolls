@@ -1,4 +1,5 @@
 @using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Items
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
@@ -49,8 +50,8 @@
         base.OnInitialized();
     }
 
-    ItemRepresentation? GetItem(ExactEquipSlot slot) => CoreWrapper.Equipment.GetItem(slot);
-    string GetItemName(ItemRepresentation? item, string _default) => (item != null) ? item.Name : _default;
+    IItemEntity? GetItem(ExactEquipSlot slot) => CoreWrapper.Equipment.GetItem(slot);
+    string GetItemName(IItemEntity? item, string _default) => (item != null) ? item.Name : _default;
     string GetItemName(ExactEquipSlot slot, string _default) => GetItemName(GetItem(slot), _default);
 
     string GetClassesForItem(ExactEquipSlot slot) 
