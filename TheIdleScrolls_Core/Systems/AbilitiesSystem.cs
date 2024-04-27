@@ -36,7 +36,7 @@ namespace TheIdleScrolls_Core.Systems
                 bool levelIncrease = false;
                 foreach (var craftingMessage in coordinator.FetchMessagesByType<CraftingProcessFinished>().Where(m => m.Owner == m_player))
                 {
-                    const double xpPerCoin = 1.0;
+                    const double xpPerCoin = 2.0;
                     double xp = ApplyModifiers(Properties.Constants.Key_Ability_Crafting, xpPerCoin * craftingMessage.Craft.CoinsPaid);
                     xp *= BaseXpMultiplier * world.XpMultiplier;
                     AbilitiesComponent.AddXPResult result = abilitiesComp.AddXP(Properties.Constants.Key_Ability_Crafting, (int)xp);
