@@ -378,95 +378,10 @@ namespace TheIdleScrolls_Core.Systems
             return new MobRepresentation(mob.Id, mobName, mobLevel, mobHp, mobHpMax);
         }
 
-        static ItemRepresentation? GenerateItemRepresentation(Entity item, Entity? owner)
-        {
-            var itemComp = item.GetComponent<ItemComponent>();
-            var equipComp = item.GetComponent<EquippableComponent>();
-            var weaponComp = item.GetComponent<WeaponComponent>();
-            var armorComp = item.GetComponent<ArmorComponent>();
-            var valueComp = item.GetComponent<ItemValueComponent>();
-            var forgeComp = item.GetComponent<ItemReforgeableComponent>();
-            var levelComp = item.GetComponent<LevelComponent>();
-            string typeName = GetItemTypeName(item);
-            string description = $"Type: {typeName}";            
-            if (equipComp != null)
-            {
-                List<string> slotStrings = new();
-                var slots = (EquipmentSlot[])Enum.GetValues(typeof(EquipmentSlot));
-                foreach (var slot in slots)
-                {
-                    int count = equipComp.Slots.Count(s => s == slot);
-                    if (count == 0)
-                    {
-                        continue;
-                    }
-                    slotStrings.Add((count > 1 ? $"{count}x" : "") + slot.ToString());
-                }
-                description += $"; Used Slot(s): {string.Join(", ", slotStrings)}";
-            }
-            description += $"; Skill: {itemComp?.FamilyName ?? "??"}";
-            if (levelComp != null)
-            {
-                description += $"; Drop Level: {levelComp.Level}";
-            }
-            description += "; ";
-            if (weaponComp != null)
-            {
-                description += $"; Damage: {weaponComp.Damage}; Attack Time: {weaponComp.Cooldown} s";
-            }
-            if (armorComp != null)
-            {
-                description += armorComp.Armor != 0.0 ? $"; Armor: {armorComp.Armor}" : "";
-                description += armorComp.Evasion != 0.0 ? $"; Evasion: {armorComp.Evasion}" : "";
-            }
-            if (equipComp != null)
-            {
-                description += equipComp.Encumbrance != 0.0 ? $"; Encumbrance: {equipComp.Encumbrance}%" : "";
-            }
-            if (valueComp != null)
-            {
-                description += $"; ; Value: {valueComp.Value}c";
-            }
-
-            return new ItemRepresentation(
-                item.Id,
-                item.GetName(),
-                description,
-                equipComp?.Slots ?? new() { EquipmentSlot.Hand },
-                itemComp?.Code.RarityLevel ?? 0,
-                item.GetComponent<ItemValueComponent>()?.Value ?? 0,
-                (Functions.CalculateCraftingCost(item, owner), 
-                Functions.CalculateReforgingDuration(item, owner)),
-                forgeComp?.Reforged ?? false
-                );
-        }
-
         static CraftingProcessRepresentation GenerateCraftRepresentation(CraftingProcess craft)
         {
             var item = new ItemEntityWrapper(craft.TargetItem, null);
             return new CraftingProcessRepresentation(craft.Type, item, craft.Duration.Duration, craft.Duration.Remaining, craft.CoinsSpent);
-        }
-
-        static string GetItemTypeName(Entity item)
-        {
-            if (item.IsWeapon())
-                return LocalizedStrings.Equip_Weapon;
-            if (item.IsShield())
-                return LocalizedStrings.Equip_Shield;
-            var slots = item.GetComponent<EquippableComponent>()?.Slots ?? new();
-            if (slots.Count == 0 || !item.IsArmor()) // Should not happen with the current item kingdom
-                return "??";
-
-            if (slots.Count > 1)
-                return "Custom Gear"; // Does not currently exist
-            return slots[0] switch
-            {
-                EquipmentSlot.Head => LocalizedStrings.Equip_HeadArmor,
-                EquipmentSlot.Chest => LocalizedStrings.Equip_ChestArmor,
-                EquipmentSlot.Arms => LocalizedStrings.Equip_ArmArmor,
-                EquipmentSlot.Legs => LocalizedStrings.Equip_LegArmor,
-                _ => "??",
-            };
         }
 
         static List<IMessage> FilterMessages(HashSet<IMessage.PriorityLevel> relevantMessages, List<IMessage> messages)
