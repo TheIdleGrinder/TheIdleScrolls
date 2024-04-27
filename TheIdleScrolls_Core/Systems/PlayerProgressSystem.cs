@@ -82,15 +82,15 @@ namespace TheIdleScrolls_Core.Systems
                 progComp.Data.CoinsSpentOnForging += craftMsg.CoinsPaid;
                 
             }
-            var forgeMsgs = coordinator.FetchMessagesByType<ItemReforgedMessage>();
+            var forgeMsgs = coordinator.FetchMessagesByType<CraftingProcessFinished>();
             foreach (var forgeMsg in forgeMsgs.Where(m => m.Owner == m_player))
             {
-                int rarity = forgeMsg.Item.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
+                int rarity = forgeMsg.Craft.TargetItem.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
 				if (rarity > progComp.Data.BestReforge)
 				{
 					progComp.Data.BestReforge = rarity;
 				}
-				if ((forgeMsg.Item.GetItemId()?.GenusIndex ?? -1) == 0
+				if ((forgeMsg.Craft.TargetItem.GetItemId()?.GenusIndex ?? -1) == 0
 					&& rarity > progComp.Data.BestG0Reforge)
 				{
 					progComp.Data.BestG0Reforge = rarity;

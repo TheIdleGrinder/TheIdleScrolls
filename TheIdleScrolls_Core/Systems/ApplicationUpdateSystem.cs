@@ -78,7 +78,7 @@ namespace TheIdleScrolls_Core.Systems
 
             // Update items (update when perks change, because crafting cost/duration might change)
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<InventoryChangedMessage>()
-                || coordinator.MessageTypeIsOnBoard<ItemReforgedMessage>()
+                || coordinator.MessageTypeIsOnBoard<CraftingProcessFinished>()
                 || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
             )
             {
@@ -381,7 +381,7 @@ namespace TheIdleScrolls_Core.Systems
         static CraftingProcessRepresentation GenerateCraftRepresentation(CraftingProcess craft)
         {
             var item = new ItemEntityWrapper(craft.TargetItem, null);
-            return new CraftingProcessRepresentation(craft.Type, item, craft.Duration.Duration, craft.Duration.Remaining, craft.CoinsSpent);
+            return new CraftingProcessRepresentation(craft.Type, item, craft.Duration.Duration, craft.Duration.Remaining, craft.CoinsPaid);
         }
 
         static List<IMessage> FilterMessages(HashSet<IMessage.PriorityLevel> relevantMessages, List<IMessage> messages)

@@ -140,8 +140,8 @@ namespace TheIdleScrolls_Core
                 system.Update(m_world, m_coordinator, dt);
 
                 sw.Stop();
-                if (sw.ElapsedMilliseconds > 5)
-                    Console.WriteLine($"{system.GetType().Name} took {sw.ElapsedMilliseconds} ms");
+                //if (sw.ElapsedMilliseconds > 5)
+                //    Console.WriteLine($"{system.GetType().Name} took {sw.ElapsedMilliseconds} ms");
             }
 
 /*            var tickDuration = DateTime.Now - tickStart;

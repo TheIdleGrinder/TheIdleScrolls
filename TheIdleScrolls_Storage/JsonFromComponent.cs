@@ -208,7 +208,7 @@ namespace TheIdleScrolls_Storage
                 string duration = craft.Duration.Duration.ToString();
                 string remaining = craft.Duration.Remaining.ToString();
                 string roll = craft.Roll.ToString();
-                string cost = craft.CoinsSpent.ToString();
+                string cost = craft.CoinsPaid.ToString();
 				crafts.Add(String.Join('/', type, item, duration, remaining, roll, cost));
 			}
             json.Add("ActiveCrafts", crafts);

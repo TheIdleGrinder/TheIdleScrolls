@@ -50,13 +50,12 @@ namespace TheIdleScrolls_Core.Systems
                     if (maxLevel > craftingBench.MaxCraftingLevel)
                     {
                         craftingBench.MaxCraftingLevel = maxLevel;
+                        if (!FirstUpdate)
+                            coordinator.PostMessage(this, new AvailableCraftsChanged());
                     }
                     craftingBench.AvailablePrototypes = GetPrototypes()
                         .Where(i => (i.GetComponent<LevelComponent>()?.Level ?? 0) <= craftingBench.MaxCraftingLevel)
                         .ToList();
-
-                    if (!FirstUpdate)
-                        coordinator.PostMessage(this, new AvailableCraftsChanged());
                 }
 
                 FirstUpdate = false;
@@ -170,8 +169,8 @@ namespace TheIdleScrolls_Core.Systems
                 postMessage(new InventoryChangedMessage(owner));
             }
             var purseComp = owner.GetComponent<CoinPurseComponent>() ?? throw new Exception($"{owner.GetName()} does not have a coin purse");
-            purseComp.AddCoins(craft.CoinsSpent);
-            postMessage(new CoinsChangedMessage(owner, craft.CoinsSpent));
+            purseComp.AddCoins(craft.CoinsPaid);
+            postMessage(new CoinsChangedMessage(owner, craft.CoinsPaid));
             postMessage(new CraftingUpdateMessage());
         }
 
@@ -237,7 +236,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         if (craft.Type == CraftingType.Craft)
                         {
-                            coordinator.PostMessage(this, new ItemCraftedMessage(crafter, craft.TargetItem));
+                            coordinator.PostMessage(this, new CraftingProcessFinished(crafter, craft, true));
                         }
                         if (craft.Type == CraftingType.Reforge)
                         {
@@ -251,7 +250,7 @@ namespace TheIdleScrolls_Core.Systems
                             {
                                 ItemFactory.SetItemRarity(craft.TargetItem, newRarity);
                             }
-                            coordinator.PostMessage(this, new ItemReforgedMessage(crafter, craft.TargetItem, newRarity > rarity));
+                            coordinator.PostMessage(this, new CraftingProcessFinished(crafter, craft, newRarity > rarity));
 						}
 
                         craft.TargetItem.GetComponent<ItemReforgeableComponent>()!.Reforged = true;
@@ -401,41 +400,29 @@ namespace TheIdleScrolls_Core.Systems
 		}
 	}
 
-    public class ItemCraftedMessage : IMessage
+    public class CraftingProcessFinished : IMessage
     {
         public Entity Owner { get; set; }
-        public Entity Item { get; set; }
-
-        public ItemCraftedMessage(Entity owner, Entity item)
-        {
-            Owner = owner;
-            Item = item;
-        }
-
-        string IMessage.BuildMessage()
-        {
-            return $"{Owner.GetName()} finished crafting {Item.GetName()}";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
-    }
-
-    public class ItemReforgedMessage : IMessage
-    {
-        public Entity Owner { get; set; }
-        public Entity Item { get; set; }
+        public CraftingProcess Craft { get; set; }
         public bool Success { get; set; }
 
-        public ItemReforgedMessage(Entity owner, Entity item, bool success)
+        public CraftingProcessFinished(Entity owner, CraftingProcess craft, bool success)
         {
             Owner = owner;
-            Item = item;
+            Craft = craft;
             Success = success;
         }
 
         string IMessage.BuildMessage()
         {
-            return $"{Owner.GetName()} finished reforging {Item.GetName()}: Rarity {(Success ? "increased" : "reduced")}";
+            if (Craft.Type == CraftingType.Craft)
+            {
+                return $"{Owner.GetName()} finished crafting {Craft.TargetItem.GetName()}";
+            }
+            else
+            {
+                return $"{Owner.GetName()} finished reforging {Craft.TargetItem.GetName()}: Rarity {(Success ? "increased" : "reduced")}";
+            }
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()

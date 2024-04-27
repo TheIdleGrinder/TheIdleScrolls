@@ -22,7 +22,7 @@ namespace TheIdleScrolls_Core.Crafting
 		public Cooldown Duration { get; }
 		public CraftingType Type { get; } = CraftingType.Craft;
 		public double Roll { get; set; } = 0.5;
-		public int CoinsSpent { get; set; } = 0;
+		public int CoinsPaid { get; set; } = 0;
 
 		public bool HasFinished => Duration.HasFinished;
 
@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Core.Crafting
 			Duration = new Cooldown(duration);
 			Type = type;
 			Roll = strength;
-			CoinsSpent = cost;
+			CoinsPaid = cost;
 
 			Duration.SingleShot = true;
 		}
