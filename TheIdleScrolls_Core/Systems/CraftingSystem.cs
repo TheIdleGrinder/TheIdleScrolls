@@ -236,6 +236,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         if (craft.Type == CraftingType.Craft)
                         {
+                            coordinator.AddEntity(craft.TargetItem);
                             coordinator.PostMessage(this, new CraftingProcessFinished(crafter, craft, true));
                         }
                         if (craft.Type == CraftingType.Reforge)
