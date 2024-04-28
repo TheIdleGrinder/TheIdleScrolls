@@ -134,6 +134,8 @@ namespace TheIdleScrolls_Core
 
             foreach (var system in m_systems)
             {
+                try
+                {
                 sw.Restart();
 
                 m_coordinator.DeleteMessagesFromSender(system);
@@ -142,6 +144,11 @@ namespace TheIdleScrolls_Core
                 sw.Stop();
                 //if (sw.ElapsedMilliseconds > 5)
                 //    Console.WriteLine($"{system.GetType().Name} took {sw.ElapsedMilliseconds} ms");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error in {system.GetType().Name}: {e.Message}");
+                }
             }
 
 /*            var tickDuration = DateTime.Now - tickStart;

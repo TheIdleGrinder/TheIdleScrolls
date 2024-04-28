@@ -44,7 +44,7 @@ namespace TheIdleScrolls_Core.Systems
                     if (progressComp != null)
                     {
                         maxLevel = Math.Max(maxLevel, progressComp.Data.GetClearedDungeons()
-                            .Select(dId => world.Map.Dungeons.Where(d => d.Id == dId).FirstOrDefault()?.Level ?? 0).Max());
+                            .Select(dId => world.Map.Dungeons.Where(d => d.Id == dId).FirstOrDefault()?.Level ?? 0).DefaultIfEmpty().Max());
                     }
                     
                     if (maxLevel > craftingBench.MaxCraftingLevel)
