@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using MiniECS;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
@@ -12,8 +13,9 @@ namespace TheIdleScrolls_Core.Systems
     /// </summary>
     public class BountySystem : AbstractSystem
     {
-        public const int FirstBountyLevel = 25;
-        public const int EnemiesPerHunt = 20;
+        public static readonly int FirstBountyLevel = 25;
+        public static readonly int EnemiesPerHunt = 20;
+        public static readonly double MalusPerLevel = 0.05;
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -53,6 +55,8 @@ namespace TheIdleScrolls_Core.Systems
                                                     : Math.Min(hunterComp.CurrentHuntLevel, level);
                     if (hunterComp.CurrentHuntCount >= EnemiesPerHunt)
                     {
+                        double levelMalus = Math.Pow(1.0 - MalusPerLevel, Math.Max(0, level - hunterComp.CurrentHuntLevel));
+                        int value = (int)Math.Ceiling(levelMalus * hunterComp.CurrentHuntLevel);
                         AwardBounty(hunter, hunterComp.CurrentHuntLevel, BountyType.Hunt, coordinator);
                         hunterComp.CurrentHuntCount = 0;
                         hunterComp.CurrentHuntLevel = 0;
