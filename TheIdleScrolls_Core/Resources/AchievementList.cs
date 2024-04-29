@@ -35,19 +35,16 @@ namespace TheIdleScrolls_Core.Resources
             for (int i = 0; i < levels.Length; i++)
             {
                 int level = levels[i];
-                var achievement = new Achievement()
+                var achievement = new Achievement
                 {
                     Id = $"LVL{level}",
                     Title = $"Level {level}",
                     Description = $"Reach level {level}",
                     Condition = ExpressionParser.ParseToFunction($"Level >= {level}"),
-                    Hidden = false
+                    Hidden = false,
+                    Prerequisite = (i > 0) ? ExpressionParser.ParseToFunction($"LVL{levels[i - 1]}") : tautology,
+                    Perk = GetPerkForLeveledAchievement("LVL", level)
                 };
-                if (i > 0)
-                {
-                    achievement.Prerequisite = ExpressionParser.ParseToFunction($"LVL{levels[i - 1]}");
-                }
-                achievement.Perk = GetPerkForLeveledAchievement("LVL", level);
                 achievements.Add(achievement);
             }
 
@@ -64,19 +61,16 @@ namespace TheIdleScrolls_Core.Resources
             for (int i = 0; i < wildernessLevels.Length; i++)
             {
                 int level = wildernessLevels[i].Level;
-                var achievement = new Achievement()
+                var achievement = new Achievement
                 {
                     Id = $"WILD{level}",
                     Title = wildernessLevels[i].Name,
                     Description = $"Reach wilderness level {level}",
-                    Condition = ExpressionParser.ParseToFunction($"WildernessLevel >= {level}"),
-                    Hidden = false
+                    Condition = ExpressionParser.ParseToFunction($"Wilderness >= {level}"),
+                    Hidden = false,
+                    Prerequisite = (i > 0) ? ExpressionParser.ParseToFunction($"WILD{wildernessLevels[i - 1].Level}") : tautology,
+                    Perk = GetPerkForLeveledAchievement("WILD", level)
                 };
-                if (i > 0)
-                {
-                    achievement.Prerequisite = ExpressionParser.ParseToFunction($"WILD{wildernessLevels[i - 1].Level}");
-                }
-                achievement.Perk = GetPerkForLeveledAchievement("WILD", level);
                 achievements.Add(achievement);
             }
 
@@ -92,19 +86,16 @@ namespace TheIdleScrolls_Core.Resources
             for (int i = 0; i < killCounts.Length; i++)
             {
                 int count = killCounts[i].Count;
-                var achievement = new Achievement()
+                var achievement = new Achievement
                 {
                     Id = $"KILL{count}",
                     Title = killCounts[i].Name,
                     Description = $"Defeat {count} enemies with a single character",
                     Condition = ExpressionParser.ParseToFunction($"Kills >= {count}"),
-                    Hidden = false
+                    Hidden = false,
+                    Prerequisite = (i > 0) ? ExpressionParser.ParseToFunction($"KILL{killCounts[i - 1].Count}") : tautology,
+                    Perk = GetPerkForLeveledAchievement("KILL", count)
                 };
-                if (i > 0)
-                {
-                    achievement.Prerequisite = ExpressionParser.ParseToFunction($"KILL{killCounts[i - 1].Count}");
-                }
-                achievement.Perk = GetPerkForLeveledAchievement("KILL", count);
                 achievements.Add(achievement);
             }
 
