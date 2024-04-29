@@ -48,6 +48,7 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new MobSpawnerSystem());
             m_systems.Add(new TargetSelectorSystem());
             m_systems.Add(new AttackProcessingSystem());
+            m_systems.Add(new BountySystem());
             m_systems.Add(new KillProcessingSystem());
             m_systems.Add(new LevelUpSystem());
             m_systems.Add(new QuestSystem());
@@ -58,7 +59,6 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new StatUpdateSystem());
             m_systems.Add(new DungeonSystem());
             m_systems.Add(new LootSystem());
-            m_systems.Add(new BountySystem());
             m_systems.Add(new CraftingSystem());
             m_systems.Add(new PlayerProgressSystem());
             m_systems.Add(new AchievementsSystem());

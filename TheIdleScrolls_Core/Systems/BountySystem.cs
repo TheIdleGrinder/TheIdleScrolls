@@ -27,7 +27,7 @@ namespace TheIdleScrolls_Core.Systems
                 // Setup fresh component
                 if (hunterComp.HighestCollected == 0)
                 {
-                    hunterComp.HighestCollected = progressComp.Data.HighestWildernessKill;                
+                    hunterComp.HighestCollected = progressComp.Data.HighestWildernessKill; 
                 }
                 
                 if (locationComp.InDungeon)
@@ -43,7 +43,7 @@ namespace TheIdleScrolls_Core.Systems
                     // In practice this should only ever be 1 level at a time
                     while (hunterComp.HighestCollected < level)
                     {
-                        coordinator.PostMessage(this, AwardBounty(hunter, ++hunterComp.HighestCollected, BountyType.NewLevel));
+                        AwardBounty(hunter, ++hunterComp.HighestCollected, BountyType.NewLevel, coordinator);
                     }
 
                     // Award bounty for every Xth kill in the wilderness
@@ -53,7 +53,7 @@ namespace TheIdleScrolls_Core.Systems
                                                     : Math.Min(hunterComp.CurrentHuntLevel, level);
                     if (hunterComp.CurrentHuntCount >= EnemiesPerHunt)
                     {
-                        coordinator.PostMessage(this, AwardBounty(hunter, hunterComp.CurrentHuntLevel, BountyType.Hunt));
+                        AwardBounty(hunter, hunterComp.CurrentHuntLevel, BountyType.Hunt, coordinator);
                         hunterComp.CurrentHuntCount = 0;
                         hunterComp.CurrentHuntLevel = 0;
                     }
@@ -61,10 +61,11 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        private BountyMessage AwardBounty(Entity hunter, int amount, BountyType type)
+        private void AwardBounty(Entity hunter, int amount, BountyType type, Coordinator coordinator)
         {
             hunter.GetComponent<CoinPurseComponent>()?.AddCoins(amount);
-            return new BountyMessage(hunter, type, amount);
+            coordinator.PostMessage(this, new CoinsChangedMessage(hunter, amount));
+            coordinator.PostMessage(this, new BountyMessage(hunter, type, amount));
         }
     }
 
