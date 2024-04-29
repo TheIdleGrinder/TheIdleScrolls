@@ -492,7 +492,7 @@ namespace TheIdleScrolls_Core.Resources
                                 new string[] { Definitions.Tags.AttackSpeed,
                                                Properties.Constants.Key_Ability_Axe}),
                 ("BLN", 25) => new($"{id}{level}", "Stunning Blow", 
-                                $"Gain {20} base armor while using {id.Localize()} after first strike",
+                                $"Gain {5} base armor for each defensive item while using {id.Localize()} after first strike",
                                 new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
                                 (e, w, c) =>
                                 {
@@ -500,7 +500,7 @@ namespace TheIdleScrolls_Core.Resources
                                     bool usingBlunt = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Any(i => i.GetComponent<ItemComponent>()!.Code.FamilyId == Properties.Constants.Key_Ability_Blunt) ?? false;
                                     return new() { new($"{id}{level}", ModifierType.AddBase, 
-                                        (!firstStrike && usingBlunt) ? 20 : 0,
+                                        (!firstStrike && usingBlunt) ? 5 : 0,
                                         new() { Definitions.Tags.ArmorRating }
                                         )
                                     };
