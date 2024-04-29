@@ -34,6 +34,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new ModifierComponent());
             player.AddComponent(new PerksComponent());
             player.AddComponent(new CraftingBenchComponent());
+            player.AddComponent(new BountyHunterComponent());
 
             return player;
         }
