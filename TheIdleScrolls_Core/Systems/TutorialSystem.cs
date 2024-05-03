@@ -215,6 +215,17 @@ namespace TheIdleScrolls_Core.Systems
                 m_player.GetComponent<PlayerComponent>()?.SetFeatureState(GameFeature.Crafting, true);
                 coordinator.PostMessage(this, new FeatureStateMessage(GameFeature.Crafting, true));
             }
+            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Bounties)
+                && (m_player.GetComponent<PlayerProgressComponent>()?.Data.HighestWildernessKill >= Systems.BountySystem.FirstBountyLevel))
+            {
+                globalProgress.Data.TutorialProgress.Add(TutorialStep.Bounties);
+                m_player.GetComponent<PlayerComponent>()?.AvailableFeatures?.Add(GameFeature.Bounties);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.Bounties, "Bounty Hunter",
+                    $"From this point on you will be able to generate coins through bounties. The main way to earn bounties is by defeating " +
+                    $"an enemy at a higher level than you had before in the wilderness. You will also be awarded a bounty every time you defeat " +
+                    $"{Systems.BountySystem.EnemiesPerHunt} in the wilderness. The value of bounties depends on the level of the defeated enemies."));
+            }
         }
     }
 

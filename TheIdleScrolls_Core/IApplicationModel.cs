@@ -16,7 +16,7 @@ namespace TheIdleScrolls_Core
         public HashSet<IMessage.PriorityLevel> GetRelevantMessagePriorties();
     }
 
-    public enum GameFeature { Inventory, Armor, Abilities, Travel, Crafting, Perks }
+    public enum GameFeature { Inventory, Armor, Abilities, Travel, Crafting, Perks, Bounties }
 
     public record CharacterRepresentation(uint Id, string Name, string Class, int Level);
     public record ItemRepresentation(uint Id, string Name, string Description, 
