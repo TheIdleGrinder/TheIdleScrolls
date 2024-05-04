@@ -197,6 +197,14 @@ namespace TheIdleScrolls_Core.Quests
                     }
                 }
             }
+
+            if (!isStepDone(QuestStates.GettingStarted.Bounties) && coordinator.MessageTypeIsOnBoard<BountyMessage>())
+            {
+                setFeatureState(GameFeature.Bounties, true);
+                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Bounties, 
+                    "You have shown yourself capable of venturing far into the wilderness. From this point onwards, you will be " +
+                    "eligible to receive coins as bounties for scouting ahead and defeating the dangerous denizens of the wild.");
+            }
         }
     }
 }
