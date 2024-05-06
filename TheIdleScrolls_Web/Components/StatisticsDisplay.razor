@@ -4,6 +4,13 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div id="statContainer">
+    @if (CoreWrapper.IsFeatureAvailable(GameFeature.Bounties))
+    {
+        <h3>Bounty Hunt</h3>
+        <p>Level: @(CoreWrapper.BountyState.CurrentHuntLevel)</p>
+        <p>Progress: @(CoreWrapper.BountyState.CurrentHuntCount) / @(CoreWrapper.BountyState.CurrentHuntLength)</p>
+        <p>Reward: @(CoreWrapper.BountyState.ExpectedReward)c</p>
+    }
     <h3>Statistics</h3>
     @foreach (var line in ReportLines)
     {

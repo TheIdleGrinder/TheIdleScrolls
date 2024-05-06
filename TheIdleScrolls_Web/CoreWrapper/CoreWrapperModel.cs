@@ -56,6 +56,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<PerkRepresentation> Perks { get; private set; } = new();
         public int AchievementCount { get; private set; } = 0;
         public string StatisticsReport { get; private set; } = String.Empty;
+        public BountyStateRepresentation BountyState { get; private set; } = new(0, 0, 0, 0, 0);
         public List<DialogueMessage> DialogueMessages { get; private set; } = new();
         public List<ExpiringMessage> ExpiringMessages { get; private set; } = new();
 
@@ -195,6 +196,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
             emitter.PlayerPerksChanged += (List<PerkRepresentation> perks) => Perks = perks;
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
+            emitter.BountyStateChanged += (BountyStateRepresentation bounty) => BountyState = bounty;
             emitter.DisplayMessageReceived += (string title, string message) =>
             {
                 DialogueMessages.Add(new(string.Empty, string.Empty, title, message, new()));

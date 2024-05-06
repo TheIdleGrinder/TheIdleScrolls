@@ -56,7 +56,7 @@ namespace TheIdleScrolls_Core.Systems
                     if (hunterComp.CurrentHuntCount >= EnemiesPerHunt)
                     {
                         int value = CalculateBountyReward(hunterComp.CurrentHuntLevel, hunterComp.HighestCollected);
-                        AwardBounty(hunter, hunterComp.CurrentHuntLevel, BountyType.Hunt, coordinator);
+                        AwardBounty(hunter, value, BountyType.Hunt, coordinator);
                         hunterComp.CurrentHuntCount = 0;
                         hunterComp.CurrentHuntLevel = 0;
                     }
