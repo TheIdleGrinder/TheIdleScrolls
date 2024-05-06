@@ -46,6 +46,7 @@ namespace TheIdleScrolls_Core.Systems
         public event CraftingBenchChangedHandler? CraftingBenchChanged;
         public event AchievementsChangedHandler? AchievementsChanged;
         public event StatReportChangedHandler? StatReportChanged;
+        public event BountyStateChangedHander? BountyStateChanged;
         public event DisplayMessageHandler? DisplayMessageReceived;
         public event NewLogMessagesHandler? NewLogMessages;
         public event DialogueMessageHandler? DialogueMessageReceived;
@@ -292,6 +293,21 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     var report = progComp.Data.GetReport(world);
                     StatReportChanged?.Invoke(report);
+                }
+            }
+
+            // Update Bounty State
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<BountyMessage>() || coordinator.MessageTypeIsOnBoard<DeathMessage>())
+            {
+                var bountyComp = player.GetComponent<BountyHunterComponent>();
+                if (bountyComp != null)
+                {
+                    int level = bountyComp.CurrentHuntLevel;
+                    int maxLevel = bountyComp.HighestCollected;
+                    var state = new BountyStateRepresentation(maxLevel, level, 
+                                                              bountyComp.CurrentHuntCount, BountySystem.EnemiesPerHunt,
+                                                              BountySystem.CalculateBountyReward(level, maxLevel));
+                    BountyStateChanged?.Invoke(state);
                 }
             }
 

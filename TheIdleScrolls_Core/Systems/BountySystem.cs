@@ -55,8 +55,7 @@ namespace TheIdleScrolls_Core.Systems
                                                     : Math.Min(hunterComp.CurrentHuntLevel, level);
                     if (hunterComp.CurrentHuntCount >= EnemiesPerHunt)
                     {
-                        double levelMalus = Math.Pow(1.0 - MalusPerLevel, Math.Max(0, level - hunterComp.CurrentHuntLevel));
-                        int value = (int)Math.Ceiling(levelMalus * hunterComp.CurrentHuntLevel);
+                        int value = CalculateBountyReward(hunterComp.CurrentHuntLevel, hunterComp.HighestCollected);
                         AwardBounty(hunter, hunterComp.CurrentHuntLevel, BountyType.Hunt, coordinator);
                         hunterComp.CurrentHuntCount = 0;
                         hunterComp.CurrentHuntLevel = 0;
@@ -70,6 +69,12 @@ namespace TheIdleScrolls_Core.Systems
             hunter.GetComponent<CoinPurseComponent>()?.AddCoins(amount);
             coordinator.PostMessage(this, new CoinsChangedMessage(hunter, amount));
             coordinator.PostMessage(this, new BountyMessage(hunter, type, amount));
+        }
+
+        public static int CalculateBountyReward(int level, int highestLevel)
+        {
+            double levelMalus = Math.Pow(1.0 - MalusPerLevel, Math.Max(0, highestLevel - level));
+            return (int)Math.Ceiling(levelMalus * level);
         }
     }
 

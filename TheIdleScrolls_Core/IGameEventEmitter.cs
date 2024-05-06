@@ -28,6 +28,7 @@ namespace TheIdleScrolls_Core
     public delegate void CraftingBenchChangedHandler(CraftingBenchRepresentation craftinBench);
     public delegate void AchievementsChangedHandler(List<AchievementRepresentation> achievements, int achievementCount);
     public delegate void StatReportChangedHandler(string report);
+    public delegate void BountyStateChangedHander(BountyStateRepresentation bountyState);
     public delegate void DisplayMessageHandler(string title, string message);
     public delegate void DialogueMessageHandler(DialogueMessage message);
     public delegate void NewLogMessagesHandler(List<string> messages);
@@ -55,6 +56,7 @@ namespace TheIdleScrolls_Core
         event CraftingBenchChangedHandler CraftingBenchChanged;
         event AchievementsChangedHandler AchievementsChanged;
         event StatReportChangedHandler StatReportChanged;
+        event BountyStateChangedHander BountyStateChanged;
         event DisplayMessageHandler DisplayMessageReceived;
         event DialogueMessageHandler DialogueMessageReceived;
         event NewLogMessagesHandler NewLogMessages;
