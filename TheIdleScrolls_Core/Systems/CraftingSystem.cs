@@ -290,7 +290,7 @@ namespace TheIdleScrolls_Core.Systems
                 int slots = bench.CraftingSlots;
                 int active = bench.MaxActiveCrafts;
                 bench.CraftingSlots = (int)modComp.ApplyApplicableModifiers(1.0, new string[] { Definitions.Tags.CraftingSlots } );
-                bench.MaxActiveCrafts = (int)modComp.ApplyApplicableModifiers(1.0, new string[] { Definitions.Tags.ActiveCrafts } );
+                bench.MaxActiveCrafts = (int)Math.Round(modComp.ApplyApplicableModifiers(1.0, new string[] { Definitions.Tags.ActiveCrafts } ));
                 if (slots != bench.CraftingSlots || active != bench.MaxActiveCrafts)
                 {
                     updated = true;

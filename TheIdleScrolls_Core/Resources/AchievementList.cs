@@ -645,8 +645,8 @@ namespace TheIdleScrolls_Core.Resources
                                     new() { UpdateTrigger.AbilityIncreased },
                                     (e, w, c) =>
                                     {
-                                        int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
-                                        return new() { new($"{id}{level}", ModifierType.AddFlat, (level / 25),
+                                        int craftLevel = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                                        return new() { new($"{id}{level}", ModifierType.AddFlat, (craftLevel / 25),
                                             new() { Definitions.Tags.CraftingSlots }
                                             )
                                         };
@@ -664,7 +664,7 @@ namespace TheIdleScrolls_Core.Resources
                                     0.2,
                                     new string[] { Definitions.Tags.CraftingSpeed }),
                 ("ABL_CRAFT", 100)
-                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Journeyman",
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Master",
                                     $"Gain one more active crafting slot",
                                     ModifierType.AddFlat,
                                     1.0,
