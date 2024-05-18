@@ -65,16 +65,16 @@ namespace TheIdleScrolls_Core.Systems
             if (defComp != null && (newTimeLimit || (Math.Abs(defComp.Evasion - m_evasionUsed) > m_evasionUsed * 0.5)))
             {
                 double evasion = defComp.Evasion;
-                double evasionPierce = 1.0;
+                double accuracy = 1.0;
                 if (accuracyValues.Any())
                 {
-                    evasionPierce = Math.Max(accuracyValues.Average(), 1.0);
+                    accuracy = Math.Max(accuracyValues.Average(), 1.0);
                 }
-                double evasionBonus = CalculateEvasionBonusMultiplier(evasion / evasionPierce); // Evasion increases amount of time
+                double evasionBonus = Functions.CalculateEvasionBonusMultiplier(evasion, accuracy); // Evasion increases amount of time
                 if (!newTimeLimit)
                 {
                     // Evasion pierce should be the same, because this path is only taken for updates during combat
-                    double previousBonus = CalculateEvasionBonusMultiplier(m_evasionUsed / evasionPierce);
+                    double previousBonus = Functions.CalculateEvasionBonusMultiplier(m_evasionUsed, accuracy);
                     evasionBonus /= previousBonus; // Can't be 0
                 }
                 double newDuration = world.TimeLimit.Duration * evasionBonus;
@@ -87,10 +87,9 @@ namespace TheIdleScrolls_Core.Systems
                 if (attackValues.Any())
                 {
                     var damage = attackValues.Average();
-                    var armorPierce = Math.Max(attackValues.Average(), 1.0); // For now, mobs have the same armor pierce as damage
 
                     double armor = defComp?.Armor ?? 0.0;
-                    double armorBonus = CalculateArmorBonusMultiplier(armor / armorPierce);
+                    double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, damage);
 
                     world.TimeLimit.Update(damage * dt / armorBonus); // armor 'slows time'
 
@@ -106,15 +105,6 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        static double CalculateEvasionBonusMultiplier(double evasion)
-        {
-            return 1.0 + evasion * Definitions.Stats.EvasionBonusPerPoint;
-        }
-
-        static double CalculateArmorBonusMultiplier(double armor)
-        {
-            return 1.0 + armor * Definitions.Stats.ArmorSlowdownPerPoint;
-        }
     }
 
     internal class BattleLostMessage : IMessage

@@ -100,6 +100,22 @@ namespace TheIdleScrolls_Core
             return Math.Pow(1.0 + Definitions.Stats.DefensePerAbilityLevel, abilityLevel) - 1.0;
         }
 
+        public static double CalculateEvasionBonusMultiplier(double evasion, double enemyAccuracy = 1.0)
+        {
+            if (enemyAccuracy == 0.0)
+                enemyAccuracy = 1.0;
+            double effectiveEvasion = evasion / enemyAccuracy;
+            return 1.0 + effectiveEvasion * Definitions.Stats.EvasionBonusPerPoint;
+        }
+
+        public static double CalculateArmorBonusMultiplier(double armor, double incomingDamage = 1.0)
+        {
+            if (incomingDamage == 0.0)
+                incomingDamage = 1.0;
+            double effectiveArmor = armor / incomingDamage;
+            return 1.0 + effectiveArmor * Definitions.Stats.ArmorSlowdownPerPoint;
+        }
+
         public static int CalculateMobHp(int mobLevel, double multiplier = 1.0)
         {
             return (int) Math.Min(1_000_000_000, 
