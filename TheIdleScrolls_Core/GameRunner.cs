@@ -48,6 +48,7 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new MobSpawnerSystem());
             m_systems.Add(new TargetSelectorSystem());
             m_systems.Add(new AttackProcessingSystem());
+            m_systems.Add(new BountySystem());
             m_systems.Add(new KillProcessingSystem());
             m_systems.Add(new LevelUpSystem());
             m_systems.Add(new QuestSystem());
@@ -121,19 +122,34 @@ namespace TheIdleScrolls_Core
 
             player.GetComponent<InventoryComponent>()?.GetItems()?.ForEach(i => m_coordinator.AddEntity(i));
             player.GetComponent<EquipmentComponent>()?.GetItems()?.ForEach(i => m_coordinator.AddEntity(i));
+            player.GetComponent<CraftingBenchComponent>()?.ActiveCrafts?.ForEach(c => m_coordinator.AddEntity(c.TargetItem));
         }
 
         public void ExecuteTick(double dt)
         {
-/*            var tickStart = DateTime.Now;*/
-
+            /*            var tickStart = DateTime.Now;*/
             dt *= m_world.SpeedMultiplier;
             m_ticks++;
 
+            System.Diagnostics.Stopwatch sw = new();
+
             foreach (var system in m_systems)
             {
+                try
+                {
+                sw.Restart();
+
                 m_coordinator.DeleteMessagesFromSender(system);
                 system.Update(m_world, m_coordinator, dt);
+
+                sw.Stop();
+                //if (sw.ElapsedMilliseconds > 5)
+                //    Console.WriteLine($"{system.GetType().Name} took {sw.ElapsedMilliseconds} ms");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error in {system.GetType().Name}: {e.Message}");
+                }
             }
 
 /*            var tickDuration = DateTime.Now - tickStart;

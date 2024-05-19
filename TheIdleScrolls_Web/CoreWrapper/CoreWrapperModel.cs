@@ -43,10 +43,12 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public AreaRepresentation Area { get; private set; } = new("", 0, false);
         public MobRepresentation Mob { get; private set; } = new(0, "", 0, 0, 0);
         public AccessibleAreas Accessible { get; } = new();
+        public List<IItemEntity> CraftingRecipes { get; private set; } = new();
+        public CraftingBenchRepresentation CraftingBench { get; private set; } = new(0, 0, 0, new());
         public bool AutoProceedActive { get; private set; } = false;
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
         public Equipment Equipment { get; private set; } = new();
-        public List<ItemRepresentation> Inventory { get; private set; } = new();
+        public List<IItemEntity> Inventory { get; private set; } = new();
         public int Coins { get; private set; } = 0;
         public CharacterStats CharacterStats { get; private set; } = new();
         public List<AchievementRepresentation> Achievements { get; private set; } = new();
@@ -54,6 +56,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<PerkRepresentation> Perks { get; private set; } = new();
         public int AchievementCount { get; private set; } = 0;
         public string StatisticsReport { get; private set; } = String.Empty;
+        public BountyStateRepresentation BountyState { get; private set; } = new(0, 0, 0, 0, 0);
         public List<DialogueMessage> DialogueMessages { get; private set; } = new();
         public List<ExpiringMessage> ExpiringMessages { get; private set; } = new();
 
@@ -99,14 +102,30 @@ namespace TheIdleScrolls_Web.CoreWrapper
             const int frameTime = 50;
             gameLoopRunning = true;
             GameLoopRunStateChanged?.Invoke(gameLoopRunning);
+            long owedTime = 0;
             while (gameLoopRunning)
             {
                 try
                 {
-                    gameRunner.ExecuteTick(frameTime / 1000.0);
+                    // Somehow this runs the smoothest. Only using Task.Delay if frame time was not completely used loses ~3-4 secs per minute
+                    System.Diagnostics.Stopwatch sw = new();
+                    sw.Start();
+
+                    var delay = Task.Delay(frameTime);
+
+                    gameRunner.ExecuteTick((frameTime + owedTime) / 1000.0);
                     StateChanged?.Invoke();
-                    await Task.Delay(frameTime);
-                }
+					owedTime = 0;
+					await delay;
+
+					sw.Stop();
+
+                    if (sw.ElapsedMilliseconds >= frameTime)
+                    {
+                        owedTime = sw.ElapsedMilliseconds - frameTime;
+                    }
+                    //Console.WriteLine($"Frame time: {sw.ElapsedMilliseconds}ms");
+				}
                 catch (Exception e)
                 {
                     Console.WriteLine($"Exception caught: {e.Message}");
@@ -144,6 +163,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 Accessible.MaxWilderness = maxWild;
                 Accessible.Dungeons = dungeons;
             };
+            emitter.AvailableCraftingRecipesChanged += (List<IItemEntity> recipes) => CraftingRecipes = recipes;
+            emitter.CraftingBenchChanged += (CraftingBenchRepresentation bench) => CraftingBench = bench;
             emitter.PlayerAutoProceedStateChanged += (bool active) => AutoProceedActive = active;
             emitter.FeatureAvailabilityChanged += (GameFeature feature, bool available) =>
             {
@@ -152,8 +173,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 else
                     AvailableFeatures.Remove(feature);
             };
-            emitter.PlayerEquipmentChanged += (List<ItemRepresentation> items) => Equipment.SetItems(items);
-            emitter.PlayerInventoryChanged += (List<ItemRepresentation> items) => Inventory = items;
+            emitter.PlayerEquipmentChanged += (List<IItemEntity> items) => Equipment.SetItems(items);
+            emitter.PlayerInventoryChanged += (List<IItemEntity> items) => Inventory = items;
             emitter.PlayerCoinsChanged += (int coins) => Coins = coins;
             emitter.PlayerOffenseChanged += (double dmg, double cdMax, double cd) =>
             {
@@ -176,6 +197,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
             emitter.PlayerPerksChanged += (List<PerkRepresentation> perks) => Perks = perks;
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
+            emitter.BountyStateChanged += (BountyStateRepresentation bounty) => BountyState = bounty;
             emitter.DisplayMessageReceived += (string title, string message) =>
             {
                 DialogueMessages.Add(new(string.Empty, string.Empty, title, message, new()));
@@ -253,11 +275,18 @@ namespace TheIdleScrolls_Web.CoreWrapper
             return HighlightedItem == itemId;
         }
 
-        public ItemRepresentation? GetOwnedItem(uint itemId)
+        public IItemEntity? GetItem(uint itemId)
         {
             var result = Equipment.Items.FirstOrDefault(item => item.Id == itemId) 
-                ?? Inventory.FirstOrDefault(item => item.Id == itemId);
+                ?? Inventory.FirstOrDefault(item => item.Id == itemId)
+                ?? CraftingRecipes.FirstOrDefault(item => item.Id == itemId);
             return result;
+        }
+
+        public double CalculateReforgingSuccessRate(int rarity)
+        {
+            int level = Abilities.FirstOrDefault(a => a.Key == TheIdleScrolls_Core.Definitions.Abilities.Crafting)?.Level ?? 0;
+            return Functions.CalculateReforgingSuccessRate(level, rarity);
         }
 
         public async Task ExportAll()

@@ -1,5 +1,6 @@
 ﻿using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrolls_Web.CoreWrapper
 {
@@ -30,14 +31,14 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
     public class Equipment
     {
-        public ItemRepresentation? Hand { get; set; }
-        public ItemRepresentation? OffHand { get; set; }
-        public ItemRepresentation? Chest { get; set; }
-        public ItemRepresentation? Head { get; set; }
-        public ItemRepresentation? Arms { get; set; }
-        public ItemRepresentation? Legs { get; set; }
+        public IItemEntity? Hand { get; set; }
+        public IItemEntity? OffHand { get; set; }
+        public IItemEntity? Chest { get; set; }
+        public IItemEntity? Head { get; set; }
+        public IItemEntity? Arms { get; set; }
+        public IItemEntity? Legs { get; set; }
 
-        public List<ItemRepresentation> Items { get; private set; } = new();
+        public List<IItemEntity> Items { get; private set; } = new();
 
         public Equipment()
         {
@@ -50,7 +51,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             Items = new();
         }
 
-        public ItemRepresentation? GetItem(ExactEquipSlot slot)
+        public IItemEntity? GetItem(ExactEquipSlot slot)
         {
             return slot switch
             {
@@ -64,7 +65,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             };
         }
 
-        public void SetItems(List<ItemRepresentation> items)
+        public void SetItems(List<IItemEntity> items)
         {
             Clear();
             foreach (var item in items)
@@ -72,7 +73,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 bool firstSlot = true;
                 foreach (var slot in item.Slots)
                 {
-                    var displayItem = firstSlot ? item : item with { Rarity = -1 };
+                    var displayItem = item;// firstSlot ? item : item with { Rarity = -1 };
                     switch (slot)
                     {
                         case EquipmentSlot.Hand:

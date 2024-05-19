@@ -2,6 +2,7 @@
 @using TheIdleScrolls_Core
 @using TheIdleScrolls_Core.Definitions
 
+
 @inject CoreWrapperModel CoreWrapper
 
 <div id="helpFrame">
@@ -122,6 +123,21 @@
             combination of the ability level and the drop level of the item.
         </p>
     }
+
+    @if (Bounties)
+    {
+        <h4>Bounty Hunts</h4>
+        <p>Bounties are a reliable source of income while grinding and exploring the world. There are two ways to earn these rewards: 
+        </p>
+        <ul>
+            <li>Whenever you unlock a new area level in the wilderness, you will receive coins based on that level</li>
+            <li>Everytime you defeat @(TheIdleScrolls_Core.Systems.BountySystem.EnemiesPerHunt) enemies in the wild, you will be 
+                awarded a bounty. The bounty amount is based on the lowest level of enemy you defeated during this hunt. But be careful: 
+                the reward will be reduced if you are hunting for enemies below the highest available level.
+            </li>
+        </ul>
+        <p>Bounty hunts are paused when entering a dungeon, but they will be reset when starting a new session.</p>
+    }
 </div>
 
 <style>
@@ -148,4 +164,5 @@
     bool Perks => CoreWrapper.IsFeatureAvailable(GameFeature.Perks);
     bool Travel => CoreWrapper.IsFeatureAvailable(GameFeature.Travel);
     bool Crafting => CoreWrapper.IsFeatureAvailable(GameFeature.Crafting);
+    bool Bounties => CoreWrapper.IsFeatureAvailable(GameFeature.Bounties);
 }

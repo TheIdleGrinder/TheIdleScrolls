@@ -12,7 +12,7 @@
         <div id="charOverview" class="play-area-frame">
             <CharacterOverview></CharacterOverview>
         </div>
-        <div class="tabs play-area-frame-top">
+        <div class="play-area-frame-top tabs">
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Travel))
             {
                 <button class="tablinks @AddTabClass(Tab.Travel)" @onclick="@(() => SetTab(Tab.Travel))">Travel</button>
@@ -20,6 +20,10 @@
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Inventory))
             {
                 <button class="tablinks @AddTabClass(Tab.Inventory)" @onclick="@(() => SetTab(Tab.Inventory))">Inventory</button>
+            }
+            @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Crafting))
+            {
+                <button class="tablinks @AddTabClass(Tab.Crafting)" @onclick="@(() => SetTab(Tab.Crafting))">Crafting</button>
             }
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Abilities))
             {
@@ -60,9 +64,15 @@
                     </div>
                     <hr class="thick">
                     <div id="inventoryArea">
-                        <InventoryDisplay></InventoryDisplay>
-                        <HighlightedItemDisplay></HighlightedItemDisplay>
+                        <InventoryDisplay Title="Inventory" Items=@CoreWrapper.Inventory></InventoryDisplay>
+                        <HighlightedItemDisplay ReforgeButtonVisible="false"></HighlightedItemDisplay>
                     </div>
+                </div>
+            }
+            @if (m_activeTab == Tab.Crafting)
+            {
+                 <div class="tabPage" id="craftingPage">
+                    <CraftingDisplay></CraftingDisplay>
                 </div>
             }
             @if (m_activeTab == Tab.Abilities)
@@ -156,10 +166,26 @@
         padding-top: 0px;
         grid-template-columns: 1fr 1fr;
     }
+
+    .tabPage {
+        width: 100%;
+        max-height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    #craftingPage {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 </style>
 
 @code {
-    enum Tab { Travel, Inventory, Abilities, Achievements, Stats, Help, Perks };
+    enum Tab { Travel, Inventory, Crafting, Abilities, Achievements, Stats, Help, Perks };
 
     Tab m_activeTab = Tab.Achievements;
 

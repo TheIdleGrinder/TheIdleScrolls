@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Intrinsics.X86;
 using MiniECS;
+using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrollsApp
 {
@@ -34,7 +35,7 @@ namespace TheIdleScrollsApp
 
         int m_coins = 0;
 
-        SortableBindingList<ItemRepresentation> m_Inventory { get; set; }
+        SortableBindingList<IItemEntity> m_Inventory { get; set; }
         Equipment m_Equipment { get; set; }
         SortableBindingList<AbilityRepresentation> m_abilities { get; set; }
 
@@ -314,7 +315,7 @@ namespace TheIdleScrollsApp
             lblInventoryDefense.Text = $"{(armor > 0 ? $"Armor: {armor:0.0#}\n" : "")}\n{(evasion > 0 ? $"Evasion: {evasion:0.0#}": "")}";
         }
 
-        public void SetInventory(List<ItemRepresentation> items)
+        public void SetInventory(List<IItemEntity> items)
         {
             int offset = gridInventory.FirstDisplayedScrollingRowIndex;
             int currentRow = gridInventory.CurrentRow?.Index ?? -1;
@@ -333,7 +334,7 @@ namespace TheIdleScrollsApp
                 gridInventory.FirstDisplayedScrollingRowIndex = Math.Min(offset, gridInventory.RowCount - 1);
         }
 
-        public void SetEquipment(List<ItemRepresentation> items)
+        public void SetEquipment(List<IItemEntity> items)
         {
             m_Equipment.Clear();
             foreach (var item in items)
@@ -341,7 +342,7 @@ namespace TheIdleScrollsApp
                 bool firstSlot = true;
                 foreach (var slot in item.Slots)
                 {
-                    var displayItem = firstSlot ? item : item with { Rarity = -1 };
+                    var displayItem = item; //firstSlot ? item : item with { Rarity = -1 };
                     switch (slot)
                     {
                         case EquipmentSlot.Hand:
@@ -359,7 +360,7 @@ namespace TheIdleScrollsApp
                 }
             }
 
-            var SetLabelItem = (Label label, ItemRepresentation? item) =>
+            var SetLabelItem = (Label label, IItemEntity? item) =>
             {
                 int rarity = item?.Rarity ?? -1;
                 label.Text = item?.Name ?? label.Tag.ToString();
@@ -383,7 +384,7 @@ namespace TheIdleScrollsApp
             lblInventoryEncumbrance.Text = $"Encumbrance: {encumbrance:#.##}%";
         }
 
-        private void ShowItemDescription(ItemRepresentation? item)
+        private void ShowItemDescription(IItemEntity? item)
         {
             if (item == null)
             {
@@ -397,7 +398,7 @@ namespace TheIdleScrollsApp
             {
                 string fullDescription = item.Name
                     + "\n\n" + item.Description.Replace("; ", "\n")
-                    + $"\nForging Cost: {item.ReforgingCost}c";
+                    + $"\nForging Cost: {item.Reforging.Cost}c";
                 rtbItemDescription.Text = fullDescription;
                 rtbItemDescription.Select(0, item.Name.Length);
                 rtbItemDescription.SelectionColor = GetColorForRarity(item.Rarity);
@@ -515,11 +516,11 @@ namespace TheIdleScrollsApp
         {
             if (e.RowIndex < 0 || e.RowIndex >= gridInventory.Rows.Count)
                 return;
-            ItemRepresentation item = m_Inventory[e.RowIndex];
+            IItemEntity item = m_Inventory[e.RowIndex];
             m_inputHandler.EquipItem(m_playerId, item.Id);
         }
 
-        private void UnequipItem(ItemRepresentation? item)
+        private void UnequipItem(IItemEntity? item)
         {
             if (item != null)
                 m_inputHandler.UnequipItem(m_playerId, item.Id);
@@ -571,11 +572,11 @@ namespace TheIdleScrollsApp
                 cMenuInventorySell.Text = $"Sell [+{m_Inventory[row].Value}c]";
                 cMenuInventorySell.Visible = true;
 
-                if (m_canReforge && m_Inventory[row].ReforgingCost >= 0)
+                if (m_canReforge && m_Inventory[row].Reforging.Cost >= 0)
                 {
-                    cMenuInventoryReforge.Text = $"Reforge [-{m_Inventory[row].ReforgingCost}c]";
+                    cMenuInventoryReforge.Text = $"Reforge [-{m_Inventory[row].Reforging.Cost}c]";
                     cMenuInventoryReforge.Visible = true;
-                    cMenuInventoryReforge.Enabled = m_coins >= m_Inventory[row].ReforgingCost;
+                    cMenuInventoryReforge.Enabled = m_coins >= m_Inventory[row].Reforging.Cost;
                 }
             }
         }
@@ -644,12 +645,12 @@ namespace TheIdleScrollsApp
 
     class Equipment
     {
-        public ItemRepresentation? Hand { get; set; }
-        public ItemRepresentation? OffHand { get; set; }
-        public ItemRepresentation? Chest { get; set; }
-        public ItemRepresentation? Head { get; set; }
-        public ItemRepresentation? Arms { get; set; }
-        public ItemRepresentation? Legs { get; set; }
+        public IItemEntity? Hand { get; set; }
+        public IItemEntity? OffHand { get; set; }
+        public IItemEntity? Chest { get; set; }
+        public IItemEntity? Head { get; set; }
+        public IItemEntity? Arms { get; set; }
+        public IItemEntity? Legs { get; set; }
 
         public Equipment()
         {

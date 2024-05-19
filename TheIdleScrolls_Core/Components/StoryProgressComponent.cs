@@ -11,7 +11,7 @@ namespace TheIdleScrolls_Core.Components
 
     namespace QuestStates
     {
-        public enum GettingStarted { None = -1, Inventory, Abilities, Perks, Outside, Armor, Travel, Dungeon }
+        public enum GettingStarted { None = -1, Inventory, Abilities, Perks, Outside, Armor, Travel, Dungeon, Bounties }
     }
 
     public class QuestProgressComponent : IComponent

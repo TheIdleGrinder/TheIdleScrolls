@@ -108,7 +108,7 @@ namespace TheIdleScrolls_Core.Items
 
         public static void SetItemMaterial(Entity item, ItemMaterialDescription material)
         {
-            item.AddComponent(new ItemMaterialComponent(material.Id));
+            item.AddComponent(new ItemMaterialComponent(material.Id, material.Tier));
             CalculateItemStats(item);
             UpdateItemName(item);
             UpdateItemValue(item);
@@ -241,13 +241,10 @@ namespace TheIdleScrolls_Core.Items
         private static void CalculateItemStats(Entity item)
         {
             const double rarityScaling = 1.25;
-            var itemComp = item.GetComponent<ItemComponent>();
-            if (itemComp == null)
-                throw new Exception($"Entity {item.GetName()} is not an item");
-            var description = ItemKingdom.GetGenusDescriptionByIdAndIndex(itemComp.Code.FamilyId, itemComp.Code.GenusIndex);
-            if (description == null)
-                throw new Exception($"Invalid item code: {itemComp.Code}");
-
+            var itemComp = item.GetComponent<ItemComponent>() 
+                ?? throw new Exception($"Entity {item.GetName()} is not an item");
+            var description = ItemKingdom.GetGenusDescriptionByIdAndIndex(itemComp.Code.FamilyId, itemComp.Code.GenusIndex) 
+                ?? throw new Exception($"Invalid item code: {itemComp.Code}");
             int rarityLevel = item.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
             double materialMulti = itemComp.Code.GetMaterial().PowerMultiplier;
 

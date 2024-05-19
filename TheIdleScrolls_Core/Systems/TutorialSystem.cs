@@ -215,6 +215,17 @@ namespace TheIdleScrolls_Core.Systems
                 m_player.GetComponent<PlayerComponent>()?.SetFeatureState(GameFeature.Crafting, true);
                 coordinator.PostMessage(this, new FeatureStateMessage(GameFeature.Crafting, true));
             }
+
+            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Bounties)
+                && coordinator.MessageTypeIsOnBoard<BountyMessage>())
+            {
+                globalProgress.Data.TutorialProgress.Add(TutorialStep.Bounties);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.Bounties, "Bounty Hunter",
+                    $"The main way to earn bounties is by defeating " +
+                    $"an enemy at a higher level than you had before in the wilderness. You will also be awarded a bounty every time you defeat " +
+                    $"{Systems.BountySystem.EnemiesPerHunt} in the wilderness. The value of bounties depends on the level of the defeated enemies."));
+            }
         }
     }
 

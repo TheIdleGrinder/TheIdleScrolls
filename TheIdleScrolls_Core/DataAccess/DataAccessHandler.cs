@@ -107,9 +107,9 @@ namespace TheIdleScrolls_Core.DataAccess
                         entities.Add(entity);
                     }
                 }
-				catch (Exception)
+				catch (Exception e)
                 {
-					throw new Exception("Invalid import data");
+					throw new Exception("Invalid import data: " + e.Message);
 				}
             }
             // Only store entities if all of them were successfully deserialized

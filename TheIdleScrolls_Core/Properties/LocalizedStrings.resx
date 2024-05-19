@@ -123,6 +123,9 @@
   <data name="ABL_CRAFT" xml:space="preserve">
     <value>Crafting</value>
   </data>
+  <data name="ActiveCraftingSlot" xml:space="preserve">
+    <value>Active Craft(s)</value>
+  </data>
   <data name="ArmorRating" xml:space="preserve">
     <value>Armor Rating</value>
   </data>
@@ -285,6 +288,15 @@
   <data name="CLASS_X_X" xml:space="preserve">
     <value>Monk</value>
   </data>
+  <data name="CraftingCost" xml:space="preserve">
+    <value>Crafting Cost</value>
+  </data>
+  <data name="CraftingSlot" xml:space="preserve">
+    <value>Crafting Slot(s)</value>
+  </data>
+  <data name="CraftingSpeed" xml:space="preserve">
+    <value>Crafting Speed</value>
+  </data>
   <data name="DRAGON" xml:space="preserve">
     <value>Dragon</value>
   </data>
@@ -400,10 +412,10 @@
     <value>Sword</value>
   </data>
   <data name="LBL1" xml:space="preserve">
-    <value>Long Sword</value>
+    <value>Broad Sword</value>
   </data>
   <data name="LBL2" xml:space="preserve">
-    <value>Two-Handed Sword</value>
+    <value>Bastard Sword</value>
   </data>
   <data name="LBL3" xml:space="preserve">
     <value>Curved Sword</value>

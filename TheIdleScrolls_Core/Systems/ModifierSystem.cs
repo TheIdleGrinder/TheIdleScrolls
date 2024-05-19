@@ -11,6 +11,9 @@ using TheIdleScrolls_Core.GameWorld;
 namespace TheIdleScrolls_Core.Systems
 {
     /// <summary>
+    ///     
+    ///     DEPRECATED
+    /// 
     /// Updates modifiers for all entities with a ModifierComponent. Obsolete and should be replaced by the PerksSystem.
     /// </summary>
     public class ModifierSystem : AbstractSystem

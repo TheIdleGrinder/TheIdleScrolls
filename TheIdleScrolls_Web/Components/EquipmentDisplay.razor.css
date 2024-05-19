@@ -12,12 +12,13 @@ div.equipLine {
 }
 
 p.equipSlot {
-    font-size: 18px;
     border: solid 1px black;
     width: 30%;
     margin: 10px;
     overflow: hidden;
     cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 p.hiddenSlot {

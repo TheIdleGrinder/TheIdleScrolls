@@ -214,9 +214,12 @@ namespace TheIdleScrolls_Core.Components
     {
         public string Name { get; set; }
 
-        public ItemMaterialComponent(string name)
+        public int Tier { get; set; }
+
+        public ItemMaterialComponent(string name, int tier)
         {
             Name = name;
+            Tier = tier;
         }   
     }
 

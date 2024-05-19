@@ -63,6 +63,10 @@ namespace TheIdleScrolls_Core.Items
         public string Id { get; set; } = "";
         public double PowerMultiplier { get; set; } = 1.0;
         public int MinimumLevel { get; set; } = 0;
+
+        // CornerCut: Material id ends with the index, so extract it. If the last character is not a digit, it's a T0 training item
+        // Training material is T0, other materials start at T1
+        public int Tier => int.TryParse(Id[^1].ToString(), out int t) ? t + 1 : 0;
     }
 
     public class ItemKingdomDescription
