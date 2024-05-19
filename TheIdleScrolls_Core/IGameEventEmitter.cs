@@ -13,7 +13,7 @@ namespace TheIdleScrolls_Core
     public delegate void EncumbranceChangedHandler(double encumbrance);
     public delegate void CoinsChangedHandler(int coins);
     public delegate void OffenseChangedHandler(double damage, double cooldown, double remainingCooldown);
-    public delegate void DefenseChangedHandler(double armor, double evasion);
+    public delegate void DefenseChangedHandler(double armor, double evasion, double defenseRating);
     public delegate void AbilitiesChangedHandler(List<AbilityRepresentation> abilities);
     public delegate void PerksChangedHandler(List<PerkRepresentation> perks);
     public delegate void ModifiersChangedHandler(List<string> modifiers);

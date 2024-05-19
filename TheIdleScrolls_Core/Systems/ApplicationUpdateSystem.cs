@@ -129,7 +129,8 @@ namespace TheIdleScrolls_Core.Systems
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null && (m_firstUpdate || coordinator.MessageTypeIsOnBoard<StatsUpdatedMessage>()))
             {
-                PlayerDefenseChanged?.Invoke(defenseComp.Armor, defenseComp.Evasion);
+                PlayerDefenseChanged?.Invoke(defenseComp.Armor, defenseComp.Evasion, 
+                    Functions.CalculateDefenseRating(defenseComp.Armor, defenseComp.Evasion, player.GetLevel()));
             }
 
             // Update Abilities

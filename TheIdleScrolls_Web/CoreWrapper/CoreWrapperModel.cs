@@ -161,10 +161,11 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 CharacterStats.Cooldown = cdMax;
                 CharacterStats.CooldownRemaining = cd;
             };
-            emitter.PlayerDefenseChanged += (double armor, double evasion) =>
+            emitter.PlayerDefenseChanged += (double armor, double evasion, double defenseRating) =>
             {
                 CharacterStats.Armor = armor;
                 CharacterStats.Evasion = evasion;
+                CharacterStats.DefenseRating = defenseRating;
             };
             emitter.PlayerEncumbranceChanged += (double encumbrance) => CharacterStats.Encumbrance = encumbrance;
             emitter.AchievementsChanged += (List<AchievementRepresentation> achievements, int count) =>

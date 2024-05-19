@@ -22,6 +22,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public double Cooldown { get; set; } = 0.0;
         public double Armor { get; set; } = 0.0;
         public double Evasion { get; set; } = 0.0;
+        public double DefenseRating { get; set; } = 0.0;
         public double Encumbrance { get; set; } = 0.0;
     }
 

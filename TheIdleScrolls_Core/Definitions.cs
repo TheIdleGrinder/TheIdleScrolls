@@ -100,6 +100,14 @@ namespace TheIdleScrolls_Core
             return Math.Pow(1.0 + Definitions.Stats.DefensePerAbilityLevel, abilityLevel) - 1.0;
         }
 
+        public static double CalculateDefenseRating(double armor, double evasion, int level)
+        {
+            double damage = CalculateMobDamage(level);
+            double accuracy = CalculateMobAccuracy(level);
+            double multiplier = CalculateArmorBonusMultiplier(armor, damage) * CalculateEvasionBonusMultiplier(evasion, accuracy);
+            return (multiplier - 1.0) * 100.0;
+        }
+
         public static double CalculateEvasionBonusMultiplier(double evasion, double enemyAccuracy = 1.0)
         {
             if (enemyAccuracy == 0.0)
