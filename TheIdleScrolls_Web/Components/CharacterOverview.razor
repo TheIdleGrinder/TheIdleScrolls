@@ -5,7 +5,7 @@
 <div class="charOuter">
     <h2>@CoreWrapper.Character.Name</h2>
 
-    <p>Level @CoreWrapper.Character.Level @CoreWrapper.Character.Class</p>
+    <p style="margin-bottom: 0.5rem">Level @CoreWrapper.Character.Level @CoreWrapper.Character.Class</p>
 
     <progress title="@CoreWrapper.XpCurrent.ToBigIntString() / @CoreWrapper.XpTarget.ToBigIntString() XP" 
             value="@CoreWrapper.XpCurrent" max="@CoreWrapper.XpTarget">
@@ -14,23 +14,23 @@
     <hr class="thick">
 
     <table>
-        <tr>
+        <tr class="normal-font">
             <th>Damage</th>
             <td>@FormatValue(Stats.Damage)</td>
+            <th>Defense Rating</th>
+            <td>@FormatValue(Stats.DefenseRating)</td>
+        </tr>
+        <tr class="small-font">
+            <th>Attack Time</th>
+            <td>@FormatValue(Stats.Cooldown) s</td>
             <th>Armor</th>
             <td>@FormatValue(Stats.Armor)</td>
         </tr>
-        <tr>
-            <th>Attack Time</th>
-            <td>@FormatValue(Stats.Cooldown) s</td>
-            <th>Evasion</th>
-            <td>@FormatValue(Stats.Evasion)</td>
-        </tr>
-        <tr>
+        <tr class="small-font">
             <th title="Damage per second">DPS</th>
             <td>@(FormatValue(Stats.Damage / Stats.Cooldown))</td>
-            <th>Encumbrance</th>
-            <td>@(FormatValue(Stats.Encumbrance)) %</td>
+            <th>Evasion</th>
+            <td>@(FormatValue(Stats.Evasion)) %</td>
         </tr>
         <tr>
             <td colspan="2"><progress value="@AttackProgress" max="@AttackCooldown"></progress></td>

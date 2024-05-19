@@ -88,6 +88,18 @@ input:not(:placeholder-shown):invalid {
     border-color: red;
 }
 
+.normal-font {
+    font-size: 1rem;
+}
+
+.small-font {
+    font-size: 0.8rem;
+}
+
+.large-font {
+    font-size: 1.25rem;
+}
+
 div.progressFrame {
     display: flex;
     flex-direction: row;

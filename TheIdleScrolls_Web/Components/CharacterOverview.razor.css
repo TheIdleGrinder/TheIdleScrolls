@@ -15,9 +15,8 @@ tr {
     border-bottom: 1px solid slategray;
 }
 
-td {
-/*    padding-left: 10px;
-    border-right: 1px dotted slategray;*/
+th, td {
+    font-size: inherit;
 }
 
 tr:last-child {
@@ -26,4 +25,8 @@ tr:last-child {
 
 td:last-child {
     border-right: none;
+}
+
+hr {
+    margin: 0.5rem;
 }
