@@ -5,6 +5,7 @@ div.charOuter {
     box-sizing: border-box;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
     width: 100%;
 }
 
@@ -13,10 +14,12 @@ progress {
 }
 
 tr:first-child  th {
+    width:25%;
     padding-top: 0.5rem;
 }
 
 tr:first-child td {
+    width: 25%;
     padding-top: 0.5rem;
 }
 

@@ -70,6 +70,12 @@ a, .btn-link {
     --frame-color: slategray;
     --frame-color-special: brown;
     --border-radius: 8px;
+
+    --color-xp-progress: royalblue;
+    --color-crafting-progress: lightseagreen;
+    --color-attack-progress: lightseagreen;
+    --color-hp: red;
+    --color-time: limegreen;
 }
 
 h1.banner-title {

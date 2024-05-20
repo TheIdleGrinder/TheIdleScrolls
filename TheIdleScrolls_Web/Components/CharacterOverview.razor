@@ -3,7 +3,7 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="charOuter">
-    <h2>@CoreWrapper.Character.Name</h2>
+    <h3>@CoreWrapper.Character.Name</h3>
 
     <p style="margin-bottom: 0.0rem">Level @CoreWrapper.Character.Level @CoreWrapper.Character.Class</p>
 
@@ -30,9 +30,6 @@
             <th>Evasion</th>
             <td>@(FormatValue(Stats.Evasion))</td>
         </tr>
-        <tr>
-            <td colspan="2"><progress value="@AttackProgress" max="@AttackCooldown"></progress></td>
-        </tr>
     </table>
 </div>
 
@@ -49,7 +46,7 @@
     }
 
     #character-xp-bar-fill {
-        background-color: royalblue;
+        background-color: var(--color-xp-progress);
         height: 8px;
     }
 

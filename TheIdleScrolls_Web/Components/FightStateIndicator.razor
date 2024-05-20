@@ -6,18 +6,10 @@
     <div id="imageContainer">
         <img src="/images/hourglass_broadsword.png" class="pixelart" style="width: 256px" />
     </div>
-    @if (TimeActive)
-    {
-        <div class="fightInner">
-            <p class="timeText">Remaining: @(GetTimeString(Time)) / @(GetTimeString(TimeMax))</p>
-            <div class="progressFrame">
-                <div class="progressFill timeBar" style="width: @(PctString(Time, TimeMax));"></div>
-            </div>
-        </div>
-    }
+    
     @if (MobPresent)
     {
-        <div class="fightInner" style="margin-top: 20px;">
+        <div class="fightInner">
             <p style="margin-bottom: 0px;">@CoreWrapper.Mob.Name (Level @CoreWrapper.Mob.Level)</p>
             <p class="healthText">HP: @Hp.ToBigIntString() / @HpMax.ToBigIntString()</p>
             <div class="progressFrame">
@@ -25,6 +17,24 @@
             </div>
         </div>
     }
+    
+    @if (TimeActive)
+    {
+        <div class="fightInner" style="margin-top: 1rem;">
+            <p class="timeText">Remaining: @(GetTimeString(Time)) / @(GetTimeString(TimeMax))</p>
+            <div class="progressFrame">
+                <div class="progressFill timeBar" style="width: @(PctString(Time, TimeMax));"></div>
+            </div>
+        </div>
+    }
+
+    <div class="progress-bar-container" style="margin-top: 1rem;">
+        Atk
+        <div id="attack-bar-frame" class="progressFrame" style="justify-content: start">
+            <div id="attack-bar-fill" class="progressFill" style="width: @($"{AttackPct:0%}");"></div>
+        </div>
+    </div>
+    
 </div>
 
 <style>
@@ -40,7 +50,7 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        padding: 5px;
+        padding: 0.5rem;
         background-color: var(--back-color);
     }
 
@@ -52,21 +62,40 @@
     }
 
     .timeBar {
-        background-color: limegreen;
+        background-color: var(--color-time);
     }
 
     .timeText {
-        color: limegreen;
+        color: var(--color-time);
         margin-bottom: 0px;
     }
 
     .healthBar {
-        background-color: red;
+        background-color: var(--color-hp);
     }
 
     .healthText {
-        color:red;
+        color: var(--color-hp);
         margin-bottom: 0px;
+    }
+
+    .progress-bar-container {
+        display: inline-flex;
+        gap: 0.5rem;
+        font-size: 1.25rem;
+    }
+
+    #attack-bar-frame {
+        width: 100%;
+        border: 1px solid var(--frame-color);
+        background: inherit;
+        height: fit-content;
+        align-self: center;
+    }
+
+    #attack-bar-fill {
+        background-color: var(--color-attack-progress);
+        height: 12px;
     }
 </style>
 
@@ -78,6 +107,8 @@
     int HpMax => CoreWrapper.Mob.HpMax;
     double Time => CoreWrapper.TimeLimit.Remaining;
     double TimeMax => CoreWrapper.TimeLimit.Maximum;
+
+    double AttackPct => 1.0 - 1.0 * CoreWrapper.CharacterStats.CooldownRemaining / CoreWrapper.CharacterStats.Cooldown;
 
     protected override void OnInitialized()
     {
