@@ -41,7 +41,21 @@
             @GetItemName(ExactEquipSlot.Legs, "Legs")
         </p>
     </div>
+    @if (CoreWrapper.CharacterStats.Encumbrance > 0.0)
+    {
+        <div id="equipment-encumbrance-line">
+            Encumbrance: @CoreWrapper.CharacterStats.Encumbrance %
+        </div>
+    }
 </div>
+
+<style>
+    #equipment-encumbrance-line {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+</style>
 
 @code {
     protected override void OnInitialized()

@@ -128,13 +128,13 @@ div.progressFill {
     color: mediumblue;
 }
 .rarity-3 {
-    color: teal;
+    color: seagreen;
 }
 .rarity-4 {
-    color: forestgreen;
+    color: yellowgreen;
 }
 .rarity-5 {
-    color: yellowgreen;
+    color: gold;
 }
 .rarity-6 {
     color: goldenrod;

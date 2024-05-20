@@ -3,7 +3,8 @@ div.charOuter {
     flex-direction: column;
     flex: 0 0 auto;
     box-sizing: border-box;
-    padding-left: 10px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     width: 100%;
 }
 
@@ -11,8 +12,16 @@ progress {
     width: 70%;
 }
 
+tr:first-child  th {
+    padding-top: 0.5rem;
+}
+
+tr:first-child td {
+    padding-top: 0.5rem;
+}
+
 tr {
-    border-bottom: 1px solid slategray;
+    /*border-bottom: 1px solid slategray;*/
 }
 
 th, td {

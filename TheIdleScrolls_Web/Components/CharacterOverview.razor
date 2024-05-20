@@ -5,38 +5,55 @@
 <div class="charOuter">
     <h2>@CoreWrapper.Character.Name</h2>
 
-    <p style="margin-bottom: 0.5rem">Level @CoreWrapper.Character.Level @CoreWrapper.Character.Class</p>
+    <p style="margin-bottom: 0.0rem">Level @CoreWrapper.Character.Level @CoreWrapper.Character.Class</p>
 
-    <progress title="@CoreWrapper.XpCurrent.ToBigIntString() / @CoreWrapper.XpTarget.ToBigIntString() XP" 
-            value="@CoreWrapper.XpCurrent" max="@CoreWrapper.XpTarget">
-    </progress>
+    <div id="character-xp-bar-frame" class="progressFrame" style="justify-content: start">
+        <div id="character-xp-bar-fill" class="progressFill" style="width: @($"{xpPct:0%}");"></div>
+    </div>
 
-    <hr class="thick">
-
-    <table>
+    <table id="character-stat-table">
         <tr class="normal-font">
-            <th>Damage</th>
-            <td>@FormatValue(Stats.Damage)</td>
+            <th title="Damage per second">DPS</th>
+            <td>@(FormatValue(Stats.Damage / Stats.Cooldown))</td>
             <th>Defense Rating</th>
             <td>@FormatValue(Stats.DefenseRating)</td>
         </tr>
         <tr class="small-font">
-            <th>Attack Time</th>
-            <td>@FormatValue(Stats.Cooldown) s</td>
+            <th>Damage</th>
+            <td>@FormatValue(Stats.Damage)</td>
             <th>Armor</th>
             <td>@FormatValue(Stats.Armor)</td>
         </tr>
         <tr class="small-font">
-            <th title="Damage per second">DPS</th>
-            <td>@(FormatValue(Stats.Damage / Stats.Cooldown))</td>
+            <th>Attack Time</th>
+            <td>@FormatValue(Stats.Cooldown) s</td>
             <th>Evasion</th>
-            <td>@(FormatValue(Stats.Evasion)) %</td>
+            <td>@(FormatValue(Stats.Evasion))</td>
         </tr>
         <tr>
             <td colspan="2"><progress value="@AttackProgress" max="@AttackCooldown"></progress></td>
         </tr>
     </table>
 </div>
+
+<style>
+    #character-stat-table {
+        
+    }
+
+    #character-xp-bar-frame {
+        width: 70%;
+        margin-bottom: 0.5rem;
+        border: 1px solid var(--frame-color);
+        background: inherit;
+    }
+
+    #character-xp-bar-fill {
+        background-color: royalblue;
+        height: 8px;
+    }
+
+</style>
 
 
 @code {
@@ -47,6 +64,8 @@
         CoreWrapper.StateChanged += StateHasChanged;
         base.OnInitialized();
     }
+
+    double xpPct => 1.0 * CoreWrapper.XpCurrent / CoreWrapper.XpTarget;
 
     int AttackCooldown => CooldownToInt(Stats.Cooldown);
     int AttackProgress => CooldownToInt(Stats.Cooldown) - CooldownToInt(Stats.CooldownRemaining);
