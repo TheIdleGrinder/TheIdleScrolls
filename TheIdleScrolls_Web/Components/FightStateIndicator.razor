@@ -11,20 +11,21 @@
     {
         <div class="fightInner">
             <p style="margin-bottom: 0px;">@CoreWrapper.Mob.Name (Level @CoreWrapper.Mob.Level)</p>
-            <p class="healthText">HP: @Hp.ToBigIntString() / @HpMax.ToBigIntString()</p>
             <div class="progressFrame">
                 <div class="progressFill healthBar" style="width: @(PctString(Hp, HpMax));"></div>
             </div>
+            <p class="healthText">HP: @Hp.ToBigIntString() / @HpMax.ToBigIntString()</p>
         </div>
     }
     
     @if (TimeActive)
     {
         <div class="fightInner" style="margin-top: 1rem;">
-            <p class="timeText">Remaining: @(GetTimeString(Time)) / @(GetTimeString(TimeMax))</p>
+            <p class="timeText">Time Limit</p>
             <div class="progressFrame">
                 <div class="progressFill timeBar" style="width: @(PctString(Time, TimeMax));"></div>
             </div>
+            <p class="timeText">Remaining: @(GetTimeString(Time)) / @(GetTimeString(TimeMax))</p>
         </div>
     }
 
@@ -40,7 +41,7 @@
 <style>
     #imageContainer {
         width: 100%;
-        padding: 25px;
+        padding: 0.5rem;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -58,7 +59,6 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 10px;
     }
 
     .timeBar {
