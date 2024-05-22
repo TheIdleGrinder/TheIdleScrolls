@@ -1,7 +1,7 @@
 ﻿@using TheIdleScrolls_Core
 
 <div class="crafting-process-frame @(GetComponentClasses())">
-    <h4>@(GetCraftTypeName())</h4>
+    <h5>@(GetCraftTypeName())</h5>
     <h6 class="@CssUtilities.GetClassesForItem(Craft.Item)">@Craft.Item.Name</h6>
     <div class="progressFrame craftingProgressBarFrame @(GetComponentClasses())" style="justify-content: start">
         <div class="progressFill craftingProgressBar" style="width: @(PctString());"></div>
