@@ -25,6 +25,11 @@ namespace TheIdleScrolls_Core.DataAccess
             m_storage = storageHandler;
         }
 
+        public IStorageHandler<string> StorageHandler
+        {
+            get { return m_storage; }
+        }
+
         public Task StoreEntity(Entity entity)
         {
             string serialized = m_converter.SerializeEntity(entity);
