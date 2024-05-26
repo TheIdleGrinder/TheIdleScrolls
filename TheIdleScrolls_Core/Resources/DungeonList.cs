@@ -246,16 +246,16 @@ namespace TheIdleScrolls_Core.Resources
                         new(3, 3.0, new() { "MOB_SHARK" }),
                         new(4, 4.0, new() { "MOB_DEEPONE" }),
                         new(2, 2.0, new() { "MOB_ANCIENTMACHINE" }),
-                        new(6, 4.5, new() { "MOB_ANCIENTMACHINE", "MOB_DEEPONE2" }),
-                        new(1, 5.0, new() { "BOSS_RENKE" })
+                        new(5, 4.5, new() { "MOB_ANCIENTMACHINE", "MOB_DEEPONE2" }),
+                        new(1, 5.2, new() { "BOSS_RENKE" })
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_SHARK", hP: 3.0, damage: 3.0),
-                        new("MOB_DEEPONE", hP: 3.0, damage: 3.5),
-                        new("MOB_ANCIENTMACHINE", hP: 4.0, damage: 3.0),
-                        new("MOB_DEEPONE2", hP: 3.0, damage: 4.0),
-                        new("BOSS_RENKE", hP: 10.0, damage: 10.0)
+                        new("MOB_SHARK", hP: 2.0, damage: 1.7),
+                        new("MOB_DEEPONE", hP: 2.3, damage: 1.7),
+                        new("MOB_ANCIENTMACHINE", hP: 2.5, damage: 1.7),
+                        new("MOB_DEEPONE2", hP: 2.0, damage: 2.125),
+                        new("BOSS_RENKE", hP: 13.0, damage: 2.0)
                     },
                     Rewards = new(61, true, new())
                 },
@@ -273,15 +273,15 @@ namespace TheIdleScrolls_Core.Resources
                         new(4, 4.0, new() { "MOB_RAVEN" }),
                         new(3, 3.0, new() { "MOB_SNAKE" }),
                         new(2, 2.0, new() { "MOB_GRYPHON" }),
-                        new(1, 5.0, new() { "BOSS_SOREN" })
+                        new(1, 5.2, new() { "BOSS_SOREN" })
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_HUFFLE", hP: 3.0, damage: 3.0),
-                        new("MOB_RAVEN", hP: 3.5, damage: 3.0),
-                        new("MOB_SNAKE", hP: 4.0, damage: 3.5),
-                        new("MOB_GRYPHON", hP: 4.5, damage: 3.8),
-                        new("BOSS_SOREN", hP: 10.0, damage: 10.0)
+                        new("MOB_HUFFLE", hP: 2.0, damage: 1.7),
+                        new("MOB_RAVEN", hP: 2.3, damage: 1.7),
+                        new("MOB_SNAKE", hP: 2.5, damage: 1.7),
+                        new("MOB_GRYPHON", hP: 2.75, damage: 1.7),
+                        new("BOSS_SOREN", hP: 13.0, damage: 2.0)
                     },
                     Rewards = new(61, true, new())
                 },
@@ -298,17 +298,17 @@ namespace TheIdleScrolls_Core.Resources
                         new(3, 3.0, new() { "MOB_MARTIALARTIST" }),
                         new(3, 3.0, new() { "MOB_ASSASSIN" }),
                         new(3, 2.75, new() { "MOB_ASSASSIN", "MOB_TERRACOTTA" }),
-                        new(3, 2.5, new() { "MOB_TERRACOTTA" }),
+                        new(3, 2.6, new() { "MOB_TERRACOTTA" }),
                         new(3, 3.0, new() { "MOB_TERRACOTTA2" }),
-                        new(1, 5.0, new() { "BOSS_HEINRICH" })
+                        new(1, 5.2, new() { "BOSS_HEINRICH" })
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_MARTIALARTIST", hP: 3.0, damage: 3.0),
-                        new("MOB_ASSASSIN", hP: 3.0, damage: 4.0),
-                        new("MOB_TERRACOTTA", hP: 4.0, damage: 3.0),
-                        new("MOB_TERRACOTTA2", hP: 5.5, damage: 3.0),
-                        new("BOSS_HEINRICH", hP: 10.0, damage: 10.0)
+                        new("MOB_MARTIALARTIST", hP: 2.0, damage: 1.7),
+                        new("MOB_ASSASSIN", hP: 1.7, damage: 2.3),
+                        new("MOB_TERRACOTTA", hP: 2.3, damage: 1.7),
+                        new("MOB_TERRACOTTA2", hP: 3.2, damage: 1.5),
+                        new("BOSS_HEINRICH", hP: 13.0, damage: 2.0)
                     },
                     Rewards = new(61, true, new())
                 }
