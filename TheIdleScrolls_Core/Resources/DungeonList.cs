@@ -127,7 +127,7 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_MercenaryCamp_Description,
                     Floors = new()
                     {
-                        new(15, 10.0, new() { "MOB_MERCENARY" }),
+                        new(15, 9.0, new() { "MOB_MERCENARY" }),
                         new(1, 4.0, new() { "BOSS_MERCENARY" })
                     },
                     LocalMobs = new()
@@ -185,7 +185,7 @@ namespace TheIdleScrolls_Core.Resources
                     {
                         new("MOB_VOIDFIEND", hP: 2.0, damage: 1.0),
                         new("MOB_LESSERDEMON", hP: 1.42, damage: 1.42), // Rescaled from JSON
-                        new("MOB_VOIDCULTIST", hP: 1.5, damage: 1.33),
+                        new("MOB_VOIDCULTIST", hP: 1.6, damage: 1.25),
                         new("BOSS_CULTLEADER", hP: 6.0, damage: 1.5)
                     },
                     Rewards = new(51, true, new())
@@ -200,15 +200,15 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_ReturnToLighthouse_Description,
                     Floors = new()
                     {
-                        new(3, 2.5, new() { "MOB_VOIDCULTIST" }),
-                        new(4, 3.0, new() { "MOB_VOIDCULTIST", "MOB_VOIDFIEND" }),
-                        new(7, 4.2, new() { "MOB_VOIDFIEND" }),
-                        new(1, 3.5, new() { "MOB_GREATERDEMON" })
+                        new(3, 3.0, new() { "MOB_VOIDCULTIST" }),
+                        new(4, 3.5, new() { "MOB_VOIDCULTIST", "MOB_VOIDFIEND" }),
+                        new(7, 5.4, new() { "MOB_VOIDFIEND" }),
+                        new(1, 5.0, new() { "MOB_GREATERDEMON" })
                     },
                     LocalMobs = new()
                     {
                         new("MOB_VOIDCULTIST", hP: 1.3, damage: 1.3),
-                        new("MOB_VOIDFIEND", hP: 1.0, damage: 1.7),
+                        new("MOB_VOIDFIEND", hP: 1.8, damage: 1.0), // bit more life to make up for damage scaling
                         new("MOB_GREATERDEMON", hP: 10.0, damage: 1.2)
                     },
                     Rewards = new(61, true, new())
@@ -223,7 +223,7 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_Threshold_Description,
                     Floors = new()
                     {
-                        new(25, 20.0, new() { "MOB_VOIDFIEND", "MOB_DEMON1", "MOB_DEMON2" })
+                        new(25, 17.0, new() { "MOB_VOIDFIEND", "MOB_DEMON1", "MOB_DEMON2" })
                     },
                     LocalMobs = new()
                     {
