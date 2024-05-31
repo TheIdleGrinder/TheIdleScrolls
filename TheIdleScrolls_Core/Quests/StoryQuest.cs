@@ -192,6 +192,7 @@ namespace TheIdleScrolls_Core.Quests
         static void ScaleMobHpAndTimeLimit(Entity player, Entity mob, World world)
         {
             double baseMultiplier = 0.65;
+            double assumedDpsBonus = 1.25;
             double mobDamage = 10.0;
             mob.AddComponent(new MobDamageComponent(mobDamage));
             // Set HP high enough to prevent deafeating the boss
@@ -201,7 +202,7 @@ namespace TheIdleScrolls_Core.Quests
                 var hpComp = mob.GetComponent<LifePoolComponent>() ?? new LifePoolComponent();
                 double remaining = 1.0 * hpComp.Current / hpComp.Maximum;
                 double dps = attackComp.RawDamage / attackComp.Cooldown.Duration;
-                hpComp.Maximum = (int)(baseMultiplier * dps * slopeDuration);
+                hpComp.Maximum = (int)(baseMultiplier * dps * assumedDpsBonus * slopeDuration);
                 hpComp.Current = (int)(remaining * hpComp.Maximum);
                 mob.AddComponent(hpComp);
             }
