@@ -6,20 +6,11 @@ using System.Threading.Tasks;
 
 namespace TheIdleScrolls_Core.Items
 {
-    public class ItemMold
+    public record ItemMold(string FamilyId, int GenusIndex, Definitions.MaterialId MaterialId, int Rarity = 0)
     {
-        public string FamilyId { get; set; }
-        public int GenusIndex { get; set; }
-        public Definitions.MaterialId MaterialId { get; set; }
-        public int Rarity { get; set; }
-
-        public ItemMold(string familyId, int genusIndex, Definitions.MaterialId material, int rarity)
+        public override string ToString()
         {
-            FamilyId = familyId;
-            GenusIndex = genusIndex;
-            MaterialId = material;
-            Rarity = rarity;
+            return $":{FamilyId}{GenusIndex}@{(short)MaterialId}+{Rarity}"; 
         }
-
     }
 }
