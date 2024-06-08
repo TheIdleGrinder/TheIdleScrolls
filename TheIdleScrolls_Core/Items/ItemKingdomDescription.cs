@@ -17,6 +17,12 @@ namespace TheIdleScrolls_Core.Items
             Slots = slots;
             Encumbrance = encumbrance;
         }
+
+        public EquippableDescription(string slots, double encumbrance = 0.0)
+        {
+            Slots = slots.Split(' ').ToList();
+            Encumbrance = encumbrance;
+        }
     }
 
     public class WeaponGenus
