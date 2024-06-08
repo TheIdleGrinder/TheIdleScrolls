@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TheIdleScrolls_Core.Items
 {
-    public record ItemMold(string FamilyId, int GenusIndex, Definitions.MaterialId MaterialId, int Rarity = 0)
+    public record ItemBlueprint(string FamilyId, int GenusIndex, Definitions.MaterialId MaterialId, int Rarity = 0)
     {
         public override string ToString()
         {

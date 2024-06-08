@@ -11,18 +11,36 @@ namespace TheIdleScrolls_Core.Items
     {
         public List<string> Slots { get; set; } = new();
         public double Encumbrance { get; set; } = 0.0;
+
+        public EquippableDescription(List<string> slots, double encumbrance)
+        {
+            Slots = slots;
+            Encumbrance = encumbrance;
+        }
     }
 
     public class WeaponGenus
     {
         public double BaseDamage { get; set; }
         public double BaseCooldown { get; set; }
+
+        public WeaponGenus(double baseDamage, double baseCooldown)
+        {
+            BaseDamage = baseDamage;
+            BaseCooldown = baseCooldown;
+        }
     }
 
     public class ArmorGenus
     {
         public double BaseArmor { get; set; }
         public double BaseEvasion { get; set; }
+
+        public ArmorGenus(double baseArmor, double baseEvasion)
+        {
+            BaseArmor = baseArmor;
+            BaseEvasion = baseEvasion;
+        }
     }
 
     public class ItemGenusDescription
@@ -32,18 +50,33 @@ namespace TheIdleScrolls_Core.Items
         public ArmorGenus? Armor { get; set; } = null;
         public int DropLevel { get; set; } = 1;
         public List<string> ValidMaterials { get; set; } = new();
+
+        public ItemGenusDescription(
+            EquippableDescription? equippable, WeaponGenus? weapon, ArmorGenus? armor, int dropLevel, List<string> validMaterials)
+        {
+            Equippable = equippable;
+            Weapon = weapon;
+            Armor = armor;
+            DropLevel = dropLevel;
+            ValidMaterials = validMaterials;
+        }
     }
 
     public class ItemFamilyDescription
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = "";
 
-        public List<ItemGenusDescription> Genera { get; set; }
+        public List<ItemGenusDescription> Genera { get; set; } = new();
 
         public ItemFamilyDescription()
         {
-            Id = "";
-            Genera = new();
+
+        }
+
+        public ItemFamilyDescription(string id, List<ItemGenusDescription> genera)
+        {
+            Id = id;
+            Genera = genera;
         }
 
         public ItemGenusDescription? GetGenusAt(int index)
