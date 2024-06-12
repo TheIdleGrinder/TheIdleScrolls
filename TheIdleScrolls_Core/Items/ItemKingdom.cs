@@ -9,52 +9,23 @@ using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core.Items
 {
-    public class EquippableDescription
-    {
-        public List<string> Slots { get; set; } = new();
-        public double Encumbrance { get; set; } = 0.0;
+    public record EquippableDescription(List<string> Slots, double Encumbrance);
 
-        public EquippableDescription(List<string> slots, double encumbrance)
-        {
-            Slots = slots;
-            Encumbrance = encumbrance;
-        }
-    }
+    public record WeaponGenus(double BaseDamage, double BaseCooldown);
 
-    public class WeaponGenus
-    {
-        public double BaseDamage { get; set; }
-        public double BaseCooldown { get; set; }
-
-        public WeaponGenus(double baseDamage, double baseCooldown)
-        {
-            BaseDamage = baseDamage;
-            BaseCooldown = baseCooldown;
-        }
-    }
-
-    public class ArmorGenus
-    {
-        public double BaseArmor { get; set; }
-        public double BaseEvasion { get; set; }
-
-        public ArmorGenus(double baseArmor, double baseEvasion)
-        {
-            BaseArmor = baseArmor;
-            BaseEvasion = baseEvasion;
-        }
-    }
+    public record ArmorGenus(double BaseArmor, double BaseEvasion);
 
     public class ItemGenusDescription
     {
+        public string Name { get; set; } = "Missing genus name";
         public EquippableDescription? Equippable { get; set; } = null;
         public WeaponGenus? Weapon { get; set; } = null;
         public ArmorGenus? Armor { get; set; } = null;
         public int DropLevel { get; set; } = 1;
         public List<MaterialId> ValidMaterials { get; set; } = new();
 
-        public ItemGenusDescription(
-            EquippableDescription? equippable, WeaponGenus? weapon, ArmorGenus? armor, int dropLevel, List<MaterialId> validMaterials)
+        public ItemGenusDescription(EquippableDescription? equippable, 
+            WeaponGenus? weapon, ArmorGenus? armor, int dropLevel, List<MaterialId> validMaterials)
         {
             Equippable = equippable;
             Weapon = weapon;
@@ -67,6 +38,7 @@ namespace TheIdleScrolls_Core.Items
     public class ItemFamilyDescription
     {
         public string Id { get; set; } = "";
+        public string Name { get; set; } = "Missing family name";
 
         public List<ItemGenusDescription> Genera { get; set; } = new();
 
@@ -134,6 +106,16 @@ namespace TheIdleScrolls_Core.Items
                 }
             }
             return null;
+        }
+
+        public static ItemGenusDescription? GetGenusDescription(ItemBlueprint blueprint)
+        {
+            return GetGenusDescriptionByIdAndIndex(blueprint.FamilyId, blueprint.GenusIndex);
+        }
+
+        public static ItemFamilyDescription? GetFamilyDescription(ItemBlueprint blueprint)
+        {
+            return Families.FirstOrDefault(x => x.Id == blueprint.FamilyId);
         }
 
         public static bool HasGenus(string familyId, int genusIndex)

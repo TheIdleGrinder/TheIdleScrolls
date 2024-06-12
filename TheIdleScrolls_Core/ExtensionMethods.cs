@@ -36,14 +36,14 @@ namespace TheIdleScrolls_Core
             return entity.HasComponent<ItemComponent>();
         }
 
-        public static string GetItemCode(this Entity entity)
+        public static string GetBlueprintCode(this Entity entity)
         {
-            return entity.GetComponent<ItemComponent>()?.Code.Code ?? String.Empty;
+            return entity.GetComponent<ItemComponent>()?.Blueprint.ToString() ?? String.Empty;
         }
 
-        public static ItemIdentifier? GetItemId(this Entity entity)
+        public static ItemBlueprint? GetBlueprint(this Entity entity)
         {
-            return entity.GetComponent<ItemComponent>()?.Code;
+            return entity.GetComponent<ItemComponent>()?.Blueprint;
         }
 
         public static bool IsWeapon(this Entity entity)

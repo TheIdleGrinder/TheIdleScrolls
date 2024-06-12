@@ -3,14 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core.Items
 {
     public record ItemBlueprint(string FamilyId, int GenusIndex, Definitions.MaterialId MaterialId, int Rarity = 0)
     {
+        private static string FullRegexString = @":([a-zA-Z]+-)([A-F0-9][A-F0-9])@([A-F0-9][A-F0-9])+([A-F0-9][A-F0-9])";
         public override string ToString()
         {
-            return $":{FamilyId}{GenusIndex}@{(short)MaterialId}+{Rarity}"; 
+            return $":{FamilyId}{GenusIndex:X02}@{(short)MaterialId:X02}+{Rarity:X02}"; 
+        }
+
+        public static ItemBlueprint Parse(string code)
+        {
+            if (code.Length != 12 || code[0] != ':')
+                throw new ArgumentException("Invalid item code");
+
+            string familyId = code.Substring(1, 3);
+            int genusIndex = Convert.ToInt32(code.Substring(3, 2), 16);
+            Definitions.MaterialId materialId = (Definitions.MaterialId)Convert.ToInt16(code.Substring(6, 2), 16);
+            int rarity = Convert.ToInt32(code.Substring(9, 2), 16);
+
+            return new ItemBlueprint(familyId, genusIndex, materialId, rarity);
+        }
+
+        public ItemFamilyDescription GetFamilyDescription()
+        {
+            return ItemKingdom.GetFamilyDescription(this) ?? throw new Exception($"No item family for [{ToString()}]");
+        }
+
+        public ItemGenusDescription GetGenusDescription()
+        {
+            return ItemKingdom.GetGenusDescription(this) ?? throw new Exception($"No item genus for [{ToString()}]");
+        }
+
+        public ItemMaterial GetMaterial()
+        {
+            return ItemKingdom.GetMaterial(MaterialId) ?? throw new Exception($"No item material for [{ToString()}]");
         }
     }
 }

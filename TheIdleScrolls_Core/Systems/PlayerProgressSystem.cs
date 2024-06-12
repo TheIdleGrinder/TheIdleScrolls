@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Systems
@@ -90,7 +91,7 @@ namespace TheIdleScrolls_Core.Systems
 				{
 					progComp.Data.BestReforge = rarity;
 				}
-				if ((forgeMsg.Craft.TargetItem.GetItemId()?.GenusIndex ?? -1) == 0
+				if ((forgeMsg.Craft.TargetItem.GetBlueprint()?.MaterialId ?? MaterialId.Ash) == MaterialId.Simple
 					&& rarity > progComp.Data.BestG0Reforge)
 				{
 					progComp.Data.BestG0Reforge = rarity;

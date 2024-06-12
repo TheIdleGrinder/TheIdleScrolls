@@ -173,7 +173,7 @@ namespace TheIdleScrolls_Core.Systems
                 && coordinator.MessageTypeIsOnBoard<ItemReceivedMessage>())
             {
                 if (coordinator.FetchMessagesByType<ItemReceivedMessage>()
-                    .Any(m => ItemIdentifier.ExtractGenusIndex(m.Item.GetItemCode()) > 0))
+                    .Any(m => ItemIdentifier.ExtractGenusIndex(m.Item.GetBlueprintCode()) > 0))
                 {
                     globalProgress.Data.TutorialProgress.Add(TutorialStep.ItemFound);
                     coordinator.PostMessage(this,
