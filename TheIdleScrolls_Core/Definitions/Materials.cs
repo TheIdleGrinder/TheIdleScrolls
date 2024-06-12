@@ -6,23 +6,6 @@ using System.Threading.Tasks;
 
 namespace TheIdleScrolls_Core.Definitions
 {
-    public static class Materials
-    {
-        public static readonly ushort Simple        = 0x00;
-
-        public static readonly ushort Leather       = 0x10;
-        public static readonly ushort HardLeather   = 0x11;
-        public static readonly ushort Elvish        = 0x12;
-
-        public static readonly ushort Iron          = 0x20;
-        public static readonly ushort Steel         = 0x21;
-        public static readonly ushort Dwarven       = 0x22;
-
-        public static readonly ushort Beech         = 0x30;
-        public static readonly ushort Oak           = 0x31;
-        public static readonly ushort Ash           = 0x32;
-    }
-
     public enum MaterialId
     {
         Simple          = 0x00,
@@ -35,5 +18,30 @@ namespace TheIdleScrolls_Core.Definitions
         Beech           = 0x30,
         Oak             = 0x31,
         Ash             = 0x32
+    }
+
+    public record ItemMaterial(MaterialId Id, string Name, double PowerMultiplier, int MinimumLevel)
+    {
+        public int Tier => (int)Id & 0x0F;
+    }
+
+    public static class Materials
+    {
+        public static List<ItemMaterial> MaterialList { get; } = new()
+        {
+            new(MaterialId.Simple,      Properties.LocalizedStrings.MAT_SIMPLE, 1.0, 0),
+
+            new(MaterialId.Leather,     Properties.LocalizedStrings.MAT_L0, 1.0,   0),
+            new(MaterialId.HardLeather, Properties.LocalizedStrings.MAT_L1, 1.5,  20),
+            new(MaterialId.Elvish,      Properties.LocalizedStrings.MAT_L2, 2.25, 40),
+            
+            new(MaterialId.Iron,        Properties.LocalizedStrings.MAT_M0, 1.0,   0),
+            new(MaterialId.Steel,       Properties.LocalizedStrings.MAT_M1, 1.5,  20),
+            new(MaterialId.Dwarven,     Properties.LocalizedStrings.MAT_M2, 2.25, 40),
+            
+            new(MaterialId.Beech,       Properties.LocalizedStrings.MAT_W0, 1.0,   0),
+            new(MaterialId.Oak,         Properties.LocalizedStrings.MAT_W1, 1.5,  20),
+            new(MaterialId.Ash,         Properties.LocalizedStrings.MAT_W2, 2.25, 40)
+        };
     }
 }

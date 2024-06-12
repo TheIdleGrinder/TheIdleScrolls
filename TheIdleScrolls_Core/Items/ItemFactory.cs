@@ -9,20 +9,14 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Items
 {
     public class ItemFactory : IItemCodeExpander
     {
-        private static ItemKingdomDescription? s_itemKingdom = null;
-
-        public static ItemKingdomDescription ItemKingdom { get
-            {
-                s_itemKingdom ??= ResourceAccess.ParseResourceFile<ItemKingdomDescription>("TheIdleScrolls_Core", "Items.json");
-                return s_itemKingdom;
-            } }
-
         public ItemFactory()
         {
 
@@ -106,9 +100,9 @@ namespace TheIdleScrolls_Core.Items
             UpdateItemValue(item);
         }
 
-        public static void SetItemMaterial(Entity item, ItemMaterialDescription material)
+        public static void SetItemMaterial(Entity item, ItemMaterial material)
         {
-            item.AddComponent(new ItemMaterialComponent(material.Id, material.Tier));
+            item.AddComponent(new ItemMaterialComponent(material.Name, material.Tier));
             CalculateItemStats(item);
             UpdateItemName(item);
             UpdateItemValue(item);

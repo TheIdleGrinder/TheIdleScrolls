@@ -18,7 +18,7 @@ namespace TheIdleScrolls_Core.GameWorld
         public double RarityMultiplier = 1.0;
         public double QuantityMultiplier = 1.0;
 
-        public ItemKingdomDescription ItemKingdom = new();
+        public ItemKingdom ItemKingdom = new();
 
         public AreaKingdomDescription AreaKingdom { get; private set; } = new();
 

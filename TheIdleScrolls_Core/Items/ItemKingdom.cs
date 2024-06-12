@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core.Items
 {
@@ -15,12 +17,6 @@ namespace TheIdleScrolls_Core.Items
         public EquippableDescription(List<string> slots, double encumbrance)
         {
             Slots = slots;
-            Encumbrance = encumbrance;
-        }
-
-        public EquippableDescription(string slots, double encumbrance = 0.0)
-        {
-            Slots = slots.Split(' ').ToList();
             Encumbrance = encumbrance;
         }
     }
@@ -55,10 +51,10 @@ namespace TheIdleScrolls_Core.Items
         public WeaponGenus? Weapon { get; set; } = null;
         public ArmorGenus? Armor { get; set; } = null;
         public int DropLevel { get; set; } = 1;
-        public List<string> ValidMaterials { get; set; } = new();
+        public List<MaterialId> ValidMaterials { get; set; } = new();
 
         public ItemGenusDescription(
-            EquippableDescription? equippable, WeaponGenus? weapon, ArmorGenus? armor, int dropLevel, List<string> validMaterials)
+            EquippableDescription? equippable, WeaponGenus? weapon, ArmorGenus? armor, int dropLevel, List<MaterialId> validMaterials)
         {
             Equippable = equippable;
             Weapon = weapon;
@@ -108,18 +104,27 @@ namespace TheIdleScrolls_Core.Items
         public int Tier => int.TryParse(Id[^1].ToString(), out int t) ? t + 1 : 0;
     }
 
-    public class ItemKingdomDescription
+    public class ItemKingdom
     {
-        public List<ItemFamilyDescription> Families { get; set; } = new();
-        public List<ItemRarityDescription> Rarities { get; set; } = new();
-        public List<ItemMaterialDescription> Materials { get; set; } = new();
+        public static List<ItemFamilyDescription> Families { get; } = ItemList.ItemFamilies;
+        public static List<ItemRarityDescription> Rarities { get; } = new()
+        {
+            new() { MinLevel = 10,  InverseWeight =     5.0 },
+            new() { MinLevel = 30,  InverseWeight =    25.0 },
+            new() { MinLevel = 50,  InverseWeight =   125.0 },
+            new() { MinLevel = 70,  InverseWeight =   625.0 },
+            new() { MinLevel = 90,  InverseWeight =  3000.0 },
+            new() { MinLevel = 110, InverseWeight = 15000.0 },
+            new() { MinLevel = 150, InverseWeight = 75000.0 },
+        };
+        public static List<ItemMaterial> Materials { get; } = Definitions.Materials.MaterialList;
 
-        public ItemKingdomDescription()
+        public ItemKingdom()
         {
 
         }
 
-        public ItemGenusDescription? GetGenusDescriptionByIdAndIndex(string idString, int index)
+        public static ItemGenusDescription? GetGenusDescriptionByIdAndIndex(string idString, int index)
         {
             foreach (var family in Families)
             {
@@ -131,7 +136,7 @@ namespace TheIdleScrolls_Core.Items
             return null;
         }
 
-        public bool HasGenus(string familyId, int genusIndex)
+        public static bool HasGenus(string familyId, int genusIndex)
         {
             foreach (var family in Families)
             {
@@ -143,12 +148,12 @@ namespace TheIdleScrolls_Core.Items
             return false;
         }
 
-        public ItemMaterialDescription? GetMaterial(string id)
+        public static ItemMaterial? GetMaterial(MaterialId id)
         {
             return Materials.FirstOrDefault(x => x.Id == id);
         }
 
-        public List<ItemGenusDescription> GetAllItemGenusDescriptions()
+        public static List<ItemGenusDescription> GetAllItemGenusDescriptions()
         {
             List<ItemGenusDescription> descriptions = new();
             foreach (var family in Families)
@@ -161,7 +166,7 @@ namespace TheIdleScrolls_Core.Items
             return descriptions;
         }
 
-        public List<ItemSpeciesDescription> GetAllItemSpeciesDescriptions()
+        public static List<ItemSpeciesDescription> GetAllItemSpeciesDescriptions()
         {
             List<ItemSpeciesDescription> descriptions = new();
             foreach (var genus in GetAllItemGenusDescriptions())
@@ -183,9 +188,9 @@ namespace TheIdleScrolls_Core.Items
     public class ItemSpeciesDescription
     {
         public ItemGenusDescription Genus { get; set; }
-        public ItemMaterialDescription Material { get; set; }
+        public ItemMaterial Material { get; set; }
 
-        public ItemSpeciesDescription(ItemGenusDescription genus, ItemMaterialDescription material)
+        public ItemSpeciesDescription(ItemGenusDescription genus, ItemMaterial material)
         {
             Genus = genus;
             Material = material;
