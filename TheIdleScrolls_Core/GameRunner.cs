@@ -91,9 +91,7 @@ namespace TheIdleScrolls_Core
             try
             {
                 var mobs = ReadResourceFile<List<MobDescription>>("Mobs.json");
-                GetSystem<MobSpawnerSystem>()?.SetMobList(mobs);
-
-                m_world.ItemKingdom = ItemFactory.ItemKingdom;              
+                GetSystem<MobSpawnerSystem>()?.SetMobList(mobs);           
             }
             catch (Exception e)
             {

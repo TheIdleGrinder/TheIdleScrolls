@@ -133,7 +133,7 @@ namespace TheIdleScrolls_Storage
         {
             JsonObject json = new()
             {
-                { "Code", component.Code.Code }
+                { "Code", component.Blueprint.ToString() }
             };
             return json;
         }

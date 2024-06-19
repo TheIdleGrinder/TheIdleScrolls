@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Messages;
@@ -62,9 +63,8 @@ namespace TheIdleScrolls_Core.Quests
                 if (!entity.HasComponent<InventoryComponent>())
                 {
                     InventoryComponent invComp = new();
-                    List<ItemIdentifier> weapons = (new List<string>() { "SBL0", "LBL0", "AXE0", "BLN0", "POL0" })
-                        .Select(i => new ItemIdentifier(i)).ToList();
-                    ItemFactory factory = new();
+                    List<ItemBlueprint> weapons = ItemFamilies.Weapons
+                        .Select(i => new ItemBlueprint(i, 0, MaterialId.Simple)).ToList();
 
                     entity.AddComponent(invComp);
                     entity.AddComponent(new EquipmentComponent());
@@ -72,7 +72,7 @@ namespace TheIdleScrolls_Core.Quests
                     var names = new List<string>();
                     foreach (var weaponCode in weapons)
                     {
-                        Entity? weapon = factory.ExpandCode(weaponCode);
+                        Entity? weapon = ItemFactory.ExpandCode(weaponCode);
                         if (weapon != null)
                         {
                             itemString += $"\n  - Received '{weapon.GetName()}'";
@@ -105,13 +105,10 @@ namespace TheIdleScrolls_Core.Quests
 
             if (!isStepDone(QuestStates.GettingStarted.Armor) && level >= LvlArmor)
             {
-                List<string> items = new() { "LAR0", "HAR0" };
-                ItemFactory factory = new();
-
                 string itemString = "";
-                foreach (var itemCode in items)
+                foreach (var family in ItemFamilies.Armors)
                 {
-                    Entity? item = factory.ExpandCode(itemCode);
+                    Entity? item = ItemFactory.MakeItem(new(family, 0, MaterialId.Simple));
                     if (item != null)
                     {
                         itemString += $"\n  - Received '{item.GetName()}'";
@@ -151,18 +148,16 @@ namespace TheIdleScrolls_Core.Quests
                 if (rewardItems.Count == 0 && coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
                 {
                     // Generate list of items, store in rewardItems listk send names as response options
-                    ItemFactory factory = new();
-                    var itemCodes = new List<string>() { "SBL1", "LBL1", "AXE1", "BLN1", "POL1" };
-                    foreach (var itemCode in itemCodes)
+                    foreach (var family in ItemFamilies.Weapons)
                     {
-                        var item = factory.ExpandCode(itemCode + "+1");
+                        var item = ItemFactory.MakeItem(ItemBlueprint.WithLocalMaterialIndex(family, 1, 0, 1));
                         if (item != null)
                         {
                             rewardItems.Add(item);
                         }
                         else
                         {
-                            throw new Exception($"Invalid item code: {itemCode}");
+                            throw new Exception($"Invalid item family: {family}");
                         }
                     }
                     postMessageCallback(new DialogueMessage(GetId().ToString(), "", "", 

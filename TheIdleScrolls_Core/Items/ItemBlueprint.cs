@@ -28,6 +28,15 @@ namespace TheIdleScrolls_Core.Items
             return new ItemBlueprint(familyId, genusIndex, materialId, rarity);
         }
 
+        public static ItemBlueprint WithLocalMaterialIndex(string familyId, int genusIndex, int materialIndex, int rarity = 0)
+        {
+            var genus = ItemKingdom.GetGenusDescriptionByIdAndIndex(familyId, genusIndex) 
+                ?? throw new Exception($"Invalid item genus: {familyId}{genusIndex}");
+            if (materialIndex < 0 || materialIndex >= genus.ValidMaterials.Count)
+                throw new Exception($"Invalid material index for {familyId}{genusIndex}: {materialIndex}");
+            return new ItemBlueprint(familyId, genusIndex, genus.ValidMaterials[materialIndex], rarity);
+        }
+
         public ItemFamilyDescription GetFamilyDescription()
         {
             return ItemKingdom.GetFamilyDescription(this) ?? throw new Exception($"No item family for [{ToString()}]");

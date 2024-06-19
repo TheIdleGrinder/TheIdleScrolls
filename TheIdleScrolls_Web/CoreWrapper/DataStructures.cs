@@ -1,5 +1,5 @@
 ﻿using TheIdleScrolls_Core;
-using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrolls_Web.CoreWrapper

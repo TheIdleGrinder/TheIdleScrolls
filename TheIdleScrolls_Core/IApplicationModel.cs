@@ -1,13 +1,7 @@
 ﻿using MiniECS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Crafting;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
-using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core
 {

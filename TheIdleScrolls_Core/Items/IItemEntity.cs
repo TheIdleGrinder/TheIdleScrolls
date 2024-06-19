@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheIdleScrolls_Core.Components;
+﻿using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core.Items
 {

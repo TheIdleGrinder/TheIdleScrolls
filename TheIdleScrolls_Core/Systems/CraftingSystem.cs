@@ -112,7 +112,7 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Clone prototype
-            Entity? newItem = ItemFactory.MakeItem(prototype.GetComponent<ItemComponent>()?.Code
+            Entity? newItem = ItemFactory.MakeItem(prototype.GetComponent<ItemComponent>()?.Blueprint
                                ?? throw new Exception($"{prototype.GetName()} is not an item")) 
                 ?? throw new Exception($"Failed to create item from prototype #{prototypeId}");
 
@@ -130,7 +130,7 @@ namespace TheIdleScrolls_Core.Systems
             {
                 throw new Exception($"{owner.GetName()} does have {item.GetName()} in inventory");
             }
-            int itemLevel = ItemFactory.GetItemDropLevel(item.GetComponent<ItemComponent>()?.Code
+            int itemLevel = ItemFactory.GetItemDropLevel(item.GetComponent<ItemComponent>()?.Blueprint
                 ?? throw new Exception($"{item.GetName()} is not an item"));
             
             // Check for crafting bench
@@ -206,7 +206,7 @@ namespace TheIdleScrolls_Core.Systems
             {
                 ItemPrototypes = LootTable.Generate(new(999, 0, 0, 0.0))
                                         .GetItemCodes()
-                                        .Select(c => ItemFactory.MakeItem(new(c)))
+                                        .Select(c => ItemFactory.MakeItem(ItemBlueprint.Parse(c)))
                                         .Where(i => i is not null)
                                         .OfType<Entity>()
                                         .OrderBy(i => i.GetComponent<LevelComponent>()?.Level ?? 0)

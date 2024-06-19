@@ -9,7 +9,7 @@ using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core.Items
 {
-    public record EquippableDescription(List<string> Slots, double Encumbrance);
+    public record EquippableDescription(List<EquipmentSlot> Slots, double Encumbrance);
 
     public record WeaponGenus(double BaseDamage, double BaseCooldown);
 

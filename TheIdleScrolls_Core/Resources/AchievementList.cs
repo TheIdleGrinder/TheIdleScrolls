@@ -489,7 +489,7 @@ namespace TheIdleScrolls_Core.Resources
                                 {
                                     bool firstStrike = (e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0) == 0;
                                     bool usingBlunt = e.GetComponent<EquipmentComponent>()?.GetItems()
-                                        ?.Any(i => i.GetComponent<ItemComponent>()!.Code.FamilyId == Properties.Constants.Key_Ability_Blunt) ?? false;
+                                        ?.Any(i => i.GetComponent<ItemComponent>()!.Blueprint.FamilyId == Properties.Constants.Key_Ability_Blunt) ?? false;
                                     return new() { new($"{id}{level}", ModifierType.AddBase, 
                                         (!firstStrike && usingBlunt) ? 5 : 0,
                                         new() { Definitions.Tags.ArmorRating }

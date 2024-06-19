@@ -34,9 +34,8 @@ namespace TheIdleScrolls_Core.Items
             item.AddComponent(new ItemComponent(blueprint));
             if (description.Equippable != null)
             {
-                var slots = description.Equippable.Slots.Select(s => EquipSlot.Parse(s)).ToList();
                 item.AddComponent(new EquippableComponent(
-                    slots,
+                    description.Equippable.Slots,
                     description.Equippable.Encumbrance));
             }
             if (description.Weapon != null)
@@ -124,15 +123,15 @@ namespace TheIdleScrolls_Core.Items
 
             if (item.HasComponent<ItemRarityComponent>())
             {
-                tagsComp.AddTag($"{Definitions.Tags.RarityPrefix}{blueprint.Rarity}");
+                tagsComp.AddTag($"{Tags.RarityPrefix}{blueprint.Rarity}");
             }
             if (item.IsWeapon())
             {
-                tagsComp.AddTags(new List<string>(){ Definitions.Tags.Weapon, Definitions.Tags.Melee}); // CornerCut: no ranged weapons exist yet
+                tagsComp.AddTags(new List<string>() { Tags.Weapon, Tags.Melee }); // CornerCut: no ranged weapons exist yet
             }
             if (item.IsArmor())
             {
-                tagsComp.AddTag(Definitions.Tags.Armor);
+                tagsComp.AddTag(Tags.Armor);
             }
             
             var slots = item.GetRequiredSlots();
@@ -145,11 +144,11 @@ namespace TheIdleScrolls_Core.Items
             {
                 if (item.IsShield())
                 {
-                    tagsComp.AddTag(Definitions.Tags.Shield);
+                    tagsComp.AddTag(Tags.Shield);
                 }
                 else // Weapon
                 {
-                    tagsComp.AddTag($"{hands}{Definitions.Tags.HandSuffix}");
+                    tagsComp.AddTag($"{hands}{Tags.HandSuffix}");
                 }
                 
             }
@@ -250,17 +249,17 @@ namespace TheIdleScrolls_Core.Items
             return ItemKingdom.Families.Select(w => w.Id).ToList();
         }
 
-        public Entity? ExpandCode(string code)
+        public static Entity? ExpandCode(string code)
         {
-            return ExpandCode(new ItemIdentifier(code));
+            return ExpandCode(ItemBlueprint.Parse(code));
         }
 
-        public Entity? ExpandCode(ItemIdentifier code)
+        public static Entity? ExpandCode(ItemBlueprint code)
         {
             return MakeItem(code);
         }
 
-        public string? GenerateItemCode(Entity item)
+        public static string? GenerateItemCode(Entity item)
         {
             return item.GetBlueprintCode();
         }
