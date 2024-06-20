@@ -21,9 +21,9 @@ namespace TheIdleScrolls_Core.Items
                 throw new ArgumentException("Invalid item code");
 
             string familyId = code.Substring(1, 3);
-            int genusIndex = Convert.ToInt32(code.Substring(3, 2), 16);
-            Definitions.MaterialId materialId = (Definitions.MaterialId)Convert.ToInt16(code.Substring(6, 2), 16);
-            int rarity = Convert.ToInt32(code.Substring(9, 2), 16);
+            int genusIndex = Convert.ToInt32(code.Substring(4, 2), 16);
+            MaterialId materialId = (MaterialId)Convert.ToInt16(code.Substring(7, 2), 16);
+            int rarity = Convert.ToInt32(code.Substring(10, 2), 16);
 
             return new ItemBlueprint(familyId, genusIndex, materialId, rarity);
         }
