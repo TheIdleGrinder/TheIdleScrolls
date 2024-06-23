@@ -24,6 +24,6 @@ namespace TheIdleScrolls_Core
     public record AchievementRepresentation(string Title, string Description, bool Earned, string Reward = "");
     public record AreaRepresentation(string Name, int Level, bool IsDungeon);
     public record CraftingBenchRepresentation(int MaxCraftingLevel, int Slots, int MaxActive, List<CraftingProcessRepresentation> Crafts);
-    public record CraftingProcessRepresentation(CraftingType Type, IItemEntity Item, double Duration, double Remaining, int coinsSpent);
+    public record CraftingProcessRepresentation(CraftingType Type, IItemEntity Item, double Duration, double Remaining, int CoinsSpent);
     public record BountyStateRepresentation(int HighestEarned, int CurrentHuntLevel, int CurrentHuntCount, int CurrentHuntLength, int ExpectedReward);
 }

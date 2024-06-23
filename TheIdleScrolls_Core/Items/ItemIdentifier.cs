@@ -62,14 +62,7 @@ namespace TheIdleScrolls_Core.Items
 
         public ItemMaterial GetMaterial()
         {
-            if (MaterialId == null)
-            {
-                return ItemKingdom.Materials[0]; // TODO: return first valid material for genus
-            }
-            else
-            {
-                return ItemKingdom.GetMaterial(MaterialId!)!; // ! works because the material is validated at construction
-            }
+            return ItemKingdom.GetMaterial(MaterialId!)!; // ! works because the material is validated at construction
         }
 
         public static string AssembleItemCode(string familyId, int genusIndex, string? material, int rarity = 0)

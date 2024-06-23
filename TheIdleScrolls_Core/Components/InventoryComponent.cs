@@ -9,7 +9,7 @@ namespace TheIdleScrolls_Core.Components
 {
     public class InventoryComponent : IComponent
     {
-        List<Entity> m_items = new();
+        readonly List<Entity> m_items = new();
 
         public int ItemCount { get { return m_items.Count; } }
 

@@ -23,10 +23,10 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            var postMessageCallback = (IMessage message) =>
+            void postMessageCallback(IMessage message)
             {
                 coordinator.PostMessage(this, message);
-            };
+            }
 
             if (FirstUpdate || coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
             {
@@ -91,7 +91,7 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        public void HandleCraftRequest(Entity crafter, uint prototypeId, Action<IMessage> postMessage)
+        public static void HandleCraftRequest(Entity crafter, uint prototypeId, Action<IMessage> postMessage)
         {
             // Check for crafting bench
             var craftComp = GetBenchAndCheckSlots(crafter, postMessage);
@@ -156,7 +156,7 @@ namespace TheIdleScrolls_Core.Systems
             postMessage(new InventoryChangedMessage(owner));
         }
 
-        public void HandleCancelCraftRequest(Entity owner, uint itemId, Action<IMessage> postMessage)
+        public static void HandleCancelCraftRequest(Entity owner, uint itemId, Action<IMessage> postMessage)
         {
             var craftComp = owner.GetComponent<CraftingBenchComponent>() ?? throw new Exception($"{owner.GetName()} is not able to craft items");
             var craftId = craftComp.ActiveCrafts.FirstOrDefault(c => c.TargetItem.Id == itemId)?.ID

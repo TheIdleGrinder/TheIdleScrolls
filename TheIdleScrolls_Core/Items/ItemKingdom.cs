@@ -24,9 +24,10 @@ namespace TheIdleScrolls_Core.Items
         public int DropLevel { get; set; } = 1;
         public List<MaterialId> ValidMaterials { get; set; } = new();
 
-        public ItemGenusDescription(EquippableDescription? equippable, 
+        public ItemGenusDescription(string name, EquippableDescription? equippable, 
             WeaponGenus? weapon, ArmorGenus? armor, int dropLevel, List<MaterialId> validMaterials)
         {
+            Name = name;
             Equippable = equippable;
             Weapon = weapon;
             Armor = armor;
@@ -47,9 +48,10 @@ namespace TheIdleScrolls_Core.Items
 
         }
 
-        public ItemFamilyDescription(string id, List<ItemGenusDescription> genera)
+        public ItemFamilyDescription(string id, string name, List<ItemGenusDescription> genera)
         {
             Id = id;
+            Name = name;
             Genera = genera;
         }
 
@@ -63,17 +65,6 @@ namespace TheIdleScrolls_Core.Items
     {
         public int MinLevel { get; set; } = 1;
         public double InverseWeight { get; set; } = 10.0;
-    }
-
-    public class ItemMaterialDescription
-    {
-        public string Id { get; set; } = "";
-        public double PowerMultiplier { get; set; } = 1.0;
-        public int MinimumLevel { get; set; } = 0;
-
-        // CornerCut: Material id ends with the index, so extract it. If the last character is not a digit, it's a T0 training item
-        // Training material is T0, other materials start at T1
-        public int Tier => int.TryParse(Id[^1].ToString(), out int t) ? t + 1 : 0;
     }
 
     public class ItemKingdom

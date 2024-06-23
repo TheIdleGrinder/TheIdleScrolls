@@ -70,7 +70,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
             Clear();
             foreach (var item in items)
             {
-                bool firstSlot = true;
                 foreach (var slot in item.Slots)
                 {
                     var displayItem = item;// firstSlot ? item : item with { Rarity = -1 };
@@ -87,7 +86,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
                         case EquipmentSlot.Arms: Arms = displayItem; break;
                         case EquipmentSlot.Legs: Legs = displayItem; break;
                     }
-                    firstSlot = false;
                 }
             }
             Items = items;

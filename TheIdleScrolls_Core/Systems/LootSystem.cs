@@ -120,9 +120,8 @@ namespace TheIdleScrolls_Core.Systems
             {
                 for (int i = 0; i < f.Genera.Count; i++)
                 {
-                    var g = ItemKingdom.GetGenusDescriptionByIdAndIndex(f.Id, i);
-                    if (g == null)
-                        throw new Exception($"Ítem family '{f.Id}' does not have {i + 1} genera");
+                    var g = ItemKingdom.GetGenusDescriptionByIdAndIndex(f.Id, i) 
+                        ?? throw new Exception($"Ítem family '{f.Id}' does not have {i + 1} genera");
                     if (g.DropLevel == 0) // Tutorial items cannot drop
                         continue;
                     var mats = g.ValidMaterials.Select(m => ItemKingdom.GetMaterial(m)!);

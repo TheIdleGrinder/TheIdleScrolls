@@ -35,7 +35,7 @@ namespace Test_TheIdleScrolls_Core
         [Test]
         public void Generally_works()
         {
-            TagsComponent comp = new TagsComponent();
+            TagsComponent comp = new();
             Assert.That(comp.ListTags(), Is.Empty);
 
             Assert.That(comp.AddTag("A"));

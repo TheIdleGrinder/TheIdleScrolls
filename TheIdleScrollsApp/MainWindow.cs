@@ -11,6 +11,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Intrinsics.X86;
 using MiniECS;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrollsApp
 {

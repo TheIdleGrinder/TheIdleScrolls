@@ -9,7 +9,7 @@ namespace TheIdleScrolls_Core.Items
 {
     public record ItemBlueprint(string FamilyId, int GenusIndex, Definitions.MaterialId MaterialId, int Rarity = 0)
     {
-        private static string FullRegexString = @":([a-zA-Z]+-)([A-F0-9][A-F0-9])@([A-F0-9][A-F0-9])+([A-F0-9][A-F0-9])";
+        private static readonly string FullRegexString = @":([a-zA-Z]+-)([A-F0-9][A-F0-9])@([A-F0-9][A-F0-9])+([A-F0-9][A-F0-9])";
         public override string ToString()
         {
             return $":{FamilyId}{GenusIndex:X02}@{(short)MaterialId:X02}+{Rarity:X02}"; 
