@@ -18,7 +18,17 @@ namespace TheIdleScrolls_Core.Items
         public static ItemBlueprint Parse(string code)
         {
             if (code.Length != 12 || code[0] != ':')
-                throw new ArgumentException("Invalid item code");
+            {
+                try
+                {
+                    var oldId = new ItemIdentifier(code);
+                    return new ItemBlueprint(oldId.FamilyId, oldId.GenusIndex, oldId.MaterialId, oldId.RarityLevel);
+                }
+                catch (Exception)
+                {
+                    throw new ArgumentException("Invalid item code");
+                }
+            }
 
             string familyId = code.Substring(1, 3);
             int genusIndex = Convert.ToInt32(code.Substring(4, 2), 16);
