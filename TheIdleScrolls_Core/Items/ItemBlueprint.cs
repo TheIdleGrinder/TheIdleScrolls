@@ -19,15 +19,7 @@ namespace TheIdleScrolls_Core.Items
         {
             if (code.Length != 12 || code[0] != ':')
             {
-                try
-                {
-                    var oldId = new ItemIdentifier(code);
-                    return new ItemBlueprint(oldId.FamilyId, oldId.GenusIndex, oldId.MaterialId, oldId.RarityLevel);
-                }
-                catch (Exception)
-                {
-                    throw new ArgumentException("Invalid item code");
-                }
+                return ParseFromOldCode(code);
             }
 
             string familyId = code.Substring(1, 3);
@@ -36,6 +28,41 @@ namespace TheIdleScrolls_Core.Items
             int rarity = Convert.ToInt32(code.Substring(10, 2), 16);
 
             return new ItemBlueprint(familyId, genusIndex, materialId, rarity);
+        }
+
+        private static ItemBlueprint ParseFromOldCode(string code)
+        {
+            try
+            {
+                var oldId = new ItemIdentifier(code);
+                string familyId= oldId.FamilyId;
+                int genusIndex = oldId.GenusIndex;
+                if (familyId == ItemFamilies.LightArmor || familyId == ItemFamilies.HeavyArmor)
+                {
+                    string familySuffix = genusIndex switch
+                    {
+                        0 or 1 or 6 => "CH",
+                        2 or 7 => "HE",
+                        3 or 8 => "GL",
+                        4 or 9 => "BT",
+                        5 or 10 => "SH",
+                        _ => throw new ArgumentException("Invalid item code")
+                    };
+                    familyId = familyId[0] + familySuffix;
+                    genusIndex = genusIndex switch
+                    {
+                        0 or 2 or 3 or 4 or 5 => 0,
+                        1 or 7 or 8 or 9 or 10 => 1,
+                        6 => 2,
+                        _ => throw new ArgumentException("Invalid item code")
+                    };
+                }
+                return new ItemBlueprint(familyId, genusIndex, oldId.MaterialId, oldId.RarityLevel);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("Invalid item code");
+            }
         }
 
         public static ItemBlueprint WithLocalMaterialIndex(string familyId, int genusIndex, int materialIndex, int rarity = 0)

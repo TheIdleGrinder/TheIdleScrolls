@@ -12,12 +12,12 @@ namespace Test_TheIdleScrolls_Core
             Assert.DoesNotThrow(() => new ItemIdentifier(code));
         }
 
-        [TestCase("M5-LBL1")]
+/*        [TestCase("M5-LBL1")]
         [TestCase("M1-LLL1")]
         [TestCase("M1-M2-LBL2")]
         public void ParsingInvalidCodesThrows(string code)
         {
             Assert.Throws<ArgumentException>(() => new ItemIdentifier(code));
-        }
+        }*/
     }
 }

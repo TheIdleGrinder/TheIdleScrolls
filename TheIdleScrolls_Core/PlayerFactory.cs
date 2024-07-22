@@ -72,6 +72,11 @@ namespace TheIdleScrolls_Core
                 return "CLASS_DEFAULT".Localize();
             }
 
+            foreach (var ability in abiComp.GetAbilities())
+            {
+                Console.WriteLine($"{ability.Key}: {ability.Level}");
+            }
+
             string BestAbility(IEnumerable<string> keys)
             {
                 return keys

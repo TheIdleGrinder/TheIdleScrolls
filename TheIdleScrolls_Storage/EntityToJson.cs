@@ -59,7 +59,7 @@ namespace TheIdleScrolls_Storage
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine(e.Message);
+                    Console.WriteLine(e.Message);
                     continue;
                 }
                 ComponentFromJson.SetFromJson(component as dynamic, kv.Value);

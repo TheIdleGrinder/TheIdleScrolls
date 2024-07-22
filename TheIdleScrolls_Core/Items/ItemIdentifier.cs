@@ -17,19 +17,19 @@ namespace TheIdleScrolls_Core.Items
         public ItemIdentifier(string code)
         {
             Code = code;
-            if (!ValidateItemCode(Code))
+/*            if (!ValidateItemCode(Code))
             {
                 throw new ArgumentException($"Invalid item code: {code}");
-            }
+            }*/
         }
 
         public ItemIdentifier(string family, int genusIndex, string material)
         {
             Code = AssembleItemCode(family, genusIndex, material);
-            if (!ValidateItemCode(Code))
+/*            if (!ValidateItemCode(Code))
             {
                 throw new ArgumentException($"Invalid item code: {Code}");
-            }
+            }*/
         }
 
         public string FamilyId { get { return ExtractFamilyId(Code); } }

@@ -16,8 +16,9 @@ namespace TheIdleScrolls_Core.Components
 
         public AbilitiesComponent() // CornerCut: Abilities should be assigned somewhere else
         {
+            var fightingAbilities = Definitions.Abilities.Weapons.Concat(Definitions.Abilities.Armors);
             // Weapons and armor
-            foreach (string key in ItemFactory.GetAllItemFamilyIds())
+            foreach (string key in fightingAbilities)
             {
                 Ability ability = new(key)
                 {

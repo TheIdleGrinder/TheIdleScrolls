@@ -57,11 +57,11 @@ namespace TheIdleScrolls_Core.Systems
                         return; // CornerCut: Assumes that all abilities are tied to items
                     m_weaponFamilies = equipmentComp.GetItems()
                         .Where(i => i.IsItem() && i.IsWeapon())
-                        .Select(i => i.GetComponent<ItemComponent>()!.Blueprint.FamilyId) // ! is ok, because the entity is guaranteed to be an item
+                        .Select(i => i.GetComponent<ItemComponent>()!.Blueprint.GetFamilyDescription().RelatedAbilityId) // ! is ok, because the entity is guaranteed to be an item
                         .ToList();
                     m_armorFamilies = equipmentComp.GetItems()
                         .Where(i => i.IsItem() && i.IsArmor())
-                        .Select(i => i.GetComponent<ItemComponent>()!.Blueprint.FamilyId) // ! is ok, because the entity is guaranteed to be an item
+                        .Select(i => i.GetComponent<ItemComponent>()!.Blueprint.GetFamilyDescription().RelatedAbilityId) // ! is ok, because the entity is guaranteed to be an item
                         .ToList();
                 }
 

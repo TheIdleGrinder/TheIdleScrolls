@@ -256,6 +256,7 @@ namespace TheIdleScrolls_Core.Items
 
         public static Entity? ExpandCode(ItemBlueprint code)
         {
+            Console.WriteLine($"Expanding item code: {code}");
             return MakeItem(code);
         }
 

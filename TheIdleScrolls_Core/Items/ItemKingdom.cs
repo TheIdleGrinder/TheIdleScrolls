@@ -43,16 +43,19 @@ namespace TheIdleScrolls_Core.Items
 
         public List<ItemGenusDescription> Genera { get; set; } = new();
 
+        public string RelatedAbilityId { get; set; } = "";
+
         public ItemFamilyDescription()
         {
 
         }
 
-        public ItemFamilyDescription(string id, string name, List<ItemGenusDescription> genera)
+        public ItemFamilyDescription(string id, string name, string ability, List<ItemGenusDescription> genera)
         {
             Id = id;
             Name = name;
             Genera = genera;
+            RelatedAbilityId = ability;
         }
 
         public ItemGenusDescription? GetGenusAt(int index)
