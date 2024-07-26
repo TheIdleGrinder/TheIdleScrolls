@@ -64,13 +64,13 @@ namespace Test_TheIdleScrolls_Core
             Assert.That(comp.HasTag("E"));
         }
 
-        [TestCase(MaterialId.Beech, ItemFamilies.Polearm, 1, 0, "2H")]
-        [TestCase(MaterialId.Dwarven, ItemFamilies.ShortBlade, 2, 1, "1H")]
-        [TestCase(MaterialId.Steel, ItemFamilies.HeavyArmor, 2, 0, "Head")]
-        [TestCase(MaterialId.Iron, ItemFamilies.HeavyArmor, 0, 1, "Chest")]
-        [TestCase(MaterialId.Leather, ItemFamilies.LightArmor, 3, 2, "Arms")]
-        [TestCase(MaterialId.Elvish, ItemFamilies.LightArmor, 9, 0, "Legs")]
-        [TestCase(MaterialId.Dwarven, ItemFamilies.HeavyArmor, 5, 1, "Shield")]
+        [TestCase(MaterialId.Beech, ItemFamilies.Polearm, 0, 0, "2H")]
+        [TestCase(MaterialId.Dwarven, ItemFamilies.ShortSword, 1, 1, "1H")]
+        [TestCase(MaterialId.Steel, ItemFamilies.HeavyHelmet, 1, 0, "Head")]
+        [TestCase(MaterialId.Iron, ItemFamilies.HeavyChest, 0, 1, "Chest")]
+        [TestCase(MaterialId.Leather, ItemFamilies.LightGloves, 0, 2, "Arms")]
+        [TestCase(MaterialId.Elvish, ItemFamilies.LightBoots, 1, 0, "Legs")]
+        [TestCase(MaterialId.Dwarven, ItemFamilies.HeavyShield, 0, 1, "Shield")]
         public void Correct_tags_are_set_in_items(MaterialId material, string family, int genus, int rarity, string slots)
         {
             ItemBlueprint blueprint = new(family, genus, material, rarity);
@@ -109,19 +109,19 @@ namespace Test_TheIdleScrolls_Core
             Assert.That(player.HasTag(Tags.Unarmed));
 
 
-            var sword = ItemFactory.MakeItem(new(ItemFamilies.ShortBlade, 1, MaterialId.Steel));
+            var sword = ItemFactory.MakeItem(new(ItemFamilies.ShortSword, 1, MaterialId.Steel));
             Assert.That(sword, Is.Not.Null);
             Assert.That(equipComp.EquipItem(sword));
             StatUpdateSystem.UpdatePlayerTags(player);
             Assert.That(!player.HasTag(Tags.Unarmed));
 
-            var sword2 = ItemFactory.MakeItem(new(ItemFamilies.ShortBlade, 1, MaterialId.Iron));
+            var sword2 = ItemFactory.MakeItem(new(ItemFamilies.ShortSword, 1, MaterialId.Iron));
             Assert.That(sword2, Is.Not.Null);
             Assert.That(equipComp.EquipItem(sword2));
             StatUpdateSystem.UpdatePlayerTags(player);
             Assert.That(player.HasTag(Tags.DualWield));
 
-            var axe = ItemFactory.MakeItem(new(ItemFamilies.Axe, 1, MaterialId.Steel));
+            var axe = ItemFactory.MakeItem(new(ItemFamilies.OneHandedAxe, 1, MaterialId.Steel));
             Assert.That(axe, Is.Not.Null);
             Assert.That(equipComp.UnequipItem(sword2));
             Assert.That(equipComp.EquipItem(axe));
@@ -129,13 +129,13 @@ namespace Test_TheIdleScrolls_Core
             Assert.That(player.HasTag(Tags.DualWield));
             Assert.That(player.HasTag(Tags.MixedWeapons));
 
-            var chest = ItemFactory.MakeItem(new(ItemFamilies.HeavyArmor, 1, MaterialId.Steel));
+            var chest = ItemFactory.MakeItem(new(ItemFamilies.HeavyChest, 1, MaterialId.Steel));
             Assert.That(chest, Is.Not.Null);
             Assert.That(equipComp.EquipItem(chest));
             StatUpdateSystem.UpdatePlayerTags(player);
             Assert.That(!player.HasTag(Tags.Unarmored));
 
-            var helmet = ItemFactory.MakeItem(new(ItemFamilies.LightArmor, 2, MaterialId.HardLeather));
+            var helmet = ItemFactory.MakeItem(new(ItemFamilies.LightHelmet, 0, MaterialId.HardLeather));
             Assert.That(helmet, Is.Not.Null);
             Assert.That(equipComp.EquipItem(helmet));
             StatUpdateSystem.UpdatePlayerTags(player);
