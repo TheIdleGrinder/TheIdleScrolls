@@ -30,7 +30,6 @@ namespace TheIdleScrolls_JSON
 
         static List<Entity> ItemListFromJsonArray(JsonArray jsonItems)
         {
-            var itemFactory = new ItemFactory();
             List<Entity> items = new();
             foreach (var jsonItem in jsonItems)
             {
@@ -41,7 +40,7 @@ namespace TheIdleScrolls_JSON
                 string code = fields[0];
                 string[] tags = fields[1..];
 
-                Entity? item = itemFactory.ExpandCode(code);
+                Entity? item = ItemFactory.ExpandCode(code);
                 if (item == null)
                 {
                     Debug.WriteLine($"Unable to expand item code {jsonItem}");
@@ -206,7 +205,7 @@ namespace TheIdleScrolls_JSON
         {
             try
             {
-                component.Code = new ItemIdentifier(json["Code"]!.GetValue<string>());
+                component.Blueprint = ItemBlueprint.Parse(json["Code"]!.GetValue<string>());
                 return true;
             }
             catch (Exception)
@@ -309,7 +308,8 @@ namespace TheIdleScrolls_JSON
                     if (parts.Length != 6)
 						throw new Exception($"Invalid number of fields in stored craft: {jsonCraft}");
                     CraftingType type = (CraftingType)Int32.Parse(parts[0]);
-					Entity item = ItemFactory.MakeItem(new(parts[1])) ?? throw new Exception($"Unable to make item from code {parts[1]}");
+					Entity item = ItemFactory.MakeItem(ItemBlueprint.Parse(parts[1])) 
+                        ?? throw new Exception($"Unable to make item from code {parts[1]}");
                     double duration = Double.Parse(parts[2]);
                     double remaining = Double.Parse(parts[3]);
                     double roll = Double.Parse(parts[4]);

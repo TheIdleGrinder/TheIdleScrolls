@@ -65,7 +65,7 @@ namespace TheIdleScrolls_Core.Systems
             if (selection == null)
                 return;
 
-            Entity item = new ItemFactory().ExpandCode(selection) ?? throw new Exception($"Invalid item code: {selection}");
+            Entity item = ItemFactory.ExpandCode(selection) ?? throw new Exception($"Invalid item code: {selection}");
 
             coordinator.AddEntity(item);
             coordinator.PostMessage(this, new ItemReceivedMessage(m_player!, item));
@@ -116,28 +116,27 @@ namespace TheIdleScrolls_Core.Systems
             LootTable table = new();
             List<double> rarityWeights = ItemFactory.GetRarityWeights(parameters.ItemLevel, parameters.RarityMultiplier);
             
-            foreach (var f in ItemFactory.ItemKingdom.Families)
+            foreach (var f in ItemKingdom.Families)
             {
                 for (int i = 0; i < f.Genera.Count; i++)
                 {
-                    var g = ItemFactory.ItemKingdom.GetGenusDescriptionByIdAndIndex(f.Id, i);
-                    if (g == null)
-                        throw new Exception($"Ítem family '{f.Id}' does not have {i + 1} genera");
+                    var g = ItemKingdom.GetGenusDescriptionByIdAndIndex(f.Id, i) 
+                        ?? throw new Exception($"Ítem family '{f.Id}' does not have {i + 1} genera");
                     if (g.DropLevel == 0) // Tutorial items cannot drop
                         continue;
-                    var mats = g.ValidMaterials.Select(m => ItemFactory.ItemKingdom.GetMaterial(m)!);
+                    var mats = g.ValidMaterials.Select(m => ItemKingdom.GetMaterial(m)!);
                     foreach (var m in mats)
                     {
                         int dropLevel = g.DropLevel + m.MinimumLevel;
                         if (dropLevel >= parameters.MinDropLevel && dropLevel <= parameters.ItemLevel)
                         {
-                            var id = new ItemIdentifier(f.Id, i, m.Id);
+                            var bp = new ItemBlueprint(f.Id, i, m.Id);
                             for (int r = 0; r < rarityWeights.Count; r++)
                             {
                                 if (rarityWeights[r] == 0)
                                     continue;
-                                ItemIdentifier rareId = new(id.Code) { RarityLevel = r };
-                                table.AddEntry(rareId.Code, rarityWeights[r]);
+                                ItemBlueprint rareId = bp with { Rarity = r };
+                                table.AddEntry(bp.ToString(), rarityWeights[r]);
                             }
                         }
                     }

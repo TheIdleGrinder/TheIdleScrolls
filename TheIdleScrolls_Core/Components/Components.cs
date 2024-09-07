@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Utility;
 
@@ -141,18 +142,18 @@ namespace TheIdleScrolls_Core.Components
 
     public class ItemComponent : IComponent
     {
-        public ItemIdentifier Code { get; set; }
-        public string FamilyName { get { return Code.FamilyId.Localize(); } }
-        public string GenusName { get { return Code.GenusId.Localize(); } }
+        public ItemBlueprint Blueprint { get; set; }
+        public string FamilyName { get { return Blueprint.FamilyId.Localize(); } }
+        public string GenusName { get { return ItemKingdom.GetGenusDescription(Blueprint)?.Name ?? "??"; } }
 
         public ItemComponent(string itemCode)
         {
-            Code = new ItemIdentifier(itemCode);
+            Blueprint = ItemBlueprint.Parse(itemCode);
         }
 
-        public ItemComponent(ItemIdentifier code)
+        public ItemComponent(ItemBlueprint blueprint)
         {
-            Code = code;
+            Blueprint = blueprint;
         }
     }
 

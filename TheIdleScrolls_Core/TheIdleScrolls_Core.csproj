@@ -35,6 +35,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Constants.resx</DependentUpon>
     </Compile>
+    <Compile Update="Properties\Items.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Items.resx</DependentUpon>
+    </Compile>
     <Compile Update="Properties\LocalizedStrings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -65,6 +70,10 @@
     <EmbeddedResource Update="Properties\Constants.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Constants.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Items.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Items.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Properties\LocalizedStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>

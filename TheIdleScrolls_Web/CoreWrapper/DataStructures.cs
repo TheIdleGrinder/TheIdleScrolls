@@ -1,5 +1,5 @@
 ﻿using TheIdleScrolls_Core;
-using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrolls_Web.CoreWrapper
@@ -70,7 +70,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
             Clear();
             foreach (var item in items)
             {
-                bool firstSlot = true;
                 foreach (var slot in item.Slots)
                 {
                     var displayItem = item;// firstSlot ? item : item with { Rarity = -1 };
@@ -87,7 +86,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
                         case EquipmentSlot.Arms: Arms = displayItem; break;
                         case EquipmentSlot.Legs: Legs = displayItem; break;
                     }
-                    firstSlot = false;
                 }
             }
             Items = items;

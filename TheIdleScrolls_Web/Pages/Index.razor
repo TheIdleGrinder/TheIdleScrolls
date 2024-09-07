@@ -91,10 +91,12 @@ else
 		var storedChars = CoreWrapper.StoredCharacters.Where(c => !c.StartsWith("_"));
 		foreach (var charName in storedChars)
 		{
+			Console.WriteLine($"Reading character {charName}");
 			var metaData = await CoreWrapper.GetCharacterMetaData(charName);
 			if (metaData != null)
 			{
 				Characters.Add(metaData);
+				Console.WriteLine($"Added character {metaData.Name}");
 			}
 		}
 		StateHasChanged();

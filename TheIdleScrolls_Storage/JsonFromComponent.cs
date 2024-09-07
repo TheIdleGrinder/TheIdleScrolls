@@ -27,7 +27,7 @@ namespace TheIdleScrolls_Storage
 
             foreach (var item in items)
             {
-                string? code = item.GetItemCode();
+                string? code = item.GetBlueprintCode();
                 if (code == String.Empty)
                 {
                     continue;
@@ -133,7 +133,7 @@ namespace TheIdleScrolls_Storage
         {
             JsonObject json = new()
             {
-                { "Code", component.Code.Code }
+                { "Code", component.Blueprint.ToString() }
             };
             return json;
         }
@@ -204,7 +204,7 @@ namespace TheIdleScrolls_Storage
 			foreach (var craft in component.ActiveCrafts)
 			{
                 string type = ((int)craft.Type).ToString();
-                string item = craft.TargetItem.GetItemCode();
+                string item = craft.TargetItem.GetBlueprintCode();
                 string duration = craft.Duration.Duration.ToString();
                 string remaining = craft.Duration.Remaining.ToString();
                 string roll = craft.Roll.ToString();
