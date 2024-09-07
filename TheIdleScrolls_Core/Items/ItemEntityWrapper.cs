@@ -43,7 +43,8 @@ namespace TheIdleScrolls_Core.Items
 
         private string GenerateDescription()
         {
-            string description = $"Type: {GetItemTypeName()}";
+            var itemComp = Item.GetComponent<ItemComponent>()!;
+            string description = $"Type: {itemComp.Blueprint.GetFamilyDescription().Name}";
 
             var equipComp = Item.GetComponent<EquippableComponent>();
             if (equipComp != null && equipComp.Slots.Count > 0)
@@ -62,7 +63,7 @@ namespace TheIdleScrolls_Core.Items
                 description += $"; Used Slot(s): {string.Join(", ", slotStrings)}";
             }
 
-            description += $"; Skill: {Item.GetComponent<ItemComponent>()?.FamilyName ?? "??"}";
+            description += $"; Skill: {itemComp.Blueprint.GetFamilyDescription().RelatedAbilityId.Localize()}";
             
             var levelComp = Item.GetComponent<LevelComponent>();
             if (levelComp != null)

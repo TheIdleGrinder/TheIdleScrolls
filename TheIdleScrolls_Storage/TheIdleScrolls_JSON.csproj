@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TheIdleScrolls_Core\TheIdleScrolls_Core.csproj" />
-    <ProjectReference Include="..\TheIdleScrolls_Core\TheIdleScrolls_Storage.csproj" />
   </ItemGroup>
 
 </Project>

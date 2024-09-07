@@ -120,6 +120,7 @@ namespace TheIdleScrolls_Core.Items
             ItemBlueprint blueprint = item.GetComponent<ItemComponent>()!.Blueprint; // CornerCut: better pass an item...
             tagsComp.AddTag(blueprint.FamilyId);
             tagsComp.AddTag(blueprint.GetMaterial().Name);
+            tagsComp.AddTag(blueprint.GetFamilyDescription().RelatedAbilityId);
 
             if (item.HasComponent<ItemRarityComponent>())
             {
@@ -256,7 +257,7 @@ namespace TheIdleScrolls_Core.Items
 
         public static Entity? ExpandCode(ItemBlueprint code)
         {
-            Console.WriteLine($"Expanding item code: {code}");
+            //Console.WriteLine($"Expanding item code: {code}");
             return MakeItem(code);
         }
 
