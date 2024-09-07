@@ -28,6 +28,9 @@ namespace TheIdleScrolls_Core.Items
             if (description == null)
                 return null;
 
+            if (!description.ValidMaterials.Contains(blueprint.MaterialId))
+                return null;
+
             // Build base item
             Entity item = new();
             item.AddComponent(new NameComponent(description.Name ?? "??"));
