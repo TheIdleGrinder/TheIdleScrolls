@@ -32,7 +32,7 @@ namespace Test_TheIdleScrolls_Core
 
             const string name = "TestChar";
             const int level = 15;
-            var itemBlueprint = new ItemBlueprint(ItemFamilies.Dagger, 0, MaterialId.Iron);
+            var itemBlueprint = new ItemBlueprint(ItemFamilies.Dagger, 1, MaterialId.Iron);
             List<ItemBlueprint> items = new() { itemBlueprint };
             var entity = MakeTestCharacter(name, level, items);
 

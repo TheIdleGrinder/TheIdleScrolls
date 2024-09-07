@@ -67,10 +67,10 @@ namespace Test_TheIdleScrolls_Core
         [TestCase(MaterialId.Beech, ItemFamilies.Polearm, 0, 0, "2H")]
         [TestCase(MaterialId.Dwarven, ItemFamilies.ShortSword, 1, 1, "1H")]
         [TestCase(MaterialId.Steel, ItemFamilies.HeavyHelmet, 1, 0, "Head")]
-        [TestCase(MaterialId.Iron, ItemFamilies.HeavyChest, 0, 1, "Chest")]
+        [TestCase(MaterialId.Simple, ItemFamilies.HeavyChest, 0, 1, "Chest")]
         [TestCase(MaterialId.Leather, ItemFamilies.LightGloves, 0, 2, "Arms")]
         [TestCase(MaterialId.Elvish, ItemFamilies.LightBoots, 1, 0, "Legs")]
-        [TestCase(MaterialId.Dwarven, ItemFamilies.HeavyShield, 0, 1, "Shield")]
+        [TestCase(MaterialId.Ash, ItemFamilies.HeavyShield, 0, 1, "Shield")]
         public void Correct_tags_are_set_in_items(MaterialId material, string family, int genus, int rarity, string slots)
         {
             ItemBlueprint blueprint = new(family, genus, material, rarity);
@@ -115,7 +115,7 @@ namespace Test_TheIdleScrolls_Core
             StatUpdateSystem.UpdatePlayerTags(player);
             Assert.That(!player.HasTag(Tags.Unarmed));
 
-            var sword2 = ItemFactory.MakeItem(new(ItemFamilies.ShortSword, 1, MaterialId.Iron));
+            var sword2 = ItemFactory.MakeItem(new(ItemFamilies.ShortSword, 1, MaterialId.Steel));
             Assert.That(sword2, Is.Not.Null);
             Assert.That(equipComp.EquipItem(sword2));
             StatUpdateSystem.UpdatePlayerTags(player);
