@@ -75,7 +75,8 @@
         }
         else
         {
-            text = await CoreWrapper.DataAccessHandler.StorageHandler.LoadData(_currentChar);
+            string encryptedText = await CoreWrapper.DataAccessHandler.LoadData(_currentChar);
+            text = CoreWrapper.DataAccessHandler.Decrypt(encryptedText);
         }
         StateHasChanged();
     }
@@ -84,7 +85,8 @@
     {
         if (CurrentCharacterName != string.Empty)
         {
-            await CoreWrapper.DataAccessHandler.StorageHandler.StoreData(CurrentCharacterName, text);
+            string encryptedText = CoreWrapper.DataAccessHandler.Encrypt(text);
+            await CoreWrapper.DataAccessHandler.StoreData(CurrentCharacterName, encryptedText);
         };
     }
 }

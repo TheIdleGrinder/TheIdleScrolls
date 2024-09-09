@@ -21,7 +21,15 @@ namespace Test_TheIdleScrolls_Core
         [Test]
         public void Constructing_default_works()
         {
-            var handler = new DataAccessHandler(new EntityJsonConverter(), new DictionaryStorageHandler());
+            var handler = new DataAccessHandler(
+                new EntityJsonConverter(), 
+                new DictionaryStorageHandler(), 
+                new Base64ConversionDecorator<string>(
+                    new InputToByteArrayConversionDecorator<byte[]>(
+                        new NopDataEncryptor<byte[]>()
+                    )
+                )
+            );
             Assert.That(handler, Is.Not.Null);
         }
 

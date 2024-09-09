@@ -15,33 +15,68 @@ namespace TheIdleScrolls_Core.DataAccess
 {
     public class DataAccessHandler
     {
-        IEntityConverter m_converter { get; set; }
+        IEntityConverter Converter { get; set; }
+        
+        IDataEncryptor<string, string>? DataEncryptor { get; set; }
 
-        IStorageHandler<string> m_storage { get; set; }
+        IStorageHandler<string> Storage { get; set; }
 
-        public DataAccessHandler(IEntityConverter entityConverter, IStorageHandler<string> storageHandler)
+        public DataAccessHandler(IEntityConverter entityConverter, 
+            IStorageHandler<string> storageHandler, 
+            IDataEncryptor<string, string>? dataEncryptor = null)
         {
-            m_converter = entityConverter;
-            m_storage = storageHandler;
+            Converter = entityConverter;
+            Storage = storageHandler;
+            DataEncryptor = dataEncryptor;
         }
 
         public IStorageHandler<string> StorageHandler
         {
-            get { return m_storage; }
+            get { return Storage; }
+        }
+
+        public string Encrypt(string data)
+        {
+            if (DataEncryptor != null)
+            {
+                return DataEncryptor.EncryptData(data);
+            }
+            return data;
+        }
+
+        public string Decrypt(string data)
+        {
+            if (DataEncryptor != null)
+            {
+                return DataEncryptor.DecryptData(data);
+            }
+            return data;
+        }
+
+        public Task<string> LoadData(string key)
+        {
+            return Storage.LoadData(key);
+        }
+
+        public Task StoreData(string key, string data)
+        {
+            return Storage.StoreData(key, data);
         }
 
         public Task StoreEntity(Entity entity)
         {
-            string serialized = m_converter.SerializeEntity(entity);
-            return m_storage.StoreData(entity.GetName(), serialized);
+            string serialized = Converter.SerializeEntity(entity);
+            serialized = Encrypt(serialized);
+            return Storage.StoreData(entity.GetName(), serialized);
         }
 
         public async Task<bool> LoadEntity(string accessKey, Entity outputEntity)
         {
-            string serialized = await m_storage.LoadData(accessKey);
+            string serialized = await Storage.LoadData(accessKey);
+            serialized = Decrypt(serialized);
             if (serialized != String.Empty)
             {
-                var loaded = m_converter.DeserializeEntity(serialized);
+                var loaded = Converter.DeserializeEntity(serialized);
                 if (loaded != null)
                 {
                     foreach (var component in loaded.Components)
@@ -63,12 +98,12 @@ namespace TheIdleScrolls_Core.DataAccess
 
         public Task<List<string>> ListStoredEntities()
         {
-            return m_storage.GetKeys();
+            return Storage.GetKeys();
         }
 
         public async Task DeleteStoredEntity(string accessKey)
         {
-            await m_storage.DeleteData(accessKey);
+            await Storage.DeleteData(accessKey);
         }
 
         public async Task DeleteAllStoredEntities()
@@ -86,16 +121,18 @@ namespace TheIdleScrolls_Core.DataAccess
 			List<string> data = new();
 			foreach (string charName in chars)
 			{
-				string charData = await m_storage.LoadData(charName);
+				string charData = await Storage.LoadData(charName);
 				data.Add(charData);
 			}
+            // Currently, the most recently saved character is the first one in the list. We reverse the list to make it the last one that gets imported.
+            data.Reverse();
 			return String.Join("|", data); // CornerCut: assumes that the data is not going to contain the pipe character
 		}
 
         public async Task ExportAllCharacters()
         {
             string export = await GetExportText();
-            await m_storage.ExportData(export);
+            await Storage.ExportData(export);
         }
 
         public async Task ImportCharacters(string data)
@@ -106,7 +143,8 @@ namespace TheIdleScrolls_Core.DataAccess
             {
                 try
                 {
-                    Entity? entity = m_converter.DeserializeEntity(charString);
+                    string serialized = Decrypt(charString);
+                    Entity? entity = Converter.DeserializeEntity(serialized);
                     if (entity != null)
                     {
                         entities.Add(entity);
