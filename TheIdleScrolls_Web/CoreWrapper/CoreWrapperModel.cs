@@ -220,9 +220,12 @@ namespace TheIdleScrolls_Web.CoreWrapper
             StopGameLoop();
             dataHandler = new DataAccessHandler(
                 new EntityJsonConverter(), 
-                new ByteArrayConversionDecorator(
-                    new Base64ConversionDecorator(
-                        new LocalBrowserStorageHandler(jSRuntime))));
+                new LocalBrowserStorageHandler(jSRuntime),
+                new Base64ConversionDecorator<string>(
+                    new InputToByteArrayConversionDecorator<byte[]>(
+                        new NopDataEncryptor<byte[]>()
+                    )
+                ));
             gameRunner = new GameRunner(dataHandler);
             gameRunner.SetAppInterface(this);
             ConnectEvents();
