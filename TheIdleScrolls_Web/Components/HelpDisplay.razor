@@ -13,7 +13,7 @@
 
     <h4>Character Level</h4>
     <p>Once you have gathered enough experience points, your character level will increase. Each level will grant you a permanent additive 
-        100% increase to your attack damage.
+        @($"{Stats.AttackBonusPerLevel:0.#%}") increase to your attack damage.
     </p>
 
     @if (Items)
@@ -59,9 +59,9 @@
         </p>
         <p>Different abilities modify their corresponding stats in different ways:</p>
         <ul>
-            <li><strong>Weapons: </strong>Increased attack speed</li>
+            <li><strong>Weapons: </strong>Increased damage and attack speed</li>
             <li><strong>Armor: </strong>Increased armor or evasion rating</li>
-            <li><strong>Crafting: </strong>Increased chance of better outcomes, access to higher rarity levels</li>
+            <li><strong>Crafting: </strong>Increased chance of reforging success</li>
         </ul>
     }
 
@@ -114,13 +114,19 @@
     @if (Crafting)
     {
         <h4>Crafting</h4>
-        <p>The best way to obtain high-rarity items for your character to use, is to take an item that has a desirable base type and reforge it. 
-            Reforging costs an amount of coins based on the base items drop level and randomly changes its rarity, with higher rarity levels being 
-            exponentially less probable.
+        <p>Trying to find the perfect item for your character can be a daunting task. A much more reliable way to get your character equipped 
+            with the best gear is to craft it yourself. There are two crafting methods that complement each other: You can create new items and also reforge 
+            existing ones to improve them. Starting a crafting procedure costs an amount of coins based on the item's drop level. The process itself is going to take some
+            time. The length is based on the material of the target item.
         </p>
-        <p>Spending coins on reforging will train your crafting ability, which increases the probability of obtaining higher rarity levels
-            by @($"{Stats.CraftingAbilityBonusPerLevel:0.#%}") per level. The maximum achievable rarity level is also determined by a 
-            combination of the ability level and the drop level of the item.
+        <p>Crafting new items is simple enough: In exchange for a certain amount of coins, you can create an item from among your unlocked blueprints. More items become available
+            as you clear higher level dungeons. Creating new items take some time, but it never fails.
+        </p>
+        <p>The best way to obtain high-rarity items for your character to use, is to take an item that has a desirable base type and reforge it. 
+            If the reforging fails, the item's rarity will be reduced by one level.
+            Success and failure chances are determined by the item's current rarity level and your character's crafting ability.
+        </p>
+        <p>Spending coins on reforging will train your crafting ability.
         </p>
     }
 

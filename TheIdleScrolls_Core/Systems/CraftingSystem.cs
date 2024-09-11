@@ -57,8 +57,6 @@ namespace TheIdleScrolls_Core.Systems
                         .Where(i => (i.GetComponent<LevelComponent>()?.Level ?? 0) <= craftingBench.MaxCraftingLevel)
                         .ToList();
                 }
-
-                FirstUpdate = false;
             }
 
             foreach (var cancelReq in coordinator.FetchMessagesByType<CancelCraftRequest>())
@@ -83,12 +81,14 @@ namespace TheIdleScrolls_Core.Systems
 
             // Updating twice per second is enough
             UpdateCraftsTime += dt;
-            bool doUpdate = UpdateCrafts.Update(dt) > 0;
+            bool doUpdate = UpdateCrafts.Update(dt) > 0 || FirstUpdate;
             if (doUpdate)
             {
                 UpdateCrafting(world, coordinator, UpdateCraftsTime);
                 UpdateCraftsTime = 0.0;
             }
+
+            FirstUpdate = false;
         }
 
         public static void HandleCraftRequest(Entity crafter, uint prototypeId, Action<IMessage> postMessage)
