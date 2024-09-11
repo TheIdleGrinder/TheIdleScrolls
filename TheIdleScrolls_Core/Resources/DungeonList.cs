@@ -239,7 +239,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_EndgameTechnology,
                     Level = 150,
                     Rarity = 3,
-                    Condition = "Wilderness >= 150",
+                    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
                     Description = Properties.Places.Dungeon_EndgameTechnology_Description,
                     Floors = new()
                     {
@@ -265,7 +265,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_EndgameMagic,
                     Level = 150,
                     Rarity = 3,
-                    Condition = "Wilderness >= 150",
+                    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
                     Description = Properties.Places.Dungeon_EndgameMagic_Description,
                     Floors = new()
                     {
@@ -291,7 +291,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_EndgameDistant,
                     Level = 150,
                     Rarity = 3,
-                    Condition = "Wilderness >= 150",
+                    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
                     Description = Properties.Places.Dungeon_EndgameDistant_Description,
                     Floors = new()
                     {
