@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\images\hourglass_broadsword.png" />
+    <Content Remove="wwwroot\images\mobs\default.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\images\hourglass_broadsword.png" />
+    <None Include="wwwroot\images\mobs\default.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,12 +3,16 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="fightOuter">
-    <div id="imageContainer">
-        <img src="/images/hourglass_broadsword.png" class="pixelart" style="width: 256px" />
-    </div>
     
     @if (MobPresent)
     {
+        
+         <div id="imageContainer">
+             <img class="pixelart" style="width: 256px"
+                 src="/images/mobs/@(GetMobImageName()).png" 
+                 onerror="this.src='/images/hourglass_broadsword.png'" />
+        </div>
+
         <div class="fightInner">
             <p style="margin-bottom: 0px;">@CoreWrapper.Mob.Name (Level @CoreWrapper.Mob.Level)</p>
             <div class="progressFrame">
@@ -129,5 +133,16 @@
     int TimeToInt(double time)
     {
         return (int)(time * 1000);
+    }
+
+    string GetMobImageName()
+    {
+        List<string> mobsWithImages = new() { "boss_heinrich", "boss_renke", "boss_soren" };
+        string mob = CoreWrapper.Mob.Id.ToLower();
+        if (mobsWithImages.Contains(mob))
+        {
+            return mob;
+        }
+        return "default";
     }
 }
