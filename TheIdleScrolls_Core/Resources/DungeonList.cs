@@ -311,6 +311,66 @@ namespace TheIdleScrolls_Core.Resources
                         new("BOSS_HEINRICH", hP: 13.0, damage: 2.0)
                     },
                     Rewards = new(61, true, new())
+                },
+                new()
+                {
+                    Id = Definitions.DungeonIds.EndgamePyramid,
+                    Name = "???",
+                    Level = 150,
+                    Rarity = 3,
+                    Condition = $"Wilderness >= 1500 || dng:{Definitions.DungeonIds.Threshold}",
+                    Description = "???",
+                    Floors = new()
+                    {
+                        new(0, 0.0, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
+                        new(2, 0.0, new() { "BOSS_OVERSOUL" }),
+                        new(0, 0.0, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
+                        new(3, 0.0, new() { "BOSS_TRIO" }),
+                        new(0, 0.0, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
+                        new(1, 5.2, new() { "BOSS_RENKE" })
+                    },
+                    LocalMobs = new()
+                    {
+                        new("MOB_TRASH1", hP: 1.1, damage: 1.1),
+                        new("MOB_TRASH2", hP: 1.1, damage: 1.1),
+                        new("MOB_TRASH3", hP: 1.1, damage: 1.1),
+                        new("BOSS_OVERSOUL", hP: 2.0, damage: 2.125),
+                        new("BOSS_TRIO", hP: 2.0, damage: 2.125),
+                        new("BOSS_RENKE", hP: 13.0, damage: 2.0)
+                    },
+                    Rewards = new(61, true, new())
+                },
+                new()
+                {
+                    Id = Definitions.DungeonIds.EndgameAges,
+                    Name = "???",
+                    Level = 150,
+                    Rarity = 3,
+                    Condition = $"Wilderness >= 1500 || dng:{Definitions.DungeonIds.Threshold}",
+                    Description = "???",
+                    Floors = new()
+                    {
+                        new(2, 0.0, new() { "MOB_A-INF" }),
+                        new(3, 0.0, new() { "MOB_1-INF", "MOB_1-CAV" }),
+                        new(5, 0.0, new() { "MOB_2-INF", "MOB_2-CAV", "MOB_2-ART" }),
+                        new(7, 0.0, new() { "MOB_3-INF", "MOB_3-CAV", "MOB_3-ART", "MOB_3-AIR" }),
+                        new(1, 5.2, new() { "BOSS_HEINRICH" })
+                    },
+                    LocalMobs = new()
+                    {
+                        new("MOB_A-INF", hP: 1.1, damage: 1.1),
+                        new("MOB_1-INF", hP: 1.1, damage: 1.1),
+                        new("MOB_1-CAV", hP: 1.1, damage: 1.1),
+                        new("MOB_2-INF", hP: 2.0, damage: 2.125),
+                        new("MOB_2-CAV", hP: 2.0, damage: 2.125),
+                        new("MOB_2-ART", hP: 2.0, damage: 2.125),
+                        new("MOB_3-INF", hP: 2.0, damage: 2.125),
+                        new("MOB_3-CAV", hP: 2.0, damage: 2.125),
+                        new("MOB_3-ART", hP: 2.0, damage: 2.125),
+                        new("MOB_3-AIR", hP: 2.0, damage: 2.125),
+                        new("BOSS_HEINRICH", hP: 13.0, damage: 2.0)
+                    },
+                    Rewards = new(61, true, new())
                 }
             };
         }

@@ -61,6 +61,8 @@ namespace TheIdleScrolls_Core
             public const string EndgameTechnology = "SUNKENCITY";
             public const string EndgameMagic = "ACADEMY";
             public const string EndgameDistantLands = "PAGODA";
+            public const string EndgamePyramid = "PYRAMID";
+            public const string EndgameAges = "AGES";
         }
 
         public static class Tags
