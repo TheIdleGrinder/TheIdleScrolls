@@ -233,32 +233,32 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     Rewards = new(61, true, new())
                 },
-                new()
-                {
-                    Id = Definitions.DungeonIds.EndgameTechnology,
-                    Name = Properties.Places.Dungeon_EndgameTechnology,
-                    Level = 150,
-                    Rarity = 3,
-                    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
-                    Description = Properties.Places.Dungeon_EndgameTechnology_Description,
-                    Floors = new()
-                    {
-                        new(3, 3.0, new() { "MOB_SHARK" }),
-                        new(4, 4.0, new() { "MOB_DEEPONE" }),
-                        new(2, 2.0, new() { "MOB_ANCIENTMACHINE" }),
-                        new(5, 4.5, new() { "MOB_ANCIENTMACHINE", "MOB_DEEPONE2" }),
-                        new(1, 5.2, new() { "BOSS_RENKE" })
-                    },
-                    LocalMobs = new()
-                    {
-                        new("MOB_SHARK", hP: 2.0, damage: 1.7),
-                        new("MOB_DEEPONE", hP: 2.3, damage: 1.7),
-                        new("MOB_ANCIENTMACHINE", hP: 2.5, damage: 1.7),
-                        new("MOB_DEEPONE2", hP: 2.0, damage: 2.125),
-                        new("BOSS_RENKE", hP: 13.0, damage: 2.0)
-                    },
-                    Rewards = new(61, true, new())
-                },
+                //new()
+                //{
+                //    Id = Definitions.DungeonIds.EndgameTechnology,
+                //    Name = Properties.Places.Dungeon_EndgameTechnology,
+                //    Level = 150,
+                //    Rarity = 3,
+                //    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
+                //    Description = Properties.Places.Dungeon_EndgameTechnology_Description,
+                //    Floors = new()
+                //    {
+                //        new(3, 3.0, new() { "MOB_SHARK" }),
+                //        new(4, 4.0, new() { "MOB_DEEPONE" }),
+                //        new(2, 2.0, new() { "MOB_ANCIENTMACHINE" }),
+                //        new(5, 4.5, new() { "MOB_ANCIENTMACHINE", "MOB_DEEPONE2" }),
+                //        new(1, 5.2, new() { "BOSS_RENKE" })
+                //    },
+                //    LocalMobs = new()
+                //    {
+                //        new("MOB_SHARK", hP: 2.0, damage: 1.7),
+                //        new("MOB_DEEPONE", hP: 2.3, damage: 1.7),
+                //        new("MOB_ANCIENTMACHINE", hP: 2.5, damage: 1.7),
+                //        new("MOB_DEEPONE2", hP: 2.0, damage: 2.125),
+                //        new("BOSS_RENKE", hP: 13.0, damage: 2.0)
+                //    },
+                //    Rewards = new(61, true, new())
+                //},
                 new()
                 {
                     Id = Definitions.DungeonIds.EndgameMagic,
@@ -269,73 +269,73 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_EndgameMagic_Description,
                     Floors = new()
                     {
-                        new(5, 5.0, new() { "MOB_HUFFLE" }),
+                        new(5, 4.7, new() { "MOB_HUFFLE" }),
                         new(4, 4.0, new() { "MOB_RAVEN" }),
                         new(3, 3.0, new() { "MOB_SNAKE" }),
-                        new(2, 2.0, new() { "MOB_GRYPHON" }),
+                        new(2, 2.3, new() { "MOB_GRYPHON" }),
                         new(1, 5.2, new() { "BOSS_SOREN" })
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_HUFFLE", hP: 2.0, damage: 1.7),
-                        new("MOB_RAVEN", hP: 2.3, damage: 1.7),
-                        new("MOB_SNAKE", hP: 2.5, damage: 1.7),
-                        new("MOB_GRYPHON", hP: 2.75, damage: 1.7),
+                        new("MOB_HUFFLE", hP: 2.05, damage: 1.5),
+                        new("MOB_RAVEN", hP: 2.6, damage: 1.5),
+                        new("MOB_SNAKE", hP: 2.9, damage: 1.5),
+                        new("MOB_GRYPHON", hP: 3.65, damage: 1.5),
                         new("BOSS_SOREN", hP: 13.0, damage: 2.0)
                     },
                     Rewards = new(61, true, new())
                 },
-                new()
-                {
-                    Id = Definitions.DungeonIds.EndgameDistantLands,
-                    Name = Properties.Places.Dungeon_EndgameDistant,
-                    Level = 150,
-                    Rarity = 3,
-                    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
-                    Description = Properties.Places.Dungeon_EndgameDistant_Description,
-                    Floors = new()
-                    {
-                        new(3, 3.0, new() { "MOB_MARTIALARTIST" }),
-                        new(3, 3.0, new() { "MOB_ASSASSIN" }),
-                        new(3, 2.75, new() { "MOB_ASSASSIN", "MOB_TERRACOTTA" }),
-                        new(3, 2.6, new() { "MOB_TERRACOTTA" }),
-                        new(3, 3.0, new() { "MOB_TERRACOTTA2" }),
-                        new(1, 5.2, new() { "BOSS_HEINRICH" })
-                    },
-                    LocalMobs = new()
-                    {
-                        new("MOB_MARTIALARTIST", hP: 2.0, damage: 1.7),
-                        new("MOB_ASSASSIN", hP: 1.7, damage: 2.3),
-                        new("MOB_TERRACOTTA", hP: 2.3, damage: 1.7),
-                        new("MOB_TERRACOTTA2", hP: 3.2, damage: 1.5),
-                        new("BOSS_HEINRICH", hP: 13.0, damage: 2.0)
-                    },
-                    Rewards = new(61, true, new())
-                },
+                //new()
+                //{
+                //    Id = Definitions.DungeonIds.EndgameDistantLands,
+                //    Name = Properties.Places.Dungeon_EndgameDistant,
+                //    Level = 150,
+                //    Rarity = 3,
+                //    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
+                //    Description = Properties.Places.Dungeon_EndgameDistant_Description,
+                //    Floors = new()
+                //    {
+                //        new(3, 3.0, new() { "MOB_MARTIALARTIST" }),
+                //        new(3, 3.0, new() { "MOB_ASSASSIN" }),
+                //        new(3, 2.75, new() { "MOB_ASSASSIN", "MOB_TERRACOTTA" }),
+                //        new(3, 2.6, new() { "MOB_TERRACOTTA" }),
+                //        new(3, 3.0, new() { "MOB_TERRACOTTA2" }),
+                //        new(1, 5.2, new() { "BOSS_HEINRICH" })
+                //    },
+                //    LocalMobs = new()
+                //    {
+                //        new("MOB_MARTIALARTIST", hP: 2.0, damage: 1.7),
+                //        new("MOB_ASSASSIN", hP: 1.7, damage: 2.3),
+                //        new("MOB_TERRACOTTA", hP: 2.3, damage: 1.7),
+                //        new("MOB_TERRACOTTA2", hP: 3.2, damage: 1.5),
+                //        new("BOSS_HEINRICH", hP: 13.0, damage: 2.0)
+                //    },
+                //    Rewards = new(61, true, new())
+                //},
                 new()
                 {
                     Id = Definitions.DungeonIds.EndgamePyramid,
-                    Name = "???",
+                    Name = Properties.Places.Dungeon_EndgamePyramid,
                     Level = 150,
                     Rarity = 3,
-                    Condition = $"Wilderness >= 1500 || dng:{Definitions.DungeonIds.Threshold}",
-                    Description = "???",
+                    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
+                    Description = Properties.Places.Dungeon_EndgamePyramid_Description,
                     Floors = new()
                     {
-                        new(0, 0.0, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
-                        new(2, 0.0, new() { "BOSS_OVERSOUL" }),
-                        new(0, 0.0, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
-                        new(3, 0.0, new() { "BOSS_TRIO" }),
-                        new(0, 0.0, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
+                        new(5, 2.3, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
+                        new(2, 4.1, new() { "MOB_OVERSOUL" }),
+                        new(6, 2.2, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
+                        new(3, 3.6, new() { "MOB_TRIO" }),
+                        new(7, 2.2, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
                         new(1, 5.2, new() { "BOSS_RENKE" })
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_TRASH1", hP: 1.1, damage: 1.1),
-                        new("MOB_TRASH2", hP: 1.1, damage: 1.1),
-                        new("MOB_TRASH3", hP: 1.1, damage: 1.1),
-                        new("BOSS_OVERSOUL", hP: 2.0, damage: 2.125),
-                        new("BOSS_TRIO", hP: 2.0, damage: 2.125),
+                        new("MOB_TRASH1", hP: 1.0, damage: 1.5),
+                        new("MOB_TRASH2", hP: 1.0, damage: 1.5),
+                        new("MOB_TRASH3", hP: 1.0, damage: 1.5),
+                        new("MOB_OVERSOUL", hP: 5.0, damage: 1.5),
+                        new("MOB_TRIO", hP: 3.5, damage: 1.5),
                         new("BOSS_RENKE", hP: 13.0, damage: 2.0)
                     },
                     Rewards = new(61, true, new())
@@ -343,31 +343,31 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.EndgameAges,
-                    Name = "???",
+                    Name = Properties.Places.Dungeon_EndgameAges,
                     Level = 150,
                     Rarity = 3,
-                    Condition = $"Wilderness >= 1500 || dng:{Definitions.DungeonIds.Threshold}",
-                    Description = "???",
+                    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
+                    Description = Properties.Places.Dungeon_EndgameAges_Description,
                     Floors = new()
                     {
-                        new(2, 0.0, new() { "MOB_A-INF" }),
-                        new(3, 0.0, new() { "MOB_1-INF", "MOB_1-CAV" }),
-                        new(5, 0.0, new() { "MOB_2-INF", "MOB_2-CAV", "MOB_2-ART" }),
-                        new(7, 0.0, new() { "MOB_3-INF", "MOB_3-CAV", "MOB_3-ART", "MOB_3-AIR" }),
+                        new(2, 1.1, new() { "MOB_A-INF" }),
+                        new(3, 2.3, new() { "MOB_1-INF", "MOB_1-CAV" }),
+                        new(5, 4.0, new() { "MOB_2-INF", "MOB_2-CAV", "MOB_2-ART" }),
+                        new(7, 7.0, new() { "MOB_3-INF", "MOB_3-CAV", "MOB_3-ART", "MOB_3-AIR" }),
                         new(1, 5.2, new() { "BOSS_HEINRICH" })
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_A-INF", hP: 1.1, damage: 1.1),
-                        new("MOB_1-INF", hP: 1.1, damage: 1.1),
-                        new("MOB_1-CAV", hP: 1.1, damage: 1.1),
-                        new("MOB_2-INF", hP: 2.0, damage: 2.125),
-                        new("MOB_2-CAV", hP: 2.0, damage: 2.125),
-                        new("MOB_2-ART", hP: 2.0, damage: 2.125),
-                        new("MOB_3-INF", hP: 2.0, damage: 2.125),
-                        new("MOB_3-CAV", hP: 2.0, damage: 2.125),
-                        new("MOB_3-ART", hP: 2.0, damage: 2.125),
-                        new("MOB_3-AIR", hP: 2.0, damage: 2.125),
+                        new("MOB_A-INF", hP: 1.5, damage: 1.5),
+                        new("MOB_1-INF", hP: 1.9, damage: 1.5),
+                        new("MOB_1-CAV", hP: 1.9, damage: 1.5),
+                        new("MOB_2-INF", hP: 2.3, damage: 1.5),
+                        new("MOB_2-CAV", hP: 2.3, damage: 1.5),
+                        new("MOB_2-ART", hP: 2.3, damage: 1.5),
+                        new("MOB_3-INF", hP: 3.2, damage: 1.5),
+                        new("MOB_3-CAV", hP: 3.2, damage: 1.5),
+                        new("MOB_3-ART", hP: 3.2, damage: 1.5),
+                        new("MOB_3-AIR", hP: 3.2, damage: 1.5),
                         new("BOSS_HEINRICH", hP: 13.0, damage: 2.0)
                     },
                     Rewards = new(61, true, new())

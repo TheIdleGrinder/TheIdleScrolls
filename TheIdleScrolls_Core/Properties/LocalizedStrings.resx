@@ -211,7 +211,7 @@
     <value>Giant Rat</value>
   </data>
   <data name="BOSS_HEINRICH" xml:space="preserve">
-    <value>Distant Traveller</value>
+    <value>The Mover of Pieces</value>
   </data>
   <data name="BOSS_MERCENARY" xml:space="preserve">
     <value>Mercenary Centurion</value>
@@ -220,10 +220,10 @@
     <value>The Necromancer</value>
   </data>
   <data name="BOSS_RENKE" xml:space="preserve">
-    <value>Whitefish Leviathan</value>
+    <value>The Uber Hunter</value>
   </data>
   <data name="BOSS_SOREN" xml:space="preserve">
-    <value>Salty Archmage</value>
+    <value>The Archmagister</value>
   </data>
   <data name="BOSS_VOIDPRIEST" xml:space="preserve">
     <value>Priest of the Void</value>
@@ -450,6 +450,36 @@
   <data name="MAT_W2" xml:space="preserve">
     <value>Ash</value>
   </data>
+  <data name="MOB_1-CAV" xml:space="preserve">
+    <value>Goblin Knight</value>
+  </data>
+  <data name="MOB_1-INF" xml:space="preserve">
+    <value>Lizard Swordman</value>
+  </data>
+  <data name="MOB_2-ART" xml:space="preserve">
+    <value>Inventors' Cannon</value>
+  </data>
+  <data name="MOB_2-CAV" xml:space="preserve">
+    <value>Blessed Cavalryman</value>
+  </data>
+  <data name="MOB_2-INF" xml:space="preserve">
+    <value>Feline Rifleman</value>
+  </data>
+  <data name="MOB_3-AIR" xml:space="preserve">
+    <value>Illusionist Flying Machine</value>
+  </data>
+  <data name="MOB_3-ART" xml:space="preserve">
+    <value>Omari Rocket</value>
+  </data>
+  <data name="MOB_3-CAV" xml:space="preserve">
+    <value>Psychic Tank</value>
+  </data>
+  <data name="MOB_3-INF" xml:space="preserve">
+    <value>Modern Infantry Monk</value>
+  </data>
+  <data name="MOB_A-INF" xml:space="preserve">
+    <value>Mole Warrior</value>
+  </data>
   <data name="MOB_ABOMINATION" xml:space="preserve">
     <value>Abomination</value>
   </data>
@@ -504,6 +534,9 @@
   <data name="MOB_MERCENARY" xml:space="preserve">
     <value>Mercenary Legionnaire</value>
   </data>
+  <data name="MOB_OVERSOUL" xml:space="preserve">
+    <value>Automaton Guardian</value>
+  </data>
   <data name="MOB_RAT" xml:space="preserve">
     <value>Rat</value>
   </data>
@@ -524,6 +557,18 @@
   </data>
   <data name="MOB_TERRACOTTA2" xml:space="preserve">
     <value>Terracotta General</value>
+  </data>
+  <data name="MOB_TRASH1" xml:space="preserve">
+    <value>Lumbering Construct</value>
+  </data>
+  <data name="MOB_TRASH2" xml:space="preserve">
+    <value>Slinging Construct</value>
+  </data>
+  <data name="MOB_TRASH3" xml:space="preserve">
+    <value>Slithering Construct</value>
+  </data>
+  <data name="MOB_TRIO" xml:space="preserve">
+    <value>The Three Executors</value>
   </data>
   <data name="MOB_VOIDCULTIST" xml:space="preserve">
     <value>Void Infused Cultist</value>
