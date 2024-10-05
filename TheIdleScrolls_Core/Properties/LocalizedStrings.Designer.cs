@@ -1177,6 +1177,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bigger Imp ähnelt.
+        /// </summary>
+        internal static string MOB_BIGGERIMP {
+            get {
+                return ResourceManager.GetString("MOB_BIGGERIMP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Big Rat ähnelt.
         /// </summary>
         internal static string MOB_BIGRAT {
@@ -1218,24 +1227,6 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MOB_DEEPONE2 {
             get {
                 return ResourceManager.GetString("MOB_DEEPONE2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Winged Demon ähnelt.
-        /// </summary>
-        internal static string MOB_DEMON1 {
-            get {
-                return ResourceManager.GetString("MOB_DEMON1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Bigger Imp ähnelt.
-        /// </summary>
-        internal static string MOB_DEMON2 {
-            get {
-                return ResourceManager.GetString("MOB_DEMON2", resourceCulture);
             }
         }
         
@@ -1285,6 +1276,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Imp Warlock ähnelt.
+        /// </summary>
+        internal static string MOB_IMPWARLOCK {
+            get {
+                return ResourceManager.GetString("MOB_IMPWARLOCK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Lesser Demon of the Void ähnelt.
         /// </summary>
         internal static string MOB_LESSERDEMON {
@@ -1308,6 +1308,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MOB_MERCENARY {
             get {
                 return ResourceManager.GetString("MOB_MERCENARY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Mercenary Legionnaire ähnelt.
+        /// </summary>
+        internal static string MOB_MERCENARY2 {
+            get {
+                return ResourceManager.GetString("MOB_MERCENARY2", resourceCulture);
             }
         }
         
@@ -1443,6 +1452,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MOB_WARLOCK {
             get {
                 return ResourceManager.GetString("MOB_WARLOCK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Winged Demon ähnelt.
+        /// </summary>
+        internal static string MOB_WINGEDDEMON {
+            get {
+                return ResourceManager.GetString("MOB_WINGEDDEMON", resourceCulture);
             }
         }
         

@@ -81,14 +81,14 @@ namespace TheIdleScrolls_Core.Resources
                     Floors = new()
                     {
                         new(2, 2.5, new() { "MOB_CULTIST" }),
-                        new(3, 3.3, new() { "MOB_CULTIST", "MOB_IMP" }),
-                        new(5, 5.0, new() { "MOB_IMP" }),
+                        new(3, 3.3, new() { "MOB_CULTIST", "MOB_DEMONSCOUT" }),
+                        new(5, 5.0, new() { "MOB_DEMONSCOUT" }),
                         new(1, 4.0, new() { "MOB_LESSERDEMON" })
                     },
                     LocalMobs = new()
                     {
                         new("MOB_CULTIST", hP: 1.2, damage: 1.2),
-                        new("MOB_IMP", hP: 1.0, damage: 1.4),
+                        new("MOB_DEMONSCOUT", hP: 1.0, damage: 1.4),
                         new("MOB_LESSERDEMON", hP: 6.0, damage: 1.1)
                     },
                     Rewards = new(15, true, new())
@@ -127,12 +127,13 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_MercenaryCamp_Description,
                     Floors = new()
                     {
-                        new(15, 9.0, new() { "MOB_MERCENARY" }),
+                        new(15, 9.0, new() { "MOB_MERCENARY", "MOB_MERCENARY2" }),
                         new(1, 4.0, new() { "BOSS_MERCENARY" })
                     },
                     LocalMobs = new()
                     {
                         new("MOB_MERCENARY", hP: 1.0, damage: 1.0),
+                        new("MOB_MERCENARY2", hP: 1.0, damage: 1.0),
                         new("BOSS_MERCENARY", hP: 6.0, damage: 1.33)
                     },
                     Rewards = new(31, true, new())
@@ -170,21 +171,21 @@ namespace TheIdleScrolls_Core.Resources
                     Description= Properties.Places.Dungeon_Labyrinth_Description,
                     Floors = new()
                     {
-                        new(1, 1.5, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(2, 2.9, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 1.4, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 1.3, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(2, 2.5, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 1.2, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 1.1, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(3, 3.1, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 1.0, new() { "MOB_VOIDFIEND", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
+                        new(1, 1.5, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
+                        new(2, 2.9, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
+                        new(1, 1.4, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
+                        new(1, 1.3, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
+                        new(2, 2.5, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
+                        new(1, 1.2, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
+                        new(1, 1.1, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
+                        new(3, 3.1, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
+                        new(1, 1.0, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
                         new(1, 4.0, new() { "BOSS_CULTLEADER" })
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_VOIDFIEND", hP: 2.0, damage: 1.0),
-                        new("MOB_LESSERDEMON", hP: 1.42, damage: 1.42), // Rescaled from JSON
+                        new("MOB_IMP", hP: 1.15, damage: 1.6),
+                        new("MOB_LESSERDEMON", hP: 1.4, damage: 1.4), // Rescaled from JSON
                         new("MOB_VOIDCULTIST", hP: 1.6, damage: 1.25),
                         new("BOSS_CULTLEADER", hP: 6.0, damage: 1.5)
                     },
@@ -201,14 +202,14 @@ namespace TheIdleScrolls_Core.Resources
                     Floors = new()
                     {
                         new(3, 3.0, new() { "MOB_VOIDCULTIST" }),
-                        new(4, 3.5, new() { "MOB_VOIDCULTIST", "MOB_VOIDFIEND" }),
-                        new(7, 5.4, new() { "MOB_VOIDFIEND" }),
+                        new(4, 3.5, new() { "MOB_VOIDCULTIST", "MOB_IMPWARLOCK" }),
+                        new(7, 5.4, new() { "MOB_IMPWARLOCK" }),
                         new(1, 5.0, new() { "MOB_GREATERDEMON" })
                     },
                     LocalMobs = new()
                     {
                         new("MOB_VOIDCULTIST", hP: 1.3, damage: 1.3),
-                        new("MOB_VOIDFIEND", hP: 1.8, damage: 1.0), // bit more life to make up for damage scaling
+                        new("MOB_IMPWARLOCK", hP: 1.8, damage: 1.0), // bit more life to make up for damage scaling
                         new("MOB_GREATERDEMON", hP: 10.0, damage: 1.2)
                     },
                     Rewards = new(61, true, new())
@@ -223,13 +224,13 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_Threshold_Description,
                     Floors = new()
                     {
-                        new(25, 17.0, new() { "MOB_VOIDFIEND", "MOB_DEMON1", "MOB_DEMON2" })
+                        new(25, 17.0, new() { "MOB_IMPWARLOCK", "MOB_WINGEDDEMON", "MOB_BIGGERIMP" })
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_VOIDFIEND", hP: 1.0, damage: 1.2),
-                        new("MOB_DEMON1", hP: 1.2, damage: 1.0),
-                        new("MOB_DEMON2", hP: 1.1, damage: 1.1),
+                        new("MOB_IMPWARLOCK", hP: 1.0, damage: 1.2),
+                        new("MOB_WINGEDDEMON", hP: 1.2, damage: 1.0),
+                        new("MOB_BIGGERIMP", hP: 1.1, damage: 1.1),
                     },
                     Rewards = new(61, true, new())
                 },
