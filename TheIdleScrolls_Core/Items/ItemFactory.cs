@@ -97,7 +97,7 @@ namespace TheIdleScrolls_Core.Items
         {
             ItemBlueprint blueprint = item.GetComponent<ItemComponent>()?.Blueprint ?? throw new Exception($"Entity {item.GetName()} is not an item");
             double baseValue = 5.0;
-            int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel);
+            int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10); // +10 because first tier has drop level 0 (+10 from material) 
             int rarity = blueprint.Rarity;
             double matMulti = blueprint.GetMaterial().PowerMultiplier;
 
