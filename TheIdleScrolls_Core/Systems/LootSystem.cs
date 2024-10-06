@@ -122,12 +122,15 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     var g = ItemKingdom.GetGenusDescriptionByIdAndIndex(f.Id, i) 
                         ?? throw new Exception($"Ítem family '{f.Id}' does not have {i + 1} genera");
-                    if (g.DropLevel == 0) // Tutorial items cannot drop
-                        continue;
                     var mats = g.ValidMaterials.Select(m => ItemKingdom.GetMaterial(m)!);
                     foreach (var m in mats)
                     {
                         int dropLevel = g.DropLevel + m.MinimumLevel;
+                        if (dropLevel == 0)
+                        {
+                            // Tutorial items cannot drop
+                            continue;
+                        }
                         if (dropLevel >= parameters.MinDropLevel && dropLevel <= parameters.ItemLevel)
                         {
                             var bp = new ItemBlueprint(f.Id, i, m.Id);
