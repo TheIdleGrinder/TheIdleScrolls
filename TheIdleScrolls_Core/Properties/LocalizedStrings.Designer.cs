@@ -1231,6 +1231,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Scout from Beyond ähnelt.
+        /// </summary>
+        internal static string MOB_DEMONSCOUT {
+            get {
+                return ResourceManager.GetString("MOB_DEMONSCOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Fanatic ähnelt.
         /// </summary>
         internal static string MOB_FANATIC {

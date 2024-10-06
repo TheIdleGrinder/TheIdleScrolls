@@ -507,6 +507,9 @@
   <data name="MOB_DEEPONE2" xml:space="preserve">
     <value>Ancient Deep One</value>
   </data>
+  <data name="MOB_DEMONSCOUT" xml:space="preserve">
+    <value>Scout from Beyond</value>
+  </data>
   <data name="MOB_FANATIC" xml:space="preserve">
     <value>Fanatic</value>
   </data>
