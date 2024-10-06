@@ -109,7 +109,7 @@ namespace TheIdleScrolls_Core.Items
         {
             ItemBlueprint blueprint = item.GetComponent<ItemComponent>()?.Blueprint ?? throw new Exception($"Entity {item.GetName()} is not an item");
             double baseCost = 10.0;
-            int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel);
+            int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10);
             double matMulti = blueprint.GetMaterial().PowerMultiplier;
 
             int totalCost = (int)Math.Ceiling(baseCost * (tier + 1) * matMulti);
