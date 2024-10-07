@@ -9,7 +9,7 @@
     {
         
          <div id="imageContainer">
-             <img class="pixelart" style="width: 128px"
+             <img class="pixelart" style="width: @(ImageSize)px; border-bottom: 4px solid black"
                  src="@(GetMobImage())" />
         </div>
 
@@ -106,6 +106,9 @@
 @code {
     bool MobPresent => CoreWrapper.Mob.HpMax > 0;
     bool TimeActive => CoreWrapper.TimeLimit.Maximum > 0.0;
+
+    bool BigImage => CurrentMobImage.Length > 1000;
+    int ImageSize => BigImage ? 256 : 128;
 
     int Hp => CoreWrapper.Mob.HP;
     int HpMax => CoreWrapper.Mob.HpMax;
