@@ -473,6 +473,16 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] mob_oversoul {
+            get {
+                object obj = ResourceManager.GetObject("mob_oversoul", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] mob_rat {
             get {
                 object obj = ResourceManager.GetObject("mob_rat", resourceCulture);
@@ -506,6 +516,46 @@ namespace TheIdleScrolls_Web.Assets {
         internal static byte[] mob_snake {
             get {
                 object obj = ResourceManager.GetObject("mob_snake", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_trash1 {
+            get {
+                object obj = ResourceManager.GetObject("mob_trash1", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_trash2 {
+            get {
+                object obj = ResourceManager.GetObject("mob_trash2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_trash3 {
+            get {
+                object obj = ResourceManager.GetObject("mob_trash3", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_trio {
+            get {
+                object obj = ResourceManager.GetObject("mob_trio", resourceCulture);
                 return ((byte[])(obj));
             }
         }

@@ -238,6 +238,9 @@
   <data name="mob_mercenary2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\mob_mercenary2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="mob_oversoul" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_oversoul.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="mob_rat" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\mob_rat.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -249,6 +252,18 @@
   </data>
   <data name="mob_snake" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\mob_snake.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_trash1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_trash1.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_trash2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_trash2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_trash3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_trash3.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_trio" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_trio.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="mob_voidcultist" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\mob_voidcultist.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
