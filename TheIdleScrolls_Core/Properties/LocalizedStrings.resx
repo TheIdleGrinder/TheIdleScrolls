@@ -457,7 +457,7 @@
     <value>Lizard Swordman</value>
   </data>
   <data name="MOB_2-ART" xml:space="preserve">
-    <value>Inventors' Cannon</value>
+    <value>Inventive' Cannoneer</value>
   </data>
   <data name="MOB_2-CAV" xml:space="preserve">
     <value>Blessed Cavalryman</value>
@@ -466,7 +466,7 @@
     <value>Feline Rifleman</value>
   </data>
   <data name="MOB_3-AIR" xml:space="preserve">
-    <value>Illusionist Flying Machine</value>
+    <value>Flying Illusionist</value>
   </data>
   <data name="MOB_3-ART" xml:space="preserve">
     <value>Omari Rocket</value>
@@ -517,7 +517,7 @@
     <value>Greater Demon of the Void</value>
   </data>
   <data name="MOB_GRYPHON" xml:space="preserve">
-    <value>Gryphon Rider</value>
+    <value>Majestic Lion</value>
   </data>
   <data name="MOB_HUFFLE" xml:space="preserve">
     <value>Angry Badger</value>
@@ -547,7 +547,7 @@
     <value>Rat</value>
   </data>
   <data name="MOB_RAVEN" xml:space="preserve">
-    <value>Raven</value>
+    <value>Spooky Raven</value>
   </data>
   <data name="MOB_SHARK" xml:space="preserve">
     <value>Shark</value>
@@ -556,7 +556,7 @@
     <value>Skeleton</value>
   </data>
   <data name="MOB_SNAKE" xml:space="preserve">
-    <value>Snake Charmer</value>
+    <value>Imposing Serpent</value>
   </data>
   <data name="MOB_TERRACOTTA" xml:space="preserve">
     <value>Terracotta Guard</value>

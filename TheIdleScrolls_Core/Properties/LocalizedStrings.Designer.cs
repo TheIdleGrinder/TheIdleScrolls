@@ -1078,7 +1078,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Inventors&apos; Cannon ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Inventive&apos; Cannoneer ähnelt.
         /// </summary>
         internal static string MOB_2_ART {
             get {
@@ -1105,7 +1105,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Illusionist Flying Machine ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Flying Illusionist ähnelt.
         /// </summary>
         internal static string MOB_3_AIR {
             get {
@@ -1258,7 +1258,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Gryphon Rider ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Majestic Lion ähnelt.
         /// </summary>
         internal static string MOB_GRYPHON {
             get {
@@ -1348,7 +1348,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Raven ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Spooky Raven ähnelt.
         /// </summary>
         internal static string MOB_RAVEN {
             get {
@@ -1375,7 +1375,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Snake Charmer ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Imposing Serpent ähnelt.
         /// </summary>
         internal static string MOB_SNAKE {
             get {

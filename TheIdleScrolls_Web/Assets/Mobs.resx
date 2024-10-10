@@ -163,6 +163,36 @@
   <data name="dummy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\dummy.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="mob_1-cav" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_1-cav.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_1-inf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_1-inf.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_2-art" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_2-art.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_2-cav" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_2-cav.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_2-inf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_2-inf.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_3-air" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_3-air.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_3-art" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_3-art.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_3-cav" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_3-cav.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_3-inf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_3-inf.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_a-inf" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_A-inf.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="mob_abomination" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\mob_abomination.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -187,6 +217,12 @@
   <data name="mob_greaterdemon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\mob_greaterdemon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="mob_gryphon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_gryphon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_huffle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_huffle.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="mob_imp" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\mob_imp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -205,8 +241,14 @@
   <data name="mob_rat" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\mob_rat.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="mob_raven" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_raven.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="mob_skeleton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\mob_skeleton.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_snake" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_snake.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="mob_voidcultist" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\mob_voidcultist.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
