@@ -388,11 +388,12 @@ namespace TheIdleScrolls_Core.Systems
         {
             if (!mob.HasComponent<MobComponent>())
                 return null;
+            var mobId = mob.GetComponent<MobComponent>()?.Id ?? "??";
             var mobName = mob.GetComponent<NameComponent>()?.Name ?? "<error>";
             var mobLevel = mob.GetComponent<LevelComponent>()?.Level ?? 0;
             var mobHp = mob.GetComponent<LifePoolComponent>()?.Current ?? 0;
             var mobHpMax = mob.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
-            return new MobRepresentation(mob.Id, mobName, mobLevel, mobHp, mobHpMax);
+            return new MobRepresentation(mob.Id, mobId, mobName, mobLevel, mobHp, mobHpMax);
         }
 
         static CraftingProcessRepresentation GenerateCraftRepresentation(CraftingProcess craft)

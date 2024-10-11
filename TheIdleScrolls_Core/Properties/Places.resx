@@ -131,6 +131,12 @@ This dungeon awards armor pieces</value>
   <data name="Dungeon_CultistCastle_Description" xml:space="preserve">
     <value>The traiterous lord who had hired the mercenaries has turned his castle into the cult's base of operations.</value>
   </data>
+  <data name="Dungeon_EndgameAges" xml:space="preserve">
+    <value>Palace of Ages</value>
+  </data>
+  <data name="Dungeon_EndgameAges_Description" xml:space="preserve">
+    <value>In this place, the past and the future are one and the same. It was and will be constructed by the leaders of many civilizations among the mystical terrains of the far plains.</value>
+  </data>
   <data name="Dungeon_EndgameDistant" xml:space="preserve">
     <value>The Red Pagoda</value>
   </data>
@@ -141,7 +147,13 @@ This dungeon awards armor pieces</value>
     <value>Wizard Academy</value>
   </data>
   <data name="Dungeon_EndgameMagic_Description" xml:space="preserve">
-    <value />
+    <value>This magical place is hidden away in the remote highlands. Here, the most promising young apprentices were educated in the art of magic.</value>
+  </data>
+  <data name="Dungeon_EndgamePyramid" xml:space="preserve">
+    <value>Banished Pyramid</value>
+  </data>
+  <data name="Dungeon_EndgamePyramid_Description" xml:space="preserve">
+    <value>Glowing portals lead to the entrance of this monument. It was built by an ancient race that has since been exiled from this world.</value>
   </data>
   <data name="Dungeon_EndgameTechnology" xml:space="preserve">
     <value>The Sunken City</value>

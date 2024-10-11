@@ -1,14 +1,18 @@
 ﻿@using TheIdleScrolls_Web.CoreWrapper
+@* @using TheIdleScrolls_Web.Assets *@
 
 @inject CoreWrapperModel CoreWrapper
 
 <div class="fightOuter">
-    <div id="imageContainer">
-        <img src="/images/hourglass_broadsword.png" class="pixelart" style="width: 256px" />
-    </div>
     
     @if (MobPresent)
     {
+        
+         <div id="imageContainer">
+             <img class="pixelart" style="width: @(ImageSize)px; border-bottom: 4px solid black"
+                 src="@(GetMobImage())" />
+        </div>
+
         <div class="fightInner">
             <p style="margin-bottom: 0px;">@CoreWrapper.Mob.Name (Level @CoreWrapper.Mob.Level)</p>
             <div class="progressFrame">
@@ -100,8 +104,11 @@
 </style>
 
 @code {
-    bool MobPresent => CoreWrapper.Mob.HP > 0;
+    bool MobPresent => CoreWrapper.Mob.HpMax > 0;
     bool TimeActive => CoreWrapper.TimeLimit.Maximum > 0.0;
+
+    bool BigImage => CurrentMobImage.Length > 1000;
+    int ImageSize => BigImage ? 256 : 128;
 
     int Hp => CoreWrapper.Mob.HP;
     int HpMax => CoreWrapper.Mob.HpMax;
@@ -109,6 +116,9 @@
     double TimeMax => CoreWrapper.TimeLimit.Maximum;
 
     double AttackPct => 1.0 - 1.0 * CoreWrapper.CharacterStats.CooldownRemaining / CoreWrapper.CharacterStats.Cooldown;
+
+    string CurrentMobId = "";
+    string CurrentMobImage = "";
 
     protected override void OnInitialized()
     {
@@ -129,5 +139,30 @@
     int TimeToInt(double time)
     {
         return (int)(time * 1000);
+    }
+
+    string GetMobImage()
+    {
+        string mob = CoreWrapper.Mob.Id.ToLower();
+        if (mob == CurrentMobId)
+        {
+            return CurrentMobImage;
+        }
+
+        CurrentMobId = mob;
+        object? mobImage = Assets.Mobs.ResourceManager.GetObject(mob) 
+                            ?? Assets.Mobs.ResourceManager.GetObject("_default");
+        if (mobImage != null)
+        {
+            string base64 = Convert.ToBase64String((byte[])mobImage);
+            CurrentMobImage = $"data:image/png; base64,{base64}";
+
+            Console.WriteLine($"Loaded image binary size: {base64.Length}");
+        }
+        else
+        {
+            CurrentMobImage = "/images/hourglass_broadsword.png";
+        }
+        return CurrentMobImage;
     }
 }

@@ -15,7 +15,6 @@ namespace TheIdleScrolls_Core.DataAccess
         {
             try
             {
-                Console.WriteLine($"GetCharacterMetaData for {characterId}");
                 var entity = await accessHandler.LoadEntity(characterId);
                 if (entity == null)
                 {
@@ -23,7 +22,6 @@ namespace TheIdleScrolls_Core.DataAccess
                     return null;
                 }
 
-                Console.WriteLine($"Character loaded: {entity.GetName()}/{entity.GetLevel()}/{PlayerFactory.GetCharacterClass(entity).Localize()}");
                 return new(
                     entity.GetName(),
                     entity.GetComponent<LevelComponent>()?.Level ?? 0,

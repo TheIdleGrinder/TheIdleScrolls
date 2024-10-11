@@ -59,7 +59,12 @@ namespace TheIdleScrolls_Core.Components
 
     public class MobComponent : IComponent
     {
+        public string Id { get; set; } = "";
 
+        public MobComponent(string id)
+        {
+            Id = id;
+        }
     }
 
     public class PlayerComponent : IComponent

@@ -256,11 +256,14 @@ div.scrolling-table table tbody tr td.selectable {
 
 img.pixelart {
     height: auto;
+    image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    /*    image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
-    -ms-interpolation-mode: nearest-neighbor;
-/*    border: 1px solid black;*/
+    -ms-interpolation-mode: nearest-neighbor;*/
+    /*    border: 1px solid black;*/
 }
 
 .selectedItem {

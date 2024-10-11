@@ -366,8 +366,7 @@ namespace TheIdleScrolls_Core.Resources
                         "Character level scales unarmored evasion rating like abilities scale regular armors",
                         ModifierType.More,
                         Definitions.Stats.DefensePerAbilityLevel,
-                        new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored },
-                        true)
+                        new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored })
             });
 
             int noWeaponLevel = 5;
@@ -435,8 +434,7 @@ namespace TheIdleScrolls_Core.Resources
                         new() {
                             new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed },
                             new List<string>() { Definitions.Tags.AttackSpeed, Definitions.Tags.Unarmed }
-                        },
-                        true)
+                        })
             });
 
             achievements.Add(new(
@@ -504,12 +502,19 @@ namespace TheIdleScrolls_Core.Resources
                                                Properties.Constants.Key_Ability_LongBlade, 
                                                Definitions.Tags.FirstStrike }),
                 ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
-                                $"Double defense during the first attack with {id.Localize()}s",
+                                $"{1.0:0.#%} more attack speed with first attack with {id.Localize()}s",
                                 ModifierType.More,
                                 1.0,
-                                new string[] { Definitions.Tags.Defense, 
-                                               Properties.Constants.Key_Ability_Polearm, 
+                                new string[] { Definitions.Tags.AttackSpeed,
+                                               Properties.Constants.Key_Ability_Polearm,
                                                Definitions.Tags.FirstStrike }),
+                //("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
+                //                $"Double defense during the first attack with {id.Localize()}s",
+                //                ModifierType.More,
+                //                1.0,
+                //                new string[] { Definitions.Tags.Defense, 
+                //                               Properties.Constants.Key_Ability_Polearm, 
+                //                               Definitions.Tags.FirstStrike }),
                 ("SBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Sneak Attack",
                                 $"Deal double damage with short blades on your first attack every battle",
                                 ModifierType.More,

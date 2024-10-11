@@ -32,6 +32,7 @@ namespace TheIdleScrolls_Core.Quests
         const int startLevel = 20;
         const double slopeDuration = 10.0;
         const double pauseDuration = 5.0;
+        const string EndbossId = "BOSS_FINAL_DEMON";
 
         public override QuestId GetId()
         {
@@ -131,6 +132,7 @@ namespace TheIdleScrolls_Core.Quests
                     var mob = coordinator.GetEntities<MobComponent>().FirstOrDefault();
                     if (mob == null)
                         throw new Exception("Final mob was not found");
+                    mob.GetComponent<MobComponent>()!.Id = EndbossId;
                     mob.AddComponent(new NameComponent(Properties.LocalizedStrings.BOSS_FINAL_DEMON));
                     world.TimeLimit.Reset();
 
