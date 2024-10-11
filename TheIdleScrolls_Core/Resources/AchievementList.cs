@@ -366,8 +366,7 @@ namespace TheIdleScrolls_Core.Resources
                         "Character level scales unarmored evasion rating like abilities scale regular armors",
                         ModifierType.More,
                         Definitions.Stats.DefensePerAbilityLevel,
-                        new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored },
-                        true)
+                        new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored })
             });
 
             int noWeaponLevel = 5;
@@ -435,8 +434,7 @@ namespace TheIdleScrolls_Core.Resources
                         new() {
                             new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed },
                             new List<string>() { Definitions.Tags.AttackSpeed, Definitions.Tags.Unarmed }
-                        },
-                        true)
+                        })
             });
 
             achievements.Add(new(
