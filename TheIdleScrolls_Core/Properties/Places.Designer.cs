@@ -99,6 +99,24 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Palace of Ages ähnelt.
+        /// </summary>
+        internal static string Dungeon_EndgameAges {
+            get {
+                return ResourceManager.GetString("Dungeon_EndgameAges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die In this place, the past and the future are one and the same. It was and will be constructed by the leaders of many civilizations among the mystical terrains of the far plains. ähnelt.
+        /// </summary>
+        internal static string Dungeon_EndgameAges_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_EndgameAges_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The Red Pagoda ähnelt.
         /// </summary>
         internal static string Dungeon_EndgameDistant {
@@ -126,11 +144,29 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This magical place is hidden away in the remote highlands. Here, the most promising young apprentices were educated in the art of magic. ähnelt.
         /// </summary>
         internal static string Dungeon_EndgameMagic_Description {
             get {
                 return ResourceManager.GetString("Dungeon_EndgameMagic_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Banished Pyramid ähnelt.
+        /// </summary>
+        internal static string Dungeon_EndgamePyramid {
+            get {
+                return ResourceManager.GetString("Dungeon_EndgamePyramid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Glowing portals lead to the entrance of this monument. It was built by an ancient race that has since been exiled from this world. ähnelt.
+        /// </summary>
+        internal static string Dungeon_EndgamePyramid_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_EndgamePyramid_Description", resourceCulture);
             }
         }
         

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\images\hourglass_broadsword.png" />
+    <Content Remove="wwwroot\images\mobs\default.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\images\hourglass_broadsword.png" />
+    <None Include="wwwroot\images\mobs\default.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +58,26 @@
 
   <ItemGroup>
     <UpToDateCheckInput Remove="Components\CraftingProcessComponent.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Assets\Mobs.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Mobs.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Assets\Mobs.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Mobs.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 

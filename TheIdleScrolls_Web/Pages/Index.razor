@@ -91,12 +91,10 @@ else
 		var storedChars = CoreWrapper.StoredCharacters.Where(c => !c.StartsWith("_"));
 		foreach (var charName in storedChars)
 		{
-			Console.WriteLine($"Reading character {charName}");
 			var metaData = await CoreWrapper.GetCharacterMetaData(charName);
 			if (metaData != null)
 			{
 				Characters.Add(metaData);
-				Console.WriteLine($"Added character {metaData.Name}");
 			}
 		}
 		StateHasChanged();
@@ -107,6 +105,5 @@ else
 		CoreWrapper.Reset();
 		await CoreWrapper.LoadCharacter(characterName);
 		_ = CoreWrapper.StartGameLoop();
-		Console.WriteLine($"Game started as {characterName}");
 	}
 }
