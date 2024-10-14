@@ -1,17 +1,6 @@
 ﻿using MiniECS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Reflection.Metadata.Ecma335;
-using System.Runtime.Intrinsics.X86;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
-using TheIdleScrolls_Core.Items;
-using TheIdleScrolls_Core.Modifiers;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -68,7 +57,7 @@ namespace TheIdleScrolls_Core.Systems
                     var weaponComp = item.GetComponent<WeaponComponent>();
                     var armorComp = item.GetComponent<ArmorComponent>();
                     encumbrance += item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
-                    var localTags = globalTags.Concat(item.GetTags()).ToList();
+                    var localTags = item.GetTags();
 
                     if (itemComp != null && weaponComp != null)
                     {
@@ -78,9 +67,10 @@ namespace TheIdleScrolls_Core.Systems
 
                         if (modComp != null)
                         {
-                            localDmg = modComp.ApplyApplicableModifiers(localDmg, localTags.Append(Definitions.Tags.Damage));
+                            localDmg = modComp.ApplyApplicableModifiers(localDmg, localTags.Append(Definitions.Tags.Damage), globalTags);
                             localCD = 1.0 / modComp.ApplyApplicableModifiers(1.0 / localCD, 
-                                localTags.Append(Definitions.Tags.AttackSpeed)); // invert due to speed/cooldown mismatch
+                                localTags.Append(Definitions.Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
+                                globalTags);
                         }
 
                         combinedDmg += localDmg;
@@ -96,8 +86,10 @@ namespace TheIdleScrolls_Core.Systems
                         if (modComp != null)
                         {
                             var tags = localTags.Append(Definitions.Tags.Defense);
-                            localArmor = modComp.ApplyApplicableModifiers(localArmor, tags.Append(Definitions.Tags.ArmorRating));
-                            localEvasion = modComp.ApplyApplicableModifiers(localEvasion, tags.Append(Definitions.Tags.EvasionRating));
+                            localArmor = modComp.ApplyApplicableModifiers(localArmor, 
+                                tags.Append(Definitions.Tags.ArmorRating), globalTags);
+                            localEvasion = modComp.ApplyApplicableModifiers(localEvasion, 
+                                tags.Append(Definitions.Tags.EvasionRating), globalTags);
                         }
 
                         armor += localArmor;
@@ -114,17 +106,17 @@ namespace TheIdleScrolls_Core.Systems
 
             if (weaponCount == 0)
             {
-                rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, globalTags.Append(Definitions.Tags.Damage)) ?? rawDamage;
+                rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, new string[] { Definitions.Tags.Damage }, globalTags) ?? rawDamage;
                 // invert attack speed due to speed/cooldown mismatch
                 cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
-                    globalTags.Append(Definitions.Tags.AttackSpeed)) ?? cooldown;
+                    new string[] { Definitions.Tags.AttackSpeed }, globalTags) ?? cooldown;
             }
 
             if (armorCount == 0)
             {
                 var tags = globalTags.Append(Definitions.Tags.Defense);
-                armor = modComp?.ApplyApplicableModifiers(armor, tags.Append(Definitions.Tags.ArmorRating)) ?? armor;
-                evasion = modComp?.ApplyApplicableModifiers(evasion, tags.Append(Definitions.Tags.EvasionRating)) ?? evasion;
+                armor = modComp?.ApplyApplicableModifiers(armor, tags.Append(Definitions.Tags.ArmorRating), globalTags) ?? armor;
+                evasion = modComp?.ApplyApplicableModifiers(evasion, tags.Append(Definitions.Tags.EvasionRating), globalTags) ?? evasion;
             }
 
             var attackComp = player.GetComponent<AttackComponent>();
@@ -154,56 +146,55 @@ namespace TheIdleScrolls_Core.Systems
 
         public static void UpdatePlayerTags(Entity player)
         {
-            List<string> tags = new();
+            if (!player.HasComponent<TagsComponent>())
+            {
+                player.AddComponent<TagsComponent>(new());
+            }
+            TagsComponent comp = player.GetComponent<TagsComponent>()!;
+            comp.Reset(Array.Empty<string>());
+
+            void AddOrRemoveTag(string tag, bool add)
+            {
+                if (add)
+                {
+                    comp.AddTag(tag);
+                }
+                else
+                {
+                    comp.RemoveTag(tag);
+                }
+            }
 
             var equipComp = player.GetComponent<EquipmentComponent>();
             if (equipComp != null)
             {
                 var items = equipComp.GetItems();
+
                 List<string> weapons = items.Where(i => i.IsWeapon()).Select(i => i.GetComponent<ItemComponent>()!.FamilyName).ToList();
-                if (weapons.Count == 0)
-                {
-                    tags.Add(Definitions.Tags.Unarmed);
-                }
-                else if (weapons.Count >= 2)
-                {
-                    tags.Add(Definitions.Tags.DualWield);
-                    if (weapons.Any(f => f != weapons[0])) // different weapons
-                    {
-                        tags.Add(Definitions.Tags.MixedWeapons);
-                    }
-                }
+                AddOrRemoveTag(Definitions.Tags.Unarmed, weapons.Count == 0);
+                AddOrRemoveTag(Definitions.Tags.DualWield, weapons.Count >= 2);
+                AddOrRemoveTag(Definitions.Tags.MixedWeapons, weapons.Count > 1 && weapons.Any(f => f != weapons[0]));
 
                 HashSet<string> armors = items.Where(i => i.IsArmor()).Select(i => i.GetComponent<ItemComponent>()!.FamilyName).ToHashSet();
-                if (armors.Count == 0)
+                AddOrRemoveTag(Definitions.Tags.Unarmored, armors.Count == 0);
+                AddOrRemoveTag(Definitions.Tags.MixedArmor, armors.Count > 1);
+
+                foreach (var item in items)
                 {
-                    tags.Add(Definitions.Tags.Unarmored);
-                }
-                else if (armors.Count > 1)
-                {
-                    tags.Add(Definitions.Tags.MixedArmor);
+                    comp.AddTags(item.GetTags());
                 }
             }
             else // No equipment => unarmed, unarmored
             {
-                tags.Add(Definitions.Tags.Unarmed);
-                tags.Add(Definitions.Tags.Unarmored);
+                comp.AddTag(Definitions.Tags.Unarmed);
+                comp.AddTag(Definitions.Tags.Unarmored);
             }
 
-            if (player.GetComponent<AttackComponent>()?.FirstStrike ?? false) 
-            {
-                tags.Add(Definitions.Tags.FirstStrike);
-            }
-
-            var comp = player.GetComponent<TagsComponent>();
-            if (comp == null)
-                player.AddComponent<TagsComponent>(new(tags));
-            else
-                player.GetComponent<TagsComponent>()?.Reset(tags);
+            AddOrRemoveTag(Definitions.Tags.FirstStrike, player.GetComponent<AttackComponent>()?.FirstStrike ?? false);
         }
     }
 
-    record AttackStats(double Damage, double Cooldwon, List<string> WeaponFamilyIds);
+    record AttackStats(double Damage, double Cooldown, List<string> WeaponFamilyIds);
 
     public class StatsUpdatedMessage : IMessage
     {

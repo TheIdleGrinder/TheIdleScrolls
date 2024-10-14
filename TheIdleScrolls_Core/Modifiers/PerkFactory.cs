@@ -30,12 +30,12 @@ namespace TheIdleScrolls_Core.Modifiers
                     if (dmg)
                     {
                         double bonus = Math.Pow(1.0 + damagePerLevel, level) - 1.0;
-                        mods.Add(new(id + "_dmg", ModifierType.More, bonus, new() { ability, Definitions.Tags.Damage }));
+                        mods.Add(new(id + "_dmg", ModifierType.More, bonus, new() { ability, Definitions.Tags.Damage }, new()));
                     }
                     if (aps)
                     {
                         double bonus = Math.Pow(1.0 + speedPerLevel, level) - 1.0;
-                        mods.Add(new(id + "_aps", ModifierType.More, bonus, new() { ability, Definitions.Tags.AttackSpeed }));
+                        mods.Add(new(id + "_aps", ModifierType.More, bonus, new() { ability, Definitions.Tags.AttackSpeed }, new()));
                     }
                     return mods;
                 }
@@ -54,7 +54,7 @@ namespace TheIdleScrolls_Core.Modifiers
                     int level = entity.GetComponent<AbilitiesComponent>()?.GetAbility(ability)?.Level ?? 0;
                     List<Modifier> mods = new();
                     double bonus = Math.Pow(1.0 + defensePerLevel, level) - 1.0;
-                    mods.Add(new(id + "_def", ModifierType.More, bonus, new() { ability, Definitions.Tags.Defense }));
+                    mods.Add(new(id + "_def", ModifierType.More, bonus, new() { ability, Definitions.Tags.Defense }, new()));
                     return mods;
                 }
             );
@@ -66,11 +66,12 @@ namespace TheIdleScrolls_Core.Modifiers
                                                      string ability,
                                                      ModifierType modType,
                                                      double valuePerLevel, 
-                                                     IEnumerable<string> tags,
+                                                     IEnumerable<string> localTags,
+                                                     IEnumerable<string> globalTags,
                                                      bool exponentialMore = false)
         {
             return MakeAbilityLevelBasedMultiModPerk(id, name, description, 
-                new() { ability }, new() { modType }, new() { valuePerLevel }, new() { tags }, exponentialMore
+                new() { ability }, new() { modType }, new() { valuePerLevel }, new() { localTags }, new() { globalTags }, exponentialMore
             );
         }
 
@@ -80,7 +81,8 @@ namespace TheIdleScrolls_Core.Modifiers
                                                              List<string> abilities,
                                                              List<ModifierType> modTypes,
                                                              List<double> valuesPerLevel,
-                                                             List<IEnumerable<string>> tags,
+                                                             List<IEnumerable<string>> localTags,
+                                                             List<IEnumerable<string>> globalTags,
                                                              bool exponentialMore = false)
         {
             return new(
@@ -97,7 +99,7 @@ namespace TheIdleScrolls_Core.Modifiers
                         double bonus = level * valuesPerLevel[i];
                         if (modTypes[i] == ModifierType.More && exponentialMore)
                             bonus = Math.Pow(1.0 + valuesPerLevel[i], level) - 1.0;
-                        mods.Add(new($"{id}_{i}", modTypes[i], bonus, tags[i].Append(abilities[i]).ToHashSet()));
+                        mods.Add(new($"{id}_{i}", modTypes[i], bonus, localTags[i].Append(abilities[i]).ToHashSet(), globalTags[i].ToHashSet()));
                     }
                     return mods;
                 }
@@ -109,11 +111,12 @@ namespace TheIdleScrolls_Core.Modifiers
                                                        string description,
                                                        ModifierType modType,
                                                        double valuePerLevel,
-                                                       IEnumerable<string> tags,
+                                                       IEnumerable<string> localTags,
+                                                       IEnumerable<string> globalTags,
                                                        bool exponentialMore = false)
         {
             return MakeCharacterLevelBasedMultiModPerk(id, name, description, 
-                new() { modType }, new() { valuePerLevel }, new() { tags }, exponentialMore
+                new() { modType }, new() { valuePerLevel }, new() { localTags }, new() { globalTags }, exponentialMore
             );
         }
 
@@ -122,7 +125,8 @@ namespace TheIdleScrolls_Core.Modifiers
                                                        string description,
                                                        List<ModifierType> modTypes,
                                                        List<double> valuesPerLevel,
-                                                       List<IEnumerable<string>> tags, 
+                                                       List<IEnumerable<string>> localTags, 
+                                                       List<IEnumerable<string>> globalTags, 
                                                        bool exponentialMore = false)
         {
             return new(
@@ -139,7 +143,7 @@ namespace TheIdleScrolls_Core.Modifiers
                         double bonus = level * valuesPerLevel[i];
                         if (modTypes[i] == ModifierType.More && exponentialMore)
                             bonus = Math.Pow(1.0 + valuesPerLevel[i], level) - 1.0;
-                        mods.Add(new($"{id}_{i}", modTypes[i], bonus, tags[i].ToHashSet()));
+                        mods.Add(new($"{id}_{i}", modTypes[i], bonus, localTags[i].ToHashSet(), globalTags[i].ToHashSet()));
                     }
                     return mods;
                 }
@@ -151,7 +155,8 @@ namespace TheIdleScrolls_Core.Modifiers
                                           string description,
                                           ModifierType modType,
                                           double value,
-                                          IEnumerable<string> tags)
+                                          IEnumerable<string> localTags,
+                                          IEnumerable<string> globalTags)
         {
             return new(
                 id,
@@ -160,7 +165,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 new(),
                 delegate (Entity entity, World world, Coordinator coordinator)
                 {
-                    return new() { new(id, modType, value, tags.ToHashSet()) };
+                    return new() { new(id, modType, value, localTags.ToHashSet(), globalTags.ToHashSet()) };
                 }
             );
         }
@@ -170,7 +175,8 @@ namespace TheIdleScrolls_Core.Modifiers
                                                   string description,
                                                   List<ModifierType> modTypes,
                                                   List<double> values,
-                                                  List<IEnumerable<string>> tags)
+                                                  List<IEnumerable<string>> localTags,
+                                                  List<IEnumerable<string>> globalTags)
         {
             return new(
                 id,
@@ -182,7 +188,7 @@ namespace TheIdleScrolls_Core.Modifiers
                     List<Modifier> mods = new();
                     for (int i = 0; i < modTypes.Count; i++)
                     {
-                        mods.Add(new($"{id}_{i}", modTypes[i], values[i], tags[i].ToHashSet()));
+                        mods.Add(new($"{id}_{i}", modTypes[i], values[i], localTags[i].ToHashSet(), globalTags[i].ToHashSet()));
                     }
                     return mods;
                 }

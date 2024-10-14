@@ -109,7 +109,10 @@ namespace TheIdleScrolls_Core.Systems
 
         double ApplyModifiers(string ability, double baseValue)
             => m_player?.GetComponent<ModifierComponent>()
-                ?.ApplyApplicableModifiers(baseValue, new string[] { Definitions.Tags.AbilityXpGain, ability }) ?? baseValue;
+                ?.ApplyApplicableModifiers(baseValue, 
+                    new string[] { Definitions.Tags.AbilityXpGain, ability }, 
+                    m_player?.GetTags() ?? new()) 
+            ?? baseValue;
     }
 
     public class AbilityImprovedMessage : IMessage

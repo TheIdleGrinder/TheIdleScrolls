@@ -30,7 +30,7 @@ namespace TheIdleScrolls_Core.Systems
                         int baseXp = victim.GetComponent<XpGiverComponent>()?.Amount ?? 0;
                         // Apply applicable modifiers
                         int xp = (int)(killer.GetComponent<ModifierComponent>()
-                            ?.ApplyApplicableModifiers(baseXp, new string[] { Definitions.Tags.CharacterXpGain }) 
+                            ?.ApplyApplicableModifiers(baseXp, new string[] { Definitions.Tags.CharacterXpGain }, killer.GetTags()) 
                             ?? baseXp);
                         xp = (int)Math.Round(xp * world.XpMultiplier * overlevelMalus);
                         killer.GetComponent<XpGainerComponent>()?.AddXp(xp);
