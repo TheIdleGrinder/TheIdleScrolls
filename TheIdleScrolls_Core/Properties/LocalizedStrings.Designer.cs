@@ -709,6 +709,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die First Strike ähnelt.
+        /// </summary>
+        internal static string FirstStrike {
+            get {
+                return ResourceManager.GetString("FirstStrike", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Heavy Armor ähnelt.
         /// </summary>
         internal static string HAR {

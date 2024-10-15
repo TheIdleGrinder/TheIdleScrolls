@@ -62,7 +62,8 @@ namespace TheIdleScrolls_Core.Systems
             // 3. achievements
             // 4. time limit => sets time limit duration
             // 5. stats => now evasion is set correctly
-            if (defComp != null && (newTimeLimit || (Math.Abs(defComp.Evasion - m_evasionUsed) > m_evasionUsed * 0.5)))
+            if (defComp != null && (newTimeLimit 
+                || (Math.Abs(defComp.Evasion - m_evasionUsed) > Math.Min(defComp.Evasion, m_evasionUsed) * 0.5)))
             {
                 double evasion = defComp.Evasion;
                 double accuracy = 1.0;
