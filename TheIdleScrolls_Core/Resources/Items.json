@@ -256,7 +256,7 @@
             "Encumbrance": 6.0
           },
           "Armor": {
-            "BaseArmor": 12.0,
+            "BaseArmor": 10.0,
             "BaseEvasion": 0.0
           }
         },
@@ -268,7 +268,7 @@
             "Encumbrance": 6.0
           },
           "Armor": {
-            "BaseArmor": 16.0,
+            "BaseArmor": 14.0,
             "BaseEvasion": 0.0
           }
         },
@@ -292,7 +292,7 @@
             "Encumbrance": 2.5
           },
           "Armor": {
-            "BaseArmor": 7.0,
+            "BaseArmor": 8.0,
             "BaseEvasion": 0.0
           }
         },
@@ -304,7 +304,7 @@
             "Encumbrance": 2.5
           },
           "Armor": {
-            "BaseArmor": 7.0,
+            "BaseArmor": 8.0,
             "BaseEvasion": 0.0
           }
         },
@@ -328,7 +328,7 @@
             "Encumbrance": 6.0
           },
           "Armor": {
-            "BaseArmor": 18.0,
+            "BaseArmor": 16.0,
             "BaseEvasion": 0.0
           } 
         },
@@ -352,7 +352,7 @@
             "Encumbrance": 2.5
           },
           "Armor": {
-            "BaseArmor": 9.0,
+            "BaseArmor": 10.0,
             "BaseEvasion": 0.0
           }
         },
@@ -364,7 +364,7 @@
             "Encumbrance": 2.5
           },
           "Armor": {
-            "BaseArmor": 9.0,
+            "BaseArmor": 10.0,
             "BaseEvasion": 0.0
           }
         },
@@ -393,7 +393,7 @@
             "Encumbrance": 12.0
           },
           "Armor": {
-            "BaseArmor": 24.0,
+            "BaseArmor": 16.0,
             "BaseEvasion": 0.0
           }
         },
@@ -405,7 +405,7 @@
             "Encumbrance": 12.0
           },
           "Armor": {
-            "BaseArmor": 32.0,
+            "BaseArmor": 22.0,
             "BaseEvasion": 0.0
           }
         },
@@ -417,7 +417,7 @@
             "Encumbrance": 8.0
           },
           "Armor": {
-            "BaseArmor": 20.0,
+            "BaseArmor": 16.0,
             "BaseEvasion": 0.0
           }
         },
@@ -429,7 +429,7 @@
             "Encumbrance": 5.0
           },
           "Armor": {
-            "BaseArmor": 14.0,
+            "BaseArmor": 13.0,
             "BaseEvasion": 0.0
           }
         },
@@ -441,7 +441,7 @@
             "Encumbrance": 5.0
           },
           "Armor": {
-            "BaseArmor": 14.0,
+            "BaseArmor": 13.0,
             "BaseEvasion": 0.0
           }
         },
@@ -453,7 +453,7 @@
             "Encumbrance": 6.0
           },
           "Armor": {
-            "BaseArmor": 20.0,
+            "BaseArmor": 16.0,
             "BaseEvasion": 0.0
           }
         },
@@ -465,7 +465,7 @@
             "Encumbrance": 12.0
           },
           "Armor": {
-            "BaseArmor": 36.0,
+            "BaseArmor": 26.0,
             "BaseEvasion": 0.0
           }
         },
@@ -477,7 +477,7 @@
             "Encumbrance": 8.0
           },
           "Armor": {
-            "BaseArmor": 24.0,
+            "BaseArmor": 19.0,
             "BaseEvasion": 0.0
           }
         },
@@ -489,7 +489,7 @@
             "Encumbrance": 5.0
           },
           "Armor": {
-            "BaseArmor": 18.0,
+            "BaseArmor": 16.0,
             "BaseEvasion": 0.0
           }
         },
@@ -501,7 +501,7 @@
             "Encumbrance": 5.0
           },
           "Armor": {
-            "BaseArmor": 18.0,
+            "BaseArmor": 16.0,
             "BaseEvasion": 0.0
           }
         },
@@ -513,7 +513,7 @@
             "Encumbrance": 6.0
           },
           "Armor": {
-            "BaseArmor": 24.0,
+            "BaseArmor": 19.0,
             "BaseEvasion": 0.0
           }
         }

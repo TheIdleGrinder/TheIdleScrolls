@@ -9,53 +9,36 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Items
 {
-    public class ItemFactory : IItemCodeExpander
+    public class ItemFactory
     {
-        private static ItemKingdomDescription? s_itemKingdom = null;
-
-        public static ItemKingdomDescription ItemKingdom { get
-            {
-                s_itemKingdom ??= ResourceAccess.ParseResourceFile<ItemKingdomDescription>("TheIdleScrolls_Core", "Items.json");
-                return s_itemKingdom;
-            } }
-
         public ItemFactory()
         {
 
         }
 
-        public static List<string> GetAllItemGenusCodes()
+        public static Entity? MakeItem(ItemBlueprint blueprint)
         {
-            List<ItemIdentifier> codes = new();
-            foreach (var family in ItemKingdom.Families)
-            {
-                for (int i = 0; i < family.Genera.Count; i++)
-                {
-                    codes.Add(new ItemIdentifier(family.Id, i));
-                }
-            }
-            return codes.Select(c => c.Code).ToList();
-        }
-
-        public static Entity? MakeItem(ItemIdentifier itemIdentifier)
-        {
-            var description = itemIdentifier.GetGenusDescription();
+            var description = ItemKingdom.GetGenusDescription(blueprint);
             if (description == null)
+                return null;
+
+            if (!description.ValidMaterials.Contains(blueprint.MaterialId))
                 return null;
 
             // Build base item
             Entity item = new();
-            item.AddComponent(new NameComponent(itemIdentifier.GenusId.Localize()));
-            item.AddComponent(new ItemComponent(itemIdentifier));
+            item.AddComponent(new NameComponent(description.Name ?? "??"));
+            item.AddComponent(new ItemComponent(blueprint));
             if (description.Equippable != null)
             {
-                var slots = description.Equippable.Slots.Select(s => EquipSlot.Parse(s)).ToList();
                 item.AddComponent(new EquippableComponent(
-                    slots,
+                    description.Equippable.Slots,
                     description.Equippable.Encumbrance));
             }
             if (description.Weapon != null)
@@ -72,21 +55,17 @@ namespace TheIdleScrolls_Core.Items
             }
 
             // Apply material
-            string? materialId = itemIdentifier.MaterialId;
-            if (materialId != null)
-            {
-                var material = ItemKingdom.Materials.Where(m => m.Id == materialId).First();
-                SetItemMaterial(item, material);
-            }
+            var material = ItemKingdom.Materials.Where(m => m.Id == blueprint.MaterialId).First();
+            SetItemMaterial(item, material);
 
             // Apply rarity
-            if (itemIdentifier.RarityLevel > 0)
+            if (blueprint.Rarity > 0)
             {
-                SetItemRarity(item, itemIdentifier.RarityLevel);
+                SetItemRarity(item, blueprint.Rarity);
             }
 
             // Add drop level
-            item.AddComponent(new LevelComponent() { Level = GetItemDropLevel(itemIdentifier) });
+            item.AddComponent(new LevelComponent() { Level = GetItemDropLevel(blueprint) });
 
             DetermineTags(item);
             UpdateItemValue(item);
@@ -99,16 +78,16 @@ namespace TheIdleScrolls_Core.Items
         public static void SetItemRarity(Entity item, int rarityLevel)
         {
             var itemComp = item.GetComponent<ItemComponent>() ?? throw new Exception($"Entity {item.GetName()} is not an item");
-            itemComp.Code.RarityLevel = rarityLevel;
+            itemComp.Blueprint = itemComp.Blueprint with { Rarity = rarityLevel };
             item.AddComponent(new ItemRarityComponent(rarityLevel));
             CalculateItemStats(item);
             UpdateItemName(item);
             UpdateItemValue(item);
         }
 
-        public static void SetItemMaterial(Entity item, ItemMaterialDescription material)
+        public static void SetItemMaterial(Entity item, ItemMaterial material)
         {
-            item.AddComponent(new ItemMaterialComponent(material.Id));
+            item.AddComponent(new ItemMaterialComponent(material.Name, material.Tier));
             CalculateItemStats(item);
             UpdateItemName(item);
             UpdateItemValue(item);
@@ -116,11 +95,11 @@ namespace TheIdleScrolls_Core.Items
 
         public static void UpdateItemValue(Entity item)
         {
-            ItemIdentifier id = item.GetComponent<ItemComponent>()?.Code ?? throw new Exception($"Entity {item.GetName()} is not an item");
+            ItemBlueprint blueprint = item.GetComponent<ItemComponent>()?.Blueprint ?? throw new Exception($"Entity {item.GetName()} is not an item");
             double baseValue = 5.0;
-            int tier = (int)Math.Sqrt(id.GetGenusDescription().DropLevel);
-            int rarity = id.RarityLevel;
-            double matMulti = id.GetMaterial().PowerMultiplier;
+            int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10); // +10 because first tier has drop level 0 (+10 from material) 
+            int rarity = blueprint.Rarity;
+            double matMulti = blueprint.GetMaterial().PowerMultiplier;
 
             int value = (int)Math.Ceiling(baseValue * tier * matMulti * Math.Pow(1.25, rarity));
             item.AddComponent(new ItemValueComponent() { Value = value });
@@ -128,10 +107,10 @@ namespace TheIdleScrolls_Core.Items
 
         public static void UpdateReforgingCost(Entity item)
         {
-            ItemIdentifier id = item.GetComponent<ItemComponent>()?.Code ?? throw new Exception($"Entity {item.GetName()} is not an item");
+            ItemBlueprint blueprint = item.GetComponent<ItemComponent>()?.Blueprint ?? throw new Exception($"Entity {item.GetName()} is not an item");
             double baseCost = 10.0;
-            int tier = (int)Math.Sqrt(id.GetGenusDescription().DropLevel);
-            double matMulti = id.GetMaterial().PowerMultiplier;
+            int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10);
+            double matMulti = blueprint.GetMaterial().PowerMultiplier;
 
             int totalCost = (int)Math.Ceiling(baseCost * (tier + 1) * matMulti);
             item.AddComponent(new ItemReforgeableComponent() { Cost = totalCost });
@@ -141,23 +120,22 @@ namespace TheIdleScrolls_Core.Items
         {
             var tagsComp = new TagsComponent();
 
-            ItemIdentifier code = item.GetComponent<ItemComponent>()!.Code; // CornerCut: better pass an item...
-            tagsComp.AddTag(code.FamilyId);
-            if (code.MaterialId != null)
-            {
-                tagsComp.AddTag(code.MaterialId);
-            }
+            ItemBlueprint blueprint = item.GetComponent<ItemComponent>()!.Blueprint; // CornerCut: better pass an item...
+            tagsComp.AddTag(blueprint.FamilyId);
+            tagsComp.AddTag(blueprint.GetMaterial().Name);
+            tagsComp.AddTag(blueprint.GetFamilyDescription().RelatedAbilityId);
+
             if (item.HasComponent<ItemRarityComponent>())
             {
-                tagsComp.AddTag($"{Definitions.Tags.RarityPrefix}{item.GetComponent<ItemRarityComponent>()!.RarityLevel}");
+                tagsComp.AddTag($"{Tags.RarityPrefix}{blueprint.Rarity}");
             }
             if (item.IsWeapon())
             {
-                tagsComp.AddTags(new List<string>(){ Definitions.Tags.Weapon, Definitions.Tags.Melee}); // CornerCut: no ranged weapons exist yet
+                tagsComp.AddTags(new List<string>() { Tags.Weapon, Tags.Melee }); // CornerCut: no ranged weapons exist yet
             }
             if (item.IsArmor())
             {
-                tagsComp.AddTag(Definitions.Tags.Armor);
+                tagsComp.AddTag(Tags.Armor);
             }
             
             var slots = item.GetRequiredSlots();
@@ -170,11 +148,11 @@ namespace TheIdleScrolls_Core.Items
             {
                 if (item.IsShield())
                 {
-                    tagsComp.AddTag(Definitions.Tags.Shield);
+                    tagsComp.AddTag(Tags.Shield);
                 }
                 else // Weapon
                 {
-                    tagsComp.AddTag($"{hands}{Definitions.Tags.HandSuffix}");
+                    tagsComp.AddTag($"{hands}{Tags.HandSuffix}");
                 }
                 
             }
@@ -182,10 +160,10 @@ namespace TheIdleScrolls_Core.Items
             item.AddComponent(tagsComp);
         }
 
-        public static int GetItemDropLevel(ItemIdentifier id)
+        public static int GetItemDropLevel(ItemBlueprint blueprint)
         {
-            int genusLevel = id.GetGenusDescription().DropLevel;
-            int materialLevel = id.GetMaterial().MinimumLevel;
+            int genusLevel = ItemKingdom.GetGenusDescription(blueprint)?.DropLevel ?? 0;
+            int materialLevel = ItemKingdom.GetMaterial(blueprint.MaterialId)?.MinimumLevel ?? 0;  //blueprint..MinimumLevel;
             return genusLevel + materialLevel;
         }
 
@@ -241,15 +219,11 @@ namespace TheIdleScrolls_Core.Items
         private static void CalculateItemStats(Entity item)
         {
             const double rarityScaling = 1.25;
-            var itemComp = item.GetComponent<ItemComponent>();
-            if (itemComp == null)
-                throw new Exception($"Entity {item.GetName()} is not an item");
-            var description = ItemKingdom.GetGenusDescriptionByIdAndIndex(itemComp.Code.FamilyId, itemComp.Code.GenusIndex);
-            if (description == null)
-                throw new Exception($"Invalid item code: {itemComp.Code}");
-
+            var itemComp = item.GetComponent<ItemComponent>() 
+                ?? throw new Exception($"Entity {item.GetName()} is not an item");
+            var description = itemComp.Blueprint.GetGenusDescription();
             int rarityLevel = item.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
-            double materialMulti = itemComp.Code.GetMaterial().PowerMultiplier;
+            double materialMulti = itemComp.Blueprint.GetMaterial().PowerMultiplier;
 
             if (description.Weapon != null)
             {
@@ -268,7 +242,8 @@ namespace TheIdleScrolls_Core.Items
         private static void UpdateItemName(Entity item)
         {
             var itemComp = item.GetComponent<ItemComponent>() ?? throw new Exception($"Entity {item.GetName()} is not an item");
-            var name = itemComp.Code.GetItemName();
+            var blueprint = itemComp.Blueprint;
+            var name = $"{blueprint.GetMaterial().Name} {blueprint.GetGenusDescription().Name}{(blueprint.Rarity > 0 ? $" + {blueprint.Rarity}" : "")}";
 
             item.AddComponent(new NameComponent(name));
         }
@@ -278,19 +253,19 @@ namespace TheIdleScrolls_Core.Items
             return ItemKingdom.Families.Select(w => w.Id).ToList();
         }
 
-        public Entity? ExpandCode(string code)
+        public static Entity? ExpandCode(string code)
         {
-            return ExpandCode(new ItemIdentifier(code));
+            return ExpandCode(ItemBlueprint.Parse(code));
         }
 
-        public Entity? ExpandCode(ItemIdentifier code)
+        public static Entity? ExpandCode(ItemBlueprint code)
         {
             return MakeItem(code);
         }
 
-        public string? GenerateItemCode(Entity item)
+        public static string? GenerateItemCode(Entity item)
         {
-            return item.GetItemCode();
+            return item.GetBlueprintCode();
         }
     }
 }

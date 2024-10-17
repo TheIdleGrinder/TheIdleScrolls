@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Crafting;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Messages;
@@ -41,8 +42,11 @@ namespace TheIdleScrolls_Core.Systems
         public event AutoProceedStateChangedHandler? PlayerAutoProceedStateChanged;
         public event FeatureAvailabilityChangedHandler? FeatureAvailabilityChanged;
         public event AccessibleAreasChangedHandler? AccessibleAreasChanged;
+        public event AvailableCraftingRecipesChangedHandler? AvailableCraftingRecipesChanged;
+        public event CraftingBenchChangedHandler? CraftingBenchChanged;
         public event AchievementsChangedHandler? AchievementsChanged;
         public event StatReportChangedHandler? StatReportChanged;
+        public event BountyStateChangedHander? BountyStateChanged;
         public event DisplayMessageHandler? DisplayMessageReceived;
         public event NewLogMessagesHandler? NewLogMessages;
         public event DialogueMessageHandler? DialogueMessageReceived;
@@ -73,37 +77,52 @@ namespace TheIdleScrolls_Core.Systems
                 PlayerXpChanged?.Invoke(xp, target);
             }
 
-            // Update items
+            // Update items (update when perks change, because crafting cost/duration might change)
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<InventoryChangedMessage>()
-                || coordinator.MessageTypeIsOnBoard<ItemReforgedMessage>())
+                || coordinator.MessageTypeIsOnBoard<CraftingProcessFinished>()
+                || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
+            )
             {
                 var inventoryComp = player.GetComponent<InventoryComponent>();
                 var equipmentComp = player.GetComponent<EquipmentComponent>();
-                var invItems = new List<ItemRepresentation>();
-                var equipItems = new List<ItemRepresentation>();
+                //var invItems = new List<ItemRepresentation>();
+                //var equipItems = new List<ItemRepresentation>();
+
+                //if (inventoryComp != null)
+                //{
+                //    foreach (var item in inventoryComp.GetItems())
+                //    {
+                //        var invItem = GenerateItemRepresentation(item, player);
+                //        if (invItem != null)
+                //            invItems.Add(invItem);
+                //    }
+                //}
+
+                //if (equipmentComp != null)
+                //{
+                //    foreach (var item in equipmentComp.GetItems().OrderBy(i => i.IsShield() ? 1: 0))
+                //    {
+                //        var eItem = GenerateItemRepresentation(item, player);
+                //        if (eItem != null)
+                //            equipItems.Add(eItem);
+                //    }
+                //}
 
                 if (inventoryComp != null)
                 {
-                    foreach (var item in inventoryComp.GetItems())
-                    {
-                        var invItem = GenerateItemRepresentation(item);
-                        if (invItem != null)
-                            invItems.Add(invItem);
-                    }
+                    List<IItemEntity> invItems = inventoryComp.GetItems()
+                        .Select(i => new ItemEntityWrapper(i, player))
+                        .ToList<IItemEntity>();
+                    PlayerInventoryChanged?.Invoke(invItems);
                 }
-                invItems = invItems.OrderBy(i => i.Id).ToList();
 
                 if (equipmentComp != null)
                 {
-                    foreach (var item in equipmentComp.GetItems().OrderBy(i => i.IsShield() ? 1: 0))
-                    {
-                        var eItem = GenerateItemRepresentation(item);
-                        if (eItem != null)
-                            equipItems.Add(eItem);
-                    }
+                    List<IItemEntity> equipItems = equipmentComp.GetItems()
+                        .Select(i => new ItemEntityWrapper(i, player))
+                        .ToList<IItemEntity>();
+                    PlayerEquipmentChanged?.Invoke(equipItems);
                 }
-                PlayerInventoryChanged?.Invoke(invItems);
-                PlayerEquipmentChanged?.Invoke(equipItems);
             }
 
             // Update encumbrance
@@ -129,7 +148,8 @@ namespace TheIdleScrolls_Core.Systems
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null && (m_firstUpdate || coordinator.MessageTypeIsOnBoard<StatsUpdatedMessage>()))
             {
-                PlayerDefenseChanged?.Invoke(defenseComp.Armor, defenseComp.Evasion);
+                PlayerDefenseChanged?.Invoke(defenseComp.Armor, defenseComp.Evasion, 
+                    Functions.CalculateDefenseRating(defenseComp.Armor, defenseComp.Evasion, player.GetLevel()));
             }
 
             // Update Abilities
@@ -215,6 +235,38 @@ namespace TheIdleScrolls_Core.Systems
                 AccessibleAreasChanged?.Invoke(maxWilderness, dungeons);
             }
 
+            // Update available crafting recipes (update when perks change, because crafting cost/duration might change)
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AvailableCraftsChanged>() 
+                || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
+            )
+            {
+                var craftComp = player.GetComponent<CraftingBenchComponent>();
+                if (craftComp != null)
+                {
+                    var prototypes = craftComp.AvailablePrototypes
+                        .Select(p => new ItemEntityWrapper(p, player)) // Pass player as owner for modifiers to crafting cost, time
+                        .ToList<IItemEntity>();
+                    AvailableCraftingRecipesChanged?.Invoke(prototypes);
+                }
+            }
+
+            // Update crafting processes
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<CraftingUpdateMessage>())
+            {
+                var craftComp = player.GetComponent<CraftingBenchComponent>();
+                if (craftComp != null)
+                {
+                    var representations = craftComp.ActiveCrafts
+                        .Select(c => GenerateCraftRepresentation(c))
+                        .ToList();
+                    CraftingBenchRepresentation bench = new(craftComp.MaxCraftingLevel, 
+                                                            craftComp.CraftingSlots, 
+                                                            craftComp.MaxActiveCrafts, 
+                                                            representations);
+                    CraftingBenchChanged?.Invoke(bench);
+                }
+            }
+
             // Update achievements
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>())
             {
@@ -242,6 +294,21 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     var report = progComp.Data.GetReport(world);
                     StatReportChanged?.Invoke(report);
+                }
+            }
+
+            // Update Bounty State
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<BountyMessage>() || coordinator.MessageTypeIsOnBoard<DeathMessage>())
+            {
+                var bountyComp = player.GetComponent<BountyHunterComponent>();
+                if (bountyComp != null)
+                {
+                    int level = bountyComp.CurrentHuntLevel;
+                    int maxLevel = bountyComp.HighestCollected;
+                    var state = new BountyStateRepresentation(maxLevel, level, 
+                                                              bountyComp.CurrentHuntCount, BountySystem.EnemiesPerHunt,
+                                                              BountySystem.CalculateBountyReward(level, maxLevel));
+                    BountyStateChanged?.Invoke(state);
                 }
             }
 
@@ -321,95 +388,18 @@ namespace TheIdleScrolls_Core.Systems
         {
             if (!mob.HasComponent<MobComponent>())
                 return null;
+            var mobId = mob.GetComponent<MobComponent>()?.Id ?? "??";
             var mobName = mob.GetComponent<NameComponent>()?.Name ?? "<error>";
             var mobLevel = mob.GetComponent<LevelComponent>()?.Level ?? 0;
             var mobHp = mob.GetComponent<LifePoolComponent>()?.Current ?? 0;
             var mobHpMax = mob.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
-            return new MobRepresentation(mob.Id, mobName, mobLevel, mobHp, mobHpMax);
+            return new MobRepresentation(mob.Id, mobId, mobName, mobLevel, mobHp, mobHpMax);
         }
 
-        static ItemRepresentation? GenerateItemRepresentation(Entity item)
+        static CraftingProcessRepresentation GenerateCraftRepresentation(CraftingProcess craft)
         {
-            var itemComp = item.GetComponent<ItemComponent>();
-            var equipComp = item.GetComponent<EquippableComponent>();
-            var weaponComp = item.GetComponent<WeaponComponent>();
-            var armorComp = item.GetComponent<ArmorComponent>();
-            var valueComp = item.GetComponent<ItemValueComponent>();
-            var forgeComp = item.GetComponent<ItemReforgeableComponent>();
-            var levelComp = item.GetComponent<LevelComponent>();
-            string typeName = GetItemTypeName(item);
-            string description = $"Type: {typeName}";            
-            if (equipComp != null)
-            {
-                List<string> slotStrings = new();
-                var slots = (EquipmentSlot[])Enum.GetValues(typeof(EquipmentSlot));
-                foreach (var slot in slots)
-                {
-                    int count = equipComp.Slots.Count(s => s == slot);
-                    if (count == 0)
-                    {
-                        continue;
-                    }
-                    slotStrings.Add((count > 1 ? $"{count}x" : "") + slot.ToString());
-                }
-                description += $"; Used Slot(s): {string.Join(", ", slotStrings)}";
-            }
-            description += $"; Skill: {itemComp?.FamilyName ?? "??"}";
-            if (levelComp != null)
-            {
-                description += $"; Drop Level: {levelComp.Level}";
-            }
-            description += "; ";
-            if (weaponComp != null)
-            {
-                description += $"; Damage: {weaponComp.Damage}; Attack Time: {weaponComp.Cooldown} s";
-            }
-            if (armorComp != null)
-            {
-                description += armorComp.Armor != 0.0 ? $"; Armor: {armorComp.Armor}" : "";
-                description += armorComp.Evasion != 0.0 ? $"; Evasion: {armorComp.Evasion}" : "";
-            }
-            if (equipComp != null)
-            {
-                description += equipComp.Encumbrance != 0.0 ? $"; Encumbrance: {equipComp.Encumbrance}%" : "";
-            }
-            if (valueComp != null)
-            {
-                description += $"; ; Value: {valueComp.Value}c";
-            }
-
-            return new ItemRepresentation(
-                item.Id,
-                item.GetName(),
-                description,
-                equipComp?.Slots ?? new() { EquipmentSlot.Hand },
-                itemComp?.Code.RarityLevel ?? 0,
-                item.GetComponent<ItemValueComponent>()?.Value ?? 0,
-                forgeComp?.Cost ?? -1,
-                forgeComp?.Reforged ?? false
-                );
-        }
-
-        static string GetItemTypeName(Entity item)
-        {
-            if (item.IsWeapon())
-                return LocalizedStrings.Equip_Weapon;
-            if (item.IsShield())
-                return LocalizedStrings.Equip_Shield;
-            var slots = item.GetComponent<EquippableComponent>()?.Slots ?? new();
-            if (slots.Count == 0 || !item.IsArmor()) // Should not happen with the current item kingdom
-                return "??";
-
-            if (slots.Count > 1)
-                return "Custom Gear"; // Does not currently exist
-            return slots[0] switch
-            {
-                EquipmentSlot.Head => LocalizedStrings.Equip_HeadArmor,
-                EquipmentSlot.Chest => LocalizedStrings.Equip_ChestArmor,
-                EquipmentSlot.Arms => LocalizedStrings.Equip_ArmArmor,
-                EquipmentSlot.Legs => LocalizedStrings.Equip_LegArmor,
-                _ => "??",
-            };
+            var item = new ItemEntityWrapper(craft.TargetItem, null);
+            return new CraftingProcessRepresentation(craft.Type, item, craft.Duration.Duration, craft.Duration.Remaining, craft.CoinsPaid);
         }
 
         static List<IMessage> FilterMessages(HashSet<IMessage.PriorityLevel> relevantMessages, List<IMessage> messages)

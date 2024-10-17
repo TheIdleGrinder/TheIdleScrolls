@@ -85,8 +85,8 @@ namespace TheIdleScrolls_Core.Systems
                         case Components.QuestStates.GettingStarted.Travel:
                             addTutorialProgress(TutorialStep.Travel, "Freedom of Movement", 
                                 "Click the arrow buttons to move between zones. Higher level areas become accessible after defeating" +
-                                "a mob in the previous zone. Checking 'Proceed when possible' will advance to the next zone as a mob has been defeated." +
-                                "\nUpon losing a fight, your character will automatically move down one area and 'Go on after win' is deactivated.", 
+                                "a mob in the previous zone." +
+                                "\nUpon losing a fight, your character will automatically move down one area.", 
                                 message);
                             break;
                         default:
@@ -173,7 +173,7 @@ namespace TheIdleScrolls_Core.Systems
                 && coordinator.MessageTypeIsOnBoard<ItemReceivedMessage>())
             {
                 if (coordinator.FetchMessagesByType<ItemReceivedMessage>()
-                    .Any(m => ItemIdentifier.ExtractGenusIndex(m.Item.GetItemCode()) > 0))
+                    .Any(m => (m.Item.GetBlueprint()?.GenusIndex ?? 0) > 0))
                 {
                     globalProgress.Data.TutorialProgress.Add(TutorialStep.ItemFound);
                     coordinator.PostMessage(this,
@@ -214,6 +214,17 @@ namespace TheIdleScrolls_Core.Systems
             {
                 m_player.GetComponent<PlayerComponent>()?.SetFeatureState(GameFeature.Crafting, true);
                 coordinator.PostMessage(this, new FeatureStateMessage(GameFeature.Crafting, true));
+            }
+
+            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Bounties)
+                && coordinator.MessageTypeIsOnBoard<BountyMessage>())
+            {
+                globalProgress.Data.TutorialProgress.Add(TutorialStep.Bounties);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.Bounties, "Bounty Hunter",
+                    $"The main way to earn bounties is by defeating " +
+                    $"an enemy at a higher level than you had before in the wilderness. You will also be awarded a bounty every time you defeat " +
+                    $"{Systems.BountySystem.EnemiesPerHunt} in the wilderness. The value of bounties depends on the level of the defeated enemies."));
             }
         }
     }

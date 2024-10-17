@@ -1,10 +1,11 @@
 ﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Items
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
 
 <div id="highlightedItemContainer">
-    <div id="highlightedItem">
+    <div id="highlightedItem" style="@(HighlightedItem == null ? "visibility:hidden" : "")">
         <h5 id="highlightedItemName" class="@(CssUtilities.GetClassesForItem(HighlightedItem))">@HighlightedItem?.Name</h5>
         @if (HighlightedItem?.Crafted ?? false)
         {
@@ -17,20 +18,42 @@
             }
         </div>
     </div>
-    <button id="btnEquip" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="ToggleEquip">
-        @(
-            IsItemEquipped(HighlightedItem) ? "Unequip" : "Equip"
-            )
-    </button>
-    <button id="btnSell" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="SellItem">
-        @SellText
-    </button>
-    @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting))
+    @if (IsItemOwned(HighlightedItem))
     {
-        <button id="btnReforge" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="ReforgeItem">
-            @ReforgeText
-        </button>
+        @if (EquipButtonVisible)
+        {
+            <button id="btnEquip" class="itemButton" disabled="@(HighlightedItem == null)" @onclick="ToggleEquip">
+                @(IsItemEquipped(HighlightedItem) ? "Unequip" : "Equip")
+            </button>
+        }
+        @if (SellButtonVisible)
+        {
+            <button id="btnSell" class="itemButton" 
+                disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="SellItem"
+            >
+                @SellText
+            </button>
+        }
+        @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting) && ReforgeButtonVisible)
+        {
+            <div>Duration: @($"{HighlightedItem?.Reforging.Duration:0} seconds")</div>
+            <div>Odds: @($"{CoreWrapper.CalculateReforgingSuccessRate(HighlightedItem?.Rarity ?? 0):0%}")</div>
+            <button id="btnReforge" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="ReforgeItem">
+                @ReforgeText
+            </button>
+        }
     }
+    else
+    {
+        @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting) && CraftButtonVisible && HighlightedItem != null)
+        {
+            <div>Duration: @($"{HighlightedItem?.Reforging.Duration:0} seconds")</div>
+            <button id="btnCraft" class="itemButton" disabled="@(HighlightedItem == null || IsItemOwned(HighlightedItem))" @onclick="CraftItem">
+                @CraftText
+            </button>
+        }
+    }
+
     @if (CoreWrapper.Coins > 0)
     {
         <span id="coins">Purse: @(
@@ -77,9 +100,11 @@
     }
 
     #coins {
-    position: absolute;
+    /* position: absolute;
     right: 10px;
-    bottom: 10px;
+    bottom: 10px; */
+    text-align: right;
+    align-self: end;
     }
 
     button.itemButton {
@@ -89,7 +114,16 @@
 </style>
 
 @code {
-    ItemRepresentation? HighlightedItem => CoreWrapper.GetOwnedItem(CoreWrapper.HighlightedItem);
+    [Parameter]
+    public bool EquipButtonVisible { get; set; } = true;
+    [Parameter]
+    public bool SellButtonVisible { get; set; } = true;
+    [Parameter]
+    public bool ReforgeButtonVisible { get; set; } = false;
+    [Parameter]
+    public bool CraftButtonVisible { get; set; } = false;
+
+    IItemEntity? HighlightedItem => CoreWrapper.GetItem(CoreWrapper.HighlightedItem);
 
     List<string> ItemDescriptionLines => HighlightedItem?.Description?.Split(';')?.ToList() ?? new();
 
@@ -110,7 +144,8 @@
             return "Throw out"; 
         } 
     }
-    string ReforgeText => "Reforge" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.ReforgingCost}c)" : "");
+    string ReforgeText => "Reforge" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Reforging.Cost ?? 0}c)" : "");
+    string CraftText => "Craft" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Reforging.Cost ?? 0}c)" : "");
 
     protected override void OnInitialized()
     {
@@ -118,11 +153,18 @@
         base.OnInitialized();
     }
 
-    bool IsItemEquipped(ItemRepresentation? item)
+    bool IsItemEquipped(IItemEntity? item)
     {
         if (item == null)
             return false;
         return (CoreWrapper.Equipment.Items.Any(i => i.Id == item.Id));
+    }
+
+    bool IsItemOwned(IItemEntity? item)
+    {
+        if (item == null)
+            return false;
+        return (IsItemEquipped(item) || CoreWrapper.Inventory.Any(i => i.Id == item.Id));
     }
 
     void ToggleEquip()
@@ -153,6 +195,14 @@
         if (HighlightedItem != null)
         {
             CoreWrapper.InputHandler.ReforgeItem(CharId, HighlightedItem.Id);
+        }
+    }
+
+void CraftItem()
+    {
+        if (HighlightedItem != null)
+        {
+            CoreWrapper.InputHandler.CraftItem(CharId, HighlightedItem.Id);
         }
     }
 }

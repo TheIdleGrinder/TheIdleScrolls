@@ -15,8 +15,6 @@ div.framed {
 
 .main-frame {
     color: var(--text-color);
-    /*background-color: var(--back-color);*/
-    /*width: 100%;*/
     max-width: 1500px;
     height: calc(100vh - 120px);
     box-sizing: border-box;
@@ -25,7 +23,7 @@ div.framed {
     position: relative;
 
     display: grid;
-    grid-template-columns: 4fr 6fr;
+    grid-template-columns: 1fr 2fr;
     grid-template-areas: 
         "left right";
 }
@@ -35,8 +33,9 @@ div.framed {
     flex-direction: column;
     width: 100%;
     background-color: var(--back-color);
-    height: 650px;
+    height: fit-content;
     grid-area: left;
+    padding-bottom: 0.5rem;
 }
 
 .right-frame {
@@ -74,37 +73,9 @@ div.spaced-items {
     margin-bottom: 10px;
 }
 
-.tabs {
-    display: flex;
-    overflow: hidden;
-    border: 2px solid var(--frame-color);
-    border-bottom-width: 1px;
-    background-color: #f1f1f1;
-    justify-content: left;
-    grid-area: tab-buttons;
-}
-
-.tabs button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-}
-
-/* Change background color of buttons on hover */
-.tabs button:hover {
-    background-color: #ddd;
-}
-
-/* Create an active/current tablink class */
-.tabs button.active {
-    background-color: #ccc;
-}body {
+body {
 }
 
 p {
-    font-size: 24px;
+    /*font-size: 24px;*/
 }

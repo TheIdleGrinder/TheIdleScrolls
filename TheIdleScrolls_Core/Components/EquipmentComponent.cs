@@ -5,14 +5,10 @@ using System.Linq;
 using System.Runtime.Intrinsics.X86;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core.Components
 {
-    public enum EquipmentSlot
-    {
-        Hand, Chest, Head, Arms, Legs
-    }
-
     public static class EquipSlot
     {
         public static EquipmentSlot Parse(string serialized)

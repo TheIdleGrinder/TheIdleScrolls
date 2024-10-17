@@ -1,0 +1,92 @@
+﻿@page "/charedit"
+
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div id="charEditorFrame">
+
+<h3>Character Editor</h3>
+
+<select name="chars" id="charEditorSelector" @bind="CurrentCharacterName">
+    <option value="">  </option>
+@foreach (var name in CharacterNames)
+    {
+        <option value="@name">@name</option>
+    }
+</select>
+
+<textarea id="charEditorTextField" @bind="text" />
+
+<button id="charEditorStoreBtn" @onclick="StoreCharacter">Store</button>
+
+</div>
+
+<style>
+#charEditorFrame {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: fit-content;
+    }
+
+    #charEditorSelector {
+        margin-top: 10px;
+        width: 200px;
+    }
+
+    #charEditorTextField {
+        width: 500px;
+        height: 70vh;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        overflow-y: auto;
+    }
+
+    #charEditorStoreBtn {
+        width: 100px;
+    }
+</style>
+
+@code {
+    List<string> CharacterNames => CoreWrapper.StoredCharacters;
+
+    string _currentChar = "";
+
+    string CurrentCharacterName { get => _currentChar; set { _currentChar = value; LoadCharacter(); } }
+
+    string text = "";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        CoreWrapper.CharacterListChanged += (List<string> _) => StateHasChanged();
+
+        _ = CoreWrapper.UpdateSavedCharacters();
+    }
+
+    async void LoadCharacter()
+    {
+        if (_currentChar == string.Empty)
+        {
+            text = "";
+            return;
+        }
+        else
+        {
+            string encryptedText = await CoreWrapper.DataAccessHandler.LoadData(_currentChar);
+            text = CoreWrapper.DataAccessHandler.Decrypt(encryptedText);
+        }
+        StateHasChanged();
+    }
+
+    async void StoreCharacter()
+    {
+        if (CurrentCharacterName != string.Empty)
+        {
+            string encryptedText = CoreWrapper.DataAccessHandler.Encrypt(text);
+            await CoreWrapper.DataAccessHandler.StoreData(CurrentCharacterName, encryptedText);
+        };
+    }
+}

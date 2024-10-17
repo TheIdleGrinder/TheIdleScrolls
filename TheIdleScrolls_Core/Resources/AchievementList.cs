@@ -35,19 +35,16 @@ namespace TheIdleScrolls_Core.Resources
             for (int i = 0; i < levels.Length; i++)
             {
                 int level = levels[i];
-                var achievement = new Achievement()
+                var achievement = new Achievement
                 {
                     Id = $"LVL{level}",
                     Title = $"Level {level}",
                     Description = $"Reach level {level}",
                     Condition = ExpressionParser.ParseToFunction($"Level >= {level}"),
-                    Hidden = false
+                    Hidden = false,
+                    Prerequisite = (i > 0) ? ExpressionParser.ParseToFunction($"LVL{levels[i - 1]}") : tautology,
+                    Perk = GetPerkForLeveledAchievement("LVL", level)
                 };
-                if (i > 0)
-                {
-                    achievement.Prerequisite = ExpressionParser.ParseToFunction($"LVL{levels[i - 1]}");
-                }
-                achievement.Perk = GetPerkForLeveledAchievement("LVL", level);
                 achievements.Add(achievement);
             }
 
@@ -64,19 +61,16 @@ namespace TheIdleScrolls_Core.Resources
             for (int i = 0; i < wildernessLevels.Length; i++)
             {
                 int level = wildernessLevels[i].Level;
-                var achievement = new Achievement()
+                var achievement = new Achievement
                 {
                     Id = $"WILD{level}",
                     Title = wildernessLevels[i].Name,
                     Description = $"Reach wilderness level {level}",
-                    Condition = ExpressionParser.ParseToFunction($"WildernessLevel >= {level}"),
-                    Hidden = false
+                    Condition = ExpressionParser.ParseToFunction($"Wilderness >= {level}"),
+                    Hidden = false,
+                    Prerequisite = (i > 0) ? ExpressionParser.ParseToFunction($"WILD{wildernessLevels[i - 1].Level}") : tautology,
+                    Perk = GetPerkForLeveledAchievement("WILD", level)
                 };
-                if (i > 0)
-                {
-                    achievement.Prerequisite = ExpressionParser.ParseToFunction($"WILD{wildernessLevels[i - 1].Level}");
-                }
-                achievement.Perk = GetPerkForLeveledAchievement("WILD", level);
                 achievements.Add(achievement);
             }
 
@@ -92,19 +86,16 @@ namespace TheIdleScrolls_Core.Resources
             for (int i = 0; i < killCounts.Length; i++)
             {
                 int count = killCounts[i].Count;
-                var achievement = new Achievement()
+                var achievement = new Achievement
                 {
                     Id = $"KILL{count}",
                     Title = killCounts[i].Name,
                     Description = $"Defeat {count} enemies with a single character",
                     Condition = ExpressionParser.ParseToFunction($"Kills >= {count}"),
-                    Hidden = false
+                    Hidden = false,
+                    Prerequisite = (i > 0) ? ExpressionParser.ParseToFunction($"KILL{killCounts[i - 1].Count}") : tautology,
+                    Perk = GetPerkForLeveledAchievement("KILL", count)
                 };
-                if (i > 0)
-                {
-                    achievement.Prerequisite = ExpressionParser.ParseToFunction($"KILL{killCounts[i - 1].Count}");
-                }
-                achievement.Perk = GetPerkForLeveledAchievement("KILL", count);
                 achievements.Add(achievement);
             }
 
@@ -375,8 +366,7 @@ namespace TheIdleScrolls_Core.Resources
                         "Character level scales unarmored evasion rating like abilities scale regular armors",
                         ModifierType.More,
                         Definitions.Stats.DefensePerAbilityLevel,
-                        new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored },
-                        true)
+                        new List<string>() { Definitions.Tags.EvasionRating, Definitions.Tags.Unarmored })
             });
 
             int noWeaponLevel = 5;
@@ -444,8 +434,7 @@ namespace TheIdleScrolls_Core.Resources
                         new() {
                             new List<string>() { Definitions.Tags.Damage, Definitions.Tags.Unarmed },
                             new List<string>() { Definitions.Tags.AttackSpeed, Definitions.Tags.Unarmed }
-                        },
-                        true)
+                        })
             });
 
             achievements.Add(new(
@@ -492,15 +481,15 @@ namespace TheIdleScrolls_Core.Resources
                                 new string[] { Definitions.Tags.AttackSpeed,
                                                Properties.Constants.Key_Ability_Axe}),
                 ("BLN", 25) => new($"{id}{level}", "Stunning Blow", 
-                                $"Gain {20} base armor while using {id.Localize()} after first strike",
+                                $"Gain {5} base armor for each defensive item while using {id.Localize()} after first strike",
                                 new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
                                 (e, w, c) =>
                                 {
                                     bool firstStrike = (e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0) == 0;
                                     bool usingBlunt = e.GetComponent<EquipmentComponent>()?.GetItems()
-                                        ?.Any(i => i.GetComponent<ItemComponent>()!.Code.FamilyId == Properties.Constants.Key_Ability_Blunt) ?? false;
+                                        ?.Any(i => i.GetComponent<ItemComponent>()!.Blueprint.FamilyId == Properties.Constants.Key_Ability_Blunt) ?? false;
                                     return new() { new($"{id}{level}", ModifierType.AddBase, 
-                                        (!firstStrike && usingBlunt) ? 20 : 0,
+                                        (!firstStrike && usingBlunt) ? 5 : 0,
                                         new() { Definitions.Tags.ArmorRating }
                                         )
                                     };
@@ -513,12 +502,19 @@ namespace TheIdleScrolls_Core.Resources
                                                Properties.Constants.Key_Ability_LongBlade, 
                                                Definitions.Tags.FirstStrike }),
                 ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
-                                $"Double defense during the first attack with {id.Localize()}s",
+                                $"{1.0:0.#%} more attack speed with first attack with {id.Localize()}s",
                                 ModifierType.More,
                                 1.0,
-                                new string[] { Definitions.Tags.Defense, 
-                                               Properties.Constants.Key_Ability_Polearm, 
+                                new string[] { Definitions.Tags.AttackSpeed,
+                                               Properties.Constants.Key_Ability_Polearm,
                                                Definitions.Tags.FirstStrike }),
+                //("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
+                //                $"Double defense during the first attack with {id.Localize()}s",
+                //                ModifierType.More,
+                //                1.0,
+                //                new string[] { Definitions.Tags.Defense, 
+                //                               Properties.Constants.Key_Ability_Polearm, 
+                //                               Definitions.Tags.FirstStrike }),
                 ("SBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Sneak Attack",
                                 $"Deal double damage with short blades on your first attack every battle",
                                 ModifierType.More,
@@ -648,6 +644,36 @@ namespace TheIdleScrolls_Core.Resources
                                     ModifierType.More,
                                     0.1,
                                     new string[] { Definitions.Tags.Defense }),
+                ("ABL_CRAFT", 25)
+                                => new($"{id}{level}", "Crafting Apprentice", 
+                                    $"Gain an additional slot in the crafting queue for every 25 levels of the Crafting ability",
+                                    new() { UpdateTrigger.AbilityIncreased },
+                                    (e, w, c) =>
+                                    {
+                                        int craftLevel = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                                        return new() { new($"{id}{level}", ModifierType.AddFlat, (craftLevel / 25),
+                                            new() { Definitions.Tags.CraftingSlots }
+                                            )
+                                        };
+                                    }),
+                ("ABL_CRAFT", 50)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Journeyman",
+                                    $"Gain a discount for all crafts",
+                                    ModifierType.Increase,
+                                    -0.2,
+                                    new string[] { Definitions.Tags.CraftingCost }),
+                ("ABL_CRAFT", 75)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Expert",
+                                    $"Gain increased crafting speed",
+                                    ModifierType.Increase,
+                                    0.2,
+                                    new string[] { Definitions.Tags.CraftingSpeed }),
+                ("ABL_CRAFT", 100)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Master",
+                                    $"Gain one more active crafting slot",
+                                    ModifierType.AddFlat,
+                                    1.0,
+                                    new string[] { Definitions.Tags.ActiveCrafts }),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "LAR" or "HAR" or "ABL_CRAFT", 150)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Savant",
                                     $"{0.3:0.#%} increased experience gain for {id.Localize()} ability",

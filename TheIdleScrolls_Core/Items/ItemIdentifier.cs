@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core.Items
 {
@@ -16,28 +17,19 @@ namespace TheIdleScrolls_Core.Items
         public ItemIdentifier(string code)
         {
             Code = code;
-            if (ExtractMaterialId(code) == null)
-            {
-                var material = GetGenusDescription().ValidMaterials.FirstOrDefault();
-                Code = UpdateMaterial(Code, material);
-            }
-            if (!ValidateItemCode(Code))
+/*            if (!ValidateItemCode(Code))
             {
                 throw new ArgumentException($"Invalid item code: {code}");
-            }
+            }*/
         }
 
-        public ItemIdentifier(string family, int genusIndex, string? material = null)
+        public ItemIdentifier(string family, int genusIndex, string material)
         {
-            if (material == null)
-            {
-                material = GetGenusDescription().ValidMaterials.FirstOrDefault();
-            }
-            Code = AssembleItemCode(family, genusIndex, material!);
-            if (!ValidateItemCode(Code))
+            Code = AssembleItemCode(family, genusIndex, material);
+/*            if (!ValidateItemCode(Code))
             {
                 throw new ArgumentException($"Invalid item code: {Code}");
-            }
+            }*/
         }
 
         public string FamilyId { get { return ExtractFamilyId(Code); } }
@@ -53,15 +45,14 @@ namespace TheIdleScrolls_Core.Items
             set { Code = UpdateRarityLevel(Code, value); }
         }
 
-        public string? MaterialId
+        public MaterialId MaterialId
         {
             get { return ExtractMaterialId(Code); }
-            set { Code = UpdateMaterial(Code, value); }
         }
 
         public ItemFamilyDescription GetFamilyDescription()
         {                 
-            return ItemFactory.ItemKingdom.Families.Where(f => f.Id == FamilyId).First(); // First() works because code is validated
+            return ItemKingdom.Families.Where(f => f.Id == FamilyId).First(); // First() works because code is validated
         }
 
         public ItemGenusDescription GetGenusDescription()
@@ -69,29 +60,15 @@ namespace TheIdleScrolls_Core.Items
             return GetFamilyDescription().Genera[GenusIndex]; // Works because code is validated
         }
 
-        public ItemMaterialDescription GetMaterial()
+        public ItemMaterial GetMaterial()
         {
-            if (MaterialId == null)
-            {
-                return ItemFactory.ItemKingdom.Materials[0]; // TODO: return first valid material for genus
-            }
-            else
-            {
-                return ItemFactory.ItemKingdom.GetMaterial(MaterialId!)!; // ! works because the material is validated at construction
-            }
-        }
-
-        public string GetItemName()
-        {
-            return ($"{MaterialId?.Localize()} " ?? "") 
-                + GenusId.Localize() 
-                + (RarityLevel > 0 ? $" + {RarityLevel}" : "");
+            return ItemKingdom.GetMaterial(MaterialId!)!; // ! works because the material is validated at construction
         }
 
         public static string AssembleItemCode(string familyId, int genusIndex, string? material, int rarity = 0)
         {
             string code = familyId + genusIndex.ToString();
-            code = UpdateMaterial(code, material);
+            code = UpdateMaterial(code, MaterialIdFromString(material ?? ""));
             code = UpdateRarityLevel(code, rarity);
             return code;
         }
@@ -132,11 +109,48 @@ namespace TheIdleScrolls_Core.Items
             return Int32.Parse(itemCode.Split('+')[1]);
         }
 
-        public static string? ExtractMaterialId(string itemCode)
+        public static MaterialId MaterialIdFromString(string materialString)
+        {
+            if (materialString.StartsWith("SIMPLE"))
+                return Definitions.MaterialId.Simple;
+            if (materialString.Length != 2)
+                throw new Exception($"Invalid material string: {materialString}");
+            int type = materialString[0] switch
+            {
+                'L' => 0x10,
+                'M' => 0x20,
+                'W' => 0x30,
+                _ => 0
+            };
+            int tier = Int32.Parse(materialString[1].ToString());
+            return (MaterialId)(type + tier);
+        }
+
+        public static string MaterialStringFromId(MaterialId id)
+        {
+            if (id == Definitions.MaterialId.Simple)
+                return "SIMPLE";
+            return id switch
+            {
+                Definitions.MaterialId.Leather => "L0",
+                Definitions.MaterialId.HardLeather => "L1",
+                Definitions.MaterialId.Elvish => "L2",
+                Definitions.MaterialId.Iron => "M0",
+                Definitions.MaterialId.Steel => "M1",
+                Definitions.MaterialId.Dwarven => "M3",
+                Definitions.MaterialId.Beech => "W0",
+                Definitions.MaterialId.Oak => "W1",
+                Definitions.MaterialId.Ash => "W2",
+                _ => "SIMPLE"
+            };
+        }
+
+        public static MaterialId ExtractMaterialId(string itemCode)
         {
             if (!itemCode.Contains('-'))
-                return null;
-            return "MAT_" + itemCode.Split('-')[0];
+                throw new Exception($"Item code does not contain material: {itemCode}");
+
+            return MaterialIdFromString(itemCode.Split('-')[0]);
         }
 
         public static string UpdateRarityLevel(string itemCode, int newRarityLevel)
@@ -149,20 +163,12 @@ namespace TheIdleScrolls_Core.Items
             return newCode;
         }
 
-        public static string UpdateMaterial(string itemCode, string? material)
+        public static string UpdateMaterial(string itemCode, MaterialId material)
         {
             int index = itemCode.IndexOf('-');
             string substr = itemCode[(index + 1)..]; // string without the material id
             
-            if (material == null)
-            {
-                return substr;
-            }
-
-            if (!ItemFactory.ItemKingdom.Materials.Any(m => m.Id == material))
-                throw new Exception($"Invalid material id: {material}");
-
-            return $"{material.Split('_')[1]}-{substr}";
+            return $"{MaterialStringFromId(material)}-{substr}";
         }
 
         public static bool ValidateItemCode(string itemCode)
@@ -173,12 +179,12 @@ namespace TheIdleScrolls_Core.Items
                 var match = regex.Match(itemCode);
                 if (match.Value != itemCode)
                     return false;
-                var material = ExtractMaterialId(itemCode);
-                if (material == null || ItemFactory.ItemKingdom.GetMaterial(material) == null)
+                MaterialId material = ExtractMaterialId(itemCode)!;
+                if (ItemKingdom.GetMaterial(material) == null)
                     return false;
                 var family = ExtractFamilyId(itemCode);
                 var genusIdx = ExtractGenusIndex(itemCode);
-                return ItemFactory.ItemKingdom.HasGenus(family, genusIdx);
+                return ItemKingdom.HasGenus(family, genusIdx);
             }
             catch (Exception)
             {

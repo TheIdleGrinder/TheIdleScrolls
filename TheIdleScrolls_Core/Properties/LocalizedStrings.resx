@@ -123,6 +123,9 @@
   <data name="ABL_CRAFT" xml:space="preserve">
     <value>Crafting</value>
   </data>
+  <data name="ActiveCraftingSlot" xml:space="preserve">
+    <value>Active Craft(s)</value>
+  </data>
   <data name="ArmorRating" xml:space="preserve">
     <value>Armor Rating</value>
   </data>
@@ -208,7 +211,7 @@
     <value>Giant Rat</value>
   </data>
   <data name="BOSS_HEINRICH" xml:space="preserve">
-    <value>Distant Traveller</value>
+    <value>The Mover of Pieces</value>
   </data>
   <data name="BOSS_MERCENARY" xml:space="preserve">
     <value>Mercenary Centurion</value>
@@ -217,10 +220,10 @@
     <value>The Necromancer</value>
   </data>
   <data name="BOSS_RENKE" xml:space="preserve">
-    <value>Whitefish Leviathan</value>
+    <value>The Uber Hunter</value>
   </data>
   <data name="BOSS_SOREN" xml:space="preserve">
-    <value>Salty Archmage</value>
+    <value>The Archmagister</value>
   </data>
   <data name="BOSS_VOIDPRIEST" xml:space="preserve">
     <value>Priest of the Void</value>
@@ -284,6 +287,15 @@
   </data>
   <data name="CLASS_X_X" xml:space="preserve">
     <value>Monk</value>
+  </data>
+  <data name="CraftingCost" xml:space="preserve">
+    <value>Crafting Cost</value>
+  </data>
+  <data name="CraftingSlot" xml:space="preserve">
+    <value>Crafting Slot(s)</value>
+  </data>
+  <data name="CraftingSpeed" xml:space="preserve">
+    <value>Crafting Speed</value>
   </data>
   <data name="DRAGON" xml:space="preserve">
     <value>Dragon</value>
@@ -400,10 +412,10 @@
     <value>Sword</value>
   </data>
   <data name="LBL1" xml:space="preserve">
-    <value>Long Sword</value>
+    <value>Broad Sword</value>
   </data>
   <data name="LBL2" xml:space="preserve">
-    <value>Two-Handed Sword</value>
+    <value>Bastard Sword</value>
   </data>
   <data name="LBL3" xml:space="preserve">
     <value>Curved Sword</value>
@@ -438,6 +450,36 @@
   <data name="MAT_W2" xml:space="preserve">
     <value>Ash</value>
   </data>
+  <data name="MOB_1-CAV" xml:space="preserve">
+    <value>Goblin Knight</value>
+  </data>
+  <data name="MOB_1-INF" xml:space="preserve">
+    <value>Lizard Swordman</value>
+  </data>
+  <data name="MOB_2-ART" xml:space="preserve">
+    <value>Inventive' Cannoneer</value>
+  </data>
+  <data name="MOB_2-CAV" xml:space="preserve">
+    <value>Blessed Cavalryman</value>
+  </data>
+  <data name="MOB_2-INF" xml:space="preserve">
+    <value>Feline Rifleman</value>
+  </data>
+  <data name="MOB_3-AIR" xml:space="preserve">
+    <value>Flying Illusionist</value>
+  </data>
+  <data name="MOB_3-ART" xml:space="preserve">
+    <value>Omari Rocket</value>
+  </data>
+  <data name="MOB_3-CAV" xml:space="preserve">
+    <value>Psychic Tank</value>
+  </data>
+  <data name="MOB_3-INF" xml:space="preserve">
+    <value>Modern Infantry Monk</value>
+  </data>
+  <data name="MOB_A-INF" xml:space="preserve">
+    <value>Mole Warrior</value>
+  </data>
   <data name="MOB_ABOMINATION" xml:space="preserve">
     <value>Abomination</value>
   </data>
@@ -446,6 +488,9 @@
   </data>
   <data name="MOB_ASSASSIN" xml:space="preserve">
     <value>Assassin</value>
+  </data>
+  <data name="MOB_BIGGERIMP" xml:space="preserve">
+    <value>Bigger Imp</value>
   </data>
   <data name="MOB_BIGRAT" xml:space="preserve">
     <value>Big Rat</value>
@@ -462,11 +507,8 @@
   <data name="MOB_DEEPONE2" xml:space="preserve">
     <value>Ancient Deep One</value>
   </data>
-  <data name="MOB_DEMON1" xml:space="preserve">
-    <value>Winged Demon</value>
-  </data>
-  <data name="MOB_DEMON2" xml:space="preserve">
-    <value>Bigger Imp</value>
+  <data name="MOB_DEMONSCOUT" xml:space="preserve">
+    <value>Scout from Beyond</value>
   </data>
   <data name="MOB_FANATIC" xml:space="preserve">
     <value>Fanatic</value>
@@ -475,13 +517,16 @@
     <value>Greater Demon of the Void</value>
   </data>
   <data name="MOB_GRYPHON" xml:space="preserve">
-    <value>Gryphon Rider</value>
+    <value>Majestic Lion</value>
   </data>
   <data name="MOB_HUFFLE" xml:space="preserve">
     <value>Angry Badger</value>
   </data>
   <data name="MOB_IMP" xml:space="preserve">
     <value>Imp</value>
+  </data>
+  <data name="MOB_IMPWARLOCK" xml:space="preserve">
+    <value>Imp Warlock</value>
   </data>
   <data name="MOB_LESSERDEMON" xml:space="preserve">
     <value>Lesser Demon of the Void</value>
@@ -492,11 +537,17 @@
   <data name="MOB_MERCENARY" xml:space="preserve">
     <value>Mercenary Legionnaire</value>
   </data>
+  <data name="MOB_MERCENARY2" xml:space="preserve">
+    <value>Mercenary Legionnaire</value>
+  </data>
+  <data name="MOB_OVERSOUL" xml:space="preserve">
+    <value>Automaton Guardian</value>
+  </data>
   <data name="MOB_RAT" xml:space="preserve">
     <value>Rat</value>
   </data>
   <data name="MOB_RAVEN" xml:space="preserve">
-    <value>Raven</value>
+    <value>Spooky Raven</value>
   </data>
   <data name="MOB_SHARK" xml:space="preserve">
     <value>Shark</value>
@@ -505,13 +556,25 @@
     <value>Skeleton</value>
   </data>
   <data name="MOB_SNAKE" xml:space="preserve">
-    <value>Snake Charmer</value>
+    <value>Imposing Serpent</value>
   </data>
   <data name="MOB_TERRACOTTA" xml:space="preserve">
     <value>Terracotta Guard</value>
   </data>
   <data name="MOB_TERRACOTTA2" xml:space="preserve">
     <value>Terracotta General</value>
+  </data>
+  <data name="MOB_TRASH1" xml:space="preserve">
+    <value>Lumbering Construct</value>
+  </data>
+  <data name="MOB_TRASH2" xml:space="preserve">
+    <value>Slinging Construct</value>
+  </data>
+  <data name="MOB_TRASH3" xml:space="preserve">
+    <value>Slithering Construct</value>
+  </data>
+  <data name="MOB_TRIO" xml:space="preserve">
+    <value>The Three Executors</value>
   </data>
   <data name="MOB_VOIDCULTIST" xml:space="preserve">
     <value>Void Infused Cultist</value>
@@ -521,6 +584,9 @@
   </data>
   <data name="MOB_WARLOCK" xml:space="preserve">
     <value>Warlock</value>
+  </data>
+  <data name="MOB_WINGEDDEMON" xml:space="preserve">
+    <value>Winged Demon</value>
   </data>
   <data name="MOB_ZOMBIE" xml:space="preserve">
     <value>Zombie</value>

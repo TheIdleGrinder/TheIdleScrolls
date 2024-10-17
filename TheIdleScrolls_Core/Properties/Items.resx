@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Family_Axe" xml:space="preserve">
+    <value>Axe</value>
+  </data>
+  <data name="Family_Blunt" xml:space="preserve">
+    <value>Blunt Weapon</value>
+  </data>
+  <data name="Family_Dagger" xml:space="preserve">
+    <value>Dagger</value>
+  </data>
+  <data name="Family_HeavyBoots" xml:space="preserve">
+    <value>Heavy Boots</value>
+  </data>
+  <data name="Family_HeavyChest" xml:space="preserve">
+    <value>Heavy Body Armor</value>
+  </data>
+  <data name="Family_HeavyGloves" xml:space="preserve">
+    <value>Heavy Gloves</value>
+  </data>
+  <data name="Family_HeavyHelmet" xml:space="preserve">
+    <value>Heavy Helmet</value>
+  </data>
+  <data name="Family_HeavyShield" xml:space="preserve">
+    <value>Heavy Shield</value>
+  </data>
+  <data name="Family_LightBoots" xml:space="preserve">
+    <value>Light Boots</value>
+  </data>
+  <data name="Family_LightChest" xml:space="preserve">
+    <value>Light Body Armor</value>
+  </data>
+  <data name="Family_LightGloves" xml:space="preserve">
+    <value>Light Gloves</value>
+  </data>
+  <data name="Family_LightHelmet" xml:space="preserve">
+    <value>Light Helmet</value>
+  </data>
+  <data name="Family_LightShield" xml:space="preserve">
+    <value>Light Shield</value>
+  </data>
+  <data name="Family_LongBlade" xml:space="preserve">
+    <value>Long Blade</value>
+  </data>
+  <data name="Family_LongSword" xml:space="preserve">
+    <value>Long Sword</value>
+  </data>
+  <data name="Family_OneHandAxe" xml:space="preserve">
+    <value>One-Handed Axe</value>
+  </data>
+  <data name="Family_OneHandMace" xml:space="preserve">
+    <value>One-Handed Mace</value>
+  </data>
+  <data name="Family_Polearm" xml:space="preserve">
+    <value>Polearm</value>
+  </data>
+  <data name="Family_ShortBlade" xml:space="preserve">
+    <value>Short Blade</value>
+  </data>
+  <data name="Family_ShortSword" xml:space="preserve">
+    <value>Short Sword</value>
+  </data>
+  <data name="Family_Spear" xml:space="preserve">
+    <value>Spear</value>
+  </data>
+  <data name="Family_TwoHandAxe" xml:space="preserve">
+    <value>Two-Handed Axe</value>
+  </data>
+  <data name="Family_TwoHandMace" xml:space="preserve">
+    <value>Two-Handed Mace</value>
+  </data>
+  <data name="Family_TwoHandSword" xml:space="preserve">
+    <value>Two-Handed Sword</value>
+  </data>
+  <data name="Genus_Dagger0" xml:space="preserve">
+    <value>Knife</value>
+  </data>
+  <data name="Genus_Dagger1" xml:space="preserve">
+    <value>Dagger</value>
+  </data>
+  <data name="Genus_Dagger2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_HeavyBoots0" xml:space="preserve">
+    <value>Chain Boots</value>
+  </data>
+  <data name="Genus_HeavyBoots1" xml:space="preserve">
+    <value>Greaves</value>
+  </data>
+  <data name="Genus_HeavyChest0" xml:space="preserve">
+    <value>Heavy Armor</value>
+  </data>
+  <data name="Genus_HeavyChest1" xml:space="preserve">
+    <value>Chain Mail</value>
+  </data>
+  <data name="Genus_HeavyChest2" xml:space="preserve">
+    <value>Breast Plate</value>
+  </data>
+  <data name="Genus_HeavyGloves0" xml:space="preserve">
+    <value>Chain Gloves</value>
+  </data>
+  <data name="Genus_HeavyGloves1" xml:space="preserve">
+    <value>Gauntlets</value>
+  </data>
+  <data name="Genus_HeavyHelmet0" xml:space="preserve">
+    <value>Helmet</value>
+  </data>
+  <data name="Genus_HeavyHelmet1" xml:space="preserve">
+    <value>Full Helmet</value>
+  </data>
+  <data name="Genus_HeavyShield0" xml:space="preserve">
+    <value>Kite Shield</value>
+  </data>
+  <data name="Genus_HeavyShield1" xml:space="preserve">
+    <value>Tower Shield</value>
+  </data>
+  <data name="Genus_LightBoots0" xml:space="preserve">
+    <value>Shoes</value>
+  </data>
+  <data name="Genus_LightBoots1" xml:space="preserve">
+    <value>Boots</value>
+  </data>
+  <data name="Genus_LightChest0" xml:space="preserve">
+    <value>Light Armor</value>
+  </data>
+  <data name="Genus_LightChest1" xml:space="preserve">
+    <value>Vest</value>
+  </data>
+  <data name="Genus_LightChest2" xml:space="preserve">
+    <value>Cuirass</value>
+  </data>
+  <data name="Genus_LightGloves0" xml:space="preserve">
+    <value>Gloves</value>
+  </data>
+  <data name="Genus_LightGloves1" xml:space="preserve">
+    <value>Mitts</value>
+  </data>
+  <data name="Genus_LightHelmet0" xml:space="preserve">
+    <value>Cap</value>
+  </data>
+  <data name="Genus_LightHelmet1" xml:space="preserve">
+    <value>Hood</value>
+  </data>
+  <data name="Genus_LightShield0" xml:space="preserve">
+    <value>Buckler</value>
+  </data>
+  <data name="Genus_LIghtShield1" xml:space="preserve">
+    <value>Round Shield</value>
+  </data>
+  <data name="Genus_LongSword0" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_LongSword1" xml:space="preserve">
+    <value>Broad Sword</value>
+  </data>
+  <data name="Genus_LongSword2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_OneHandAxe0" xml:space="preserve">
+    <value>Axe</value>
+  </data>
+  <data name="Genus_OneHandAxe1" xml:space="preserve">
+    <value>Hatchet</value>
+  </data>
+  <data name="Genus_OneHandAxe2" xml:space="preserve">
+    <value>War Cleaver</value>
+  </data>
+  <data name="Genus_OneHandMace0" xml:space="preserve">
+    <value>Club</value>
+  </data>
+  <data name="Genus_OneHandMace1" xml:space="preserve">
+    <value>Mace</value>
+  </data>
+  <data name="Genus_OneHandMace2" xml:space="preserve">
+    <value>Morning Star</value>
+  </data>
+  <data name="Genus_Polearm0" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_Polearm1" xml:space="preserve">
+    <value>Halberd</value>
+  </data>
+  <data name="Genus_Polearm2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_ShortSword0" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_ShortSword1" xml:space="preserve">
+    <value>Short Sword</value>
+  </data>
+  <data name="Genus_ShortSword2" xml:space="preserve">
+    <value>Cutlass</value>
+  </data>
+  <data name="Genus_Spear0" xml:space="preserve">
+    <value>Spear</value>
+  </data>
+  <data name="Genus_Spear1" xml:space="preserve">
+    <value>Hunting Spear</value>
+  </data>
+  <data name="Genus_Spear2" xml:space="preserve">
+    <value>War Pike</value>
+  </data>
+  <data name="Genus_TwoHandAxe0" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_TwoHandAxe1" xml:space="preserve">
+    <value>Battle Axe</value>
+  </data>
+  <data name="Genus_TwoHandAxe2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_TwoHandMace0" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_TwoHandMace1" xml:space="preserve">
+    <value>Warhammer</value>
+  </data>
+  <data name="Genus_TwoHandMace2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_TwoHandSword0" xml:space="preserve">
+    <value>Sword</value>
+  </data>
+  <data name="Genus_TwoHandSword1" xml:space="preserve">
+    <value>Bastard Sword</value>
+  </data>
+  <data name="Genus_TwoHandSword2" xml:space="preserve">
+    <value>Curved Sword</value>
+  </data>
+</root>

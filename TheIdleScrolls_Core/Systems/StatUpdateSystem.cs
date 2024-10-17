@@ -149,7 +149,7 @@ namespace TheIdleScrolls_Core.Systems
             
             coordinator.PostMessage(this, new StatsUpdatedMessage());
             if (m_initialFullUpdates > 0)
-                m_initialFullUpdates--; 
+                m_initialFullUpdates--;
         }
 
         public static void UpdatePlayerTags(Entity player)

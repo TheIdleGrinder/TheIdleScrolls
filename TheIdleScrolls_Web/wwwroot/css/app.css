@@ -70,6 +70,12 @@ a, .btn-link {
     --frame-color: slategray;
     --frame-color-special: brown;
     --border-radius: 8px;
+
+    --color-xp-progress: royalblue;
+    --color-crafting-progress: lightseagreen;
+    --color-attack-progress: lightseagreen;
+    --color-hp: red;
+    --color-time: limegreen;
 }
 
 h1.banner-title {
@@ -88,6 +94,32 @@ input:not(:placeholder-shown):invalid {
     border-color: red;
 }
 
+.normal-font {
+    font-size: 1rem;
+}
+
+.small-font {
+    font-size: 0.8rem;
+}
+
+.large-font {
+    font-size: 1.25rem;
+}
+
+div.progressFrame {
+    display: flex;
+    flex-direction: row;
+    width: 70%;
+    background: slategray;
+    justify-content: center;
+    padding: 0px;
+}
+
+div.progressFill {
+    height: 30px;
+    border-style: none;
+}
+
 .rarity-none {
     color: dimgray;
     font-style: italic;
@@ -102,13 +134,13 @@ input:not(:placeholder-shown):invalid {
     color: mediumblue;
 }
 .rarity-3 {
-    color: teal;
+    color: seagreen;
 }
 .rarity-4 {
-    color: forestgreen;
+    color: yellowgreen;
 }
 .rarity-5 {
-    color: yellowgreen;
+    color: gold;
 }
 .rarity-6 {
     color: goldenrod;
@@ -140,7 +172,7 @@ div.play-area-frame {
 
 div.play-area-frame-top {
     border: 2px solid var(--frame-color);
-    border-bottom: none;
+    border-bottom-width: 1px;
     border-top-left-radius: var(--border-radius) var(--border-radius);
     border-top-right-radius: var(--border-radius) var(--border-radius);
 }
@@ -150,6 +182,36 @@ div.play-area-frame-bottom {
     border-top: none;
     border-bottom-left-radius: var(--border-radius) var(--border-radius);
     border-bottom-right-radius: var(--border-radius) var(--border-radius);
+}
+
+
+.tabs {
+    display: flex;
+    overflow: hidden;
+    border-bottom-width: 1px;
+    background-color: #f1f1f1;
+    justify-content: left;
+    grid-area: tab-buttons;
+}
+
+.tabs button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 14px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+.tabs button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tabs button.active {
+    background-color: #ccc;
 }
 
 div.scrolling-table {
@@ -194,11 +256,14 @@ div.scrolling-table table tbody tr td.selectable {
 
 img.pixelart {
     height: auto;
+    image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    /*    image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
-    -ms-interpolation-mode: nearest-neighbor;
-/*    border: 1px solid black;*/
+    -ms-interpolation-mode: nearest-neighbor;*/
+    /*    border: 1px solid black;*/
 }
 
 .selectedItem {

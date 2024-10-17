@@ -3,7 +3,9 @@ div.charOuter {
     flex-direction: column;
     flex: 0 0 auto;
     box-sizing: border-box;
-    padding-left: 10px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-bottom: 0.5rem;
     width: 100%;
 }
 
@@ -11,13 +13,22 @@ progress {
     width: 70%;
 }
 
-tr {
-    border-bottom: 1px solid slategray;
+tr:first-child  th {
+    width:25%;
+    padding-top: 0.5rem;
 }
 
-td {
-/*    padding-left: 10px;
-    border-right: 1px dotted slategray;*/
+tr:first-child td {
+    width: 25%;
+    padding-top: 0.5rem;
+}
+
+tr {
+    /*border-bottom: 1px solid slategray;*/
+}
+
+th, td {
+    font-size: inherit;
 }
 
 tr:last-child {
@@ -26,4 +37,8 @@ tr:last-child {
 
 td:last-child {
     border-right: none;
+}
+
+hr {
+    margin: 0.5rem;
 }

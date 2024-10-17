@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Systems
@@ -76,20 +77,26 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Update crafting
-            var forgeMsgs = coordinator.FetchMessagesByType<ItemReforgedMessage>();
+            var craftMsgs = coordinator.FetchMessagesByType<CraftingStartedMessage>();
+            foreach (var craftMsg in craftMsgs.Where(m => m.Owner == m_player))
+            {
+                progComp.Data.CoinsSpentOnForging += craftMsg.CoinsPaid;
+                
+            }
+            var forgeMsgs = coordinator.FetchMessagesByType<CraftingProcessFinished>();
             foreach (var forgeMsg in forgeMsgs.Where(m => m.Owner == m_player))
             {
-                progComp.Data.CoinsSpentOnForging += forgeMsg.CoinsPaid;
-                if (forgeMsg.RarityResult > progComp.Data.BestReforge)
-                {
-                    progComp.Data.BestReforge = forgeMsg.RarityResult;
-                }
-                if ((forgeMsg.Item.GetItemId()?.GenusIndex ?? -1) == 0 
-                    && forgeMsg.RarityResult > progComp.Data.BestG0Reforge)
-                {
-                    progComp.Data.BestG0Reforge = forgeMsg.RarityResult;
-                }
-            }
+                int rarity = forgeMsg.Craft.TargetItem.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
+				if (rarity > progComp.Data.BestReforge)
+				{
+					progComp.Data.BestReforge = rarity;
+				}
+				if ((forgeMsg.Craft.TargetItem.GetBlueprint()?.MaterialId ?? MaterialId.Ash) == MaterialId.Simple
+					&& rarity > progComp.Data.BestG0Reforge)
+				{
+					progComp.Data.BestG0Reforge = rarity;
+				}
+			}
         }
     }
 }

@@ -32,6 +32,7 @@ namespace TheIdleScrolls_Core.Quests
         const int startLevel = 20;
         const double slopeDuration = 10.0;
         const double pauseDuration = 5.0;
+        const string EndbossId = "BOSS_FINAL_DEMON";
 
         public override QuestId GetId()
         {
@@ -131,8 +132,8 @@ namespace TheIdleScrolls_Core.Quests
                     var mob = coordinator.GetEntities<MobComponent>().FirstOrDefault();
                     if (mob == null)
                         throw new Exception("Final mob was not found");
+                    mob.GetComponent<MobComponent>()!.Id = EndbossId;
                     mob.AddComponent(new NameComponent(Properties.LocalizedStrings.BOSS_FINAL_DEMON));
-                    mob.AddComponent(new MobDamageComponent(1.0));
                     world.TimeLimit.Reset();
 
                     ScaleMobHpAndTimeLimit(entity, mob, world);
@@ -192,7 +193,10 @@ namespace TheIdleScrolls_Core.Quests
 
         static void ScaleMobHpAndTimeLimit(Entity player, Entity mob, World world)
         {
-            double baseMultiplier = 0.35;
+            double baseMultiplier = 0.65;
+            double assumedDpsBonus = 1.25;
+            double mobDamage = 10.0;
+            mob.AddComponent(new MobDamageComponent(mobDamage));
             // Set HP high enough to prevent deafeating the boss
             var attackComp = player.GetComponent<AttackComponent>();
             if (attackComp != null)
@@ -200,7 +204,7 @@ namespace TheIdleScrolls_Core.Quests
                 var hpComp = mob.GetComponent<LifePoolComponent>() ?? new LifePoolComponent();
                 double remaining = 1.0 * hpComp.Current / hpComp.Maximum;
                 double dps = attackComp.RawDamage / attackComp.Cooldown.Duration;
-                hpComp.Maximum = (int)(baseMultiplier * dps * slopeDuration);
+                hpComp.Maximum = (int)(baseMultiplier * dps * assumedDpsBonus * slopeDuration);
                 hpComp.Current = (int)(remaining * hpComp.Maximum);
                 mob.AddComponent(hpComp);
             }
@@ -209,9 +213,9 @@ namespace TheIdleScrolls_Core.Quests
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null)
             {
-                double multi = 1.0 + (defenseComp.Armor / 100.0); // CornerCut: Have central function for bonus
+                double multi = Functions.CalculateArmorBonusMultiplier(defenseComp.Armor, mobDamage);
                 double targetDuration = slopeDuration / multi;
-                world.TimeLimit.ChangeDuration(baseMultiplier * targetDuration);
+                world.TimeLimit.ChangeDuration(baseMultiplier * targetDuration * mobDamage);
             }
         }
     }

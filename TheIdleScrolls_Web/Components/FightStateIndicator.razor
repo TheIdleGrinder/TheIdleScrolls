@@ -1,36 +1,51 @@
 ﻿@using TheIdleScrolls_Web.CoreWrapper
+@* @using TheIdleScrolls_Web.Assets *@
 
 @inject CoreWrapperModel CoreWrapper
 
 <div class="fightOuter">
-    <div id="imageContainer">
-        <img src="/images/hourglass_broadsword.png" class="pixelart" style="width: 256px" />
-    </div>
-    @if (TimeActive)
-    {
-        <div class="fightInner">
-            <p class="timeText">Remaining: @(GetTimeString(Time)) / @(GetTimeString(TimeMax))</p>
-            <div class="progressFrame">
-                <div class="progressFill timeBar" style="width: @(PctString(Time, TimeMax));"></div>
-            </div>
-        </div>
-    }
+    
     @if (MobPresent)
     {
-        <div class="fightInner" style="margin-top: 20px;">
+        
+         <div id="imageContainer">
+             <img class="pixelart" style="width: @(ImageSize)px; border-bottom: 4px solid black"
+                 src="@(GetMobImage())" />
+        </div>
+
+        <div class="fightInner">
             <p style="margin-bottom: 0px;">@CoreWrapper.Mob.Name (Level @CoreWrapper.Mob.Level)</p>
-            <p class="healthText">HP: @Hp.ToBigIntString() / @HpMax.ToBigIntString()</p>
             <div class="progressFrame">
                 <div class="progressFill healthBar" style="width: @(PctString(Hp, HpMax));"></div>
             </div>
+            <p class="healthText">HP: @Hp.ToBigIntString() / @HpMax.ToBigIntString()</p>
         </div>
     }
+    
+    @if (TimeActive)
+    {
+        <div class="fightInner" style="margin-top: 1rem;">
+            <p class="timeText">Time Limit</p>
+            <div class="progressFrame">
+                <div class="progressFill timeBar" style="width: @(PctString(Time, TimeMax));"></div>
+            </div>
+            <p class="timeText">Remaining: @(GetTimeString(Time)) / @(GetTimeString(TimeMax))</p>
+        </div>
+    }
+
+    <div class="progress-bar-container" style="margin-top: 1rem;">
+        Atk
+        <div id="attack-bar-frame" class="progressFrame" style="justify-content: start">
+            <div id="attack-bar-fill" class="progressFill" style="width: @($"{AttackPct:0%}");"></div>
+        </div>
+    </div>
+    
 </div>
 
 <style>
     #imageContainer {
         width: 100%;
-        padding: 25px;
+        padding: 0.5rem;
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -40,7 +55,7 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        padding: 5px;
+        padding: 0.5rem;
         background-color: var(--back-color);
     }
 
@@ -48,50 +63,62 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 10px;
-    }
-
-    div.progressFrame {
-        display: flex;
-        flex-direction: row;
-        width: 70%;
-        background: slategray;
-        justify-content: center;
-        padding: 0px;
-    }
-
-    div.progressFill {
-        height: 30px;
-        border-style: none;
     }
 
     .timeBar {
-        background-color: limegreen;
+        background-color: var(--color-time);
     }
 
     .timeText {
-        color: limegreen;
+        color: var(--color-time);
         margin-bottom: 0px;
     }
 
     .healthBar {
-        background-color: red;
+        background-color: var(--color-hp);
     }
 
     .healthText {
-        color:red;
+        color: var(--color-hp);
         margin-bottom: 0px;
+    }
+
+    .progress-bar-container {
+        display: inline-flex;
+        gap: 0.5rem;
+        font-size: 1.25rem;
+    }
+
+    #attack-bar-frame {
+        width: 100%;
+        border: 1px solid var(--frame-color);
+        background: inherit;
+        height: fit-content;
+        align-self: center;
+    }
+
+    #attack-bar-fill {
+        background-color: var(--color-attack-progress);
+        height: 12px;
     }
 </style>
 
 @code {
-    bool MobPresent => CoreWrapper.Mob.HP > 0;
+    bool MobPresent => CoreWrapper.Mob.HpMax > 0;
     bool TimeActive => CoreWrapper.TimeLimit.Maximum > 0.0;
+
+    bool BigImage => CurrentMobImage.Length > 1000;
+    int ImageSize => BigImage ? 256 : 128;
 
     int Hp => CoreWrapper.Mob.HP;
     int HpMax => CoreWrapper.Mob.HpMax;
     double Time => CoreWrapper.TimeLimit.Remaining;
     double TimeMax => CoreWrapper.TimeLimit.Maximum;
+
+    double AttackPct => 1.0 - 1.0 * CoreWrapper.CharacterStats.CooldownRemaining / CoreWrapper.CharacterStats.Cooldown;
+
+    string CurrentMobId = "";
+    string CurrentMobImage = "";
 
     protected override void OnInitialized()
     {
@@ -112,5 +139,30 @@
     int TimeToInt(double time)
     {
         return (int)(time * 1000);
+    }
+
+    string GetMobImage()
+    {
+        string mob = CoreWrapper.Mob.Id.ToLower();
+        if (mob == CurrentMobId)
+        {
+            return CurrentMobImage;
+        }
+
+        CurrentMobId = mob;
+        object? mobImage = Assets.Mobs.ResourceManager.GetObject(mob) 
+                            ?? Assets.Mobs.ResourceManager.GetObject("_default");
+        if (mobImage != null)
+        {
+            string base64 = Convert.ToBase64String((byte[])mobImage);
+            CurrentMobImage = $"data:image/png; base64,{base64}";
+
+            Console.WriteLine($"Loaded image binary size: {base64.Length}");
+        }
+        else
+        {
+            CurrentMobImage = "/images/hourglass_broadsword.png";
+        }
+        return CurrentMobImage;
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Systems
@@ -106,10 +107,8 @@ namespace TheIdleScrolls_Core.Systems
                 Entity? owner = coordinator.GetEntity(sale.SellerId);
                 if (owner == null)
                     continue;
-                var inventoryComp = owner.GetComponent<InventoryComponent>();
-                if (inventoryComp == null)
-                    throw new Exception($"Entity {owner.GetName()} has no Inventory component");
-                
+                var inventoryComp = owner.GetComponent<InventoryComponent>() 
+                    ?? throw new Exception($"Entity {owner.GetName()} has no Inventory component");
                 Entity item = coordinator.GetEntity(sale.ItemId) ?? throw new Exception($"No item with id {sale.ItemId}");
                 if (inventoryComp.RemoveItem(item))
                 {
@@ -152,7 +151,7 @@ namespace TheIdleScrolls_Core.Systems
         /// <param name="onlyWeapons"></param>
         /// <param name="onlyShields"></param>
         /// <returns></returns>
-        private Entity? FindBlockingItem(EquipmentComponent equipment, List<EquipmentSlot> slots, bool onlyWeapons, bool onlyShields)
+        private static Entity? FindBlockingItem(EquipmentComponent equipment, List<EquipmentSlot> slots, bool onlyWeapons, bool onlyShields)
         {
             foreach (var item in equipment.GetItems().Where(i => (!onlyWeapons || i.IsWeapon()) && (!onlyShields || i.IsShield())))
             {
@@ -162,7 +161,7 @@ namespace TheIdleScrolls_Core.Systems
             return null;
         }
 
-        private bool AIsSubsetOfB(List<EquipmentSlot> a, List<EquipmentSlot> b)
+        private static bool AIsSubsetOfB(List<EquipmentSlot> a, List<EquipmentSlot> b)
         {
             foreach (var slot in a)
             {

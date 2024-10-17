@@ -37,9 +37,19 @@ namespace TheIdleScrollsApp
             m_requests.Add(new SellItemRequest(playerId, itemId));
         }
 
+        public void CraftItem(uint playerId, uint itemId)
+        {
+            m_requests.Add(new CraftItemRequest(playerId, itemId));
+        }
+
         public void ReforgeItem(uint playerId, uint itemId)
         {
             m_requests.Add(new ReforgeItemRequest(playerId, itemId));
+        }
+
+        public void CancelCraft(uint playerId, uint itemId)
+        {
+            m_requests.Add(new CancelCraftRequest(playerId, itemId));
         }
 
         public void LeaveDungeon()

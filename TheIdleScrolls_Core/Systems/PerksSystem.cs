@@ -68,7 +68,9 @@ namespace TheIdleScrolls_Core.Systems
                 // Check for freshly unlocked achievements and their perks
                 foreach (var message in coordinator.FetchMessagesByType<AchievementStatusMessage>())
                 {
-                    if (message.Achievement.Status == AchievementStatus.Awarded && message.Achievement.Perk != null)
+                    if (message.Achievement.Status == AchievementStatus.Awarded 
+                        && message.Achievement.Perk != null
+                        && !perksComp.GetPerks().Any(p => p.Id == message.Achievement.Perk.Id))
                     {
                         perksComp.AddPerk(message.Achievement.Perk);
                     }
@@ -90,7 +92,7 @@ namespace TheIdleScrolls_Core.Systems
             FirstUpdate = false;
         }
 
-        List<UpdateTrigger> CollectUpdateTriggers(Coordinator coordinator)
+        static List<UpdateTrigger> CollectUpdateTriggers(Coordinator coordinator)
         {
             List<UpdateTrigger> triggers = new();
 
@@ -136,7 +138,7 @@ namespace TheIdleScrolls_Core.Systems
                 abilities, modifiers,
                 values,
                 tags,
-                true)
+                false)
             );
 
             // Create perk for armor abilities
@@ -146,7 +148,7 @@ namespace TheIdleScrolls_Core.Systems
                 new() { ModifierType.More, ModifierType.More },
                 new() { Definitions.Stats.DefensePerAbilityLevel, Definitions.Stats.DefensePerAbilityLevel },
                 new() { new List<string>() { Definitions.Tags.Defense }, new List<string>() { Definitions.Tags.Defense } },
-                true)
+                false)
             );
 
 

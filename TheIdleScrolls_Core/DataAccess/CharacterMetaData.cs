@@ -13,15 +13,26 @@ namespace TheIdleScrolls_Core.DataAccess
     {
         public static async Task<CharacterMetaData?> GetCharacterMetaData(this DataAccessHandler accessHandler, string characterId)
         {
-            var entity = await accessHandler.LoadEntity(characterId);
-            if (entity == null)
+            try
+            {
+                var entity = await accessHandler.LoadEntity(characterId);
+                if (entity == null)
+                {
+                    Console.WriteLine($"Failed to load {characterId}");
+                    return null;
+                }
+
+                return new(
+                    entity.GetName(),
+                    entity.GetComponent<LevelComponent>()?.Level ?? 0,
+                    PlayerFactory.GetCharacterClass(entity).Localize()
+                );
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Failed to get character meta data: {e.Message}");
                 return null;
-            
-            return new(
-                entity.GetName(), 
-                entity.GetComponent<LevelComponent>()?.Level ?? 0, 
-                PlayerFactory.GetCharacterClass(entity).Localize()
-            );
+            }
         }
     }
 }

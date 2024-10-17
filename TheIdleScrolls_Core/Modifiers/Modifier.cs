@@ -44,12 +44,31 @@ namespace TheIdleScrolls_Core.Modifiers
     {
         public static double ApplyAllApplicable(this IEnumerable<Modifier> modifiers, double baseValue, IEnumerable<string> tags)
         {
-            var applicable = modifiers.Where(m => m.IsApplicable(tags));
-            double result = applicable.Aggregate(baseValue, (total, mod) => total + (mod.Type == ModifierType.AddBase ? mod.Value : 0.0));
-            result *= applicable.Aggregate(1.0, (total, mod) => total + (mod.Type == ModifierType.Increase ? mod.Value : 0.0));
-            result = applicable.Aggregate(result, (total, mod) => total * (1.0 + (mod.Type == ModifierType.More ? mod.Value : 0.0)));
-            result = applicable.Aggregate(result, (total, mod) => total + (mod.Type == ModifierType.AddFlat ? mod.Value : 0.0));
-            return result;
+            double increase = 1.0;
+            double multi = 1.0;
+            double flat = 0.0;
+            foreach (var mod in modifiers)
+            {
+                if (mod.IsApplicable(tags))
+                {
+                    switch (mod.Type)
+                    {
+                        case ModifierType.AddBase:
+                            baseValue += mod.Value;
+                            break;
+                        case ModifierType.Increase:
+                            increase += mod.Value;
+                            break;
+                        case ModifierType.More:
+                            multi *= 1.0 + mod.Value;
+                            break;
+                        case ModifierType.AddFlat:
+                            flat += mod.Value;
+                            break;
+                    }
+                }
+            }
+            return baseValue * increase * multi + flat;
         }
 
         public static string ToPrettyString(this Modifier modifier, bool showId = false)
@@ -62,6 +81,10 @@ namespace TheIdleScrolls_Core.Modifiers
                 Definitions.Tags.EvasionRating,
                 Definitions.Tags.CharacterXpGain,
                 Definitions.Tags.AbilityXpGain,
+                Definitions.Tags.CraftingSlots,
+                Definitions.Tags.ActiveCrafts,
+                Definitions.Tags.CraftingSpeed,
+                Definitions.Tags.CraftingCost
             };
             targetTags = targetTags.Where(t => modifier.RequiredTags.Contains(t)).ToList();
             List<string> whileTags = new()

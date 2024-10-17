@@ -1,20 +1,23 @@
 ﻿using TheIdleScrolls_Core;
+using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrolls_Web.Components
 {
     public class CssUtilities
     {
-        public static string GetClassesForItem(ItemRepresentation? item)
+        public static string GetClassesForItem(IItemEntity? item, int? rarityOverride = null)
         {
             string classes = "";
-            if (item == null || item.Rarity < 0)
+
+            int rarity = rarityOverride ?? item?.Rarity ?? -1;
+            if (item == null || rarity < 0)
             {
                 classes += " rarity-none";
             }
             else
             {
-                classes += $" rarity-{item.Rarity}";
-                if (item.Rarity > 0)
+                classes += $" rarity-{rarity}";
+                if (rarity > 0)
                     classes += " rare-item";
             }
 

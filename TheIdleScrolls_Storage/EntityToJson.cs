@@ -25,6 +25,7 @@ namespace TheIdleScrolls_Storage
                 typeof(AchievementsComponent),
                 typeof(AttackComponent),
                 typeof(CoinPurseComponent),
+                typeof(CraftingBenchComponent),
                 typeof(EquipmentComponent),
                 typeof(InventoryComponent),
                 typeof(ItemComponent),
@@ -58,7 +59,7 @@ namespace TheIdleScrolls_Storage
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine(e.Message);
+                    Console.WriteLine(e.Message);
                     continue;
                 }
                 ComponentFromJson.SetFromJson(component as dynamic, kv.Value);
