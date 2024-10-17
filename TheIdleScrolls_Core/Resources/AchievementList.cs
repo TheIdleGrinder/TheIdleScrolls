@@ -652,8 +652,8 @@ namespace TheIdleScrolls_Core.Resources
                                     $"Gain a {0.1:0.#%} attack speed multiplier while wearing {id.Localize()}",
                                     ModifierType.More,
                                     0.1,
-                                    new string[] { Definitions.Tags.Defense, id }, 
-                                    new string[] { }),
+                                    new string[] { Definitions.Tags.AttackSpeed }, 
+                                    new string[] { id }),
                 ("LAR" or "HAR", 100)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
                                     $"Gain a {0.1:0.#%} defense multiplier",

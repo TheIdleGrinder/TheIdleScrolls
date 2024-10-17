@@ -75,6 +75,7 @@ namespace TheIdleScrolls_Core.Modifiers
 
         public static string ToPrettyString(this Modifier modifier, bool showId = false)
         {
+            var allTags = modifier.RequiredLocalTags.Union(modifier.RequiredGlobalTags);
             List<string> targetTags = new() {
                 Definitions.Tags.Damage,
                 Definitions.Tags.AttackSpeed,
@@ -88,15 +89,15 @@ namespace TheIdleScrolls_Core.Modifiers
                 Definitions.Tags.CraftingSpeed,
                 Definitions.Tags.CraftingCost
             };
-            targetTags = targetTags.Where(t => modifier.RequiredLocalTags.Contains(t)).ToList();
+            targetTags = targetTags.Where(t => allTags.Contains(t)).ToList();
             List<string> whileTags = new()
             {
                 Definitions.Tags.Unarmed,
                 Definitions.Tags.Unarmored,
                 Definitions.Tags.DualWield,
             };
-            whileTags = whileTags.Where(t => modifier.RequiredLocalTags.Contains(t)).ToList();
-            List<string> withTags = modifier.RequiredLocalTags.Except(targetTags).Except(whileTags).ToList();
+            whileTags = whileTags.Where(t => allTags.Contains(t)).ToList();
+            List<string> withTags = allTags.Except(targetTags).Except(whileTags).ToList();
 
             double absValue = Math.Abs(modifier.Value);
             string valueString = (modifier.Type, modifier.Value >= 0) switch
