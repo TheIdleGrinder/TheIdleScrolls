@@ -15,6 +15,9 @@ namespace TheIdleScrolls_Core.Components
         public int Current = 1;
         public int Maximum = 1;
 
+        public bool IsAlive => Current > 0;
+        public bool IsDead => Current <= 0;
+
         public LifePoolComponent(int maximum = 1)
         {
             Current = maximum;
@@ -87,8 +90,6 @@ namespace TheIdleScrolls_Core.Components
         public Cooldown Cooldown = new(1.0);
 
         public int AttacksPerformed { get; private set; } = 0;
-
-        public bool InCombat { get { return Target != 0; } }
 
         public bool FirstStrike => AttacksPerformed == 0;
 
