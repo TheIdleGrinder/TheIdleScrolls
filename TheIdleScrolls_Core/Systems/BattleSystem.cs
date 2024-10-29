@@ -11,8 +11,17 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class BattleSystem : AbstractSystem
     {
+        int _SkipFrames = 2;
+
         public override void Update(World world, Coordinator coordinator, double dt)
         {
+            // Don't start battles immediately after loading the game to give time to update stats
+            if (_SkipFrames > 0)
+            {
+                _SkipFrames--;
+                return;
+            }
+
             // Remove previously defeated mobs from coordinator
             coordinator.GetEntities<MobComponent, KilledComponent>()
                 .Select(e => e.Id).ToList()
@@ -23,7 +32,12 @@ namespace TheIdleScrolls_Core.Systems
             {
                 // CornerCut: for multiple players, we would have to check which player moved
                 coordinator.GetEntities<PlayerComponent, BattlerComponent>()
-                    .ForEach(e => e.GetComponent<BattlerComponent>()!.Battle.State = Battle.BattleState.Cancelled);
+                    .ForEach(e =>
+                    {
+                        var battle = e.GetComponent<BattlerComponent>()!.Battle;
+                        battle.State = Battle.BattleState.Cancelled;
+                        coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
+                    });
             }
 
             // Clean up previously finished and cancelled battles
@@ -53,10 +67,9 @@ namespace TheIdleScrolls_Core.Systems
                 // Mob was spawned and the fight can begin
                 if (battle.State == Battle.BattleState.WaitingForMob && battle.Mob != null)
                 {
-                    SetupPlayerTimeShield(player, battle.Mob!);
-                    player.GetComponent<TimeShieldComponent>()?.Refill();
-                    player.GetComponent<AttackComponent>()?.Cooldown?.Reset();
+                    SetupPlayerTimeShield(player, battle.Mob!, world);
                     battle.State = Battle.BattleState.InProgress;
+                    coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
                 }
                 
                 // All battles that exist at this point should be in progress
@@ -96,7 +109,7 @@ namespace TheIdleScrolls_Core.Systems
                     double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 1.0;
                     double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
                     double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, damage);
-                    double timeLoss = damage / armorBonus;
+                    double timeLoss = dt * damage / armorBonus;
                     var shieldComp = player.GetComponent<TimeShieldComponent>();
                     if (shieldComp != null) // Players without time shield are invincible
                     {
@@ -107,19 +120,22 @@ namespace TheIdleScrolls_Core.Systems
 
                 // Check for changed evasion rating
                 // CornerCut: Do this every frame for now, could be optimized
-                SetupPlayerTimeShield(player, mob);
+                SetupPlayerTimeShield(player, mob, world);
 
                 // Update battle state
                 if (mobDefeated)
                 {
-                    battle.State = (battle.MobsRemaining > 0) 
-                        ? Battle.BattleState.WaitingForMob 
-                        : Battle.BattleState.PlayerWon;
+                    battle.State = (battle.MobsRemaining == 0) 
+                        ? Battle.BattleState.PlayerWon 
+                        : Battle.BattleState.WaitingForMob;
+                    coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
+                    player.GetComponent<BattlerComponent>()!.AttacksPerformed = 0; // Reset attack counter to enable FirstStrike for next mob
                 }
                 else if (playerDefeated)
                 {
                     battle.State = Battle.BattleState.PlayerLost;
                     coordinator.PostMessage(this, new BattleLostMessage(player, mob.GetName(), mob.GetLevel()));
+                    coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
                 }                
             }
 
@@ -136,13 +152,18 @@ namespace TheIdleScrolls_Core.Systems
 
                 Battle battle = new(player, zone.MobCount);
                 player.AddComponent(new BattlerComponent(battle));
+                coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
+
+                player.GetComponent<TimeShieldComponent>()?.Refill();
+                player.GetComponent<AttackComponent>()?.Cooldown?.Reset();
             }
         }
 
-        static void SetupPlayerTimeShield(Entity player, Entity opponent)
+        static void SetupPlayerTimeShield(Entity player, Entity opponent, World world)
         {
             const double BaseDuration = 10.0;
-            double duration = BaseDuration * player.GetLevel() / opponent.GetLevel();
+            double zoneMulti = player.GetComponent<LocationComponent>()?.GetCurrentZone(world.Map)?.TimeMultiplier ?? 1.0;
+            double duration = BaseDuration * zoneMulti * player.GetLevel() / opponent.GetLevel();
             double evasion = player.GetComponent<DefenseComponent>()?.Evasion ?? 0.0;
             double accuracy = opponent.GetComponent<AccuracyComponent>()?.Accuracy ?? 1.0;
             duration *= Functions.CalculateEvasionBonusMultiplier(evasion, accuracy);
@@ -161,5 +182,18 @@ namespace TheIdleScrolls_Core.Systems
             hpComp.ApplyDamage(damage);
             return new DamageDoneMessage(attacker, target, damage);
         }
+    }
+
+    public class BattleStateChangedMessage : IMessage
+    {
+        public Battle Battle { get; set; }
+
+        public BattleStateChangedMessage(Battle battle)
+        {
+            Battle = battle;
+        }
+
+        string IMessage.BuildMessage() => $"State changed for battle of {Battle.Player.GetName()}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
 }

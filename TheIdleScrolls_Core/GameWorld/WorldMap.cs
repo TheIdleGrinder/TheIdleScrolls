@@ -71,7 +71,7 @@ namespace TheIdleScrolls_Core.GameWorld
                 Biome = biome,
                 Level = level,
                 MobTypes = new(),
-                MobCount = Int32.MaxValue,
+                MobCount = 1,
                 TimeMultiplier = 1.0
             };
         }

@@ -103,8 +103,8 @@ namespace TheIdleScrolls_Core.Systems
                             // return to wilderness
             if (locationComp.InDungeon)
             {
-
-                if (coordinator.MessageTypeIsOnBoard<BattleLostMessage>())
+                var battleState = m_player.GetComponent<BattlerComponent>()?.Battle?.State ?? Battle.BattleState.InProgress;
+                if (battleState == Battle.BattleState.PlayerLost)
                 {
                     locationComp.LeaveDungeon();
                     coordinator.PostMessage(this,
@@ -112,9 +112,7 @@ namespace TheIdleScrolls_Core.Systems
                     return;
                 }
 
-                var kills = coordinator.FetchMessagesByType<DeathMessage>().Count;
-                locationComp.RemainingEnemies -= kills;
-                if (locationComp.RemainingEnemies <= 0)
+                if (battleState == Battle.BattleState.PlayerWon)
                 {
                     if (world.AreaKingdom.GetDungeonFloorCount(locationComp.DungeonId) > locationComp.DungeonFloor + 1) // There are more floors
                     {
@@ -135,12 +133,12 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
 
-                if (locationComp.InDungeon && floorChanged)
-                {
-                    var zone = world.Map.GetDungeonZone(locationComp.DungeonId, locationComp.DungeonFloor) 
-                        ?? throw new Exception($"Player entered invalid dungeon: {locationComp.DungeonId}");
-					locationComp.RemainingEnemies = zone.MobCount;
-                }
+     //           if (locationComp.InDungeon && floorChanged)
+     //           {
+     //               var zone = world.Map.GetDungeonZone(locationComp.DungeonId, locationComp.DungeonFloor) 
+     //                   ?? throw new Exception($"Player entered invalid dungeon: {locationComp.DungeonId}");
+					//locationComp.RemainingEnemies = zone.MobCount;
+     //           }
             }
         }
     }

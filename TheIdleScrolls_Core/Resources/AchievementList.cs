@@ -503,7 +503,7 @@ namespace TheIdleScrolls_Core.Resources
                                 new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
                                 (e, w, c) =>
                                 {
-                                    bool firstStrike = (e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0) == 0;
+                                    bool firstStrike = (e.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
                                     bool usingBlunt = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Any(i => i.GetComponent<ItemComponent>()!.Blueprint.FamilyId == Properties.Constants.Key_Ability_Blunt) ?? false;
                                     return new() { new($"{id}{level}", ModifierType.AddBase, 
@@ -539,7 +539,7 @@ namespace TheIdleScrolls_Core.Resources
                                 new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
                                 (e, w, c) =>
                                 {
-                                    int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
+                                    int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     return new() { new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
                                         new() { Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_Axe },
                                         new())
@@ -550,7 +550,7 @@ namespace TheIdleScrolls_Core.Resources
                                 new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
                                 (e, w, c) =>
                                 {
-                                    int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
+                                    int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     return new() { new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
                                         new() { Definitions.Tags.Damage, Properties.Constants.Key_Ability_Blunt },
                                         new())
@@ -561,7 +561,7 @@ namespace TheIdleScrolls_Core.Resources
                                 new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
                                 (e, w, c) =>
                                 {
-                                    int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
+                                    int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     bool damage = (attacks % 2) == 0;
                                     return new() 
                                     { 
@@ -580,7 +580,7 @@ namespace TheIdleScrolls_Core.Resources
                                 new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
                                 (e, w, c) =>
                                 {
-                                    int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
+                                    int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     return new() { new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
                                         new() { Definitions.Tags.Damage, Properties.Constants.Key_Ability_Blunt }
                                         , new())
@@ -591,7 +591,7 @@ namespace TheIdleScrolls_Core.Resources
                                 new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
                                 (e, w, c) =>
                                 {
-                                    int attacks = e.GetComponent<AttackComponent>()?.AttacksPerformed ?? 0;
+                                    int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     bool bonus = (attacks % 3) == 2; 
                                     return new() { new($"{id}{level}", ModifierType.More, bonus ? 1.0 : 0.0,
                                         new() { Definitions.Tags.Damage, Properties.Constants.Key_Ability_ShortBlade },

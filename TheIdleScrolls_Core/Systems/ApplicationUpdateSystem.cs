@@ -313,7 +313,11 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Update time limit
-            TimeLimitChanged?.Invoke(world.TimeLimit.Remaining, world.TimeLimit.Duration);
+            var shieldComp = player.GetComponent<TimeShieldComponent>();
+            if (shieldComp != null)
+            {
+                TimeLimitChanged?.Invoke(shieldComp.Remaining, shieldComp.Maximum);
+            }
 
             // Update auto proceed
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AutoProceedStatusMessage>())

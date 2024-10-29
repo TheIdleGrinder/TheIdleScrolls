@@ -24,11 +24,8 @@ namespace TheIdleScrolls_Core.GameWorld
 
         public Entity GlobalEntity = new(); // Stores character-independent data, that needs to be saved regularly (e.g. achievement status)
 
-        public Cooldown TimeLimit = new(10.0);
-
         public World()
         {
-            TimeLimit.SingleShot = true;
             Map.Dungeons = AreaKingdom.Dungeons;
         }
 

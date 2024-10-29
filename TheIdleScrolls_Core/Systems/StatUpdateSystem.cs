@@ -190,7 +190,7 @@ namespace TheIdleScrolls_Core.Systems
                 comp.AddTag(Definitions.Tags.Unarmored);
             }
 
-            AddOrRemoveTag(Definitions.Tags.FirstStrike, player.GetComponent<AttackComponent>()?.FirstStrike ?? false);
+            AddOrRemoveTag(Definitions.Tags.FirstStrike, player.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
         }
     }
 

@@ -85,22 +85,8 @@ namespace TheIdleScrolls_Core.Components
 
     public class AttackComponent : IComponent
     {
-        public uint Target = 0;
         public double RawDamage = 1;
-        public Cooldown Cooldown = new(1.0);
-
-        public int AttacksPerformed { get; private set; } = 0;
-
-        public bool FirstStrike => AttacksPerformed == 0;
-
-        public void PerformAttack()
-        {
-            AttacksPerformed++;
-        }
-        public void ResetAttacks()
-        {
-            AttacksPerformed = 0;
-        }        
+        public Cooldown Cooldown = new(1.0);      
     }
 
     public class DefenseComponent : IComponent

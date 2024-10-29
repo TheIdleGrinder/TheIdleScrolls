@@ -47,8 +47,8 @@ namespace TheIdleScrolls_Core.Systems
                     coordinator.PostMessage(this, new AbilityImprovedMessage(craftAbl.Key.Localize(), craftAbl.Level));
             }
 
-            // Update fighting abilities
-            if (m_player.GetComponent<AttackComponent>()?.InCombat ?? false)
+            // Update fighting abilities if player is currently in battle
+            if (m_player.HasComponent<BattlerComponent>())
             {
                 if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<ItemMovedMessage>())
                 {

@@ -14,7 +14,6 @@ namespace TheIdleScrolls_Core.Systems
     public class MobSpawnerSystem : AbstractSystem
     {
         List<MobDescription> m_descriptions = new();
-        int m_skipFrames = 1;
 
         public void SetMobList(List<MobDescription> mobs)
         {
@@ -23,51 +22,36 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            // Skip 
-            if (m_skipFrames > 0)
+            foreach (Entity player in coordinator.GetEntities<PlayerComponent, BattlerComponent>())
             {
-                m_skipFrames--;
-                return;
-            }
-
-            // Despawn all mobs if the character moved to a new area
-            // CornerCut: technically, only mobs that were involved in a fight with the travelling player should be removed
-            if (coordinator.MessageTypeIsOnBoard<AreaChangedMessage>())
-            {
-                coordinator.GetEntities<MobComponent>().ForEach(e => coordinator.RemoveEntity(e.Id));
-            }
-
-            foreach (Entity player in coordinator.GetEntities<PlayerComponent>())
-            {
-                var locationComp = player.GetComponent<LocationComponent>();
-                if (locationComp == null)
-                    continue;
-                
-                var zone = locationComp.GetCurrentZone(world.Map) 
-                    ?? throw new Exception($"Player {player.GetName()} is not in a valid zone");
-
-                // Check if a new mob needs to be spawned
-                // TODO: Give mobs LocationComponent and actually check if a mob is at the players location
-                var mobCount = coordinator.GetEntities<MobComponent>().Count;
-                if (mobCount > 0 || locationComp.RemainingEnemies <= 0)
+                var battle = player.GetComponent<BattlerComponent>()!.Battle;
+                if (battle.NeedsMob)
                 {
-                    continue;
-                }
+                    var locationComp = player.GetComponent<LocationComponent>() 
+                        ?? throw new Exception($"{player.GetName()} is not in a valid location");
+                    
+                    var zone = locationComp.GetCurrentZone(world.Map)
+                        ?? throw new Exception($"Player {player.GetName()} is not in a valid zone");
 
-                List<MobDescription> additionalMobs = (locationComp.InDungeon) 
-                    ? world.AreaKingdom.GetLocalEnemies(locationComp.DungeonId) 
-                    : new();
-                var mob = CreateRandomMob(zone, additionalMobs);
+                    List<MobDescription> additionalMobs = (locationComp.InDungeon)
+                        ? world.AreaKingdom.GetLocalEnemies(locationComp.DungeonId)
+                        : new();
+                    var mob = CreateRandomMob(zone, additionalMobs);
 
-                if (locationComp.InDungeon && zone.MobCount > 1)
-                {
-                    string name = mob.GetName();
-                    int mobNo = zone.MobCount - locationComp.RemainingEnemies + 1;
-                    name += $" [{mobNo}/{zone.MobCount}]";
-                    mob.GetComponent<NameComponent>()!.Name = name;
+                    battle.Mob = mob;
+                    battle.MobsRemaining--;
+                    mob.AddComponent(new BattlerComponent(battle));
+
+                    if (locationComp.InDungeon && zone.MobCount > 1)
+                    {
+                        string name = mob.GetName();
+                        int mobNo = zone.MobCount - battle.MobsRemaining;
+                        name += $" [{mobNo}/{zone.MobCount}]";
+                        mob.GetComponent<NameComponent>()!.Name = name;
+                    }
+                    coordinator.AddEntity(mob);
+                    coordinator.PostMessage(this, new MobSpawnMessage(mob));
                 }
-                coordinator.AddEntity(mob);
-                coordinator.PostMessage(this, new MobSpawnMessage(mob));
             }
         }
 

@@ -12,6 +12,8 @@ namespace TheIdleScrolls_Core.Components
         public Battle Battle { get; set; }
         public int AttacksPerformed { get; set; } = 0;
 
+        public bool FirstStrike => AttacksPerformed == 0;
+
         public BattlerComponent(Battle battle)
         {
             Battle = battle;

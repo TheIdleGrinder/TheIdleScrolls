@@ -122,19 +122,18 @@ namespace TheIdleScrolls_Core.Quests
                 if (ffState == FinalFightState.NotStarted
                     && locationComp.InDungeon
                     && locationComp.DungeonId == Definitions.DungeonIds.Threshold
-                    && locationComp.RemainingEnemies == 1
+                    && entity.GetComponent<BattlerComponent>()?.Battle?.MobsRemaining == 0
                     && coordinator.GetEntities<MobComponent>().FirstOrDefault() != null)
                 {
                     storyComp.StoreTemporaryData(FightStateKey, FinalFightState.Slowing);
                     storyComp.StoreTemporaryData(StartTimeKey, DateTime.Now);
 
                     // Transform mob into final boss
-                    var mob = coordinator.GetEntities<MobComponent>().FirstOrDefault();
-                    if (mob == null)
-                        throw new Exception("Final mob was not found");
+                    var mob = coordinator.GetEntities<MobComponent>().FirstOrDefault() 
+                        ?? throw new Exception("Final mob was not found");
                     mob.GetComponent<MobComponent>()!.Id = EndbossId;
                     mob.AddComponent(new NameComponent(Properties.LocalizedStrings.BOSS_FINAL_DEMON));
-                    world.TimeLimit.Reset();
+                    coordinator.GetEntities<PlayerComponent>().FirstOrDefault()?.GetComponent<TimeShieldComponent>()?.Refill();
 
                     ScaleMobHpAndTimeLimit(entity, mob, world);
 
@@ -215,7 +214,7 @@ namespace TheIdleScrolls_Core.Quests
             {
                 double multi = Functions.CalculateArmorBonusMultiplier(defenseComp.Armor, mobDamage);
                 double targetDuration = slopeDuration / multi;
-                world.TimeLimit.ChangeDuration(baseMultiplier * targetDuration * mobDamage);
+                player.GetComponent<TimeShieldComponent>()?.Rescale(baseMultiplier * targetDuration * mobDamage);
             }
         }
     }
