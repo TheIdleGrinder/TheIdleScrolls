@@ -40,6 +40,9 @@ namespace TheIdleScrolls_Core.Components
         public Entity? Mob { get; set; } = null;
         public int MobsRemaining { get; set; } = 1;
 
+        // Prevents time limit of final battle from being reset
+        public bool CustomTimeLimit { get; set; } = false;
+
         public BattleState State { get; set; } = BattleState.WaitingForMob;
 
         public bool IsFinished => State == BattleState.PlayerWon || State == BattleState.PlayerLost || State == BattleState.Cancelled;

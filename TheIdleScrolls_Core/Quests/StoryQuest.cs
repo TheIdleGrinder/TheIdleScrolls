@@ -133,6 +133,7 @@ namespace TheIdleScrolls_Core.Quests
                         ?? throw new Exception("Final mob was not found");
                     mob.GetComponent<MobComponent>()!.Id = EndbossId;
                     mob.AddComponent(new NameComponent(Properties.LocalizedStrings.BOSS_FINAL_DEMON));
+
                     coordinator.GetEntities<PlayerComponent>().FirstOrDefault()?.GetComponent<TimeShieldComponent>()?.Refill();
 
                     ScaleMobHpAndTimeLimit(entity, mob, world);
@@ -215,6 +216,7 @@ namespace TheIdleScrolls_Core.Quests
                 double multi = Functions.CalculateArmorBonusMultiplier(defenseComp.Armor, mobDamage);
                 double targetDuration = slopeDuration / multi;
                 player.GetComponent<TimeShieldComponent>()?.Rescale(baseMultiplier * targetDuration * mobDamage);
+                player.GetComponent<BattlerComponent>()!.Battle!.CustomTimeLimit = true; // Player has to be in the final battle
             }
         }
     }

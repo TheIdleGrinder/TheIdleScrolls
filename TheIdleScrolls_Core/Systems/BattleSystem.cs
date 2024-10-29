@@ -161,6 +161,8 @@ namespace TheIdleScrolls_Core.Systems
 
         static void SetupPlayerTimeShield(Entity player, Entity opponent, World world)
         {
+            if (player.GetComponent<BattlerComponent>()?.Battle?.CustomTimeLimit ?? false)
+                return; // Skip time shield setup if custom time limit is in use (i.e. final boss)
             const double BaseDuration = 10.0;
             double zoneMulti = player.GetComponent<LocationComponent>()?.GetCurrentZone(world.Map)?.TimeMultiplier ?? 1.0;
             double duration = BaseDuration * zoneMulti * player.GetLevel() / opponent.GetLevel();
