@@ -105,7 +105,7 @@
 
 @code {
     bool MobPresent => CoreWrapper.Mob.HpMax > 0;
-    bool TimeActive => CoreWrapper.TimeLimit.Maximum > 0.0;
+    bool TimeActive => CoreWrapper.TimeLimit.Maximum > 0 && CoreWrapper.Mob.Damage > 0.0;
 
     bool BigImage => CurrentMobImage.Length > 1000;
     int ImageSize => BigImage ? 256 : 128;

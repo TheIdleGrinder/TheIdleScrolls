@@ -85,28 +85,6 @@ namespace TheIdleScrolls_Core.Systems
             {
                 var inventoryComp = player.GetComponent<InventoryComponent>();
                 var equipmentComp = player.GetComponent<EquipmentComponent>();
-                //var invItems = new List<ItemRepresentation>();
-                //var equipItems = new List<ItemRepresentation>();
-
-                //if (inventoryComp != null)
-                //{
-                //    foreach (var item in inventoryComp.GetItems())
-                //    {
-                //        var invItem = GenerateItemRepresentation(item, player);
-                //        if (invItem != null)
-                //            invItems.Add(invItem);
-                //    }
-                //}
-
-                //if (equipmentComp != null)
-                //{
-                //    foreach (var item in equipmentComp.GetItems().OrderBy(i => i.IsShield() ? 1: 0))
-                //    {
-                //        var eItem = GenerateItemRepresentation(item, player);
-                //        if (eItem != null)
-                //            equipItems.Add(eItem);
-                //    }
-                //}
 
                 if (inventoryComp != null)
                 {
@@ -397,7 +375,8 @@ namespace TheIdleScrolls_Core.Systems
             var mobLevel = mob.GetComponent<LevelComponent>()?.Level ?? 0;
             var mobHp = mob.GetComponent<LifePoolComponent>()?.Current ?? 0;
             var mobHpMax = mob.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
-            return new MobRepresentation(mob.Id, mobId, mobName, mobLevel, mobHp, mobHpMax);
+            var mobDamage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
+            return new MobRepresentation(mob.Id, mobId, mobName, mobLevel, mobHp, mobHpMax, mobDamage);
         }
 
         static CraftingProcessRepresentation GenerateCraftRepresentation(CraftingProcess craft)

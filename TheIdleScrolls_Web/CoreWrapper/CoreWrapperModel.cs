@@ -41,7 +41,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public int XpTarget { get; set; } = 0;
         public TimeLimit TimeLimit { get; private set; } = new();
         public AreaRepresentation Area { get; private set; } = new("", 0, false);
-        public MobRepresentation Mob { get; private set; } = new(0, "", "", 0, 0, 0);
+        public MobRepresentation Mob { get; private set; } = new(0, "", "", 0, 0, 0, 0.0);
         public AccessibleAreas Accessible { get; } = new();
         public List<IItemEntity> CraftingRecipes { get; private set; } = new();
         public CraftingBenchRepresentation CraftingBench { get; private set; } = new(0, 0, 0, new());

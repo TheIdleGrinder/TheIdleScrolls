@@ -106,7 +106,7 @@ namespace TheIdleScrolls_Core.Systems
                 // Process time loss if mob has not been defeated
                 if (!mobDefeated)
                 {
-                    double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 1.0;
+                    double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
                     double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
                     double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, damage);
                     double timeLoss = dt * damage / armorBonus;
