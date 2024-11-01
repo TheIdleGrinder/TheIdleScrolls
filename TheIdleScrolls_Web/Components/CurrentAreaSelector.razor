@@ -124,7 +124,7 @@
 
     private string GetLeaveButtonClass()
     {
-        if (!InDungeon)
+        if (!InDungeon || !CanTravel)
         {
             return "hidden";
         }

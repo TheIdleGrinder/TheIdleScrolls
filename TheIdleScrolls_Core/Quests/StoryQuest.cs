@@ -143,6 +143,7 @@ namespace TheIdleScrolls_Core.Quests
                     if (travelComp != null)
                     {
                         travelComp.Active = false;
+                        postMessageCallback(new FeatureStateMessage(GameFeature.Travel, false));
                     }
                 }
                 else if (ffState == FinalFightState.Slowing)
