@@ -113,30 +113,4 @@ namespace TheIdleScrolls_Core.Systems
         }
 
     }
-
-    internal class BattleLostMessage : IMessage
-    {
-        public Entity Player;
-
-        public string MobName;
-
-        public int Level;
-
-        public BattleLostMessage(Entity player, string mobName, int level)
-        {
-            Player = player;
-            MobName = mobName;
-            Level = level;
-        }
-
-        string IMessage.BuildMessage()
-        {
-            return $"{Player.GetName()} lost the fight against {MobName} (Level {Level})";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.High;
-        }
-    }
 }

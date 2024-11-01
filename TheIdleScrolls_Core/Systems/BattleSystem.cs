@@ -198,4 +198,78 @@ namespace TheIdleScrolls_Core.Systems
         string IMessage.BuildMessage() => $"State changed for battle of {Battle.Player.GetName()}";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
+
+    public class DamageDoneMessage : IMessage
+    {
+        public Entity Attacker { get; set; }
+        public Entity Target { get; set; }
+        public int Damage { get; set; }
+
+        public DamageDoneMessage(Entity attacker, Entity target, int damage)
+        {
+            Attacker = attacker;
+            Target = target;
+            Damage = damage;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            string attackerName = Attacker.GetName();
+            string targetName = Target.GetName();
+            int remainingHP = Target.GetComponent<LifePoolComponent>()?.Current ?? 0;
+            int fullHP = Target.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
+            return $"{attackerName} did {Damage} damage to {targetName} ({remainingHP}/{fullHP} HP remaining)";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.VeryLow;
+        }
+    }
+
+    public class DeathMessage : IMessage
+    {
+        public Entity Victim { get; set; }
+
+        public DeathMessage(Entity victim)
+        {
+            Victim = victim;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"{Victim.GetName()} was defeated";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.Medium;
+        }
+    }
+
+    internal class BattleLostMessage : IMessage
+    {
+        public Entity Player;
+
+        public string MobName;
+
+        public int Level;
+
+        public BattleLostMessage(Entity player, string mobName, int level)
+        {
+            Player = player;
+            MobName = mobName;
+            Level = level;
+        }
+
+        string IMessage.BuildMessage()
+        {
+            return $"{Player.GetName()} lost the fight against {MobName} (Level {Level})";
+        }
+
+        IMessage.PriorityLevel IMessage.GetPriority()
+        {
+            return IMessage.PriorityLevel.High;
+        }
+    }
 }
