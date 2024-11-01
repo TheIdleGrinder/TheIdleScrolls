@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Remove="Systems\AttackProcessingSystem.cs" />
     <Compile Remove="Systems\ConsoleLoggerSystem.cs" />
+    <Compile Remove="Systems\ModifierSystem.cs" />
     <Compile Remove="Systems\TargetSelectorSystem.cs" />
     <Compile Remove="Systems\TimeLimitSystem.cs" />
   </ItemGroup>
