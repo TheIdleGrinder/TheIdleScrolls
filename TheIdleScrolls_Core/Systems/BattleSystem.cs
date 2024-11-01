@@ -75,7 +75,6 @@ namespace TheIdleScrolls_Core.Systems
                 // All battles that exist at this point should be in progress
                 if (battle.State != Battle.BattleState.InProgress)
                 {
-                    //continue;
                     throw new Exception("battle is not in progress");
                 }
 

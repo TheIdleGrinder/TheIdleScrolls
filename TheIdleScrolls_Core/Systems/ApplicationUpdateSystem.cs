@@ -36,7 +36,6 @@ namespace TheIdleScrolls_Core.Systems
         public event DefenseChangedHandler? PlayerDefenseChanged;
         public event AbilitiesChangedHandler? PlayerAbilitiesChanged;
         public event PerksChangedHandler? PlayerPerksChanged;
-        public event ModifiersChangedHandler? PlayerModifiersChanged;
         public event MobChangedHandler? MobChanged;
         public event AreaChangedHandler? PlayerAreaChanged;
         public event AutoProceedStateChangedHandler? PlayerAutoProceedStateChanged;
@@ -154,16 +153,6 @@ namespace TheIdleScrolls_Core.Systems
                         .Select(p => new PerkRepresentation(p.Name, p.Description, p.Modifiers.Select(m => m.ToPrettyString()).ToList()))
                         .ToList();
                     PlayerPerksChanged?.Invoke(representations);
-                }
-            }
-
-            // Update modifiers
-            if (coordinator.MessageTypeIsOnBoard<ModifiersUpdatedMessage>())
-            {
-                var modComp = player.GetComponent<ModifierComponent>();
-                if (modComp != null)
-                {
-                    PlayerModifiersChanged?.Invoke(modComp.GetModifiers().Select(m => m?.ToPrettyString() ?? "??").ToList()); ;
                 }
             }
 
