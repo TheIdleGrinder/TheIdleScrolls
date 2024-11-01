@@ -47,8 +47,8 @@ namespace TheIdleScrolls_Core.Systems
                     coordinator.PostMessage(this, new AbilityImprovedMessage(craftAbl.Key.Localize(), craftAbl.Level));
             }
 
-            // Update fighting abilities
-            if (m_player.GetComponent<AttackComponent>()?.InCombat ?? false)
+            // Update fighting abilities if player is currently in battle
+            if (m_player.HasComponent<BattlerComponent>())
             {
                 if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<ItemMovedMessage>())
                 {
@@ -109,7 +109,10 @@ namespace TheIdleScrolls_Core.Systems
 
         double ApplyModifiers(string ability, double baseValue)
             => m_player?.GetComponent<ModifierComponent>()
-                ?.ApplyApplicableModifiers(baseValue, new string[] { Definitions.Tags.AbilityXpGain, ability }) ?? baseValue;
+                ?.ApplyApplicableModifiers(baseValue, 
+                    new string[] { Definitions.Tags.AbilityXpGain, ability }, 
+                    m_player?.GetTags() ?? new()) 
+            ?? baseValue;
     }
 
     public class AbilityImprovedMessage : IMessage

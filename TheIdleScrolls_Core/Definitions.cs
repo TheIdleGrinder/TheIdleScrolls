@@ -207,7 +207,9 @@ namespace TheIdleScrolls_Core
             var materialTier = item.GetComponent<ItemMaterialComponent>()?.Tier ?? 0;
             double baseDuration = Definitions.Stats.ReforgingBaseDuration 
                 + Definitions.Stats.ReforgingDurationPerMaterialTier * materialTier;
-            double speed = crafter?.ApplyAllApplicableModifiers(1.0, new string[] { Definitions.Tags.CraftingSpeed }) ?? 1.0;
+            double speed = crafter?.ApplyAllApplicableModifiers(1.0, 
+                new string[] { Definitions.Tags.CraftingSpeed }, 
+                crafter.GetTags()) ?? 1.0;
             
             // CornerCut: Minimum speed of 1% to prevent eternal crafts, realistically will never be below 1.0
             return Math.Ceiling(baseDuration / Math.Max(speed, 0.01));
@@ -216,7 +218,9 @@ namespace TheIdleScrolls_Core
         public static int CalculateCraftingCost(Entity item, Entity? crafter)
         {
             int baseCost = item.GetComponent<ItemReforgeableComponent>()?.Cost ?? 100;
-            double cost = crafter?.ApplyAllApplicableModifiers(baseCost, new string[] { Definitions.Tags.CraftingCost }) ?? baseCost;
+            double cost = crafter?.ApplyAllApplicableModifiers(baseCost, 
+                new string[] { Definitions.Tags.CraftingCost },
+                crafter.GetTags()) ?? baseCost;
             return (int)Math.Ceiling(Math.Max(cost, 1.0));
         }
     }

@@ -96,12 +96,15 @@ namespace TheIdleScrolls_Core.Items
         public static void UpdateItemValue(Entity item)
         {
             ItemBlueprint blueprint = item.GetComponent<ItemComponent>()?.Blueprint ?? throw new Exception($"Entity {item.GetName()} is not an item");
-            double baseValue = 5.0;
-            int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10); // +10 because first tier has drop level 0 (+10 from material) 
-            int rarity = blueprint.Rarity;
-            double matMulti = blueprint.GetMaterial().PowerMultiplier;
-
-            int value = (int)Math.Ceiling(baseValue * tier * matMulti * Math.Pow(1.25, rarity));
+            int value = 0;
+            if (blueprint.MaterialId != MaterialId.Simple)
+            {
+                double baseValue = 5.0;
+                int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10); // +10 because first tier has drop level 0 (+10 from material) 
+                int rarity = blueprint.Rarity;
+                double matMulti = blueprint.GetMaterial().PowerMultiplier;
+                value = (int)Math.Ceiling(baseValue * tier * matMulti * Math.Pow(1.25, rarity));
+            }            
             item.AddComponent(new ItemValueComponent() { Value = value });
         }
 
@@ -109,10 +112,13 @@ namespace TheIdleScrolls_Core.Items
         {
             ItemBlueprint blueprint = item.GetComponent<ItemComponent>()?.Blueprint ?? throw new Exception($"Entity {item.GetName()} is not an item");
             double baseCost = 10.0;
-            int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10);
-            double matMulti = blueprint.GetMaterial().PowerMultiplier;
-
-            int totalCost = (int)Math.Ceiling(baseCost * (tier + 1) * matMulti);
+            int totalCost = (int)baseCost;
+            if (blueprint.MaterialId != MaterialId.Simple)
+            {
+                int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10);
+                double matMulti = blueprint.GetMaterial().PowerMultiplier;
+                totalCost = (int)Math.Ceiling(baseCost * (tier + 1) * matMulti);
+            }
             item.AddComponent(new ItemReforgeableComponent() { Cost = totalCost });
         }
 

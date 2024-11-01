@@ -27,9 +27,9 @@ namespace TheIdleScrolls_Core.Components
             Modifiers.Clear();
         }
 
-        public double ApplyApplicableModifiers(double baseValue, IEnumerable<string> tags)
+        public double ApplyApplicableModifiers(double baseValue, IEnumerable<string> localTags, IEnumerable<string>? globalTags)
         {
-            return Modifiers.Values.ApplyAllApplicable(baseValue, tags);
+            return Modifiers.Values.ApplyAllApplicable(baseValue, localTags, globalTags);
         }
 
         public List<Modifier> GetModifiers()

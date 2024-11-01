@@ -17,7 +17,6 @@ namespace TheIdleScrolls_Core
     public delegate void DefenseChangedHandler(double armor, double evasion, double defenseRating);
     public delegate void AbilitiesChangedHandler(List<AbilityRepresentation> abilities);
     public delegate void PerksChangedHandler(List<PerkRepresentation> perks);
-    public delegate void ModifiersChangedHandler(List<string> modifiers);
     public delegate void MobChangedHandler(MobRepresentation mob);
     public delegate void AreaChangedHandler(string name, int level, bool isDungeon);
     public delegate void AutoProceedStateChangedHandler(bool autoProceed);
@@ -45,7 +44,6 @@ namespace TheIdleScrolls_Core
         event DefenseChangedHandler PlayerDefenseChanged;
         event AbilitiesChangedHandler PlayerAbilitiesChanged;
         event PerksChangedHandler PlayerPerksChanged;
-        event ModifiersChangedHandler PlayerModifiersChanged;
         event MobChangedHandler MobChanged;
         event AreaChangedHandler PlayerAreaChanged;
         event AutoProceedStateChangedHandler PlayerAutoProceedStateChanged;

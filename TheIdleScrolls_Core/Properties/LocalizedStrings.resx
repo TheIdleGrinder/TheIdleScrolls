@@ -333,6 +333,9 @@
   <data name="EvasionRating" xml:space="preserve">
     <value>Evasion Rating</value>
   </data>
+  <data name="FirstStrike" xml:space="preserve">
+    <value>First Strike</value>
+  </data>
   <data name="HAR" xml:space="preserve">
     <value>Heavy Armor</value>
   </data>

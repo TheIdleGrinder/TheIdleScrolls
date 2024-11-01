@@ -180,14 +180,14 @@ namespace TheIdleScrolls_Core.Resources
                         new(1, 1.1, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
                         new(3, 3.1, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
                         new(1, 1.0, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 4.0, new() { "BOSS_CULTLEADER" })
+                        new(1, 4.0, new() { "MOB_GREATERDEMON" })
                     },
                     LocalMobs = new()
                     {
                         new("MOB_IMP", hP: 1.15, damage: 1.6),
                         new("MOB_LESSERDEMON", hP: 1.4, damage: 1.4), // Rescaled from JSON
                         new("MOB_VOIDCULTIST", hP: 1.6, damage: 1.25),
-                        new("BOSS_CULTLEADER", hP: 6.0, damage: 1.5)
+                        new("MOB_GREATERDEMON", hP: 6.0, damage: 1.5)
                     },
                     Rewards = new(51, true, new())
                 },
@@ -204,13 +204,13 @@ namespace TheIdleScrolls_Core.Resources
                         new(3, 3.0, new() { "MOB_VOIDCULTIST" }),
                         new(4, 3.5, new() { "MOB_VOIDCULTIST", "MOB_IMPWARLOCK" }),
                         new(7, 5.4, new() { "MOB_IMPWARLOCK" }),
-                        new(1, 5.0, new() { "MOB_GREATERDEMON" })
+                        new(1, 5.0, new() { "BOSS_CULTLEADER" })
                     },
                     LocalMobs = new()
                     {
                         new("MOB_VOIDCULTIST", hP: 1.3, damage: 1.3),
                         new("MOB_IMPWARLOCK", hP: 1.8, damage: 1.0), // bit more life to make up for damage scaling
-                        new("MOB_GREATERDEMON", hP: 10.0, damage: 1.2)
+                        new("BOSS_CULTLEADER", hP: 8.0, damage: 1.5)
                     },
                     Rewards = new(61, true, new())
                 },

@@ -16,9 +16,6 @@ namespace TheIdleScrolls_Core.Components
 
         public int DungeonFloor { get; set; } = 0;
 
-        // CornerCut: Keep track of remaining enemies here, used to check the dungeon progress of player characters
-        public int RemainingEnemies { get; set; } = Int32.MaxValue;
-
         public bool InDungeon => DungeonId != string.Empty;
 
         public bool InOverworld => !InDungeon;

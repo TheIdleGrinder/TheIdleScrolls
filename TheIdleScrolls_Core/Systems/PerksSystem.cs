@@ -121,7 +121,8 @@ namespace TheIdleScrolls_Core.Systems
             List<string> abilities = new();
             List<ModifierType> modifiers = new();
             List<double> values = new();
-            List<IEnumerable<string>> tags = new();
+            List<IEnumerable<string>> localTags = new();
+            List<IEnumerable<string>> globalTags = new();
             foreach (string ability in Definitions.Abilities.Weapons)
             {
                 abilities.Add(ability);
@@ -130,14 +131,17 @@ namespace TheIdleScrolls_Core.Systems
                 modifiers.Add(ModifierType.More);
                 values.Add(Definitions.Stats.AttackDamagePerAbilityLevel);
                 values.Add(Definitions.Stats.AttackSpeedPerAbilityLevel);
-                tags.Add(new List<string>() { Definitions.Tags.Damage });
-                tags.Add(new List<string>() { Definitions.Tags.AttackSpeed });
+                localTags.Add(new List<string>() { Definitions.Tags.Damage });
+                localTags.Add(new List<string>() { Definitions.Tags.AttackSpeed });
+                globalTags.Add(new List<string>());
+                globalTags.Add(new List<string>());
             }
             perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("WeaponAbilities", "Abilities: Weapons",
                 "Increases damage and attack speed of weapon abilities",
                 abilities, modifiers,
                 values,
-                tags,
+                localTags,
+                globalTags,
                 false)
             );
 
@@ -148,6 +152,7 @@ namespace TheIdleScrolls_Core.Systems
                 new() { ModifierType.More, ModifierType.More },
                 new() { Definitions.Stats.DefensePerAbilityLevel, Definitions.Stats.DefensePerAbilityLevel },
                 new() { new List<string>() { Definitions.Tags.Defense }, new List<string>() { Definitions.Tags.Defense } },
+                new() { new List<string>(), new List<string>() },
                 false)
             );
 
@@ -161,7 +166,8 @@ namespace TheIdleScrolls_Core.Systems
                     return new()
                     {
                         new("dw_aps", ModifierType.More, Definitions.Stats.DualWieldAttackSpeedMulti,
-                            new() { Definitions.Tags.AttackSpeed, Definitions.Tags.DualWield })
+                            new() { Definitions.Tags.AttackSpeed },
+                            new() { Definitions.Tags.DualWield })
                     };
                 }
             );
@@ -176,7 +182,7 @@ namespace TheIdleScrolls_Core.Systems
                     return new()
                     {
                         new("dpl_dmg", ModifierType.Increase, (level - 1) * Definitions.Stats.AttackBonusPerLevel,
-                            new() { Definitions.Tags.Damage })
+                            new() { Definitions.Tags.Damage }, new())
                     };
                 }
             );

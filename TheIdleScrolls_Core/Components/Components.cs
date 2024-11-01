@@ -15,6 +15,9 @@ namespace TheIdleScrolls_Core.Components
         public int Current = 1;
         public int Maximum = 1;
 
+        public bool IsAlive => Current > 0;
+        public bool IsDead => Current <= 0;
+
         public LifePoolComponent(int maximum = 1)
         {
             Current = maximum;
@@ -82,24 +85,8 @@ namespace TheIdleScrolls_Core.Components
 
     public class AttackComponent : IComponent
     {
-        public uint Target = 0;
         public double RawDamage = 1;
-        public Cooldown Cooldown = new(1.0);
-
-        public int AttacksPerformed { get; private set; } = 0;
-
-        public bool InCombat { get { return Target != 0; } }
-
-        public bool FirstStrike => AttacksPerformed == 0;
-
-        public void PerformAttack()
-        {
-            AttacksPerformed++;
-        }
-        public void ResetAttacks()
-        {
-            AttacksPerformed = 0;
-        }        
+        public Cooldown Cooldown = new(1.0);      
     }
 
     public class DefenseComponent : IComponent
@@ -251,11 +238,9 @@ namespace TheIdleScrolls_Core.Components
 
     public class TravellerComponent : IComponent
     {
-        public bool Active = true;
-
-        public int MaxWilderness = 0;
-
-        public HashSet<string> AvailableDungeons = new();
+        public bool Active { get; set; } = true;
+        public int MaxWilderness { get; set; } = 0;
+        public HashSet<string> AvailableDungeons { get; set; } = new();
     }
 
     public class CoinPurseComponent : IComponent

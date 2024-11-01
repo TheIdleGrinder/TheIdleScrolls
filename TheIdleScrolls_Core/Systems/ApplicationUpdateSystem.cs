@@ -36,7 +36,6 @@ namespace TheIdleScrolls_Core.Systems
         public event DefenseChangedHandler? PlayerDefenseChanged;
         public event AbilitiesChangedHandler? PlayerAbilitiesChanged;
         public event PerksChangedHandler? PlayerPerksChanged;
-        public event ModifiersChangedHandler? PlayerModifiersChanged;
         public event MobChangedHandler? MobChanged;
         public event AreaChangedHandler? PlayerAreaChanged;
         public event AutoProceedStateChangedHandler? PlayerAutoProceedStateChanged;
@@ -85,28 +84,6 @@ namespace TheIdleScrolls_Core.Systems
             {
                 var inventoryComp = player.GetComponent<InventoryComponent>();
                 var equipmentComp = player.GetComponent<EquipmentComponent>();
-                //var invItems = new List<ItemRepresentation>();
-                //var equipItems = new List<ItemRepresentation>();
-
-                //if (inventoryComp != null)
-                //{
-                //    foreach (var item in inventoryComp.GetItems())
-                //    {
-                //        var invItem = GenerateItemRepresentation(item, player);
-                //        if (invItem != null)
-                //            invItems.Add(invItem);
-                //    }
-                //}
-
-                //if (equipmentComp != null)
-                //{
-                //    foreach (var item in equipmentComp.GetItems().OrderBy(i => i.IsShield() ? 1: 0))
-                //    {
-                //        var eItem = GenerateItemRepresentation(item, player);
-                //        if (eItem != null)
-                //            equipItems.Add(eItem);
-                //    }
-                //}
 
                 if (inventoryComp != null)
                 {
@@ -176,16 +153,6 @@ namespace TheIdleScrolls_Core.Systems
                         .Select(p => new PerkRepresentation(p.Name, p.Description, p.Modifiers.Select(m => m.ToPrettyString()).ToList()))
                         .ToList();
                     PlayerPerksChanged?.Invoke(representations);
-                }
-            }
-
-            // Update modifiers
-            if (coordinator.MessageTypeIsOnBoard<ModifiersUpdatedMessage>())
-            {
-                var modComp = player.GetComponent<ModifierComponent>();
-                if (modComp != null)
-                {
-                    PlayerModifiersChanged?.Invoke(modComp.GetModifiers().Select(m => m?.ToPrettyString() ?? "??").ToList()); ;
                 }
             }
 
@@ -313,7 +280,11 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Update time limit
-            TimeLimitChanged?.Invoke(world.TimeLimit.Remaining, world.TimeLimit.Duration);
+            var shieldComp = player.GetComponent<TimeShieldComponent>();
+            if (shieldComp != null)
+            {
+                TimeLimitChanged?.Invoke(shieldComp.Remaining, shieldComp.Maximum);
+            }
 
             // Update auto proceed
             if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AutoProceedStatusMessage>())
@@ -393,7 +364,8 @@ namespace TheIdleScrolls_Core.Systems
             var mobLevel = mob.GetComponent<LevelComponent>()?.Level ?? 0;
             var mobHp = mob.GetComponent<LifePoolComponent>()?.Current ?? 0;
             var mobHpMax = mob.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
-            return new MobRepresentation(mob.Id, mobId, mobName, mobLevel, mobHp, mobHpMax);
+            var mobDamage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
+            return new MobRepresentation(mob.Id, mobId, mobName, mobLevel, mobHp, mobHpMax, mobDamage);
         }
 
         static CraftingProcessRepresentation GenerateCraftRepresentation(CraftingProcess craft)

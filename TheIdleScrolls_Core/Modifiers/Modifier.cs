@@ -17,39 +17,41 @@ namespace TheIdleScrolls_Core.Modifiers
     public class Modifier
     {
         public string Id { get; set; } = "";
-
         public ModifierType Type { get; set; }
-
         public double Value { get; set; }
-
-        public HashSet<string> RequiredTags { get; set; } = new();
+        public HashSet<string> RequiredLocalTags { get; set; } = new();
+        public HashSet<string> RequiredGlobalTags { get; set; } = new();
 
         public Modifier() { }
 
-        public Modifier(string id, ModifierType type, double value, HashSet<string> tags)
+        public Modifier(string id, ModifierType type, double value, HashSet<string> localTags, HashSet<string> globalTags)
         {
             Id = id;
             Type = type;
             Value = value;
-            RequiredTags = tags;
+            RequiredLocalTags = localTags;
+            RequiredGlobalTags = globalTags;
         }
 
-        public bool IsApplicable(IEnumerable<string> tags)
+        public bool IsApplicable(IEnumerable<string> localTags, IEnumerable<string>? globalTags)
         {
-            return RequiredTags.All(t => tags.Contains(t));
+            return RequiredLocalTags.All(t => localTags.Contains(t)) 
+                    && (globalTags == null || RequiredGlobalTags.All(t => globalTags.Contains(t)));
         }
     }
 
     public static class Modifiers
     {
-        public static double ApplyAllApplicable(this IEnumerable<Modifier> modifiers, double baseValue, IEnumerable<string> tags)
+        public static double ApplyAllApplicable(this IEnumerable<Modifier> modifiers, double baseValue, 
+            IEnumerable<string> localTags, 
+            IEnumerable<string>? globalTags)
         {
             double increase = 1.0;
             double multi = 1.0;
             double flat = 0.0;
             foreach (var mod in modifiers)
             {
-                if (mod.IsApplicable(tags))
+                if (mod.IsApplicable(localTags, globalTags))
                 {
                     switch (mod.Type)
                     {
@@ -73,6 +75,7 @@ namespace TheIdleScrolls_Core.Modifiers
 
         public static string ToPrettyString(this Modifier modifier, bool showId = false)
         {
+            var allTags = modifier.RequiredLocalTags.Union(modifier.RequiredGlobalTags);
             List<string> targetTags = new() {
                 Definitions.Tags.Damage,
                 Definitions.Tags.AttackSpeed,
@@ -86,15 +89,15 @@ namespace TheIdleScrolls_Core.Modifiers
                 Definitions.Tags.CraftingSpeed,
                 Definitions.Tags.CraftingCost
             };
-            targetTags = targetTags.Where(t => modifier.RequiredTags.Contains(t)).ToList();
+            targetTags = targetTags.Where(t => allTags.Contains(t)).ToList();
             List<string> whileTags = new()
             {
                 Definitions.Tags.Unarmed,
                 Definitions.Tags.Unarmored,
                 Definitions.Tags.DualWield,
             };
-            whileTags = whileTags.Where(t => modifier.RequiredTags.Contains(t)).ToList();
-            List<string> withTags = modifier.RequiredTags.Except(targetTags).Except(whileTags).ToList();
+            whileTags = whileTags.Where(t => allTags.Contains(t)).ToList();
+            List<string> withTags = allTags.Except(targetTags).Except(whileTags).ToList();
 
             double absValue = Math.Abs(modifier.Value);
             string valueString = (modifier.Type, modifier.Value >= 0) switch
