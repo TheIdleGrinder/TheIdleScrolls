@@ -44,6 +44,7 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     else if (battlerComp.Battle.State == Battle.BattleState.InProgress)
                     {
+                        SetupPlayerEvaderComponent(battlerComp.Battle);
                         UpdateEvaderComponent(evaderComponent, dt);
                     }
                 }
@@ -68,6 +69,30 @@ namespace TheIdleScrolls_Core.Systems
             evaderComponent.Active = false;
             evaderComponent.Duration.Reset();
             evaderComponent.Duration.ChangeDuration(evaderComponent.ChargeDuration);
+        }
+
+        private static void SetupPlayerEvaderComponent(Battle battle)
+        {
+            var evadeComp = battle.Player.GetComponent<EvaderComponent>();
+            if (evadeComp == null)
+                return;
+            double evasion = battle.Player.GetComponent<DefenseComponent>()?.Evasion ?? 0.0;
+            double accuracy = battle.Mob?.GetComponent<AccuracyComponent>()?.Accuracy ?? 1.0;
+            double bonus = Functions.CalculateEvasionBonusMultiplier(evasion, accuracy) - 1.0;
+            if (bonus <= 0.0)
+            {
+                // This should not happen, a player with 0 evasion should not have an EvaderComponent
+                evadeComp.EvasionDuration = 0.0;
+                evadeComp.ChargeDuration = 1.0;
+            }
+            else
+            {
+                double effectDuration = Math.Min(bonus * Definitions.Stats.MaxEvasionChargeDuration, Definitions.Stats.MaxEvasionEffectDuration);
+                double chargeDuration = Math.Min(effectDuration / bonus, Definitions.Stats.MaxEvasionChargeDuration);
+                evadeComp.EvasionDuration = effectDuration;
+                evadeComp.ChargeDuration = chargeDuration;
+            }
+            evadeComp.Duration.ChangeDuration(evadeComp.Active ? evadeComp.EvasionDuration : evadeComp.ChargeDuration);
         }
     }
 }

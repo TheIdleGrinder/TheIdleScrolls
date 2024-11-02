@@ -20,6 +20,8 @@ namespace TheIdleScrolls_Core
 
             public const double ArmorSlowdownPerPoint = 0.01;
             public const double EvasionBonusPerPoint = 0.01;
+            public const double MaxEvasionChargeDuration = 5.0;
+            public const double MaxEvasionEffectDuration = 1.0;
 
             public const double CraftingAbilityBonusPerLevel = 0.02;
             public const double ReforgingBaseDuration = 30.0;
