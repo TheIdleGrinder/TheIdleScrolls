@@ -366,7 +366,7 @@ namespace TheIdleScrollsApp
                 int rarity = item?.Rarity ?? -1;
                 label.Text = item?.Name ?? label.Tag.ToString();
                 label.ForeColor = GetColorForRarity(rarity);
-                label.Font = new Font(label.Font, GetFontStyleForRarity(rarity, item?.Crafted ?? false));
+                label.Font = new System.Drawing.Font(label.Font, GetFontStyleForRarity(rarity, item?.Crafted ?? false));
             };
 
             SetLabelItem(lblEqWeapon, m_Equipment.Hand);
@@ -403,7 +403,7 @@ namespace TheIdleScrollsApp
                 rtbItemDescription.Text = fullDescription;
                 rtbItemDescription.Select(0, item.Name.Length);
                 rtbItemDescription.SelectionColor = GetColorForRarity(item.Rarity);
-                rtbItemDescription.SelectionFont = new Font(rtbItemDescription.SelectionFont, 
+                rtbItemDescription.SelectionFont = new System.Drawing.Font(rtbItemDescription.SelectionFont,
                     GetFontStyleForRarity(item.Rarity, item.Crafted) | FontStyle.Bold);
                 rtbItemDescription.DeselectAll();
             }
@@ -558,7 +558,7 @@ namespace TheIdleScrollsApp
             int rarity = m_Inventory[e.RowIndex].Rarity;
             bool crafted = m_Inventory[e.RowIndex].Crafted;
             cell.Style.ForeColor = GetColorForRarity(rarity);
-            cell.Style.Font = new Font(gridInventory.Font, GetFontStyleForRarity(rarity, crafted));
+            cell.Style.Font = new System.Drawing.Font(gridInventory.Font, GetFontStyleForRarity(rarity, crafted));
         }
 
         private void gridInventory_CellContextMenuStripNeeded(object sender, DataGridViewCellContextMenuStripNeededEventArgs e)

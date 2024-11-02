@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization.Metadata;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.Items;
@@ -13,6 +14,11 @@ namespace TheIdleScrolls_Storage
 {
     public class EntityJsonConverter : IEntityConverter
     {
+        private static JsonSerializerOptions _options = new() { 
+            WriteIndented = true, 
+            TypeInfoResolver = new DefaultJsonTypeInfoResolver() 
+        };
+
         public EntityJsonConverter() { }
 
         public Entity? DeserializeEntity(string serialized)
@@ -30,7 +36,7 @@ namespace TheIdleScrolls_Storage
 
         public string SerializeEntity(Entity entity)
         {
-            return entity.ToJson().ToJsonString(new JsonSerializerOptions { WriteIndented = true });
+            return entity.ToJson().ToJsonString(_options);
         }
     }
 }

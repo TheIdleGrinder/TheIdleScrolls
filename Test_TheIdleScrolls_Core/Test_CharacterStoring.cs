@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheIdleScrolls_Core.Definitions;
+﻿using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
 using Test_TheIdleScrolls_Core.Utility;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Storage;
 using MiniECS;
 using TheIdleScrolls_Core.Components;
-using System.Reflection.Emit;
-using System.Xml.Linq;
 using TheIdleScrolls_Core;
 
 namespace Test_TheIdleScrolls_Core
