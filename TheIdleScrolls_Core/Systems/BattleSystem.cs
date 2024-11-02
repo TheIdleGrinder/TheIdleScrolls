@@ -67,7 +67,6 @@ namespace TheIdleScrolls_Core.Systems
                 // Mob was spawned and the fight can begin
                 if (battle.State == Battle.BattleState.WaitingForMob && battle.Mob != null)
                 {
-                    SetupPlayerTimeShield(player, battle.Mob!, world);
                     battle.State = Battle.BattleState.InProgress;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
                 }
@@ -105,21 +104,21 @@ namespace TheIdleScrolls_Core.Systems
                 // Process time loss if mob has not been defeated
                 if (!mobDefeated)
                 {
-                    double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
-                    double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
-                    double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, damage);
-                    double timeLoss = dt * damage / armorBonus;
-                    var shieldComp = player.GetComponent<TimeShieldComponent>();
-                    if (shieldComp != null) // Players without time shield are invincible
+                    bool evading = player.GetComponent<EvaderComponent>()?.Active ?? false;
+                    if (!evading)
                     {
-                        shieldComp.Drain(timeLoss);
-                        playerDefeated = shieldComp.IsDepleted;
+                        double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
+                        double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
+                        double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, damage);
+                        double timeLoss = dt * damage / armorBonus;
+                        var shieldComp = player.GetComponent<TimeShieldComponent>();
+                        if (shieldComp != null) // Players without time shield are invincible
+                        {
+                            shieldComp.Drain(timeLoss);
+                            playerDefeated = shieldComp.IsDepleted;
+                        }
                     }
                 }
-
-                // Check for changed evasion rating
-                // CornerCut: Do this every frame for now, could be optimized
-                SetupPlayerTimeShield(player, mob, world);
 
                 // Update battle state
                 if (mobDefeated)
@@ -153,21 +152,19 @@ namespace TheIdleScrolls_Core.Systems
                 player.AddComponent(new BattlerComponent(battle));
                 coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
 
+                SetupPlayerTimeShield(player, zone);
                 player.GetComponent<TimeShieldComponent>()?.Refill();
                 player.GetComponent<AttackComponent>()?.Cooldown?.Reset();
             }
         }
 
-        static void SetupPlayerTimeShield(Entity player, Entity opponent, World world)
+        static void SetupPlayerTimeShield(Entity player, ZoneDescription zone)
         {
             if (player.GetComponent<BattlerComponent>()?.Battle?.CustomTimeLimit ?? false)
                 return; // Skip time shield setup if custom time limit is in use (i.e. final boss)
             const double BaseDuration = 10.0;
-            double zoneMulti = player.GetComponent<LocationComponent>()?.GetCurrentZone(world.Map)?.TimeMultiplier ?? 1.0;
-            double duration = BaseDuration * zoneMulti * player.GetLevel() / opponent.GetLevel();
-            double evasion = player.GetComponent<DefenseComponent>()?.Evasion ?? 0.0;
-            double accuracy = opponent.GetComponent<AccuracyComponent>()?.Accuracy ?? 1.0;
-            duration *= Functions.CalculateEvasionBonusMultiplier(evasion, accuracy);
+
+            double duration = BaseDuration * zone.TimeMultiplier * player.GetLevel() / zone.Level;
             player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 
