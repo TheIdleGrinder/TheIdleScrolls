@@ -126,7 +126,10 @@ namespace TheIdleScrollsApp
         {
             IGameEventEmitter emitter = m_runner.GetEventEmitter();
 
-            emitter.PlayerCharacterChanged += (CharacterRepresentation rep) => SetCharacter(rep.Id, rep.Name, rep.Class, rep.Level);
+            emitter.PlayerCharacterChanged += (CharacterRepresentation rep, Entity entity) =>
+            {
+                SetCharacter(rep.Id, rep.Name, rep.Class, rep.Level);
+            };
             emitter.PlayerXpChanged += SetCharacterXP;
             emitter.PlayerInventoryChanged += SetInventory;
             emitter.PlayerEquipmentChanged += SetEquipment;

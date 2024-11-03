@@ -43,12 +43,9 @@ namespace TheIdleScrolls_Core
             m_appUpdateSystem = new ApplicationUpdateSystem();
 
             m_systems.Add(m_userInputHandler as dynamic);
-            //m_systems.Add(new TimeLimitSystem());
             m_systems.Add(new TravelSystem());
             m_systems.Add(new BattleSystem());
             m_systems.Add(new MobSpawnerSystem());
-            //m_systems.Add(new TargetSelectorSystem());
-            //m_systems.Add(new AttackProcessingSystem());
             m_systems.Add(new BountySystem());
             m_systems.Add(new KillProcessingSystem());
             m_systems.Add(new LevelUpSystem());
@@ -58,6 +55,7 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new AbilitiesSystem());
             m_systems.Add(new PerksSystem());
             m_systems.Add(new StatUpdateSystem());
+            m_systems.Add(new EvasionSystem());
             m_systems.Add(new DungeonSystem());
             m_systems.Add(new LootSystem());
             m_systems.Add(new CraftingSystem());

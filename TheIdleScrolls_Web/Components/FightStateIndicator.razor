@@ -1,4 +1,5 @@
-﻿@using TheIdleScrolls_Web.CoreWrapper
+﻿@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Web.CoreWrapper
 @* @using TheIdleScrolls_Web.Assets *@
 
 @inject CoreWrapperModel CoreWrapper
@@ -39,6 +40,16 @@
             <div id="attack-bar-fill" class="progressFill" style="width: @($"{AttackPct:0%}");"></div>
         </div>
     </div>
+
+    @if (Evasion)
+    {
+        <div class="progress-bar-container" style="margin-top: 1rem;">
+            Ev
+            <div id="evasion-bar-frame" class="progressFrame" style="justify-content: start">
+                <div id="evasion-bar-fill" class="progressFill" style="width: @($"{GetEvasionPct():0%}");"></div>
+            </div>
+        </div>
+    }
     
 </div>
 
@@ -101,6 +112,19 @@
         background-color: var(--color-attack-progress);
         height: 12px;
     }
+
+    #evasion-bar-frame {
+        width: 100%;
+        border: 1px solid var(--frame-color);
+        background: inherit;
+        height: fit-content;
+        align-self: center;
+    }
+
+    #evasion-bar-fill {
+        background-color: var(--color-attack-progress);
+        height: 12px;
+    }
 </style>
 
 @code {
@@ -114,6 +138,11 @@
     int HpMax => CoreWrapper.Mob.HpMax;
     double Time => CoreWrapper.TimeLimit.Remaining;
     double TimeMax => CoreWrapper.TimeLimit.Maximum;
+
+    EvaderComponent? Evader => CoreWrapper.PlayerCharacter?.GetComponent<EvaderComponent>();
+    bool Evasion => Evader != null;
+    bool EvasionActive => Evader?.Active ?? false;
+    double EvasionPct => Evader != null ? (1.0 - Evader.Duration.Remaining / Evader.Duration.Duration) : 0.0;
 
     double AttackPct => 1.0 - 1.0 * CoreWrapper.CharacterStats.CooldownRemaining / CoreWrapper.CharacterStats.Cooldown;
 
@@ -139,6 +168,15 @@
     int TimeToInt(double time)
     {
         return (int)(time * 1000);
+    }
+
+    double GetEvasionPct()
+    {
+        if (Evader == null)
+            return 0.0;
+        return !EvasionActive 
+            ? (1.0 - Evader.Duration.Remaining / Evader.Duration.Duration) 
+            : Evader.Duration.Remaining / Evader.Duration.Duration;
     }
 
     string GetMobImage()
