@@ -46,7 +46,7 @@
         <div class="progress-bar-container" style="margin-top: 1rem;">
             Ev
             <div id="evasion-bar-frame" class="progressFrame" style="justify-content: start">
-                <div id="evasion-bar-fill" class="progressFill" style="width: @($"{GetEvasionPct():0%}");"></div>
+                <div id="evasion-bar-fill" class=@(EvasionClass) style="width: @($"{GetEvasionPct():0%}");"></div>
             </div>
         </div>
     }
@@ -100,6 +100,14 @@
         font-size: 1.25rem;
     }
 
+    .evasion-bar-active {
+        background-color: var(--color-active);
+    }
+
+    .evasion-bar-inactive {
+        background-color: var(--color-inactive);
+    }
+
     #attack-bar-frame {
         width: 100%;
         border: 1px solid var(--frame-color);
@@ -122,7 +130,6 @@
     }
 
     #evasion-bar-fill {
-        background-color: var(--color-attack-progress);
         height: 12px;
     }
 </style>
@@ -143,6 +150,7 @@
     bool Evasion => Evader != null;
     bool EvasionActive => Evader?.Active ?? false;
     double EvasionPct => Evader != null ? (1.0 - Evader.Duration.Remaining / Evader.Duration.Duration) : 0.0;
+    string EvasionClass => "progressFill " + (EvasionActive ? "evasion-bar-active" : "evasion-bar-inactive");
 
     double AttackPct => 1.0 - 1.0 * CoreWrapper.CharacterStats.CooldownRemaining / CoreWrapper.CharacterStats.Cooldown;
 

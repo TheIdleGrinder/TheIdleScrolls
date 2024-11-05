@@ -65,7 +65,8 @@ namespace TheIdleScrolls_Core.Systems
                 Entity player = battle.Player;
 
                 // Mob was spawned and the fight can begin
-                if (battle.State == Battle.BattleState.WaitingForMob && battle.Mob != null)
+                if ((battle.State == Battle.BattleState.Initialized || battle.State == Battle.BattleState.BetweenFights) 
+                    && battle.Mob != null)
                 {
                     battle.State = Battle.BattleState.InProgress;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
@@ -125,7 +126,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     battle.State = (battle.MobsRemaining == 0) 
                         ? Battle.BattleState.PlayerWon 
-                        : Battle.BattleState.WaitingForMob;
+                        : Battle.BattleState.BetweenFights;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
                     player.GetComponent<BattlerComponent>()!.AttacksPerformed = 0; // Reset attack counter to enable FirstStrike for next mob
                 }

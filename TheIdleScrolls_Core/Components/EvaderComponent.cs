@@ -11,9 +11,9 @@ namespace TheIdleScrolls_Core.Components
     public class EvaderComponent : IComponent
     {
         public bool Active { get; set; } = false;
-        public double ChargeDuration { get; set; } = 0.0;
+        public double ChargeDuration { get; set; } = Definitions.Stats.MaxEvasionChargeDuration;
         public double EvasionDuration { get; set; } = 0.0;
-        public Cooldown Duration { get; set; } = new Cooldown(1.0);
+        public Cooldown Duration { get; set; } = new Cooldown(Definitions.Stats.MaxEvasionChargeDuration);
 
         public EvaderComponent()
         {

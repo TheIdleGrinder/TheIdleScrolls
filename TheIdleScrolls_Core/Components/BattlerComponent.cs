@@ -24,7 +24,8 @@ namespace TheIdleScrolls_Core.Components
     {
         public enum BattleState
         {
-            WaitingForMob,
+            Initialized,
+            BetweenFights,
             InProgress,
             Cancelled,
             PlayerWon,
@@ -43,9 +44,9 @@ namespace TheIdleScrolls_Core.Components
         // Prevents time limit of final battle from being reset
         public bool CustomTimeLimit { get; set; } = false;
 
-        public BattleState State { get; set; } = BattleState.WaitingForMob;
+        public BattleState State { get; set; } = BattleState.Initialized;
 
         public bool IsFinished => State == BattleState.PlayerWon || State == BattleState.PlayerLost || State == BattleState.Cancelled;
-        public bool NeedsMob => State == BattleState.WaitingForMob && MobsRemaining > 0;
+        public bool NeedsMob => Mob == null && MobsRemaining > 0;
     }
 }

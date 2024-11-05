@@ -35,16 +35,16 @@ namespace TheIdleScrolls_Core
 
         public static class Abilities
         {
-            public static readonly string[] Weapons = new[] { Properties.Constants.Key_Ability_Axe,
+            public static readonly string[] Weapons = [ Properties.Constants.Key_Ability_Axe,
                                                               Properties.Constants.Key_Ability_Blunt,
                                                               Properties.Constants.Key_Ability_LongBlade,
                                                               Properties.Constants.Key_Ability_Polearm,
                                                               Properties.Constants.Key_Ability_ShortBlade
-            };
+            ];
 
-            public static readonly string[] Armors = new[] { Properties.Constants.Key_Ability_LightArmor,
+            public static readonly string[] Armors = [ Properties.Constants.Key_Ability_LightArmor,
                                                              Properties.Constants.Key_Ability_HeavyArmor
-            };
+            ];
 
             public static readonly string Crafting = Properties.Constants.Key_Ability_Crafting;
         }

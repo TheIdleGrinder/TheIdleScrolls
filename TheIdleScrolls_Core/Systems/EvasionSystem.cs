@@ -38,7 +38,7 @@ namespace TheIdleScrolls_Core.Systems
                     if (battlerComp == null)
                         continue;
 
-                    if (battlerComp.Battle.IsFinished)
+                    if (battlerComp.Battle.State == Battle.BattleState.Initialized)
                     {
                         ResetEvaderComponent(evaderComponent);
                     }
