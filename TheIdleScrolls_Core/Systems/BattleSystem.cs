@@ -183,32 +183,14 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
-    public class BattleStateChangedMessage : IMessage
+    public record BattleStateChangedMessage(Battle Battle) : IMessage
     {
-        public Battle Battle { get; set; }
-
-        public BattleStateChangedMessage(Battle battle)
-        {
-            Battle = battle;
-        }
-
         string IMessage.BuildMessage() => $"State changed for battle of {Battle.Player.GetName()}";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
 
-    public class DamageDoneMessage : IMessage
+    public record DamageDoneMessage(Entity Attacker, Entity Target, int Damage) : IMessage
     {
-        public Entity Attacker { get; set; }
-        public Entity Target { get; set; }
-        public int Damage { get; set; }
-
-        public DamageDoneMessage(Entity attacker, Entity target, int damage)
-        {
-            Attacker = attacker;
-            Target = target;
-            Damage = damage;
-        }
-
         string IMessage.BuildMessage()
         {
             string attackerName = Attacker.GetName();
@@ -218,55 +200,18 @@ namespace TheIdleScrolls_Core.Systems
             return $"{attackerName} did {Damage} damage to {targetName} ({remainingHP}/{fullHP} HP remaining)";
         }
 
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.VeryLow;
-        }
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.VeryLow;
     }
 
-    public class DeathMessage : IMessage
+    public record DeathMessage(Entity Victim) : IMessage
     {
-        public Entity Victim { get; set; }
-
-        public DeathMessage(Entity victim)
-        {
-            Victim = victim;
-        }
-
-        string IMessage.BuildMessage()
-        {
-            return $"{Victim.GetName()} was defeated";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.Medium;
-        }
+        string IMessage.BuildMessage() => $"{Victim.GetName()} was defeated";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
 
-    internal class BattleLostMessage : IMessage
+    public record BattleLostMessage(Entity Player, string MobName, int Level) : IMessage
     {
-        public Entity Player;
-
-        public string MobName;
-
-        public int Level;
-
-        public BattleLostMessage(Entity player, string mobName, int level)
-        {
-            Player = player;
-            MobName = mobName;
-            Level = level;
-        }
-
-        string IMessage.BuildMessage()
-        {
-            return $"{Player.GetName()} lost the fight against {MobName} (Level {Level})";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.High;
-        }
+        string IMessage.BuildMessage() => $"{Player.GetName()} lost the fight against {MobName} (Level {Level})";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }
 }

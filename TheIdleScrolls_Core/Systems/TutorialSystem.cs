@@ -254,13 +254,4 @@ namespace TheIdleScrolls_Core.Systems
             return IMessage.PriorityLevel.Debug; // Tutorial messages are displayed directly
         }
     }
-
-/*    public class Trigger
-    {
-        public enum TriggerState { Inactive, Ready, Triggered }
-
-        public TriggerState State { get { return m_state; } }
-
-        TriggerState m_state;
-    }*/
 }
