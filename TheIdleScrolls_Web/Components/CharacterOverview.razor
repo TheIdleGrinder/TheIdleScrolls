@@ -15,8 +15,8 @@
         <tr class="normal-font">
             <th title="Damage per second">DPS</th>
             <td>@(FormatValue(Stats.Damage / Stats.Cooldown))</td>
-            <th>Defense Rating</th>
-            <td>@FormatValue(Stats.DefenseRating)</td>
+            <th>Resistance</th>
+            <td>@($"{Stats.DefenseRating:0.#%}")</td>
         </tr>
         <tr class="small-font">
             <th>Damage</th>

@@ -151,7 +151,7 @@ namespace TheIdleScrolls_Core
             double damage = CalculateMobDamage(level);
             double accuracy = CalculateMobAccuracy(level);
             double multiplier = CalculateArmorBonusMultiplier(armor, damage) * CalculateEvasionBonusMultiplier(evasion, accuracy);
-            return (multiplier - 1.0) * 100.0;
+            return 1.0 - (1.0 / multiplier);
         }
 
         public static double CalculateEvasionBonusMultiplier(double evasion, double enemyAccuracy = 1.0)
