@@ -69,18 +69,23 @@ namespace TheIdleScrolls_Core
 
         public static class Tags
         {
-            public const string RarityPrefix = "+";
-            public const string HandSuffix = "H";
             public const string Damage = "Damage";
             public const string AttackSpeed = "AttackSpeed";
             public const string Defense = "Defense";
             public const string ArmorRating = "ArmorRating";
             public const string EvasionRating = "EvasionRating";
+
+            public const string TimeLoss = "TimeLoss";
+
+            public const string RarityPrefix = "+";
+            public const string HandSuffix = "H";
             public const string Weapon = "Weapon";
             public const string Armor = "Armor";
             public const string Shield = "Shield";
+            
             public const string Melee = "Melee";
             public const string Ranged = "Ranged";
+
             public const string Unarmed = "Unarmed";
             public const string Unarmored = "Unarmored";
             public const string DualWield = "DualWield";

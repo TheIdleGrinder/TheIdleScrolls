@@ -11,6 +11,8 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class EvasionSystem : AbstractSystem
     {
+        static readonly string ModifierId = "EvaderComponent:Evasion";
+
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             foreach (var entity in coordinator.GetEntities<DefenseComponent>())
@@ -45,13 +47,30 @@ namespace TheIdleScrolls_Core.Systems
                     else if (battlerComp.Battle.State == Battle.BattleState.InProgress)
                     {
                         SetupPlayerEvaderComponent(battlerComp.Battle);
-                        UpdateEvaderComponent(evaderComponent, dt);
+                        bool toggled = UpdateEvaderComponent(evaderComponent, dt);
+                        if (toggled)
+                        {
+                            var modComp = entity.GetComponent<ModifierComponent>();
+                            if (modComp == null)
+                            {
+                                modComp = new();
+                                entity.AddComponent(modComp);
+                            }
+                            if (evaderComponent.Active)
+                            {
+                                modComp.AddModifier(new(ModifierId, Modifiers.ModifierType.More, -1.0, [ Definitions.Tags.TimeLoss ], []));
+                            }
+                            else
+                            {
+                                modComp.RemoveModifier(ModifierId);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        private static void UpdateEvaderComponent(EvaderComponent evaderComponent, double dt)
+        private static bool UpdateEvaderComponent(EvaderComponent evaderComponent, double dt)
         {
             evaderComponent.Duration.Update(dt);
             if (evaderComponent.Duration.HasFinished)
@@ -61,7 +80,9 @@ namespace TheIdleScrolls_Core.Systems
                 evaderComponent.Duration.ChangeDuration(evaderComponent.Active 
                                                         ? evaderComponent.EvasionDuration 
                                                         : evaderComponent.ChargeDuration);
+                return true;
             }
+            return false;
         }
 
         private static void ResetEvaderComponent(EvaderComponent evaderComponent)

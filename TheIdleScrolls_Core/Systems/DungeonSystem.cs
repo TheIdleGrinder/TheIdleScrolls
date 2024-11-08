@@ -63,7 +63,6 @@ namespace TheIdleScrolls_Core.Systems
             // Handle requests
             // Note current zone, if in wilderness
             // Send travel request
-            bool floorChanged = false;
             var request = coordinator.FetchMessagesByType<EnterDungeonRequest>().LastOrDefault();
             if (request != null)
             {
@@ -71,8 +70,6 @@ namespace TheIdleScrolls_Core.Systems
                 if (world.Map.GetDungeonsAtLocation(locationComp.CurrentLocation).Any(d => d.Id == request.DungeonId))
                 {
                     locationComp.EnterDungeon(request.DungeonId);
-                    floorChanged = true;
-                    
                     coordinator.PostMessage(this, 
                         new AreaChangedMessage(m_player, locationComp.CurrentLocation, request.DungeonId, 0, AreaChangeType.EnteredDungeon));
                 }
@@ -117,7 +114,6 @@ namespace TheIdleScrolls_Core.Systems
                     if (world.AreaKingdom.GetDungeonFloorCount(locationComp.DungeonId) > locationComp.DungeonFloor + 1) // There are more floors
                     {
                         locationComp.DungeonFloor += 1;
-                        floorChanged = true;
                         coordinator.PostMessage(this,
                             new AreaChangedMessage(m_player, locationComp.CurrentLocation, 
                                 locationComp.DungeonId, locationComp.DungeonFloor, AreaChangeType.FloorChange));
@@ -127,18 +123,10 @@ namespace TheIdleScrolls_Core.Systems
                         bool first = !m_player.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
                         coordinator.PostMessage(this, new DungeonCompletedMessage(locationComp.DungeonId, first));
                         locationComp.EnterDungeon(locationComp.DungeonId);
-                        floorChanged = true;
                         coordinator.PostMessage(this,
                             new AreaChangedMessage(m_player, locationComp.CurrentLocation, locationComp.DungeonId, 0, AreaChangeType.EnteredDungeon));
                     }
                 }
-
-     //           if (locationComp.InDungeon && floorChanged)
-     //           {
-     //               var zone = world.Map.GetDungeonZone(locationComp.DungeonId, locationComp.DungeonFloor) 
-     //                   ?? throw new Exception($"Player entered invalid dungeon: {locationComp.DungeonId}");
-					//locationComp.RemainingEnemies = zone.MobCount;
-     //           }
             }
         }
     }

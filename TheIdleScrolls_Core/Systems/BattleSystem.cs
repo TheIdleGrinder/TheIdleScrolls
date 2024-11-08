@@ -105,19 +105,20 @@ namespace TheIdleScrolls_Core.Systems
                 // Process time loss if mob has not been defeated
                 if (!mobDefeated)
                 {
-                    bool evading = player.GetComponent<EvaderComponent>()?.Active ?? false;
-                    if (!evading)
+                    double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
+                    double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
+                    double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, damage);
+                    double timeLoss = dt * damage / armorBonus;
+
+                    timeLoss = player.GetComponent<ModifierComponent>()
+                        ?.ApplyApplicableModifiers(timeLoss, [Definitions.Tags.TimeLoss], player.GetTags())
+                        ?? timeLoss;
+
+                    var shieldComp = player.GetComponent<TimeShieldComponent>();
+                    if (shieldComp != null) // Players without time shield are invincible
                     {
-                        double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
-                        double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
-                        double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, damage);
-                        double timeLoss = dt * damage / armorBonus;
-                        var shieldComp = player.GetComponent<TimeShieldComponent>();
-                        if (shieldComp != null) // Players without time shield are invincible
-                        {
-                            shieldComp.Drain(timeLoss);
-                            playerDefeated = shieldComp.IsDepleted;
-                        }
+                        shieldComp.Drain(timeLoss);
+                        playerDefeated = shieldComp.IsDepleted;
                     }
                 }
 
