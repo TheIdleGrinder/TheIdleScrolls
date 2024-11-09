@@ -47,6 +47,7 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (battle.IsFinished)
                 {
+                    Console.WriteLine($"Battle over, remaining time: {battle.Player.GetComponent<TimeShieldComponent>()?.Remaining ?? -1.0}");
                     battler.RemoveComponent<BattlerComponent>();
                     if (battler.IsMob()) // Despawn mobs from finished battles
                     {

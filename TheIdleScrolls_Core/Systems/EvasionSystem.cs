@@ -43,27 +43,21 @@ namespace TheIdleScrolls_Core.Systems
                     if (battlerComp.Battle.State == Battle.BattleState.Initialized)
                     {
                         ResetEvaderComponent(evaderComponent);
+                        RemoveEvasionModifier(entity);
                     }
                     else if (battlerComp.Battle.State == Battle.BattleState.InProgress)
                     {
+                        // If evasion toggled on previous frame, "fix" the damage prevention fraction now 
+                        if (evaderComponent.Prevention > 0.0 && evaderComponent.Prevention < 1.0)
+                        {
+                            evaderComponent.Prevention = evaderComponent.Active ? 1.0 : 0.0;
+                            SetEvasionModifier(entity, evaderComponent.Prevention);
+                        }
                         SetupPlayerEvaderComponent(battlerComp.Battle);
                         bool toggled = UpdateEvaderComponent(evaderComponent, dt);
                         if (toggled)
                         {
-                            var modComp = entity.GetComponent<ModifierComponent>();
-                            if (modComp == null)
-                            {
-                                modComp = new();
-                                entity.AddComponent(modComp);
-                            }
-                            if (evaderComponent.Active)
-                            {
-                                modComp.AddModifier(new(ModifierId, Modifiers.ModifierType.More, -1.0, [ Definitions.Tags.TimeLoss ], []));
-                            }
-                            else
-                            {
-                                modComp.RemoveModifier(ModifierId);
-                            }
+                            SetEvasionModifier(entity, evaderComponent.Prevention);
                         }
                     }
                 }
@@ -72,14 +66,19 @@ namespace TheIdleScrolls_Core.Systems
 
         private static bool UpdateEvaderComponent(EvaderComponent evaderComponent, double dt)
         {
+            double remaining = evaderComponent.Duration.Remaining;
             evaderComponent.Duration.Update(dt);
             if (evaderComponent.Duration.HasFinished)
             {
                 evaderComponent.Active = !evaderComponent.Active;
-                evaderComponent.Duration.Reset();
                 evaderComponent.Duration.ChangeDuration(evaderComponent.Active 
                                                         ? evaderComponent.EvasionDuration 
                                                         : evaderComponent.ChargeDuration);
+                evaderComponent.Duration.Reset();
+                evaderComponent.Duration.Update(dt - remaining); // CornerCut: Evasion duration should better not be less than 1 frame...
+                double ratio = remaining / dt; // evasion toggled, so dt has to be greater than remaining
+                evaderComponent.Prevention = evaderComponent.Active ? 1 - ratio : ratio;
+                //Console.WriteLine($"Evasion toggled: {evaderComponent.Active}, prevention: {evaderComponent.Prevention}");
                 return true;
             }
             return false;
@@ -90,6 +89,7 @@ namespace TheIdleScrolls_Core.Systems
             evaderComponent.Active = false;
             evaderComponent.Duration.Reset();
             evaderComponent.Duration.ChangeDuration(evaderComponent.ChargeDuration);
+            evaderComponent.Prevention = 0.0;
         }
 
         private static void SetupPlayerEvaderComponent(Battle battle)
@@ -114,6 +114,34 @@ namespace TheIdleScrolls_Core.Systems
                 evadeComp.ChargeDuration = chargeDuration;
             }
             evadeComp.Duration.ChangeDuration(evadeComp.Active ? evadeComp.EvasionDuration : evadeComp.ChargeDuration);
+        }
+
+        private static void SetEvasionModifier(Entity entity, double prevention)
+        {
+            if (prevention > 0.0)
+            {
+                AddEvasionModifier(entity, prevention);
+            }
+            else
+            {
+                RemoveEvasionModifier(entity);
+            }
+        }
+
+        private static void AddEvasionModifier(Entity entity, double prevention)
+        {
+            var modComp = entity.GetComponent<ModifierComponent>();
+            if (modComp == null)
+            {
+                modComp = new();
+                entity.AddComponent(modComp);
+            }
+            modComp.AddModifier(new(ModifierId, Modifiers.ModifierType.More, -prevention, [Definitions.Tags.TimeLoss], []));
+        }
+
+        private static void RemoveEvasionModifier(Entity entity)
+        {
+            entity.GetComponent<ModifierComponent>()?.RemoveModifier(ModifierId);
         }
     }
 }

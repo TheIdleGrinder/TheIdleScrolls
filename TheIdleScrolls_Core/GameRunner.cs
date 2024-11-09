@@ -14,7 +14,7 @@ namespace TheIdleScrolls_Core
     {
         ulong m_ticks = 0;
 
-        readonly World m_world = new() { XpMultiplier = 5.0, RarityMultiplier = 2.0 };
+        readonly World m_world = new() { XpMultiplier = 0.0, RarityMultiplier = 2.0 };
 
         readonly Coordinator m_coordinator = new();
 
@@ -134,12 +134,12 @@ namespace TheIdleScrolls_Core
             {
                 try
                 {
-                sw.Restart();
+                    sw.Restart();
 
-                m_coordinator.DeleteMessagesFromSender(system);
-                system.Update(m_world, m_coordinator, dt);
+                    m_coordinator.DeleteMessagesFromSender(system);
+                    system.Update(m_world, m_coordinator, dt);
 
-                sw.Stop();
+                    sw.Stop();
                 //if (sw.ElapsedMilliseconds > 5)
                 //    Console.WriteLine($"{system.GetType().Name} took {sw.ElapsedMilliseconds} ms");
                 }
