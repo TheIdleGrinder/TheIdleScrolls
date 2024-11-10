@@ -20,6 +20,8 @@ namespace TheIdleScrolls_Core
 
             public const double ArmorSlowdownPerPoint = 0.01;
             public const double EvasionBonusPerPoint = 0.01;
+            public const double MaxEvasionChargeDuration = 5.0;
+            public const double MaxEvasionEffectDuration = 1.0;
 
             public const double CraftingAbilityBonusPerLevel = 0.02;
             public const double ReforgingBaseDuration = 30.0;
@@ -33,16 +35,16 @@ namespace TheIdleScrolls_Core
 
         public static class Abilities
         {
-            public static readonly string[] Weapons = new[] { Properties.Constants.Key_Ability_Axe,
+            public static readonly string[] Weapons = [ Properties.Constants.Key_Ability_Axe,
                                                               Properties.Constants.Key_Ability_Blunt,
                                                               Properties.Constants.Key_Ability_LongBlade,
                                                               Properties.Constants.Key_Ability_Polearm,
                                                               Properties.Constants.Key_Ability_ShortBlade
-            };
+            ];
 
-            public static readonly string[] Armors = new[] { Properties.Constants.Key_Ability_LightArmor,
+            public static readonly string[] Armors = [ Properties.Constants.Key_Ability_LightArmor,
                                                              Properties.Constants.Key_Ability_HeavyArmor
-            };
+            ];
 
             public static readonly string Crafting = Properties.Constants.Key_Ability_Crafting;
         }
@@ -67,18 +69,23 @@ namespace TheIdleScrolls_Core
 
         public static class Tags
         {
-            public const string RarityPrefix = "+";
-            public const string HandSuffix = "H";
             public const string Damage = "Damage";
             public const string AttackSpeed = "AttackSpeed";
             public const string Defense = "Defense";
             public const string ArmorRating = "ArmorRating";
             public const string EvasionRating = "EvasionRating";
+
+            public const string TimeLoss = "TimeLoss";
+
+            public const string RarityPrefix = "+";
+            public const string HandSuffix = "H";
             public const string Weapon = "Weapon";
             public const string Armor = "Armor";
             public const string Shield = "Shield";
+            
             public const string Melee = "Melee";
             public const string Ranged = "Ranged";
+
             public const string Unarmed = "Unarmed";
             public const string Unarmored = "Unarmored";
             public const string DualWield = "DualWield";
@@ -149,7 +156,7 @@ namespace TheIdleScrolls_Core
             double damage = CalculateMobDamage(level);
             double accuracy = CalculateMobAccuracy(level);
             double multiplier = CalculateArmorBonusMultiplier(armor, damage) * CalculateEvasionBonusMultiplier(evasion, accuracy);
-            return (multiplier - 1.0) * 100.0;
+            return 1.0 - (1.0 / multiplier);
         }
 
         public static double CalculateEvasionBonusMultiplier(double evasion, double enemyAccuracy = 1.0)

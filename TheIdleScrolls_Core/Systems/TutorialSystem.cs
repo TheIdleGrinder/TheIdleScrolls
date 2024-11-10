@@ -147,7 +147,7 @@ namespace TheIdleScrolls_Core.Systems
                     new TutorialMessage(TutorialStep.Evasion, "Travelling Light",
                     $"You have proven your prowess in unarmored combat. While fighting without armor, you will now be able to " +
                     $"use your evasiness to gain additional time to defeat your enemies." +
-                    $"\n  - Evasion increases the length of the time limit during combat."));
+                    $"\n  - Evasion periodically stops the fight timer"));
             }
             //if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
             //    && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey) 
@@ -254,13 +254,4 @@ namespace TheIdleScrolls_Core.Systems
             return IMessage.PriorityLevel.Debug; // Tutorial messages are displayed directly
         }
     }
-
-/*    public class Trigger
-    {
-        public enum TriggerState { Inactive, Ready, Triggered }
-
-        public TriggerState State { get { return m_state; } }
-
-        TriggerState m_state;
-    }*/
 }

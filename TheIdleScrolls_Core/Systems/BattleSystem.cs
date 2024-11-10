@@ -47,6 +47,7 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (battle.IsFinished)
                 {
+                    Console.WriteLine($"Battle over, remaining time: {battle.Player.GetComponent<TimeShieldComponent>()?.Remaining ?? -1.0}");
                     battler.RemoveComponent<BattlerComponent>();
                     if (battler.IsMob()) // Despawn mobs from finished battles
                     {
@@ -65,9 +66,9 @@ namespace TheIdleScrolls_Core.Systems
                 Entity player = battle.Player;
 
                 // Mob was spawned and the fight can begin
-                if (battle.State == Battle.BattleState.WaitingForMob && battle.Mob != null)
+                if ((battle.State == Battle.BattleState.Initialized || battle.State == Battle.BattleState.BetweenFights) 
+                    && battle.Mob != null)
                 {
-                    SetupPlayerTimeShield(player, battle.Mob!, world);
                     battle.State = Battle.BattleState.InProgress;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
                 }
@@ -109,6 +110,11 @@ namespace TheIdleScrolls_Core.Systems
                     double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
                     double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, damage);
                     double timeLoss = dt * damage / armorBonus;
+
+                    timeLoss = player.GetComponent<ModifierComponent>()
+                        ?.ApplyApplicableModifiers(timeLoss, [Definitions.Tags.TimeLoss], player.GetTags())
+                        ?? timeLoss;
+
                     var shieldComp = player.GetComponent<TimeShieldComponent>();
                     if (shieldComp != null) // Players without time shield are invincible
                     {
@@ -117,16 +123,12 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
 
-                // Check for changed evasion rating
-                // CornerCut: Do this every frame for now, could be optimized
-                SetupPlayerTimeShield(player, mob, world);
-
                 // Update battle state
                 if (mobDefeated)
                 {
                     battle.State = (battle.MobsRemaining == 0) 
                         ? Battle.BattleState.PlayerWon 
-                        : Battle.BattleState.WaitingForMob;
+                        : Battle.BattleState.BetweenFights;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
                     player.GetComponent<BattlerComponent>()!.AttacksPerformed = 0; // Reset attack counter to enable FirstStrike for next mob
                 }
@@ -153,21 +155,19 @@ namespace TheIdleScrolls_Core.Systems
                 player.AddComponent(new BattlerComponent(battle));
                 coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
 
+                SetupPlayerTimeShield(player, zone);
                 player.GetComponent<TimeShieldComponent>()?.Refill();
                 player.GetComponent<AttackComponent>()?.Cooldown?.Reset();
             }
         }
 
-        static void SetupPlayerTimeShield(Entity player, Entity opponent, World world)
+        static void SetupPlayerTimeShield(Entity player, ZoneDescription zone)
         {
             if (player.GetComponent<BattlerComponent>()?.Battle?.CustomTimeLimit ?? false)
                 return; // Skip time shield setup if custom time limit is in use (i.e. final boss)
             const double BaseDuration = 10.0;
-            double zoneMulti = player.GetComponent<LocationComponent>()?.GetCurrentZone(world.Map)?.TimeMultiplier ?? 1.0;
-            double duration = BaseDuration * zoneMulti * player.GetLevel() / opponent.GetLevel();
-            double evasion = player.GetComponent<DefenseComponent>()?.Evasion ?? 0.0;
-            double accuracy = opponent.GetComponent<AccuracyComponent>()?.Accuracy ?? 1.0;
-            duration *= Functions.CalculateEvasionBonusMultiplier(evasion, accuracy);
+
+            double duration = BaseDuration * zone.TimeMultiplier * player.GetLevel() / zone.Level;
             player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 
@@ -185,32 +185,14 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
-    public class BattleStateChangedMessage : IMessage
+    public record BattleStateChangedMessage(Battle Battle) : IMessage
     {
-        public Battle Battle { get; set; }
-
-        public BattleStateChangedMessage(Battle battle)
-        {
-            Battle = battle;
-        }
-
         string IMessage.BuildMessage() => $"State changed for battle of {Battle.Player.GetName()}";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
 
-    public class DamageDoneMessage : IMessage
+    public record DamageDoneMessage(Entity Attacker, Entity Target, int Damage) : IMessage
     {
-        public Entity Attacker { get; set; }
-        public Entity Target { get; set; }
-        public int Damage { get; set; }
-
-        public DamageDoneMessage(Entity attacker, Entity target, int damage)
-        {
-            Attacker = attacker;
-            Target = target;
-            Damage = damage;
-        }
-
         string IMessage.BuildMessage()
         {
             string attackerName = Attacker.GetName();
@@ -220,55 +202,18 @@ namespace TheIdleScrolls_Core.Systems
             return $"{attackerName} did {Damage} damage to {targetName} ({remainingHP}/{fullHP} HP remaining)";
         }
 
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.VeryLow;
-        }
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.VeryLow;
     }
 
-    public class DeathMessage : IMessage
+    public record DeathMessage(Entity Victim) : IMessage
     {
-        public Entity Victim { get; set; }
-
-        public DeathMessage(Entity victim)
-        {
-            Victim = victim;
-        }
-
-        string IMessage.BuildMessage()
-        {
-            return $"{Victim.GetName()} was defeated";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.Medium;
-        }
+        string IMessage.BuildMessage() => $"{Victim.GetName()} was defeated";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
 
-    internal class BattleLostMessage : IMessage
+    public record BattleLostMessage(Entity Player, string MobName, int Level) : IMessage
     {
-        public Entity Player;
-
-        public string MobName;
-
-        public int Level;
-
-        public BattleLostMessage(Entity player, string mobName, int level)
-        {
-            Player = player;
-            MobName = mobName;
-            Level = level;
-        }
-
-        string IMessage.BuildMessage()
-        {
-            return $"{Player.GetName()} lost the fight against {MobName} (Level {Level})";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.High;
-        }
+        string IMessage.BuildMessage() => $"{Player.GetName()} lost the fight against {MobName} (Level {Level})";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }
 }

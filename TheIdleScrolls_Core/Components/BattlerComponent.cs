@@ -7,45 +7,36 @@ using System.Threading.Tasks;
 
 namespace TheIdleScrolls_Core.Components
 {
-    public class BattlerComponent : IComponent
+    public class BattlerComponent(Battle battle) : IComponent
     {
-        public Battle Battle { get; set; }
+        public Battle Battle { get; set; } = battle;
         public int AttacksPerformed { get; set; } = 0;
 
         public bool FirstStrike => AttacksPerformed == 0;
-
-        public BattlerComponent(Battle battle)
-        {
-            Battle = battle;
-        }
     }
 
-    public class Battle
+    public class Battle(Entity player, int mobs)
     {
         public enum BattleState
         {
-            WaitingForMob,
+            Initialized,
+            BetweenFights,
             InProgress,
             Cancelled,
             PlayerWon,
             PlayerLost
         }
 
-        public Battle(Entity player, int mobs) 
-        {
-            Player = player;
-            MobsRemaining = mobs;
-        }
-        public Entity Player { get; set; }
+        public Entity Player { get; set; } = player;
         public Entity? Mob { get; set; } = null;
-        public int MobsRemaining { get; set; } = 1;
+        public int MobsRemaining { get; set; } = mobs;
 
         // Prevents time limit of final battle from being reset
         public bool CustomTimeLimit { get; set; } = false;
 
-        public BattleState State { get; set; } = BattleState.WaitingForMob;
+        public BattleState State { get; set; } = BattleState.Initialized;
 
         public bool IsFinished => State == BattleState.PlayerWon || State == BattleState.PlayerLost || State == BattleState.Cancelled;
-        public bool NeedsMob => State == BattleState.WaitingForMob && MobsRemaining > 0;
+        public bool NeedsMob => (State == BattleState.Initialized || State == BattleState.BetweenFights) && MobsRemaining > 0;
     }
 }

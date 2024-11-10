@@ -37,6 +37,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public bool GameLoopRunning => gameLoopRunning;
         public List<string> StoredCharacters { get; set; } = new();
         public CharacterRepresentation Character { get; set; } = new(0, "", "", 0);
+        public Entity? PlayerCharacter { get; set; } = null;
         public int XpCurrent { get; set; } = 0;
         public int XpTarget { get; set; } = 0;
         public TimeLimit TimeLimit { get; private set; } = new();
@@ -143,7 +144,11 @@ namespace TheIdleScrolls_Web.CoreWrapper
         private void ConnectEvents()
         {
             var emitter = gameRunner.GetEventEmitter();
-            emitter.PlayerCharacterChanged += (CharacterRepresentation cRep) => Character = cRep;
+            emitter.PlayerCharacterChanged += (CharacterRepresentation cRep, Entity entity) =>
+            {
+                Character = cRep;
+                PlayerCharacter = entity;
+            };
             emitter.PlayerXpChanged += (int current, int target) =>
             {
                 XpCurrent = current;

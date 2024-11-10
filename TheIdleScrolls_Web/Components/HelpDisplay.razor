@@ -86,9 +86,10 @@
             @($"{Stats.ArmorSlowdownPerPoint:0.#%}") resistance to time loss. So @(1 / Stats.ArmorSlowdownPerPoint) armor 
             points will halve the speed at which time runs out.
         </p>
-        <p><strong>Evasion: </strong>Being evasive gives you additional time in fights. Every point of evasion rating increases the available
-            time by @($"{Stats.EvasionBonusPerPoint:0.#%}"). So @(1 / Stats.EvasionBonusPerPoint) evasion points will double 
-            the time limit.
+        <p><strong>Evasion: </strong>Being evasive allows you to prevent your opponents from getting to you. The evasion meter charges up 
+            as you fight and once it is full, the fight clock will be temporarily frozen. The ratio of charge and effect duration depends on 
+            your evasion rating. At @($"{(1 / Stats.EvasionBonusPerPoint):0.#}") points of evasion rating, the durations will be equal. So every 
+            point of evasion rating effectively slows the fight clock by @($"{Stats.EvasionBonusPerPoint:0.#%}").
         </p>
         <p>The effectiveness of protection will be reduced as the level of your enemies increases, so you have to keep improving your 
             defences as you progress through the game.</p>
@@ -105,9 +106,8 @@
         <p>Dungeons are special areas that are outside of the main game world. A dungeon consists of one or more floors, each one containing 
             one or more enemies. Enemies on a dungeon floor share a time limit and are fought one after another. Once all enemies on a floor have 
             been defeated, you automatically move on to the next one. Finishing every floor of a dungeon awards you a guaranteed item drop with a 
-            chance for the item to drop with higher rarity. If 
-            you do not manage to clear a floor in time, you will be moved back to the overworld and will have to start the dungeon from the 
-            beginning on your next attempt.
+            chance for the item to drop with higher rarity. If you do not manage to clear a floor in time, you will be moved back to the 
+            overworld and will have to start the dungeon from the beginning on your next attempt.
         </p>
     }
 

@@ -32,7 +32,7 @@ namespace TheIdleScrolls_Core.Resources
             var achievements = new List<Achievement>();
 
             // Level achievements
-            int[] levels = { 10, 20, 30, 40, 50, 75, 100, 150 };
+            int[] levels = [ 10, 20, 30, 40, 50, 75, 100, 150 ];
             for (int i = 0; i < levels.Length; i++)
             {
                 int level = levels[i];
@@ -50,15 +50,15 @@ namespace TheIdleScrolls_Core.Resources
             }
 
             // Wilderness progress achievements
-            (int Level, string Name)[] wildernessLevels = new (int, string)[]
-            {
+            (int Level, string Name)[] wildernessLevels =
+            [
                 ( 15, "Stroll Taker"),
                 ( 25, "To the Lighthouse"),
                 ( 50, "Wilderness Traveller"),
                 ( 75, "Wilderness Explorer"),
                 (100, "Wilderness Conqueror"),
                 (150, "Wilderness Wanderer")
-            };
+            ];
             for (int i = 0; i < wildernessLevels.Length; i++)
             {
                 int level = wildernessLevels[i].Level;
@@ -76,14 +76,14 @@ namespace TheIdleScrolls_Core.Resources
             }
 
             // Kill achievements
-            (int Count, string Name)[] killCounts = new (int, string)[]
-            {
+            (int Count, string Name)[] killCounts =
+            [
                 (  50, "Brawler"),
                 ( 200, "Warrior"),
                 ( 500, "Slayer"),
                 (1000, "Exterminator"),
                 (4800, "Legion Slayer")
-            };
+            ];
             for (int i = 0; i < killCounts.Length; i++)
             {
                 int count = killCounts[i].Count;
@@ -101,8 +101,8 @@ namespace TheIdleScrolls_Core.Resources
             }
 
             // Dungeon achievements
-            (string Id, string Name, string Title)[] dungeons = new (string, string, string)[]
-            {
+            (string Id, string Name, string Title)[] dungeons =
+            [
                 (Definitions.DungeonIds.Crypt, Properties.Places.Dungeon_Crypt, "Cryptkeeper"),
                 (Definitions.DungeonIds.MercenaryCamp, Properties.Places.Dungeon_MercenaryCamp, "Sellsword Slayer"),
                 (Definitions.DungeonIds.Lighthouse, Properties.Places.Dungeon_Lighthouse, "I Shall Be Light"),
@@ -111,7 +111,7 @@ namespace TheIdleScrolls_Core.Resources
                 (Definitions.DungeonIds.Labyrinth, Properties.Places.Dungeon_Labyrinth, "I Shall Have No Mercy"),
                 (Definitions.DungeonIds.ReturnToLighthouse, Properties.Places.Dungeon_ReturnToLighthouse, "I Shall Have No Fear"),
                 (Definitions.DungeonIds.Threshold, Properties.Places.Dungeon_Threshold, "I Shall Have No Remorse"),
-            };
+            ];
             foreach (var (id, name, title) in dungeons)
             {
                 var achievement = new Achievement()
@@ -155,14 +155,14 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.ReturnToLighthouse} > 0 && Losses == 0")));
 
             // Ability achievements
-            (int Level, string Rank)[] ranks = new (int, string)[]
-            {
+            (int Level, string Rank)[] ranks =
+            [
                 ( 25, "Apprentice"),
                 ( 50, "Adept"),
                 ( 75, "Expert"),
                 (100, "Master"),
                 (150, "Grandmaster")
-            };
+            ];
             foreach (string weapFamily in Definitions.Abilities.Weapons)
             {
                 for (int i = 0; i < ranks.Length; i++)
@@ -199,13 +199,13 @@ namespace TheIdleScrolls_Core.Resources
             }
 
             // 'of all trades' achievements
-            (int Level, string Rank)[] oAllRanks = new (int, string)[]
-            {
+            (int Level, string Rank)[] oAllRanks =
+            [
                 ( 25, "Jack"),
                 ( 50, "Queen"),
                 ( 75, "King"),
                 (100, "Ace")
-            };
+            ];
             for (int i = 0; i < oAllRanks.Length; i++)
             {
                 int level = oAllRanks[i].Level;
@@ -236,7 +236,7 @@ namespace TheIdleScrolls_Core.Resources
                     Perk = GetPerkForLeveledAchievement("ABL_CRAFT", level)
                 });
             }
-            string[] craftNames = { "Transmuted", "Augmented", "Regal", "Exalted", "Divine" };
+            string[] craftNames = [ "Transmuted", "Augmented", "Regal", "Exalted", "Divine" ];
             for (int i = 0; i < craftNames.Length; i++)
             {
                 achievements.Add(new(
@@ -259,14 +259,14 @@ namespace TheIdleScrolls_Core.Resources
             achievements.Add(tier0Reforge);
 
             // Coins achievements
-            ranks = new (int, string)[]
-            {
+            ranks =
+            [
                 (  1000, "Scavenger"),
                 (  5000, "Fence"),
                 ( 25000, "Merchant"),
                 (100000, "Wholesaler"),
                 (500000, "Patritian"),
-            };
+            ];
             for (int i = 0; i < ranks.Length; i++)
             {
                 int coins = ranks[i].Level;
@@ -281,13 +281,13 @@ namespace TheIdleScrolls_Core.Resources
                 };
                 achievements.Add(achievement);
             }
-            ranks = new (int, string)[]
-            {
+            ranks =
+            [
                 (  1000, "Pocket Change"),
                 (  5000, "Nest Egg"),
                 ( 25000, "Money Bags"),
                 (100000, "Money Vault")
-            };
+            ];
             for (int i = 0; i < ranks.Length; i++)
             {
                 int coins = ranks[i].Level;
@@ -339,8 +339,8 @@ namespace TheIdleScrolls_Core.Resources
                         $"Gain +{noArmorBaseEvasion1:0.#} evasion rating for each level",
                         ModifierType.AddBase,
                         noArmorBaseEvasion1,
-                        new string[] { Definitions.Tags.EvasionRating },
-                        new string[] { Definitions.Tags.Unarmored })
+                        [Definitions.Tags.EvasionRating],
+                        [Definitions.Tags.Unarmored])
                 });
             achievements.Add(new(
                 "HC:NOARMOR",
@@ -354,8 +354,8 @@ namespace TheIdleScrolls_Core.Resources
                         $"Gain +{noArmorBaseEvasion2:0.#} evasion rating for each level",
                         ModifierType.AddBase,
                         noArmorBaseEvasion2,
-                        new string[] { Definitions.Tags.EvasionRating },
-                        new string[] { Definitions.Tags.Unarmored })
+                        [Definitions.Tags.EvasionRating],
+                        [Definitions.Tags.Unarmored])
             });
             achievements.Add(new(
                 "HC:NOARMOR_50",
@@ -369,8 +369,8 @@ namespace TheIdleScrolls_Core.Resources
                         "Character level scales unarmored evasion rating like abilities scale regular armors",
                         ModifierType.More,
                         Definitions.Stats.DefensePerAbilityLevel,
-                        new string[] { Definitions.Tags.EvasionRating },
-                        new string[] { Definitions.Tags.Unarmored })
+                        [Definitions.Tags.EvasionRating],
+                        [Definitions.Tags.Unarmored])
             });
 
             int noWeaponLevel = 5;
@@ -390,8 +390,8 @@ namespace TheIdleScrolls_Core.Resources
                         $"Increased base damage with unarmed attacks",
                         ModifierType.AddBase,
                         noWeaponBaseDamageBonus,
-                        new string[] { Definitions.Tags.Damage },
-                        new string[] { Definitions.Tags.Unarmed })
+                        [Definitions.Tags.Damage],
+                        [Definitions.Tags.Unarmed])
                 });
             achievements.Add(new(
                 "NOWEAPON_DNG",
@@ -406,8 +406,8 @@ namespace TheIdleScrolls_Core.Resources
                         $"Gain +{noWeaponLevelDamageBonus:0.#} unarmed damage for each level",
                         ModifierType.AddBase,
                         noWeaponLevelDamageBonus,
-                        new string[] { Definitions.Tags.Damage },
-                        new string[] { Definitions.Tags.Unarmed })
+                        [Definitions.Tags.Damage],
+                        [Definitions.Tags.Unarmed])
             });
             achievements.Add(new(
                 "NOWEAPON_DNG2",
@@ -422,8 +422,8 @@ namespace TheIdleScrolls_Core.Resources
                         $"Gain {Definitions.Stats.AttackBonusPerLevel:0.#%} increased unarmed damage per character level",
                         ModifierType.Increase,
                         Definitions.Stats.AttackBonusPerLevel,
-                        new string[] { Definitions.Tags.Damage },
-                        new string[] { Definitions.Tags.Unarmed })
+                        [Definitions.Tags.Damage],
+                        [Definitions.Tags.Unarmed])
             });
             achievements.Add(new(
                 $"HC:NOWEAPON_{noWeaponMaxLevel}",
@@ -436,17 +436,16 @@ namespace TheIdleScrolls_Core.Resources
                 Perk = PerkFactory.MakeCharacterLevelBasedMultiModPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
                         "The Blade Within",
                         "Character level scales unarmed damage like abilities scale weapon damage",
-                        new() { ModifierType.More, ModifierType.More },
-                        new() { Definitions.Stats.AttackDamagePerAbilityLevel, Definitions.Stats.AttackSpeedPerAbilityLevel },
-                        new() {
-                            new string[] { Definitions.Tags.Damage },
-                            new string[] { Definitions.Tags.AttackSpeed }
-                        },
-                        new()
-                        {
-                            new string[] { Definitions.Tags.Unarmed },
-                            new string[] { Definitions.Tags.Unarmed }
-                        })
+                        [ModifierType.More, ModifierType.More],
+                        [Definitions.Stats.AttackDamagePerAbilityLevel, Definitions.Stats.AttackSpeedPerAbilityLevel],
+                        [
+                            [Definitions.Tags.Damage],
+                            [Definitions.Tags.AttackSpeed]
+                        ],
+                        [
+                            [Definitions.Tags.Unarmed],
+                            [Definitions.Tags.Unarmed]
+                        ])
             });
 
             achievements.Add(new(
@@ -460,16 +459,16 @@ namespace TheIdleScrolls_Core.Resources
                     Perk = PerkFactory.MakeStaticMultiModPerk("HC:NOARMOR+NOWEAPON",
                         "Luminous Being",
                         "Gain a significant bonus to damage and defense while unarmed and unarmored",
-                        new() { ModifierType.More, ModifierType.More },
-                        new() { 0.5, 0.5 },
-                        new() {
-                            new string[] { Definitions.Tags.Damage },
-                            new string[] { Definitions.Tags.Defense }
-                        },
-                        new() { 
-                            new string[] { Definitions.Tags.Unarmed, Definitions.Tags.Unarmored },
-                            new string[] { Definitions.Tags.Unarmed, Definitions.Tags.Unarmored }
-                        })
+                        [ModifierType.More, ModifierType.More],
+                        [0.5, 0.5],
+                        [
+                            [Definitions.Tags.Damage],
+                            [Definitions.Tags.Defense]
+                        ],
+                        [
+                            [Definitions.Tags.Unarmed, Definitions.Tags.Unarmored],
+                            [Definitions.Tags.Unarmed, Definitions.Tags.Unarmored]
+                        ])
                 });
 
 
@@ -484,220 +483,222 @@ namespace TheIdleScrolls_Core.Resources
                                 $"Gain {0.3:0.#%} increased experience",
                                 ModifierType.Increase,
                                 0.3,
-                                new string[] { Definitions.Tags.CharacterXpGain },
-                                Array.Empty<string>()),
+                                [Definitions.Tags.CharacterXpGain],
+                                []),
                 ("KILL", 1000) => PerkFactory.MakeStaticPerk($"{id}{level}", "Battle Tested",
                                 $"Gain {0.5:0.#%} increased damage",
                                 ModifierType.Increase,
                                 0.5,
-                                new string[] { Definitions.Tags.Damage },
-                                Array.Empty<string>()),
+                                [Definitions.Tags.Damage],
+                                []),
                 ("AXE", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Furious Swings", 
                                 $"{0.2:0.#} extra attacks per second with {id.Localize()}s",
                                 ModifierType.AddFlat,
                                 0.2,
-                                new string[] { Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_Axe},
-                                Array.Empty<string>()),
+                                [Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_Axe],
+                                []),
                 ("BLN", 25) => new($"{id}{level}", "Stunning Blow", 
-                                $"Gain {5} base armor for each defensive item while using {id.Localize()} after first strike",
-                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                $"Gain {5} to base armor value for each defensive item while using {id.Localize()} after first strike",
+                                [ UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted ],
                                 (e, w, c) =>
                                 {
                                     bool firstStrike = (e.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
                                     bool usingBlunt = e.GetComponent<EquipmentComponent>()?.GetItems()
-                                        ?.Any(i => i.GetComponent<ItemComponent>()!.Blueprint.FamilyId == Properties.Constants.Key_Ability_Blunt) ?? false;
-                                    return new() { new($"{id}{level}", ModifierType.AddBase, 
+                                        ?.Any(i => i.GetComponent<ItemComponent>()!
+                                        .Blueprint.GetRelatedAbilityId() == Properties.Constants.Key_Ability_Blunt) ?? false;
+                                    return [ new($"{id}{level}", ModifierType.AddBase, 
                                         (!firstStrike && usingBlunt) ? 5 : 0,
-                                        new() { Definitions.Tags.ArmorRating },
-                                        new()
+                                        [Definitions.Tags.ArmorRating],
+                                        []
                                         )
-                                    };
+                                    ];
                                 }),
                 ("LBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Quick Slash",
-                                $"{1.0:0.#%} more attack speed with first attack with {id.Localize()}s",
+                                $"{1.0:0.#%} more attack speed during first attack with {id.Localize()}s",
                                 ModifierType.More,
                                 1.0,
-                                new string[] { Definitions.Tags.AttackSpeed, 
-                                               Properties.Constants.Key_Ability_LongBlade }, 
-                                new string[] { Definitions.Tags.FirstStrike }),
+                                [ Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_LongBlade ], 
+                                [ Definitions.Tags.FirstStrike ]),
                 ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
-                                $"{1.0:0.#%} more defenses with during first attack with {id.Localize()}s",
+                                $"{1.0:0.#%} more defenses during first attack with {id.Localize()}s",
                                 ModifierType.More,
                                 1.0,
-                                new string[] { Definitions.Tags.Defense }, 
-                                new string[] { Definitions.Tags.FirstStrike,
-                                               Properties.Constants.Key_Ability_Polearm}),
+                                [ Definitions.Tags.Defense ], 
+                                [ Definitions.Tags.FirstStrike, Properties.Constants.Key_Ability_Polearm ]),
                 ("SBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Sneak Attack",
                                 $"Deal double damage with short blades on your first attack every battle",
                                 ModifierType.More,
                                 1.0,
-                                new string[] { Definitions.Tags.Damage, 
-                                               Properties.Constants.Key_Ability_ShortBlade },
-                                new string[] { Definitions.Tags.FirstStrike }),
+                                [ Definitions.Tags.Damage, Properties.Constants.Key_Ability_ShortBlade ],
+                                [ Definitions.Tags.FirstStrike ]),
                 ("AXE", 75) => new($"{id}{level}", "Frenzy", 
                                 $"Gain {0.05:0.#%} more attack speed with {id.Localize()}s after every attack (up to {0.5:0.#%})",
-                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                [ UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted ],
                                 (e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
-                                    return new() { new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
-                                        new() { Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_Axe },
-                                        new())
-                                    };
+                                    return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
+                                        [ Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_Axe ],
+                                        [])
+                                    ];
                                 }),
                 ("BLN", 75) => new($"{id}{level}", "Armor Breaker",
                                 $"Gain {0.05:0.#%} more damage with {id.Localize()} after every attack (up to {0.5:0.#%})",
-                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                [ UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted ],
                                 (e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
-                                    return new() { new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
-                                        new() { Definitions.Tags.Damage, Properties.Constants.Key_Ability_Blunt },
-                                        new())
-                                    };
+                                    return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
+                                        [ Definitions.Tags.Damage, Properties.Constants.Key_Ability_Blunt ],
+                                        [])
+                                    ];
                                 }),
                 ("LBL", 75) => new($"{id}{level}", "Fluent Technique",
                                 $"Gain {0.25:0.#%} more damage or attack speed with {id.Localize()}s (changes after each attack)",
-                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                [ UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted ],
                                 (e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     bool damage = (attacks % 2) == 0;
-                                    return new() 
-                                    { 
+                                    return
+                                    [
                                         new($"{id}{level}_dmg", ModifierType.More, damage ? 0.25 : 0.0,
-                                            new() { Definitions.Tags.Damage, Properties.Constants.Key_Ability_LongBlade },
-                                            new()
+                                            [ Definitions.Tags.Damage, Properties.Constants.Key_Ability_LongBlade ],
+                                            []
                                         ),
                                         new($"{id}{level}_spd", ModifierType.More, damage ? 0.0 : 0.25,
-                                            new() { Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_LongBlade },
-                                            new()
+                                            [ Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_LongBlade ],
+                                            []
                                         )
-                                    };
+                                    ];
                                 }),
                 ("POL", 75) => new($"{id}{level}", "Skewer",
                                 $"Gain {0.05:0.#%} more damage with {id.Localize()}s after every attack (up to {0.5:0.#%})",
-                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                [ UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted ],
                                 (e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
-                                    return new() { new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
-                                        new() { Definitions.Tags.Damage, Properties.Constants.Key_Ability_Blunt }
-                                        , new())
-                                    };
+                                    return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
+                                        [ Definitions.Tags.Damage, Properties.Constants.Key_Ability_Blunt ], 
+                                        [])
+                                    ];
                                 }),
                 ("SBL", 75) => new($"{id}{level}", "Critical Strikes",
                                 $"Deal {1.0:0.#%} more damage with {id.Localize()}s every third attack",
-                                new() { UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted },
+                                [ UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted ],
                                 (e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     bool bonus = (attacks % 3) == 2; 
-                                    return new() { new($"{id}{level}", ModifierType.More, bonus ? 1.0 : 0.0,
-                                        new() { Definitions.Tags.Damage, Properties.Constants.Key_Ability_ShortBlade },
-                                        new())
-                                    };
+                                    return [ new($"{id}{level}", ModifierType.More, bonus ? 1.0 : 0.0,
+                                        [ Definitions.Tags.Damage, Properties.Constants.Key_Ability_ShortBlade ],
+                                        [])
+                                    ];
                                 }),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 50)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Adept",
                                 $"Gain a {0.1:0.#%} damage multiplier with {id.Localize()} weapons",
                                 ModifierType.More,
                                 0.1,
-                                new string[] { Definitions.Tags.Damage, id },
-                                new string[] { }),
+                                [ Definitions.Tags.Damage, id ],
+                                []),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 100) 
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master", 
                                 $"Gain a {0.1:0.#%} damage multiplier", 
                                 ModifierType.More,
                                 0.1,
-                                new string[] { Definitions.Tags.Damage },
-                                new string[] { }),
+                                [ Definitions.Tags.Damage ],
+                                []),
                 ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Light shields also grant evasion rating equal to {.25:0.#%} of their armor",
-                                new() { UpdateTrigger.EquipmentChanged },
+                                [ UpdateTrigger.EquipmentChanged ],
                                 (e, w, c) =>
                                 {
                                     double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
-                                    return new() { new("ShieldEvasion", ModifierType.AddBase, 0.25 * shieldArmor, 
-                                        new() { Definitions.Tags.Shield, 
-                                                Definitions.Tags.EvasionRating, 
-                                                Properties.Constants.Key_Ability_LightArmor },
-                                        new()
+                                    return [ new("ShieldEvasion", ModifierType.AddBase, 0.25 * shieldArmor, 
+                                        [ Definitions.Tags.Shield, 
+                                          Definitions.Tags.EvasionRating, 
+                                          Properties.Constants.Key_Ability_LightArmor ],
+                                        []
                                         ) 
-                                    };
+                                    ];
                                 }),
                 ("HAR", 50) => new($"{id}{level}", "Bulwark", $"{0.5:0.#%} multiplier to defenses from equipped heavy shield",
-                                new() { UpdateTrigger.EquipmentChanged },
+                                [ UpdateTrigger.EquipmentChanged ],
                                 (e, w, c) =>
                                 {
                                     double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
-                                    return new() { new("ShieldArmor", ModifierType.More, 0.5,
-                                        new() { Definitions.Tags.Shield,
-                                                Definitions.Tags.Defense,
-                                                Properties.Constants.Key_Ability_HeavyArmor },
-                                        new()
+                                    return [ new("ShieldArmor", ModifierType.More, 0.5,
+                                        [ Definitions.Tags.Shield,
+                                          Definitions.Tags.Defense,
+                                          Properties.Constants.Key_Ability_HeavyArmor ],
+                                        []
                                         )
-                                    };
+                                    ];
                                 }),
                 ("LAR" or "HAR", 25)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Apprentice",
                                     $"Gain a {0.1:0.#%} defense multiplier with {id.Localize()}",
                                     ModifierType.More,
                                     0.1,
-                                    new string[] { Definitions.Tags.Defense, id },
-                                    new string[] { }),
+                                    [ Definitions.Tags.Defense, id ],
+                                    []),
                 ("LAR" or "HAR", 75)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"Comfortable in {id.Localize()}",
                                     $"Gain a {0.1:0.#%} attack speed multiplier while wearing {id.Localize()}",
                                     ModifierType.More,
                                     0.1,
-                                    new string[] { Definitions.Tags.AttackSpeed }, 
-                                    new string[] { id }),
+                                    [ Definitions.Tags.AttackSpeed ], 
+                                    [ id ]),
                 ("LAR" or "HAR", 100)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
                                     $"Gain a {0.1:0.#%} defense multiplier",
                                     ModifierType.More,
                                     0.1,
-                                    new string[] { Definitions.Tags.Defense }, new string[] { }),
+                                    [ Definitions.Tags.Defense ], 
+                                    []),
                 ("ABL_CRAFT", 25)
                                 => new($"{id}{level}", "Crafting Apprentice", 
                                     $"Gain an additional slot in the crafting queue for every 25 levels of the Crafting ability",
-                                    new() { UpdateTrigger.AbilityIncreased },
+                                    [ UpdateTrigger.AbilityIncreased ],
                                     (e, w, c) =>
                                     {
                                         int craftLevel = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
-                                        return new() { new($"{id}{level}", ModifierType.AddFlat, (craftLevel / 25),
-                                            new() { Definitions.Tags.CraftingSlots }, new() { }
+                                        return [ new($"{id}{level}", ModifierType.AddFlat, (craftLevel / 25),
+                                            [ Definitions.Tags.CraftingSlots ], 
+                                            []
                                             )
-                                        };
+                                        ];
                                     }),
                 ("ABL_CRAFT", 50)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Journeyman",
                                     $"Gain a discount for all crafts",
                                     ModifierType.Increase,
                                     -0.2,
-                                    new string[] { Definitions.Tags.CraftingCost },
-                                    new string[] { }),
+                                    [ Definitions.Tags.CraftingCost ],
+                                    []),
                 ("ABL_CRAFT", 75)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Expert",
                                     $"Gain increased crafting speed",
                                     ModifierType.Increase,
                                     0.2,
-                                    new string[] { Definitions.Tags.CraftingSpeed }, new string[] { }),
+                                    [ Definitions.Tags.CraftingSpeed ], 
+                                    []),
                 ("ABL_CRAFT", 100)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Master",
                                     $"Gain one more active crafting slot",
                                     ModifierType.AddFlat,
                                     1.0,
-                                    new string[] { Definitions.Tags.ActiveCrafts }, new string[] { }),
+                                    [ Definitions.Tags.ActiveCrafts ], 
+                                    []),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "LAR" or "HAR" or "ABL_CRAFT", 150)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Savant",
                                     $"{0.3:0.#%} increased experience gain for {id.Localize()} ability",
                                     ModifierType.Increase,
                                     0.3,
-                                    new string[] { Definitions.Tags.AbilityXpGain, id }, 
-                                    new string[] { }),
+                                    [ Definitions.Tags.AbilityXpGain, id ], 
+                                    []),
                 _ => null
             };
         }

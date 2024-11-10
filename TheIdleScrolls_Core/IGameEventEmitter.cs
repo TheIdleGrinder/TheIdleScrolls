@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ using TheIdleScrolls_Core.Messages;
 
 namespace TheIdleScrolls_Core
 {
-    public delegate void PlayerCharacterChangedHandler(CharacterRepresentation character);
+    public delegate void PlayerCharacterChangedHandler(CharacterRepresentation character, Entity entity);
     public delegate void CharacterXpChangedHandler(int xp, int target);
     public delegate void ItemsChangedHandler(List<IItemEntity> items);
     public delegate void EncumbranceChangedHandler(double encumbrance);

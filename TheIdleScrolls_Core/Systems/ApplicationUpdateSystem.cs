@@ -64,7 +64,7 @@ namespace TheIdleScrolls_Core.Systems
             {
                 int level = player.GetComponent<LevelComponent>()?.Level ?? 0;
                 string @class = PlayerFactory.GetCharacterClass(player).Localize();
-                PlayerCharacterChanged?.Invoke(new(m_playerId, player.GetName(), @class, level));
+                PlayerCharacterChanged?.Invoke(new(m_playerId, player.GetName(), @class, level), player);
             }
 
             // Update XP

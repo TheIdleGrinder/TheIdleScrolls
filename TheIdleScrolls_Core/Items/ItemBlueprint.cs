@@ -88,5 +88,10 @@ namespace TheIdleScrolls_Core.Items
         {
             return ItemKingdom.GetMaterial(MaterialId) ?? throw new Exception($"No item material for [{ToString()}]");
         }
+
+        public string GetRelatedAbilityId()
+        {
+            return GetFamilyDescription().RelatedAbilityId;
+        }
     }
 }
