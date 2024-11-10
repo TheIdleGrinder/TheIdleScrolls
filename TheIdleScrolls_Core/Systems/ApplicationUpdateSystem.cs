@@ -272,9 +272,10 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     int level = bountyComp.CurrentHuntLevel;
                     int maxLevel = bountyComp.HighestCollected;
-                    var state = new BountyStateRepresentation(maxLevel, level, 
+                    int anchor = bountyComp.CurrentHuntAnchorLevel;
+                    var state = new BountyStateRepresentation(maxLevel, level, anchor,
                                                               bountyComp.CurrentHuntCount, BountySystem.EnemiesPerHunt,
-                                                              BountySystem.CalculateBountyReward(level, maxLevel));
+                                                              BountySystem.CalculateBountyReward(level, anchor));
                     BountyStateChanged?.Invoke(state);
                 }
             }

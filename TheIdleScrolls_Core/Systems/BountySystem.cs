@@ -29,7 +29,8 @@ namespace TheIdleScrolls_Core.Systems
                 // Setup fresh component
                 if (hunterComp.HighestCollected == 0)
                 {
-                    hunterComp.HighestCollected = progressComp.Data.HighestWildernessKill; 
+                    hunterComp.HighestCollected = progressComp.Data.HighestWildernessKill;
+                    hunterComp.CurrentHuntAnchorLevel = progressComp.Data.HighestWildernessKill;
                 }
                 
                 if (locationComp.InDungeon)
@@ -53,12 +54,14 @@ namespace TheIdleScrolls_Core.Systems
                     hunterComp.CurrentHuntLevel = (hunterComp.CurrentHuntCount == 1) 
                                                     ? level 
                                                     : Math.Min(hunterComp.CurrentHuntLevel, level);
+
                     if (hunterComp.CurrentHuntCount >= EnemiesPerHunt)
                     {
-                        int value = CalculateBountyReward(hunterComp.CurrentHuntLevel, hunterComp.HighestCollected);
+                        int value = CalculateBountyReward(hunterComp.CurrentHuntLevel, hunterComp.CurrentHuntAnchorLevel);
                         AwardBounty(hunter, value, BountyType.Hunt, coordinator);
                         hunterComp.CurrentHuntCount = 0;
                         hunterComp.CurrentHuntLevel = 0;
+                        hunterComp.CurrentHuntAnchorLevel = hunterComp.HighestCollected;
                     }
                 }
             }
@@ -71,9 +74,9 @@ namespace TheIdleScrolls_Core.Systems
             coordinator.PostMessage(this, new BountyMessage(hunter, type, amount));
         }
 
-        public static int CalculateBountyReward(int level, int highestLevel)
+        public static int CalculateBountyReward(int level, int referenceLevel)
         {
-            double levelMalus = Math.Pow(1.0 - MalusPerLevel, Math.Max(0, highestLevel - level));
+            double levelMalus = Math.Pow(1.0 - MalusPerLevel, Math.Max(0, referenceLevel - level));
             return (int)Math.Ceiling(levelMalus * level);
         }
     }
