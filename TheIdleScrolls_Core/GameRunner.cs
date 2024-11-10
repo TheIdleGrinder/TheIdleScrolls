@@ -14,7 +14,7 @@ namespace TheIdleScrolls_Core
     {
         ulong m_ticks = 0;
 
-        readonly World m_world = new() { XpMultiplier = 0.0, RarityMultiplier = 2.0 };
+        readonly World m_world = new() { XpMultiplier = 5.0, RarityMultiplier = 2.0 };
 
         readonly Coordinator m_coordinator = new();
 
@@ -124,7 +124,7 @@ namespace TheIdleScrolls_Core
 
         public void ExecuteTick(double dt)
         {
-            /*            var tickStart = DateTime.Now;*/
+            var tickStart = DateTime.Now;
             dt *= m_world.SpeedMultiplier;
             m_ticks++;
 
@@ -149,8 +149,11 @@ namespace TheIdleScrolls_Core
                 }
             }
 
-/*            var tickDuration = DateTime.Now - tickStart;
-            Console.WriteLine($"Tick duration: {tickDuration.TotalMilliseconds}");*/
+            var tickDuration = DateTime.Now - tickStart;
+            if (tickDuration.Milliseconds > 50)
+                Console.WriteLine($"Tick duration: {tickDuration.TotalMilliseconds}");
+            else
+                Console.WriteLine("Tick duration ok");
         }
 
         public void AddSystem(AbstractSystem system)

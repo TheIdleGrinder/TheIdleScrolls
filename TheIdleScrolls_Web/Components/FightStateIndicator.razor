@@ -1,6 +1,5 @@
 ﻿@using TheIdleScrolls_Core.Components
 @using TheIdleScrolls_Web.CoreWrapper
-@* @using TheIdleScrolls_Web.Assets *@
 
 @inject CoreWrapperModel CoreWrapper
 
@@ -202,8 +201,6 @@
         {
             string base64 = Convert.ToBase64String((byte[])mobImage);
             CurrentMobImage = $"data:image/png; base64,{base64}";
-
-            Console.WriteLine($"Loaded image binary size: {base64.Length}");
         }
         else
         {
