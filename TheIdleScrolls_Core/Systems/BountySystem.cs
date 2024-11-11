@@ -27,10 +27,13 @@ namespace TheIdleScrolls_Core.Systems
                 var locationComp = hunter.GetComponent<LocationComponent>()!;
 
                 // Setup fresh component
-                if (hunterComp.HighestCollected == 0)
+                if (hunterComp.CurrentHuntAnchorLevel == 0)
                 {
-                    hunterComp.HighestCollected = progressComp.Data.HighestWildernessKill;
-                    hunterComp.CurrentHuntAnchorLevel = progressComp.Data.HighestWildernessKill;
+                    if (hunterComp.HighestCollected == 0)
+                    {
+                        hunterComp.HighestCollected = progressComp.Data.HighestWildernessKill;
+                    }
+                    hunterComp.CurrentHuntAnchorLevel = hunterComp.HighestCollected;
                 }
                 
                 if (locationComp.InDungeon)
