@@ -72,10 +72,10 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_RatDen_Description,
                     Floors = new()
                     {
-                        new(2, 1.5, new() { "MOB_RAT" }),
-                        new(5, 3.2, new() { "MOB_RAT" }),
-                        new(5, 4.2, new() { "MOB_BIGRAT" }),
-                        new(1, 3.1, new() { "BOSS_GIANTRAT" })
+                        new(2, 1.5, [ "MOB_RAT" ]),
+                        new(5, 3.2, [ "MOB_RAT" ]),
+                        new(5, 4.2, [ "MOB_BIGRAT" ]),
+                        new(1, 3.1, [ "BOSS_GIANTRAT" ])
                     },
                     LocalMobs = new()
                     {
@@ -95,11 +95,11 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_Crypt_Description,
                     Floors = new()
                     {
-                        new(2, 2.2, new() { "MOB_ZOMBIE" }),
-                        new(2, 2.0, new() { "MOB_SKELETON" }),
-                        new(3, 2.6, new() { "MOB_ZOMBIE", "MOB_SKELETON" }),
-                        new(2, 5.1, new() { "MOB_ABOMINATION" }),
-                        new(1, 3.1, new() { "BOSS_NECROMANCER" })
+                        new(2, 2.2, [ "MOB_ZOMBIE" ]),
+                        new(2, 2.0, [ "MOB_SKELETON" ]),
+                        new(3, 2.6, [ "MOB_ZOMBIE", "MOB_SKELETON" ]),
+                        new(2, 5.1, [ "MOB_ABOMINATION" ]),
+                        new(1, 3.1, [ "BOSS_NECROMANCER" ])
                     },
                     LocalMobs = new()
                     {
@@ -120,10 +120,10 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_Lighthouse_Description,
                     Floors = new()
                     {
-                        new(2, 2.5, new() { "MOB_CULTIST" }),
-                        new(3, 3.3, new() { "MOB_CULTIST", "MOB_DEMONSCOUT" }),
-                        new(5, 5.0, new() { "MOB_DEMONSCOUT" }),
-                        new(1, 4.0, new() { "MOB_LESSERDEMON" })
+                        new(2, 2.5, [ "MOB_CULTIST" ]),
+                        new(3, 3.3, [ "MOB_CULTIST", "MOB_DEMONSCOUT" ]),
+                        new(5, 5.0, [ "MOB_DEMONSCOUT" ]),
+                        new(1, 4.0, [ "MOB_LESSERDEMON" ])
                     },
                     LocalMobs = new()
                     {
@@ -143,11 +143,11 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_Temple_Description,
                     Floors = new()
                     {
-                        new(3, 3.6, new() { "MOB_CULTIST", "MOB_WARLOCK" }),
-                        new(3, 3.2, new() { "MOB_CULTIST", "MOB_WARLOCK" }),
-                        new(3, 2.9, new() { "MOB_CULTIST", "MOB_WARLOCK" }),
-                        new(3, 2.7, new() { "MOB_CULTIST", "MOB_WARLOCK" }),
-                        new(3, 3.5, new() { "BOSS_VOIDPRIEST" })
+                        new(3, 3.6, [ "MOB_CULTIST", "MOB_WARLOCK" ]),
+                        new(3, 3.2, [ "MOB_CULTIST", "MOB_WARLOCK" ]),
+                        new(3, 2.9, [ "MOB_CULTIST", "MOB_WARLOCK" ]),
+                        new(3, 2.7, [ "MOB_CULTIST", "MOB_WARLOCK" ]),
+                        new(3, 3.5, [ "BOSS_VOIDPRIEST" ])
                     },
                     LocalMobs = new()
                     {
@@ -167,8 +167,8 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_MercenaryCamp_Description,
                     Floors = new()
                     {
-                        new(15, 9.0, new() { "MOB_MERCENARY", "MOB_MERCENARY2" }),
-                        new(1, 4.0, new() { "BOSS_MERCENARY" })
+                        new(15, 9.0, [ "MOB_MERCENARY", "MOB_MERCENARY2" ]),
+                        new(1, 4.0, [ "BOSS_MERCENARY" ])
                     },
                     LocalMobs = new()
                     {
@@ -188,10 +188,10 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_CultistCastle_Description,
                     Floors = new()
                     {
-                        new(4, 4.0, new() { "MOB_FANATIC", "MOB_WARLOCK" }),
-                        new(3, 2.7, new() { "MOB_FANATIC", "MOB_WARLOCK" }),
-                        new(5, 3.8, new() { "MOB_FANATIC", "MOB_WARLOCK" }),
-                        new(2, 5.0, new() { "MOB_CULTKNIGHT" })
+                        new(4, 4.0, [ "MOB_FANATIC", "MOB_WARLOCK" ]),
+                        new(3, 2.7, [ "MOB_FANATIC", "MOB_WARLOCK" ]),
+                        new(5, 3.8, [ "MOB_FANATIC", "MOB_WARLOCK" ]),
+                        new(2, 5.0, [ "MOB_CULTKNIGHT" ])
                     },
                     LocalMobs = new()
                     {
@@ -211,16 +211,16 @@ namespace TheIdleScrolls_Core.Resources
                     Description= Properties.Places.Dungeon_Labyrinth_Description,
                     Floors = new()
                     {
-                        new(1, 1.5, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(2, 2.9, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 1.4, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 1.3, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(2, 2.5, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 1.2, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 1.1, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(3, 3.1, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 1.0, new() { "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" }),
-                        new(1, 4.0, new() { "MOB_GREATERDEMON" })
+                        new(1, 1.5, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
+                        new(2, 2.9, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
+                        new(1, 1.4, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
+                        new(1, 1.3, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
+                        new(2, 2.5, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
+                        new(1, 1.2, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
+                        new(1, 1.1, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
+                        new(3, 3.1, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
+                        new(1, 1.0, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
+                        new(1, 4.0, [ "MOB_GREATERDEMON" ])
                     },
                     LocalMobs = new()
                     {
@@ -241,10 +241,10 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_ReturnToLighthouse_Description,
                     Floors = new()
                     {
-                        new(3, 3.0, new() { "MOB_VOIDCULTIST" }),
-                        new(4, 3.5, new() { "MOB_VOIDCULTIST", "MOB_IMPWARLOCK" }),
-                        new(7, 5.4, new() { "MOB_IMPWARLOCK" }),
-                        new(1, 5.0, new() { "BOSS_CULTLEADER" })
+                        new(3, 3.0, [ "MOB_VOIDCULTIST" ]),
+                        new(4, 3.5, [ "MOB_VOIDCULTIST", "MOB_IMPWARLOCK" ]),
+                        new(7, 5.4, [ "MOB_IMPWARLOCK" ]),
+                        new(1, 5.0, [ "BOSS_CULTLEADER" ])
                     },
                     LocalMobs = new()
                     {
@@ -264,7 +264,7 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_Threshold_Description,
                     Floors = new()
                     {
-                        new(25, 17.0, new() { "MOB_IMPWARLOCK", "MOB_WINGEDDEMON", "MOB_BIGGERIMP" })
+                        new(25, 17.0, [ "MOB_IMPWARLOCK", "MOB_WINGEDDEMON", "MOB_BIGGERIMP" ])
                     },
                     LocalMobs = new()
                     {
@@ -284,11 +284,11 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_EndgameMagic_Description,
                     Floors = new()
                     {
-                        new(5, 4.7, new() { "MOB_HUFFLE" }),
-                        new(4, 4.0, new() { "MOB_RAVEN" }),
-                        new(3, 3.0, new() { "MOB_SNAKE" }),
-                        new(2, 2.3, new() { "MOB_GRYPHON" }),
-                        new(1, 5.2, new() { "BOSS_SOREN" })
+                        new(5, 4.7, [ "MOB_HUFFLE" ]),
+                        new(4, 4.0, [ "MOB_RAVEN" ]),
+                        new(3, 3.0, [ "MOB_SNAKE" ]),
+                        new(2, 2.3, [ "MOB_GRYPHON" ]),
+                        new(1, 5.2, [ "BOSS_SOREN" ])
                     },
                     LocalMobs = new()
                     {
@@ -310,12 +310,12 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_EndgamePyramid_Description,
                     Floors = new()
                     {
-                        new(5, 2.3, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
-                        new(2, 4.1, new() { "MOB_OVERSOUL" }),
-                        new(6, 2.2, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
-                        new(3, 3.6, new() { "MOB_TRIO" }),
-                        new(7, 2.2, new() { "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" }),
-                        new(1, 5.2, new() { "BOSS_RENKE" })
+                        new(5, 2.3, [ "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" ]),
+                        new(2, 4.1, [ "MOB_OVERSOUL" ]),
+                        new(6, 2.2, [ "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" ]),
+                        new(3, 3.6, [ "MOB_TRIO" ]),
+                        new(7, 2.2, [ "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" ]),
+                        new(1, 5.2, [ "BOSS_RENKE" ])
                     },
                     LocalMobs = new()
                     {
@@ -338,11 +338,11 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_EndgameAges_Description,
                     Floors = new()
                     {
-                        new(2, 1.1, new() { "MOB_A-INF" }),
-                        new(3, 2.3, new() { "MOB_1-INF", "MOB_1-CAV" }),
-                        new(5, 4.0, new() { "MOB_2-INF", "MOB_2-CAV", "MOB_2-ART" }),
-                        new(7, 7.0, new() { "MOB_3-INF", "MOB_3-CAV", "MOB_3-ART", "MOB_3-AIR" }),
-                        new(1, 5.2, new() { "BOSS_HEINRICH" })
+                        new(2, 1.1, [ "MOB_A-INF" ]),
+                        new(3, 2.3, [ "MOB_1-INF", "MOB_1-CAV" ]),
+                        new(5, 4.0, [ "MOB_2-INF", "MOB_2-CAV", "MOB_2-ART" ]),
+                        new(7, 7.0, [ "MOB_3-INF", "MOB_3-CAV", "MOB_3-ART", "MOB_3-AIR" ]),
+                        new(1, 5.2, [ "BOSS_HEINRICH" ])
                     },
                     LocalMobs = new()
                     {
