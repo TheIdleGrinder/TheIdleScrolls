@@ -16,8 +16,9 @@ namespace TheIdleScrolls_Storage
     {
         public static JsonObject? ToJson(this IComponent component)
         {
-            string name = (component as dynamic).GetType().Name.Replace("Component", "");
-            return new JsonObject();
+            //string name = (component as dynamic).GetType().Name.Replace("Component", "");
+            //return new JsonObject();
+            return null;
         }
 
         static JsonArray JsonArrayFromItemList(List<Entity> items)
