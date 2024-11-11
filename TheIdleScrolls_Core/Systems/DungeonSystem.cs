@@ -43,13 +43,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         if (travelComp.AvailableDungeons.Contains(dungeon.Id))
                             continue;
-                        string condition = dungeon.Condition;
-                        if (condition == String.Empty)
-                        {
-                            condition = $"Wilderness >= {dungeon.Level}"; // Default condition: Wilderness >= Dungeon level
-                        }
-                        var condExpression = ExpressionParser.Parse(condition);
-                        if (condExpression.Evaluate(m_player, world) >= 1.0)
+                        if (dungeon.AvailableLevels(m_player, world).Length > 0)
                         {
                             travelComp.AvailableDungeons.Add(dungeon.Id);
                             if (!m_firstUpdate)

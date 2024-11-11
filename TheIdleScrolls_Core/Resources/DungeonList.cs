@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Resources
@@ -20,6 +22,44 @@ namespace TheIdleScrolls_Core.Resources
 
         static List<DungeonDescription> GenerateDungeons()
         {
+            static bool HasClearedWildernessLevel(Entity e, int level)
+            {
+                return (e.GetComponent<PlayerProgressComponent>()?.Data?.HighestWildernessKill ?? 0) >= level;
+            }
+
+            static bool HasCompletedDungeon(Entity e, string dungeonId)
+            {
+                return e.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeons().Contains(dungeonId) ?? false;
+            }
+
+            static Func<Entity, World, int[]> UnlockedAtEqualWilderness(int level)
+            {
+                return (e, w) => HasClearedWildernessLevel(e, level) ? [level] : [];
+            }
+            static Func<Entity, World, int[]> UnlockedAfterDungeon(string dungeonId, int level)
+            {
+                return (e, w) => HasCompletedDungeon(e, dungeonId) ? [level] : [];
+            }
+            static Func<Entity, World, int[]> UnlockedAfterDungeonAndWilderness(string dungeonId, int level)
+            {
+                return (e, w) => HasCompletedDungeon(e, dungeonId) && HasClearedWildernessLevel(e, level) ? [level] : [];
+            }
+            static Func<Entity, World, int[]> UnlockedAfterDungeonOrWilderness(string dungeonId, int level)
+            {
+                return (e, w) => HasCompletedDungeon(e, dungeonId) || HasClearedWildernessLevel(e, level) ? [level] : [];
+            }
+
+            const int LevelDenOfRats = 12;
+            const int LevelCrypt = 18;
+            const int LevelLighthouse = 20;
+            const int LevelTemple = 30;
+            const int LevelMercCamp = 40;
+            const int LevelCultistCastle = 50;
+            const int LevelLabyrinth = 60;
+            const int LevelReturnToLighthouse = 70;
+            const int LevelThreshold = 75;
+            const int LevelEndgame = 150;
+
             return new()
             {
                 new()
@@ -28,7 +68,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_RatDen,
                     Level = 12,
                     Rarity = 0,
-                    Condition = "",
+                    AvailableLevels = UnlockedAtEqualWilderness(LevelDenOfRats),
                     Description = Properties.Places.Dungeon_RatDen_Description,
                     Floors = new()
                     {
@@ -51,7 +91,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_Crypt,
                     Level = 18,
                     Rarity = 0,
-                    Condition = "",
+                    AvailableLevels = UnlockedAtEqualWilderness(LevelCrypt),
                     Description = Properties.Places.Dungeon_Crypt_Description,
                     Floors = new()
                     {
@@ -76,7 +116,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_Lighthouse,
                     Level = 20,
                     Rarity = 1,
-                    Condition = "Wilderness >= 20",
+                    AvailableLevels = UnlockedAtEqualWilderness(LevelLighthouse),
                     Description = Properties.Places.Dungeon_Lighthouse_Description,
                     Floors = new()
                     {
@@ -99,7 +139,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_Temple,
                     Level = 30,
                     Rarity = 1,
-                    Condition = $"dng:{Definitions.DungeonIds.Lighthouse} && Wilderness >= 30",
+                    AvailableLevels = UnlockedAfterDungeonAndWilderness(Definitions.DungeonIds.Lighthouse, LevelTemple),
                     Description = Properties.Places.Dungeon_Temple_Description,
                     Floors = new()
                     {
@@ -123,7 +163,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_MercenaryCamp,
                     Level = 40,
                     Rarity = 0,
-                    Condition = "Wilderness >= 40",
+                    AvailableLevels = UnlockedAtEqualWilderness(LevelMercCamp),
                     Description = Properties.Places.Dungeon_MercenaryCamp_Description,
                     Floors = new()
                     {
@@ -144,7 +184,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_CultistCastle,
                     Level = 50,
                     Rarity = 1,
-                    Condition = $"dng:{Definitions.DungeonIds.Temple} && Wilderness >= 50",
+                    AvailableLevels = UnlockedAfterDungeonAndWilderness(Definitions.DungeonIds.Temple, LevelCultistCastle),
                     Description = Properties.Places.Dungeon_CultistCastle_Description,
                     Floors = new()
                     {
@@ -167,7 +207,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_Labyrinth,
                     Level = 60,
                     Rarity = 1,
-                    Condition = $"dng:{Definitions.DungeonIds.CultistCastle}",
+                    AvailableLevels = UnlockedAfterDungeon(Definitions.DungeonIds.CultistCastle, LevelLabyrinth),
                     Description= Properties.Places.Dungeon_Labyrinth_Description,
                     Floors = new()
                     {
@@ -197,7 +237,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_ReturnToLighthouse,
                     Level = 70,
                     Rarity = 1,
-                    Condition = $"dng:{Definitions.DungeonIds.Labyrinth} && Wilderness >= 70",
+                    AvailableLevels = UnlockedAfterDungeonAndWilderness(Definitions.DungeonIds.Labyrinth, LevelReturnToLighthouse),
                     Description = Properties.Places.Dungeon_ReturnToLighthouse_Description,
                     Floors = new()
                     {
@@ -220,7 +260,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_Threshold,
                     Level = 75,
                     Rarity = 1,
-                    Condition = $"dng:{Definitions.DungeonIds.ReturnToLighthouse}",
+                    AvailableLevels = UnlockedAfterDungeon(Definitions.DungeonIds.ReturnToLighthouse, LevelThreshold),
                     Description = Properties.Places.Dungeon_Threshold_Description,
                     Floors = new()
                     {
@@ -234,39 +274,13 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     Rewards = new(61, true, new())
                 },
-                //new()
-                //{
-                //    Id = Definitions.DungeonIds.EndgameTechnology,
-                //    Name = Properties.Places.Dungeon_EndgameTechnology,
-                //    Level = 150,
-                //    Rarity = 3,
-                //    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
-                //    Description = Properties.Places.Dungeon_EndgameTechnology_Description,
-                //    Floors = new()
-                //    {
-                //        new(3, 3.0, new() { "MOB_SHARK" }),
-                //        new(4, 4.0, new() { "MOB_DEEPONE" }),
-                //        new(2, 2.0, new() { "MOB_ANCIENTMACHINE" }),
-                //        new(5, 4.5, new() { "MOB_ANCIENTMACHINE", "MOB_DEEPONE2" }),
-                //        new(1, 5.2, new() { "BOSS_RENKE" })
-                //    },
-                //    LocalMobs = new()
-                //    {
-                //        new("MOB_SHARK", hP: 2.0, damage: 1.7),
-                //        new("MOB_DEEPONE", hP: 2.3, damage: 1.7),
-                //        new("MOB_ANCIENTMACHINE", hP: 2.5, damage: 1.7),
-                //        new("MOB_DEEPONE2", hP: 2.0, damage: 2.125),
-                //        new("BOSS_RENKE", hP: 13.0, damage: 2.0)
-                //    },
-                //    Rewards = new(61, true, new())
-                //},
                 new()
                 {
                     Id = Definitions.DungeonIds.EndgameMagic,
                     Name = Properties.Places.Dungeon_EndgameMagic,
                     Level = 150,
                     Rarity = 3,
-                    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
+                    AvailableLevels = UnlockedAfterDungeonOrWilderness(Definitions.DungeonIds.Threshold, LevelEndgame),
                     Description = Properties.Places.Dungeon_EndgameMagic_Description,
                     Floors = new()
                     {
@@ -286,40 +300,13 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     Rewards = new(61, true, new())
                 },
-                //new()
-                //{
-                //    Id = Definitions.DungeonIds.EndgameDistantLands,
-                //    Name = Properties.Places.Dungeon_EndgameDistant,
-                //    Level = 150,
-                //    Rarity = 3,
-                //    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
-                //    Description = Properties.Places.Dungeon_EndgameDistant_Description,
-                //    Floors = new()
-                //    {
-                //        new(3, 3.0, new() { "MOB_MARTIALARTIST" }),
-                //        new(3, 3.0, new() { "MOB_ASSASSIN" }),
-                //        new(3, 2.75, new() { "MOB_ASSASSIN", "MOB_TERRACOTTA" }),
-                //        new(3, 2.6, new() { "MOB_TERRACOTTA" }),
-                //        new(3, 3.0, new() { "MOB_TERRACOTTA2" }),
-                //        new(1, 5.2, new() { "BOSS_HEINRICH" })
-                //    },
-                //    LocalMobs = new()
-                //    {
-                //        new("MOB_MARTIALARTIST", hP: 2.0, damage: 1.7),
-                //        new("MOB_ASSASSIN", hP: 1.7, damage: 2.3),
-                //        new("MOB_TERRACOTTA", hP: 2.3, damage: 1.7),
-                //        new("MOB_TERRACOTTA2", hP: 3.2, damage: 1.5),
-                //        new("BOSS_HEINRICH", hP: 13.0, damage: 2.0)
-                //    },
-                //    Rewards = new(61, true, new())
-                //},
                 new()
                 {
                     Id = Definitions.DungeonIds.EndgamePyramid,
                     Name = Properties.Places.Dungeon_EndgamePyramid,
                     Level = 150,
                     Rarity = 3,
-                    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
+                    AvailableLevels = UnlockedAfterDungeonOrWilderness(Definitions.DungeonIds.Threshold, LevelEndgame),
                     Description = Properties.Places.Dungeon_EndgamePyramid_Description,
                     Floors = new()
                     {
@@ -347,7 +334,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Properties.Places.Dungeon_EndgameAges,
                     Level = 150,
                     Rarity = 3,
-                    Condition = $"Wilderness >= 150 || dng:{Definitions.DungeonIds.Threshold}",
+                    AvailableLevels = UnlockedAfterDungeonOrWilderness(Definitions.DungeonIds.Threshold, LevelEndgame),
                     Description = Properties.Places.Dungeon_EndgameAges_Description,
                     Floors = new()
                     {

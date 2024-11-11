@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,11 +15,11 @@ namespace TheIdleScrolls_Core.GameWorld
         public string Id { get; set; } = "";
         public string Name { get; set; } = "";
         public int Level { get; set; } = 1;
-        public string Condition { get; set; } = "";
+        public Func<Entity, World, int[]> AvailableLevels { get; set; } = (e, w) => [];
         public int Rarity { get; set; } = 0;
         public string Description { get; set; } = "";
-        public List<DungeonFloorDescription> Floors { get; set; } = new();
-        public List<MobDescription> LocalMobs { get; set; } = new();
+        public List<DungeonFloorDescription> Floors { get; set; } = [];
+        public List<MobDescription> LocalMobs { get; set; } = [];
         public DungeonRewardsDescription Rewards { get; set; } = new();
     }
 
@@ -29,7 +30,7 @@ namespace TheIdleScrolls_Core.GameWorld
     {
         public int MobCount { get; set; } = 1;
         public double TimeMultiplier { get; set; } = 1.0;
-        public List<string> MobTypes { get; set; } = new();
+        public List<string> MobTypes { get; set; } = [];
 
         public DungeonFloorDescription() { }
 
@@ -45,7 +46,7 @@ namespace TheIdleScrolls_Core.GameWorld
     {
         public int MinDropLevel { get; set; } = 1;
         public bool UseLeveledLoot { get; set; } = true;
-        public List<string> SpecialRewards { get; set; } = new();
+        public List<string> SpecialRewards { get; set; } = [];
 
         public DungeonRewardsDescription() { }
 
