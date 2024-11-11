@@ -325,5 +325,18 @@ namespace TheIdleScrolls_JSON
 				return false;
 			}
 		}
+
+        public static bool SetFromJson(this BountyHunterComponent component, JsonNode json)
+        {
+            try
+            {
+                component.HighestCollected = json["HighestCollected"]?.GetValue<int>() ?? 0;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

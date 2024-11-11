@@ -32,6 +32,7 @@ namespace TheIdleScrolls_Core.Quests
             const int LvlAbilities = 4;
             const int LvlPerks = 5;
             const int LvlTravel = 10;
+            const int LvlBounties = 24;
 
             int level = entity.GetLevel();
 
@@ -193,12 +194,18 @@ namespace TheIdleScrolls_Core.Quests
                 }
             }
 
-            if (!isStepDone(QuestStates.GettingStarted.Bounties) && coordinator.MessageTypeIsOnBoard<BountyMessage>())
+            if (!isStepDone(QuestStates.GettingStarted.Bounties)
+                && (entity.GetComponent<PlayerProgressComponent>()?.Data.HighestWildernessKill ?? 0) >= LvlBounties)
             {
                 setFeatureState(GameFeature.Bounties, true);
                 setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Bounties, 
                     "You have shown yourself capable of venturing far into the wilderness. From this point onwards, you will be " +
                     "eligible to receive coins as bounties for scouting ahead and defeating the dangerous denizens of the wild.");
+                BountyHunterComponent bountyHunterComponent = new()
+                {
+                    HighestCollected = LvlBounties
+                };
+                entity.AddComponent(bountyHunterComponent);
             }
         }
     }

@@ -16,8 +16,9 @@ namespace TheIdleScrolls_Storage
     {
         public static JsonObject? ToJson(this IComponent component)
         {
-            string name = (component as dynamic).GetType().Name.Replace("Component", "");
-            return new JsonObject();
+            //string name = (component as dynamic).GetType().Name.Replace("Component", "");
+            //return new JsonObject();
+            return null;
         }
 
         static JsonArray JsonArrayFromItemList(List<Entity> items)
@@ -214,6 +215,20 @@ namespace TheIdleScrolls_Storage
             json.Add("ActiveCrafts", crafts);
 			return json;
 		}
+
+        public static JsonObject? ToJson(this BountyHunterComponent component)
+        {
+            JsonObject json = new()
+            {
+                { "HighestCollected", component.HighestCollected }
+            };
+            return json;
+        }
+
+        public static JsonObject? ToJson(this TravellerComponent component)
+        {
+            return []; // Only necessary so that the component is not 'lost' when saving and reloading
+        }
 
         public static JsonObject JsonFromSth<T>(T thing)
         {

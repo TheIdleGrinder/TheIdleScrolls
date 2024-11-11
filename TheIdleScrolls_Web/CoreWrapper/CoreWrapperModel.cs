@@ -57,7 +57,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<PerkRepresentation> Perks { get; private set; } = new();
         public int AchievementCount { get; private set; } = 0;
         public string StatisticsReport { get; private set; } = String.Empty;
-        public BountyStateRepresentation BountyState { get; private set; } = new(0, 0, 0, 0, 0);
+        public BountyStateRepresentation BountyState { get; private set; } = new(0, 0, 0, 0, 0, 0);
         public List<DialogueMessage> DialogueMessages { get; private set; } = new();
         public List<ExpiringMessage> ExpiringMessages { get; private set; } = new();
 
