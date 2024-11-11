@@ -24,6 +24,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     if (evaderComponent != null)
                     {
+                        RemoveEvasionModifier(entity);
                         entity.RemoveComponent<EvaderComponent>();
                     }
                     continue;
