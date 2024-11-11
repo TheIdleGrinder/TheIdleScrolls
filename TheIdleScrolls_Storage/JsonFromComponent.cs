@@ -215,6 +215,15 @@ namespace TheIdleScrolls_Storage
 			return json;
 		}
 
+        public static JsonObject? ToJson(this BountyHunterComponent component)
+        {
+            JsonObject json = new()
+            {
+                { "HighestCollected", component.HighestCollected }
+            };
+            return json;
+        }
+
         public static JsonObject JsonFromSth<T>(T thing)
         {
             return (JsonObject)JsonObject.Parse(JsonSerializer.Serialize(thing))!;
