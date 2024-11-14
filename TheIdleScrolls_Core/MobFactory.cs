@@ -64,6 +64,7 @@ namespace TheIdleScrolls_Core
 
         static double CalculateDamage(MobDescription description, int level)
         {
+            _ = level; // unused
             return description.Damage;
         }
     }
