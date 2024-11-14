@@ -204,6 +204,13 @@ namespace TheIdleScrolls_Core
             return CalculateMobDamage(mobLevel, 1.0);
         }
 
+        public static double CalculateBaseTimeLimit(int playerLevel, int areaLevel)
+        {
+            if (areaLevel == 0)
+                return 0.0;
+            return 10.0 * (1.0 * playerLevel / areaLevel) / CalculateMobDamage(areaLevel);
+        }
+
         public static double CalculateReforgingSuccessRate(int abilityLevel, int currentRarity)
         {
             return abilityLevel / (abilityLevel + Math.Pow(currentRarity + 1, 2) * 10);
