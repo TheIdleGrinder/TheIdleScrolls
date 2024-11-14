@@ -240,7 +240,7 @@ namespace TheIdleScrolls_Core.Components
     {
         public bool Active { get; set; } = true;
         public int MaxWilderness { get; set; } = 0;
-        public HashSet<string> AvailableDungeons { get; set; } = new();
+        public Dictionary<string, int[]> AvailableDungeons { get; set; } = [];
     }
 
     public class CoinPurseComponent : IComponent

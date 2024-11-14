@@ -14,7 +14,6 @@ namespace TheIdleScrolls_Core.GameWorld
     {
         public string Id { get; set; } = "";
         public string Name { get; set; } = "";
-        public int Level { get; set; } = 1;
         public Func<Entity, World, int[]> AvailableLevels { get; set; } = (e, w) => [];
         public int Rarity { get; set; } = 0;
         public string Description { get; set; } = "";

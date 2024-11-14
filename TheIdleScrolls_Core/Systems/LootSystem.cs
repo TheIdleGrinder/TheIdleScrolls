@@ -44,15 +44,15 @@ namespace TheIdleScrolls_Core.Systems
 
             foreach (var dungeon in coordinator.FetchMessagesByType<DungeonCompletedMessage>())
             {
-                GiveDungeonReward(dungeon.DungeonId, world, coordinator, dungeon.FirstCompletion);
+                GiveDungeonReward(dungeon.DungeonId, dungeon.DungeonLevel, world, coordinator, dungeon.FirstCompletion);
             }
         }
 
-        void GiveDungeonReward(string dungeonId, World world, Coordinator coordinator, bool firstClear)
+        void GiveDungeonReward(string dungeonId, int level, World world, Coordinator coordinator, bool firstClear)
         {
             double rarity = world.RarityMultiplier * (firstClear ? FirstClearRarityBonus : 1.0);
             var dungeon = world.AreaKingdom.GetDungeon(dungeonId) ?? throw new Exception($"Invalid dungeon id: {dungeonId}");
-            LootTableParameters parameters = new(dungeon.Level, dungeon.Rewards.MinDropLevel, 0, rarity);
+            LootTableParameters parameters = new(level, dungeon.Rewards.MinDropLevel, 0, rarity);
             GiveRandomLoot(parameters, coordinator);
         }
 

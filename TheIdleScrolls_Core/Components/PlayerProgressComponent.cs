@@ -30,7 +30,7 @@ namespace TheIdleScrolls_Core.Components
         public HashSet<string> SeenItemFamilies { get; set; } = new HashSet<string>();
         public HashSet<string> SeenItemGenera { get; set; } = new HashSet<string>();
         public HashSet<TutorialStep> TutorialProgress { get; set; } = new();
-        public Dictionary<string, double> DungeonTimes { get; set; } = new();
+        public Dictionary<string, Dictionary<int, double>> DungeonTimes { get; set; } = new();
         public int MaxCoins { get; set; } = 0;
         public int TotalCoins { get; set; } = 0;
         public int CoinsSpentOnForging { get; set; } = 0;
@@ -40,6 +40,11 @@ namespace TheIdleScrolls_Core.Components
         public HashSet<string> GetClearedDungeons()
         {
             return DungeonTimes.Keys.ToHashSet();
+        }
+
+        public HashSet<string> GetClearedDungeonLevels()
+        {
+            return DungeonTimes.SelectMany(d => d.Value.Select(l => $"{d.Key}@{l.Key}")).ToHashSet();
         }
 
         public string GetReport(World world)
@@ -68,8 +73,12 @@ namespace TheIdleScrolls_Core.Components
                 var dungeon = world.AreaKingdom.GetDungeon(dungeonTime.Key);
                 if (dungeon != null)
                 {
-                    var time = TimeSpan.FromSeconds(dungeonTime.Value);
-                    sb.AppendLine($"    {dungeon.Name} (Time: {time.ToString(@"hh\:mm\:ss")})");
+                    foreach (var dungeonLevelTime in dungeonTime.Value)
+                    {
+                        var time = TimeSpan.FromSeconds(dungeonLevelTime.Value);
+                        string name = dungeon.Name + (dungeonTime.Value.Count > 1 ? $"[{dungeonLevelTime.Key}]" : "");
+                        sb.AppendLine($"    {name} (Time: {time.ToString(@"hh\:mm\:ss")})");
+                    }
                 }
             }
             return sb.ToString();

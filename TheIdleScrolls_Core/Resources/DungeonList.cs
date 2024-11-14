@@ -66,7 +66,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.DenOfRats,
                     Name = Properties.Places.Dungeon_RatDen,
-                    Level = 12,
                     Rarity = 0,
                     AvailableLevels = UnlockedAtEqualWilderness(LevelDenOfRats),
                     Description = Properties.Places.Dungeon_RatDen_Description,
@@ -89,7 +88,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.Crypt,
                     Name = Properties.Places.Dungeon_Crypt,
-                    Level = 18,
                     Rarity = 0,
                     AvailableLevels = UnlockedAtEqualWilderness(LevelCrypt),
                     Description = Properties.Places.Dungeon_Crypt_Description,
@@ -114,7 +112,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.Lighthouse,
                     Name = Properties.Places.Dungeon_Lighthouse,
-                    Level = 20,
                     Rarity = 1,
                     AvailableLevels = UnlockedAtEqualWilderness(LevelLighthouse),
                     Description = Properties.Places.Dungeon_Lighthouse_Description,
@@ -137,7 +134,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.Temple,
                     Name = Properties.Places.Dungeon_Temple,
-                    Level = 30,
                     Rarity = 1,
                     AvailableLevels = UnlockedAfterDungeonAndWilderness(Definitions.DungeonIds.Lighthouse, LevelTemple),
                     Description = Properties.Places.Dungeon_Temple_Description,
@@ -161,7 +157,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.MercenaryCamp,
                     Name = Properties.Places.Dungeon_MercenaryCamp,
-                    Level = 40,
                     Rarity = 0,
                     AvailableLevels = UnlockedAtEqualWilderness(LevelMercCamp),
                     Description = Properties.Places.Dungeon_MercenaryCamp_Description,
@@ -182,7 +177,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.CultistCastle,
                     Name = Properties.Places.Dungeon_CultistCastle,
-                    Level = 50,
                     Rarity = 1,
                     AvailableLevels = UnlockedAfterDungeonAndWilderness(Definitions.DungeonIds.Temple, LevelCultistCastle),
                     Description = Properties.Places.Dungeon_CultistCastle_Description,
@@ -205,7 +199,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.Labyrinth,
                     Name = Properties.Places.Dungeon_Labyrinth,
-                    Level = 60,
                     Rarity = 1,
                     AvailableLevels = UnlockedAfterDungeon(Definitions.DungeonIds.CultistCastle, LevelLabyrinth),
                     Description= Properties.Places.Dungeon_Labyrinth_Description,
@@ -235,7 +228,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.ReturnToLighthouse,
                     Name = Properties.Places.Dungeon_ReturnToLighthouse,
-                    Level = 70,
                     Rarity = 1,
                     AvailableLevels = UnlockedAfterDungeonAndWilderness(Definitions.DungeonIds.Labyrinth, LevelReturnToLighthouse),
                     Description = Properties.Places.Dungeon_ReturnToLighthouse_Description,
@@ -258,7 +250,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.Threshold,
                     Name = Properties.Places.Dungeon_Threshold,
-                    Level = 75,
                     Rarity = 1,
                     AvailableLevels = UnlockedAfterDungeon(Definitions.DungeonIds.ReturnToLighthouse, LevelThreshold),
                     Description = Properties.Places.Dungeon_Threshold_Description,
@@ -278,7 +269,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.EndgameMagic,
                     Name = Properties.Places.Dungeon_EndgameMagic,
-                    Level = 150,
                     Rarity = 3,
                     AvailableLevels = UnlockedAfterDungeonOrWilderness(Definitions.DungeonIds.Threshold, LevelEndgame),
                     Description = Properties.Places.Dungeon_EndgameMagic_Description,
@@ -304,7 +294,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.EndgamePyramid,
                     Name = Properties.Places.Dungeon_EndgamePyramid,
-                    Level = 150,
                     Rarity = 3,
                     AvailableLevels = UnlockedAfterDungeonOrWilderness(Definitions.DungeonIds.Threshold, LevelEndgame),
                     Description = Properties.Places.Dungeon_EndgamePyramid_Description,
@@ -332,7 +321,6 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     Id = Definitions.DungeonIds.EndgameAges,
                     Name = Properties.Places.Dungeon_EndgameAges,
-                    Level = 150,
                     Rarity = 3,
                     AvailableLevels = UnlockedAfterDungeonOrWilderness(Definitions.DungeonIds.Threshold, LevelEndgame),
                     Description = Properties.Places.Dungeon_EndgameAges_Description,
