@@ -16,7 +16,8 @@
         <div id="dungeonDescription">
             @if (SelectedDungeon != null)
             {
-                <span id="headline">@SelectedDungeon!.Name - Level @SelectedLevel</span>
+                <h5 id="headline">@SelectedDungeon!.Name</h5>
+                <h6 id="dungeonLevel">Level @SelectedLevel</h6>
                 @foreach (string line in SelectedDungeon!.Description.Split('\n'))
                 {
                     <span>@line</span>

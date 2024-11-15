@@ -22,7 +22,12 @@ div.outer {
 }
 
 #headline {
+    text-align: center;
+}
+
+#dungeonLevel {
     font-weight: bold;
+    text-align: center;
 }
 
 #dungeonDescription {
