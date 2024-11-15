@@ -7,7 +7,7 @@
     <div id="dungeonButtonsArea">
         @foreach (var dungeon in Dungeons.Where(d => d.Levels.Length > 0))
         {
-            <button class="dungeon @CssUtilities.GetClassesForDungeon(dungeon)" @onclick="@(() => SelectedDungeon = dungeon)">
+            <button class="dungeon @CssUtilities.GetClassesForDungeon(dungeon)" @onclick="@(() => SelectDungeon(dungeon))">
                 @dungeon.Name
             </button>
         }        
@@ -16,7 +16,7 @@
         <div id="dungeonDescription">
             @if (SelectedDungeon != null)
             {
-                <span id="headline">@SelectedDungeon!.Name - Level @SelectedDungeon!.Levels.FirstOrDefault(0)</span>
+                <span id="headline">@SelectedDungeon!.Name - Level @SelectedLevel</span>
                 @foreach (string line in SelectedDungeon!.Description.Split('\n'))
                 {
                     <span>@line</span>
@@ -31,6 +31,9 @@
     List<DungeonRepresentation> Dungeons => CoreWrapper.Accessible.Dungeons;
 
     DungeonRepresentation? SelectedDungeon = null;
+    int SelectedLevel = 0;
+    int MinLevel = 0;
+    int MaxLevel = 0;
 
     protected override void OnInitialized()
     {
@@ -38,9 +41,17 @@
         base.OnInitialized();
     }
 
+    void SelectDungeon(DungeonRepresentation dungeon)
+    {
+        SelectedDungeon = dungeon;
+        MinLevel = dungeon.Levels.Min();
+        MaxLevel = dungeon.Levels.Max();
+        SelectedLevel = MaxLevel;
+    }
+
     void EnterDungeon()
     {
         if (SelectedDungeon != null)
-            CoreWrapper.InputHandler.EnterDungeon(SelectedDungeon.Id, SelectedDungeon.Levels.FirstOrDefault(0));
+            CoreWrapper.InputHandler.EnterDungeon(SelectedDungeon.Id, SelectedLevel);
     }
 }
