@@ -56,7 +56,7 @@ namespace Test_TheIdleScrolls_Core
             progData.Kills = 123;
             progData.Losses = 4;
             progData.Playtime = 56.78;
-            progData.DungeonTimes["A"] = 9.9;
+            progData.DungeonTimes["A"] = new() { { 10, 9.9 } };
 
             World world = new();
 

@@ -165,9 +165,8 @@ namespace TheIdleScrolls_Core.Systems
         {
             if (player.GetComponent<BattlerComponent>()?.Battle?.CustomTimeLimit ?? false)
                 return; // Skip time shield setup if custom time limit is in use (i.e. final boss)
-            const double BaseDuration = 10.0;
 
-            double duration = BaseDuration * zone.TimeMultiplier * player.GetLevel() / zone.Level;
+            double duration = zone.TimeMultiplier * Functions.CalculateBaseTimeLimit(player.GetLevel(), zone.Level);
             player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 
