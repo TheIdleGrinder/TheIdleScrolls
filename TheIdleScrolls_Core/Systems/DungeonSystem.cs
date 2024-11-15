@@ -31,31 +31,16 @@ namespace TheIdleScrolls_Core.Systems
                 return;
 
             var progLevel = m_player.GetComponent<PlayerProgressComponent>()?.Data.HighestWildernessKill ?? 0;
-            var dungeonsDone = m_player.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeons().Count ?? 0;
-            if (progLevel > m_highestWilderness || dungeonsDone > m_dungeonsDone) // CornerCut: Assumes that only wilderness progress and dungeon clear unlock dungeons
+            var dungeonsDone = m_player.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeonLevels().Count ?? 0;
+            // CornerCut: Assumes that only wilderness progress and dungeon clear unlock dungeons
+            if (progLevel > m_highestWilderness || dungeonsDone > m_dungeonsDone)
             {
                 var travelComp = m_player.GetComponent<TravellerComponent>();
                 if (travelComp != null)
                 {
                     m_highestWilderness = progLevel;
                     m_dungeonsDone = dungeonsDone;
-                    foreach (var dungeon in world.AreaKingdom.Dungeons)
-                    {
-                        if (travelComp.AvailableDungeons.Contains(dungeon.Id))
-                            continue;
-                        string condition = dungeon.Condition;
-                        if (condition == String.Empty)
-                        {
-                            condition = $"Wilderness >= {dungeon.Level}"; // Default condition: Wilderness >= Dungeon level
-                        }
-                        var condExpression = ExpressionParser.Parse(condition);
-                        if (condExpression.Evaluate(m_player, world) >= 1.0)
-                        {
-                            travelComp.AvailableDungeons.Add(dungeon.Id);
-                            if (!m_firstUpdate)
-                                coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Id));
-                        }
-                    }
+                    UpdateAvailableDungeons(m_player, world, coordinator);
                 }
             }
             m_firstUpdate = false;
@@ -69,9 +54,18 @@ namespace TheIdleScrolls_Core.Systems
                 var dungeon = world.Map.GetDungeonsAtLocation(locationComp.CurrentLocation).Where(d => d.Id == request.DungeonId).FirstOrDefault();
                 if (world.Map.GetDungeonsAtLocation(locationComp.CurrentLocation).Any(d => d.Id == request.DungeonId))
                 {
-                    locationComp.EnterDungeon(request.DungeonId);
-                    coordinator.PostMessage(this, 
-                        new AreaChangedMessage(m_player, locationComp.CurrentLocation, request.DungeonId, 0, AreaChangeType.EnteredDungeon));
+                    if (dungeon != null && dungeon.AvailableLevels(m_player, world).Contains(request.Level))
+                    {
+                        locationComp.EnterDungeon(request.DungeonId, request.Level);
+                        coordinator.PostMessage(this, 
+                            new AreaChangedMessage(m_player, locationComp.CurrentLocation, request.DungeonId, 0, AreaChangeType.EnteredDungeon));
+                    }
+                    else
+                    {
+                        coordinator.PostMessage(this, 
+                            new TextMessage($"Dungeon {DungeonList.GetDungeon(request.DungeonId)?.Name ?? "??"} level {request.Level} is not accessible", 
+                            IMessage.PriorityLevel.High));
+                    }
                 }
                 else
                 {
@@ -121,89 +115,85 @@ namespace TheIdleScrolls_Core.Systems
                     else // Dungeon cleared
                     {
                         bool first = !m_player.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
-                        coordinator.PostMessage(this, new DungeonCompletedMessage(locationComp.DungeonId, first));
-                        locationComp.EnterDungeon(locationComp.DungeonId);
+                        coordinator.PostMessage(this, 
+                            new DungeonCompletedMessage(locationComp.DungeonId, 
+                                                        locationComp.DungeonLevel, 
+                                                        first));
+                        locationComp.EnterDungeon(locationComp.DungeonId, locationComp.DungeonLevel);
                         coordinator.PostMessage(this,
                             new AreaChangedMessage(m_player, locationComp.CurrentLocation, locationComp.DungeonId, 0, AreaChangeType.EnteredDungeon));
+                        // Update available dungeons in case something opened up
+                        UpdateAvailableDungeons(m_player, world, coordinator);
                     }
                 }
             }
         }
+
+        void UpdateAvailableDungeons(Entity player, World world, Coordinator coordinator)
+        {
+            var travelComp = player.GetComponent<TravellerComponent>();
+            if (travelComp == null)
+                return;
+            Dictionary<string, int[]> nowAvailable = [];
+            foreach (var dungeon in world.AreaKingdom.Dungeons)
+            {
+                var previouslyAvailable = travelComp.AvailableDungeons.GetValueOrDefault(dungeon.Id, []);
+                var availableLevels = dungeon.AvailableLevels(player, world);
+                if (availableLevels.Length == 0)
+                {
+                    continue;
+                }
+                nowAvailable[dungeon.Id] = availableLevels;
+
+                // Skip messages on initial update or if there is nothing new to report
+                // CornerCut: Theoretically a new dungeon could unlock while a previously available one closes
+                if (m_firstUpdate || availableLevels.Length <= previouslyAvailable.Length)
+                {
+                    continue;
+                }
+                
+                foreach (var level in availableLevels)
+                {
+                    if (!previouslyAvailable.Contains(level))
+                    {
+                        coordinator.PostMessage(this, new DungeonOpenedMessage(dungeon.Id, level));
+                    }
+                }
+            }
+            travelComp.AvailableDungeons = nowAvailable;
+        }
     }
 
-    class EnterDungeonRequest : IMessage
+    record EnterDungeonRequest(string DungeonId, int Level) : IMessage
     {
-        public string DungeonId { get; set; }
-        public EnterDungeonRequest(string dungeonId)
-        {
-            DungeonId = dungeonId;
-        }
+        string IMessage.BuildMessage() => $"Request: Enter dungeon '{DungeonId}' (Level {Level})";
 
-        string IMessage.BuildMessage()
-        {
-            return $"Request: Enter dungeon '{DungeonId}'";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.Debug;
-        }
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 
     class LeaveDungeonRequest : IMessage
     {
-        string IMessage.BuildMessage()
-        {
-            return "Request: Leave Dungeon";
-        }
+        string IMessage.BuildMessage() => "Request: Leave Dungeon";
 
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.Debug;
-        }
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 
-    class DungeonOpenedMessage : IMessage
+    record DungeonOpenedMessage(string DungeonId, int Level) : IMessage
     {
-        public string DungeonId { get; set; }
+        string IMessage.BuildMessage() => $"Dungeon '{DungeonList.GetDungeon(DungeonId)?.Name ?? "??"}' (Level {Level}) is now open";
 
-        public DungeonOpenedMessage(string dungeonId)
-        {
-            DungeonId = dungeonId;
-        }
-
-        string IMessage.BuildMessage()
-        {
-            return $"Dungeon '{DungeonList.GetDungeon(DungeonId)?.Name ?? "??"}' is now open";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.High;
-        }
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }
 
-    class DungeonCompletedMessage : IMessage
+    record DungeonCompletedMessage(string DungeonId, int DungeonLevel, bool FirstCompletion) : IMessage
     {
-        public string DungeonId { get; set; }
-
-        public bool FirstCompletion { get; set; }
-
-        public DungeonCompletedMessage(string dungeonId, bool firstCompletion)
-        {
-            DungeonId = dungeonId;
-            FirstCompletion = firstCompletion;
-        }
-
         string IMessage.BuildMessage()
         {
-            return $"Dungeon '{DungeonList.GetDungeon(DungeonId)?.Name ?? "??"}' completed" + ((FirstCompletion) ? " for the first time" : "");
+            return $"Dungeon '{DungeonList.GetDungeon(DungeonId)?.Name ?? "??"}' (Level {DungeonLevel}) completed" 
+                + ((FirstCompletion) ? " for the first time" : "");
         }
 
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.High;
-        }
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }
 
     record LootTableEntry(string Item, double Weight);

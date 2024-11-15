@@ -24,12 +24,8 @@ namespace TheIdleScrolls_Core.Systems
 
             var travelComp = player.GetComponent<TravellerComponent>();
             var progComp = player.GetComponent<PlayerProgressComponent>();
-            var locationComp = player.GetComponent<LocationComponent>();
-
-            if (locationComp == null)
-            {
-                throw new Exception("Player entity is missing required component: Location");
-            }
+            var locationComp = player.GetComponent<LocationComponent>() 
+                ?? throw new Exception("Player entity is missing required component: Location");
 
             if (m_firstUpdate)
             {

@@ -5,7 +5,7 @@
 
 <div class="outer">
     <div id="dungeonButtonsArea">
-        @foreach (var dungeon in Dungeons)
+        @foreach (var dungeon in Dungeons.Where(d => d.Levels.Length > 0))
         {
             <button class="dungeon @CssUtilities.GetClassesForDungeon(dungeon)" @onclick="@(() => SelectedDungeon = dungeon)">
                 @dungeon.Name
@@ -16,7 +16,7 @@
         <div id="dungeonDescription">
             @if (SelectedDungeon != null)
             {
-                <span id="headline">@SelectedDungeon!.Name - Level @SelectedDungeon!.Level</span>
+                <span id="headline">@SelectedDungeon!.Name - Level @SelectedDungeon!.Levels.FirstOrDefault(0)</span>
                 @foreach (string line in SelectedDungeon!.Description.Split('\n'))
                 {
                     <span>@line</span>
@@ -41,6 +41,6 @@
     void EnterDungeon()
     {
         if (SelectedDungeon != null)
-            CoreWrapper.InputHandler.EnterDungeon(SelectedDungeon.Id);
+            CoreWrapper.InputHandler.EnterDungeon(SelectedDungeon.Id, SelectedDungeon.Levels.FirstOrDefault(0));
     }
 }

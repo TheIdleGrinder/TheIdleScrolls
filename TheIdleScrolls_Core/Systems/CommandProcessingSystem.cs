@@ -17,9 +17,9 @@ namespace TheIdleScrollsApp
 
         List<IMessage> m_requests = new();
 
-        public void EnterDungeon(string dungeonId)
+        public void EnterDungeon(string dungeonId, int level)
         {
-            m_requests.Add(new EnterDungeonRequest(dungeonId));
+            m_requests.Add(new EnterDungeonRequest(dungeonId, level));
         }
 
         public void EquipItem(uint playerId, uint itemId)

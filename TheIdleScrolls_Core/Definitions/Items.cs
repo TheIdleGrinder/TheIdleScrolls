@@ -13,15 +13,8 @@ namespace TheIdleScrolls_Core.Definitions
 
     public static class ItemFamilies
     {
-        public const string Axe         = "AXE";
-        public const string Blunt       = "BLN";
-        public const string LongBlade   = "LBL";
-        //public const string Polearm     = "POL";
-        public const string ShortBlade  = "SBL";
-
         public const string HeavyArmor  = "HAR";
         public const string LightArmor  = "LAR";
-
 
         public const string OneHandedAxe    = "OAX";
         public const string TwoHandedAxe    = "TAX";
@@ -46,14 +39,12 @@ namespace TheIdleScrolls_Core.Definitions
         public const string LightBoots      = "LBT";
         public const string LightShield     = "LSH";
 
-        public readonly static string[] Weapons = new string[] { Axe, Blunt, LongBlade, Polearm, ShortBlade,
-                                                                 OneHandedAxe, TwoHandedAxe, 
+        public readonly static string[] Weapons = new string[] { OneHandedAxe, TwoHandedAxe, 
                                                                  OneHandedMace, TwoHandedMace, 
                                                                  LongSword, TwoHandedSword, 
-                                                                 Spear, /*Polearm, */
+                                                                 Spear, Polearm,
                                                                  Dagger, ShortSword };
-        public readonly static string[] Armors = new string[] { HeavyArmor, LightArmor,
-                                                                HeavyChest, HeavyHelmet, HeavyGloves, HeavyBoots, HeavyShield,
-                                                                LightChest, LightHelmet, LightGloves, LightBoots, LightShield };
+        public readonly static string[] Armors  = new string[] { HeavyChest, HeavyHelmet, HeavyGloves, HeavyBoots, HeavyShield,
+                                                                 LightChest, LightHelmet, LightGloves, LightBoots, LightShield };
     }
 }
