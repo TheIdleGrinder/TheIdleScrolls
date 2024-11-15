@@ -60,6 +60,7 @@ namespace TheIdleScrolls_Core
             public const string Labyrinth = "LABYRINTH";
             public const string ReturnToLighthouse = "LIGHTHOUSE2";
             public const string Threshold = "THRESHOLD";
+            public const string Void = "VOID";
             public const string EndgameTechnology = "SUNKENCITY";
             public const string EndgameMagic = "ACADEMY";
             public const string EndgameDistantLands = "PAGODA";
