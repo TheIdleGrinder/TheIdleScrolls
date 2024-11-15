@@ -452,11 +452,11 @@ namespace TheIdleScrollsApp
 
             for (int i = 0; i < Math.Min(dungeons.Count, buttons.Count); i++)
             {
-                buttons[i].Text = $"{dungeons[i].Name} (Level {dungeons[i].Level})";
+                buttons[i].Text = $"{dungeons[i].Name} (Level {dungeons[i].Levels[0]})";
                 buttons[i].Tag = dungeons[i];
                 buttons[i].Visible = true;
                 buttons[i].ForeColor = GetColorForRarity(dungeons[i].Rarity);
-                toolTip.SetToolTip(buttons[i], $"{dungeons[i].Name}\nLevel {dungeons[i].Level}\n\n{dungeons[i].Description}");
+                toolTip.SetToolTip(buttons[i], $"{dungeons[i].Name}\nLevel {dungeons[i].Levels[0]}\n\n{dungeons[i].Description}");
             }
         }
 
@@ -468,12 +468,12 @@ namespace TheIdleScrollsApp
                 DialogResult response = DialogResult.OK;
                 if (!m_inDungeon)
                 {
-                    string text = $"{dungeon.Name} - Level {dungeon.Level}\n{dungeon.Description}";
+                    string text = $"{dungeon.Name} - Level {dungeon.Levels[0]}\n{dungeon.Description}";
                     response = MessageBox.Show(text, $"Entering {dungeon.Name}", MessageBoxButtons.OKCancel);
                 }
                 if (response == DialogResult.OK)
                 {
-                    m_inputHandler.EnterDungeon(dungeon.Id);
+                    m_inputHandler.EnterDungeon(dungeon.Id, dungeon.Levels[0]);
                 }
             });
             t.Start();
