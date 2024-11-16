@@ -108,7 +108,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
                     double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
-                    double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, damage);
+                    double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, mob.GetLevel(), damage);
                     double timeLoss = dt * damage / armorBonus;
 
                     timeLoss = player.GetComponent<ModifierComponent>()

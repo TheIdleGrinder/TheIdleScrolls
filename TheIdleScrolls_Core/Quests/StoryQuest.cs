@@ -214,7 +214,7 @@ namespace TheIdleScrolls_Core.Quests
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null)
             {
-                double multi = Functions.CalculateArmorBonusMultiplier(defenseComp.Armor, mobDamage);
+                double multi = Functions.CalculateArmorBonusMultiplier(defenseComp.Armor, mob.GetLevel(), mobDamage);
                 double targetDuration = slopeDuration / multi;
                 player.GetComponent<TimeShieldComponent>()?.Rescale(baseMultiplier * targetDuration * mobDamage);
                 player.GetComponent<BattlerComponent>()!.Battle!.CustomTimeLimit = true; // Player has to be in the final battle

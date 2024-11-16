@@ -154,9 +154,9 @@ namespace TheIdleScrolls_Core
 
         public static double CalculateDefenseRating(double armor, double evasion, int level)
         {
-            double damage = CalculateMobDamage(level);
+            double damage = 1.0; // use default damage for calculation
             double accuracy = CalculateMobAccuracy(level);
-            double multiplier = CalculateArmorBonusMultiplier(armor, damage) * CalculateEvasionBonusMultiplier(evasion, accuracy);
+            double multiplier = CalculateArmorBonusMultiplier(armor, level, damage) * CalculateEvasionBonusMultiplier(evasion, accuracy);
             return 1.0 - (1.0 / multiplier);
         }
 
@@ -168,11 +168,11 @@ namespace TheIdleScrolls_Core
             return 1.0 + effectiveEvasion * Definitions.Stats.EvasionBonusPerPoint;
         }
 
-        public static double CalculateArmorBonusMultiplier(double armor, double incomingDamage = 1.0)
+        public static double CalculateArmorBonusMultiplier(double armor, int enemyLevel, double incomingDamage = 1.0)
         {
             if (incomingDamage == 0.0)
                 incomingDamage = 1.0;
-            double effectiveArmor = armor / incomingDamage;
+            double effectiveArmor = armor / CalculateMobArmorPierce(enemyLevel, incomingDamage);
             return 1.0 + effectiveArmor * Definitions.Stats.ArmorSlowdownPerPoint;
         }
 
@@ -193,7 +193,7 @@ namespace TheIdleScrolls_Core
             );
         }
 
-        public static double CalculateMobDamage(int mobLevel, double multiplier = 1.0)
+        public static double CalculateMobArmorPierce(int mobLevel, double multiplier = 1.0)
         {
             return multiplier
                 * Math.Sqrt(CalculateAssumedPlayerDefenseMultiplier(mobLevel));
@@ -201,15 +201,15 @@ namespace TheIdleScrolls_Core
 
         public static double CalculateMobAccuracy(int mobLevel)
         {
-            // First implementation: Accuracy rating is identical to default damage
-            return CalculateMobDamage(mobLevel, 1.0);
+            // First implementation: Accuracy rating is identical to default armor pierce
+            return CalculateMobArmorPierce(mobLevel, 1.0);
         }
 
         public static double CalculateBaseTimeLimit(int playerLevel, int areaLevel)
         {
             if (areaLevel == 0)
                 return 0.0;
-            return 10.0 * (1.0 * playerLevel / areaLevel) / CalculateMobDamage(areaLevel);
+            return 10.0 * (1.0 * playerLevel / areaLevel) / CalculateMobArmorPierce(areaLevel);
         }
 
         public static double CalculateReforgingSuccessRate(int abilityLevel, int currentRarity)
