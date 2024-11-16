@@ -286,7 +286,6 @@ namespace TheIdleScrolls_Core.Resources
                             .Where(l => l <= LevelVoidMax)
                             .Prepend(LevelVoid)
                             .ToArray();
-                            
                     },
                     Description = Properties.Places.Dungeon_Void_Description,
                     Floors = new()
@@ -299,7 +298,7 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_WINGEDDEMON", hP: 1.2, damage: 1.0),
                         new("MOB_BIGGERIMP", hP: 1.1, damage: 1.1),
                     },
-                    Rewards = new(61, true, new())
+                    Rewards = new(-1, true, new())
                 },
                 new()
                 {
@@ -324,7 +323,7 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_GRYPHON", hP: 3.65, damage: 1.5),
                         new("BOSS_SOREN", hP: 13.0, damage: 2.0)
                     },
-                    Rewards = new(61, true, new())
+                    Rewards = new(Definitions.Stats.MaxDropTableLowerLimit, true, new())
                 },
                 new()
                 {
@@ -351,7 +350,7 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_TRIO", hP: 3.5, damage: 1.5),
                         new("BOSS_RENKE", hP: 13.0, damage: 2.0)
                     },
-                    Rewards = new(61, true, new())
+                    Rewards = new(Definitions.Stats.MaxDropTableLowerLimit, true, new())
                 },
                 new()
                 {
@@ -382,7 +381,7 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_3-AIR", hP: 3.2, damage: 1.5),
                         new("BOSS_HEINRICH", hP: 13.0, damage: 2.0)
                     },
-                    Rewards = new(61, true, new())
+                    Rewards = new(Definitions.Stats.MaxDropTableLowerLimit, true, new())
                 }
             };
         }

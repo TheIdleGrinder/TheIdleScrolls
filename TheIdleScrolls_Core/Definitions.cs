@@ -30,7 +30,9 @@ namespace TheIdleScrolls_Core
             public const int MobBaseHp = 20;
             public const double EarlyHpScaling = 1.056;
             public const double LaterHpScaling = 1.035;
-            public const int ScalingSwitchLevel = 70;
+            public const int ScalingSwitchLevel = 70; // Level of highest item tier
+
+            public const int MaxDropTableLowerLimit = ScalingSwitchLevel - 9;
         }
 
         public static class Abilities

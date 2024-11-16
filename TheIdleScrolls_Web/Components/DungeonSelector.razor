@@ -7,7 +7,7 @@
     <div id="dungeonButtonsArea">
         @foreach (var dungeon in Dungeons)
         {
-            <button class="dungeon @CssUtilities.GetClassesForDungeon(dungeon)" @onclick="@(() => SelectDungeon(dungeon))">
+            <button class="dungeon @DungeonButtonClasses(dungeon)" @onclick="@(() => SelectDungeon(dungeon))">
                 @dungeon.Name
             </button>
         }        
@@ -32,7 +32,7 @@
                     }
                 }
             </div>
-            <button class="enter" @onclick="EnterDungeon">Enter!</button>
+            <button class="enter" @onclick="EnterDungeon">Enter</button>
         }
     </div>
 </div>
@@ -40,7 +40,7 @@
 @code {
     List<DungeonRepresentation> Dungeons => CoreWrapper.Accessible.Dungeons;
 
-    DungeonRepresentation? SelectedDungeon => CoreWrapper.SelectedDungeon;
+    DungeonRepresentation? SelectedDungeon => Dungeons.FirstOrDefault(d => d.Id == CoreWrapper.SelectedDungeon);
     int _selectedIndex = 0;
     int SelectedLevel => SelectedDungeon?.Levels[_selectedIndex] ?? 0;
 
@@ -63,7 +63,7 @@
             CoreWrapper.SelectedDungeon = null;
             return;
         }
-        CoreWrapper.SelectedDungeon = dungeon;
+        CoreWrapper.SelectedDungeon = dungeon.Id;
         _selectedIndex = CoreWrapper.SelectedDungeonIndices.TryGetValue(SelectedDungeon!.Id, out int value) 
             ? value 
             : (SelectedDungeon.Levels.Length - 1);
@@ -82,5 +82,13 @@
             return;
         CoreWrapper.SelectedDungeonIndices[SelectedDungeon.Id] = _selectedIndex;
         CoreWrapper.InputHandler.EnterDungeon(SelectedDungeon.Id, SelectedLevel);
+    }
+
+    string DungeonButtonClasses(DungeonRepresentation dungeon)
+    {
+        string classes = CssUtilities.GetClassesForDungeon(dungeon);
+        if (dungeon.Id == CoreWrapper.SelectedDungeon)
+            classes += " selectedBtn";
+        return classes;
     }
 }
