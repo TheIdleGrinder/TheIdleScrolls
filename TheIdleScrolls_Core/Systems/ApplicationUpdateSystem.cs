@@ -189,9 +189,12 @@ namespace TheIdleScrolls_Core.Systems
                     maxWilderness = travelComp.MaxWilderness;
                     foreach (var dungeon in world.AreaKingdom.Dungeons)
                     {
+                        int[] levels = travelComp.AvailableDungeons.GetValueOrDefault(dungeon.Id, []);
+                        if (levels.Length == 0)
+                            continue;
                         dungeons.Add(new DungeonRepresentation(dungeon.Id, 
                             dungeon.Name,
-                            travelComp.AvailableDungeons.GetValueOrDefault(dungeon.Id, []),
+                            levels,
                             dungeon.Description.Replace("\\n", "\n"),
                             dungeon.Rarity
                         ));

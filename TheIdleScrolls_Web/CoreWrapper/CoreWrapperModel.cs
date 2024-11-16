@@ -66,7 +66,9 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public WorldMap WorldMap => gameRunner.WorldMap;
         // (Ab)use wrapper to store the currently hightlighted item used in InventoryDisplay and EquipmentDisplay
         public uint HighlightedItem { get; private set; } = uint.MaxValue;
-        
+        public DungeonRepresentation? SelectedDungeon { get; set; } = null;
+        public Dictionary<string, int> SelectedDungeonIndices { get; } = [];
+
         public bool IsFeatureAvailable(GameFeature feature) => AvailableFeatures.Contains(feature);
 
         public CoreWrapperModel(IJSRuntime js)
