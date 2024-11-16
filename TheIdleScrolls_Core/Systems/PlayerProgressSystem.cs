@@ -55,7 +55,8 @@ namespace TheIdleScrolls_Core.Systems
             var dungeons = coordinator.FetchMessagesByType<DungeonCompletedMessage>();
             foreach (var dungeon in dungeons)
             {
-                if (!progComp.Data.DungeonTimes.ContainsKey(dungeon.DungeonId))
+                if (!progComp.Data.DungeonTimes.TryGetValue(dungeon.DungeonId, out Dictionary<int, double>? value) ||
+                    !value.ContainsKey(dungeon.DungeonLevel))
                 {
                     if (!progComp.Data.DungeonTimes.ContainsKey(dungeon.DungeonId))
                         progComp.Data.DungeonTimes[dungeon.DungeonId] = [];

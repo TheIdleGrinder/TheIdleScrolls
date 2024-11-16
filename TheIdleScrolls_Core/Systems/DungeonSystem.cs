@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Core.Systems
             var progLevel = m_player.GetComponent<PlayerProgressComponent>()?.Data.HighestWildernessKill ?? 0;
             var dungeonsDone = m_player.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeonLevels().Count ?? 0;
             // CornerCut: Assumes that only wilderness progress and dungeon clear unlock dungeons
-            if (progLevel > m_highestWilderness || dungeonsDone > m_dungeonsDone)
+            if (progLevel > m_highestWilderness || dungeonsDone != m_dungeonsDone)
             {
                 var travelComp = m_player.GetComponent<TravellerComponent>();
                 if (travelComp != null)

@@ -42,9 +42,9 @@ namespace TheIdleScrolls_Core.Components
             return DungeonTimes.Keys.ToHashSet();
         }
 
-        public HashSet<string> GetClearedDungeonLevels()
+        public List<(string Dungeon, int Level)> GetClearedDungeonLevels()
         {
-            return DungeonTimes.SelectMany(d => d.Value.Select(l => $"{d.Key}@{l.Key}")).ToHashSet();
+            return DungeonTimes.SelectMany(d => d.Value.Select(l => (d.Key, l.Key))).ToList();
         }
 
         public string GetReport(World world)

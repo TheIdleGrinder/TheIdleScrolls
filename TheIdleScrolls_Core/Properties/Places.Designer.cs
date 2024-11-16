@@ -315,5 +315,23 @@ namespace TheIdleScrolls_Core.Properties {
                 return ResourceManager.GetString("Dungeon_Threshold_Description", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Void ähnelt.
+        /// </summary>
+        internal static string Dungeon_Void {
+            get {
+                return ResourceManager.GetString("Dungeon_Void", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die A sprawling web of pathways exists beyond the threshold. Incredible adventures await those who dare to explore them. ähnelt.
+        /// </summary>
+        internal static string Dungeon_Void_Description {
+            get {
+                return ResourceManager.GetString("Dungeon_Void_Description", resourceCulture);
+            }
+        }
     }
 }

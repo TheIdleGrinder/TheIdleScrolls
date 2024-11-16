@@ -30,6 +30,10 @@ div.outer {
     text-align: center;
 }
 
+#levelSlider {
+
+}
+
 #dungeonDescription {
     border: solid 1px var(--frame-color);
     padding: 5px;

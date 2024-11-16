@@ -58,6 +58,8 @@ namespace TheIdleScrolls_Core.Resources
             const int LevelLabyrinth = 60;
             const int LevelReturnToLighthouse = 70;
             const int LevelThreshold = 75;
+            const int LevelVoid = 80;
+            const int LevelVoidMax = 125;
             const int LevelEndgame = 150;
 
             return new()
@@ -251,8 +253,42 @@ namespace TheIdleScrolls_Core.Resources
                     Id = Definitions.DungeonIds.Threshold,
                     Name = Properties.Places.Dungeon_Threshold,
                     Rarity = 1,
-                    AvailableLevels = UnlockedAfterDungeon(Definitions.DungeonIds.ReturnToLighthouse, LevelThreshold),
+                    AvailableLevels = (e, w) => { // Threshold can only be completed once
+                        return (HasCompletedDungeon(e, Definitions.DungeonIds.ReturnToLighthouse)
+                            && !HasCompletedDungeon(e, Definitions.DungeonIds.Threshold))
+                            ? [ LevelThreshold ] : []; 
+                    },
                     Description = Properties.Places.Dungeon_Threshold_Description,
+                    Floors = new()
+                    {
+                        new(25, 17.0, [ "MOB_IMPWARLOCK", "MOB_WINGEDDEMON", "MOB_BIGGERIMP" ])
+                    },
+                    LocalMobs = new()
+                    {
+                        new("MOB_IMPWARLOCK", hP: 1.0, damage: 1.2),
+                        new("MOB_WINGEDDEMON", hP: 1.2, damage: 1.0),
+                        new("MOB_BIGGERIMP", hP: 1.1, damage: 1.1),
+                    },
+                    Rewards = new(61, true, new())
+                },
+                new()
+                {
+                    Id = Definitions.DungeonIds.Void,
+                    Name = Properties.Places.Dungeon_Void,
+                    Rarity = 2,
+                    AvailableLevels = (e, w) => { // More levels unlock with each completed one
+                        if (!HasCompletedDungeon(e, Definitions.DungeonIds.Threshold))
+                            return [];
+                        return e.GetComponent<PlayerProgressComponent>()!.Data
+                            .GetClearedDungeonLevels()
+                            .Where(dl => dl.Dungeon == Definitions.DungeonIds.Void)
+                            .Select(dl => dl.Level + 5)
+                            .Where(l => l <= LevelVoidMax)
+                            .Prepend(LevelVoid)
+                            .ToArray();
+                            
+                    },
+                    Description = Properties.Places.Dungeon_Void_Description,
                     Floors = new()
                     {
                         new(25, 17.0, [ "MOB_IMPWARLOCK", "MOB_WINGEDDEMON", "MOB_BIGGERIMP" ])
