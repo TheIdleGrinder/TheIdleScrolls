@@ -85,10 +85,10 @@ namespace TheIdleScrolls_Core.Utility
             {
                 var dungeon = m_fieldId[4..];
                 int level = 0;
-                if (dungeon.Contains('-'))
+                if (dungeon.Contains('@'))
                 {
-                    dungeon = dungeon.Split('-')[0];
-                    level = int.Parse(dungeon.Split('-')[1]);
+                    dungeon = dungeon.Split('@')[0];
+                    level = int.Parse(dungeon.Split('@')[1]);
                 }
                 var timesForDungeon = target.GetComponent<PlayerProgressComponent>()?.Data?.DungeonTimes?.GetValueOrDefault(dungeon, []);
                 if (timesForDungeon == null)

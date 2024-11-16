@@ -18,6 +18,11 @@
             {
                 <h5 id="headline">@SelectedDungeon!.Name</h5>
                 <h6 id="dungeonLevel">Level @SelectedLevel</h6>
+                @if (SelectedDungeon!.Levels.Length > 1)
+                {
+                    <input type="range" min="0" max="@(SelectedDungeon?.Levels.Length - 1)" step="1" 
+                        @bind-value="_selectedIndex" />
+                }
                 @foreach (string line in SelectedDungeon!.Description.Split('\n'))
                 {
                     <span>@line</span>
@@ -32,9 +37,8 @@
     List<DungeonRepresentation> Dungeons => CoreWrapper.Accessible.Dungeons;
 
     DungeonRepresentation? SelectedDungeon = null;
-    int SelectedLevel = 0;
-    int MinLevel = 0;
-    int MaxLevel = 0;
+    int _selectedIndex = 0;
+    int SelectedLevel => SelectedDungeon?.Levels[_selectedIndex] ?? 0;
 
     protected override void OnInitialized()
     {
@@ -45,9 +49,7 @@
     void SelectDungeon(DungeonRepresentation dungeon)
     {
         SelectedDungeon = dungeon;
-        MinLevel = dungeon.Levels.Min();
-        MaxLevel = dungeon.Levels.Max();
-        SelectedLevel = MaxLevel;
+        _selectedIndex = dungeon.Levels.Length - 1;
     }
 
     void EnterDungeon()
