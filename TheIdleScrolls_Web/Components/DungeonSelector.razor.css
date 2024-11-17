@@ -34,10 +34,6 @@ div.outer {
 
 }
 
-.selectedBtn {
-    background-color: #ccc;
-}
-
 #dungeonDescription {
     border: solid 1px var(--frame-color);
     padding: 5px;

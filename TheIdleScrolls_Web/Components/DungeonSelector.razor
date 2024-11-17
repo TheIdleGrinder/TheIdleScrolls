@@ -22,7 +22,8 @@
                     <h6 id="dungeonLevel">Level @SelectedLevel</h6>
                     @if (SelectedDungeon!.Levels.Length > 1)
                     {
-                        <input type="range" min="0" max="@(SelectedDungeon?.Levels.Length - 1)" step="1"
+                        <input type="range" id="dungeonLevelSlider"
+                            min="0" max="@(SelectedDungeon?.Levels.Length - 1)" step="1"
                             value="@_selectedIndex" 
                             @oninput="@((args) => SelectDungeonLevel(args.Value.ToString()))"/>
                     }
@@ -88,7 +89,7 @@
     {
         string classes = CssUtilities.GetClassesForDungeon(dungeon);
         if (dungeon.Id == CoreWrapper.SelectedDungeon)
-            classes += " selectedBtn";
+            classes += " pressed";
         return classes;
     }
 }

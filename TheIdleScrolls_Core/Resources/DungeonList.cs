@@ -244,7 +244,7 @@ namespace TheIdleScrolls_Core.Resources
                     {
                         new("MOB_VOIDCULTIST", hP: 1.3, damage: 1.3),
                         new("MOB_IMPWARLOCK", hP: 1.8, damage: 1.0), // bit more life to make up for damage scaling
-                        new("BOSS_CULTLEADER", hP: 8.0, damage: 1.5)
+                        new("BOSS_CULTLEADER", hP: 6.0, damage: 2.0)
                     },
                     Rewards = new(61, true, new())
                 },
