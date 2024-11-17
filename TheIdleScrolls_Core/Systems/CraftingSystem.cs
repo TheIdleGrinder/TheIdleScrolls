@@ -48,16 +48,19 @@ namespace TheIdleScrolls_Core.Systems
                             maxLevel = Math.Max(maxLevel, dungeon.Value.Keys.Max());
                         }
                     }
-                    
+
+                    int availableCraftCount = craftingBench.AvailablePrototypes.Count;
                     if (maxLevel > craftingBench.MaxCraftingLevel)
                     {
                         craftingBench.MaxCraftingLevel = maxLevel;
-                        if (!FirstUpdate)
-                            coordinator.PostMessage(this, new AvailableCraftsChanged());
                     }
                     craftingBench.AvailablePrototypes = GetPrototypes()
                         .Where(i => (i.GetComponent<LevelComponent>()?.Level ?? 0) <= craftingBench.MaxCraftingLevel)
                         .ToList();
+                    if (!FirstUpdate && craftingBench.AvailablePrototypes.Count > availableCraftCount)
+                    {
+                        coordinator.PostMessage(this, new AvailableCraftsChanged());
+                    }
                 }
             }
 
