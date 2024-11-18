@@ -68,6 +68,12 @@ namespace TheIdleScrolls_Core.Resources
             const int LevelVoidMax = 125;
             const int LevelEndgame = 150;
 
+            static bool HasMaxedVoid(Entity e)
+            {
+                return e.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeonLevels()
+                    .Any(dl => dl.Dungeon == Definitions.DungeonIds.Void && dl.Level == LevelVoidMax) ?? false;
+            }
+
             List<string> voidMobs = [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER",
                                       "MOB_ANGRYCHICKEN", "MOB_CONSUMINGOOZE", "MOB_GLIMPSEA", "MOB_GLIMPSEB", "MOB_GLIMPSEC", 
                                       "MOB_GORGON", "MOB_HYDRAMARINE", "MOB_MARINE", "MOB_SERAPH", "MOB_SHADOWBULL",
@@ -341,7 +347,7 @@ namespace TheIdleScrolls_Core.Resources
                     Id = Definitions.DungeonIds.EndgameMagic,
                     Name = Properties.Places.Dungeon_EndgameMagic,
                     Rarity = 3,
-                    AvailableLevels = UnlockedAfterDungeonOrWilderness(Definitions.DungeonIds.Threshold, LevelEndgame),
+                    AvailableLevels = (e, w) => HasMaxedVoid(e) ? [ LevelEndgame ] : [],
                     Description = Properties.Places.Dungeon_EndgameMagic_Description,
                     Floors = new()
                     {
@@ -366,7 +372,7 @@ namespace TheIdleScrolls_Core.Resources
                     Id = Definitions.DungeonIds.EndgamePyramid,
                     Name = Properties.Places.Dungeon_EndgamePyramid,
                     Rarity = 3,
-                    AvailableLevels = UnlockedAfterDungeonOrWilderness(Definitions.DungeonIds.Threshold, LevelEndgame),
+                    AvailableLevels = (e, w) => HasMaxedVoid(e) ? [ LevelEndgame ] : [],
                     Description = Properties.Places.Dungeon_EndgamePyramid_Description,
                     Floors = new()
                     {
@@ -393,7 +399,7 @@ namespace TheIdleScrolls_Core.Resources
                     Id = Definitions.DungeonIds.EndgameAges,
                     Name = Properties.Places.Dungeon_EndgameAges,
                     Rarity = 3,
-                    AvailableLevels = UnlockedAfterDungeonOrWilderness(Definitions.DungeonIds.Threshold, LevelEndgame),
+                    AvailableLevels = (e, w) => HasMaxedVoid(e) ? [ LevelEndgame ] : [],
                     Description = Properties.Places.Dungeon_EndgameAges_Description,
                     Floors = new()
                     {
