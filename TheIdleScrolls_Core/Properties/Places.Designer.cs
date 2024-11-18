@@ -61,6 +61,60 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Void Pathway 1 ähnelt.
+        /// </summary>
+        internal static string Dng_Void_Floor0 {
+            get {
+                return ResourceManager.GetString("Dng_Void_Floor0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Void Pathway 2 ähnelt.
+        /// </summary>
+        internal static string Dng_Void_Floor1 {
+            get {
+                return ResourceManager.GetString("Dng_Void_Floor1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Guard Post ähnelt.
+        /// </summary>
+        internal static string Dng_Void_Floor2 {
+            get {
+                return ResourceManager.GetString("Dng_Void_Floor2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deep Void 1 ähnelt.
+        /// </summary>
+        internal static string Dng_Void_Floor3 {
+            get {
+                return ResourceManager.GetString("Dng_Void_Floor3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deep Void 2 ähnelt.
+        /// </summary>
+        internal static string Dng_Void_Floor4 {
+            get {
+                return ResourceManager.GetString("Dng_Void_Floor4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deep Void Fortress ähnelt.
+        /// </summary>
+        internal static string Dng_Void_Floor5 {
+            get {
+                return ResourceManager.GetString("Dng_Void_Floor5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Crypt ähnelt.
         /// </summary>
         internal static string Dungeon_Crypt {

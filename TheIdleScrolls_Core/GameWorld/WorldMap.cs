@@ -33,10 +33,13 @@ namespace TheIdleScrolls_Core.GameWorld
                 return null;
             }
             var dungeonFloor = dungeon.Floors[floor];
-            
+
+            string floorName = dungeon.Name + " - " 
+                + ((dungeonFloor.Name != string.Empty) ? dungeonFloor.Name : $"Floor {floor + 1}");
+
             return new ZoneDescription()
             {
-                Name = $"{dungeon.Name} - Floor {floor + 1}",
+                Name = floorName,
                 Biome = Biome.Dungeon,
                 Level = dungeonLevel,
                 MobTypes = dungeonFloor.MobTypes,

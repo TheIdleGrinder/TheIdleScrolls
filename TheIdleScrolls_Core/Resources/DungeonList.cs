@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 
+using TheIdleScrolls_Core.Properties;
+
 namespace TheIdleScrolls_Core.Resources
 {
     internal static class DungeonList
@@ -50,10 +52,6 @@ namespace TheIdleScrolls_Core.Resources
             {
                 return (e, w) => HasCompletedDungeon(e, dungeonId) && HasClearedWildernessLevel(e, level) ? [level] : [];
             }
-            static Func<Entity, World, int[]> UnlockedAfterDungeonOrWilderness(string dungeonId, int level)
-            {
-                return (e, w) => HasCompletedDungeon(e, dungeonId) || HasClearedWildernessLevel(e, level) ? [level] : [];
-            }
 
             const int LevelDenOfRats = 12;
             const int LevelCrypt = 18;
@@ -84,10 +82,10 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.DenOfRats,
-                    Name = Properties.Places.Dungeon_RatDen,
+                    Name = Places.Dungeon_RatDen,
                     Rarity = 0,
                     AvailableLevels = UnlockedAtEqualWilderness(LevelDenOfRats),
-                    Description = Properties.Places.Dungeon_RatDen_Description,
+                    Description = Places.Dungeon_RatDen_Description,
                     Floors = new()
                     {
                         new(2, 1.5, [ "MOB_RAT" ]),
@@ -106,10 +104,10 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.Crypt,
-                    Name = Properties.Places.Dungeon_Crypt,
+                    Name = Places.Dungeon_Crypt,
                     Rarity = 0,
                     AvailableLevels = UnlockedAtEqualWilderness(LevelCrypt),
-                    Description = Properties.Places.Dungeon_Crypt_Description,
+                    Description = Places.Dungeon_Crypt_Description,
                     Floors = new()
                     {
                         new(2, 2.2, [ "MOB_ZOMBIE" ]),
@@ -130,10 +128,10 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.Lighthouse,
-                    Name = Properties.Places.Dungeon_Lighthouse,
+                    Name = Places.Dungeon_Lighthouse,
                     Rarity = 1,
                     AvailableLevels = UnlockedAtEqualWilderness(LevelLighthouse),
-                    Description = Properties.Places.Dungeon_Lighthouse_Description,
+                    Description = Places.Dungeon_Lighthouse_Description,
                     Floors = new()
                     {
                         new(2, 2.5, [ "MOB_CULTIST" ]),
@@ -152,10 +150,10 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.Temple,
-                    Name = Properties.Places.Dungeon_Temple,
+                    Name = Places.Dungeon_Temple,
                     Rarity = 1,
                     AvailableLevels = UnlockedAfterDungeonAndWilderness(Definitions.DungeonIds.Lighthouse, LevelTemple),
-                    Description = Properties.Places.Dungeon_Temple_Description,
+                    Description = Places.Dungeon_Temple_Description,
                     Floors = new()
                     {
                         new(3, 3.6, [ "MOB_CULTIST", "MOB_WARLOCK" ]),
@@ -175,10 +173,10 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.MercenaryCamp,
-                    Name = Properties.Places.Dungeon_MercenaryCamp,
+                    Name = Places.Dungeon_MercenaryCamp,
                     Rarity = 0,
                     AvailableLevels = UnlockedAtEqualWilderness(LevelMercCamp),
-                    Description = Properties.Places.Dungeon_MercenaryCamp_Description,
+                    Description = Places.Dungeon_MercenaryCamp_Description,
                     Floors = new()
                     {
                         new(15, 9.0, [ "MOB_MERCENARY", "MOB_MERCENARY2" ]),
@@ -195,10 +193,10 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.CultistCastle,
-                    Name = Properties.Places.Dungeon_CultistCastle,
+                    Name = Places.Dungeon_CultistCastle,
                     Rarity = 1,
                     AvailableLevels = UnlockedAfterDungeonAndWilderness(Definitions.DungeonIds.Temple, LevelCultistCastle),
-                    Description = Properties.Places.Dungeon_CultistCastle_Description,
+                    Description = Places.Dungeon_CultistCastle_Description,
                     Floors = new()
                     {
                         new(4, 4.0, [ "MOB_FANATIC", "MOB_WARLOCK" ]),
@@ -217,10 +215,10 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.Labyrinth,
-                    Name = Properties.Places.Dungeon_Labyrinth,
+                    Name = Places.Dungeon_Labyrinth,
                     Rarity = 1,
                     AvailableLevels = UnlockedAfterDungeon(Definitions.DungeonIds.CultistCastle, LevelLabyrinth),
-                    Description= Properties.Places.Dungeon_Labyrinth_Description,
+                    Description= Places.Dungeon_Labyrinth_Description,
                     Floors = new()
                     {
                         new(1, 1.5, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
@@ -246,10 +244,10 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.ReturnToLighthouse,
-                    Name = Properties.Places.Dungeon_ReturnToLighthouse,
+                    Name = Places.Dungeon_ReturnToLighthouse,
                     Rarity = 1,
                     AvailableLevels = UnlockedAfterDungeonAndWilderness(Definitions.DungeonIds.Labyrinth, LevelReturnToLighthouse),
-                    Description = Properties.Places.Dungeon_ReturnToLighthouse_Description,
+                    Description = Places.Dungeon_ReturnToLighthouse_Description,
                     Floors = new()
                     {
                         new(3, 3.0, [ "MOB_VOIDCULTIST" ]),
@@ -268,14 +266,14 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.Threshold,
-                    Name = Properties.Places.Dungeon_Threshold,
+                    Name = Places.Dungeon_Threshold,
                     Rarity = 1,
                     AvailableLevels = (e, w) => { // Threshold can only be completed once
                         return (HasCompletedDungeon(e, Definitions.DungeonIds.ReturnToLighthouse)
                             && !HasCompletedDungeon(e, Definitions.DungeonIds.Threshold))
                             ? [ LevelThreshold ] : []; 
                     },
-                    Description = Properties.Places.Dungeon_Threshold_Description,
+                    Description = Places.Dungeon_Threshold_Description,
                     Floors = new()
                     {
                         new(25, 14.0, [ "MOB_IMPWARLOCK", "MOB_WINGEDDEMON", "MOB_BIGGERIMP" ])
@@ -291,7 +289,7 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.Void,
-                    Name = Properties.Places.Dungeon_Void,
+                    Name = Places.Dungeon_Void,
                     Rarity = 2,
                     AvailableLevels = (e, w) => { // More levels unlock with each completed one
                         if (!HasCompletedDungeon(e, Definitions.DungeonIds.Threshold))
@@ -304,15 +302,15 @@ namespace TheIdleScrolls_Core.Resources
                             .Prepend(LevelVoid)
                             .ToArray();
                     },
-                    Description = Properties.Places.Dungeon_Void_Description,
+                    Description = Places.Dungeon_Void_Description,
                     Floors = new()
                     {
-                        new(4, 4.3, [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER" ]),
-                        new(3, 3.0, [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER" ]),
-                        new(2, 3.7, [ "MOB_JUGGERNAUT", "MOB_TAURUS" ]),
-                        new(4, 3.5, voidMobs),
-                        new(6, 5.0, voidMobs),
-                        new(1, 3.5, VoidBosses)
+                        new(4, 4.3, [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER" ], Places.Dng_Void_Floor0),
+                        new(3, 3.0, [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER" ], Places.Dng_Void_Floor1),
+                        new(2, 4.3, [ "MOB_JUGGERNAUT", "MOB_TAURUS" ], Places.Dng_Void_Floor2),
+                        new(4, 3.5, voidMobs, Places.Dng_Void_Floor3),
+                        new(6, 5.0, voidMobs, Places.Dng_Void_Floor4),
+                        new(1, 3.5, VoidBosses, Places.Dng_Void_Floor5)
                     },
                     LocalMobs = new()
                     {
@@ -320,8 +318,8 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_HORNEDIMP",        hP: 1.5, damage: 1.3),
                         new("MOB_SPIKEDDEMON",      hP: 1.7, damage: 1.2),
                         new("MOB_VOIDCRAWLER",      hP: 1.5, damage: 1.3),
-                        new("MOB_JUGGERNAUT",       hP: 3.0, damage: 1.3),
-                        new("MOB_TAURUS",           hP: 3.0, damage: 1.3),
+                        new("MOB_JUGGERNAUT",       hP: 3.5, damage: 1.3),
+                        new("MOB_TAURUS",           hP: 3.5, damage: 1.3),
                         new("MOB_ANGRYCHICKEN",     hP: 1.15, damage: 1.5),
                         new("MOB_CONSUMINGOOZE",    hP: 1.5, damage: 1.3),
                         new("MOB_GLIMPSEA",         hP: 1.5, damage: 1.3),
@@ -345,10 +343,10 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.EndgameMagic,
-                    Name = Properties.Places.Dungeon_EndgameMagic,
+                    Name = Places.Dungeon_EndgameMagic,
                     Rarity = 3,
                     AvailableLevels = (e, w) => HasMaxedVoid(e) ? [ LevelEndgame ] : [],
-                    Description = Properties.Places.Dungeon_EndgameMagic_Description,
+                    Description = Places.Dungeon_EndgameMagic_Description,
                     Floors = new()
                     {
                         new(5, 4.7, [ "MOB_HUFFLE" ]),
@@ -370,10 +368,10 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.EndgamePyramid,
-                    Name = Properties.Places.Dungeon_EndgamePyramid,
+                    Name = Places.Dungeon_EndgamePyramid,
                     Rarity = 3,
                     AvailableLevels = (e, w) => HasMaxedVoid(e) ? [ LevelEndgame ] : [],
-                    Description = Properties.Places.Dungeon_EndgamePyramid_Description,
+                    Description = Places.Dungeon_EndgamePyramid_Description,
                     Floors = new()
                     {
                         new(5, 2.3, [ "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" ]),
@@ -397,10 +395,10 @@ namespace TheIdleScrolls_Core.Resources
                 new()
                 {
                     Id = Definitions.DungeonIds.EndgameAges,
-                    Name = Properties.Places.Dungeon_EndgameAges,
+                    Name = Places.Dungeon_EndgameAges,
                     Rarity = 3,
                     AvailableLevels = (e, w) => HasMaxedVoid(e) ? [ LevelEndgame ] : [],
-                    Description = Properties.Places.Dungeon_EndgameAges_Description,
+                    Description = Places.Dungeon_EndgameAges_Description,
                     Floors = new()
                     {
                         new(2, 1.1, [ "MOB_A-INF" ]),
