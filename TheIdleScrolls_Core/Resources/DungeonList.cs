@@ -11,6 +11,12 @@ namespace TheIdleScrolls_Core.Resources
 {
     internal static class DungeonList
     {
+        public static readonly List<string> VoidBosses = [ "BOSS_GHOSTCULTLEADER", 
+                                                           "BOSS_GIANT", 
+                                                           "BOSS_LEVIATHAN", 
+                                                           "BOSS_MONSTROSITY", 
+                                                           "BOSS_OBSERVER" ];
+
         public static DungeonDescription? GetDungeon(string dungeonId)
         {
             return s_dungeonDescriptions.Where(d => d.Id == dungeonId).FirstOrDefault();
@@ -61,6 +67,11 @@ namespace TheIdleScrolls_Core.Resources
             const int LevelVoid = 80;
             const int LevelVoidMax = 125;
             const int LevelEndgame = 150;
+
+            List<string> voidMobs = [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER",
+                                      "MOB_ANGRYCHICKEN", "MOB_CONSUMINGOOZE", "MOB_GLIMPSEA", "MOB_GLIMPSEB", "MOB_GLIMPSEC", 
+                                      "MOB_GORGON", "MOB_HYDRAMARINE", "MOB_MARINE", "MOB_SERAPH", "MOB_SHADOWBULL",
+                                      "MOB_WENDIGO", "MOB_VENGEFULDUMMY" ];
 
             return new()
             {
@@ -261,7 +272,7 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_Threshold_Description,
                     Floors = new()
                     {
-                        new(25, 17.0, [ "MOB_IMPWARLOCK", "MOB_WINGEDDEMON", "MOB_BIGGERIMP" ])
+                        new(25, 14.0, [ "MOB_IMPWARLOCK", "MOB_WINGEDDEMON", "MOB_BIGGERIMP" ])
                     },
                     LocalMobs = new()
                     {
@@ -290,13 +301,38 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Properties.Places.Dungeon_Void_Description,
                     Floors = new()
                     {
-                        new(25, 17.0, [ "MOB_IMPWARLOCK", "MOB_WINGEDDEMON", "MOB_BIGGERIMP" ])
+                        new(4, 4.3, [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER" ]),
+                        new(3, 3.0, [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER" ]),
+                        new(2, 3.7, [ "MOB_JUGGERNAUT", "MOB_TAURUS" ]),
+                        new(4, 3.5, voidMobs),
+                        new(6, 5.0, voidMobs),
+                        new(1, 3.5, VoidBosses)
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_IMPWARLOCK", hP: 1.0, damage: 1.2),
-                        new("MOB_WINGEDDEMON", hP: 1.2, damage: 1.0),
-                        new("MOB_BIGGERIMP", hP: 1.1, damage: 1.1),
+                        new("MOB_FLAMETHROWER",     hP: 1.3, damage: 1.4),
+                        new("MOB_HORNEDIMP",        hP: 1.5, damage: 1.3),
+                        new("MOB_SPIKEDDEMON",      hP: 1.7, damage: 1.2),
+                        new("MOB_VOIDCRAWLER",      hP: 1.5, damage: 1.3),
+                        new("MOB_JUGGERNAUT",       hP: 3.0, damage: 1.3),
+                        new("MOB_TAURUS",           hP: 3.0, damage: 1.3),
+                        new("MOB_ANGRYCHICKEN",     hP: 1.15, damage: 1.5),
+                        new("MOB_CONSUMINGOOZE",    hP: 1.5, damage: 1.3),
+                        new("MOB_GLIMPSEA",         hP: 1.5, damage: 1.3),
+                        new("MOB_GLIMPSEB",         hP: 1.5, damage: 1.3),
+                        new("MOB_GLIMPSEC",         hP: 1.5, damage: 1.3),
+                        new("MOB_GORGON",           hP: 1.5, damage: 1.3),
+                        new("MOB_HYDRAMARINE",      hP: 1.3, damage: 1.4),
+                        new("MOB_MARINE",           hP: 1.5, damage: 1.3),
+                        new("MOB_SERAPH",           hP: 1.5, damage: 1.3),
+                        new("MOB_SHADOWBULL",       hP: 1.5, damage: 1.3),
+                        new("MOB_WENDIGO",          hP: 1.5, damage: 1.3),
+                        new("MOB_VENGEFULDUMMY",    hP: 1.3, damage: 1.4),
+                        new("BOSS_GHOSTCULTLEADER", hP: 6.0, damage: 1.5),
+                        new("BOSS_GIANT",           hP: 6.0, damage: 1.5),
+                        new("BOSS_LEVIATHAN",       hP: 6.0, damage: 1.5),
+                        new("BOSS_MONSTROSITY",     hP: 6.0, damage: 1.5),
+                        new("BOSS_OBSERVER",        hP: 6.0, damage: 1.5)
                     },
                     Rewards = new(-1, true, new())
                 },

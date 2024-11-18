@@ -50,10 +50,7 @@ namespace TheIdleScrolls_Core.Systems
                     }
 
                     int availableCraftCount = craftingBench.AvailablePrototypes.Count;
-                    if (maxLevel > craftingBench.MaxCraftingLevel)
-                    {
-                        craftingBench.MaxCraftingLevel = maxLevel;
-                    }
+                    craftingBench.MaxCraftingLevel = maxLevel;
                     craftingBench.AvailablePrototypes = GetPrototypes()
                         .Where(i => (i.GetComponent<LevelComponent>()?.Level ?? 0) <= craftingBench.MaxCraftingLevel)
                         .ToList();

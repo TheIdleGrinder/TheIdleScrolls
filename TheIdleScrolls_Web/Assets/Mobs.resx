@@ -289,4 +289,73 @@
   <data name="_default" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\_default.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="boss_ghostcultleader" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss_ghostcultleader.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="boss_giant" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss_giant.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="boss_leviathan" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss_leviathan.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="boss_monstrosity" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss_monstrosity.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="boss_observer" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\boss_observer.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_angrychicken" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_angrychicken.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_consumingooze" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_consumingooze.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_flamethrower" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_flamethrower.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_glimpsea" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_glimpseA.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_glimpseb" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_glimpseB.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_glimpsec" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_glimpseC.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_gorgon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_gorgon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_hornedimp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_hornedimp.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_hydramarine" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_hydramarine.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_juggernaut" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_juggernaut.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_marine" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_marine.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_seraph" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_seraph.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_shadowbull" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_shadowbull.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_spikeddemon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_spikeddemon.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_taurus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_taurus.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_vengefuldummy" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_vengefuldummy.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_voidcrawler" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_voidcrawler.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_wendigo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_wendigo.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

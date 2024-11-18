@@ -207,17 +207,32 @@
   <data name="BOSS_FINAL_DEMON" xml:space="preserve">
     <value>Demonic Avatar</value>
   </data>
+  <data name="BOSS_GHOSTCULTLEADER" xml:space="preserve">
+    <value>Ghostly Cultleader</value>
+  </data>
+  <data name="BOSS_GIANT" xml:space="preserve">
+    <value>Cloud Giant</value>
+  </data>
   <data name="BOSS_GIANTRAT" xml:space="preserve">
     <value>Giant Rat</value>
   </data>
   <data name="BOSS_HEINRICH" xml:space="preserve">
     <value>The Mover of Pieces</value>
   </data>
+  <data name="BOSS_LEVIATHAN" xml:space="preserve">
+    <value>Crushing Leviathan</value>
+  </data>
   <data name="BOSS_MERCENARY" xml:space="preserve">
     <value>Mercenary Centurion</value>
   </data>
+  <data name="BOSS_MONSTROSITY" xml:space="preserve">
+    <value>Grotesque Monstrosity</value>
+  </data>
   <data name="BOSS_NECROMANCER" xml:space="preserve">
     <value>The Necromancer</value>
+  </data>
+  <data name="BOSS_OBSERVER" xml:space="preserve">
+    <value>Ancient Observer</value>
   </data>
   <data name="BOSS_RENKE" xml:space="preserve">
     <value>The Uber Hunter</value>
@@ -489,6 +504,9 @@
   <data name="MOB_ANCIENTMACHINE" xml:space="preserve">
     <value>Ancient Machine</value>
   </data>
+  <data name="MOB_ANGRYCHICKEN" xml:space="preserve">
+    <value>Angry Chicken</value>
+  </data>
   <data name="MOB_ASSASSIN" xml:space="preserve">
     <value>Assassin</value>
   </data>
@@ -497,6 +515,9 @@
   </data>
   <data name="MOB_BIGRAT" xml:space="preserve">
     <value>Big Rat</value>
+  </data>
+  <data name="MOB_CONSUMINGOOZE" xml:space="preserve">
+    <value>Consuming Ooze</value>
   </data>
   <data name="MOB_CULTIST" xml:space="preserve">
     <value>Cultist</value>
@@ -516,14 +537,35 @@
   <data name="MOB_FANATIC" xml:space="preserve">
     <value>Fanatic</value>
   </data>
+  <data name="MOB_FLAMETHROWER" xml:space="preserve">
+    <value>Deep Void Flamethrower</value>
+  </data>
+  <data name="MOB_GLIMPSEA" xml:space="preserve">
+    <value>Vision from Strange Tales</value>
+  </data>
+  <data name="MOB_GLIMPSEB" xml:space="preserve">
+    <value>Vision of Ancient Glory</value>
+  </data>
+  <data name="MOB_GLIMPSEC" xml:space="preserve">
+    <value>Vision of Swirling Times</value>
+  </data>
+  <data name="MOB_GORGON" xml:space="preserve">
+    <value>Pale Gorgon</value>
+  </data>
   <data name="MOB_GREATERDEMON" xml:space="preserve">
     <value>Greater Demon of the Void</value>
   </data>
   <data name="MOB_GRYPHON" xml:space="preserve">
     <value>Majestic Lion</value>
   </data>
+  <data name="MOB_HORNEDIMP" xml:space="preserve">
+    <value>Deep Void Imp</value>
+  </data>
   <data name="MOB_HUFFLE" xml:space="preserve">
     <value>Angry Badger</value>
+  </data>
+  <data name="MOB_HYDRAMARINE" xml:space="preserve">
+    <value>Hydramarine</value>
   </data>
   <data name="MOB_IMP" xml:space="preserve">
     <value>Imp</value>
@@ -531,8 +573,14 @@
   <data name="MOB_IMPWARLOCK" xml:space="preserve">
     <value>Imp Warlock</value>
   </data>
+  <data name="MOB_JUGGERNAUT" xml:space="preserve">
+    <value>Spikeback Juggernaut</value>
+  </data>
   <data name="MOB_LESSERDEMON" xml:space="preserve">
     <value>Lesser Demon of the Void</value>
+  </data>
+  <data name="MOB_MARINE" xml:space="preserve">
+    <value>Space Warrior</value>
   </data>
   <data name="MOB_MARTIALARTIST" xml:space="preserve">
     <value>Martial Artist</value>
@@ -552,6 +600,12 @@
   <data name="MOB_RAVEN" xml:space="preserve">
     <value>Spooky Raven</value>
   </data>
+  <data name="MOB_SERAPH" xml:space="preserve">
+    <value>Fallen Seraph</value>
+  </data>
+  <data name="MOB_SHADOWBULL" xml:space="preserve">
+    <value>Shadowbull</value>
+  </data>
   <data name="MOB_SHARK" xml:space="preserve">
     <value>Shark</value>
   </data>
@@ -560,6 +614,12 @@
   </data>
   <data name="MOB_SNAKE" xml:space="preserve">
     <value>Imposing Serpent</value>
+  </data>
+  <data name="MOB_SPIKEDDEMON" xml:space="preserve">
+    <value>Spikeback Marauder</value>
+  </data>
+  <data name="MOB_TAURUS" xml:space="preserve">
+    <value>Deep Void Ram</value>
   </data>
   <data name="MOB_TERRACOTTA" xml:space="preserve">
     <value>Terracotta Guard</value>
@@ -579,6 +639,12 @@
   <data name="MOB_TRIO" xml:space="preserve">
     <value>The Three Executors</value>
   </data>
+  <data name="MOB_VENGEFULDUMMY" xml:space="preserve">
+    <value>Vengeful Dummy</value>
+  </data>
+  <data name="MOB_VOIDCRAWLER" xml:space="preserve">
+    <value>Spikeback Crawler</value>
+  </data>
   <data name="MOB_VOIDCULTIST" xml:space="preserve">
     <value>Void Infused Cultist</value>
   </data>
@@ -587,6 +653,9 @@
   </data>
   <data name="MOB_WARLOCK" xml:space="preserve">
     <value>Warlock</value>
+  </data>
+  <data name="MOB_WENDIGO" xml:space="preserve">
+    <value>Wendigo</value>
   </data>
   <data name="MOB_WINGEDDEMON" xml:space="preserve">
     <value>Winged Demon</value>
