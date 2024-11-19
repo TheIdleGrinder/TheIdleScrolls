@@ -129,6 +129,21 @@ namespace TheIdleScrolls_Core.Resources
                 }
                 achievements.Add(achievement);
             }
+            achievements.Add(new("DNG:VOID",
+                "Void Scout",
+                $"Complete your first excursion to {Properties.Places.Dungeon_Void}",
+                Conditions.DungeonAvailableCondition(Definitions.DungeonIds.Void),
+                Conditions.DungeonCompletedCondition(Definitions.DungeonIds.Void)));
+            achievements.Add(new("DNG:VOID@100",
+                "Void Explorer",
+                $"Complete {Properties.Places.Dungeon_Void} at area level 100",
+                Conditions.AchievementUnlockedCondition("DNG:VOID"),
+                Conditions.DungeonLevelCompletedCondition(Definitions.DungeonIds.Void, 100)));
+            achievements.Add(new("DNG:VOID@125",
+                "Void Conqueror",
+                $"Complete {Properties.Places.Dungeon_Void} at area level 125",
+                Conditions.AchievementUnlockedCondition("DNG:VOID@100"),
+                Conditions.DungeonLevelCompletedCondition(Definitions.DungeonIds.Void, 125)));
 
             // Hardcore achievements
             int hcWildLevel = 75;
