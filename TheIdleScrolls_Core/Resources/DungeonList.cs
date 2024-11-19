@@ -30,27 +30,18 @@ namespace TheIdleScrolls_Core.Resources
 
         static List<DungeonDescription> GenerateDungeons()
         {
-            static bool HasClearedWildernessLevel(Entity e, int level)
-            {
-                return (e.GetComponent<PlayerProgressComponent>()?.Data?.HighestWildernessKill ?? 0) >= level;
-            }
-
-            static bool HasCompletedDungeon(Entity e, string dungeonId)
-            {
-                return e.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeons().Contains(dungeonId) ?? false;
-            }
-
             static Func<Entity, World, int[]> UnlockedAtEqualWilderness(int level)
             {
-                return (e, w) => HasClearedWildernessLevel(e, level) ? [level] : [];
+                return (e, w) => Utility.Conditions.HasClearedWildernessLevel(e, level) ? [level] : [];
             }
             static Func<Entity, World, int[]> UnlockedAfterDungeon(string dungeonId, int level)
             {
-                return (e, w) => HasCompletedDungeon(e, dungeonId) ? [level] : [];
+                return (e, w) => Utility.Conditions.HasCompletedDungeon(e, dungeonId) ? [level] : [];
             }
             static Func<Entity, World, int[]> UnlockedAfterDungeonAndWilderness(string dungeonId, int level)
             {
-                return (e, w) => HasCompletedDungeon(e, dungeonId) && HasClearedWildernessLevel(e, level) ? [level] : [];
+                return (e, w) => Utility.Conditions.HasCompletedDungeon(e, dungeonId) 
+                                && Utility.Conditions.HasClearedWildernessLevel(e, level) ? [level] : [];
             }
 
             const int LevelDenOfRats = 12;
@@ -74,7 +65,7 @@ namespace TheIdleScrolls_Core.Resources
 
             List<string> voidMobs = [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER",
                                       "MOB_ANGRYCHICKEN", "MOB_CONSUMINGOOZE", "MOB_GLIMPSEA", "MOB_GLIMPSEB", "MOB_GLIMPSEC", 
-                                      "MOB_GORGON", "MOB_HYDRAMARINE", "MOB_MARINE", "MOB_SERAPH", "MOB_SHADOWBULL",
+                                      "MOB_GORGON", "MOB_MARINE", "MOB_SERAPH", "MOB_SHADOWBULL",
                                       "MOB_WENDIGO", "MOB_VENGEFULDUMMY" ];
 
             return new()
@@ -269,8 +260,8 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Places.Dungeon_Threshold,
                     Rarity = 1,
                     AvailableLevels = (e, w) => { // Threshold can only be completed once
-                        return (HasCompletedDungeon(e, Definitions.DungeonIds.ReturnToLighthouse)
-                            && !HasCompletedDungeon(e, Definitions.DungeonIds.Threshold))
+                        return (Utility.Conditions.HasCompletedDungeon(e, Definitions.DungeonIds.ReturnToLighthouse)
+                            && !Utility.Conditions.HasCompletedDungeon(e, Definitions.DungeonIds.Threshold))
                             ? [ LevelThreshold ] : []; 
                     },
                     Description = Places.Dungeon_Threshold_Description,
@@ -292,7 +283,7 @@ namespace TheIdleScrolls_Core.Resources
                     Name = Places.Dungeon_Void,
                     Rarity = 2,
                     AvailableLevels = (e, w) => { // More levels unlock with each completed one
-                        if (!HasCompletedDungeon(e, Definitions.DungeonIds.Threshold))
+                        if (!Utility.Conditions.HasCompletedDungeon(e, Definitions.DungeonIds.Threshold))
                             return [];
                         return e.GetComponent<PlayerProgressComponent>()!.Data
                             .GetClearedDungeonLevels()
