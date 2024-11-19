@@ -25,7 +25,7 @@
                         <input type="range" id="dungeonLevelSlider"
                             min="0" max="@(SelectedDungeon?.Levels.Length - 1)" step="1"
                             value="@_selectedIndex" 
-                            @oninput="@((args) => SelectDungeonLevel(args.Value.ToString()))"/>
+                            @oninput="@((ChangeEventArgs args) => SelectDungeonLevel(args?.Value?.ToString()))"/>
                     }
                     @foreach (string line in SelectedDungeon!.Description.Split('\n'))
                     {
@@ -70,8 +70,10 @@
             : (SelectedDungeon.Levels.Length - 1);
     }
 
-    void SelectDungeonLevel(string indexString)
+    void SelectDungeonLevel(string? indexString)
     {
+        if (indexString == null)
+            return;
         int index = Int32.Parse(indexString);
         _selectedIndex = index;
         CoreWrapper.SelectedDungeonIndices[SelectedDungeon!.Id] = index;
