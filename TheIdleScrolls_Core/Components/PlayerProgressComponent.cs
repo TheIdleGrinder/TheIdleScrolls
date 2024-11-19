@@ -27,15 +27,16 @@ namespace TheIdleScrolls_Core.Components
         public int HighestWildernessKill { get; set; } = 0;
         public int Kills { get; set; } = 0;
         public int Losses { get; set; } = 0;
-        public HashSet<string> SeenItemFamilies { get; set; } = new HashSet<string>();
-        public HashSet<string> SeenItemGenera { get; set; } = new HashSet<string>();
-        public HashSet<TutorialStep> TutorialProgress { get; set; } = new();
-        public Dictionary<string, Dictionary<int, double>> DungeonTimes { get; set; } = new();
+        public HashSet<string> SeenItemFamilies { get; set; } = [];
+        public HashSet<string> SeenItemGenera { get; set; } = [];
+        public HashSet<TutorialStep> TutorialProgress { get; set; } = [];
+        public Dictionary<string, Dictionary<int, double>> DungeonTimes { get; set; } = [];
         public int MaxCoins { get; set; } = 0;
         public int TotalCoins { get; set; } = 0;
         public int CoinsSpentOnForging { get; set; } = 0;
         public int BestReforge { get; set;} = 0;
         public int BestG0Reforge { get; set;} = 0;
+        public HashSet<string> DefeatedMobTypes { get; set; } = [];
 
         public HashSet<string> GetClearedDungeons()
         {
