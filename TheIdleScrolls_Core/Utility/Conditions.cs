@@ -46,6 +46,11 @@ namespace TheIdleScrolls_Core.Utility
                 ?.Any(a => a.Id == achievementId && a.Status == Achievements.AchievementStatus.Awarded) ?? false;
         }
 
+        public static bool HasDefeatedMobs(Entity e, IEnumerable<string> mobTypes)
+        {
+            return mobTypes.All(m => e.GetComponent<PlayerProgressComponent>()?.Data?.DefeatedMobTypes.Contains(m) ?? false);
+        }
+
         public static ConditionFunction WildernessLevelClearedCondition(int level)
         {
             return (e, w) => HasClearedWildernessLevel(e, level);
@@ -74,6 +79,11 @@ namespace TheIdleScrolls_Core.Utility
         public static ConditionFunction AchievementUnlockedCondition(string achievementId)
         {
             return (e, w) => IsAchievementUnlocked(w, achievementId);
+        }
+
+        public static ConditionFunction MobsDefeatedCondition(IEnumerable<string> mobTypes)
+        {
+            return (e, w) => HasDefeatedMobs(e, mobTypes);
         }
     }
 }
