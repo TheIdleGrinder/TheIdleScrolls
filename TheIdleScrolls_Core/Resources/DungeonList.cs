@@ -340,19 +340,30 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Places.Dungeon_EndgameMagic_Description,
                     Floors = new()
                     {
-                        new(5, 4.7, [ "MOB_HUFFLE" ]),
-                        new(4, 4.0, [ "MOB_RAVEN" ]),
-                        new(3, 3.0, [ "MOB_SNAKE" ]),
-                        new(2, 2.3, [ "MOB_GRYPHON" ]),
-                        new(1, 5.2, [ "BOSS_SOREN" ])
+                        new(4, 2.75, [ "MOB_SPIDER", "MOB_SPIDER2" ]),
+                        new(1, 1.5, [ "MOB_WILLOW" ]),
+                        new(1, 1.0, [ "MOB_SECRETGATE" ]),
+                        new(4, 2.7, [ "MOB_POISONGHOST", "MOB_SEWERSNAKE", "MOB_THREEHEADEDDOG" ]),
+                        new(4, 2.25, [ "MOB_HUFFLE" ]),
+                        new(3, 2.4, [ "MOB_RAVEN" ]),
+                        new(2, 1.65, [ "MOB_SNAKE" ]),
+                        new(2, 2.2, [ "MOB_GRYPHON" ]),
+                        new(1, 4.0, [ "BOSS_SOREN" ])
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_HUFFLE", hP: 2.05, damage: 1.5),
-                        new("MOB_RAVEN", hP: 2.6, damage: 1.5),
-                        new("MOB_SNAKE", hP: 2.9, damage: 1.5),
-                        new("MOB_GRYPHON", hP: 3.65, damage: 1.5),
-                        new("BOSS_SOREN", hP: 13.0, damage: 2.0)
+                        new("MOB_SPIDER", hP: 1.5, damage: 1.5),
+                        new("MOB_SPIDER2", hP: 1.5, damage: 1.5),
+                        new("MOB_WILLOW", hP: 3.5, damage: 1.5),
+                        new("MOB_SECRETGATE", hP: 1.5, damage: 0.0),
+                        new("MOB_POISONGHOST", hP: 1.7, damage: 1.5),
+                        new("MOB_SEWERSNAKE", hP: 1.7, damage: 1.5),
+                        new("MOB_THREEHEADEDDOG", hP: 1.7, damage: 1.5),
+                        new("MOB_HUFFLE", hP: 1.5, damage: 1.5),
+                        new("MOB_RAVEN", hP: 2.3, damage: 1.5),
+                        new("MOB_SNAKE", hP: 2.5, damage: 1.5),
+                        new("MOB_GRYPHON", hP: 3.5, damage: 1.5),
+                        new("BOSS_SOREN", hP: 10.0, damage: 2.0)
                     },
                     Rewards = new(Definitions.Stats.MaxDropTableLowerLimit, true, new())
                 },
@@ -365,21 +376,21 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Places.Dungeon_EndgamePyramid_Description,
                     Floors = new()
                     {
-                        new(5, 2.3, [ "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" ]),
-                        new(2, 4.1, [ "MOB_OVERSOUL" ]),
+                        new(8, 3.6, [ "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" ]),
+                        new(2, 4.4, [ "MOB_OVERSOUL" ]),
                         new(6, 2.2, [ "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" ]),
-                        new(3, 3.6, [ "MOB_TRIO" ]),
-                        new(7, 2.2, [ "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" ]),
-                        new(1, 5.2, [ "BOSS_RENKE" ])
+                        new(3, 4.0, [ "MOB_TRIO" ]),
+                        new(5, 1.55, [ "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" ]),
+                        new(1, 4.0, [ "BOSS_RENKE" ])
                     },
                     LocalMobs = new()
                     {
                         new("MOB_TRASH1", hP: 1.0, damage: 1.5),
                         new("MOB_TRASH2", hP: 1.0, damage: 1.5),
                         new("MOB_TRASH3", hP: 1.0, damage: 1.5),
-                        new("MOB_OVERSOUL", hP: 5.0, damage: 1.5),
-                        new("MOB_TRIO", hP: 3.5, damage: 1.5),
-                        new("BOSS_RENKE", hP: 13.0, damage: 2.0)
+                        new("MOB_OVERSOUL", hP: 5.5, damage: 1.5),
+                        new("MOB_TRIO", hP: 4.0, damage: 1.5),
+                        new("BOSS_RENKE", hP: 10.0, damage: 2.0)
                     },
                     Rewards = new(Definitions.Stats.MaxDropTableLowerLimit, true, new())
                 },
@@ -396,7 +407,7 @@ namespace TheIdleScrolls_Core.Resources
                         new(3, 2.3, [ "MOB_1-INF", "MOB_1-CAV" ]),
                         new(5, 4.0, [ "MOB_2-INF", "MOB_2-CAV", "MOB_2-ART" ]),
                         new(7, 7.0, [ "MOB_3-INF", "MOB_3-CAV", "MOB_3-ART", "MOB_3-AIR" ]),
-                        new(1, 5.2, [ "BOSS_HEINRICH" ])
+                        new(1, 4.0, [ "BOSS_HEINRICH" ])
                     },
                     LocalMobs = new()
                     {
@@ -410,7 +421,7 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_3-CAV", hP: 3.2, damage: 1.5),
                         new("MOB_3-ART", hP: 3.2, damage: 1.5),
                         new("MOB_3-AIR", hP: 3.2, damage: 1.5),
-                        new("BOSS_HEINRICH", hP: 13.0, damage: 2.0)
+                        new("BOSS_HEINRICH", hP: 10.0, damage: 2.0)
                     },
                     Rewards = new(Definitions.Stats.MaxDropTableLowerLimit, true, new())
                 }

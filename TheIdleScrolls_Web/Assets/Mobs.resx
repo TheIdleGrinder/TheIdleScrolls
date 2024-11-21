@@ -358,4 +358,25 @@
   <data name="mob_wendigo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\mob_wendigo.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="mob_poisonghost" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_poisonghost.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_secretgate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_secretgate.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_sewersnake" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_sewersnake.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_spider" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_spider.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_spider2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_spider2.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_threeheadeddog" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_threeheadeddog.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="mob_willow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\mob_willow.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

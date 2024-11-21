@@ -643,6 +643,16 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] mob_poisonghost {
+            get {
+                object obj = ResourceManager.GetObject("mob_poisonghost", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] mob_rat {
             get {
                 object obj = ResourceManager.GetObject("mob_rat", resourceCulture);
@@ -663,9 +673,29 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] mob_secretgate {
+            get {
+                object obj = ResourceManager.GetObject("mob_secretgate", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] mob_seraph {
             get {
                 object obj = ResourceManager.GetObject("mob_seraph", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_sewersnake {
+            get {
+                object obj = ResourceManager.GetObject("mob_sewersnake", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -703,6 +733,26 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] mob_spider {
+            get {
+                object obj = ResourceManager.GetObject("mob_spider", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_spider2 {
+            get {
+                object obj = ResourceManager.GetObject("mob_spider2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] mob_spikeddemon {
             get {
                 object obj = ResourceManager.GetObject("mob_spikeddemon", resourceCulture);
@@ -716,6 +766,16 @@ namespace TheIdleScrolls_Web.Assets {
         internal static byte[] mob_taurus {
             get {
                 object obj = ResourceManager.GetObject("mob_taurus", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_threeheadeddog {
+            get {
+                object obj = ResourceManager.GetObject("mob_threeheadeddog", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -806,6 +866,16 @@ namespace TheIdleScrolls_Web.Assets {
         internal static byte[] mob_wendigo {
             get {
                 object obj = ResourceManager.GetObject("mob_wendigo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_willow {
+            get {
+                object obj = ResourceManager.GetObject("mob_willow", resourceCulture);
                 return ((byte[])(obj));
             }
         }

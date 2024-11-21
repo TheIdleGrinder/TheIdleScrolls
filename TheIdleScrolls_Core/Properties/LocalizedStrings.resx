@@ -594,14 +594,23 @@
   <data name="MOB_OVERSOUL" xml:space="preserve">
     <value>Automaton Guardian</value>
   </data>
+  <data name="MOB_POISONGHOST" xml:space="preserve">
+    <value>Sewerghost</value>
+  </data>
   <data name="MOB_RAT" xml:space="preserve">
     <value>Rat</value>
   </data>
   <data name="MOB_RAVEN" xml:space="preserve">
     <value>Spooky Raven</value>
   </data>
+  <data name="MOB_SECRETGATE" xml:space="preserve">
+    <value>Secret Entrance</value>
+  </data>
   <data name="MOB_SERAPH" xml:space="preserve">
     <value>Fallen Seraph</value>
+  </data>
+  <data name="MOB_SEWERSNAKE" xml:space="preserve">
+    <value>Basilisk</value>
   </data>
   <data name="MOB_SHADOWBULL" xml:space="preserve">
     <value>Shadowbull</value>
@@ -615,6 +624,12 @@
   <data name="MOB_SNAKE" xml:space="preserve">
     <value>Imposing Serpent</value>
   </data>
+  <data name="MOB_SPIDER" xml:space="preserve">
+    <value>Forest Widow</value>
+  </data>
+  <data name="MOB_SPIDER2" xml:space="preserve">
+    <value>Forest Tarantula</value>
+  </data>
   <data name="MOB_SPIKEDDEMON" xml:space="preserve">
     <value>Spikeback Marauder</value>
   </data>
@@ -626,6 +641,9 @@
   </data>
   <data name="MOB_TERRACOTTA2" xml:space="preserve">
     <value>Terracotta General</value>
+  </data>
+  <data name="MOB_THREEHEADEDDOG" xml:space="preserve">
+    <value>Three Headed Watchdog</value>
   </data>
   <data name="MOB_TRASH1" xml:space="preserve">
     <value>Lumbering Construct</value>
@@ -656,6 +674,9 @@
   </data>
   <data name="MOB_WENDIGO" xml:space="preserve">
     <value>Wendigo</value>
+  </data>
+  <data name="MOB_WILLOW" xml:space="preserve">
+    <value>Aggressive Tree</value>
   </data>
   <data name="MOB_WINGEDDEMON" xml:space="preserve">
     <value>Winged Demon</value>
