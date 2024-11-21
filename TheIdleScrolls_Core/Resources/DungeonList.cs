@@ -214,14 +214,14 @@ namespace TheIdleScrolls_Core.Resources
                     {
                         new(1, 1.5, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
                         new(2, 2.9, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
-                        new(1, 1.4, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
-                        new(1, 1.3, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
-                        new(2, 2.5, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
-                        new(1, 1.2, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
-                        new(1, 1.1, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
-                        new(3, 3.1, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
+                        new(1, 1.4, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ], "Floor 4"),
+                        new(1, 1.3, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ], "Floor 11"),
+                        new(2, 2.5, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ], "Floor 7"),
+                        new(1, 1.2, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ], "Floor 3"),
+                        new(1, 1.1, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ], "Floor 10"),
+                        new(3, 3.1, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ], "Floor 6"),
                         new(1, 1.0, [ "MOB_IMP", "MOB_LESSERDEMON", "MOB_VOIDCULTIST" ]),
-                        new(1, 4.0, [ "MOB_GREATERDEMON" ])
+                        new(1, 4.0, [ "MOB_GREATERDEMON" ], "Inner Sanctum")
                     },
                     LocalMobs = new()
                     {
@@ -340,15 +340,15 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Places.Dungeon_EndgameMagic_Description,
                     Floors = new()
                     {
-                        new(4, 2.75, [ "MOB_SPIDER", "MOB_SPIDER2" ]),
-                        new(1, 1.5, [ "MOB_WILLOW" ]),
-                        new(1, 1.0, [ "MOB_SECRETGATE" ]),
-                        new(4, 2.7, [ "MOB_POISONGHOST", "MOB_SEWERSNAKE", "MOB_THREEHEADEDDOG" ]),
-                        new(4, 2.25, [ "MOB_HUFFLE" ]),
-                        new(3, 2.4, [ "MOB_RAVEN" ]),
-                        new(2, 1.65, [ "MOB_SNAKE" ]),
-                        new(2, 2.2, [ "MOB_GRYPHON" ]),
-                        new(1, 4.0, [ "BOSS_SOREN" ])
+                        new(4, 2.75, [ "MOB_SPIDER", "MOB_SPIDER2" ], "Forest"),
+                        new(1, 1.5, [ "MOB_WILLOW" ], "Outer Walls"),
+                        new(1, 1.0, [ "MOB_SECRETGATE" ], "Outer Walls"),
+                        new(4, 2.7, [ "MOB_POISONGHOST", "MOB_SEWERSNAKE", "MOB_THREEHEADEDDOG" ], "Sewers"),
+                        new(4, 2.25, [ "MOB_HUFFLE" ], "Earth Wing"),
+                        new(3, 2.4, [ "MOB_RAVEN" ], "Air Wing"),
+                        new(2, 1.65, [ "MOB_SNAKE" ], "Water Wing"),
+                        new(2, 2.2, [ "MOB_GRYPHON" ], "Fire Wing"),
+                        new(1, 4.0, [ "BOSS_SOREN" ], "Secret Chamber")
                     },
                     LocalMobs = new()
                     {
@@ -381,7 +381,7 @@ namespace TheIdleScrolls_Core.Resources
                         new(6, 2.2, [ "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" ]),
                         new(3, 4.0, [ "MOB_TRIO" ]),
                         new(5, 1.55, [ "MOB_TRASH1", "MOB_TRASH2", "MOB_TRASH3" ]),
-                        new(1, 4.0, [ "BOSS_RENKE" ])
+                        new(1, 4.0, [ "BOSS_RENKE" ], "Apex")
                     },
                     LocalMobs = new()
                     {
