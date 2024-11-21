@@ -34,8 +34,16 @@ namespace TheIdleScrolls_Core.GameWorld
             }
             var dungeonFloor = dungeon.Floors[floor];
 
-            string floorName = dungeon.Name + " - " 
-                + ((dungeonFloor.Name != string.Empty) ? dungeonFloor.Name : $"Floor {floor + 1}");
+            string floorName = dungeon.Name;
+            if (dungeonFloor.Name == null)
+            {
+                floorName += $" - Floor {floor + 1}";
+            }
+            else if (dungeonFloor.Name != string.Empty)
+            {
+                floorName += $" - {dungeonFloor.Name}";
+            }
+
 
             return new ZoneDescription()
             {

@@ -267,7 +267,7 @@ namespace TheIdleScrolls_Core.Resources
                     Description = Places.Dungeon_Threshold_Description,
                     Floors = new()
                     {
-                        new(25, 14.0, [ "MOB_IMPWARLOCK", "MOB_WINGEDDEMON", "MOB_BIGGERIMP" ])
+                        new(25, 14.0, [ "MOB_IMPWARLOCK", "MOB_WINGEDDEMON", "MOB_BIGGERIMP" ], "")
                     },
                     LocalMobs = new()
                     {
@@ -407,7 +407,7 @@ namespace TheIdleScrolls_Core.Resources
                         new(3, 2.3, [ "MOB_1-INF", "MOB_1-CAV" ]),
                         new(5, 4.0, [ "MOB_2-INF", "MOB_2-CAV", "MOB_2-ART" ]),
                         new(7, 7.0, [ "MOB_3-INF", "MOB_3-CAV", "MOB_3-ART", "MOB_3-AIR" ]),
-                        new(1, 4.0, [ "BOSS_HEINRICH" ])
+                        new(1, 4.0, [ "BOSS_HEINRICH" ], "Nexus of Ages")
                     },
                     LocalMobs = new()
                     {

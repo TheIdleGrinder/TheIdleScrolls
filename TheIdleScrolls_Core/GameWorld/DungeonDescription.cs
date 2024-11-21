@@ -27,14 +27,14 @@ namespace TheIdleScrolls_Core.GameWorld
     /// </summary>
     public class DungeonFloorDescription
     {
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; } = string.Empty;
         public int MobCount { get; set; } = 1;
         public double TimeMultiplier { get; set; } = 1.0;
         public List<string> MobTypes { get; set; } = [];
 
         public DungeonFloorDescription() { }
 
-        public DungeonFloorDescription(int mobCount, double timeMultiplier, List<string> mobTypes, string name = "")
+        public DungeonFloorDescription(int mobCount, double timeMultiplier, List<string> mobTypes, string? name = null)
         {
             MobCount = mobCount;
             TimeMultiplier = timeMultiplier;
