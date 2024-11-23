@@ -35,19 +35,19 @@ namespace TheIdleScrolls_Core.Definitions
 
         public static List<ItemMaterial> MaterialList { get; } = new()
         {
-            new(MaterialId.Simple,   Properties.LocalizedStrings.MAT_SIMPLE, 1.0, LevelT0),
+            new(MaterialId.Simple,   Properties.Items.Material_Simple, 1.0, LevelT0),
 
-            new(MaterialId.Leather1, Properties.LocalizedStrings.MAT_L0, 1.0,  LevelT1),
-            new(MaterialId.Leather2, Properties.LocalizedStrings.MAT_L1, 1.5,  LevelT2),
-            new(MaterialId.Leather3, Properties.LocalizedStrings.MAT_L2, 2.25, LevelT3),
+            new(MaterialId.Leather1, Properties.Items.Material_L1,     1.0,  LevelT1),
+            new(MaterialId.Leather2, Properties.Items.Material_L2,     1.5,  LevelT2),
+            new(MaterialId.Leather3, Properties.Items.Material_L3,     2.25, LevelT3),
             
-            new(MaterialId.Metal1,   Properties.LocalizedStrings.MAT_M0, 1.0,  LevelT1),
-            new(MaterialId.Metal2,   Properties.LocalizedStrings.MAT_M1, 1.5,  LevelT2),
-            new(MaterialId.Metal3,   Properties.LocalizedStrings.MAT_M2, 2.25, LevelT3),
+            new(MaterialId.Metal1,   Properties.Items.Material_M1,     1.0,  LevelT1),
+            new(MaterialId.Metal2,   Properties.Items.Material_M2,     1.5,  LevelT2),
+            new(MaterialId.Metal3,   Properties.Items.Material_M3,     2.25, LevelT3),
             
-            new(MaterialId.Wood1,    Properties.LocalizedStrings.MAT_W0, 1.0,  LevelT1),
-            new(MaterialId.Wood2,    Properties.LocalizedStrings.MAT_W1, 1.5,  LevelT2),
-            new(MaterialId.Wood3,    Properties.LocalizedStrings.MAT_W2, 2.25, LevelT3)
+            new(MaterialId.Wood1,    Properties.Items.Material_W1,     1.0,  LevelT1),
+            new(MaterialId.Wood2,    Properties.Items.Material_W2,     1.5,  LevelT2),
+            new(MaterialId.Wood3,    Properties.Items.Material_W3,     2.25, LevelT3)
         };
     }
 }

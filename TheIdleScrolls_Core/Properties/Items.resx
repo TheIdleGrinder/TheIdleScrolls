@@ -345,4 +345,43 @@
   <data name="Genus_TwoHandSword2" xml:space="preserve">
     <value>Curved Sword</value>
   </data>
+  <data name="Material_Simple" xml:space="preserve">
+    <value>Simple</value>
+  </data>
+  <data name="Material_L1" xml:space="preserve">
+    <value>Leather</value>
+  </data>
+  <data name="Material_L2" xml:space="preserve">
+    <value>Hard Leather</value>
+  </data>
+  <data name="Material_L3" xml:space="preserve">
+    <value>Elven</value>
+  </data>
+  <data name="Material_L4" xml:space="preserve">
+    <value>Dragonhide</value>
+  </data>
+  <data name="Material_M1" xml:space="preserve">
+    <value>Iron</value>
+  </data>
+  <data name="Material_M2" xml:space="preserve">
+    <value>Steel</value>
+  </data>
+  <data name="Material_M3" xml:space="preserve">
+    <value>Orichalcum</value>
+  </data>
+  <data name="Material_M4" xml:space="preserve">
+    <value>Starmetal</value>
+  </data>
+  <data name="Material_W1" xml:space="preserve">
+    <value>Birch</value>
+  </data>
+  <data name="Material_W2" xml:space="preserve">
+    <value>Oak</value>
+  </data>
+  <data name="Material_W3" xml:space="preserve">
+    <value>Ash</value>
+  </data>
+  <data name="Material_W4" xml:space="preserve">
+    <value>Ebony</value>
+  </data>
 </root>
