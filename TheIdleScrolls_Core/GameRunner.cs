@@ -150,10 +150,10 @@ namespace TheIdleScrolls_Core
             }
 
             var tickDuration = DateTime.Now - tickStart;
-            if (tickDuration.Milliseconds > 50)
-                Console.WriteLine($"Tick duration: {tickDuration.TotalMilliseconds}");
-            else
-                Console.WriteLine("Tick duration ok");
+            //if (tickDuration.Milliseconds > 50)
+            //    Console.WriteLine($"Tick duration: {tickDuration.TotalMilliseconds}");
+            //else
+            //    Console.WriteLine("Tick duration ok");
         }
 
         public void AddSystem(AbstractSystem system)

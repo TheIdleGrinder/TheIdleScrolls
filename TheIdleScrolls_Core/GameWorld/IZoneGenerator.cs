@@ -14,6 +14,6 @@ namespace TheIdleScrolls_Core.GameWorld
 
         public List<DungeonDescription> GetDungeonsAtLocation(Location location);
 
-        public ZoneDescription? GetDungeonZone(string dungeonId, int floor);
+        public ZoneDescription? GetDungeonZone(string dungeonId, int dungeonLevel, int floor);
     }
 }

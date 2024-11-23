@@ -51,9 +51,6 @@ namespace TheIdleScrolls_Core
 
         static int CalculateHP(MobDescription description, int level)
         {
-            /*double hp = Math.Pow(level, DifficultyScaling) * description.HP * BaseHpMultiplier;
-            hp *= Math.Pow(1.1, Math.Pow(level, 0.75)); // Sub-exponential scaling for HP
-            return (int)Math.Min(Math.Round(hp), 1_000_000_000); // Limit HP to 1B*/
             return Functions.CalculateMobHp(level, description.HP);
         }
 
@@ -67,7 +64,8 @@ namespace TheIdleScrolls_Core
 
         static double CalculateDamage(MobDescription description, int level)
         {
-            return Functions.CalculateMobDamage(level, description.Damage);
+            _ = level; // unused
+            return description.Damage;
         }
     }
 }

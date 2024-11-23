@@ -25,7 +25,7 @@ namespace TheIdleScrolls_Core.GameWorld
             return Dungeons;
         }
 
-        public ZoneDescription? GetDungeonZone(string dungeonId, int floor)
+        public ZoneDescription? GetDungeonZone(string dungeonId, int dungeonLevel, int floor)
         {
             var dungeon = Dungeons.Where(d => d.Id == dungeonId).FirstOrDefault();
             if (dungeon == null || floor < 0 || floor >= dungeon.Floors.Count)
@@ -33,12 +33,23 @@ namespace TheIdleScrolls_Core.GameWorld
                 return null;
             }
             var dungeonFloor = dungeon.Floors[floor];
-            
+
+            string floorName = dungeon.Name;
+            if (dungeonFloor.Name == null)
+            {
+                floorName += $" - Floor {floor + 1}";
+            }
+            else if (dungeonFloor.Name != string.Empty)
+            {
+                floorName += $" - {dungeonFloor.Name}";
+            }
+
+
             return new ZoneDescription()
             {
-                Name = $"{dungeon.Name} - Floor {floor + 1}",
+                Name = floorName,
                 Biome = Biome.Dungeon,
-                Level = dungeon.Level,
+                Level = dungeonLevel,
                 MobTypes = dungeonFloor.MobTypes,
                 MobCount = dungeonFloor.MobCount,
                 TimeMultiplier = dungeonFloor.TimeMultiplier

@@ -56,7 +56,7 @@ namespace TheIdleScrolls_Core.Quests
             };
             
             var progress = (States)storyComp.GetQuestProgress(GetId());
-            var openDungeons = entity.GetComponent<TravellerComponent>()?.AvailableDungeons ?? new();
+            var openDungeons = entity.GetComponent<TravellerComponent>()?.AvailableDungeons?.Keys.ToList() ?? new();
             var completedDungeons = entity.GetComponent<PlayerProgressComponent>()?.Data?.GetClearedDungeons() ?? new();
 
             // CornerCut: List of open dungeons is empty during the first frame, so some messages might be skipped when loading characters
@@ -182,7 +182,7 @@ namespace TheIdleScrolls_Core.Quests
                     var playtime = TimeSpan.FromSeconds(dblTime).ToString(@"hh\:mm\:ss");
                     bool first = !entity.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
                     postMessageCallback(new ManualSaveRequest());
-                    postMessageCallback(new DungeonCompletedMessage(locationComp.DungeonId, first));
+                    postMessageCallback(new DungeonCompletedMessage(locationComp.DungeonId, locationComp.DungeonLevel, first));
                     postMessageCallback(new TutorialMessage(TutorialStep.Finished,
                         Properties.LocalizedStrings.STORY_END_TITLE,
                         String.Format(Properties.Quests.Story_ThresholdFinished, playtime)));
@@ -214,7 +214,7 @@ namespace TheIdleScrolls_Core.Quests
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null)
             {
-                double multi = Functions.CalculateArmorBonusMultiplier(defenseComp.Armor, mobDamage);
+                double multi = Functions.CalculateArmorBonusMultiplier(defenseComp.Armor, mob.GetLevel(), mobDamage);
                 double targetDuration = slopeDuration / multi;
                 player.GetComponent<TimeShieldComponent>()?.Rescale(baseMultiplier * targetDuration * mobDamage);
                 player.GetComponent<BattlerComponent>()!.Battle!.CustomTimeLimit = true; // Player has to be in the final battle

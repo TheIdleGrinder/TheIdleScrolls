@@ -30,12 +30,18 @@ namespace TheIdleScrolls_Core.Systems
             progComp.Data.Playtime += dt;
 
             // Update kills and highest area
-            var kills = coordinator.FetchMessagesByType<DeathMessage>();
-            progComp.Data.Kills += kills.Count;
-            if (kills.Count > 0 && !locationComp.InDungeon)
+            foreach (var kill in coordinator.FetchMessagesByType<DeathMessage>())
             {
-                var lvl = kills.First().Victim.GetComponent<LevelComponent>()?.Level ?? 0;
-                progComp.Data.HighestWildernessKill = Math.Max(lvl, progComp.Data.HighestWildernessKill);
+                progComp.Data.Kills++;
+                var mobId = kill.Victim.GetComponent<MobComponent>()?.Id;
+                if (mobId != null)
+                {
+                    progComp.Data.DefeatedMobTypes.Add(mobId);
+                }
+                if (!locationComp.InDungeon)
+                {
+                    progComp.Data.HighestWildernessKill = Math.Max(progComp.Data.HighestWildernessKill, kill.Victim.GetLevel());
+                }
             }
 
             // Update losses
@@ -55,9 +61,13 @@ namespace TheIdleScrolls_Core.Systems
             var dungeons = coordinator.FetchMessagesByType<DungeonCompletedMessage>();
             foreach (var dungeon in dungeons)
             {
-                if (!progComp.Data.DungeonTimes.ContainsKey(dungeon.DungeonId))
+                if (!progComp.Data.DungeonTimes.TryGetValue(dungeon.DungeonId, out Dictionary<int, double>? value) ||
+                    !value.ContainsKey(dungeon.DungeonLevel))
                 {
-                    progComp.Data.DungeonTimes[dungeon.DungeonId] = progComp.Data.Playtime;
+                    if (!progComp.Data.DungeonTimes.ContainsKey(dungeon.DungeonId))
+                        progComp.Data.DungeonTimes[dungeon.DungeonId] = [];
+                    progComp.Data.DungeonTimes[dungeon.DungeonId][dungeon.DungeonLevel] = progComp.Data.Playtime;
+                    Console.WriteLine($"Dungeon cleared: {dungeon.DungeonId} / {dungeon.DungeonLevel}");
                 }
             }
 

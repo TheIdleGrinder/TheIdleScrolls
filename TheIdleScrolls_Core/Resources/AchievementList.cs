@@ -129,6 +129,27 @@ namespace TheIdleScrolls_Core.Resources
                 }
                 achievements.Add(achievement);
             }
+            // Void dungeon achievements
+            achievements.Add(new("DNG:VOID",
+                "Void Scout",
+                $"Complete your first excursion to {Properties.Places.Dungeon_Void}",
+                Conditions.DungeonAvailableCondition(Definitions.DungeonIds.Void),
+                Conditions.DungeonCompletedCondition(Definitions.DungeonIds.Void)));
+            achievements.Add(new("DNG:VOID@100",
+                "Void Explorer",
+                $"Complete {Properties.Places.Dungeon_Void} at area level 100",
+                Conditions.AchievementUnlockedCondition("DNG:VOID"),
+                Conditions.DungeonLevelCompletedCondition(Definitions.DungeonIds.Void, 100)));
+            achievements.Add(new("DNG:VOID@125",
+                "Void Conqueror",
+                $"Complete {Properties.Places.Dungeon_Void} at area level 125",
+                Conditions.AchievementUnlockedCondition("DNG:VOID@100"),
+                Conditions.DungeonLevelCompletedCondition(Definitions.DungeonIds.Void, 125)));
+            achievements.Add(new("VOIDBOSSES",
+                "Void Duelist",
+                $"Defeat all different bosses in {Properties.Places.Dungeon_Void}",
+                Conditions.AchievementUnlockedCondition("DNG:VOID"),
+                Conditions.MobsDefeatedCondition(DungeonList.VoidBosses)));
 
             // Hardcore achievements
             int hcWildLevel = 75;
@@ -316,12 +337,6 @@ namespace TheIdleScrolls_Core.Resources
                 "Complete the Beacon before the Crypt",
                 tautology,
                 ExpressionParser.ParseToFunction("dng:CRYPT <= 0 && dng:LIGHTHOUSE > 0")));
-            achievements.Add(new(
-                "EndgameBeforeStory",
-                "Did I forget something?",
-                "Complete the endgame dungeons before finishing the story",
-                ExpressionParser.ParseToFunction("dng:SUNKENCITY > 0 || dng:ACADEMY > 0 || dng:PAGODA > 0"),
-                ExpressionParser.ParseToFunction("dng:SUNKENCITY > 0 && dng:ACADEMY > 0 && dng:PAGODA > 0 && dng:THRESHOLD <= 0")));
 
 
             // Unarmored/Unarmed achievements

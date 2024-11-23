@@ -331,6 +331,24 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ghostly Cultleader ähnelt.
+        /// </summary>
+        internal static string BOSS_GHOSTCULTLEADER {
+            get {
+                return ResourceManager.GetString("BOSS_GHOSTCULTLEADER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cloud Giant ähnelt.
+        /// </summary>
+        internal static string BOSS_GIANT {
+            get {
+                return ResourceManager.GetString("BOSS_GIANT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Giant Rat ähnelt.
         /// </summary>
         internal static string BOSS_GIANTRAT {
@@ -349,6 +367,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crushing Leviathan ähnelt.
+        /// </summary>
+        internal static string BOSS_LEVIATHAN {
+            get {
+                return ResourceManager.GetString("BOSS_LEVIATHAN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Mercenary Centurion ähnelt.
         /// </summary>
         internal static string BOSS_MERCENARY {
@@ -358,11 +385,29 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Grotesque Monstrosity ähnelt.
+        /// </summary>
+        internal static string BOSS_MONSTROSITY {
+            get {
+                return ResourceManager.GetString("BOSS_MONSTROSITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The Necromancer ähnelt.
         /// </summary>
         internal static string BOSS_NECROMANCER {
             get {
                 return ResourceManager.GetString("BOSS_NECROMANCER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ancient Observer ähnelt.
+        /// </summary>
+        internal static string BOSS_OBSERVER {
+            get {
+                return ResourceManager.GetString("BOSS_OBSERVER", resourceCulture);
             }
         }
         
@@ -1177,6 +1222,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Angry Chicken ähnelt.
+        /// </summary>
+        internal static string MOB_ANGRYCHICKEN {
+            get {
+                return ResourceManager.GetString("MOB_ANGRYCHICKEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Assassin ähnelt.
         /// </summary>
         internal static string MOB_ASSASSIN {
@@ -1200,6 +1254,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MOB_BIGRAT {
             get {
                 return ResourceManager.GetString("MOB_BIGRAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Consuming Ooze ähnelt.
+        /// </summary>
+        internal static string MOB_CONSUMINGOOZE {
+            get {
+                return ResourceManager.GetString("MOB_CONSUMINGOOZE", resourceCulture);
             }
         }
         
@@ -1258,6 +1321,51 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deep Void Flamethrower ähnelt.
+        /// </summary>
+        internal static string MOB_FLAMETHROWER {
+            get {
+                return ResourceManager.GetString("MOB_FLAMETHROWER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vision from Strange Tales ähnelt.
+        /// </summary>
+        internal static string MOB_GLIMPSEA {
+            get {
+                return ResourceManager.GetString("MOB_GLIMPSEA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vision of Ancient Glory ähnelt.
+        /// </summary>
+        internal static string MOB_GLIMPSEB {
+            get {
+                return ResourceManager.GetString("MOB_GLIMPSEB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vision of Swirling Times ähnelt.
+        /// </summary>
+        internal static string MOB_GLIMPSEC {
+            get {
+                return ResourceManager.GetString("MOB_GLIMPSEC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Pale Gorgon ähnelt.
+        /// </summary>
+        internal static string MOB_GORGON {
+            get {
+                return ResourceManager.GetString("MOB_GORGON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Greater Demon of the Void ähnelt.
         /// </summary>
         internal static string MOB_GREATERDEMON {
@@ -1276,11 +1384,29 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deep Void Imp ähnelt.
+        /// </summary>
+        internal static string MOB_HORNEDIMP {
+            get {
+                return ResourceManager.GetString("MOB_HORNEDIMP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Angry Badger ähnelt.
         /// </summary>
         internal static string MOB_HUFFLE {
             get {
                 return ResourceManager.GetString("MOB_HUFFLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hydramarine ähnelt.
+        /// </summary>
+        internal static string MOB_HYDRAMARINE {
+            get {
+                return ResourceManager.GetString("MOB_HYDRAMARINE", resourceCulture);
             }
         }
         
@@ -1303,11 +1429,29 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Spikeback Juggernaut ähnelt.
+        /// </summary>
+        internal static string MOB_JUGGERNAUT {
+            get {
+                return ResourceManager.GetString("MOB_JUGGERNAUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Lesser Demon of the Void ähnelt.
         /// </summary>
         internal static string MOB_LESSERDEMON {
             get {
                 return ResourceManager.GetString("MOB_LESSERDEMON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Space Warrior ähnelt.
+        /// </summary>
+        internal static string MOB_MARINE {
+            get {
+                return ResourceManager.GetString("MOB_MARINE", resourceCulture);
             }
         }
         
@@ -1348,6 +1492,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sewerghost ähnelt.
+        /// </summary>
+        internal static string MOB_POISONGHOST {
+            get {
+                return ResourceManager.GetString("MOB_POISONGHOST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Rat ähnelt.
         /// </summary>
         internal static string MOB_RAT {
@@ -1362,6 +1515,42 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MOB_RAVEN {
             get {
                 return ResourceManager.GetString("MOB_RAVEN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Secret Entrance ähnelt.
+        /// </summary>
+        internal static string MOB_SECRETGATE {
+            get {
+                return ResourceManager.GetString("MOB_SECRETGATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fallen Seraph ähnelt.
+        /// </summary>
+        internal static string MOB_SERAPH {
+            get {
+                return ResourceManager.GetString("MOB_SERAPH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Basilisk ähnelt.
+        /// </summary>
+        internal static string MOB_SEWERSNAKE {
+            get {
+                return ResourceManager.GetString("MOB_SEWERSNAKE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shadowbull ähnelt.
+        /// </summary>
+        internal static string MOB_SHADOWBULL {
+            get {
+                return ResourceManager.GetString("MOB_SHADOWBULL", resourceCulture);
             }
         }
         
@@ -1393,6 +1582,42 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Forest Widow ähnelt.
+        /// </summary>
+        internal static string MOB_SPIDER {
+            get {
+                return ResourceManager.GetString("MOB_SPIDER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Forest Tarantula ähnelt.
+        /// </summary>
+        internal static string MOB_SPIDER2 {
+            get {
+                return ResourceManager.GetString("MOB_SPIDER2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Spikeback Marauder ähnelt.
+        /// </summary>
+        internal static string MOB_SPIKEDDEMON {
+            get {
+                return ResourceManager.GetString("MOB_SPIKEDDEMON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deep Void Ram ähnelt.
+        /// </summary>
+        internal static string MOB_TAURUS {
+            get {
+                return ResourceManager.GetString("MOB_TAURUS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Terracotta Guard ähnelt.
         /// </summary>
         internal static string MOB_TERRACOTTA {
@@ -1407,6 +1632,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MOB_TERRACOTTA2 {
             get {
                 return ResourceManager.GetString("MOB_TERRACOTTA2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Three Headed Watchdog ähnelt.
+        /// </summary>
+        internal static string MOB_THREEHEADEDDOG {
+            get {
+                return ResourceManager.GetString("MOB_THREEHEADEDDOG", resourceCulture);
             }
         }
         
@@ -1447,6 +1681,24 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vengeful Dummy ähnelt.
+        /// </summary>
+        internal static string MOB_VENGEFULDUMMY {
+            get {
+                return ResourceManager.GetString("MOB_VENGEFULDUMMY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Spikeback Crawler ähnelt.
+        /// </summary>
+        internal static string MOB_VOIDCRAWLER {
+            get {
+                return ResourceManager.GetString("MOB_VOIDCRAWLER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Void Infused Cultist ähnelt.
         /// </summary>
         internal static string MOB_VOIDCULTIST {
@@ -1470,6 +1722,24 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MOB_WARLOCK {
             get {
                 return ResourceManager.GetString("MOB_WARLOCK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wendigo ähnelt.
+        /// </summary>
+        internal static string MOB_WENDIGO {
+            get {
+                return ResourceManager.GetString("MOB_WENDIGO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Aggressive Tree ähnelt.
+        /// </summary>
+        internal static string MOB_WILLOW {
+            get {
+                return ResourceManager.GetString("MOB_WILLOW", resourceCulture);
             }
         }
         

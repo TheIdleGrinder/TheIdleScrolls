@@ -34,9 +34,9 @@ namespace TheIdleScrolls_Core.GameWorld
             return Map.GetZone(location);
         }
 
-        public ZoneDescription? GetDungeonZone(string dungeonId, int floor)
+        public ZoneDescription? GetDungeonZone(string dungeonId, int dungeonLevel, int floor)
         {
-            return Map.GetDungeonZone(dungeonId, floor);
+            return Map.GetDungeonZone(dungeonId, dungeonLevel, floor);
         }
     }
 }

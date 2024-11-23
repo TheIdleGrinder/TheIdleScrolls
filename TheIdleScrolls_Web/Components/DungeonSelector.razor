@@ -7,40 +7,91 @@
     <div id="dungeonButtonsArea">
         @foreach (var dungeon in Dungeons)
         {
-            <button class="dungeon @CssUtilities.GetClassesForDungeon(dungeon)" @onclick="@(() => SelectedDungeon = dungeon)">
+            <button class="dungeon @DungeonButtonClasses(dungeon)" @onclick="@(() => SelectDungeon(dungeon))">
                 @dungeon.Name
             </button>
         }        
     </div>
     <div id="dungeonDescriptionArea">
-        <div id="dungeonDescription">
-            @if (SelectedDungeon != null)
-            {
-                <span id="headline">@SelectedDungeon!.Name - Level @SelectedDungeon!.Level</span>
-                @foreach (string line in SelectedDungeon!.Description.Split('\n'))
+        @if (SelectedDungeon != null)
+        {
+            <div id="dungeonDescription">
+                @if (SelectedDungeon != null)
                 {
-                    <span>@line</span>
+                    <h5 id="headline">@SelectedDungeon!.Name</h5>
+                    <h6 id="dungeonLevel">Level @SelectedLevel</h6>
+                    @if (SelectedDungeon!.Levels.Length > 1)
+                    {
+                        <input type="range" id="dungeonLevelSlider"
+                            min="0" max="@(SelectedDungeon?.Levels.Length - 1)" step="1"
+                            value="@_selectedIndex" 
+                            @oninput="@((ChangeEventArgs args) => SelectDungeonLevel(args?.Value?.ToString()))"/>
+                    }
+                    @foreach (string line in SelectedDungeon!.Description.Split('\n'))
+                    {
+                        <span>@line</span>
+                    }
                 }
-            }
-        </div>
-        <button class="enter" @onclick="EnterDungeon">Enter!</button>
+            </div>
+            <button class="enter" @onclick="EnterDungeon">Enter</button>
+        }
     </div>
 </div>
 
 @code {
     List<DungeonRepresentation> Dungeons => CoreWrapper.Accessible.Dungeons;
 
-    DungeonRepresentation? SelectedDungeon = null;
+    DungeonRepresentation? SelectedDungeon => Dungeons.FirstOrDefault(d => d.Id == CoreWrapper.SelectedDungeon);
+    int _selectedIndex = 0;
+    int SelectedLevel => SelectedDungeon?.Levels[_selectedIndex] ?? 0;
 
     protected override void OnInitialized()
     {
         CoreWrapper.StateChanged += StateHasChanged;
         base.OnInitialized();
+        if (SelectedDungeon != null)
+        {
+            _selectedIndex = CoreWrapper.SelectedDungeonIndices.TryGetValue(SelectedDungeon!.Id, out int value) 
+                ? value 
+                : (SelectedDungeon!.Levels.Length - 1);
+        }
+    }
+
+    void SelectDungeon(DungeonRepresentation dungeon)
+    {
+        if (SelectedDungeon == dungeon)
+        {
+            CoreWrapper.SelectedDungeon = null;
+            return;
+        }
+        CoreWrapper.SelectedDungeon = dungeon.Id;
+        _selectedIndex = CoreWrapper.SelectedDungeonIndices.TryGetValue(SelectedDungeon!.Id, out int value) 
+            ? value 
+            : (SelectedDungeon.Levels.Length - 1);
+    }
+
+    void SelectDungeonLevel(string? indexString)
+    {
+        if (indexString == null)
+            return;
+        int index = Int32.Parse(indexString);
+        _selectedIndex = index;
+        CoreWrapper.SelectedDungeonIndices[SelectedDungeon!.Id] = index;
     }
 
     void EnterDungeon()
     {
-        if (SelectedDungeon != null)
-            CoreWrapper.InputHandler.EnterDungeon(SelectedDungeon.Id);
+        if (SelectedDungeon == null)
+            return;
+        CoreWrapper.SelectedDungeonIndices[SelectedDungeon.Id] = _selectedIndex;
+        CoreWrapper.InputHandler.EnterDungeon(SelectedDungeon.Id, SelectedLevel);
+    }
+
+    string DungeonButtonClasses(DungeonRepresentation dungeon)
+    {
+        string classes = CssUtilities.GetClassesForDungeon(dungeon);
+        if (dungeon.Id == CoreWrapper.SelectedDungeon)
+            classes += " pressed";
+        return classes;
     }
 }

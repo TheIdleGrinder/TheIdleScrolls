@@ -79,12 +79,26 @@ namespace TheIdleScrolls_Core.Utility
             else if (m_fieldId.StartsWith("dng_open:"))
             {
                 var dungeon = m_fieldId.Split(':')[1];
-                return (target.GetComponent<TravellerComponent>()?.AvailableDungeons.Contains(dungeon!) ?? false) ? 1.0 : 0.0;
+                return (target.GetComponent<TravellerComponent>()?.AvailableDungeons?.Keys?.Contains(dungeon!) ?? false) ? 1.0 : 0.0;
             }
             else if (m_fieldId.StartsWith("dng:"))
             {
                 var dungeon = m_fieldId[4..];
-                return target.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.GetValueOrDefault(dungeon, -1.0) ?? -1.0;
+                int level = 0;
+                if (dungeon.Contains('@'))
+                {
+                    dungeon = dungeon.Split('@')[0];
+                    level = int.Parse(dungeon.Split('@')[1]);
+                }
+                var timesForDungeon = target.GetComponent<PlayerProgressComponent>()?.Data?.DungeonTimes?.GetValueOrDefault(dungeon, []);
+                if (timesForDungeon == null)
+                {
+                    return -1.0;
+                }
+
+                return (level > 0) 
+                    ? timesForDungeon.GetValueOrDefault(level, -1.0) 
+                    : timesForDungeon.Values.FirstOrDefault(-1.0);
             }
             else if (m_fieldId.StartsWith("abl:"))
             {

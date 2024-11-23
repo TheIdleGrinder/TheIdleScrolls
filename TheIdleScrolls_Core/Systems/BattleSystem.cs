@@ -47,7 +47,6 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (battle.IsFinished)
                 {
-                    Console.WriteLine($"Battle over, remaining time: {battle.Player.GetComponent<TimeShieldComponent>()?.Remaining ?? -1.0}");
                     battler.RemoveComponent<BattlerComponent>();
                     if (battler.IsMob()) // Despawn mobs from finished battles
                     {
@@ -108,7 +107,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
                     double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
-                    double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, damage);
+                    double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, mob.GetLevel(), damage);
                     double timeLoss = dt * damage / armorBonus;
 
                     timeLoss = player.GetComponent<ModifierComponent>()
@@ -165,9 +164,8 @@ namespace TheIdleScrolls_Core.Systems
         {
             if (player.GetComponent<BattlerComponent>()?.Battle?.CustomTimeLimit ?? false)
                 return; // Skip time shield setup if custom time limit is in use (i.e. final boss)
-            const double BaseDuration = 10.0;
 
-            double duration = BaseDuration * zone.TimeMultiplier * player.GetLevel() / zone.Level;
+            double duration = zone.TimeMultiplier * Functions.CalculateBaseTimeLimit(player.GetLevel(), zone.Level);
             player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 

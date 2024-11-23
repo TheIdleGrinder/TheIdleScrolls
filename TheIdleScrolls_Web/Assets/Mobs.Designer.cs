@@ -113,6 +113,26 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] boss_ghostcultleader {
+            get {
+                object obj = ResourceManager.GetObject("boss_ghostcultleader", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] boss_giant {
+            get {
+                object obj = ResourceManager.GetObject("boss_giant", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] boss_giantrat {
             get {
                 object obj = ResourceManager.GetObject("boss_giantrat", resourceCulture);
@@ -133,6 +153,16 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] boss_leviathan {
+            get {
+                object obj = ResourceManager.GetObject("boss_leviathan", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] boss_mercenary {
             get {
                 object obj = ResourceManager.GetObject("boss_mercenary", resourceCulture);
@@ -143,9 +173,29 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] boss_monstrosity {
+            get {
+                object obj = ResourceManager.GetObject("boss_monstrosity", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] boss_necromancer {
             get {
                 object obj = ResourceManager.GetObject("boss_necromancer", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] boss_observer {
+            get {
+                object obj = ResourceManager.GetObject("boss_observer", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -333,6 +383,16 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] mob_angrychicken {
+            get {
+                object obj = ResourceManager.GetObject("mob_angrychicken", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] mob_biggerimp {
             get {
                 object obj = ResourceManager.GetObject("mob_biggerimp", resourceCulture);
@@ -346,6 +406,16 @@ namespace TheIdleScrolls_Web.Assets {
         internal static byte[] mob_bigrat {
             get {
                 object obj = ResourceManager.GetObject("mob_bigrat", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_consumingooze {
+            get {
+                object obj = ResourceManager.GetObject("mob_consumingooze", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -393,6 +463,56 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] mob_flamethrower {
+            get {
+                object obj = ResourceManager.GetObject("mob_flamethrower", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_glimpsea {
+            get {
+                object obj = ResourceManager.GetObject("mob_glimpsea", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_glimpseb {
+            get {
+                object obj = ResourceManager.GetObject("mob_glimpseb", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_glimpsec {
+            get {
+                object obj = ResourceManager.GetObject("mob_glimpsec", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_gorgon {
+            get {
+                object obj = ResourceManager.GetObject("mob_gorgon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] mob_greaterdemon {
             get {
                 object obj = ResourceManager.GetObject("mob_greaterdemon", resourceCulture);
@@ -413,9 +533,29 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] mob_hornedimp {
+            get {
+                object obj = ResourceManager.GetObject("mob_hornedimp", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] mob_huffle {
             get {
                 object obj = ResourceManager.GetObject("mob_huffle", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_hydramarine {
+            get {
+                object obj = ResourceManager.GetObject("mob_hydramarine", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -443,9 +583,29 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] mob_juggernaut {
+            get {
+                object obj = ResourceManager.GetObject("mob_juggernaut", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] mob_lesserdemon {
             get {
                 object obj = ResourceManager.GetObject("mob_lesserdemon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_marine {
+            get {
+                object obj = ResourceManager.GetObject("mob_marine", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -483,6 +643,16 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] mob_poisonghost {
+            get {
+                object obj = ResourceManager.GetObject("mob_poisonghost", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] mob_rat {
             get {
                 object obj = ResourceManager.GetObject("mob_rat", resourceCulture);
@@ -503,6 +673,46 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] mob_secretgate {
+            get {
+                object obj = ResourceManager.GetObject("mob_secretgate", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_seraph {
+            get {
+                object obj = ResourceManager.GetObject("mob_seraph", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_sewersnake {
+            get {
+                object obj = ResourceManager.GetObject("mob_sewersnake", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_shadowbull {
+            get {
+                object obj = ResourceManager.GetObject("mob_shadowbull", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] mob_skeleton {
             get {
                 object obj = ResourceManager.GetObject("mob_skeleton", resourceCulture);
@@ -516,6 +726,56 @@ namespace TheIdleScrolls_Web.Assets {
         internal static byte[] mob_snake {
             get {
                 object obj = ResourceManager.GetObject("mob_snake", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_spider {
+            get {
+                object obj = ResourceManager.GetObject("mob_spider", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_spider2 {
+            get {
+                object obj = ResourceManager.GetObject("mob_spider2", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_spikeddemon {
+            get {
+                object obj = ResourceManager.GetObject("mob_spikeddemon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_taurus {
+            get {
+                object obj = ResourceManager.GetObject("mob_taurus", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_threeheadeddog {
+            get {
+                object obj = ResourceManager.GetObject("mob_threeheadeddog", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -563,6 +823,26 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] mob_vengefuldummy {
+            get {
+                object obj = ResourceManager.GetObject("mob_vengefuldummy", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_voidcrawler {
+            get {
+                object obj = ResourceManager.GetObject("mob_voidcrawler", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] mob_voidcultist {
             get {
                 object obj = ResourceManager.GetObject("mob_voidcultist", resourceCulture);
@@ -576,6 +856,26 @@ namespace TheIdleScrolls_Web.Assets {
         internal static byte[] mob_warlock {
             get {
                 object obj = ResourceManager.GetObject("mob_warlock", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_wendigo {
+            get {
+                object obj = ResourceManager.GetObject("mob_wendigo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] mob_willow {
+            get {
+                object obj = ResourceManager.GetObject("mob_willow", resourceCulture);
                 return ((byte[])(obj));
             }
         }

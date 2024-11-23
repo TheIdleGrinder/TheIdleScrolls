@@ -11,20 +11,17 @@ namespace TheIdleScrolls_Core.Components
     public class LocationComponent : IComponent
     {
         public Location CurrentLocation { get; set; } = new();
-
         public string DungeonId { get; set; } = string.Empty;
-
+        public int DungeonLevel { get; set; } = 0;
         public int DungeonFloor { get; set; } = 0;
-
         public bool InDungeon => DungeonId != string.Empty;
-
         public bool InOverworld => !InDungeon;
 
         public ZoneDescription? GetCurrentZone(WorldMap map)
         {
             if (InDungeon)
             {
-                return map.GetDungeonZone(DungeonId, DungeonFloor);
+                return map.GetDungeonZone(DungeonId, DungeonLevel, DungeonFloor);
             }
             else
             {
@@ -32,9 +29,10 @@ namespace TheIdleScrolls_Core.Components
             }
         }
 
-        public bool EnterDungeon(string dungeonId)
+        public bool EnterDungeon(string dungeonId, int level)
         {
             DungeonId = dungeonId;
+            DungeonLevel = level;
             DungeonFloor = 0;
             return true; // Placeholder for future checks
         }
@@ -42,6 +40,7 @@ namespace TheIdleScrolls_Core.Components
         public bool LeaveDungeon()
         {
             DungeonId = string.Empty;
+            DungeonLevel = -1;
             DungeonFloor = -1;
             return true;
         }

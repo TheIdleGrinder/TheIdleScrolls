@@ -30,7 +30,7 @@ namespace TheIdleScrolls_Core
 
         public void TravelToPreviousLocation();
 
-        public void EnterDungeon(string dungeonId);
+        public void EnterDungeon(string dungeonId, int level);
 
         public void LeaveDungeon();
 

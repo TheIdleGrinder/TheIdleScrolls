@@ -186,6 +186,22 @@ div.play-area-frame-bottom {
     border-bottom-right-radius: var(--border-radius) var(--border-radius);
 }
 
+button {
+    border-radius: 4px;
+    background-color: ghostwhite;
+}
+
+button:hover {
+    background-color: gainsboro;
+}
+
+button.pressed {
+    background-color: #ccc;
+}
+
+button.pressed:hover {
+    background-color: #bbb;
+}
 
 .tabs {
     display: flex;
@@ -204,6 +220,7 @@ div.play-area-frame-bottom {
     cursor: pointer;
     padding: 10px 14px;
     transition: 0.3s;
+    border-radius: 0px;
 }
 
 /* Change background color of buttons on hover */

@@ -205,4 +205,28 @@ This dungeon awards weapons</value>
   <data name="Dungeon_Threshold_Description" xml:space="preserve">
     <value>The ritual has been completed and the gate between the dimensions has been opened. An army of demons is flooding through the rift. Stand fast and fight them off!</value>
   </data>
+  <data name="Dungeon_Void" xml:space="preserve">
+    <value>The Void</value>
+  </data>
+  <data name="Dungeon_Void_Description" xml:space="preserve">
+    <value>A sprawling web of pathways exists beyond the threshold. Incredible adventures await those who dare to explore them.</value>
+  </data>
+  <data name="Dng_Void_Floor0" xml:space="preserve">
+    <value>Void Pathway 1</value>
+  </data>
+  <data name="Dng_Void_Floor5" xml:space="preserve">
+    <value>Deep Void Fortress</value>
+  </data>
+  <data name="Dng_Void_Floor4" xml:space="preserve">
+    <value>Deep Void 2</value>
+  </data>
+  <data name="Dng_Void_Floor3" xml:space="preserve">
+    <value>Deep Void 1</value>
+  </data>
+  <data name="Dng_Void_Floor2" xml:space="preserve">
+    <value>Guard Post</value>
+  </data>
+  <data name="Dng_Void_Floor1" xml:space="preserve">
+    <value>Void Pathway 2</value>
+  </data>
 </root>
