@@ -101,7 +101,7 @@ namespace TheIdleScrolls_Core.Systems
 				{
 					progComp.Data.BestReforge = rarity;
 				}
-				if ((forgeMsg.Craft.TargetItem.GetBlueprint()?.MaterialId ?? MaterialId.Ash) == MaterialId.Simple
+				if ((forgeMsg.Craft.TargetItem.GetBlueprint()?.MaterialId ?? MaterialId.Wood3) == MaterialId.Simple
 					&& rarity > progComp.Data.BestG0Reforge)
 				{
 					progComp.Data.BestG0Reforge = rarity;

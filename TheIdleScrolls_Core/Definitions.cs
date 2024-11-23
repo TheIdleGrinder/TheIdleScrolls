@@ -27,12 +27,12 @@ namespace TheIdleScrolls_Core
             public const double ReforgingBaseDuration = 30.0;
             public const double ReforgingDurationPerMaterialTier = 10.0;
 
-            public const int MobBaseHp = 20;
+            public const int    MobBaseHp = 20;
             public const double EarlyHpScaling = 1.056;
             public const double LaterHpScaling = 1.035;
-            public const int ScalingSwitchLevel = 70; // Level of highest item tier
+            public const int    ScalingSwitchLevel = 70; // Level of highest item tier
 
-            public const int MaxDropTableLowerLimit = ScalingSwitchLevel - 9;
+            public const int    MaxDropTableLowerLimit = ScalingSwitchLevel - 9;
         }
 
         public static class Abilities
