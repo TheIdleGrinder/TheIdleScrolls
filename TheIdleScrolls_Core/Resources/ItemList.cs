@@ -127,37 +127,37 @@ namespace TheIdleScrolls_Core.Resources
                 new(Definitions.ItemFamilies.HeavyChest, Properties.Items.Family_HeavyChest, Properties.Constants.Key_Ability_HeavyArmor,
                     new()
                     {
-                        MakeArmor(Properties.LocalizedStrings.HAR0,  0, EquipmentSlot.Chest,  16.0, 12.0, simple),
-                        MakeArmor(Properties.LocalizedStrings.HAR1,  5, EquipmentSlot.Chest,  22.0, 12.0, metals),
-                        MakeArmor(Properties.LocalizedStrings.HAR6, 15, EquipmentSlot.Chest,  26.0, 12.0, metals),
+                        MakeArmor(Properties.Items.Genus_HeavyChest0,  0, EquipmentSlot.Chest,  16.0, 12.0, simple),
+                        MakeArmor(Properties.Items.Genus_HeavyChest1,  5, EquipmentSlot.Chest,  22.0, 12.0, metals),
+                        MakeArmor(Properties.Items.Genus_HeavyChest2, 15, EquipmentSlot.Chest,  26.0, 12.0, metals),
                     }
                 ),
                 new(Definitions.ItemFamilies.HeavyHelmet, Properties.Items.Family_HeavyHelmet, Properties.Constants.Key_Ability_HeavyArmor,
                     new()
                     {
-                        MakeArmor(Properties.LocalizedStrings.HAR2,  6, EquipmentSlot.Head,   16.0,  8.0, metals),
-                        MakeArmor(Properties.LocalizedStrings.HAR7, 16, EquipmentSlot.Head,   19.0,  8.0, metals),
+                        MakeArmor(Properties.Items.Genus_HeavyHelmet0,  6, EquipmentSlot.Head,   16.0,  8.0, metals),
+                        MakeArmor(Properties.Items.Genus_HeavyHelmet1, 16, EquipmentSlot.Head,   19.0,  8.0, metals),
                     }
                 ),
                 new(Definitions.ItemFamilies.HeavyGloves, Properties.Items.Family_HeavyGloves, Properties.Constants.Key_Ability_HeavyArmor,
                     new()
                     {
-                        MakeArmor(Properties.LocalizedStrings.HAR3,  3, EquipmentSlot.Arms,   13.0,  5.0, metals),
-                        MakeArmor(Properties.LocalizedStrings.HAR8, 13, EquipmentSlot.Arms,   16.0,  5.0, metals),
+                        MakeArmor(Properties.Items.Genus_HeavyGloves0,  3, EquipmentSlot.Arms,   13.0,  5.0, metals),
+                        MakeArmor(Properties.Items.Genus_HeavyGloves1, 13, EquipmentSlot.Arms,   16.0,  5.0, metals),
                     }
                 ),
                 new(Definitions.ItemFamilies.HeavyBoots, Properties.Items.Family_HeavyBoots, Properties.Constants.Key_Ability_HeavyArmor,
                     new()
                     {
-                        MakeArmor(Properties.LocalizedStrings.HAR4,  4, EquipmentSlot.Legs,   13.0,  5.0, metals),
-                        MakeArmor(Properties.LocalizedStrings.HAR9, 14, EquipmentSlot.Legs,   16.0,  5.0, metals),
+                        MakeArmor(Properties.Items.Genus_HeavyBoots0,  4, EquipmentSlot.Legs,   13.0,  5.0, metals),
+                        MakeArmor(Properties.Items.Genus_HeavyBoots1, 14, EquipmentSlot.Legs,   16.0,  5.0, metals),
                     }
                 ),
                 new(Definitions.ItemFamilies.HeavyShield, Properties.Items.Family_HeavyShield, Properties.Constants.Key_Ability_HeavyArmor,
                     new()
                     {
-                        MakeArmor(Properties.LocalizedStrings.HAR5,   7, EquipmentSlot.Hand,   16.0,  6.0, woods),
-                        MakeArmor(Properties.LocalizedStrings.HAR10, 17, EquipmentSlot.Hand,   19.0,  6.0, woods),
+                        MakeArmor(Properties.Items.Genus_HeavyShield0,   7, EquipmentSlot.Hand,   16.0,  6.0, woods),
+                        MakeArmor(Properties.Items.Genus_HeavyShield1, 17, EquipmentSlot.Hand,   19.0,  6.0, woods),
                     }
                 )
             };

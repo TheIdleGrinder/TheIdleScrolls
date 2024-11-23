@@ -135,18 +135,6 @@
   <data name="AXE" xml:space="preserve">
     <value>Axe</value>
   </data>
-  <data name="AXE0" xml:space="preserve">
-    <value>Axe</value>
-  </data>
-  <data name="AXE1" xml:space="preserve">
-    <value>Hatchet</value>
-  </data>
-  <data name="AXE2" xml:space="preserve">
-    <value>Battle Axe</value>
-  </data>
-  <data name="AXE3" xml:space="preserve">
-    <value>War Cleaver</value>
-  </data>
   <data name="BEAR" xml:space="preserve">
     <value>Bear</value>
   </data>
@@ -185,18 +173,6 @@
   </data>
   <data name="BLN" xml:space="preserve">
     <value>Blunt Weapon</value>
-  </data>
-  <data name="BLN0" xml:space="preserve">
-    <value>Club</value>
-  </data>
-  <data name="BLN1" xml:space="preserve">
-    <value>Mace</value>
-  </data>
-  <data name="BLN2" xml:space="preserve">
-    <value>Warhammer</value>
-  </data>
-  <data name="BLN3" xml:space="preserve">
-    <value>Morning Star</value>
   </data>
   <data name="BOAR" xml:space="preserve">
     <value>Wild Boar</value>
@@ -354,89 +330,11 @@
   <data name="HAR" xml:space="preserve">
     <value>Heavy Armor</value>
   </data>
-  <data name="HAR0" xml:space="preserve">
-    <value>Heavy Armor</value>
-  </data>
-  <data name="HAR1" xml:space="preserve">
-    <value>Chain Mail</value>
-  </data>
-  <data name="HAR10" xml:space="preserve">
-    <value>Tower Shield</value>
-  </data>
-  <data name="HAR2" xml:space="preserve">
-    <value>Helmet</value>
-  </data>
-  <data name="HAR3" xml:space="preserve">
-    <value>Chain Gloves</value>
-  </data>
-  <data name="HAR4" xml:space="preserve">
-    <value>Chain Boots</value>
-  </data>
-  <data name="HAR5" xml:space="preserve">
-    <value>Kite Shield</value>
-  </data>
-  <data name="HAR6" xml:space="preserve">
-    <value>Breast Plate</value>
-  </data>
-  <data name="HAR7" xml:space="preserve">
-    <value>Full Helm</value>
-  </data>
-  <data name="HAR8" xml:space="preserve">
-    <value>Gauntlets</value>
-  </data>
-  <data name="HAR9" xml:space="preserve">
-    <value>Greaves</value>
-  </data>
   <data name="LAR" xml:space="preserve">
     <value>Light Armor</value>
   </data>
-  <data name="LAR0" xml:space="preserve">
-    <value>Light Armor</value>
-  </data>
-  <data name="LAR1" xml:space="preserve">
-    <value>Surcoat</value>
-  </data>
-  <data name="LAR10" xml:space="preserve">
-    <value>Round Shield</value>
-  </data>
-  <data name="LAR2" xml:space="preserve">
-    <value>Hood</value>
-  </data>
-  <data name="LAR3" xml:space="preserve">
-    <value>Gloves</value>
-  </data>
-  <data name="LAR4" xml:space="preserve">
-    <value>Shoes</value>
-  </data>
-  <data name="LAR5" xml:space="preserve">
-    <value>Buckler</value>
-  </data>
-  <data name="LAR6" xml:space="preserve">
-    <value>Cuirass</value>
-  </data>
-  <data name="LAR7" xml:space="preserve">
-    <value>Helmet</value>
-  </data>
-  <data name="LAR8" xml:space="preserve">
-    <value>Mitts</value>
-  </data>
-  <data name="LAR9" xml:space="preserve">
-    <value>Boots</value>
-  </data>
   <data name="LBL" xml:space="preserve">
     <value>Long Blade</value>
-  </data>
-  <data name="LBL0" xml:space="preserve">
-    <value>Sword</value>
-  </data>
-  <data name="LBL1" xml:space="preserve">
-    <value>Broad Sword</value>
-  </data>
-  <data name="LBL2" xml:space="preserve">
-    <value>Bastard Sword</value>
-  </data>
-  <data name="LBL3" xml:space="preserve">
-    <value>Curved Sword</value>
   </data>
   <data name="MOB_1-CAV" xml:space="preserve">
     <value>Goblin Knight</value>
@@ -660,32 +558,8 @@
   <data name="POL" xml:space="preserve">
     <value>Polearm</value>
   </data>
-  <data name="POL0" xml:space="preserve">
-    <value>Spear</value>
-  </data>
-  <data name="POL1" xml:space="preserve">
-    <value>Halberd</value>
-  </data>
-  <data name="POL2" xml:space="preserve">
-    <value>Hunting Spear</value>
-  </data>
-  <data name="POL3" xml:space="preserve">
-    <value>War Pike</value>
-  </data>
   <data name="SBL" xml:space="preserve">
     <value>Short Blade</value>
-  </data>
-  <data name="SBL0" xml:space="preserve">
-    <value>Knife</value>
-  </data>
-  <data name="SBL1" xml:space="preserve">
-    <value>Dagger</value>
-  </data>
-  <data name="SBL2" xml:space="preserve">
-    <value>Short Sword</value>
-  </data>
-  <data name="SBL3" xml:space="preserve">
-    <value>Cutlass</value>
   </data>
   <data name="STORY_END_TEXT" xml:space="preserve">
     <value>At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops.
