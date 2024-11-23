@@ -11,10 +11,10 @@ namespace TheIdleScrolls_Core.Resources
 
         static List<ItemFamilyDescription> GenerateItems()
         {
-            List<MaterialId> simple = new() { MaterialId.Simple };
-            List<MaterialId> leathers = new() { MaterialId.Leather1, MaterialId.Leather2, MaterialId.Leather3 };
-            List<MaterialId> metals = new() { MaterialId.Metal1, MaterialId.Metal2, MaterialId.Metal3 };
-            List<MaterialId> woods = new() { MaterialId.Wood1, MaterialId.Wood2, MaterialId.Wood3 };
+            List<MaterialId> simple   = [ MaterialId.Simple ];
+            List<MaterialId> leathers = [ MaterialId.Leather1, MaterialId.Leather2, MaterialId.Leather3, MaterialId.Leather4 ];
+            List<MaterialId> metals   = [ MaterialId.Metal1,   MaterialId.Metal2,   MaterialId.Metal3,   MaterialId.Metal4 ];
+            List<MaterialId> woods    = [ MaterialId.Wood1,    MaterialId.Wood2,    MaterialId.Wood3,    MaterialId.Wood4 ];
 
             return new()
             {
