@@ -337,12 +337,6 @@ namespace TheIdleScrolls_Core.Resources
                 "Complete the Beacon before the Crypt",
                 tautology,
                 ExpressionParser.ParseToFunction("dng:CRYPT <= 0 && dng:LIGHTHOUSE > 0")));
-            achievements.Add(new(
-                "EndgameBeforeStory",
-                "Did I forget something?",
-                "Complete the endgame dungeons before finishing the story",
-                ExpressionParser.ParseToFunction("dng:SUNKENCITY > 0 || dng:ACADEMY > 0 || dng:PAGODA > 0"),
-                ExpressionParser.ParseToFunction("dng:SUNKENCITY > 0 && dng:ACADEMY > 0 && dng:PAGODA > 0 && dng:THRESHOLD <= 0")));
 
 
             // Unarmored/Unarmed achievements
