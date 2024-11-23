@@ -30,30 +30,30 @@ namespace TheIdleScrolls_Core.Definitions
 
     public static class Materials
     {
-        public static readonly int LevelT0 = 0;
-        public static readonly int LevelT1 = 10;
-        public static readonly int LevelT2 = 30;
-        public static readonly int LevelT3 = 50;
-        public static readonly int LevelT4 = 80;
+        public const int LevelT0 = 0;
+        public const int LevelT1 = 10;
+        public const int LevelT2 = 30;
+        public const int LevelT3 = 50;
+        public const int LevelT4 = 80;
 
         public static List<ItemMaterial> MaterialList { get; } = new()
         {
-            new(MaterialId.Simple,   Properties.Items.Material_Simple, 1.0, LevelT0),
+            new(MaterialId.Simple,   Properties.Items.Material_Simple, 1.0,  LevelT0),
 
             new(MaterialId.Leather1, Properties.Items.Material_L1,     1.0,  LevelT1),
             new(MaterialId.Leather2, Properties.Items.Material_L2,     1.5,  LevelT2),
             new(MaterialId.Leather3, Properties.Items.Material_L3,     2.25, LevelT3),
-            new(MaterialId.Leather4, Properties.Items.Material_L4,     3.0,  LevelT4),
+            new(MaterialId.Leather4, Properties.Items.Material_L4,     3.3,  LevelT4),
             
             new(MaterialId.Metal1,   Properties.Items.Material_M1,     1.0,  LevelT1),
             new(MaterialId.Metal2,   Properties.Items.Material_M2,     1.5,  LevelT2),
             new(MaterialId.Metal3,   Properties.Items.Material_M3,     2.25, LevelT3),
-            new(MaterialId.Metal4,   Properties.Items.Material_M4,     3.0,  LevelT4),
+            new(MaterialId.Metal4,   Properties.Items.Material_M4,     3.3,  LevelT4),
 
             new(MaterialId.Wood1,    Properties.Items.Material_W1,     1.0,  LevelT1),
             new(MaterialId.Wood2,    Properties.Items.Material_W2,     1.5,  LevelT2),
             new(MaterialId.Wood3,    Properties.Items.Material_W3,     2.25, LevelT3),
-            new(MaterialId.Wood4,    Properties.Items.Material_W4,     3.0,  LevelT4)
+            new(MaterialId.Wood4,    Properties.Items.Material_W4,     3.3,  LevelT4)
         };
     }
 }

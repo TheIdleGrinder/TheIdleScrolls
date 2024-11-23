@@ -47,4 +47,19 @@ namespace TheIdleScrolls_Core.Definitions
         public readonly static string[] Armors  = new string[] { HeavyChest, HeavyHelmet, HeavyGloves, HeavyBoots, HeavyShield,
                                                                  LightChest, LightHelmet, LightGloves, LightBoots, LightShield };
     }
+
+    public static class ItemTiers
+    {
+        public const int LevelT0            = 0;
+        public const int LevelT1            = 0;
+        public const int LevelT2            = 10;
+        public const int LevelT3            = 20;
+
+        public const int LevelOffsetWeapon  = 0;
+        public const int LevelOffsetChest   = 5;
+        public const int LevelOffsetHelmet  = 6;
+        public const int LevelOffsetGloves  = 3;
+        public const int LevelOffsetBoots   = 4;
+        public const int LevelOffsetShield  = 7;
+    }
 }

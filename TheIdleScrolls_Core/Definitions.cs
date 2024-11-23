@@ -30,7 +30,7 @@ namespace TheIdleScrolls_Core
             public const int    MobBaseHp = 20;
             public const double EarlyHpScaling = 1.056;
             public const double LaterHpScaling = 1.035;
-            public const int    ScalingSwitchLevel = 70; // Level of highest item tier
+            public const int    ScalingSwitchLevel = Materials.LevelT4 + ItemTiers.LevelT3; // Level of highest item tier
 
             public const int    MaxDropTableLowerLimit = ScalingSwitchLevel - 9;
         }
@@ -38,14 +38,14 @@ namespace TheIdleScrolls_Core
         public static class Abilities
         {
             public static readonly string[] Weapons = [ Properties.Constants.Key_Ability_Axe,
-                                                              Properties.Constants.Key_Ability_Blunt,
-                                                              Properties.Constants.Key_Ability_LongBlade,
-                                                              Properties.Constants.Key_Ability_Polearm,
-                                                              Properties.Constants.Key_Ability_ShortBlade
+                                                        Properties.Constants.Key_Ability_Blunt,
+                                                        Properties.Constants.Key_Ability_LongBlade,
+                                                        Properties.Constants.Key_Ability_Polearm,
+                                                        Properties.Constants.Key_Ability_ShortBlade
             ];
 
             public static readonly string[] Armors = [ Properties.Constants.Key_Ability_LightArmor,
-                                                             Properties.Constants.Key_Ability_HeavyArmor
+                                                       Properties.Constants.Key_Ability_HeavyArmor
             ];
 
             public static readonly string Crafting = Properties.Constants.Key_Ability_Crafting;
@@ -128,9 +128,10 @@ namespace TheIdleScrolls_Core
 
         public static double CalculateAssumedPlayerDamageMultiplier(int level)
         {
+            int materialTiers = 4;
             var maxGearLevel = Definitions.Stats.ScalingSwitchLevel;
             var rarityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 rarity at level 150
-            var materialBonusPerLevel = Math.Pow(1.5, 1.0 / (maxGearLevel / 3.0));
+            var materialBonusPerLevel = Math.Pow(1.5, 1.0 * materialTiers / maxGearLevel);
 
             // Assumption: Ability levels somewhat align with character level
             return (1.0 + CalculateAbilityAttackDamageBonus(level))                 // Ability damage bonus
