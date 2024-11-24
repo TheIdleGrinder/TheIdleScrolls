@@ -170,12 +170,12 @@ namespace TheIdleScrolls_Core.Systems
             {
                 var items = equipComp.GetItems();
 
-                List<string> weapons = items.Where(i => i.IsWeapon()).Select(i => i.GetComponent<ItemComponent>()!.FamilyName).ToList();
+                List<string> weapons = items.Where(i => i.IsWeapon()).Select(i => i.GetComponent<ItemComponent>()!.Blueprint.FamilyId).ToList();
                 AddOrRemoveTag(Definitions.Tags.Unarmed, weapons.Count == 0);
                 AddOrRemoveTag(Definitions.Tags.DualWield, weapons.Count >= 2);
                 AddOrRemoveTag(Definitions.Tags.MixedWeapons, weapons.Count > 1 && weapons.Any(f => f != weapons[0]));
 
-                HashSet<string> armors = items.Where(i => i.IsArmor()).Select(i => i.GetComponent<ItemComponent>()!.FamilyName).ToHashSet();
+                HashSet<string> armors = items.Where(i => i.IsArmor()).Select(i => i.GetComponent<ItemComponent>()!.Blueprint.FamilyId).ToHashSet();
                 AddOrRemoveTag(Definitions.Tags.Unarmored, armors.Count == 0);
                 AddOrRemoveTag(Definitions.Tags.MixedArmor, armors.Count > 1);
 

@@ -126,7 +126,7 @@ namespace TheIdleScrolls_Core
             return Definitions.Stats.DefensePerAbilityLevel * abilityLevel;
         }
 
-        // Material 
+        // 4 Material tiers above training equipment, 1.5 multiplier per tier
         private static double MaterialBonusPerLevel => Math.Pow(1.5, 4.0 / Definitions.Stats.ScalingSwitchLevel);
 
         public static double CalculateAssumedPlayerDamageMultiplier(int level)

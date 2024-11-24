@@ -135,8 +135,6 @@ namespace TheIdleScrolls_Core.Components
     public class ItemComponent : IComponent
     {
         public ItemBlueprint Blueprint { get; set; }
-        public string FamilyName { get { return Blueprint.FamilyId.Localize(); } }
-        public string GenusName { get { return ItemKingdom.GetGenusDescription(Blueprint)?.Name ?? "??"; } }
 
         public ItemComponent(string itemCode)
         {
