@@ -799,7 +799,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Orichalcum ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dwarven ähnelt.
         /// </summary>
         internal static string Material_M3 {
             get {
@@ -808,7 +808,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Starmetal ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Orichalcum ähnelt.
         /// </summary>
         internal static string Material_M4 {
             get {

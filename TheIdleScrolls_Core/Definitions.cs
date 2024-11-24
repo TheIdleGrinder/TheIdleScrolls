@@ -126,18 +126,19 @@ namespace TheIdleScrolls_Core
             return Definitions.Stats.DefensePerAbilityLevel * abilityLevel;
         }
 
+        // Material 
+        private static double MaterialBonusPerLevel => Math.Pow(1.5, 4.0 / Definitions.Stats.ScalingSwitchLevel);
+
         public static double CalculateAssumedPlayerDamageMultiplier(int level)
         {
-            int materialTiers = 4;
             var maxGearLevel = Definitions.Stats.ScalingSwitchLevel;
             var rarityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 rarity at level 150
-            var materialBonusPerLevel = Math.Pow(1.5, 1.0 * materialTiers / maxGearLevel);
 
             // Assumption: Ability levels somewhat align with character level
             return (1.0 + CalculateAbilityAttackDamageBonus(level))                 // Ability damage bonus
                 * (1.0 + CalculateAbilityAttackSpeedBonus(level))                   // Ability attack speed bonus
                 * (1.0 + Definitions.Stats.AttackBonusPerLevel * (level - 1))       // Level scaling
-                * Math.Pow(materialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (3 tiers)
+                * Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
                 * (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of weapons
                 * (1.0 + level * rarityBonusPerLevel)                               // Smooth transition to +4 rarity at level 150
                 ;
@@ -147,9 +148,8 @@ namespace TheIdleScrolls_Core
         {
             var maxGearLevel = Definitions.Stats.ScalingSwitchLevel;
             var rarityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 rarity at level 150
-            var materialBonusPerLevel = Math.Pow(1.5, 1.0 / (maxGearLevel / 3.0));
             return (1.0 + CalculateAbilityDefenseBonus(level))                    // Ability defense bonus
-				* Math.Pow(materialBonusPerLevel, Math.Min(level, maxGearLevel))  // Material scaling (3 tiers)
+				* Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))  // Material scaling (4 tiers)
 				* (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))    // Smooth transition to highest tier of armor
 				* (1.0 + level * rarityBonusPerLevel)                             // Smooth transition to +4 rarity at level 150
 				;
