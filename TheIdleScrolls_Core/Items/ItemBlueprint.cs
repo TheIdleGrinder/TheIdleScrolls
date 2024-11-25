@@ -93,5 +93,10 @@ namespace TheIdleScrolls_Core.Items
         {
             return GetFamilyDescription().RelatedAbilityId;
         }
+
+        public string[] GetDropRestrictions()
+        {
+            return GetMaterial().Restrictions;
+        }
     }
 }

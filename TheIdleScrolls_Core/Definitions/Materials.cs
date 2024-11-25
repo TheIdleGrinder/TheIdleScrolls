@@ -23,9 +23,11 @@ namespace TheIdleScrolls_Core.Definitions
         Wood4           = 0x34
     }
 
-    public record ItemMaterial(MaterialId Id, string Name, double PowerMultiplier, int MinimumLevel)
+    public record ItemMaterial(MaterialId Id, string Name, double PowerMultiplier, int MinimumLevel, string[]? NullableRestrictions = null)
     {
         public int Tier => (int)Id & 0x0F;
+
+        public string[] Restrictions => NullableRestrictions ?? [];
     }
 
     public static class Materials
@@ -43,17 +45,17 @@ namespace TheIdleScrolls_Core.Definitions
             new(MaterialId.Leather1, Properties.Items.Material_L1,     1.0,  LevelT1),
             new(MaterialId.Leather2, Properties.Items.Material_L2,     1.5,  LevelT2),
             new(MaterialId.Leather3, Properties.Items.Material_L3,     2.25, LevelT3),
-            new(MaterialId.Leather4, Properties.Items.Material_L4,     3.3,  LevelT4),
+            new(MaterialId.Leather4, Properties.Items.Material_L4,     3.3,  LevelT4, [ DropRestrictions.MaterialT4 ]),
             
             new(MaterialId.Metal1,   Properties.Items.Material_M1,     1.0,  LevelT1),
             new(MaterialId.Metal2,   Properties.Items.Material_M2,     1.5,  LevelT2),
             new(MaterialId.Metal3,   Properties.Items.Material_M3,     2.25, LevelT3),
-            new(MaterialId.Metal4,   Properties.Items.Material_M4,     3.3,  LevelT4),
+            new(MaterialId.Metal4,   Properties.Items.Material_M4,     3.3,  LevelT4, [ DropRestrictions.MaterialT4 ]),
 
             new(MaterialId.Wood1,    Properties.Items.Material_W1,     1.0,  LevelT1),
             new(MaterialId.Wood2,    Properties.Items.Material_W2,     1.5,  LevelT2),
             new(MaterialId.Wood3,    Properties.Items.Material_W3,     2.25, LevelT3),
-            new(MaterialId.Wood4,    Properties.Items.Material_W4,     3.3,  LevelT4)
+            new(MaterialId.Wood4,    Properties.Items.Material_W4,     3.3,  LevelT4, [ DropRestrictions.MaterialT4 ])
         };
     }
 }

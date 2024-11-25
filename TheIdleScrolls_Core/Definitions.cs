@@ -104,6 +104,11 @@ namespace TheIdleScrolls_Core
             public const string CraftingSpeed = "CraftingSpeed";
             public const string CraftingCost = "CraftingCost";
         }
+
+        public static class DropRestrictions
+        {
+            public const string MaterialT4 = "MaterialT4";
+        }
     }
 
     public static class Functions
