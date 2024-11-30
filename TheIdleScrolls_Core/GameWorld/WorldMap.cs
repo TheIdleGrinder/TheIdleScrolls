@@ -13,7 +13,7 @@ namespace TheIdleScrolls_Core.GameWorld
 
         private IMapProgressPath _progressPath = new SpiralMapPath(MinLevel);
 
-        public List<DungeonDescription> Dungeons { get; set; } = new();
+        public List<DungeonDescription> Dungeons { get; set; } = [];
 
         public List<DungeonDescription> GetDungeons()
         {
@@ -52,7 +52,8 @@ namespace TheIdleScrolls_Core.GameWorld
                 Level = dungeonLevel,
                 MobTypes = dungeonFloor.MobTypes,
                 MobCount = dungeonFloor.MobCount,
-                TimeMultiplier = dungeonFloor.TimeMultiplier
+                TimeMultiplier = dungeonFloor.TimeMultiplier,
+                SpecialDrops = dungeon.Rewards.SpecialRewards
             };
         }
 
@@ -81,7 +82,7 @@ namespace TheIdleScrolls_Core.GameWorld
                 Name = $"{name} - Level {level}",
                 Biome = biome,
                 Level = level,
-                MobTypes = new(),
+                MobTypes = [],
                 MobCount = 1,
                 TimeMultiplier = 1.0
             };

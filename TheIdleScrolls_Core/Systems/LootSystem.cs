@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 
@@ -14,7 +15,8 @@ namespace TheIdleScrolls_Core.Systems
     {
         const double WildDropChance = 0.04;
         const double FirstClearRarityBonus = 2.5;
-        const int MinDropCutoff = 51;
+        const int WildernessMinDropCutoff = Materials.LevelT3 + ItemTiers.LevelT1 + 1;
+        const int DungeonMinDropCutoff = Materials.LevelT3 + ItemTiers.LevelT3;
 
         Entity? m_player = null;
 
@@ -36,8 +38,9 @@ namespace TheIdleScrolls_Core.Systems
                     var zone = locationComp.GetCurrentZone(world.Map) ?? new();
                     // -17: dungeons are mostly at multiples of 10, so this excludes weapons at -20
                     // -9: only include the most recent tiers of items
-                    int MinDropLevel = Math.Min(zone.Level - 20, MinDropCutoff); 
-                    LootTableParameters parameters = new(zone.Level, MinDropLevel, 0, 0.0); // 0 rarity => no "magic" items from normal mobs
+                    int range = 20;
+                    // 0.0 rarity => no "magic" items from normal mobs
+                    LootTableParameters parameters = new(zone.Level, range, 0.0, zone.SpecialDrops);
                     GiveRandomLoot(parameters, coordinator);
                 }
             }
@@ -53,10 +56,10 @@ namespace TheIdleScrolls_Core.Systems
             double rarity = world.RarityMultiplier * (firstClear ? FirstClearRarityBonus : 1.0);
             var dungeon = world.AreaKingdom.GetDungeon(dungeonId) ?? throw new Exception($"Invalid dungeon id: {dungeonId}");
             // CornerCut: Scaling dungeons should have scaling reward levels, so use -1 as a shortcut for "drop highest available tiers"
-            int rewardLevel = dungeon.Rewards.MinDropLevel >= 0 
-                ? dungeon.Rewards.MinDropLevel 
-                : Math.Min(level - 9, Definitions.Stats.MaxDropTableLowerLimit);
-            LootTableParameters parameters = new(level, rewardLevel, 0, rarity);
+            int levelRange = dungeon.Rewards.MinDropLevel >= 0 
+                ? level - dungeon.Rewards.MinDropLevel 
+                : 9; // default value for dungeon rewards
+            LootTableParameters parameters = new(level, levelRange, rarity, dungeon.Rewards.SpecialRewards);
             GiveRandomLoot(parameters, coordinator);
         }
 
@@ -78,13 +81,15 @@ namespace TheIdleScrolls_Core.Systems
 
     public record LootTableParameters(
         int ItemLevel, 
-        int MinDropLevel, 
-        int MinLootTableSize,   // Currently unused
-        double RarityMultiplier);
+        int LevelRange,
+        double RarityMultiplier,
+        List<string> FulfilledRestrictions);
 
     public class LootTable
     {
-        private readonly Dictionary<string, double> m_table = new(); // code -> weight
+        private static readonly List<ItemBlueprint> _blueprints = [];
+
+        private readonly Dictionary<string, double> m_table = []; // code -> weight
 
         public int Count { get { return m_table.Count; } }
 
@@ -115,40 +120,62 @@ namespace TheIdleScrolls_Core.Systems
             return null;
         }
 
-        public static LootTable Generate(LootTableParameters parameters)
+        private static void GenerateAllBlueprints()
         {
-            LootTable table = new();
-            List<double> rarityWeights = ItemFactory.GetRarityWeights(parameters.ItemLevel, parameters.RarityMultiplier);
-            
+            _blueprints.Clear();
             foreach (var f in ItemKingdom.Families)
             {
-                for (int i = 0; i < f.Genera.Count; i++)
+                for (int g = 0; g < f.Genera.Count; g++)
                 {
-                    var g = ItemKingdom.GetGenusDescriptionByIdAndIndex(f.Id, i) 
-                        ?? throw new Exception($"Ítem family '{f.Id}' does not have {i + 1} genera");
-                    var mats = g.ValidMaterials.Select(m => ItemKingdom.GetMaterial(m)!);
-                    foreach (var m in mats)
+                    var genus = ItemKingdom.GetGenusDescriptionByIdAndIndex(f.Id, g)
+                        ?? throw new Exception($"Ítem family '{f.Id}' does not have {g + 1} genera");
+                    var materials = genus.ValidMaterials.Select(m => ItemKingdom.GetMaterial(m)!);
+                    foreach (var material in materials)
                     {
-                        int dropLevel = g.DropLevel + m.MinimumLevel;
+                        int dropLevel = material.MinimumLevel + genus.DropLevel;
                         if (dropLevel == 0)
                         {
                             // Tutorial items cannot drop
                             continue;
                         }
-                        if (dropLevel >= parameters.MinDropLevel && dropLevel <= parameters.ItemLevel)
-                        {
-                            var bp = new ItemBlueprint(f.Id, i, m.Id);
-                            for (int r = 0; r < rarityWeights.Count; r++)
-                            {
-                                if (rarityWeights[r] == 0)
-                                    continue;
-                                ItemBlueprint rareId = bp with { Rarity = r };
-                                table.AddEntry(bp.ToString(), rarityWeights[r]);
-                            }
-                        }
+                        var bp = new ItemBlueprint(f.Id, g, material.Id);
+                        _blueprints.Add(bp);
                     }
                 }
             }
+        }
+
+        public static LootTable Generate(LootTableParameters parameters)
+        {
+            if (_blueprints.Count == 0)
+            {
+                GenerateAllBlueprints();
+            }
+
+            LootTable table = new();
+            List<double> rarityWeights = ItemFactory.GetRarityWeights(parameters.ItemLevel, parameters.RarityMultiplier);
+
+            // TODO:
+            // 1. Find highest level item that can drop
+            // 2. Filter for items that are in range
+
+            int highestDropLevel = _blueprints
+                                    .Where(b => b.GetDropLevel() <= parameters.ItemLevel)
+                                    .Max(b => b.GetDropLevel());
+            int minLevel = Math.Max(0, highestDropLevel - parameters.LevelRange);
+
+            var validDrops = _blueprints.Where(b => b.GetDropLevel() >= minLevel && b.GetDropLevel() <= parameters.ItemLevel);
+            foreach (var item in validDrops)
+            {
+                for (int r = 0; r < rarityWeights.Count; r++)
+                {
+                    if (rarityWeights[r] == 0.0)
+                        continue;
+                    ItemBlueprint rareId = item with { Rarity = r };
+                    table.AddEntry(rareId.ToString(), rarityWeights[r]);
+                }
+            }
+
             double sum = table.m_table.Values.Sum();
             foreach (var key in table.m_table.Keys)
             {

@@ -39,13 +39,13 @@ namespace TheIdleScrolls_Core.Definitions
         public const string LightBoots      = "LBT";
         public const string LightShield     = "LSH";
 
-        public readonly static string[] Weapons = new string[] { OneHandedAxe, TwoHandedAxe, 
-                                                                 OneHandedMace, TwoHandedMace, 
-                                                                 LongSword, TwoHandedSword, 
-                                                                 Spear, Polearm,
-                                                                 Dagger, ShortSword };
-        public readonly static string[] Armors  = new string[] { HeavyChest, HeavyHelmet, HeavyGloves, HeavyBoots, HeavyShield,
-                                                                 LightChest, LightHelmet, LightGloves, LightBoots, LightShield };
+        public readonly static string[] Weapons = [ OneHandedAxe,  TwoHandedAxe, 
+                                                    OneHandedMace, TwoHandedMace, 
+                                                    LongSword,     TwoHandedSword, 
+                                                    Spear,         Polearm,
+                                                    Dagger,        ShortSword ];
+        public readonly static string[] Armors  = [ HeavyChest, HeavyHelmet, HeavyGloves, HeavyBoots, HeavyShield,
+                                                    LightChest, LightHelmet, LightGloves, LightBoots, LightShield ];
     }
 
     public static class ItemTiers

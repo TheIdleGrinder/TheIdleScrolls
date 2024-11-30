@@ -7,7 +7,7 @@ using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core.Items
 {
-    public record ItemBlueprint(string FamilyId, int GenusIndex, Definitions.MaterialId MaterialId, int Rarity = 0)
+    public record ItemBlueprint(string FamilyId, int GenusIndex, MaterialId MaterialId, int Rarity = 0)
     {
         //private static readonly string FullRegexString = @":([a-zA-Z]+-)([A-F0-9][A-F0-9])@([A-F0-9][A-F0-9])+([A-F0-9][A-F0-9])";
         public override string ToString()
@@ -97,6 +97,11 @@ namespace TheIdleScrolls_Core.Items
         public string[] GetDropRestrictions()
         {
             return GetMaterial().Restrictions;
+        }
+
+        public int GetDropLevel()
+        {
+            return GetMaterial().MinimumLevel + GetGenusDescription().DropLevel;
         }
     }
 }
