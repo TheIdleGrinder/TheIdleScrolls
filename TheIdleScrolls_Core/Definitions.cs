@@ -32,7 +32,8 @@ namespace TheIdleScrolls_Core
             public const double LaterHpScaling = 1.035;
             public const int    ScalingSwitchLevel = Materials.LevelT4 + ItemTiers.LevelT3; // Level of highest item tier
 
-            public const int    MaxDropTableLowerLimit = Materials.LevelT3 + ItemTiers.LevelT3 - 9; // T4 materials only drop in dungeons
+            public const int    DefaultDropLevelRange = 20;
+            public const int    DungeonDropLevelRange = 9;
         }
 
         public static class Abilities

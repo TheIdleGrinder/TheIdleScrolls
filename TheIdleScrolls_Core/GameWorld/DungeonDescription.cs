@@ -45,15 +45,15 @@ namespace TheIdleScrolls_Core.GameWorld
 
     public struct DungeonRewardsDescription
     {
-        public int MinDropLevel { get; set; } = 1;
+        public int DropLevelRange { get; set; } = Definitions.Stats.DungeonDropLevelRange;
         public bool UseLeveledLoot { get; set; } = true;
         public List<string> SpecialRewards { get; set; } = [];
 
         public DungeonRewardsDescription() { }
 
-        public DungeonRewardsDescription(int minDropLevel, bool useLeveledLoot, List<string> specialRewards)
+        public DungeonRewardsDescription(int dropLevelRange, bool useLeveledLoot, List<string> specialRewards)
         {
-            MinDropLevel = minDropLevel;
+            DropLevelRange = dropLevelRange;
             UseLeveledLoot = useLeveledLoot;
             SpecialRewards = specialRewards;
         }

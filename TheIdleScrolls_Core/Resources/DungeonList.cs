@@ -89,8 +89,7 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_RAT", hP: 0.8, damage: 1.0),
                         new("MOB_BIGRAT", hP: 1.5, damage: 0.8),
                         new("BOSS_GIANTRAT", hP: 4.0, damage: 1.5),
-                    },
-                    Rewards = new(10, true, new())
+                    }
                 },
                 new()
                 {
@@ -114,7 +113,7 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_ABOMINATION", hP: 4.0, damage: 1.0),
                         new("BOSS_NECROMANCER", hP: 3.5, damage: 1.5)
                     },
-                    Rewards = new(13, true, new())
+                    Rewards = new() { DropLevelRange = LevelCrypt - 11 } // Prevents weapons from dropping
                 },
                 new()
                 {
@@ -136,7 +135,6 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_DEMONSCOUT", hP: 1.0, damage: 1.4),
                         new("MOB_LESSERDEMON", hP: 6.0, damage: 1.1)
                     },
-                    Rewards = new(15, true, new())
                 },
                 new()
                 {
@@ -159,7 +157,6 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_WARLOCK", hP: 1.0, damage: 1.4),
                         new("BOSS_VOIDPRIEST", hP: 1.5, damage: 1.3)
                     },
-                    Rewards = new(21, true, new())
                 },
                 new()
                 {
@@ -179,7 +176,6 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_MERCENARY2", hP: 1.0, damage: 1.0),
                         new("BOSS_MERCENARY", hP: 6.0, damage: 1.33)
                     },
-                    Rewards = new(31, true, new())
                 },
                 new()
                 {
@@ -201,7 +197,6 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_WARLOCK", hP: 0.8, damage: 1.5),
                         new("MOB_CULTKNIGHT", hP: 5.0, damage: 1.0)
                     },
-                    Rewards = new(41, true, new())
                 },
                 new()
                 {
@@ -230,7 +225,6 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_VOIDCULTIST", hP: 1.6, damage: 1.25),
                         new("MOB_GREATERDEMON", hP: 6.0, damage: 1.5)
                     },
-                    Rewards = new(51, true, new())
                 },
                 new()
                 {
@@ -252,7 +246,6 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_IMPWARLOCK", hP: 1.8, damage: 1.0), // bit more life to make up for damage scaling
                         new("BOSS_CULTLEADER", hP: 6.0, damage: 2.0)
                     },
-                    Rewards = new(61, true, new())
                 },
                 new()
                 {
@@ -275,7 +268,6 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_WINGEDDEMON", hP: 1.2, damage: 1.0),
                         new("MOB_BIGGERIMP", hP: 1.1, damage: 1.1),
                     },
-                    Rewards = new(61, true, new())
                 },
                 new()
                 {
@@ -329,7 +321,7 @@ namespace TheIdleScrolls_Core.Resources
                         new("BOSS_MONSTROSITY",     hP: 6.0, damage: 1.5),
                         new("BOSS_OBSERVER",        hP: 6.0, damage: 1.5)
                     },
-                    Rewards = new(-1, true, new())
+                    Rewards = new() { SpecialRewards = [ Definitions.DropRestrictions.MaterialT4 ] }
                 },
                 new()
                 {
@@ -365,7 +357,8 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_GRYPHON", hP: 3.5, damage: 1.5),
                         new("BOSS_SOREN", hP: 10.0, damage: 2.0)
                     },
-                    Rewards = new(Definitions.Stats.MaxDropTableLowerLimit, true, new())
+                    Rewards = new() { DropLevelRange = Definitions.Stats.DefaultDropLevelRange, 
+                                      SpecialRewards = [ Definitions.DropRestrictions.MaterialT4 ] }
                 },
                 new()
                 {
@@ -392,7 +385,8 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_TRIO", hP: 4.0, damage: 1.5),
                         new("BOSS_RENKE", hP: 10.0, damage: 2.0)
                     },
-                    Rewards = new(Definitions.Stats.MaxDropTableLowerLimit, true, new())
+                    Rewards = new() { DropLevelRange = Definitions.Stats.DefaultDropLevelRange,
+                                      SpecialRewards = [ Definitions.DropRestrictions.MaterialT4 ] }
                 },
                 new()
                 {
@@ -423,7 +417,8 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_3-AIR", hP: 3.2, damage: 1.5),
                         new("BOSS_HEINRICH", hP: 10.0, damage: 2.0)
                     },
-                    Rewards = new(Definitions.Stats.MaxDropTableLowerLimit, true, new())
+                    Rewards = new() { DropLevelRange = Definitions.Stats.DefaultDropLevelRange,
+                                      SpecialRewards = [ Definitions.DropRestrictions.MaterialT4 ] }
                 }
             };
         }

@@ -56,9 +56,7 @@ namespace TheIdleScrolls_Core.Systems
             double rarity = world.RarityMultiplier * (firstClear ? FirstClearRarityBonus : 1.0);
             var dungeon = world.AreaKingdom.GetDungeon(dungeonId) ?? throw new Exception($"Invalid dungeon id: {dungeonId}");
             // CornerCut: Scaling dungeons should have scaling reward levels, so use -1 as a shortcut for "drop highest available tiers"
-            int levelRange = dungeon.Rewards.MinDropLevel >= 0 
-                ? level - dungeon.Rewards.MinDropLevel 
-                : 9; // default value for dungeon rewards
+            int levelRange = dungeon.Rewards.DropLevelRange;
             LootTableParameters parameters = new(level, levelRange, rarity, dungeon.Rewards.SpecialRewards);
             GiveRandomLoot(parameters, coordinator);
         }
@@ -156,15 +154,18 @@ namespace TheIdleScrolls_Core.Systems
             List<double> rarityWeights = ItemFactory.GetRarityWeights(parameters.ItemLevel, parameters.RarityMultiplier);
 
             // TODO:
-            // 1. Find highest level item that can drop
-            // 2. Filter for items that are in range
+            // 1. Filter out items that are too high level or have unfulfilled restrictions
+            // 2. Find highest level item that can drop
+            // 3. Calculate lower limit for item level
+            // 4. Filter for items that are in range
 
-            int highestDropLevel = _blueprints
-                                    .Where(b => b.GetDropLevel() <= parameters.ItemLevel)
-                                    .Max(b => b.GetDropLevel());
+            var validDrops = _blueprints.Where(b => b.GetDropLevel() <= parameters.ItemLevel
+                                && b.GetDropRestrictions().All(r => parameters.FulfilledRestrictions.Contains(r)));
+
+            int highestDropLevel = validDrops.Max(b => b.GetDropLevel());
             int minLevel = Math.Max(0, highestDropLevel - parameters.LevelRange);
 
-            var validDrops = _blueprints.Where(b => b.GetDropLevel() >= minLevel && b.GetDropLevel() <= parameters.ItemLevel);
+            validDrops = validDrops.Where(b => b.GetDropLevel() >= minLevel);
             foreach (var item in validDrops)
             {
                 for (int r = 0; r < rarityWeights.Count; r++)
@@ -181,6 +182,7 @@ namespace TheIdleScrolls_Core.Systems
             {
                 table.m_table[key] = table.m_table[key] / sum;
             }
+            //Console.WriteLine($"Loot: L{minLevel}-{highestDropLevel} ({validDrops.Count()} candidates)");
             return table;
         }
     }
