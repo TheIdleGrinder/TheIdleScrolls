@@ -132,15 +132,15 @@ namespace TheIdleScrolls_Core.Items
                 return "SIMPLE";
             return id switch
             {
-                Definitions.MaterialId.Leather => "L0",
-                Definitions.MaterialId.HardLeather => "L1",
-                Definitions.MaterialId.Elvish => "L2",
-                Definitions.MaterialId.Iron => "M0",
-                Definitions.MaterialId.Steel => "M1",
-                Definitions.MaterialId.Dwarven => "M3",
-                Definitions.MaterialId.Beech => "W0",
-                Definitions.MaterialId.Oak => "W1",
-                Definitions.MaterialId.Ash => "W2",
+                Definitions.MaterialId.Leather1 => "L0",
+                Definitions.MaterialId.Leather2 => "L1",
+                Definitions.MaterialId.Leather3 => "L2",
+                Definitions.MaterialId.Metal1 => "M0",
+                Definitions.MaterialId.Metal2 => "M1",
+                Definitions.MaterialId.Metal3 => "M3",
+                Definitions.MaterialId.Wood1 => "W0",
+                Definitions.MaterialId.Wood2 => "W1",
+                Definitions.MaterialId.Wood3 => "W2",
                 _ => "SIMPLE"
             };
         }

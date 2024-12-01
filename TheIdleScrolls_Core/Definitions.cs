@@ -27,25 +27,26 @@ namespace TheIdleScrolls_Core
             public const double ReforgingBaseDuration = 30.0;
             public const double ReforgingDurationPerMaterialTier = 10.0;
 
-            public const int MobBaseHp = 20;
+            public const int    MobBaseHp = 20;
             public const double EarlyHpScaling = 1.056;
             public const double LaterHpScaling = 1.035;
-            public const int ScalingSwitchLevel = 70; // Level of highest item tier
+            public const int    ScalingSwitchLevel = Materials.LevelT4 + ItemTiers.LevelT3; // Level of highest item tier
 
-            public const int MaxDropTableLowerLimit = ScalingSwitchLevel - 9;
+            public const int    DefaultDropLevelRange = 20;
+            public const int    DungeonDropLevelRange = 9;
         }
 
         public static class Abilities
         {
             public static readonly string[] Weapons = [ Properties.Constants.Key_Ability_Axe,
-                                                              Properties.Constants.Key_Ability_Blunt,
-                                                              Properties.Constants.Key_Ability_LongBlade,
-                                                              Properties.Constants.Key_Ability_Polearm,
-                                                              Properties.Constants.Key_Ability_ShortBlade
+                                                        Properties.Constants.Key_Ability_Blunt,
+                                                        Properties.Constants.Key_Ability_LongBlade,
+                                                        Properties.Constants.Key_Ability_Polearm,
+                                                        Properties.Constants.Key_Ability_ShortBlade
             ];
 
             public static readonly string[] Armors = [ Properties.Constants.Key_Ability_LightArmor,
-                                                             Properties.Constants.Key_Ability_HeavyArmor
+                                                       Properties.Constants.Key_Ability_HeavyArmor
             ];
 
             public static readonly string Crafting = Properties.Constants.Key_Ability_Crafting;
@@ -104,6 +105,11 @@ namespace TheIdleScrolls_Core
             public const string CraftingSpeed = "CraftingSpeed";
             public const string CraftingCost = "CraftingCost";
         }
+
+        public static class DropRestrictions
+        {
+            public const string MaterialT4 = "MaterialT4";
+        }
     }
 
     public static class Functions
@@ -126,17 +132,19 @@ namespace TheIdleScrolls_Core
             return Definitions.Stats.DefensePerAbilityLevel * abilityLevel;
         }
 
+        // 4 Material tiers above training equipment, 1.5 multiplier per tier
+        private static double MaterialBonusPerLevel => Math.Pow(1.5, 4.0 / Definitions.Stats.ScalingSwitchLevel);
+
         public static double CalculateAssumedPlayerDamageMultiplier(int level)
         {
             var maxGearLevel = Definitions.Stats.ScalingSwitchLevel;
             var rarityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 rarity at level 150
-            var materialBonusPerLevel = Math.Pow(1.5, 1.0 / (maxGearLevel / 3.0));
 
             // Assumption: Ability levels somewhat align with character level
             return (1.0 + CalculateAbilityAttackDamageBonus(level))                 // Ability damage bonus
                 * (1.0 + CalculateAbilityAttackSpeedBonus(level))                   // Ability attack speed bonus
                 * (1.0 + Definitions.Stats.AttackBonusPerLevel * (level - 1))       // Level scaling
-                * Math.Pow(materialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (3 tiers)
+                * Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
                 * (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of weapons
                 * (1.0 + level * rarityBonusPerLevel)                               // Smooth transition to +4 rarity at level 150
                 ;
@@ -146,9 +154,8 @@ namespace TheIdleScrolls_Core
         {
             var maxGearLevel = Definitions.Stats.ScalingSwitchLevel;
             var rarityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 rarity at level 150
-            var materialBonusPerLevel = Math.Pow(1.5, 1.0 / (maxGearLevel / 3.0));
             return (1.0 + CalculateAbilityDefenseBonus(level))                    // Ability defense bonus
-				* Math.Pow(materialBonusPerLevel, Math.Min(level, maxGearLevel))  // Material scaling (3 tiers)
+				* Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))  // Material scaling (4 tiers)
 				* (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))    // Smooth transition to highest tier of armor
 				* (1.0 + level * rarityBonusPerLevel)                             // Smooth transition to +4 rarity at level 150
 				;

@@ -3,13 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleRunner", "ConsoleRunner\ConsoleRunner.csproj", "{2F3EF9DE-3A3F-4024-BFEB-1314D1CF8143}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheIdleScrolls_Core", "TheIdleScrolls_Core\TheIdleScrolls_Core.csproj", "{B808ACE2-D7BE-451E-95F3-7F40B9C6EDCF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniECS", "MiniECS\MiniECS.csproj", "{A82B58F3-1C00-497C-BE98-A480BE16ED4C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheIdleScrollsApp", "TheIdleScrollsApp\TheIdleScrollsApp.csproj", "{29C08992-8944-43FE-8800-796398FE920C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheIdleScrolls_JSON", "TheIdleScrolls_Storage\TheIdleScrolls_JSON.csproj", "{9F35888C-649A-434D-BDBA-FA8A93C15F98}"
 EndProject
@@ -33,10 +29,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2F3EF9DE-3A3F-4024-BFEB-1314D1CF8143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2F3EF9DE-3A3F-4024-BFEB-1314D1CF8143}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2F3EF9DE-3A3F-4024-BFEB-1314D1CF8143}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2F3EF9DE-3A3F-4024-BFEB-1314D1CF8143}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B808ACE2-D7BE-451E-95F3-7F40B9C6EDCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B808ACE2-D7BE-451E-95F3-7F40B9C6EDCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B808ACE2-D7BE-451E-95F3-7F40B9C6EDCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,10 +37,6 @@ Global
 		{A82B58F3-1C00-497C-BE98-A480BE16ED4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A82B58F3-1C00-497C-BE98-A480BE16ED4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A82B58F3-1C00-497C-BE98-A480BE16ED4C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29C08992-8944-43FE-8800-796398FE920C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29C08992-8944-43FE-8800-796398FE920C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29C08992-8944-43FE-8800-796398FE920C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29C08992-8944-43FE-8800-796398FE920C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9F35888C-649A-434D-BDBA-FA8A93C15F98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9F35888C-649A-434D-BDBA-FA8A93C15F98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F35888C-649A-434D-BDBA-FA8A93C15F98}.Release|Any CPU.ActiveCfg = Release|Any CPU

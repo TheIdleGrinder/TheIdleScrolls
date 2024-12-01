@@ -16,6 +16,7 @@ namespace TheIdleScrolls_Core.GameWorld
         public int Level { get; set; } = 0; // CornerCut: Use Level==0 to check for invalid zone
         public double TimeMultiplier { get; set; } = 1.0;
         public int MobCount { get; set; } = 1;
-        public List<string> MobTypes { get; set; } = new();
+        public List<string> MobTypes { get; set; } = [];
+        public List<string> SpecialDrops { get; set; } = [];
     }
 }

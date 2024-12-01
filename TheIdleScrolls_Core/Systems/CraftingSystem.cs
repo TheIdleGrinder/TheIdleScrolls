@@ -52,7 +52,8 @@ namespace TheIdleScrolls_Core.Systems
                     int availableCraftCount = craftingBench.AvailablePrototypes.Count;
                     craftingBench.MaxCraftingLevel = maxLevel;
                     craftingBench.AvailablePrototypes = GetPrototypes()
-                        .Where(i => (i.GetComponent<LevelComponent>()?.Level ?? 0) <= craftingBench.MaxCraftingLevel)
+                        .Where(i => (i.GetComponent<LevelComponent>()?.Level ?? 0) <= craftingBench.MaxCraftingLevel 
+                                    && i.GetComponent<ItemComponent>()!.Blueprint.GetDropRestrictions().Length == 0)
                         .ToList();
                     if (!FirstUpdate && craftingBench.AvailablePrototypes.Count > availableCraftCount)
                     {
@@ -204,9 +205,9 @@ namespace TheIdleScrolls_Core.Systems
 
         private List<Entity> GetPrototypes()
         {
-            if (!ItemPrototypes.Any())
+            if (ItemPrototypes.Count == 0)
             {
-                ItemPrototypes = LootTable.Generate(new(999, 0, 0, 0.0))
+                ItemPrototypes = LootTable.Generate(new(999, 999, 0.0, []))
                                         .GetItemCodes()
                                         .Select(c => ItemFactory.MakeItem(ItemBlueprint.Parse(c)))
                                         .Where(i => i is not null)

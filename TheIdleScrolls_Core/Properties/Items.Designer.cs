@@ -743,5 +743,122 @@ namespace TheIdleScrolls_Core.Properties {
                 return ResourceManager.GetString("Genus_TwoHandSword2", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Leather ähnelt.
+        /// </summary>
+        internal static string Material_L1 {
+            get {
+                return ResourceManager.GetString("Material_L1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hard Leather ähnelt.
+        /// </summary>
+        internal static string Material_L2 {
+            get {
+                return ResourceManager.GetString("Material_L2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Elven ähnelt.
+        /// </summary>
+        internal static string Material_L3 {
+            get {
+                return ResourceManager.GetString("Material_L3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dragonhide ähnelt.
+        /// </summary>
+        internal static string Material_L4 {
+            get {
+                return ResourceManager.GetString("Material_L4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Iron ähnelt.
+        /// </summary>
+        internal static string Material_M1 {
+            get {
+                return ResourceManager.GetString("Material_M1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Steel ähnelt.
+        /// </summary>
+        internal static string Material_M2 {
+            get {
+                return ResourceManager.GetString("Material_M2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dwarven ähnelt.
+        /// </summary>
+        internal static string Material_M3 {
+            get {
+                return ResourceManager.GetString("Material_M3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Orichalcum ähnelt.
+        /// </summary>
+        internal static string Material_M4 {
+            get {
+                return ResourceManager.GetString("Material_M4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Simple ähnelt.
+        /// </summary>
+        internal static string Material_Simple {
+            get {
+                return ResourceManager.GetString("Material_Simple", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Birch ähnelt.
+        /// </summary>
+        internal static string Material_W1 {
+            get {
+                return ResourceManager.GetString("Material_W1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Oak ähnelt.
+        /// </summary>
+        internal static string Material_W2 {
+            get {
+                return ResourceManager.GetString("Material_W2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ash ähnelt.
+        /// </summary>
+        internal static string Material_W3 {
+            get {
+                return ResourceManager.GetString("Material_W3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ebony ähnelt.
+        /// </summary>
+        internal static string Material_W4 {
+            get {
+                return ResourceManager.GetString("Material_W4", resourceCulture);
+            }
+        }
     }
 }
