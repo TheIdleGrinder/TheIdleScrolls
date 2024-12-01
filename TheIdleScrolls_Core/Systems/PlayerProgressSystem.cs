@@ -67,7 +67,6 @@ namespace TheIdleScrolls_Core.Systems
                     if (!progComp.Data.DungeonTimes.ContainsKey(dungeon.DungeonId))
                         progComp.Data.DungeonTimes[dungeon.DungeonId] = [];
                     progComp.Data.DungeonTimes[dungeon.DungeonId][dungeon.DungeonLevel] = progComp.Data.Playtime;
-                    Console.WriteLine($"Dungeon cleared: {dungeon.DungeonId} / {dungeon.DungeonLevel}");
                 }
             }
 
