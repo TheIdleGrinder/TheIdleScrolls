@@ -75,7 +75,7 @@ namespace Test_TheIdleScrolls_Core
         [TestCase(70, 1.0)]
         public void ProducesCorrectLootTables(int level, double rarityMulti)
         {
-            var table = LootTable.Generate(new(level, level - 9, 0, rarityMulti));
+            var table = LootTable.Generate(new(level, 9, rarityMulti, []));
 
             Assert.That(table, Is.Not.Null);
             Assert.That(table, Has.Count.Not.EqualTo(0));
