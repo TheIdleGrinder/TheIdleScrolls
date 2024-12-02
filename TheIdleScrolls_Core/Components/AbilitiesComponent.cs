@@ -27,7 +27,7 @@ namespace TheIdleScrolls_Core.Components
                 AddAbility(ability);
             }
             // Crafting
-            Ability crafting = new(Properties.Constants.Key_Ability_Crafting) { Level = 1 };
+            Ability crafting = new(Definitions.Abilities.Crafting) { Level = 1 };
             AddAbility(crafting);
         }
 

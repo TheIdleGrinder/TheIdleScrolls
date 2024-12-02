@@ -510,7 +510,7 @@ namespace TheIdleScrolls_Core.Resources
                                 $"{0.2:0.#} extra attacks per second with {id.Localize()}s",
                                 ModifierType.AddFlat,
                                 0.2,
-                                [Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_Axe],
+                                [Definitions.Tags.AttackSpeed, Definitions.Abilities.Axe],
                                 []),
                 ("BLN", 25) => new($"{id}{level}", "Stunning Blow", 
                                 $"Gain {5} to base armor value for each defensive item while using {id.Localize()} after first strike",
@@ -520,7 +520,7 @@ namespace TheIdleScrolls_Core.Resources
                                     bool firstStrike = (e.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
                                     bool usingBlunt = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Any(i => i.GetComponent<ItemComponent>()!
-                                        .Blueprint.GetRelatedAbilityId() == Properties.Constants.Key_Ability_Blunt) ?? false;
+                                        .Blueprint.GetRelatedAbilityId() == Definitions.Abilities.Blunt) ?? false;
                                     return [ new($"{id}{level}", ModifierType.AddBase, 
                                         (!firstStrike && usingBlunt) ? 5 : 0,
                                         [Definitions.Tags.ArmorRating],
@@ -532,19 +532,19 @@ namespace TheIdleScrolls_Core.Resources
                                 $"{1.0:0.#%} more attack speed during first attack with {id.Localize()}s",
                                 ModifierType.More,
                                 1.0,
-                                [ Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_LongBlade ], 
+                                [ Definitions.Tags.AttackSpeed, Definitions.Abilities.LongBlade], 
                                 [ Definitions.Tags.FirstStrike ]),
                 ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
                                 $"{1.0:0.#%} more defenses during first attack with {id.Localize()}s",
                                 ModifierType.More,
                                 1.0,
                                 [ Definitions.Tags.Defense ], 
-                                [ Definitions.Tags.FirstStrike, Properties.Constants.Key_Ability_Polearm ]),
+                                [ Definitions.Tags.FirstStrike, Definitions.Abilities.Polearm ]),
                 ("SBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Sneak Attack",
                                 $"Deal double damage with short blades on your first attack every battle",
                                 ModifierType.More,
                                 1.0,
-                                [ Definitions.Tags.Damage, Properties.Constants.Key_Ability_ShortBlade ],
+                                [ Definitions.Tags.Damage, Definitions.Abilities.ShortBlade ],
                                 [ Definitions.Tags.FirstStrike ]),
                 ("AXE", 75) => new($"{id}{level}", "Frenzy", 
                                 $"Gain {0.05:0.#%} more attack speed with {id.Localize()}s after every attack (up to {0.5:0.#%})",
@@ -553,7 +553,7 @@ namespace TheIdleScrolls_Core.Resources
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
-                                        [ Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_Axe ],
+                                        [ Definitions.Tags.AttackSpeed, Definitions.Abilities.Axe ],
                                         [])
                                     ];
                                 }),
@@ -564,7 +564,7 @@ namespace TheIdleScrolls_Core.Resources
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
-                                        [ Definitions.Tags.Damage, Properties.Constants.Key_Ability_Blunt ],
+                                        [ Definitions.Tags.Damage, Definitions.Abilities.Blunt ],
                                         [])
                                     ];
                                 }),
@@ -578,11 +578,11 @@ namespace TheIdleScrolls_Core.Resources
                                     return
                                     [
                                         new($"{id}{level}_dmg", ModifierType.More, damage ? 0.25 : 0.0,
-                                            [ Definitions.Tags.Damage, Properties.Constants.Key_Ability_LongBlade ],
+                                            [ Definitions.Tags.Damage, Definitions.Abilities.LongBlade ],
                                             []
                                         ),
                                         new($"{id}{level}_spd", ModifierType.More, damage ? 0.0 : 0.25,
-                                            [ Definitions.Tags.AttackSpeed, Properties.Constants.Key_Ability_LongBlade ],
+                                            [ Definitions.Tags.AttackSpeed, Definitions.Abilities.LongBlade ],
                                             []
                                         )
                                     ];
@@ -594,7 +594,7 @@ namespace TheIdleScrolls_Core.Resources
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
-                                        [ Definitions.Tags.Damage, Properties.Constants.Key_Ability_Blunt ], 
+                                        [ Definitions.Tags.Damage, Definitions.Abilities.Blunt ], 
                                         [])
                                     ];
                                 }),
@@ -606,7 +606,7 @@ namespace TheIdleScrolls_Core.Resources
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     bool bonus = (attacks % 3) == 2; 
                                     return [ new($"{id}{level}", ModifierType.More, bonus ? 1.0 : 0.0,
-                                        [ Definitions.Tags.Damage, Properties.Constants.Key_Ability_ShortBlade ],
+                                        [ Definitions.Tags.Damage, Definitions.Abilities.ShortBlade ],
                                         [])
                                     ];
                                 }),
@@ -632,8 +632,8 @@ namespace TheIdleScrolls_Core.Resources
                                         ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
                                     return [ new("ShieldEvasion", ModifierType.AddBase, 0.25 * shieldArmor, 
                                         [ Definitions.Tags.Shield, 
-                                          Definitions.Tags.EvasionRating, 
-                                          Properties.Constants.Key_Ability_LightArmor ],
+                                          Definitions.Tags.EvasionRating,
+                                          Definitions.Abilities.LightArmor ],
                                         []
                                         ) 
                                     ];
@@ -647,7 +647,7 @@ namespace TheIdleScrolls_Core.Resources
                                     return [ new("ShieldArmor", ModifierType.More, 0.5,
                                         [ Definitions.Tags.Shield,
                                           Definitions.Tags.Defense,
-                                          Properties.Constants.Key_Ability_HeavyArmor ],
+                                          Definitions.Abilities.HeavyArmor ],
                                         []
                                         )
                                     ];

@@ -1,5 +1,6 @@
 ﻿using MiniECS;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 
@@ -30,16 +31,16 @@ namespace TheIdleScrolls_Core.Systems
                 return;
 
             // Update crafting ability
-            var craftAbl = abilitiesComp.GetAbility(Properties.Constants.Key_Ability_Crafting);
+            var craftAbl = abilitiesComp.GetAbility(Abilities.Crafting);
             if (craftAbl != null)
             {
                 bool levelIncrease = false;
                 foreach (var craftingMessage in coordinator.FetchMessagesByType<CraftingProcessFinished>().Where(m => m.Owner == m_player))
                 {
                     const double xpPerCoin = 2.0;
-                    double xp = ApplyModifiers(Properties.Constants.Key_Ability_Crafting, xpPerCoin * craftingMessage.Craft.CoinsPaid);
+                    double xp = ApplyModifiers(Abilities.Crafting, xpPerCoin * craftingMessage.Craft.CoinsPaid);
                     xp *= BaseXpMultiplier * world.XpMultiplier;
-                    AbilitiesComponent.AddXPResult result = abilitiesComp.AddXP(Properties.Constants.Key_Ability_Crafting, (int)xp);
+                    AbilitiesComponent.AddXPResult result = abilitiesComp.AddXP(Abilities.Crafting, (int)xp);
                     if (result == AbilitiesComponent.AddXPResult.LevelIncreased)
                         levelIncrease = true;
                 }
