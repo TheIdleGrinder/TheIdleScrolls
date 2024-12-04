@@ -81,17 +81,13 @@ namespace TheIdleScrolls_Core.Components
         }
     }
 
-    public class Ability
+    public class Ability(string key)
     {
-        public string Key { get; set; }
+        public string Key { get; set; } = key;
+        public string Name { get; set; } = key;
         public int Level { get; set; } = 1;
         public int XP { get; set; } = 0;
         public int TargetXP { get; set; } = 100;
-
-        public Ability(string key)
-        {
-            Key = key;
-        }
 
         public bool AddXP(int amount)
         {
