@@ -6,34 +6,36 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core.Components
 {
     public class AbilitiesComponent : IComponent
     {
         readonly Dictionary<string, Ability> m_abilities = new();
-        static readonly Func<int, int> s_xpFunction = (x) => 60 * x;
 
-        public AbilitiesComponent() // CornerCut: Abilities should be assigned somewhere else
+        public AbilitiesComponent()
         {
-            var fightingAbilities = Definitions.Abilities.Weapons.Concat(Definitions.Abilities.Armors);
-            // Weapons and armor
-            foreach (string key in fightingAbilities)
-            {
-                Ability ability = new(key)
-                {
-                    Level = 10
-                };
-                AddAbility(ability);
-            }
-            // Crafting
-            Ability crafting = new(Definitions.Abilities.Crafting) { Level = 1 };
-            AddAbility(crafting);
+            //var fightingAbilities = Definitions.Abilities.Weapons.Concat(Definitions.Abilities.Armors);
+            //// Weapons and armor
+            //foreach (string key in fightingAbilities)
+            //{
+            //    Ability ability = new(key)
+            //    {
+            //        Level = 10
+            //    };
+            //    AddAbility(ability);
+            //}
+            //// Crafting
+            //Ability crafting = new(Definitions.Abilities.Crafting) { Level = 1 };
+            //AddAbility(crafting);
         }
 
-        public void AddAbility(Ability ability)
+        public void AddAbility(string abilityId)
         {
-            ability.TargetXP = s_xpFunction(ability.Level);
+            var abilityDef = AbilityList.GetAbility(abilityId) ?? throw new ArgumentException("Invalid ability ID");
+            var ability = abilityDef.GetAbility();
+            ability.TargetXP = abilityDef.RequiredXpForLevelUp(ability.Level);
             m_abilities[ability.Key] = ability;
         }
 
@@ -54,7 +56,7 @@ namespace TheIdleScrolls_Core.Components
             var ability = m_abilities[key];
             ability.Level = level;
             ability.XP = xp;
-            ability.TargetXP = s_xpFunction(level);
+            ability.TargetXP = AbilityList.GetAbility(ability.Key)!.RequiredXpForLevelUp(level);
             return true;
         }
 
@@ -75,7 +77,7 @@ namespace TheIdleScrolls_Core.Components
             {
                 ability.Level++;
                 ability.XP -= ability.TargetXP;
-                ability.TargetXP = s_xpFunction(ability.Level);
+                ability.TargetXP = AbilityList.GetAbility(ability.Key)!.RequiredXpForLevelUp(ability.Level);
             }
             return AddXPResult.LevelIncreased;
         }
