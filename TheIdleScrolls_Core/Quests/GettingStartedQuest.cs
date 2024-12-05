@@ -116,6 +116,16 @@ namespace TheIdleScrolls_Core.Quests
                         coordinator.AddEntity(item);
                         postMessageCallback(new ItemReceivedMessage(entity, item));
                     }
+                    var abilitiesComp = entity.GetComponent<AbilitiesComponent>();
+                    if (abilitiesComp == null)
+                    {
+                        abilitiesComp = new();
+                        entity.AddComponent(abilitiesComp);
+                    }
+                    Abilities.Armors.ForEach(ability => { 
+                        abilitiesComp.AddAbility(ability);
+                        postMessageCallback(new AbilityAddedMessage(entity, ability));
+                    });
                 }
 
                 setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Armor,
@@ -129,6 +139,16 @@ namespace TheIdleScrolls_Core.Quests
                 setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Abilities,
                     "");
                 setFeatureState(GameFeature.Abilities, true);
+                var abilitiesComp = entity.GetComponent<AbilitiesComponent>();
+                if (abilitiesComp == null)
+                {
+                    abilitiesComp = new();
+                    entity.AddComponent(abilitiesComp);
+                }
+                Abilities.Weapons.ForEach(ability => {
+                    abilitiesComp.AddAbility(ability);
+                    postMessageCallback(new AbilityAddedMessage(entity, ability));
+                });
             }
 
             if (!isStepDone(QuestStates.GettingStarted.Travel) && level >= LvlTravel)

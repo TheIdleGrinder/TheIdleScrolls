@@ -20,8 +20,8 @@ namespace TheIdleScrolls_Core.Definitions
 
         public const string Crafting = "ABL_CRAFT";
 
-        public static readonly string[] Weapons = [ Axe, Blunt, LongBlade, Polearm, ShortBlade ];
+        public static readonly List<string> Weapons = [ Axe, Blunt, LongBlade, Polearm, ShortBlade ];
 
-        public static readonly string[] Armors = [ LightArmor, HeavyArmor ];
+        public static readonly List<string> Armors = [ LightArmor, HeavyArmor ];
     }
 }

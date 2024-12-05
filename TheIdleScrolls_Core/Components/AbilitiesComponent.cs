@@ -97,4 +97,11 @@ namespace TheIdleScrolls_Core.Components
             return XP >= TargetXP;
         }
     }
+
+    public record AbilityAddedMessage(Entity Owner, string AbilityId) : IMessage
+    {
+        public string BuildMessage() => $"{Owner} gained ability '{AbilityList.GetAbility(AbilityId)?.Name ?? "??"}'";
+
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
+    }
 }
