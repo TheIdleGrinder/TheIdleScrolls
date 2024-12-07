@@ -100,7 +100,7 @@ namespace TheIdleScrolls_Core.Components
 
     public record AbilityAddedMessage(Entity Owner, string AbilityId) : IMessage
     {
-        public string BuildMessage() => $"{Owner} gained ability '{AbilityList.GetAbility(AbilityId)?.Name ?? "??"}'";
+        public string BuildMessage() => $"{Owner.GetName()} gained ability '{AbilityList.GetAbility(AbilityId)?.Name ?? "??"}'";
 
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }

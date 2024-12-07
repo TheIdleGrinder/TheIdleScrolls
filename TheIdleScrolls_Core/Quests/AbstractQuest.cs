@@ -18,15 +18,5 @@ namespace TheIdleScrolls_Core.Quests
         public abstract QuestId GetId();
 
         public abstract void UpdateEntity(Entity entity, Coordinator coordinator, World world, double dt, Action<IMessage> postMessageCallback);
-
-        protected int ExtractQuestStateFromEntity(Entity entity)
-        {
-            return entity.GetComponent<QuestProgressComponent>()?.GetQuestProgress(Id) ?? QuestNotFound;
-        }
-
-        protected void SetQuestStateInEntity(Entity entity, int progress)
-        {
-            entity.GetComponent<QuestProgressComponent>()?.SetQuestProgress(Id, progress);
-        }
     }
 }

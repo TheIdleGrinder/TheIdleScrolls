@@ -594,7 +594,7 @@ namespace TheIdleScrolls_Core.Resources
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
-                                        [ Definitions.Tags.Damage, Definitions.Abilities.Blunt ], 
+                                        [ Definitions.Tags.Damage, Definitions.Abilities.Polearm ], 
                                         [])
                                     ];
                                 }),

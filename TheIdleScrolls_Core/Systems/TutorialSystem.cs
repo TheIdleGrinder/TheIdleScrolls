@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Quests;
 using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core.Systems
@@ -56,41 +57,43 @@ namespace TheIdleScrolls_Core.Systems
             {
                 if (message.Quest == QuestId.GettingStarted)
                 {
-                    switch ((Components.QuestStates.GettingStarted)message.Progress)
+                    var progress = (GettingStartedQuest.StateFlags)message.Progress;
+                    if ((progress & GettingStartedQuest.StateFlags.Weapons) != 0)
                     {
-                        case Components.QuestStates.GettingStarted.Inventory:
-                            addTutorialProgress(TutorialStep.Inventory, "Level Up!",
-                                "You have unlocked the inventory. Double click on an item in your inventory to equip it.", message);
-                            break;
-                        case Components.QuestStates.GettingStarted.Abilities:
-                            addTutorialProgress(TutorialStep.Abilities, "Live and Learn",
-                                "The more you use weapons of one type, the better you will become at handling them. Watch your " +
-                                "attack speed increase along with your ability level.", message);
-                            break;
-                        case Components.QuestStates.GettingStarted.Perks:
-                            addTutorialProgress(TutorialStep.Perks, "Perks of the Trade",
-                                "You can see the exact values of your ability bonus by checking the 'Perks' tab. As you continue playing and earning " +
-                                "achievements, you will also unlock additional perks.", message);
-                            break;
-                        case Components.QuestStates.GettingStarted.Outside:
-                            addTutorialProgress(TutorialStep.MobAttacks, "Training is Over",
-                                "From this point on, mobs are going to fight back. Watch the countdown " +
-                                "near the mob. If time runs out, you lose the fight.", message);
-                            break;
-                        case Components.QuestStates.GettingStarted.Armor:
-                            addTutorialProgress(TutorialStep.Armor, "It's Dangerous to Go Alone",
-                                "Wearing armor slows down the countdown during fights but also encumbers your character, reducing attack speed. " +
-                                "Heavier armor means more encumbrance, but also better protection.", message);
-                            break;
-                        case Components.QuestStates.GettingStarted.Travel:
-                            addTutorialProgress(TutorialStep.Travel, "Freedom of Movement", 
-                                "Click the arrow buttons to move between zones. Higher level areas become accessible after defeating" +
-                                "a mob in the previous zone." +
-                                "\nUpon losing a fight, your character will automatically move down one area.", 
-                                message);
-                            break;
-                        default:
-                            break;
+                        addTutorialProgress(TutorialStep.Inventory, "Level Up!",
+                            "You have unlocked the inventory. Double click on an item in your inventory to equip it.", message);
+                    }
+                    if ((progress & GettingStartedQuest.StateFlags.Abilities) != 0)
+                    {
+                        addTutorialProgress(TutorialStep.Abilities, "Live and Learn",
+                            "The more you use weapons of one type, the better you will become at handling them. Watch your " +
+                            "damage and attack speed increase along with your ability level.", message);
+                    }
+                    if ((progress & GettingStartedQuest.StateFlags.Perks) != 0)
+                    {
+                        addTutorialProgress(TutorialStep.Perks, "Perks of the Trade",
+                            "You can see the exact values of your ability bonus by checking the 'Perks' tab. As you continue playing " +
+                            "and earning achievements, you will also unlock additional perks.", message);
+                    }
+                    if ((progress & GettingStartedQuest.StateFlags.MobAttacks) != 0)
+                    {
+                        addTutorialProgress(TutorialStep.MobAttacks, "Training is Over",
+                            "From this point on, mobs are going to fight back. Watch the countdown " +
+                            "near the mob. If time runs out, you lose the fight.", message);
+                    }
+                    if ((progress & GettingStartedQuest.StateFlags.Armor) != 0)
+                    {
+                        addTutorialProgress(TutorialStep.Armor, "It's Dangerous to Go Alone",
+                            "Wearing armor slows down the countdown during fights but also encumbers your character, reducing attack speed. " +
+                            "Heavier armor means more encumbrance, but also better protection.", message);
+                    }
+                    if ((progress & GettingStartedQuest.StateFlags.Travel) != 0)
+                    {
+                        addTutorialProgress(TutorialStep.Travel, "Freedom of Movement",
+                            "Click the arrow buttons to move between zones. Higher level areas become accessible after defeating" +
+                            "a mob in the previous zone." +
+                            "\nUpon losing a fight, your character will automatically move down one area.",
+                            message);
                     }
                 }
             }

@@ -412,7 +412,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Militia ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Barbarian ähnelt.
         /// </summary>
         internal static string CLASS_BLN_LAR {
             get {
