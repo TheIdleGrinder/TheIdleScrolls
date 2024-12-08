@@ -45,6 +45,7 @@ namespace TheIdleScrolls_Core.Quests
             const int LvlAbilities = 4;
             const int LvlPerks = 5;
             const int LvlTravel = 10;
+            const int LvlCrafting = 20;
             const int LvlBounties = 24;
 
             int level = entity.GetLevel();
@@ -247,6 +248,21 @@ namespace TheIdleScrolls_Core.Quests
                     HighestCollected = LvlBounties
                 };
                 entity.AddComponent(bountyHunterComponent);
+            }
+
+            if (!isStepDone(StateFlags.Crafting)
+                && entity.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeons().Count >= 2)
+            {
+                setFeatureState(GameFeature.Crafting, true);
+                setQuestState(StateFlags.Crafting,
+                    $"While dungeon delving is more exciting, the wise adventurer knows that the most reliable way to acquire equipment " +
+                    $"is to make it yourself. Give it a try if you have some coins and a little patience");
+
+                entity.AddComponent(new CraftingBenchComponent());
+                
+                entity.GetComponent<AbilitiesComponent>()?.AddAbility(Abilities.Crafting);
+                entity.GetComponent<AbilitiesComponent>()?.UpdateAbility(Abilities.Crafting, 10, 0);
+                postMessageCallback(new AbilityAddedMessage(entity, Abilities.Crafting));
             }
         }
     }

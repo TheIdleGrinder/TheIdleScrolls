@@ -15,7 +15,6 @@ namespace TheIdleScrolls_Core.Systems
     public class TutorialSystem : AbstractSystem
     {
         const int ItemCountForSelling = 12;
-        const int CoinsForReforging = 200;
 
         public const string FinalStoryDungeon = Definitions.DungeonIds.Threshold;
         const string UnarmoredKey = "NOARMOR";
@@ -200,23 +199,16 @@ namespace TheIdleScrolls_Core.Systems
                     $"Items are piling up in your inventory. Selling them will make it less cluttered and also earn you some pretty coins.\n" +
                     $"\n  - You can sell items from you inventory to gain coins"));
             }
-            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Reforging)
-                && (m_player.GetComponent<PlayerProgressComponent>()?.Data.TotalCoins ?? 0) > CoinsForReforging)
+            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Crafting)
+                && m_player.HasComponent<CraftingBenchComponent>())
             {
-                globalProgress.Data.TutorialProgress.Add(TutorialStep.Reforging);
+                globalProgress.Data.TutorialProgress.Add(TutorialStep.Crafting);
                 coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Reforging, "Let's put those coins to use",
-                    $"You can unburden yourself of some cumbersome coinage by reforging your items. This will reroll their rarity to a random value." +
-                    $"As your crafting ability improves, higher rarity levels become available and their probability increases.\n" +
-                    $"\n  - You can now spend coins to reforge the rarity of items"));
-            }
-            // Enable feature for player if reforging has been unlocked globally
-            if (globalProgress.Data.TutorialProgress.Contains(TutorialStep.Reforging)
-                && !(m_player.GetComponent<PlayerComponent>()?.AvailableFeatures?.Contains(GameFeature.Crafting) ?? true)
-                && (m_player.GetComponent<PlayerProgressComponent>()?.Data.TotalCoins ?? 0) > CoinsForReforging)
-            {
-                m_player.GetComponent<PlayerComponent>()?.SetFeatureState(GameFeature.Crafting, true);
-                coordinator.PostMessage(this, new FeatureStateMessage(GameFeature.Crafting, true));
+                    new TutorialMessage(TutorialStep.Crafting, "Let's put those coins to use",
+                    $"You can unburden yourself of some cumbersome coinage by crafting items. You can either create new items or " +
+                    $"attempt to refine the ones you already have. Doing so will raise your crafting ability, which improves your " +
+                    $"chances of successfully refining items." +
+                    $"\n  - You can now spend coins to craft and refine items"));
             }
 
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Bounties)
@@ -226,8 +218,9 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Bounties, "Bounty Hunter",
                     $"The main way to earn bounties is by defeating " +
-                    $"an enemy at a higher level than you had before in the wilderness. You will also be awarded a bounty every time you defeat " +
-                    $"{Systems.BountySystem.EnemiesPerHunt} in the wilderness. The value of bounties depends on the level of the defeated enemies."));
+                    $"an enemy at a higher level than you had before in the wilderness. You will also be awarded a bounty every " +
+                    $"time you defeat {BountySystem.EnemiesPerHunt} enemies in the wilderness. The value of bounties " +
+                    $"depends on the level of the defeated enemies."));
             }
         }
     }

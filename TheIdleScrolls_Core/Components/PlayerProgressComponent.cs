@@ -12,7 +12,7 @@ namespace TheIdleScrolls_Core.Components
     { 
         Start, Inventory, MobAttacks, Armor, Abilities, 
         Travel, Defeated, DungeonOpen, DungeonComplete, Finished, 
-        Evasion, Unarmed, FlatCircle, Selling, Reforging,
+        Evasion, Unarmed, FlatCircle, Selling, Crafting,
         ItemFound, Perks, Bounties
     }
 
