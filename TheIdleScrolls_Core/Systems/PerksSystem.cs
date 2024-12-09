@@ -48,34 +48,6 @@ namespace TheIdleScrolls_Core.Systems
                     perksComp.GetPerks().ForEach(m => UpdatePerk(m));
                 }
 
-                // Add perks from previous achievements
-                if (FirstAchievementUpdate)
-                {
-                    var achComp = world.GlobalEntity.GetComponent<AchievementsComponent>();
-                    if (achComp != null && achComp.Achievements.Count > 0)
-                    { 
-                        foreach (var achievement in achComp.Achievements)
-                        {
-                            if (achievement.Status == AchievementStatus.Awarded && achievement.Perk != null)
-                            {
-                                perksComp.AddPerk(achievement.Perk);
-                            }
-                        }
-                        FirstAchievementUpdate = false;
-                    }
-                }
-
-                // Check for freshly unlocked achievements and their perks
-                foreach (var message in coordinator.FetchMessagesByType<AchievementStatusMessage>())
-                {
-                    if (message.Achievement.Status == AchievementStatus.Awarded 
-                        && message.Achievement.Perk != null
-                        && !perksComp.GetPerks().Any(p => p.Id == message.Achievement.Perk.Id))
-                    {
-                        perksComp.AddPerk(message.Achievement.Perk);
-                    }
-                }
-
                 // Update Modifiers
                 var changedPerks = perksComp.GetChangedPerks();
                 foreach (var perk in perksComp.GetPerks())

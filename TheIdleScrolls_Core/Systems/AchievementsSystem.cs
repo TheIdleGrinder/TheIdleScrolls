@@ -40,6 +40,8 @@ namespace TheIdleScrolls_Core.Systems
             CheckPrerequisites(achievementsComp.Achievements, coordinator, world);
 
             CheckConditions(achievementsComp.Achievements, coordinator, world);
+
+            UpdateRewards(achievementsComp.Achievements, coordinator, world);
         }
 
         void CheckPrerequisites(List<Achievement> achievements, Coordinator coordinator, World world)
@@ -76,6 +78,29 @@ namespace TheIdleScrolls_Core.Systems
                         achievement.Status = AchievementStatus.Awarded;
                         coordinator.PostMessage(this, new AchievementStatusMessage(achievement));
                     }
+                }
+            }
+        }
+
+        static void UpdateRewards(List<Achievement> achievements, Coordinator coordinator, World _)
+        {
+            var player = coordinator.GetEntities<PlayerComponent, RewardCollectorComponent>().FirstOrDefault();
+            if (player == null)
+                return;
+            var rewardComp = player.GetComponent<RewardCollectorComponent>()!;
+
+            var perksComp = player.GetComponent<PerksComponent>();
+            if (perksComp == null)
+                return;
+
+            foreach (var achievement in achievements)
+            {
+                if (achievement.Status == AchievementStatus.Awarded
+                    && achievement.Perk != null
+                    && !rewardComp.HasCollected(achievement.Id))
+                {
+                    perksComp.AddPerk(achievement.Perk);
+                    rewardComp.Collect(achievement.Id);
                 }
             }
         }

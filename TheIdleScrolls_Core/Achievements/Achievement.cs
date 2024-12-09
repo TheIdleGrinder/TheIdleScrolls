@@ -9,7 +9,7 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Achievements
 {
-    using ConditionChecker = Func<Entity, TheIdleScrolls_Core.GameWorld.World, bool>;
+    using ConditionChecker = Func<Entity, GameWorld.World, bool>;
 
     public enum AchievementStatus { Unavailable, Available, Awarded }
     public class Achievement
@@ -18,7 +18,7 @@ namespace TheIdleScrolls_Core.Achievements
         public AchievementStatus Status { get; set; } = AchievementStatus.Unavailable;
         public ConditionChecker Prerequisite { get; set; } = (e, w) => false;
         public ConditionChecker Condition { get; set; } = (e, w) => false;
-        public bool Hidden { get; set; } = false;
+        public bool Hidden { get; set; } = false; 
         public string Title { get; set; } = "???";
         public string Description { get; set; } = "";
         public Perk? Perk { get; set; } = null;
