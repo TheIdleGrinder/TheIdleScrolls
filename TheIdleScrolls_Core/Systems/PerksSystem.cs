@@ -165,20 +165,9 @@ namespace TheIdleScrolls_Core.Systems
     }
 
     // Message that is posted when a perk has been added or updated
-    public class PerkUpdatedMessage : IMessage
+    public record PerkUpdatedMessage(Entity Owner, Perk Perk) : IMessage
     {
-        public PerkUpdatedMessage(Entity owner, Perk perk)
-        {
-            Owner = owner;
-            Perk = perk;
-        }
-
-        public Perk Perk { get; }
-
-        public Entity Owner { get; }
-
         string IMessage.BuildMessage() => $"Perk '{Perk.Name}' was updated for entity {Owner.GetName()}";
-
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 }

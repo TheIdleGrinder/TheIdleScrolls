@@ -82,7 +82,7 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        static void UpdateRewards(List<Achievement> achievements, Coordinator coordinator, World _)
+        void UpdateRewards(List<Achievement> achievements, Coordinator coordinator, World world)
         {
             var player = coordinator.GetEntities<PlayerComponent, RewardCollectorComponent>().FirstOrDefault();
             if (player == null)
@@ -96,11 +96,11 @@ namespace TheIdleScrolls_Core.Systems
             foreach (var achievement in achievements)
             {
                 if (achievement.Status == AchievementStatus.Awarded
-                    && achievement.Perk != null
+                    && achievement.Reward != null
                     && !rewardComp.HasCollected(achievement.Id))
                 {
-                    perksComp.AddPerk(achievement.Perk);
-                    rewardComp.Collect(achievement.Id);
+                    if (achievement.Reward.GiveReward(player, world, (IMessage m) => coordinator.PostMessage(this, m as dynamic)))
+                        rewardComp.Collect(achievement.Id);
                 }
             }
         }

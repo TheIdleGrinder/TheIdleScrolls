@@ -21,7 +21,7 @@ namespace TheIdleScrolls_Core.Achievements
         public bool Hidden { get; set; } = false; 
         public string Title { get; set; } = "???";
         public string Description { get; set; } = "";
-        public Perk? Perk { get; set; } = null;
+        public IAchievementReward? Reward { get; set; } = null;
 
         public Achievement(AchievementDescription description)
         {

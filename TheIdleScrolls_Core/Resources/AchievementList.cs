@@ -44,7 +44,7 @@ namespace TheIdleScrolls_Core.Resources
                     Condition = ExpressionParser.ParseToFunction($"Level >= {level}"),
                     Hidden = false,
                     Prerequisite = (i > 0) ? ExpressionParser.ParseToFunction($"LVL{levels[i - 1]}") : tautology,
-                    Perk = GetPerkForLeveledAchievement("LVL", level)
+                    Reward = GetPerkForLeveledAchievement("LVL", level)
                 };
                 achievements.Add(achievement);
             }
@@ -70,7 +70,7 @@ namespace TheIdleScrolls_Core.Resources
                     Condition = ExpressionParser.ParseToFunction($"Wilderness >= {level}"),
                     Hidden = false,
                     Prerequisite = (i > 0) ? ExpressionParser.ParseToFunction($"WILD{wildernessLevels[i - 1].Level}") : tautology,
-                    Perk = GetPerkForLeveledAchievement("WILD", level)
+                    Reward = GetPerkForLeveledAchievement("WILD", level)
                 };
                 achievements.Add(achievement);
             }
@@ -95,7 +95,7 @@ namespace TheIdleScrolls_Core.Resources
                     Condition = ExpressionParser.ParseToFunction($"Kills >= {count}"),
                     Hidden = false,
                     Prerequisite = (i > 0) ? ExpressionParser.ParseToFunction($"KILL{killCounts[i - 1].Count}") : tautology,
-                    Perk = GetPerkForLeveledAchievement("KILL", count)
+                    Reward = GetPerkForLeveledAchievement("KILL", count)
                 };
                 achievements.Add(achievement);
             }
@@ -196,7 +196,7 @@ namespace TheIdleScrolls_Core.Resources
                         (i > 0) ? ExpressionParser.ParseToFunction($"{weapFamily}{ranks[i - 1].Level}") : tautology,
                         ExpressionParser.ParseToFunction($"abl:{weapFamily} >= {level}"))
                     {
-                        Perk = GetPerkForLeveledAchievement(weapFamily, level)
+                        Reward = GetPerkForLeveledAchievement(weapFamily, level)
                     };
                     achievements.Add(achievement);
                 }
@@ -213,7 +213,7 @@ namespace TheIdleScrolls_Core.Resources
                         (i > 0) ? ExpressionParser.ParseToFunction($"{armorFamily}{ranks[i - 1].Level}") : tautology,
                         ExpressionParser.ParseToFunction($"abl:{armorFamily} >= {level}"))
                     {
-                        Perk = GetPerkForLeveledAchievement(armorFamily, level)
+                        Reward = GetPerkForLeveledAchievement(armorFamily, level)
                     };
                     achievements.Add(achievement);
                 }
@@ -238,7 +238,7 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"abl:AXE >= {level} && abl:BLN >= {level} && abl:LBL >= {level} " +
                     $"&& abl:POL >= {level} && abl:SBL >= {level} && abl:LAR >= {level} && abl:HAR >= {level}"))
                 {
-                    Perk = GetPerkForLeveledAchievement("oALL", level)
+                    Reward = GetPerkForLeveledAchievement("oALL", level)
                 };
                 achievements.Add(achievement);
             }
@@ -254,7 +254,7 @@ namespace TheIdleScrolls_Core.Resources
                     (i > 0) ? ExpressionParser.ParseToFunction($"CRAFTING{ranks[i - 1].Level}") : tautology,
                     ExpressionParser.ParseToFunction($"abl:ABL_CRAFT >= {level}"))
                 {
-                    Perk = GetPerkForLeveledAchievement("ABL_CRAFT", level)
+                    Reward = GetPerkForLeveledAchievement("ABL_CRAFT", level)
                 });
             }
             string[] craftNames = [ "Transmuted", "Augmented", "Regal", "Exalted", "Divine" ];
@@ -298,7 +298,7 @@ namespace TheIdleScrolls_Core.Resources
                     (i > 0) ? ExpressionParser.ParseToFunction($"TotalCoins{i - 1}") : tautology,
                     ExpressionParser.ParseToFunction($"TotalCoins >= {coins}"))
                 {
-                    Perk = GetPerkForLeveledAchievement("TotalCoins", coins)
+                    Reward = GetPerkForLeveledAchievement("TotalCoins", coins)
                 };
                 achievements.Add(achievement);
             }
@@ -319,7 +319,7 @@ namespace TheIdleScrolls_Core.Resources
                     (i > 0) ? ExpressionParser.ParseToFunction($"MaxCoins{i - 1}") : tautology,
                     ExpressionParser.ParseToFunction($"MaxCoins >= {coins}"))
                 {
-                    Perk = GetPerkForLeveledAchievement("MaxCoins", coins)
+                    Reward = GetPerkForLeveledAchievement("MaxCoins", coins)
                 };
                 achievements.Add(achievement);
             }
@@ -349,13 +349,13 @@ namespace TheIdleScrolls_Core.Resources
                 tautology,
                 ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10"))
                 {
-                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("NOARMOR",
+                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("NOARMOR",
                         "Elusive",
                         $"Gain +{noArmorBaseEvasion1:0.#} evasion rating for each level",
                         ModifierType.AddBase,
                         noArmorBaseEvasion1,
                         [Definitions.Tags.EvasionRating],
-                        [Definitions.Tags.Unarmored])
+                        [Definitions.Tags.Unarmored]))
                 });
             achievements.Add(new(
                 "HC:NOARMOR",
@@ -364,13 +364,13 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction("NOARMOR"),
                 ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
                 {
-                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR",
+                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR",
                         "Ethereal Form",
                         $"Gain +{noArmorBaseEvasion2:0.#} evasion rating for each level",
                         ModifierType.AddBase,
                         noArmorBaseEvasion2,
                         [Definitions.Tags.EvasionRating],
-                        [Definitions.Tags.Unarmored])
+                        [Definitions.Tags.Unarmored]))
             });
             achievements.Add(new(
                 "HC:NOARMOR_50",
@@ -379,13 +379,13 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction("HC:NOARMOR"),
                 ExpressionParser.ParseToFunction("Level >= 50 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
                 {
-                Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
+                Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
                         "Armored in Faith",
                         "Character level scales unarmored evasion rating like abilities scale regular armors",
                         ModifierType.More,
                         Definitions.Stats.DefensePerAbilityLevel,
                         [Definitions.Tags.EvasionRating],
-                        [Definitions.Tags.Unarmored])
+                        [Definitions.Tags.Unarmored]))
             });
 
             int noWeaponLevel = 5;
@@ -400,13 +400,13 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"Level >= {noWeaponLevel} && abl:AXE <= 10 && abl:BLN <= 10 " +
                     $"&& abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
                 {
-                    Perk = PerkFactory.MakeStaticPerk("NOWEAPON",
+                    Reward = new PerkReward(PerkFactory.MakeStaticPerk("NOWEAPON",
                         "Boxer",
                         $"Increased base damage with unarmed attacks",
                         ModifierType.AddBase,
                         noWeaponBaseDamageBonus,
                         [Definitions.Tags.Damage],
-                        [Definitions.Tags.Unarmed])
+                        [Definitions.Tags.Unarmed]))
                 });
             achievements.Add(new(
                 "NOWEAPON_DNG",
@@ -416,13 +416,13 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.DenOfRats} > 0 && abl:AXE <= 10 " +
                     $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
                 {
-                    Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
+                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
                         "Iron Fists",
                         $"Gain +{noWeaponLevelDamageBonus:0.#} unarmed damage for each level",
                         ModifierType.AddBase,
                         noWeaponLevelDamageBonus,
                         [Definitions.Tags.Damage],
-                        [Definitions.Tags.Unarmed])
+                        [Definitions.Tags.Unarmed]))
             });
             achievements.Add(new(
                 "NOWEAPON_DNG2",
@@ -432,13 +432,13 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:AXE <= 10 " +
                     $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
             {
-                Perk = PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
+                Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
                         "Force of Spirit",
                         $"Gain {Definitions.Stats.AttackBonusPerLevel:0.#%} increased unarmed damage per character level",
                         ModifierType.Increase,
                         Definitions.Stats.AttackBonusPerLevel,
                         [Definitions.Tags.Damage],
-                        [Definitions.Tags.Unarmed])
+                        [Definitions.Tags.Unarmed]))
             });
             achievements.Add(new(
                 $"HC:NOWEAPON_{noWeaponMaxLevel}",
@@ -448,7 +448,7 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"Level >= {noWeaponMaxLevel} && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 " +
                     "&& abl:POL <= 10 && abl:SBL <= 10 && Losses == 0"))
             {
-                Perk = PerkFactory.MakeCharacterLevelBasedMultiModPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
+                Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedMultiModPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
                         "The Blade Within",
                         "Character level scales unarmed damage like abilities scale weapon damage",
                         [ModifierType.More, ModifierType.More],
@@ -460,7 +460,7 @@ namespace TheIdleScrolls_Core.Resources
                         [
                             [Definitions.Tags.Unarmed],
                             [Definitions.Tags.Unarmed]
-                        ])
+                        ]))
             });
 
             achievements.Add(new(
@@ -471,7 +471,7 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction("Wilderness >= 75 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 " +
                     "&& abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
                 {
-                    Perk = PerkFactory.MakeStaticMultiModPerk("HC:NOARMOR+NOWEAPON",
+                    Reward = new PerkReward(PerkFactory.MakeStaticMultiModPerk("HC:NOARMOR+NOWEAPON",
                         "Luminous Being",
                         "Gain a significant bonus to damage and defense while unarmed and unarmored",
                         [ModifierType.More, ModifierType.More],
@@ -483,16 +483,16 @@ namespace TheIdleScrolls_Core.Resources
                         [
                             [Definitions.Tags.Unarmed, Definitions.Tags.Unarmored],
                             [Definitions.Tags.Unarmed, Definitions.Tags.Unarmored]
-                        ])
+                        ]))
                 });
 
 
             return achievements;
         }
 
-        public static Perk? GetPerkForLeveledAchievement(string id, int level)
+        public static PerkReward? GetPerkForLeveledAchievement(string id, int level)
         {
-            return (id, level) switch
+            var perk = (id, level) switch
             {
                 ("LVL", 150) => PerkFactory.MakeStaticPerk($"{id}{level}", "Experienced",
                                 $"Gain {0.3:0.#%} increased experience",
@@ -716,6 +716,7 @@ namespace TheIdleScrolls_Core.Resources
                                     []),
                 _ => null
             };
+            return perk != null ? new PerkReward(perk) : null;
         }
     }
 }
