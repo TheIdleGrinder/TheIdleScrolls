@@ -96,6 +96,8 @@ namespace TheIdleScrolls_Core.Modifiers
                     for (int i = 0; i < modTypes.Count; i++)
                     {
                         int level = entity.GetComponent<AbilitiesComponent>()?.GetAbility(abilities[i])?.Level ?? 0;
+                        if (level == 0)
+                            continue;
                         double bonus = level * valuesPerLevel[i];
                         if (modTypes[i] == ModifierType.More && exponentialMore)
                             bonus = Math.Pow(1.0 + valuesPerLevel[i], level) - 1.0;

@@ -22,8 +22,8 @@ namespace TheIdleScrolls_Core.Achievements
             if (abiltiesComp.GetAbility(AbilityId) == null)
             {
                 abiltiesComp.AddAbility(AbilityId);
-            }
-            postMessageCallback(new AbilityAddedMessage(entity, AbilityId));
+                postMessageCallback(new AbilityAddedMessage(entity, AbilityId));
+            }            
             return true;
         }
     }

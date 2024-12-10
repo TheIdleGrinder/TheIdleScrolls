@@ -106,15 +106,16 @@ namespace TheIdleScrolls_Core.Systems
 
             if (weaponCount == 0)
             {
-                rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, new string[] { Definitions.Tags.Damage }, globalTags) ?? rawDamage;
+                rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, 
+                    [Definitions.Tags.Damage, Definitions.Abilities.Unarmed], globalTags) ?? rawDamage;
                 // invert attack speed due to speed/cooldown mismatch
                 cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
-                    new string[] { Definitions.Tags.AttackSpeed }, globalTags) ?? cooldown;
+                    [Definitions.Tags.AttackSpeed, Definitions.Abilities.Unarmed], globalTags) ?? cooldown;
             }
 
             if (armorCount == 0)
             {
-                var tags = globalTags.Append(Definitions.Tags.Defense);
+                var tags = globalTags.Concat([Definitions.Tags.Defense, Definitions.Abilities.Unarmored]);
                 armor = modComp?.ApplyApplicableModifiers(armor, tags.Append(Definitions.Tags.ArmorRating), globalTags) ?? armor;
                 evasion = modComp?.ApplyApplicableModifiers(evasion, tags.Append(Definitions.Tags.EvasionRating), globalTags) ?? evasion;
             }

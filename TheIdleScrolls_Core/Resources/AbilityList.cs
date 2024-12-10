@@ -20,9 +20,11 @@ namespace TheIdleScrolls_Core.Resources
             abilities.Add(new AbilityDefinition(Abilities.LongBlade) { Name = Properties.LocalizedStrings.LBL });
             abilities.Add(new AbilityDefinition(Abilities.Polearm) { Name = Properties.LocalizedStrings.POL });
             abilities.Add(new AbilityDefinition(Abilities.ShortBlade) { Name = Properties.LocalizedStrings.SBL });
+            abilities.Add(new AbilityDefinition(Abilities.Unarmed) { Name = Properties.LocalizedStrings.UNARMED });
 
             abilities.Add(new AbilityDefinition(Abilities.LightArmor) { Name = Properties.LocalizedStrings.LAR });
             abilities.Add(new AbilityDefinition(Abilities.HeavyArmor) { Name = Properties.LocalizedStrings.HAR });
+            abilities.Add(new AbilityDefinition(Abilities.Unarmored) { Name = Properties.LocalizedStrings.UNARMORED });
 
             abilities.Add(new AbilityDefinition(Abilities.Crafting) { Name = Properties.LocalizedStrings.ABL_CRAFT });
 
@@ -54,7 +56,7 @@ namespace TheIdleScrolls_Core.Resources
     public class AbilityDefinition(string key)
     {
         public string Key { get; set; } = key;
-        public string Name { get; set; } = key;
+        public string Name { get; set; } = "??";
         public int MaxLevel { get; set; } = 9999;
         public Func<int, int> RequiredXpForLevelUp { get; set; } = (x) => 60 * x;
 

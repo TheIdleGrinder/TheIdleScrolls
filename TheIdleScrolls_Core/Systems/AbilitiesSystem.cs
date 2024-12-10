@@ -15,8 +15,8 @@ namespace TheIdleScrolls_Core.Systems
         // CornerCut: Assume only the player entity has abilities
         Entity? m_player = null;
 
-        List<string> m_weaponFamilies = new();
-        List<string> m_armorFamilies = new();
+        List<string> m_weaponAbilities = new();
+        List<string> m_armorAbilities = new();
 
         readonly Dictionary<string, double> m_timePerItemClass = new();
 
@@ -56,50 +56,54 @@ namespace TheIdleScrolls_Core.Systems
                     var equipmentComp = m_player.GetComponent<EquipmentComponent>();
                     if (equipmentComp == null)
                         return; // CornerCut: Assumes that all abilities are tied to items
-                    m_weaponFamilies = equipmentComp.GetItems()
+                    m_weaponAbilities = equipmentComp.GetItems()
                         .Where(i => i.IsItem() && i.IsWeapon())
                         .Select(i => i.GetComponent<ItemComponent>()!.Blueprint.GetFamilyDescription().RelatedAbilityId) // ! is ok, because the entity is guaranteed to be an item
                         .ToList();
-                    m_armorFamilies = equipmentComp.GetItems()
+                    if (m_weaponAbilities.Count == 0)
+                        m_weaponAbilities.Add(Abilities.Unarmed);
+                    m_armorAbilities = equipmentComp.GetItems()
                         .Where(i => i.IsItem() && i.IsArmor())
                         .Select(i => i.GetComponent<ItemComponent>()!.Blueprint.GetFamilyDescription().RelatedAbilityId) // ! is ok, because the entity is guaranteed to be an item
                         .ToList();
+                    if (m_armorAbilities.Count == 0)
+                        m_armorAbilities.Add(Abilities.Unarmored);
                 }
 
                 int zoneLevel = m_player.GetComponent<LocationComponent>()?.GetCurrentZone(world.Map)?.Level ?? 1;
                 var multiplier = world.XpMultiplier * Math.Sqrt(zoneLevel);
                 var gain = dt * multiplier;
-                AddXP(m_weaponFamilies, gain, coordinator);
-                AddXP(m_armorFamilies, gain, coordinator);
+                AddXP(m_weaponAbilities, gain, coordinator);
+                AddXP(m_armorAbilities, gain, coordinator);
 
                 m_firstUpdate = false; // First update is not relevant for crafting etc., only for the fighting abilities
             }
         }
 
-        void AddXP(List<string> itemFamilies, double fullAmount, Coordinator coordinator)
+        void AddXP(List<string> abilityIds, double fullAmount, Coordinator coordinator)
         {
             var abilitiesComp = m_player?.GetComponent<AbilitiesComponent>();
             if (abilitiesComp == null)
                 return;
-            var share = fullAmount / itemFamilies.Count; // Split experience among families of all equipped weapons/armors
+            var share = fullAmount / abilityIds.Count; // Split experience among families of all equipped weapons/armors
 
-            foreach (string item in itemFamilies)
+            foreach (string abilityId in abilityIds)
             {
-                if (!m_timePerItemClass.ContainsKey(item))
+                if (!m_timePerItemClass.ContainsKey(abilityId))
                 {
-                    m_timePerItemClass[item] = 0.0;
+                    m_timePerItemClass[abilityId] = 0.0;
                 }
-                double scaledShare = ApplyModifiers(item, share);
-                m_timePerItemClass[item] += scaledShare;
+                double scaledShare = ApplyModifiers(abilityId, share);
+                m_timePerItemClass[abilityId] += scaledShare;
 
-                if (m_timePerItemClass[item] > 1.0) // A full XP has been reached
+                if (m_timePerItemClass[abilityId] > 1.0) // A full XP has been reached
                 {
-                    int xp = (int)Math.Floor(m_timePerItemClass[item]);
-                    m_timePerItemClass[item] -= xp;
-                    var result = abilitiesComp.AddXP(item, xp);
+                    int xp = (int)Math.Floor(m_timePerItemClass[abilityId]);
+                    m_timePerItemClass[abilityId] -= xp;
+                    var result = abilitiesComp.AddXP(abilityId, xp);
                     if (result == AbilitiesComponent.AddXPResult.LevelIncreased)
                     {
-                        var ability = abilitiesComp.GetAbility(item);
+                        var ability = abilitiesComp.GetAbility(abilityId);
                         if (ability == null)
                             continue;
                         coordinator.PostMessage(this, new AbilityImprovedMessage(ability.Key.Localize(), ability.Level));

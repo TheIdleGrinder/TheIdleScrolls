@@ -13,15 +13,18 @@ namespace TheIdleScrolls_Core.Definitions
         public const string LongBlade   = "LBL";
         public const string Polearm     = "POL";
         public const string ShortBlade  = "SBL";
-
+        public const string Unarmed     = "UNARMED";
 
         public const string LightArmor = "LAR";
         public const string HeavyArmor = "HAR";
+        public const string Unarmored  = "UNARMORED";
 
         public const string Crafting = "ABL_CRAFT";
 
-        public static readonly List<string> Weapons = [ Axe, Blunt, LongBlade, Polearm, ShortBlade ];
+        public static List<string> Weapons { get; } = [Axe, Blunt, LongBlade, Polearm, ShortBlade];
+        public static List<string> Attack { get; } = [.. Weapons, Unarmed];
 
-        public static readonly List<string> Armors = [ LightArmor, HeavyArmor ];
+        public static List<string> Armors { get; } = [LightArmor, HeavyArmor];
+        public static List<string> Defense { get; } = [.. Armors, Unarmored];
     }
 }

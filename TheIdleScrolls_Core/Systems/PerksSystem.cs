@@ -95,7 +95,7 @@ namespace TheIdleScrolls_Core.Systems
             List<double> values = new();
             List<IEnumerable<string>> localTags = new();
             List<IEnumerable<string>> globalTags = new();
-            foreach (string ability in Definitions.Abilities.Weapons)
+            foreach (string ability in Definitions.Abilities.Attack)
             {
                 abilities.Add(ability);
                 abilities.Add(ability);
@@ -103,13 +103,13 @@ namespace TheIdleScrolls_Core.Systems
                 modifiers.Add(ModifierType.More);
                 values.Add(Definitions.Stats.AttackDamagePerAbilityLevel);
                 values.Add(Definitions.Stats.AttackSpeedPerAbilityLevel);
-                localTags.Add(new List<string>() { Definitions.Tags.Damage });
-                localTags.Add(new List<string>() { Definitions.Tags.AttackSpeed });
-                globalTags.Add(new List<string>());
-                globalTags.Add(new List<string>());
+                localTags.Add([Definitions.Tags.Damage]);
+                localTags.Add([Definitions.Tags.AttackSpeed]);
+                globalTags.Add([]);
+                globalTags.Add([]);
             }
-            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("WeaponAbilities", "Abilities: Weapons",
-                "Increases damage and attack speed of weapon abilities",
+            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("WeaponAbilities", "Abilities: Offense",
+                "Increases damage and speed of attacks with different weapons based on ability levels",
                 abilities, modifiers,
                 values,
                 localTags,
@@ -117,14 +117,15 @@ namespace TheIdleScrolls_Core.Systems
                 false)
             );
 
+            abilities = [.. Definitions.Abilities.Defense];
             // Create perk for armor abilities
-            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("ArmorAbilities", "Abilities: Armor",
-                "Increases armor and evasion rating of armor abilities",
-                Definitions.Abilities.Armors.ToList(), 
-                new() { ModifierType.More, ModifierType.More },
-                new() { Definitions.Stats.DefensePerAbilityLevel, Definitions.Stats.DefensePerAbilityLevel },
-                new() { new List<string>() { Definitions.Tags.Defense }, new List<string>() { Definitions.Tags.Defense } },
-                new() { new List<string>(), new List<string>() },
+            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("ArmorAbilities", "Abilities: Defense",
+                "Increases armor and evasion rating with different armor types based on ability levels",
+                abilities,
+                abilities.Select(_ => ModifierType.More).ToList(),
+                abilities.Select(_ => Definitions.Stats.DefensePerAbilityLevel).ToList(),
+                abilities.Select(_ => (IEnumerable<string>)[Definitions.Tags.Defense]).ToList(),
+                abilities.Select(_ => (IEnumerable<string>)[]).ToList(),
                 false)
             );
 

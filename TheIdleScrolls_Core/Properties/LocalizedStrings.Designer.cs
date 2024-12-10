@@ -1413,6 +1413,24 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unarmed ähnelt.
+        /// </summary>
+        internal static string UNARMED {
+            get {
+                return ResourceManager.GetString("UNARMED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unarmored ähnelt.
+        /// </summary>
+        internal static string UNARMORED {
+            get {
+                return ResourceManager.GetString("UNARMORED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Wolf ähnelt.
         /// </summary>
         internal static string WOLF {

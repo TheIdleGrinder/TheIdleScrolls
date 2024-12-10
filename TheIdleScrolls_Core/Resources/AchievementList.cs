@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Utility;
@@ -379,13 +380,14 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction("HC:NOARMOR"),
                 ExpressionParser.ParseToFunction("Level >= 50 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
                 {
-                Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
-                        "Armored in Faith",
-                        "Character level scales unarmored evasion rating like abilities scale regular armors",
-                        ModifierType.More,
-                        Definitions.Stats.DefensePerAbilityLevel,
-                        [Definitions.Tags.EvasionRating],
-                        [Definitions.Tags.Unarmored]))
+                //Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
+                //        "Armored in Faith",
+                //        "Character level scales unarmored evasion rating like abilities scale regular armors",
+                //        ModifierType.More,
+                //        Definitions.Stats.DefensePerAbilityLevel,
+                //        [Definitions.Tags.EvasionRating],
+                //        [Definitions.Tags.Unarmored]))
+                Reward = new AbilityReward(Abilities.Unarmored)
             });
 
             int noWeaponLevel = 5;
@@ -448,19 +450,20 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"Level >= {noWeaponMaxLevel} && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 " +
                     "&& abl:POL <= 10 && abl:SBL <= 10 && Losses == 0"))
             {
-                Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedMultiModPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
-                        "The Blade Within",
-                        "Character level scales unarmed damage like abilities scale weapon damage",
-                        [ModifierType.More, ModifierType.More],
-                        [Definitions.Stats.AttackDamagePerAbilityLevel, Definitions.Stats.AttackSpeedPerAbilityLevel],
-                        [
-                            [Definitions.Tags.Damage],
-                            [Definitions.Tags.AttackSpeed]
-                        ],
-                        [
-                            [Definitions.Tags.Unarmed],
-                            [Definitions.Tags.Unarmed]
-                        ]))
+                //Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedMultiModPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
+                //        "The Blade Within",
+                //        "Character level scales unarmed damage like abilities scale weapon damage",
+                //        [ModifierType.More, ModifierType.More],
+                //        [Definitions.Stats.AttackDamagePerAbilityLevel, Definitions.Stats.AttackSpeedPerAbilityLevel],
+                //        [
+                //            [Definitions.Tags.Damage],
+                //            [Definitions.Tags.AttackSpeed]
+                //        ],
+                //        [
+                //            [Definitions.Tags.Unarmed],
+                //            [Definitions.Tags.Unarmed]
+                //        ]))
+                Reward = new AbilityReward(Abilities.Unarmed)
             });
 
             achievements.Add(new(
@@ -477,12 +480,12 @@ namespace TheIdleScrolls_Core.Resources
                         [ModifierType.More, ModifierType.More],
                         [0.5, 0.5],
                         [
-                            [Definitions.Tags.Damage],
-                            [Definitions.Tags.Defense]
+                            [Tags.Damage],
+                            [Tags.Defense]
                         ],
                         [
-                            [Definitions.Tags.Unarmed, Definitions.Tags.Unarmored],
-                            [Definitions.Tags.Unarmed, Definitions.Tags.Unarmored]
+                            [Tags.Unarmed, Tags.Unarmored],
+                            [Tags.Unarmed, Tags.Unarmored]
                         ]))
                 });
 
@@ -490,7 +493,7 @@ namespace TheIdleScrolls_Core.Resources
             return achievements;
         }
 
-        public static PerkReward? GetPerkForLeveledAchievement(string id, int level)
+        public static IAchievementReward? GetPerkForLeveledAchievement(string id, int level)
         {
             var perk = (id, level) switch
             {
@@ -716,7 +719,7 @@ namespace TheIdleScrolls_Core.Resources
                                     []),
                 _ => null
             };
-            return perk != null ? new PerkReward(perk) : null;
+            return perk != null ? new PerkReward(perk) as dynamic : null;
         }
     }
 }

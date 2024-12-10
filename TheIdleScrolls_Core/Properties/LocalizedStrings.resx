@@ -569,6 +569,12 @@ Time to finish: {0}</value>
   <data name="STORY_END_TITLE" xml:space="preserve">
     <value>Convergence</value>
   </data>
+  <data name="UNARMED" xml:space="preserve">
+    <value>Unarmed</value>
+  </data>
+  <data name="UNARMORED" xml:space="preserve">
+    <value>Unarmored</value>
+  </data>
   <data name="WOLF" xml:space="preserve">
     <value>Wolf</value>
   </data>
