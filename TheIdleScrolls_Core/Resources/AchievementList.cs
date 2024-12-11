@@ -341,130 +341,140 @@ namespace TheIdleScrolls_Core.Resources
 
 
             // Unarmored/Unarmed achievements
+            double noArmorBaseEvasion = 10;
             double noArmorBaseEvasion1 = 0.5;
             double noArmorBaseEvasion2 = 1.0;
             achievements.Add(new(
-                "NOARMOR",
-                "Wollt Ihr Ewig Leben?!",
-                $"Complete the {Properties.Places.Dungeon_Lighthouse} without ever raising an armor ability",
+                "NOARMOR1",
+                "Plain Clothes",
+                $"Complete the {Properties.Places.Dungeon_RatDen} without ever raising an armor ability",
                 tautology,
-                ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10"))
+                ExpressionParser.ParseToFunction($"dng:{DungeonIds.DenOfRats} > 0 && abl:LAR <= 1 && abl:HAR <= 1"))
                 {
-                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("NOARMOR",
-                        "Elusive",
-                        $"Gain +{noArmorBaseEvasion1:0.#} evasion rating for each level",
+                    Reward = new PerkReward(PerkFactory.MakeStaticPerk("NOARMOR1",
+                        "Agile",
+                        $"Gain +{noArmorBaseEvasion:0.#} base evasion rating while unarmored",
                         ModifierType.AddBase,
                         noArmorBaseEvasion1,
-                        [Definitions.Tags.EvasionRating],
-                        [Definitions.Tags.Unarmored]))
-                });
+                        [Tags.EvasionRating],
+                        [Tags.Unarmored]
+                    ))
+                }
+            );
+            achievements.Add(new(
+                "NOARMOR2",
+                "Wollt Ihr Ewig Leben?!",
+                $"Complete the {Properties.Places.Dungeon_Lighthouse} without ever raising an armor ability",
+                ExpressionParser.ParseToFunction("NOARMOR1"),
+                ExpressionParser.ParseToFunction($"dng:{DungeonIds.Lighthouse} > 0 && abl:LAR <= 1 && abl:HAR <= 1"))
+                {
+                    Reward = new AbilityReward(Abilities.Unarmored)
+                }
+            );
             achievements.Add(new(
                 "HC:NOARMOR",
                 "Not Today",
                 "Complete the Beacon without ever raising an armor ability or losing a fight",
-                ExpressionParser.ParseToFunction("NOARMOR"),
-                ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
+                ExpressionParser.ParseToFunction("NOARMOR2"),
+                ExpressionParser.ParseToFunction($"dng:{DungeonIds.Lighthouse} > 0 && abl:LAR <= 1 && abl:HAR <= 1 && Losses == 0"))
                 {
                     Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR",
-                        "Ethereal Form",
-                        $"Gain +{noArmorBaseEvasion2:0.#} evasion rating for each level",
+                        "Elusive",
+                        $"Gain +{noArmorBaseEvasion1:0.#} evasion rating for each level",
                         ModifierType.AddBase,
-                        noArmorBaseEvasion2,
-                        [Definitions.Tags.EvasionRating],
-                        [Definitions.Tags.Unarmored]))
-            });
+                        noArmorBaseEvasion1,
+                        [Tags.EvasionRating],
+                        [Tags.Unarmored]
+                    ))
+                }
+            );
             achievements.Add(new(
                 "HC:NOARMOR_50",
                 "Armored in Faith",
                 "Reach level 50 without ever raising an armor ability or losing a fight",
                 ExpressionParser.ParseToFunction("HC:NOARMOR"),
-                ExpressionParser.ParseToFunction("Level >= 50 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
+                ExpressionParser.ParseToFunction("Level >= 50 && abl:LAR <= 1 && abl:HAR <= 1 && Losses == 0"))
                 {
-                //Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
-                //        "Armored in Faith",
-                //        "Character level scales unarmored evasion rating like abilities scale regular armors",
-                //        ModifierType.More,
-                //        Definitions.Stats.DefensePerAbilityLevel,
-                //        [Definitions.Tags.EvasionRating],
-                //        [Definitions.Tags.Unarmored]))
-                Reward = new AbilityReward(Abilities.Unarmored)
-            });
+                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
+                        "Ethereal Form",
+                        $"Gain +{noArmorBaseEvasion2:0.#} base evasion rating for each level",
+                        ModifierType.AddBase,
+                        noArmorBaseEvasion2,
+                        [Tags.EvasionRating],
+                        [Tags.Unarmored]
+                    ))
+                }
+            );
 
             int noWeaponLevel = 5;
             double noWeaponBaseDamageBonus = 3.0;
             double noWeaponLevelDamageBonus = 0.1;
-            double noWeaponMaxLevel = 40;
+            double noWeaponMaxLevel = 50;
             achievements.Add(new(
                 "NOWEAPON",
                 "Boxer",
                 $"Reach level {noWeaponLevel} without ever raising a weapon ability",
                 tautology,
-                ExpressionParser.ParseToFunction($"Level >= {noWeaponLevel} && abl:AXE <= 10 && abl:BLN <= 10 " +
-                    $"&& abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
+                ExpressionParser.ParseToFunction($"Level >= {noWeaponLevel} && abl:AXE <= 1 && abl:BLN <= 1 " +
+                    $"&& abl:LBL <= 1 && abl:POL <= 1 && abl:SBL <= 1"))
                 {
                     Reward = new PerkReward(PerkFactory.MakeStaticPerk("NOWEAPON",
                         "Boxer",
                         $"Increased base damage with unarmed attacks",
                         ModifierType.AddBase,
                         noWeaponBaseDamageBonus,
-                        [Definitions.Tags.Damage],
-                        [Definitions.Tags.Unarmed]))
-                });
+                        [Tags.Damage],
+                        [Tags.Unarmed]
+                    ))
+                }
+            );
             achievements.Add(new(
-                "NOWEAPON_DNG",
+                "NOWEAPON_DMG",
                 "Prize Fighter",
                 $"Complete the {Properties.Places.Dungeon_RatDen} without ever raising a weapon ability",
                 ExpressionParser.ParseToFunction("NOWEAPON"),
-                ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.DenOfRats} > 0 && abl:AXE <= 10 " +
-                    $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
+                ExpressionParser.ParseToFunction($"dng:{DungeonIds.DenOfRats} > 0 && abl:AXE <= 1 " +
+                    $"&& abl:BLN <= 1 && abl:LBL <= 1 && abl:POL <= 1 && abl:SBL <= 1"))
                 {
-                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
+                    Reward = new AbilityReward(Abilities.Unarmed)
+                }
+            );
+            achievements.Add(new(
+                "NOWEAPON_DMG2",
+                "I Am The Greatest!",
+                $"Complete the {Properties.Places.Dungeon_Lighthouse} without ever raising a weapon ability",
+                ExpressionParser.ParseToFunction("NOWEAPON_DMG"),
+                ExpressionParser.ParseToFunction($"dng:{DungeonIds.Lighthouse} > 0 && abl:AXE <= 1 " +
+                    $"&& abl:BLN <= 1 && abl:LBL <= 1 && abl:POL <= 1 && abl:SBL <= 1"))
+                {
+                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("NOWEAPON_DMG2",
                         "Iron Fists",
                         $"Gain +{noWeaponLevelDamageBonus:0.#} unarmed damage for each level",
                         ModifierType.AddBase,
                         noWeaponLevelDamageBonus,
-                        [Definitions.Tags.Damage],
-                        [Definitions.Tags.Unarmed]))
-            });
-            achievements.Add(new(
-                "NOWEAPON_DNG2",
-                "I Am The Greatest!",
-                $"Complete the {Properties.Places.Dungeon_Lighthouse} without ever raising a weapon ability",
-                ExpressionParser.ParseToFunction("NOWEAPON_DNG"),
-                ExpressionParser.ParseToFunction($"dng:{Definitions.DungeonIds.Lighthouse} > 0 && abl:AXE <= 10 " +
-                    $"&& abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 && abl:SBL <= 10"))
-            {
-                Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOWEAPON",
-                        "Force of Spirit",
-                        $"Gain {Definitions.Stats.AttackBonusPerLevel:0.#%} increased unarmed damage per character level",
-                        ModifierType.Increase,
-                        Definitions.Stats.AttackBonusPerLevel,
-                        [Definitions.Tags.Damage],
-                        [Definitions.Tags.Unarmed]))
-            });
+                        [Tags.Damage],
+                        [Tags.Unarmed]
+                    ))
+                }
+            );
             achievements.Add(new(
                 $"HC:NOWEAPON_{noWeaponMaxLevel}",
                 "Path of the Monk",
                 $"Reach level {noWeaponMaxLevel} without ever raising a weapon ability or losing a fight",
                 ExpressionParser.ParseToFunction("NOWEAPON_DNG2"),
-                ExpressionParser.ParseToFunction($"Level >= {noWeaponMaxLevel} && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 " +
-                    "&& abl:POL <= 10 && abl:SBL <= 10 && Losses == 0"))
-            {
-                //Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedMultiModPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
-                //        "The Blade Within",
-                //        "Character level scales unarmed damage like abilities scale weapon damage",
-                //        [ModifierType.More, ModifierType.More],
-                //        [Definitions.Stats.AttackDamagePerAbilityLevel, Definitions.Stats.AttackSpeedPerAbilityLevel],
-                //        [
-                //            [Definitions.Tags.Damage],
-                //            [Definitions.Tags.AttackSpeed]
-                //        ],
-                //        [
-                //            [Definitions.Tags.Unarmed],
-                //            [Definitions.Tags.Unarmed]
-                //        ]))
-                Reward = new AbilityReward(Abilities.Unarmed)
-            });
+                ExpressionParser.ParseToFunction($"Level >= {noWeaponMaxLevel} && abl:AXE <= 1 && abl:BLN <= 1 && abl:LBL <= 1 " +
+                    "&& abl:POL <= 1 && abl:SBL <= 1 && Losses == 0"))
+                {
+                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
+                        "Force of Spirit",
+                        $"Gain {Stats.AttackBonusPerLevel:0.#%} increased unarmed damage per character level",
+                        ModifierType.Increase,
+                        Stats.AttackBonusPerLevel,
+                        [Tags.Damage],
+                        [Tags.Unarmed]
+                    ))
+                }
+            );
 
             achievements.Add(new(
                 "HC:NOARMOR+NOWEAPON",
@@ -479,15 +489,11 @@ namespace TheIdleScrolls_Core.Resources
                         "Gain a significant bonus to damage and defense while unarmed and unarmored",
                         [ModifierType.More, ModifierType.More],
                         [0.5, 0.5],
-                        [
-                            [Tags.Damage],
-                            [Tags.Defense]
-                        ],
-                        [
-                            [Tags.Unarmed, Tags.Unarmored],
-                            [Tags.Unarmed, Tags.Unarmored]
-                        ]))
-                });
+                        [[Tags.Damage], [Tags.Defense]],
+                        [[Tags.Unarmed, Tags.Unarmored], [Tags.Unarmed, Tags.Unarmored]]
+                    ))
+                }
+            );
 
 
             return achievements;
