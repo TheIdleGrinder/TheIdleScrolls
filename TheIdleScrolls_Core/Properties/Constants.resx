@@ -144,4 +144,16 @@
   <data name="Achievement_Lvl09" xml:space="preserve">
     <value>LVL09</value>
   </data>
+  <data name="ABLCAT_OFFENSE" xml:space="preserve">
+    <value>Offense</value>
+  </data>
+  <data name="ABLCAT_DEFENSE" xml:space="preserve">
+    <value>Defense</value>
+  </data>
+  <data name="ABLCAT_CRAFTING" xml:space="preserve">
+    <value>Crafting</value>
+  </data>
+  <data name="ABLCAT_STYLE" xml:space="preserve">
+    <value>Fighting Style</value>
+  </data>
 </root>

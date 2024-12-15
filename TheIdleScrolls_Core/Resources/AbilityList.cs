@@ -14,19 +14,74 @@ namespace TheIdleScrolls_Core.Resources
 
         private static void GenerateAbilities()
         {
+            static int regularXpCurve(int x) => 60 * (int)Math.Pow(x, 2);
+            static int slowXpCurve(int x)    => 120 * (int)Math.Pow(x, 2);
+            int regularMaxLevel              = 200;
+            int slowMaxLevel                 = 100;
+
+
             List<AbilityDefinition> abilities = [];
-            abilities.Add(new AbilityDefinition(Abilities.Axe) { Name = Properties.LocalizedStrings.AXE });
-            abilities.Add(new AbilityDefinition(Abilities.Blunt) { Name = Properties.LocalizedStrings.BLN });
-            abilities.Add(new AbilityDefinition(Abilities.LongBlade) { Name = Properties.LocalizedStrings.LBL });
-            abilities.Add(new AbilityDefinition(Abilities.Polearm) { Name = Properties.LocalizedStrings.POL });
-            abilities.Add(new AbilityDefinition(Abilities.ShortBlade) { Name = Properties.LocalizedStrings.SBL });
-            abilities.Add(new AbilityDefinition(Abilities.Unarmed) { Name = Properties.LocalizedStrings.UNARMED });
+            abilities.Add(new AbilityDefinition(Abilities.Axe)
+            {
+                Name = Properties.LocalizedStrings.AXE,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = regularXpCurve
+            });
+            abilities.Add(new AbilityDefinition(Abilities.Blunt) 
+            { 
+                Name = Properties.LocalizedStrings.BLN,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = regularXpCurve
+            });
+            abilities.Add(new AbilityDefinition(Abilities.LongBlade) 
+            { 
+                Name = Properties.LocalizedStrings.LBL,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = regularXpCurve
+            });
+            abilities.Add(new AbilityDefinition(Abilities.Polearm) 
+            { 
+                Name = Properties.LocalizedStrings.POL,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = regularXpCurve
+            });
+            abilities.Add(new AbilityDefinition(Abilities.ShortBlade) 
+            { 
+                Name = Properties.LocalizedStrings.SBL,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = regularXpCurve
+            });
+            abilities.Add(new AbilityDefinition(Abilities.Unarmed) 
+            { Name = Properties.LocalizedStrings.UNARMED,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = regularXpCurve
+            });
 
-            abilities.Add(new AbilityDefinition(Abilities.LightArmor) { Name = Properties.LocalizedStrings.LAR });
-            abilities.Add(new AbilityDefinition(Abilities.HeavyArmor) { Name = Properties.LocalizedStrings.HAR });
-            abilities.Add(new AbilityDefinition(Abilities.Unarmored) { Name = Properties.LocalizedStrings.UNARMORED });
+            abilities.Add(new AbilityDefinition(Abilities.LightArmor) 
+            { 
+                Name = Properties.LocalizedStrings.LAR,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = regularXpCurve
+            });
+            abilities.Add(new AbilityDefinition(Abilities.HeavyArmor) 
+            { 
+                Name = Properties.LocalizedStrings.HAR,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = regularXpCurve
+            });
+            abilities.Add(new AbilityDefinition(Abilities.Unarmored) 
+            { 
+                Name = Properties.LocalizedStrings.UNARMORED,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = regularXpCurve
+            });
 
-            abilities.Add(new AbilityDefinition(Abilities.Crafting) { Name = Properties.LocalizedStrings.ABL_CRAFT });
+            abilities.Add(new AbilityDefinition(Abilities.Crafting)
+            {
+                Name = Properties.LocalizedStrings.ABL_CRAFT,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = (int x) => 50 * x
+            });
 
             foreach (var ability in abilities)
             {

@@ -61,6 +61,42 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting ähnelt.
+        /// </summary>
+        internal static string ABLCAT_CRAFTING {
+            get {
+                return ResourceManager.GetString("ABLCAT_CRAFTING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Defense ähnelt.
+        /// </summary>
+        internal static string ABLCAT_DEFENSE {
+            get {
+                return ResourceManager.GetString("ABLCAT_DEFENSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Offense ähnelt.
+        /// </summary>
+        internal static string ABLCAT_OFFENSE {
+            get {
+                return ResourceManager.GetString("ABLCAT_OFFENSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fighting Style ähnelt.
+        /// </summary>
+        internal static string ABLCAT_STYLE {
+            get {
+                return ResourceManager.GetString("ABLCAT_STYLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die LVL01 ähnelt.
         /// </summary>
         internal static string Achievement_Lvl01 {

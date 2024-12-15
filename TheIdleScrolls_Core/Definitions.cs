@@ -77,6 +77,9 @@ namespace TheIdleScrolls_Core
             public const string Unarmed = "Unarmed";
             public const string Unarmored = "Unarmored";
             public const string DualWield = "DualWield";
+            public const string TwoHanded = "TwoHanded";
+            public const string Shielded = "Shielded";
+            public const string SingleHanded = "SingleHanded";
             public const string MixedWeapons = "MixedWeapons";
             public const string MixedArmor = "MixedArmor";
             public const string FirstStrike = "FirstStrike";

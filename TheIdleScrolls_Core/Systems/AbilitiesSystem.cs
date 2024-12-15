@@ -18,7 +18,7 @@ namespace TheIdleScrolls_Core.Systems
         List<string> m_weaponAbilities = new();
         List<string> m_armorAbilities = new();
 
-        readonly Dictionary<string, double> m_timePerItemClass = new();
+        readonly Dictionary<string, double> m_timePerAbility = new();
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -71,10 +71,20 @@ namespace TheIdleScrolls_Core.Systems
                 }
 
                 int zoneLevel = m_player.GetComponent<LocationComponent>()?.GetCurrentZone(world.Map)?.Level ?? 1;
-                var multiplier = world.XpMultiplier * Math.Sqrt(zoneLevel);
+                var multiplier = world.XpMultiplier * zoneLevel;
                 var gain = dt * multiplier;
                 AddXP(m_weaponAbilities, gain, coordinator);
                 AddXP(m_armorAbilities, gain, coordinator);
+
+                var tags = m_player.GetTags();
+                if (tags.Contains(Tags.TwoHanded))
+                    AddXP([Abilities.TwoHanded], gain, coordinator);
+                else if (tags.Contains(Tags.DualWield))
+                    AddXP([Abilities.DualWield], gain, coordinator);
+                else if (tags.Contains(Tags.Shielded))
+                    AddXP([Abilities.Shielded], gain, coordinator);
+                else if (tags.Contains(Tags.SingleHanded))
+                    AddXP([Abilities.SingleHanded], gain, coordinator);
 
                 m_firstUpdate = false; // First update is not relevant for crafting etc., only for the fighting abilities
             }
@@ -83,23 +93,23 @@ namespace TheIdleScrolls_Core.Systems
         void AddXP(List<string> abilityIds, double fullAmount, Coordinator coordinator)
         {
             var abilitiesComp = m_player?.GetComponent<AbilitiesComponent>();
-            if (abilitiesComp == null)
+            if (abilitiesComp == null || abilityIds.Count == 0)
                 return;
             var share = fullAmount / abilityIds.Count; // Split experience among families of all equipped weapons/armors
 
             foreach (string abilityId in abilityIds)
             {
-                if (!m_timePerItemClass.ContainsKey(abilityId))
+                if (!m_timePerAbility.ContainsKey(abilityId))
                 {
-                    m_timePerItemClass[abilityId] = 0.0;
+                    m_timePerAbility[abilityId] = 0.0;
                 }
                 double scaledShare = ApplyModifiers(abilityId, share);
-                m_timePerItemClass[abilityId] += scaledShare;
+                m_timePerAbility[abilityId] += scaledShare;
 
-                if (m_timePerItemClass[abilityId] > 1.0) // A full XP has been reached
+                if (m_timePerAbility[abilityId] > 1.0) // A full XP has been reached
                 {
-                    int xp = (int)Math.Floor(m_timePerItemClass[abilityId]);
-                    m_timePerItemClass[abilityId] -= xp;
+                    int xp = (int)Math.Floor(m_timePerAbility[abilityId]);
+                    m_timePerAbility[abilityId] -= xp;
                     var result = abilitiesComp.AddXP(abilityId, xp);
                     if (result == AbilitiesComponent.AddXPResult.LevelIncreased)
                     {
@@ -114,32 +124,17 @@ namespace TheIdleScrolls_Core.Systems
 
         double ApplyModifiers(string ability, double baseValue)
             => m_player?.GetComponent<ModifierComponent>()
-                ?.ApplyApplicableModifiers(baseValue, 
-                    new string[] { Definitions.Tags.AbilityXpGain, ability }, 
-                    m_player?.GetTags() ?? new()) 
+                ?.ApplyApplicableModifiers(baseValue,
+                    new string[] { Tags.AbilityXpGain, ability },
+                    m_player?.GetTags() ?? [])
             ?? baseValue;
     }
 
-    public class AbilityImprovedMessage : IMessage
+    public class AbilityImprovedMessage(string id, int newLevel) : IMessage
     {
-        public string AbilityId { get; set; }
-
-        public int NewLevel { get; set; }
-
-        public AbilityImprovedMessage(string id, int newLevel)
-        {
-            AbilityId = id;
-            NewLevel = newLevel;
-        }
-
-        string IMessage.BuildMessage()
-        {
-            return $"Ability '{AbilityId}' reached level {NewLevel}";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.High;
-        }
+        public string AbilityId { get; set; } = id;
+        public int NewLevel { get; set; } = newLevel;
+        string IMessage.BuildMessage() => $"Ability '{AbilityId}' reached level {NewLevel}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }
 }
