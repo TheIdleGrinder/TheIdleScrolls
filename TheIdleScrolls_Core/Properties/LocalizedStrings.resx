@@ -123,6 +123,18 @@
   <data name="ABL_CRAFT" xml:space="preserve">
     <value>Crafting</value>
   </data>
+  <data name="ABL_DualWield" xml:space="preserve">
+    <value>Two Weapons</value>
+  </data>
+  <data name="ABL_Shielded" xml:space="preserve">
+    <value>Shielded</value>
+  </data>
+  <data name="ABL_SingleHanded" xml:space="preserve">
+    <value>Single-Handed</value>
+  </data>
+  <data name="ABL_TwoHanded" xml:space="preserve">
+    <value>Two-Handed</value>
+  </data>
   <data name="ActiveCraftingSlot" xml:space="preserve">
     <value>Active Craft(s)</value>
   </data>

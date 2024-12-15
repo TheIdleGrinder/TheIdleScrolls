@@ -79,6 +79,42 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Two Weapons ähnelt.
+        /// </summary>
+        internal static string ABL_DualWield {
+            get {
+                return ResourceManager.GetString("ABL_DualWield", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shielded ähnelt.
+        /// </summary>
+        internal static string ABL_Shielded {
+            get {
+                return ResourceManager.GetString("ABL_Shielded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Single-Handed ähnelt.
+        /// </summary>
+        internal static string ABL_SingleHanded {
+            get {
+                return ResourceManager.GetString("ABL_SingleHanded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Two-Handed ähnelt.
+        /// </summary>
+        internal static string ABL_TwoHanded {
+            get {
+                return ResourceManager.GetString("ABL_TwoHanded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Active Craft(s) ähnelt.
         /// </summary>
         internal static string ActiveCraftingSlot {

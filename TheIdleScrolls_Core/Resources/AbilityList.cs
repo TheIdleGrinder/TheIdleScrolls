@@ -83,6 +83,31 @@ namespace TheIdleScrolls_Core.Resources
                 RequiredXpForLevelUp = (int x) => 50 * x
             });
 
+            abilities.Add(new AbilityDefinition(Abilities.DualWield)
+            {
+                Name = Properties.LocalizedStrings.ABL_DualWield,
+                MaxLevel = slowMaxLevel,
+                RequiredXpForLevelUp = slowXpCurve
+            });
+            abilities.Add(new AbilityDefinition(Abilities.Shielded)
+            {
+                Name = Properties.LocalizedStrings.ABL_Shielded,
+                MaxLevel = slowMaxLevel,
+                RequiredXpForLevelUp = slowXpCurve
+            });
+            abilities.Add(new AbilityDefinition(Abilities.SingleHanded)
+            {
+                Name = Properties.LocalizedStrings.ABL_SingleHanded,
+                MaxLevel = slowMaxLevel,
+                RequiredXpForLevelUp = slowXpCurve
+            });
+            abilities.Add(new AbilityDefinition(Abilities.TwoHanded)
+            {
+                Name = Properties.LocalizedStrings.ABL_TwoHanded,
+                MaxLevel = slowMaxLevel,
+                RequiredXpForLevelUp = slowXpCurve
+            });
+
             foreach (var ability in abilities)
             {
                 s_Abilities.Add(ability.Key, ability);
