@@ -461,7 +461,7 @@ namespace TheIdleScrolls_Core.Resources
                 $"HC:NOWEAPON_{noWeaponMaxLevel}",
                 "Path of the Monk",
                 $"Reach level {noWeaponMaxLevel} without ever raising a weapon ability or losing a fight",
-                ExpressionParser.ParseToFunction("NOWEAPON_DNG2"),
+                ExpressionParser.ParseToFunction("NOWEAPON_DMG2"),
                 ExpressionParser.ParseToFunction($"Level >= {noWeaponMaxLevel} && abl:AXE <= 1 && abl:BLN <= 1 && abl:LBL <= 1 " +
                     "&& abl:POL <= 1 && abl:SBL <= 1 && Losses == 0"))
                 {
