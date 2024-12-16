@@ -1,5 +1,6 @@
 ﻿@using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Components
 
 @inject CoreWrapperModel CoreWrapper
 
@@ -19,8 +20,13 @@
                     <td>@ability.Name</td>
                     <td>@ability.Level</td>
                     <td class="ability-progress">
-                        <span class="progress-value">@($"{1.0 * ability.XP / ability.TargetXP:0%}")</span>
-                        <progress value="@ability.XP" max="@ability.TargetXP"></progress>
+                        <span class="progress-value">@(ProgressString(ability))</span>
+                        <div id="ability-xp-bar-frame" class="progressFrame" style="justify-content: start">
+                            <div id="ability-xp-bar-fill" 
+                                class="progressFill @(ProgressClass(ability))" 
+                                style="width: @($"{ProgressValue(ability):0%}");">
+                            </div>
+                        </div>
                     </td>
                 </tr>
             }
@@ -35,10 +41,32 @@
         margin: 10px;
         width: calc(100% - 20px);
     }
+
+    #ability-xp-bar-frame {
+        width: 70%;
+        border: 1px solid var(--frame-color);
+        background: inherit;
+    }
+
+    #ability-xp-bar-fill {
+        background-color: var(--color-xp-progress);
+        height: 8px;
+    }
+
+    #ability-xp-bar-fill.max-level {
+        background-color: forestgreen;
+    }
+
 </style>
 
 @code {
-    List<AbilityRepresentation> Abilities => CoreWrapper.Abilities;
+    AbilitiesComponent? AbilityComp => CoreWrapper.PlayerCharacter.GetComponent<AbilitiesComponent>();
+    List<Ability> Abilities => AbilityComp?.GetAbilities() ?? [];
+
+    double ProgressValue(Ability ability) => ability.Level < ability.MaxLevel ? ability.XP * 1.0 / ability.TargetXP : 1.0;
+    string ProgressString(Ability ability) => ability.Level < ability.MaxLevel ? $"{ProgressValue(ability):0%}" : "Max";
+
+    string ProgressClass(Ability ability) => ability.Level < ability.MaxLevel ? "" : "max-level";
 
     protected override void OnInitialized()
     {

@@ -14,13 +14,13 @@ namespace TheIdleScrolls_Core.Resources
 
         private static void GenerateAbilities()
         {
+            List<AbilityDefinition> abilities = [];
             static int regularXpCurve(int x) => 60 * (int)Math.Pow(x, 2);
-            static int slowXpCurve(int x)    => 120 * (int)Math.Pow(x, 2);
+            static int slowXpCurve(int x)    => 90 * (int)Math.Pow(2 * x, 2); // slower but uses lower cap
             int regularMaxLevel              = 200;
             int slowMaxLevel                 = 100;
 
-
-            List<AbilityDefinition> abilities = [];
+            // Offense
             abilities.Add(new AbilityDefinition(Abilities.Axe)
             {
                 Name = Properties.LocalizedStrings.AXE,
@@ -57,6 +57,7 @@ namespace TheIdleScrolls_Core.Resources
                 RequiredXpForLevelUp = regularXpCurve
             });
 
+            // Defense
             abilities.Add(new AbilityDefinition(Abilities.LightArmor) 
             { 
                 Name = Properties.LocalizedStrings.LAR,
@@ -76,6 +77,7 @@ namespace TheIdleScrolls_Core.Resources
                 RequiredXpForLevelUp = regularXpCurve
             });
 
+            // Crafting
             abilities.Add(new AbilityDefinition(Abilities.Crafting)
             {
                 Name = Properties.LocalizedStrings.ABL_CRAFT,
@@ -83,6 +85,7 @@ namespace TheIdleScrolls_Core.Resources
                 RequiredXpForLevelUp = (int x) => 50 * x
             });
 
+            // Fighting Styles
             abilities.Add(new AbilityDefinition(Abilities.DualWield)
             {
                 Name = Properties.LocalizedStrings.ABL_DualWield,
@@ -137,12 +140,16 @@ namespace TheIdleScrolls_Core.Resources
     {
         public string Key { get; set; } = key;
         public string Name { get; set; } = "??";
-        public int MaxLevel { get; set; } = 9999;
+        public int MaxLevel { get; set; } = int.MaxValue;
         public Func<int, int> RequiredXpForLevelUp { get; set; } = (x) => 60 * x;
 
         public Ability GetAbility()
         {
-            return new(key) { Name = Name };
+            return new(key) 
+            { 
+                Name = Name,
+                MaxLevel = MaxLevel
+            };
         }
     }
 
