@@ -48,7 +48,7 @@ namespace TheIdleScrolls_Core.Utility
 
         public static bool HasDefeatedMobs(Entity e, IEnumerable<string> mobTypes)
         {
-            return mobTypes.All(m => e.GetComponent<PlayerProgressComponent>()?.Data?.DefeatedMobTypes.Contains(m) ?? false);
+            return mobTypes.All(m => e.GetComponent<PlayerProgressComponent>()?.Data.DefeatedMobs.ContainsKey(m) ?? false);
         }
 
         public static ConditionFunction WildernessLevelClearedCondition(int level)

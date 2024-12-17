@@ -36,11 +36,26 @@ namespace TheIdleScrolls_Core.Systems
                 var mobId = kill.Victim.GetComponent<MobComponent>()?.Id;
                 if (mobId != null)
                 {
-                    progComp.Data.DefeatedMobTypes.Add(mobId);
+                    if (!progComp.Data.DefeatedMobs.ContainsKey(mobId))
+                        progComp.Data.DefeatedMobs[mobId] = 0;
+                    progComp.Data.DefeatedMobs[mobId]++;
                 }
                 if (!locationComp.InDungeon)
                 {
                     progComp.Data.HighestWildernessKill = Math.Max(progComp.Data.HighestWildernessKill, kill.Victim.GetLevel());
+                }
+                List<string> tagsOfInterest = [Tags.DualWield, Tags.Shielded, Tags.SingleHanded, Tags.TwoHanded, 
+                    Tags.Unarmed, Tags.Unarmored, 
+                    Abilities.Axe, Abilities.Blunt, Abilities.LongBlade, Abilities.Polearm, Abilities.ShortBlade];
+                var playerTags = m_player.GetTags().ToHashSet();
+                foreach (var tag in tagsOfInterest)
+                {
+                    if (playerTags.Contains(tag))
+                    {
+                        if (!progComp.Data.ConditionalKills.ContainsKey(tag))
+                            progComp.Data.ConditionalKills[tag] = 0;
+                        progComp.Data.ConditionalKills[tag]++;
+                    }
                 }
             }
 

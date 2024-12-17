@@ -36,7 +36,8 @@ namespace TheIdleScrolls_Core.Components
         public int CoinsSpentOnForging { get; set; } = 0;
         public int BestReforge { get; set;} = 0;
         public int BestG0Reforge { get; set;} = 0;
-        public HashSet<string> DefeatedMobTypes { get; set; } = [];
+        public Dictionary<string, int> DefeatedMobs { get; set; } = [];
+        public Dictionary<string, int> ConditionalKills { get; set; } = [];
 
         public HashSet<string> GetClearedDungeons()
         {

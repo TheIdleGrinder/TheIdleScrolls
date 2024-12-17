@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Reflection.Emit;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
@@ -202,7 +203,7 @@ namespace TheIdleScrolls_Core.Resources
                     achievements.Add(achievement);
                 }
             }
-            foreach (string armorFamily in Definitions.Abilities.Armors)
+            foreach (string armorFamily in Abilities.Armors)
             {
                 for (int i = 0; i < ranks.Length; i++)
                 {
@@ -219,6 +220,7 @@ namespace TheIdleScrolls_Core.Resources
                     achievements.Add(achievement);
                 }
             }
+            
 
             // 'of all trades' achievements
             (int Level, string Rank)[] oAllRanks =
