@@ -250,6 +250,22 @@ namespace TheIdleScrolls_Core.Resources
                 Reward = new AbilityReward(Abilities.TwoHanded)
             });
 
+            // Fighting style level achievements
+            achievements.Add(new(Abilities.DualWield + "25", "Ambidextrous",
+                $"Reach ability level {25} for the {AbilityList.GetAbility(Abilities.DualWield)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.DualWield),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.DualWield], 25))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.DualWield, 25)
+            });
+            achievements.Add(new(Abilities.SingleHanded + "25", "Fire Dancer",
+                $"Reach ability level {25} for the {AbilityList.GetAbility(Abilities.SingleHanded)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.SingleHanded),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.SingleHanded], 25))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.SingleHanded, 25)
+            });
+
             // 'of all trades' achievements
             (int Level, string Rank)[] oAllRanks =
             [
@@ -752,6 +768,18 @@ namespace TheIdleScrolls_Core.Resources
                                     0.3,
                                     [ Tags.AbilityXpGain, id ], 
                                     []),
+                (Abilities.DualWield, 25) => PerkFactory.MakeStaticPerk($"{id}{level}", $"Ambidextrous",
+                                    $"{Stats.DualWieldAttackSpeedMulti:0.#%} more attack speed while dual wielding",
+                                    ModifierType.More,
+                                    Stats.DualWieldAttackSpeedMulti,
+                                    [Tags.AttackSpeed],
+                                    [Tags.DualWield]),
+                (Abilities.SingleHanded, 25) => PerkFactory.MakeStaticPerk($"{id}{level}", $"Fire Dancing",
+                                    $"{0.2:0.#%} more damage in single-handed style",
+                                    ModifierType.More,
+                                    0.2,
+                                    [Tags.Damage],
+                                    [Tags.SingleHanded]),
                 _ => null
             };
             return perk != null ? new PerkReward(perk) as dynamic : null;

@@ -161,23 +161,7 @@ namespace TheIdleScrolls_Core.Systems
                     return modifiers;
                 })
             );
-
-
-            // Create perk for dual wielding
-            Perk dualWield = new("dw", "Dual Wielding", 
-                $"{Stats.DualWieldAttackSpeedMulti:0.#%} more attack speed while dual wielding",
-                new(), 
-                delegate
-                {
-                    return new()
-                    {
-                        new("dw_aps", ModifierType.More, Stats.DualWieldAttackSpeedMulti,
-                            new() { Tags.AttackSpeed },
-                            new() { Tags.DualWield })
-                    };
-                }
-            );
-            
+                        
             // Create perk for damage per level
             Perk damagePerLevel = new("dpl", "Damage per Level",
                 $"{Stats.AttackBonusPerLevel:0.#%} increased damage per level",
@@ -194,7 +178,6 @@ namespace TheIdleScrolls_Core.Systems
             );
 
             perksComponent.AddPerk(damagePerLevel);
-            perksComponent.AddPerk(dualWield);
         }
     }
 
