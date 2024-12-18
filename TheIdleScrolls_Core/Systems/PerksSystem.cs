@@ -70,21 +70,23 @@ namespace TheIdleScrolls_Core.Systems
             List<UpdateTrigger> triggers = new();
 
             /// CornerCut: triggering entity is not checked
-            if (coordinator.MessageTypeIsOnBoard<MobSpawnMessage>())
-                triggers.Add(UpdateTrigger.BattleStarted);
-            if (coordinator.MessageTypeIsOnBoard<DeathMessage>())
-                triggers.Add(UpdateTrigger.BattleFinished);
-            if (coordinator.MessageTypeIsOnBoard<DamageDoneMessage>())
-                triggers.Add(UpdateTrigger.AttackPerformed);
-            if (coordinator.MessageTypeIsOnBoard<LevelUpMessage>())
-                triggers.Add(UpdateTrigger.LevelUp);
-            if (coordinator.MessageTypeIsOnBoard<AbilityImprovedMessage>())
-                triggers.Add(UpdateTrigger.AbilityIncreased);
-            if (coordinator.MessageTypeIsOnBoard<ItemMovedMessage>())
-                triggers.Add(UpdateTrigger.EquipmentChanged);
-            if (coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>())
-                triggers.Add(UpdateTrigger.AchievementUnlocked);
-
+            foreach (var messageType in coordinator.FetchAllMessages().Select(m => m.GetType()))
+            {
+                if (messageType == typeof(MobSpawnMessage))
+                    triggers.Add(UpdateTrigger.BattleStarted);
+                if (messageType == typeof(DeathMessage))
+                    triggers.Add(UpdateTrigger.BattleFinished);
+                if (messageType == typeof(DamageDoneMessage))
+                    triggers.Add(UpdateTrigger.AttackPerformed);
+                if (messageType == typeof(LevelUpMessage))
+                    triggers.Add(UpdateTrigger.LevelUp);
+                if (messageType == typeof(AbilityImprovedMessage) || messageType == typeof(AbilityAddedMessage))
+                    triggers.Add(UpdateTrigger.AbilityIncreased);
+                if (messageType == typeof(ItemMovedMessage))
+                    triggers.Add(UpdateTrigger.EquipmentChanged);
+                if (messageType == typeof(AchievementStatusMessage))
+                    triggers.Add(UpdateTrigger.AchievementUnlocked);
+            }
             return triggers;
         }
 
@@ -102,10 +104,10 @@ namespace TheIdleScrolls_Core.Systems
                 abilities.Add(ability);
                 modifiers.Add(ModifierType.More);
                 modifiers.Add(ModifierType.More);
-                values.Add(Definitions.Stats.AttackDamagePerAbilityLevel);
-                values.Add(Definitions.Stats.AttackSpeedPerAbilityLevel);
-                localTags.Add([Definitions.Tags.Damage]);
-                localTags.Add([Definitions.Tags.AttackSpeed]);
+                values.Add(Stats.AttackDamagePerAbilityLevel);
+                values.Add(Stats.AttackSpeedPerAbilityLevel);
+                localTags.Add([Tags.Damage]);
+                localTags.Add([Tags.AttackSpeed]);
                 globalTags.Add([]);
                 globalTags.Add([]);
             }
@@ -118,14 +120,14 @@ namespace TheIdleScrolls_Core.Systems
                 false)
             );
 
-            abilities = [.. Definitions.Abilities.Defense];
+            abilities = [.. Abilities.Defense];
             // Create perk for armor abilities
             perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("ArmorAbilities", "Abilities: Defense",
                 "Increases armor and evasion rating with different armor types based on ability levels",
                 abilities,
                 abilities.Select(_ => ModifierType.More).ToList(),
-                abilities.Select(_ => Definitions.Stats.DefensePerAbilityLevel).ToList(),
-                abilities.Select(_ => (IEnumerable<string>)[Definitions.Tags.Defense]).ToList(),
+                abilities.Select(_ => Stats.DefensePerAbilityLevel).ToList(),
+                abilities.Select(_ => (IEnumerable<string>)[Tags.Defense]).ToList(),
                 abilities.Select(_ => (IEnumerable<string>)[]).ToList(),
                 false)
             );
@@ -163,30 +165,30 @@ namespace TheIdleScrolls_Core.Systems
 
             // Create perk for dual wielding
             Perk dualWield = new("dw", "Dual Wielding", 
-                $"{Definitions.Stats.DualWieldAttackSpeedMulti:0.#%} more attack speed while dual wielding",
+                $"{Stats.DualWieldAttackSpeedMulti:0.#%} more attack speed while dual wielding",
                 new(), 
                 delegate
                 {
                     return new()
                     {
-                        new("dw_aps", ModifierType.More, Definitions.Stats.DualWieldAttackSpeedMulti,
-                            new() { Definitions.Tags.AttackSpeed },
-                            new() { Definitions.Tags.DualWield })
+                        new("dw_aps", ModifierType.More, Stats.DualWieldAttackSpeedMulti,
+                            new() { Tags.AttackSpeed },
+                            new() { Tags.DualWield })
                     };
                 }
             );
             
             // Create perk for damage per level
             Perk damagePerLevel = new("dpl", "Damage per Level",
-                $"{Definitions.Stats.AttackBonusPerLevel:0.#%} increased damage per level",
+                $"{Stats.AttackBonusPerLevel:0.#%} increased damage per level",
                 new() { UpdateTrigger.LevelUp },
                 delegate (Entity entity, World world, Coordinator coordinator)
                 {
                     int level = entity.GetComponent<LevelComponent>()?.Level ?? 0;
                     return new()
                     {
-                        new("dpl_dmg", ModifierType.Increase, (level - 1) * Definitions.Stats.AttackBonusPerLevel,
-                            new() { Definitions.Tags.Damage }, new())
+                        new("dpl_dmg", ModifierType.Increase, (level - 1) * Stats.AttackBonusPerLevel,
+                            new() { Tags.Damage }, new())
                     };
                 }
             );

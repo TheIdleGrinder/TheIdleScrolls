@@ -45,7 +45,7 @@ namespace TheIdleScrolls_Core.Systems
                         levelIncrease = true;
                 }
                 if (levelIncrease)
-                    coordinator.PostMessage(this, new AbilityImprovedMessage(craftAbl.Key.Localize(), craftAbl.Level));
+                    coordinator.PostMessage(this, new AbilityImprovedMessage(craftAbl.Key, craftAbl.Level));
             }
 
             // Update fighting abilities if player is currently in battle
@@ -116,7 +116,7 @@ namespace TheIdleScrolls_Core.Systems
                         var ability = abilitiesComp.GetAbility(abilityId);
                         if (ability == null)
                             continue;
-                        coordinator.PostMessage(this, new AbilityImprovedMessage(ability.Key.Localize(), ability.Level));
+                        coordinator.PostMessage(this, new AbilityImprovedMessage(ability.Key, ability.Level));
                     }
                 }
             }
@@ -130,10 +130,8 @@ namespace TheIdleScrolls_Core.Systems
             ?? baseValue;
     }
 
-    public class AbilityImprovedMessage(string id, int newLevel) : IMessage
+    public record AbilityImprovedMessage(string AbilityId, int NewLevel) : IMessage
     {
-        public string AbilityId { get; set; } = id;
-        public int NewLevel { get; set; } = newLevel;
         string IMessage.BuildMessage() => $"Ability '{AbilityList.GetAbility(AbilityId)?.Name ?? "??"}' reached level {NewLevel}";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }

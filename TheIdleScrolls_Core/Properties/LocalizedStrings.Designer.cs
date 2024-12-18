@@ -637,7 +637,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Dual Wielding ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die using two weapons ähnelt.
         /// </summary>
         internal static string DualWield {
             get {
@@ -1429,6 +1429,24 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die using a shield ähnelt.
+        /// </summary>
+        internal static string Shielded {
+            get {
+                return ResourceManager.GetString("Shielded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die fighting single-handed ähnelt.
+        /// </summary>
+        internal static string SingleHanded {
+            get {
+                return ResourceManager.GetString("SingleHanded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops.
         ///
         ///Time to finish: {0} ähnelt.
@@ -1445,6 +1463,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string STORY_END_TITLE {
             get {
                 return ResourceManager.GetString("STORY_END_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die using a two-handed weapon ähnelt.
+        /// </summary>
+        internal static string TwoHanded {
+            get {
+                return ResourceManager.GetString("TwoHanded", resourceCulture);
             }
         }
         

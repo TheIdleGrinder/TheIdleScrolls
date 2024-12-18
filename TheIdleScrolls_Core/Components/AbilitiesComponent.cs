@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Resources;
+using TheIdleScrolls_Core.Systems;
 
 namespace TheIdleScrolls_Core.Components
 {
@@ -96,7 +97,6 @@ namespace TheIdleScrolls_Core.Components
     public record AbilityAddedMessage(Entity Owner, string AbilityId) : IMessage
     {
         public string BuildMessage() => $"{Owner.GetName()} gained ability '{AbilityList.GetAbility(AbilityId)?.Name ?? "??"}'";
-
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }
 }

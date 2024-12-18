@@ -310,7 +310,7 @@
     <value>Bigger Dragon</value>
   </data>
   <data name="DualWield" xml:space="preserve">
-    <value>Dual Wielding</value>
+    <value>using two weapons</value>
   </data>
   <data name="DUMMY" xml:space="preserve">
     <value>Training Dummy</value>
@@ -573,6 +573,12 @@
   <data name="SBL" xml:space="preserve">
     <value>Short Blade</value>
   </data>
+  <data name="Shielded" xml:space="preserve">
+    <value>using a shield</value>
+  </data>
+  <data name="SingleHanded" xml:space="preserve">
+    <value>fighting single-handed</value>
+  </data>
   <data name="STORY_END_TEXT" xml:space="preserve">
     <value>At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops.
 
@@ -580,6 +586,9 @@ Time to finish: {0}</value>
   </data>
   <data name="STORY_END_TITLE" xml:space="preserve">
     <value>Convergence</value>
+  </data>
+  <data name="TwoHanded" xml:space="preserve">
+    <value>using a two-handed weapon</value>
   </data>
   <data name="UNARMED" xml:space="preserve">
     <value>Unarmed</value>
