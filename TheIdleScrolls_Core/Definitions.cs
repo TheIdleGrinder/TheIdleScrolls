@@ -62,6 +62,7 @@ namespace TheIdleScrolls_Core
             public const string Defense = "Defense";
             public const string ArmorRating = "ArmorRating";
             public const string EvasionRating = "EvasionRating";
+            public const string TimeShield = "TimeShield";
 
             public const string TimeLoss = "TimeLoss";
 

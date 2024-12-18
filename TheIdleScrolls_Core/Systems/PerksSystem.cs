@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
 using static TheIdleScrolls_Core.Systems.LevelUpSystem;
@@ -127,6 +128,36 @@ namespace TheIdleScrolls_Core.Systems
                 abilities.Select(_ => (IEnumerable<string>)[Definitions.Tags.Defense]).ToList(),
                 abilities.Select(_ => (IEnumerable<string>)[]).ToList(),
                 false)
+            );
+
+            // Create perk for fighting styles
+            perksComponent.AddPerk(new("FightingStyles", "Fighting Styles", 
+                "Gain combat bonusses based on the ability level of your current fighting style",
+                [UpdateTrigger.AbilityIncreased],
+                (e, w, c) => {
+                    List<Modifier> modifiers = [];
+                    int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.DualWield)?.Level ?? 0;
+                    if (level > 0)
+                    {
+                        modifiers.Add(new($"abl{Abilities.DualWield}", ModifierType.More, level * 0.005, [Tags.Damage], [Tags.DualWield]));
+                    }
+                    level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.Shielded)?.Level ?? 0;
+                    if (level > 0)
+                    {
+                        modifiers.Add(new($"abl{Abilities.Shielded}", ModifierType.More, level * 0.005, [Tags.Defense], [Tags.Shielded]));
+                    }
+                    level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.SingleHanded)?.Level ?? 0;
+                    if (level > 0)
+                    {
+                        modifiers.Add(new($"abl{Abilities.SingleHanded}", ModifierType.More, level * 0.005, [Tags.TimeShield], [Tags.SingleHanded]));
+                    }
+                    level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.TwoHanded)?.Level ?? 0;
+                    if (level > 0)
+                    {
+                        modifiers.Add(new($"abl{Abilities.TwoHanded}", ModifierType.More, level * 0.005, [Tags.AttackSpeed], [Tags.TwoHanded]));
+                    }
+                    return modifiers;
+                })
             );
 
 

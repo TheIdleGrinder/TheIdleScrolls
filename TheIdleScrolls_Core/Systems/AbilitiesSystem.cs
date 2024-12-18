@@ -2,6 +2,7 @@
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -124,7 +125,7 @@ namespace TheIdleScrolls_Core.Systems
         double ApplyModifiers(string ability, double baseValue)
             => m_player?.GetComponent<ModifierComponent>()
                 ?.ApplyApplicableModifiers(baseValue,
-                    new string[] { Tags.AbilityXpGain, ability },
+                    [Tags.AbilityXpGain, ability],
                     m_player?.GetTags() ?? [])
             ?? baseValue;
     }
@@ -133,7 +134,7 @@ namespace TheIdleScrolls_Core.Systems
     {
         public string AbilityId { get; set; } = id;
         public int NewLevel { get; set; } = newLevel;
-        string IMessage.BuildMessage() => $"Ability '{AbilityId}' reached level {NewLevel}";
+        string IMessage.BuildMessage() => $"Ability '{AbilityList.GetAbility(AbilityId)?.Name ?? "??"}' reached level {NewLevel}";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }
 }

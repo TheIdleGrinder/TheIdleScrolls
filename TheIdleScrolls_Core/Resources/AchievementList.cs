@@ -220,7 +220,35 @@ namespace TheIdleScrolls_Core.Resources
                     achievements.Add(achievement);
                 }
             }
-            
+            int mobsForStyles = 200;
+            achievements.Add(new(Abilities.DualWield, "Dual Wielder", 
+                $"Defeat {mobsForStyles} enemies while using two weapons",
+                tautology,
+                Conditions.MobsDefeatedConditionallyCondition(Tags.DualWield, mobsForStyles))
+                { 
+                    Reward = new AbilityReward(Abilities.DualWield)
+                });
+            achievements.Add(new(Abilities.Shielded, "Shieldbearer",
+                $"Defeat {mobsForStyles} enemies while carrying a shield",
+                tautology,
+                Conditions.MobsDefeatedConditionallyCondition(Tags.Shielded, mobsForStyles))
+            {
+                Reward = new AbilityReward(Abilities.Shielded)
+            });
+            achievements.Add(new(Abilities.SingleHanded, "Free Hand!",
+                $"Defeat {mobsForStyles} enemies while wielding only one one-handed weapon",
+                tautology,
+                Conditions.MobsDefeatedConditionallyCondition(Tags.SingleHanded, mobsForStyles))
+            {
+                Reward = new AbilityReward(Abilities.SingleHanded)
+            });
+            achievements.Add(new(Abilities.TwoHanded, "Wide Swings",
+                $"Defeat {mobsForStyles} enemies while wielding a two-handed weapon",
+                tautology,
+                Conditions.MobsDefeatedConditionallyCondition(Tags.TwoHanded, mobsForStyles))
+            {
+                Reward = new AbilityReward(Abilities.TwoHanded)
+            });
 
             // 'of all trades' achievements
             (int Level, string Rank)[] oAllRanks =
@@ -236,10 +264,9 @@ namespace TheIdleScrolls_Core.Resources
                 Achievement achievement = new(
                 $"{oAllRanks[i].Rank[..1]}oALL",
                 $"{oAllRanks[i].Rank} of All Trades",
-                $"Reach ability level {level} for all weapon and armor types with a single character",
+                $"Reach ability level {level} with all fighting styles",
                 (i > 0) ? ExpressionParser.ParseToFunction($"{oAllRanks[i - 1].Rank[..1]}oALL") : tautology,
-                ExpressionParser.ParseToFunction($"abl:AXE >= {level} && abl:BLN >= {level} && abl:LBL >= {level} " +
-                    $"&& abl:POL >= {level} && abl:SBL >= {level} && abl:LAR >= {level} && abl:HAR >= {level}"))
+                Conditions.HasLevelledAllAbilitiesCondition(Abilities.Styles, level))
                 {
                     Reward = GetPerkForLeveledAchievement("oALL", level)
                 };

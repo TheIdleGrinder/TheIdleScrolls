@@ -37,6 +37,6 @@ namespace TheIdleScrolls_Core.Definitions
         public static List<string> Armors { get; } = [LightArmor, HeavyArmor];
         public static List<string> Defense { get; } = [.. Armors, Unarmored];
 
-        public static List<string> Styles { get; } = [TwoHanded, DualWield, Shielded, SingleHanded];
+        public static List<string> Styles { get; } = [DualWield, Shielded, SingleHanded, TwoHanded];
     }
 }
