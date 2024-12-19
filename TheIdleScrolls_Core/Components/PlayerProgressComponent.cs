@@ -12,7 +12,7 @@ namespace TheIdleScrolls_Core.Components
     { 
         Start, Inventory, MobAttacks, Armor, Abilities, 
         Travel, Defeated, DungeonOpen, DungeonComplete, Finished, 
-        Evasion, Unarmed, FlatCircle, Selling, Reforging,
+        Evasion, Unarmed, FlatCircle, Selling, Crafting,
         ItemFound, Perks, Bounties
     }
 
@@ -31,12 +31,14 @@ namespace TheIdleScrolls_Core.Components
         public HashSet<string> SeenItemGenera { get; set; } = [];
         public HashSet<TutorialStep> TutorialProgress { get; set; } = [];
         public Dictionary<string, Dictionary<int, double>> DungeonTimes { get; set; } = [];
+        public Dictionary<string, Dictionary<int, int>> DungeonCompletions { get; set; } = [];
         public int MaxCoins { get; set; } = 0;
         public int TotalCoins { get; set; } = 0;
         public int CoinsSpentOnForging { get; set; } = 0;
         public int BestReforge { get; set;} = 0;
         public int BestG0Reforge { get; set;} = 0;
-        public HashSet<string> DefeatedMobTypes { get; set; } = [];
+        public Dictionary<string, int> DefeatedMobs { get; set; } = [];
+        public Dictionary<string, int> ConditionalKills { get; set; } = [];
 
         public HashSet<string> GetClearedDungeons()
         {

@@ -14,6 +14,7 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Crafting;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Storage;
 
@@ -114,9 +115,14 @@ namespace TheIdleScrolls_JSON
                     int level = Int32.Parse(fields[1]);
                     int xp = Int32.Parse(fields[2]);
 
-                    if (component.GetAbility(key) == null)
+                    var abilityDef = AbilityList.GetAbility(key);
+                    if (abilityDef == null)
+                    {
+                        Console.WriteLine($"Ability {key} not found in AbilityList");
                         continue; // Skip silently (ability might no longer be part of the game)
+                    }
 
+                    component.AddAbility(key);
                     component.UpdateAbility(key, level, xp);
                 }
                 return true;

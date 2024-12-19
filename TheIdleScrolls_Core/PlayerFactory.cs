@@ -27,14 +27,12 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new TimeShieldComponent(10.0));
             player.AddComponent(new XpGainerComponent());
             player.AddComponent(new PlayerProgressComponent());
-            player.AddComponent(new AbilitiesComponent());
-            player.AddComponent(new AchievementsComponent());
             player.AddComponent(new CoinPurseComponent());
             player.AddComponent(new QuestProgressComponent());
             player.AddComponent(new LocationComponent());
             player.AddComponent(new ModifierComponent());
             player.AddComponent(new PerksComponent());
-            player.AddComponent(new CraftingBenchComponent());
+            player.AddComponent(new RewardCollectorComponent());
 
             return player;
         }

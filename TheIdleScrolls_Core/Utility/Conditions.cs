@@ -48,7 +48,12 @@ namespace TheIdleScrolls_Core.Utility
 
         public static bool HasDefeatedMobs(Entity e, IEnumerable<string> mobTypes)
         {
-            return mobTypes.All(m => e.GetComponent<PlayerProgressComponent>()?.Data?.DefeatedMobTypes.Contains(m) ?? false);
+            return mobTypes.All(m => e.GetComponent<PlayerProgressComponent>()?.Data.DefeatedMobs.ContainsKey(m) ?? false);
+        }
+
+        public static bool HasDefeatedMobsConditionally(Entity e, string tag, int count)
+        {
+            return (e.GetComponent<PlayerProgressComponent>()?.Data.ConditionalKills.GetValueOrDefault(tag) ?? 0) >= count;
         }
 
         public static ConditionFunction WildernessLevelClearedCondition(int level)
@@ -84,6 +89,16 @@ namespace TheIdleScrolls_Core.Utility
         public static ConditionFunction MobsDefeatedCondition(IEnumerable<string> mobTypes)
         {
             return (e, w) => HasDefeatedMobs(e, mobTypes);
+        }
+
+        public static ConditionFunction MobsDefeatedConditionallyCondition(string tag, int count)
+        {
+            return (e, w) => HasDefeatedMobsConditionally(e, tag, count);
+        }
+
+        public static ConditionFunction HasLevelledAllAbilitiesCondition(List<string> abilityIds, int level)
+        {
+            return (e, w) => abilityIds.All(id => (e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0) >= level);
         }
     }
 }

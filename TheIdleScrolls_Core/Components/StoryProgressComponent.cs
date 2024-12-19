@@ -9,11 +9,6 @@ namespace TheIdleScrolls_Core.Components
 {
     public enum QuestId { GettingStarted, Story }
 
-    namespace QuestStates
-    {
-        public enum GettingStarted { None = -1, Inventory, Abilities, Perks, Outside, Armor, Travel, Dungeon, Bounties }
-    }
-
     public class QuestProgressComponent : IComponent
     {
         public Dictionary<QuestId, int> Quests = new();

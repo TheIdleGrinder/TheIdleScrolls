@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core.Modifiers
 {
@@ -77,24 +78,28 @@ namespace TheIdleScrolls_Core.Modifiers
         {
             var allTags = modifier.RequiredLocalTags.Union(modifier.RequiredGlobalTags);
             List<string> targetTags = new() {
-                Definitions.Tags.Damage,
-                Definitions.Tags.AttackSpeed,
-                Definitions.Tags.Defense,
-                Definitions.Tags.ArmorRating,
-                Definitions.Tags.EvasionRating,
-                Definitions.Tags.CharacterXpGain,
-                Definitions.Tags.AbilityXpGain,
-                Definitions.Tags.CraftingSlots,
-                Definitions.Tags.ActiveCrafts,
-                Definitions.Tags.CraftingSpeed,
-                Definitions.Tags.CraftingCost
+                Tags.Damage,
+                Tags.AttackSpeed,
+                Tags.Defense,
+                Tags.ArmorRating,
+                Tags.EvasionRating,
+                Tags.CharacterXpGain,
+                Tags.AbilityXpGain,
+                Tags.CraftingSlots,
+                Tags.ActiveCrafts,
+                Tags.CraftingSpeed,
+                Tags.CraftingCost,
+                Tags.TimeShield
             };
             targetTags = targetTags.Where(t => allTags.Contains(t)).ToList();
             List<string> whileTags = new()
             {
-                Definitions.Tags.Unarmed,
-                Definitions.Tags.Unarmored,
-                Definitions.Tags.DualWield,
+                Tags.Unarmed,
+                Tags.Unarmored,
+                Tags.DualWield,
+                Tags.Shielded,
+                Tags.SingleHanded,
+                Tags.TwoHanded
             };
             whileTags = whileTags.Where(t => allTags.Contains(t)).ToList();
             List<string> withTags = allTags.Except(targetTags).Except(whileTags).ToList();
@@ -119,7 +124,7 @@ namespace TheIdleScrolls_Core.Modifiers
 
             string whileString = String.Join(", ", whileTags.Select(s => s.Localize()));
             string withString = String.Join(", ", withTags
-                .Select(s => s.Localize() + (Definitions.Abilities.Weapons.Contains(s) ? "s" : "")));
+                .Select(s => s.Localize() + (Abilities.Weapons.Contains(s) ? "s" : "")));
 
             return $"{idString}{valueString} {target}" +
                 $"{((withString.Length > 0) ? " with " : "")}{withString}" +

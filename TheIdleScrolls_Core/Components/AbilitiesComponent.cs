@@ -6,34 +6,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Resources;
+using TheIdleScrolls_Core.Systems;
 
 namespace TheIdleScrolls_Core.Components
 {
     public class AbilitiesComponent : IComponent
     {
         readonly Dictionary<string, Ability> m_abilities = new();
-        static readonly Func<int, int> s_xpFunction = (x) => 60 * x;
 
-        public AbilitiesComponent() // CornerCut: Abilities should be assigned somewhere else
-        {
-            var fightingAbilities = Definitions.Abilities.Weapons.Concat(Definitions.Abilities.Armors);
-            // Weapons and armor
-            foreach (string key in fightingAbilities)
-            {
-                Ability ability = new(key)
-                {
-                    Level = 10
-                };
-                AddAbility(ability);
-            }
-            // Crafting
-            Ability crafting = new(Properties.Constants.Key_Ability_Crafting) { Level = 1 };
-            AddAbility(crafting);
-        }
+        public AbilitiesComponent() {}
 
-        public void AddAbility(Ability ability)
+        public void AddAbility(string abilityId, int level = 1)
         {
-            ability.TargetXP = s_xpFunction(ability.Level);
+            var abilityDef = AbilityList.GetAbility(abilityId) ?? throw new ArgumentException("Invalid ability ID");
+            var ability = abilityDef.GetAbility();
+            ability.Level = level;
+            ability.TargetXP = abilityDef.RequiredXpForLevelUp(ability.Level);
             m_abilities[ability.Key] = ability;
         }
 
@@ -54,11 +43,11 @@ namespace TheIdleScrolls_Core.Components
             var ability = m_abilities[key];
             ability.Level = level;
             ability.XP = xp;
-            ability.TargetXP = s_xpFunction(level);
+            ability.TargetXP = AbilityList.GetAbility(ability.Key)!.RequiredXpForLevelUp(level);
             return true;
         }
 
-        public enum AddXPResult { NotFound, InvalidAmount, Added, LevelIncreased }
+        public enum AddXPResult { NotFound, InvalidAmount, Added, LevelIncreased, AlreadyMax }
 
         public AddXPResult AddXP(string key, int amount)
         {
@@ -68,6 +57,15 @@ namespace TheIdleScrolls_Core.Components
             var ability = GetAbility(key);
             if (ability == null)
                 return AddXPResult.NotFound;
+            if (ability.Level == ability.MaxLevel) // == so that levels above max are pruned later
+                return AddXPResult.AlreadyMax;
+            if (ability.Level >= ability.MaxLevel)
+            {
+                ability.Level = ability.MaxLevel;
+                ability.XP = 0;
+                ability.TargetXP = 0;
+                return AddXPResult.AlreadyMax;
+            }
             bool lvlUp = ability.AddXP(amount);
             if (!lvlUp)
                 return AddXPResult.Added;
@@ -75,28 +73,31 @@ namespace TheIdleScrolls_Core.Components
             {
                 ability.Level++;
                 ability.XP -= ability.TargetXP;
-                ability.TargetXP = s_xpFunction(ability.Level);
+                ability.TargetXP = AbilityList.GetAbility(ability.Key)!.RequiredXpForLevelUp(ability.Level);
             }
             return AddXPResult.LevelIncreased;
         }
     }
 
-    public class Ability
+    public class Ability(string key)
     {
-        public string Key { get; set; }
+        public string Key { get; set; } = key;
+        public string Name { get; set; } = key;
         public int Level { get; set; } = 1;
         public int XP { get; set; } = 0;
         public int TargetXP { get; set; } = 100;
-
-        public Ability(string key)
-        {
-            Key = key;
-        }
+        public int MaxLevel { get; init; } = int.MaxValue;
 
         public bool AddXP(int amount)
         {
             XP += amount;
             return XP >= TargetXP;
         }
+    }
+
+    public record AbilityAddedMessage(Entity Owner, string AbilityId) : IMessage
+    {
+        public string BuildMessage() => $"{Owner.GetName()} gained ability '{AbilityList.GetAbility(AbilityId)?.Name ?? "??"}'";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }
 }

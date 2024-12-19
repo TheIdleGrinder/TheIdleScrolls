@@ -9,8 +9,6 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Systems;
 
-using QuestStates = TheIdleScrolls_Core.Components.QuestStates;
-
 namespace TheIdleScrolls_Core.Quests
 {
     internal class StoryQuest : AbstractQuest

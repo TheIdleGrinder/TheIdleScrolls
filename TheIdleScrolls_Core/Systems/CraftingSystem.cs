@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Crafting;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Utility;
@@ -28,7 +29,8 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this, message);
             }
 
-            if (FirstUpdate || coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
+            if (FirstUpdate || coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>()
+                || coordinator.MessageTypeIsOnBoard<FeatureStateMessage>())
             {
                 foreach (var crafter in coordinator.GetEntities<CraftingBenchComponent>())
                 {
@@ -245,7 +247,7 @@ namespace TheIdleScrolls_Core.Systems
                         if (craft.Type == CraftingType.Reforge)
                         {
 							int abilityLevel = crafter.GetComponent<AbilitiesComponent>()
-                                ?.GetAbility(Properties.Constants.Key_Ability_Crafting)?.Level ?? 1;
+                                ?.GetAbility(Abilities.Crafting)?.Level ?? 1;
 							int rarity = craft.TargetItem.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
                             double percentage = Functions.CalculateReforgingSuccessRate(abilityLevel, rarity);
 

@@ -136,7 +136,6 @@ namespace TheIdleScrolls_Core.Systems
                 if (abilityComp != null)
                 {
                     var representations = abilityComp.GetAbilities()
-                        .Where(a => a.Level > 1 || a.XP > 0) // CornerCut: Filter out crafting ability before first use
                         .Select(a => new AbilityRepresentation(a.Key, a.Key.Localize(), a.Level, a.XP, a.TargetXP))
                         .ToList();
                     PlayerAbilitiesChanged?.Invoke(representations);
@@ -248,7 +247,7 @@ namespace TheIdleScrolls_Core.Systems
                             a.Title,
                             (a.Hidden && a.Status != AchievementStatus.Awarded) ? hiddenInfo : a.Description, 
                             a.Status == Achievements.AchievementStatus.Awarded,
-                            a.Perk?.Name ?? "")
+                            a.Reward?.Description ?? "")
                     ).ToList();
                     AchievementsChanged?.Invoke(achievements, achComp.Achievements.Count);
                 }

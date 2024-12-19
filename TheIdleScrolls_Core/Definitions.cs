@@ -36,22 +36,6 @@ namespace TheIdleScrolls_Core
             public const int    DungeonDropLevelRange = 9;
         }
 
-        public static class Abilities
-        {
-            public static readonly string[] Weapons = [ Properties.Constants.Key_Ability_Axe,
-                                                        Properties.Constants.Key_Ability_Blunt,
-                                                        Properties.Constants.Key_Ability_LongBlade,
-                                                        Properties.Constants.Key_Ability_Polearm,
-                                                        Properties.Constants.Key_Ability_ShortBlade
-            ];
-
-            public static readonly string[] Armors = [ Properties.Constants.Key_Ability_LightArmor,
-                                                       Properties.Constants.Key_Ability_HeavyArmor
-            ];
-
-            public static readonly string Crafting = Properties.Constants.Key_Ability_Crafting;
-        }
-
         public static class DungeonIds
         {
             public const string DenOfRats = "RATDEN";
@@ -78,6 +62,7 @@ namespace TheIdleScrolls_Core
             public const string Defense = "Defense";
             public const string ArmorRating = "ArmorRating";
             public const string EvasionRating = "EvasionRating";
+            public const string TimeShield = "TimeShield";
 
             public const string TimeLoss = "TimeLoss";
 
@@ -93,6 +78,9 @@ namespace TheIdleScrolls_Core
             public const string Unarmed = "Unarmed";
             public const string Unarmored = "Unarmored";
             public const string DualWield = "DualWield";
+            public const string TwoHanded = "TwoHanded";
+            public const string Shielded = "Shielded";
+            public const string SingleHanded = "SingleHanded";
             public const string MixedWeapons = "MixedWeapons";
             public const string MixedArmor = "MixedArmor";
             public const string FirstStrike = "FirstStrike";

@@ -144,28 +144,16 @@
   <data name="Achievement_Lvl09" xml:space="preserve">
     <value>LVL09</value>
   </data>
-  <data name="Key_Ability_Axe" xml:space="preserve">
-    <value>AXE</value>
+  <data name="ABLCAT_OFFENSE" xml:space="preserve">
+    <value>Offense</value>
   </data>
-  <data name="Key_Ability_Blunt" xml:space="preserve">
-    <value>BLN</value>
+  <data name="ABLCAT_DEFENSE" xml:space="preserve">
+    <value>Defense</value>
   </data>
-  <data name="Key_Ability_Crafting" xml:space="preserve">
-    <value>ABL_CRAFT</value>
+  <data name="ABLCAT_CRAFTING" xml:space="preserve">
+    <value>Crafting</value>
   </data>
-  <data name="Key_Ability_HeavyArmor" xml:space="preserve">
-    <value>HAR</value>
-  </data>
-  <data name="Key_Ability_LightArmor" xml:space="preserve">
-    <value>LAR</value>
-  </data>
-  <data name="Key_Ability_LongBlade" xml:space="preserve">
-    <value>LBL</value>
-  </data>
-  <data name="Key_Ability_Polearm" xml:space="preserve">
-    <value>POL</value>
-  </data>
-  <data name="Key_Ability_ShortBlade" xml:space="preserve">
-    <value>SBL</value>
+  <data name="ABLCAT_STYLE" xml:space="preserve">
+    <value>Fighting Style</value>
   </data>
 </root>

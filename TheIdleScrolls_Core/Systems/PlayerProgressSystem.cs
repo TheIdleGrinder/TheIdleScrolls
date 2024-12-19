@@ -36,11 +36,26 @@ namespace TheIdleScrolls_Core.Systems
                 var mobId = kill.Victim.GetComponent<MobComponent>()?.Id;
                 if (mobId != null)
                 {
-                    progComp.Data.DefeatedMobTypes.Add(mobId);
+                    if (!progComp.Data.DefeatedMobs.ContainsKey(mobId))
+                        progComp.Data.DefeatedMobs[mobId] = 0;
+                    progComp.Data.DefeatedMobs[mobId]++;
                 }
                 if (!locationComp.InDungeon)
                 {
                     progComp.Data.HighestWildernessKill = Math.Max(progComp.Data.HighestWildernessKill, kill.Victim.GetLevel());
+                }
+                List<string> tagsOfInterest = [Tags.DualWield, Tags.Shielded, Tags.SingleHanded, Tags.TwoHanded, 
+                    Tags.Unarmed, Tags.Unarmored, 
+                    Abilities.Axe, Abilities.Blunt, Abilities.LongBlade, Abilities.Polearm, Abilities.ShortBlade];
+                var playerTags = m_player.GetTags().ToHashSet();
+                foreach (var tag in tagsOfInterest)
+                {
+                    if (playerTags.Contains(tag))
+                    {
+                        if (!progComp.Data.ConditionalKills.ContainsKey(tag))
+                            progComp.Data.ConditionalKills[tag] = 0;
+                        progComp.Data.ConditionalKills[tag]++;
+                    }
                 }
             }
 
@@ -61,12 +76,23 @@ namespace TheIdleScrolls_Core.Systems
             var dungeons = coordinator.FetchMessagesByType<DungeonCompletedMessage>();
             foreach (var dungeon in dungeons)
             {
-                if (!progComp.Data.DungeonTimes.TryGetValue(dungeon.DungeonId, out Dictionary<int, double>? value) ||
-                    !value.ContainsKey(dungeon.DungeonLevel))
+                if (!progComp.Data.DungeonTimes.TryGetValue(dungeon.DungeonId, out Dictionary<int, double>? levelTimes) ||
+                    !levelTimes.ContainsKey(dungeon.DungeonLevel))
                 {
                     if (!progComp.Data.DungeonTimes.ContainsKey(dungeon.DungeonId))
                         progComp.Data.DungeonTimes[dungeon.DungeonId] = [];
                     progComp.Data.DungeonTimes[dungeon.DungeonId][dungeon.DungeonLevel] = progComp.Data.Playtime;
+                }
+                if (!progComp.Data.DungeonCompletions.TryGetValue(dungeon.DungeonId, out Dictionary<int, int>? levelCounts) ||
+                    !levelCounts.ContainsKey(dungeon.DungeonLevel))
+                {
+                    if (!progComp.Data.DungeonCompletions.ContainsKey(dungeon.DungeonId))
+                        progComp.Data.DungeonCompletions[dungeon.DungeonId] = [];
+                    progComp.Data.DungeonCompletions[dungeon.DungeonId][dungeon.DungeonLevel] = 1;
+                }
+                else
+                {
+                    levelCounts[dungeon.DungeonLevel]++;
                 }
             }
 

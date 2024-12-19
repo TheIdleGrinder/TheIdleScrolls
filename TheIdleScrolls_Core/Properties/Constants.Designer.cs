@@ -61,6 +61,42 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting ähnelt.
+        /// </summary>
+        internal static string ABLCAT_CRAFTING {
+            get {
+                return ResourceManager.GetString("ABLCAT_CRAFTING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Defense ähnelt.
+        /// </summary>
+        internal static string ABLCAT_DEFENSE {
+            get {
+                return ResourceManager.GetString("ABLCAT_DEFENSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Offense ähnelt.
+        /// </summary>
+        internal static string ABLCAT_OFFENSE {
+            get {
+                return ResourceManager.GetString("ABLCAT_OFFENSE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fighting Style ähnelt.
+        /// </summary>
+        internal static string ABLCAT_STYLE {
+            get {
+                return ResourceManager.GetString("ABLCAT_STYLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die LVL01 ähnelt.
         /// </summary>
         internal static string Achievement_Lvl01 {
@@ -138,78 +174,6 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string Achievement_Lvl09 {
             get {
                 return ResourceManager.GetString("Achievement_Lvl09", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die AXE ähnelt.
-        /// </summary>
-        internal static string Key_Ability_Axe {
-            get {
-                return ResourceManager.GetString("Key_Ability_Axe", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die BLN ähnelt.
-        /// </summary>
-        internal static string Key_Ability_Blunt {
-            get {
-                return ResourceManager.GetString("Key_Ability_Blunt", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ABL_CRAFT ähnelt.
-        /// </summary>
-        internal static string Key_Ability_Crafting {
-            get {
-                return ResourceManager.GetString("Key_Ability_Crafting", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die HAR ähnelt.
-        /// </summary>
-        internal static string Key_Ability_HeavyArmor {
-            get {
-                return ResourceManager.GetString("Key_Ability_HeavyArmor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die LAR ähnelt.
-        /// </summary>
-        internal static string Key_Ability_LightArmor {
-            get {
-                return ResourceManager.GetString("Key_Ability_LightArmor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die LBL ähnelt.
-        /// </summary>
-        internal static string Key_Ability_LongBlade {
-            get {
-                return ResourceManager.GetString("Key_Ability_LongBlade", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die POL ähnelt.
-        /// </summary>
-        internal static string Key_Ability_Polearm {
-            get {
-                return ResourceManager.GetString("Key_Ability_Polearm", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die SBL ähnelt.
-        /// </summary>
-        internal static string Key_Ability_ShortBlade {
-            get {
-                return ResourceManager.GetString("Key_Ability_ShortBlade", resourceCulture);
             }
         }
     }

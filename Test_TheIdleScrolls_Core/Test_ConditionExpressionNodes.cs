@@ -48,6 +48,9 @@ namespace Test_TheIdleScrolls_Core
         public void VariableNodesWork(string condition, double result)
         {
             Entity player = PlayerFactory.MakeNewPlayer("Test");
+            var abiComp = new AbilitiesComponent();
+            abiComp.AddAbility("LAR", 10);
+            player.AddComponent(abiComp);
             var lvlComp = player.GetComponent<LevelComponent>();
             Assert.That(lvlComp, Is.Not.Null);
             lvlComp.Level = 12;

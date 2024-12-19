@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Systems
@@ -165,8 +166,9 @@ namespace TheIdleScrolls_Core.Systems
             if (player.GetComponent<BattlerComponent>()?.Battle?.CustomTimeLimit ?? false)
                 return; // Skip time shield setup if custom time limit is in use (i.e. final boss)
 
-            double duration = zone.TimeMultiplier * Functions.CalculateBaseTimeLimit(player.GetLevel(), zone.Level);
-            player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
+            double baseDuration = Functions.CalculateBaseTimeLimit(player.GetLevel(), zone.Level);
+            double duration = zone.TimeMultiplier * player.ApplyAllApplicableModifiers(baseDuration, [Tags.TimeShield], player.GetTags());
+            player.GetComponent<TimeShieldComponent>()?.Rescale(zone.TimeMultiplier * duration);
         }
 
         static DamageDoneMessage? ApplyAttack(Entity attacker, Entity target)

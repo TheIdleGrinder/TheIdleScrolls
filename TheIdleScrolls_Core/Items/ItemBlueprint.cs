@@ -94,6 +94,11 @@ namespace TheIdleScrolls_Core.Items
             return GetFamilyDescription().RelatedAbilityId;
         }
 
+        public List<EquipmentSlot> GetUsedSlots()
+        {
+            return GetGenusDescription().Equippable?.Slots ?? [];
+        }
+
         public string[] GetDropRestrictions()
         {
             return GetMaterial().Restrictions;

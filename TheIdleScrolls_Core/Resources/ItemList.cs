@@ -18,7 +18,7 @@ namespace TheIdleScrolls_Core.Resources
 
             return new()
             {
-                new(Definitions.ItemFamilies.OneHandedAxe, Properties.Items.Family_OneHandAxe, Properties.Constants.Key_Ability_Axe,
+                new(Definitions.ItemFamilies.OneHandedAxe, Properties.Items.Family_OneHandAxe, Abilities.Axe,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_OneHandAxe0, ItemTiers.LevelT0, false,  5.0, 1.25, simple),
@@ -26,13 +26,13 @@ namespace TheIdleScrolls_Core.Resources
                         MakeWeapon(Properties.Items.Genus_OneHandAxe2, ItemTiers.LevelT3, false, 12.0, 1.35, metals.Skip(1).ToList()),
                     }
                 ),
-                new(Definitions.ItemFamilies.TwoHandedAxe, Properties.Items.Family_TwoHandAxe, Properties.Constants.Key_Ability_Axe,
+                new(Definitions.ItemFamilies.TwoHandedAxe, Properties.Items.Family_TwoHandAxe, Abilities.Axe,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_TwoHandAxe1, ItemTiers.LevelT2,  true, 18.0, 1.85, metals),
                     }
                 ),
-                new(Definitions.ItemFamilies.OneHandedMace, Properties.Items.Family_OneHandMace, Properties.Constants.Key_Ability_Blunt,
+                new(Definitions.ItemFamilies.OneHandedMace, Properties.Items.Family_OneHandMace, Abilities.Blunt,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_OneHandMace0, ItemTiers.LevelT0, false,  7.0, 1.65, simple),
@@ -40,19 +40,19 @@ namespace TheIdleScrolls_Core.Resources
                         MakeWeapon(Properties.Items.Genus_OneHandMace2, ItemTiers.LevelT3, false, 15.0, 1.65, metals.Skip(1).ToList()),
                     }
                 ),
-                new(Definitions.ItemFamilies.TwoHandedMace, Properties.Items.Family_TwoHandMace, Properties.Constants.Key_Ability_Blunt,
+                new(Definitions.ItemFamilies.TwoHandedMace, Properties.Items.Family_TwoHandMace, Abilities.Blunt,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_TwoHandMace1, ItemTiers.LevelT2,  true, 19.0, 1.95, metals),
                     }
                 ),
-                new(Definitions.ItemFamilies.LongSword, Properties.Items.Family_LongSword, Properties.Constants.Key_Ability_LongBlade,
+                new(Definitions.ItemFamilies.LongSword, Properties.Items.Family_LongSword, Abilities.LongBlade,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_LongSword1,   ItemTiers.LevelT1, false, 11.0, 1.5 , metals),
                     }
                 ),
-                new(Definitions.ItemFamilies.TwoHandedSword, Properties.Items.Family_TwoHandSword, Properties.Constants.Key_Ability_LongBlade,
+                new(Definitions.ItemFamilies.TwoHandedSword, Properties.Items.Family_TwoHandSword, Abilities.LongBlade,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_TwoHandSword0, ItemTiers.LevelT0,  true,  7.0, 1.4 , simple),
@@ -60,7 +60,7 @@ namespace TheIdleScrolls_Core.Resources
                         MakeWeapon(Properties.Items.Genus_TwoHandSword2, ItemTiers.LevelT3,  true, 18.0, 1.65, metals.Skip(1).ToList()),
                     }
                 ),
-                new(Definitions.ItemFamilies.Spear, Properties.Items.Family_Spear, Properties.Constants.Key_Ability_Polearm,
+                new(Definitions.ItemFamilies.Spear, Properties.Items.Family_Spear, Abilities.Polearm,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_Spear0, ItemTiers.LevelT0,  true, 11.0, 2.1 , simple),
@@ -68,27 +68,27 @@ namespace TheIdleScrolls_Core.Resources
                         MakeWeapon(Properties.Items.Genus_Spear2, ItemTiers.LevelT3,  true, 26.0, 2.3 , woods.Skip(1).ToList()),
                     }
                 ),
-                new(Definitions.ItemFamilies.Polearm, Properties.Items.Family_Polearm, Properties.Constants.Key_Ability_Polearm,
+                new(Definitions.ItemFamilies.Polearm, Properties.Items.Family_Polearm, Abilities.Polearm,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_Polearm1, ItemTiers.LevelT1, true, 20.0, 2.15, woods),
                     }
                 ),
-                new(Definitions.ItemFamilies.Dagger, Properties.Items.Family_Dagger, Properties.Constants.Key_Ability_ShortBlade,
+                new(Definitions.ItemFamilies.Dagger, Properties.Items.Family_Dagger, Abilities.ShortBlade,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_Dagger0, ItemTiers.LevelT0, false,  4.0, 1.0 , simple),
                         MakeWeapon(Properties.Items.Genus_Dagger1, ItemTiers.LevelT1, false,  5.0, 0.75, metals),
                     }                    
                 ),
-                new(Definitions.ItemFamilies.ShortSword, Properties.Items.Family_ShortSword, Properties.Constants.Key_Ability_ShortBlade,
+                new(Definitions.ItemFamilies.ShortSword, Properties.Items.Family_ShortSword, Abilities.ShortBlade,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_ShortSword1, ItemTiers.LevelT2, false,  8.0, 1.05, metals),
                         MakeWeapon(Properties.Items.Genus_ShortSword2, ItemTiers.LevelT3, false,  8.0, 0.95, metals.Skip(1).ToList()),
                     }
                 ),
-                new(Definitions.ItemFamilies.LightChest, Properties.Items.Family_LightChest, Properties.Constants.Key_Ability_LightArmor,
+                new(Definitions.ItemFamilies.LightChest, Properties.Items.Family_LightChest, Abilities.LightArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_LightChest0, ItemTiers.LevelT0, EquipmentSlot.Chest,  10.0,  6.0, simple),
@@ -98,7 +98,7 @@ namespace TheIdleScrolls_Core.Resources
                             EquipmentSlot.Chest,  16.0,  6.0, leathers),
                     }
                 ),
-                new(Definitions.ItemFamilies.LightHelmet, Properties.Items.Family_LightHelmet, Properties.Constants.Key_Ability_LightArmor,
+                new(Definitions.ItemFamilies.LightHelmet, Properties.Items.Family_LightHelmet, Abilities.LightArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_LightHelmet0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetHelmet, 
@@ -107,7 +107,7 @@ namespace TheIdleScrolls_Core.Resources
                             EquipmentSlot.Head,   12.0,  4.0, leathers),
                     }
                 ),
-                new(Definitions.ItemFamilies.LightGloves, Properties.Items.Family_LightGloves, Properties.Constants.Key_Ability_LightArmor,
+                new(Definitions.ItemFamilies.LightGloves, Properties.Items.Family_LightGloves, Abilities.LightArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_LightGloves0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetGloves, 
@@ -116,7 +116,7 @@ namespace TheIdleScrolls_Core.Resources
                             EquipmentSlot.Arms,   10.0,  2.5, leathers),
                     }
                 ),
-                new(Definitions.ItemFamilies.LightBoots, Properties.Items.Family_LightBoots, Properties.Constants.Key_Ability_LightArmor,
+                new(Definitions.ItemFamilies.LightBoots, Properties.Items.Family_LightBoots, Abilities.LightArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_LightBoots0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetBoots, 
@@ -125,7 +125,7 @@ namespace TheIdleScrolls_Core.Resources
                             EquipmentSlot.Legs,   10.0,  2.5, leathers),
                     }
                 ),
-                new(Definitions.ItemFamilies.LightShield, Properties.Items.Family_LightShield, Properties.Constants.Key_Ability_LightArmor,
+                new(Definitions.ItemFamilies.LightShield, Properties.Items.Family_LightShield, Abilities.LightArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_LightShield0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetShield, 
@@ -134,7 +134,7 @@ namespace TheIdleScrolls_Core.Resources
                             EquipmentSlot.Hand,   12.0,  3.0, woods),
                     }
                 ),
-                new(Definitions.ItemFamilies.HeavyChest, Properties.Items.Family_HeavyChest, Properties.Constants.Key_Ability_HeavyArmor,
+                new(Definitions.ItemFamilies.HeavyChest, Properties.Items.Family_HeavyChest, Abilities.HeavyArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_HeavyChest0, ItemTiers.LevelT0, EquipmentSlot.Chest,  16.0, 12.0, simple),
@@ -144,7 +144,7 @@ namespace TheIdleScrolls_Core.Resources
                             EquipmentSlot.Chest,  26.0, 12.0, metals),
                     }
                 ),
-                new(Definitions.ItemFamilies.HeavyHelmet, Properties.Items.Family_HeavyHelmet, Properties.Constants.Key_Ability_HeavyArmor,
+                new(Definitions.ItemFamilies.HeavyHelmet, Properties.Items.Family_HeavyHelmet, Abilities.HeavyArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_HeavyHelmet0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetHelmet, 
@@ -153,7 +153,7 @@ namespace TheIdleScrolls_Core.Resources
                             EquipmentSlot.Head,   19.0,  8.0, metals),
                     }
                 ),
-                new(Definitions.ItemFamilies.HeavyGloves, Properties.Items.Family_HeavyGloves, Properties.Constants.Key_Ability_HeavyArmor,
+                new(Definitions.ItemFamilies.HeavyGloves, Properties.Items.Family_HeavyGloves, Abilities.HeavyArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_HeavyGloves0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetGloves, 
@@ -162,7 +162,7 @@ namespace TheIdleScrolls_Core.Resources
                             EquipmentSlot.Arms,   16.0,  5.0, metals),
                     }
                 ),
-                new(Definitions.ItemFamilies.HeavyBoots, Properties.Items.Family_HeavyBoots, Properties.Constants.Key_Ability_HeavyArmor,
+                new(Definitions.ItemFamilies.HeavyBoots, Properties.Items.Family_HeavyBoots, Abilities.HeavyArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_HeavyBoots0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetBoots, 
@@ -171,7 +171,7 @@ namespace TheIdleScrolls_Core.Resources
                             EquipmentSlot.Legs,   16.0,  5.0, metals),
                     }
                 ),
-                new(Definitions.ItemFamilies.HeavyShield, Properties.Items.Family_HeavyShield, Properties.Constants.Key_Ability_HeavyArmor,
+                new(Definitions.ItemFamilies.HeavyShield, Properties.Items.Family_HeavyShield, Abilities.HeavyArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_HeavyShield0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetShield, 

@@ -185,5 +185,14 @@ namespace TheIdleScrolls_Core.Systems
             //Console.WriteLine($"Loot: L{minLevel}-{highestDropLevel} ({validDrops.Count()} candidates)");
             return table;
         }
+
+        public static List<ItemBlueprint> GetAllBlueprints()
+        {
+            if (_blueprints.Count == 0)
+            {
+                GenerateAllBlueprints();
+            }
+            return [.. _blueprints];
+        }
     }
 }

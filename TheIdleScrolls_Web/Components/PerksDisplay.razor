@@ -4,7 +4,7 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="perks-container">
-    @foreach (var perk in CoreWrapper.Perks)
+    @foreach (var perk in CoreWrapper.Perks.Where(p => p.Modifiers.Count > 0))
     {
         <div class="perk">
             <div class="perk-name">@perk.Name</div>

@@ -1,6 +1,7 @@
 ﻿using MiniECS;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -106,15 +107,16 @@ namespace TheIdleScrolls_Core.Systems
 
             if (weaponCount == 0)
             {
-                rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, new string[] { Definitions.Tags.Damage }, globalTags) ?? rawDamage;
+                rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, 
+                    [Definitions.Tags.Damage, Definitions.Abilities.Unarmed], globalTags) ?? rawDamage;
                 // invert attack speed due to speed/cooldown mismatch
                 cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
-                    new string[] { Definitions.Tags.AttackSpeed }, globalTags) ?? cooldown;
+                    [Definitions.Tags.AttackSpeed, Definitions.Abilities.Unarmed], globalTags) ?? cooldown;
             }
 
             if (armorCount == 0)
             {
-                var tags = globalTags.Append(Definitions.Tags.Defense);
+                var tags = globalTags.Concat([Definitions.Tags.Defense, Definitions.Abilities.Unarmored]);
                 armor = modComp?.ApplyApplicableModifiers(armor, tags.Append(Definitions.Tags.ArmorRating), globalTags) ?? armor;
                 evasion = modComp?.ApplyApplicableModifiers(evasion, tags.Append(Definitions.Tags.EvasionRating), globalTags) ?? evasion;
             }
@@ -170,12 +172,17 @@ namespace TheIdleScrolls_Core.Systems
             {
                 var items = equipComp.GetItems();
 
-                List<string> weapons = items.Where(i => i.IsWeapon()).Select(i => i.GetComponent<ItemComponent>()!.Blueprint.FamilyId).ToList();
+                HashSet<string> armors = items.Where(i => i.IsArmor())
+                    .Select(i => i.GetComponent<ItemComponent>()!.Blueprint.GetRelatedAbilityId())
+                    .ToHashSet();
+                List<ItemBlueprint> weapons = items.Where(i => i.IsWeapon()).Select(i => i.GetComponent<ItemComponent>()!.Blueprint).ToList();
+                List<string> weaponAbilities = weapons.Select(w => w.GetRelatedAbilityId()).ToList();
                 AddOrRemoveTag(Definitions.Tags.Unarmed, weapons.Count == 0);
-                AddOrRemoveTag(Definitions.Tags.DualWield, weapons.Count >= 2);
-                AddOrRemoveTag(Definitions.Tags.MixedWeapons, weapons.Count > 1 && weapons.Any(f => f != weapons[0]));
+                AddOrRemoveTag(Definitions.Tags.MixedWeapons, weapons.Count > 1 && weaponAbilities.Any(f => f != weaponAbilities[0]));
 
-                HashSet<string> armors = items.Where(i => i.IsArmor()).Select(i => i.GetComponent<ItemComponent>()!.Blueprint.FamilyId).ToHashSet();
+                AddOrRemoveTag(Definitions.Tags.DualWield, weapons.Count >= 2);
+                AddOrRemoveTag(Definitions.Tags.TwoHanded, weapons.Count == 1 && weapons[0].GetUsedSlots().Count > 1);
+
                 AddOrRemoveTag(Definitions.Tags.Unarmored, armors.Count == 0);
                 AddOrRemoveTag(Definitions.Tags.MixedArmor, armors.Count > 1);
 
@@ -183,6 +190,12 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     comp.AddTags(item.GetTags());
                 }
+
+                bool usingShield = comp.HasTag(Definitions.Tags.Shield);
+                AddOrRemoveTag(Definitions.Tags.Shielded, usingShield);
+                AddOrRemoveTag(Definitions.Tags.SingleHanded, weapons.Count == 1 
+                                                                && weapons[0].GetUsedSlots().Count == 1
+                                                                && !usingShield);
             }
             else // No equipment => unarmed, unarmored
             {

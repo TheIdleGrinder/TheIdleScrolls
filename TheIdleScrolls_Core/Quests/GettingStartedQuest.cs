@@ -11,12 +11,25 @@ using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Messages;
 using TheIdleScrolls_Core.Systems;
 
-using QuestStates = TheIdleScrolls_Core.Components.QuestStates;
-
 namespace TheIdleScrolls_Core.Quests
 {
     internal class GettingStartedQuest : AbstractQuest
     {
+
+        [Flags]
+        public enum StateFlags
+        {
+            Weapons     = 1 << 0,
+            Armor       = 1 << 1,
+            Abilities   = 1 << 2,
+            MobAttacks  = 1 << 3,
+            Perks       = 1 << 4,
+            Travel      = 1 << 5,
+            Dungeon     = 1 << 6,
+            Bounties    = 1 << 7,
+            Crafting    = 1 << 8
+        }
+
         readonly List<Entity> rewardItems = new();
 
         public override QuestId GetId()
@@ -32,6 +45,7 @@ namespace TheIdleScrolls_Core.Quests
             const int LvlAbilities = 4;
             const int LvlPerks = 5;
             const int LvlTravel = 10;
+            const int LvlCrafting = 20;
             const int LvlBounties = 24;
 
             int level = entity.GetLevel();
@@ -47,19 +61,21 @@ namespace TheIdleScrolls_Core.Quests
                 postMessageCallback(new FeatureStateMessage(feature, state));
             }
 
-            void setQuestState(QuestId quest, QuestStates.GettingStarted progress, string message)
+            void setQuestState(StateFlags progress, string message)
             {
-                storyComp.SetQuestProgress(quest, progress);
-                postMessageCallback(new QuestProgressMessage(quest, (int)progress, message));
+                StateFlags previousState = (StateFlags)storyComp.GetQuestProgress(GetId());
+                StateFlags newState = previousState | progress;
+                storyComp.SetQuestProgress(GetId(), newState);
+                postMessageCallback(new QuestProgressMessage(GetId(), (int)newState, message));
             }
 
-            var progress = (QuestStates.GettingStarted)storyComp.GetQuestProgress(QuestId.GettingStarted);
-            bool isStepDone(QuestStates.GettingStarted step)
+            var progress = (StateFlags)storyComp.GetQuestProgress(QuestId.GettingStarted, 0);
+            bool isStepDone(StateFlags step)
             {
-                return progress >= step;
+                return (progress & step) != 0;
             }
 
-            if (!isStepDone(QuestStates.GettingStarted.Inventory) && level >= LvlInventory)
+            if (!isStepDone(StateFlags.Weapons) && level >= LvlInventory)
             {
                 if (!entity.HasComponent<InventoryComponent>())
                 {
@@ -83,31 +99,46 @@ namespace TheIdleScrolls_Core.Quests
                         }
                     }
 
-                    setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory,
+                    setQuestState(StateFlags.Weapons,
                         $"Here, take some weapons. Time to gear up!{itemString}");
                 }
-                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Inventory);
+                else
+                {
+                    storyComp.SetQuestProgress(GetId(), StateFlags.Weapons); // CornerCut: Assumes that this is always the first step
+                }
                 setFeatureState(GameFeature.Inventory, true);
             }
-            if (!(isStepDone(QuestStates.GettingStarted.Perks) && playerComp.AvailableFeatures.Contains(GameFeature.Perks)) 
+            if (!(isStepDone(StateFlags.Perks) && playerComp.AvailableFeatures.Contains(GameFeature.Perks)) 
                 && level >= LvlPerks)
             {
-                if (!isStepDone(QuestStates.GettingStarted.Perks))
+                if (!isStepDone(StateFlags.Perks))
                 {
-                    setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Perks, "");
+                    setQuestState(StateFlags.Perks, "");
                 }
                 setFeatureState(GameFeature.Perks, true);
             }   
-            if (!isStepDone(QuestStates.GettingStarted.Outside) && level >= LvlMobAttacks)
+            if (!isStepDone(StateFlags.MobAttacks) && level >= LvlMobAttacks)
             {
-                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Outside,
+                setQuestState(StateFlags.MobAttacks,
                     "Alright, after beating up all those dummies you should be ready to take on an actual challenge.");
             }
 
-            if (!isStepDone(QuestStates.GettingStarted.Armor) && level >= LvlArmor)
+            if (!isStepDone(StateFlags.Armor) && level >= LvlArmor)
             {
+                var abilitiesComp = entity.GetComponent<AbilitiesComponent>();
+                if (abilitiesComp == null)
+                {
+                    abilitiesComp = new();
+                    entity.AddComponent(abilitiesComp);
+                }
+                Abilities.Armors.ForEach(ability => {
+                    abilitiesComp.AddAbility(ability);
+                    postMessageCallback(new AbilityAddedMessage(entity, ability));
+                });
+
                 string itemString = "";
-                foreach (var family in ItemFamilies.Armors)
+                List<string> families = [ItemFamilies.HeavyChest, ItemFamilies.LightChest];
+                foreach (var family in families)
                 {
                     Entity? item = ItemFactory.MakeItem(new(family, 0, MaterialId.Simple));
                     if (item != null)
@@ -116,49 +147,60 @@ namespace TheIdleScrolls_Core.Quests
                         coordinator.AddEntity(item);
                         postMessageCallback(new ItemReceivedMessage(entity, item));
                     }
+                    
                 }
 
-                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Armor,
+                setQuestState(StateFlags.Armor,
                     $"Those mobs are getting nasty, better put on some armor!" +
                     $"{itemString}");
                 setFeatureState(GameFeature.Armor, true);
             }
 
-            if (!isStepDone(QuestStates.GettingStarted.Abilities) && level >= LvlAbilities)
+            if (!isStepDone(StateFlags.Abilities) && level >= LvlAbilities)
             {
-                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Abilities,
-                    "");
+                setQuestState(StateFlags.Abilities, "");
                 setFeatureState(GameFeature.Abilities, true);
+                var abilitiesComp = entity.GetComponent<AbilitiesComponent>();
+                if (abilitiesComp == null)
+                {
+                    abilitiesComp = new();
+                    entity.AddComponent(abilitiesComp);
+                }
+                Abilities.Weapons.ForEach(ability => {
+                    abilitiesComp.AddAbility(ability);
+                    postMessageCallback(new AbilityAddedMessage(entity, ability));
+                });
             }
 
-            if (!isStepDone(QuestStates.GettingStarted.Travel) && level >= LvlTravel)
+            if (!isStepDone(StateFlags.Travel) && level >= LvlTravel)
             {
                 if (!entity.HasComponent<TravellerComponent>())
                 {
                     entity.AddComponent(new TravellerComponent());
-                    setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Travel,
+                    setQuestState(StateFlags.Travel,
                         $"You can now travel between areas. Pick a spot to grind or push forward to unlock higher zones." +
                         $"\n  - Unlocked manual travel between areas");
                 }
-                storyComp.SetQuestProgress(QuestId.GettingStarted, QuestStates.GettingStarted.Travel);
+                else
+                {
+                    setQuestState(StateFlags.Travel, "");
+                }
                 setFeatureState(GameFeature.Travel, true);
             }
 
-            if (!isStepDone(QuestStates.GettingStarted.Dungeon))
+            if (!isStepDone(StateFlags.Dungeon))
             {
                 if (rewardItems.Count == 0 && coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
                 {
-                    // Generate list of items, store in rewardItems listk send names as response options
-                    foreach (var family in ItemFamilies.Weapons)
+                    // Generate list of items, store in rewardItems list and send names as response options
+                    // CornerCut: Assumes that only weapons have the target level
+                    var blueprints = LootTable.GetAllBlueprints().Where(b => b.GetDropLevel() == Materials.LevelT1);
+                    foreach (var blueprint in blueprints)
                     {
-                        var item = ItemFactory.MakeItem(ItemBlueprint.WithLocalMaterialIndex(family, 1, 0, 1));
+                        var item = ItemFactory.MakeItem(blueprint);
                         if (item != null)
                         {
                             rewardItems.Add(item);
-                        }
-                        else
-                        {
-                            throw new Exception($"Invalid item family: {family}");
                         }
                     }
                     postMessageCallback(new DialogueMessage(GetId().ToString(), "", "", 
@@ -181,7 +223,7 @@ namespace TheIdleScrolls_Core.Quests
                                 coordinator.AddEntity(item);
                                 rewardItems.Clear();
                                 postMessageCallback(new ItemReceivedMessage(entity, item));
-                                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Dungeon, "");
+                                setQuestState(StateFlags.Dungeon, "");
                                 success = true;
                                 break;
                             }
@@ -194,11 +236,11 @@ namespace TheIdleScrolls_Core.Quests
                 }
             }
 
-            if (!isStepDone(QuestStates.GettingStarted.Bounties)
+            if (!isStepDone(StateFlags.Bounties)
                 && (entity.GetComponent<PlayerProgressComponent>()?.Data.HighestWildernessKill ?? 0) >= LvlBounties)
             {
                 setFeatureState(GameFeature.Bounties, true);
-                setQuestState(QuestId.GettingStarted, QuestStates.GettingStarted.Bounties, 
+                setQuestState(StateFlags.Bounties, 
                     "You have shown yourself capable of venturing far into the wilderness. From this point onwards, you will be " +
                     "eligible to receive coins as bounties for scouting ahead and defeating the dangerous denizens of the wild.");
                 BountyHunterComponent bountyHunterComponent = new()
@@ -206,6 +248,21 @@ namespace TheIdleScrolls_Core.Quests
                     HighestCollected = LvlBounties
                 };
                 entity.AddComponent(bountyHunterComponent);
+            }
+
+            if (!isStepDone(StateFlags.Crafting)
+                && entity.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeons().Count >= 2)
+            {
+                setFeatureState(GameFeature.Crafting, true);
+                setQuestState(StateFlags.Crafting,
+                    $"While dungeon delving is more exciting, the wise adventurer knows that the most reliable way to acquire equipment " +
+                    $"is to make it yourself. Give it a try if you have some coins and a little patience");
+
+                entity.AddComponent(new CraftingBenchComponent());
+                
+                entity.GetComponent<AbilitiesComponent>()?.AddAbility(Abilities.Crafting);
+                entity.GetComponent<AbilitiesComponent>()?.UpdateAbility(Abilities.Crafting, 10, 0);
+                postMessageCallback(new AbilityAddedMessage(entity, Abilities.Crafting));
             }
         }
     }

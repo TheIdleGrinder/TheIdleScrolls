@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Quests;
 using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core.Systems
@@ -14,7 +15,6 @@ namespace TheIdleScrolls_Core.Systems
     public class TutorialSystem : AbstractSystem
     {
         const int ItemCountForSelling = 12;
-        const int CoinsForReforging = 200;
 
         public const string FinalStoryDungeon = Definitions.DungeonIds.Threshold;
         const string UnarmoredKey = "NOARMOR";
@@ -56,41 +56,43 @@ namespace TheIdleScrolls_Core.Systems
             {
                 if (message.Quest == QuestId.GettingStarted)
                 {
-                    switch ((Components.QuestStates.GettingStarted)message.Progress)
+                    var progress = (GettingStartedQuest.StateFlags)message.Progress;
+                    if ((progress & GettingStartedQuest.StateFlags.Weapons) != 0)
                     {
-                        case Components.QuestStates.GettingStarted.Inventory:
-                            addTutorialProgress(TutorialStep.Inventory, "Level Up!",
-                                "You have unlocked the inventory. Double click on an item in your inventory to equip it.", message);
-                            break;
-                        case Components.QuestStates.GettingStarted.Abilities:
-                            addTutorialProgress(TutorialStep.Abilities, "Live and Learn",
-                                "The more you use weapons of one type, the better you will become at handling them. Watch your " +
-                                "attack speed increase along with your ability level.", message);
-                            break;
-                        case Components.QuestStates.GettingStarted.Perks:
-                            addTutorialProgress(TutorialStep.Perks, "Perks of the Trade",
-                                "You can see the exact values of your ability bonus by checking the 'Perks' tab. As you continue playing and earning " +
-                                "achievements, you will also unlock additional perks.", message);
-                            break;
-                        case Components.QuestStates.GettingStarted.Outside:
-                            addTutorialProgress(TutorialStep.MobAttacks, "Training is Over",
-                                "From this point on, mobs are going to fight back. Watch the countdown " +
-                                "near the mob. If time runs out, you lose the fight.", message);
-                            break;
-                        case Components.QuestStates.GettingStarted.Armor:
-                            addTutorialProgress(TutorialStep.Armor, "It's Dangerous to Go Alone",
-                                "Wearing armor slows down the countdown during fights but also encumbers your character, reducing attack speed. " +
-                                "Heavier armor means more encumbrance, but also better protection.", message);
-                            break;
-                        case Components.QuestStates.GettingStarted.Travel:
-                            addTutorialProgress(TutorialStep.Travel, "Freedom of Movement", 
-                                "Click the arrow buttons to move between zones. Higher level areas become accessible after defeating" +
-                                "a mob in the previous zone." +
-                                "\nUpon losing a fight, your character will automatically move down one area.", 
-                                message);
-                            break;
-                        default:
-                            break;
+                        addTutorialProgress(TutorialStep.Inventory, "Level Up!",
+                            "You have unlocked the inventory. Double click on an item in your inventory to equip it.", message);
+                    }
+                    if ((progress & GettingStartedQuest.StateFlags.Abilities) != 0)
+                    {
+                        addTutorialProgress(TutorialStep.Abilities, "Live and Learn",
+                            "The more you use weapons of one type, the better you will become at handling them. Watch your " +
+                            "damage and attack speed increase along with your ability level.", message);
+                    }
+                    if ((progress & GettingStartedQuest.StateFlags.Perks) != 0)
+                    {
+                        addTutorialProgress(TutorialStep.Perks, "Perks of the Trade",
+                            "You can see the exact values of your ability bonus by checking the 'Perks' tab. As you continue playing " +
+                            "and earning achievements, you will also unlock additional perks.", message);
+                    }
+                    if ((progress & GettingStartedQuest.StateFlags.MobAttacks) != 0)
+                    {
+                        addTutorialProgress(TutorialStep.MobAttacks, "Training is Over",
+                            "From this point on, mobs are going to fight back. Watch the countdown " +
+                            "near the mob. If time runs out, you lose the fight.", message);
+                    }
+                    if ((progress & GettingStartedQuest.StateFlags.Armor) != 0)
+                    {
+                        addTutorialProgress(TutorialStep.Armor, "It's Dangerous to Go Alone",
+                            "Wearing armor slows down the countdown during fights but also encumbers your character, reducing attack speed. " +
+                            "Heavier armor means more encumbrance, but also better protection.", message);
+                    }
+                    if ((progress & GettingStartedQuest.StateFlags.Travel) != 0)
+                    {
+                        addTutorialProgress(TutorialStep.Travel, "Freedom of Movement",
+                            "Click the arrow buttons to move between zones. Higher level areas become accessible after defeating" +
+                            "a mob in the previous zone." +
+                            "\nUpon losing a fight, your character will automatically move down one area.",
+                            message);
                     }
                 }
             }
@@ -197,23 +199,16 @@ namespace TheIdleScrolls_Core.Systems
                     $"Items are piling up in your inventory. Selling them will make it less cluttered and also earn you some pretty coins.\n" +
                     $"\n  - You can sell items from you inventory to gain coins"));
             }
-            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Reforging)
-                && (m_player.GetComponent<PlayerProgressComponent>()?.Data.TotalCoins ?? 0) > CoinsForReforging)
+            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Crafting)
+                && m_player.HasComponent<CraftingBenchComponent>())
             {
-                globalProgress.Data.TutorialProgress.Add(TutorialStep.Reforging);
+                globalProgress.Data.TutorialProgress.Add(TutorialStep.Crafting);
                 coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Reforging, "Let's put those coins to use",
-                    $"You can unburden yourself of some cumbersome coinage by reforging your items. This will reroll their rarity to a random value." +
-                    $"As your crafting ability improves, higher rarity levels become available and their probability increases.\n" +
-                    $"\n  - You can now spend coins to reforge the rarity of items"));
-            }
-            // Enable feature for player if reforging has been unlocked globally
-            if (globalProgress.Data.TutorialProgress.Contains(TutorialStep.Reforging)
-                && !(m_player.GetComponent<PlayerComponent>()?.AvailableFeatures?.Contains(GameFeature.Crafting) ?? true)
-                && (m_player.GetComponent<PlayerProgressComponent>()?.Data.TotalCoins ?? 0) > CoinsForReforging)
-            {
-                m_player.GetComponent<PlayerComponent>()?.SetFeatureState(GameFeature.Crafting, true);
-                coordinator.PostMessage(this, new FeatureStateMessage(GameFeature.Crafting, true));
+                    new TutorialMessage(TutorialStep.Crafting, "Let's put those coins to use",
+                    $"You can unburden yourself of some cumbersome coinage by crafting items. You can either create new items or " +
+                    $"attempt to refine the ones you already have. Doing so will raise your crafting ability, which improves your " +
+                    $"chances of successfully refining items." +
+                    $"\n  - You can now spend coins to craft and refine items"));
             }
 
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Bounties)
@@ -223,8 +218,9 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Bounties, "Bounty Hunter",
                     $"The main way to earn bounties is by defeating " +
-                    $"an enemy at a higher level than you had before in the wilderness. You will also be awarded a bounty every time you defeat " +
-                    $"{Systems.BountySystem.EnemiesPerHunt} in the wilderness. The value of bounties depends on the level of the defeated enemies."));
+                    $"an enemy at a higher level than you had before in the wilderness. You will also be awarded a bounty every " +
+                    $"time you defeat {BountySystem.EnemiesPerHunt} enemies in the wilderness. The value of bounties " +
+                    $"depends on the level of the defeated enemies."));
             }
         }
     }

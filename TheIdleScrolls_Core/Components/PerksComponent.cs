@@ -40,6 +40,11 @@ namespace TheIdleScrolls_Core.Components
             return Perks;
         }
 
+        public bool HasPerk(string id)
+        {
+            return Perks.Any(p => p.Id == id);
+        }
+
         public List<Perk> GetChangedPerks() => Perks.Where(p => ChangedPerks.Contains(p.Id)).ToList();
 
         public List<Modifier> GetModifiers()
