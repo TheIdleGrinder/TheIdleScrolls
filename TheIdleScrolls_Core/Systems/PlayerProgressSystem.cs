@@ -76,12 +76,23 @@ namespace TheIdleScrolls_Core.Systems
             var dungeons = coordinator.FetchMessagesByType<DungeonCompletedMessage>();
             foreach (var dungeon in dungeons)
             {
-                if (!progComp.Data.DungeonTimes.TryGetValue(dungeon.DungeonId, out Dictionary<int, double>? value) ||
-                    !value.ContainsKey(dungeon.DungeonLevel))
+                if (!progComp.Data.DungeonTimes.TryGetValue(dungeon.DungeonId, out Dictionary<int, double>? levelTimes) ||
+                    !levelTimes.ContainsKey(dungeon.DungeonLevel))
                 {
                     if (!progComp.Data.DungeonTimes.ContainsKey(dungeon.DungeonId))
                         progComp.Data.DungeonTimes[dungeon.DungeonId] = [];
                     progComp.Data.DungeonTimes[dungeon.DungeonId][dungeon.DungeonLevel] = progComp.Data.Playtime;
+                }
+                if (!progComp.Data.DungeonCompletions.TryGetValue(dungeon.DungeonId, out Dictionary<int, int>? levelCounts) ||
+                    !levelCounts.ContainsKey(dungeon.DungeonLevel))
+                {
+                    if (!progComp.Data.DungeonCompletions.ContainsKey(dungeon.DungeonId))
+                        progComp.Data.DungeonCompletions[dungeon.DungeonId] = [];
+                    progComp.Data.DungeonCompletions[dungeon.DungeonId][dungeon.DungeonLevel] = 1;
+                }
+                else
+                {
+                    levelCounts[dungeon.DungeonLevel]++;
                 }
             }
 

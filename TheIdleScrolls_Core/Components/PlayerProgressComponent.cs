@@ -31,6 +31,7 @@ namespace TheIdleScrolls_Core.Components
         public HashSet<string> SeenItemGenera { get; set; } = [];
         public HashSet<TutorialStep> TutorialProgress { get; set; } = [];
         public Dictionary<string, Dictionary<int, double>> DungeonTimes { get; set; } = [];
+        public Dictionary<string, Dictionary<int, int>> DungeonCompletions { get; set; } = [];
         public int MaxCoins { get; set; } = 0;
         public int TotalCoins { get; set; } = 0;
         public int CoinsSpentOnForging { get; set; } = 0;
