@@ -1,24 +1,25 @@
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Resources;
 
 namespace Test_TheIdleScrolls_Core
 {
     public class Test_Abilities
     {
-        const string Key = "key";
+        const string Key = Abilities.Axe;
 
-        Ability ability;
         AbilitiesComponent component;
         
         [SetUp]
         public void Setup()
         {
-            ability = new Ability(Key);
             component = new();
         }
 
         [Test]
         public void Constructing_works()
         {
+            var ability = new Ability(Key);
             Assert.Multiple(() =>
             {
                 Assert.That(ability, Is.Not.Null);
@@ -32,6 +33,7 @@ namespace Test_TheIdleScrolls_Core
         [Test]
         public void Adding_XP_works()
         {
+            var ability = new Ability(Key);
             const int amount = 50;
             ability.AddXP(amount);
             Assert.That(ability.XP, Is.EqualTo(amount));
@@ -41,31 +43,32 @@ namespace Test_TheIdleScrolls_Core
             Assert.That(ability.XP, Is.EqualTo(4 * amount));
         }
 
-        //[Test]
-        //public void Adding_ability_to_component_works()
-        //{
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(component.GetAbilities(), Has.Count.EqualTo(0));
-        //        Assert.That(component.GetAbility(Key), Is.Null);
-        //    });
+        [Test]
+        public void Adding_ability_to_component_works()
+        {
+            Assert.Multiple(() =>
+            {
+                Assert.That(component.GetAbilities(), Has.Count.EqualTo(0));
+                Assert.That(component.GetAbility(Key), Is.Null);
+            });
 
-        //    component.AddAbility(ability);
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(component.GetAbilities(), Has.Count.EqualTo(1));
-        //        Assert.That(component.GetAbility(Key), Is.EqualTo(ability));
-        //    });
-        //}
+            component.AddAbility(Key);
+            Assert.Multiple(() =>
+            {
+                Assert.That(component.GetAbilities(), Has.Count.EqualTo(1));
+                Assert.That(component.GetAbility(Key), Is.Not.Null);
+            });
+        }
 
         [TestCase(1)]
         [TestCase(3)]
         [TestCase(10)]
         public void Adding_ability_to_component_sets_target_XP(int level)
         {
-            ability.Level = level;
-            component.AddAbility(ability);
-            Assert.That(ability.TargetXP, Is.EqualTo(60 * level));
+            component.AddAbility(Key, level);
+            var ability = component.GetAbility(Key);
+            Assert.That(ability, Is.Not.Null);
+            Assert.That(ability.TargetXP, Is.EqualTo(AbilityList.GetAbility(ability.Key)!.RequiredXpForLevelUp(level)));
         }
 
         [Test]
@@ -79,11 +82,13 @@ namespace Test_TheIdleScrolls_Core
 
         [TestCase(0)]
         [TestCase(1)]
-        [TestCase(50)]
+        [TestCase(22)]
         public void Adding_XP_to_ability_in_component_works(int amount)
         {
-            component.AddAbility(ability);
+            component.AddAbility(Key);
             var result = component.AddXP(Key, amount);
+            var ability = component.GetAbility(Key);
+            Assert.That(ability, Is.Not.Null);
             Assert.That(result, Is.EqualTo(AbilitiesComponent.AddXPResult.Added));
             Assert.That(ability.XP, Is.EqualTo(amount));
         }
@@ -93,8 +98,9 @@ namespace Test_TheIdleScrolls_Core
         [TestCase(83)]
         public void Adding_XP_to_ability_in_component_may_increase_level(int level)
         {
-            ability.Level = level;
-            component.AddAbility(ability);
+            component.AddAbility(Key, level);
+            var ability = component.GetAbility(Key);
+            Assert.That(ability, Is.Not.Null);
             component.AddXP(Key, ability.TargetXP + level);
             Assert.That(ability.Level, Is.EqualTo(level + 1));
             Assert.That(ability.XP, Is.EqualTo(level));
@@ -102,9 +108,13 @@ namespace Test_TheIdleScrolls_Core
 
         public void Level_can_increase_more_than_once()
         {
-            component.AddAbility(ability);
+            component.AddAbility(Key);
+            var ability = component.GetAbility(Key);
+            Assert.That(ability, Is.Not.Null);
             Assert.That(ability.Level, Is.EqualTo(1));
-            component.AddXP(Key, ability.TargetXP * 3);
+            var xpFunction = AbilityList.GetAbility(ability.Key)!.RequiredXpForLevelUp;
+            int xp = xpFunction(2) + xpFunction(3);
+            component.AddXP(Key, xp);
             Assert.That(ability.Level, Is.EqualTo(3));
             Assert.That(ability.XP, Is.EqualTo(0));
         }

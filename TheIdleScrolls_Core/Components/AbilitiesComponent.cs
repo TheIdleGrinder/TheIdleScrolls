@@ -17,10 +17,11 @@ namespace TheIdleScrolls_Core.Components
 
         public AbilitiesComponent() {}
 
-        public void AddAbility(string abilityId)
+        public void AddAbility(string abilityId, int level = 1)
         {
             var abilityDef = AbilityList.GetAbility(abilityId) ?? throw new ArgumentException("Invalid ability ID");
             var ability = abilityDef.GetAbility();
+            ability.Level = level;
             ability.TargetXP = abilityDef.RequiredXpForLevelUp(ability.Level);
             m_abilities[ability.Key] = ability;
         }

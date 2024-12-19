@@ -88,16 +88,8 @@ namespace Test_TheIdleScrolls_Core
             entity.AddComponent(equipment);
 
             var abilities = new AbilitiesComponent();
-            Ability sbl = new("SBL")
-            {
-                Level = 12
-            };
-            abilities.AddAbility(sbl);
-            Ability lar = new("LAR")
-            {
-                Level = 13
-            };
-            abilities.AddAbility(lar);
+            abilities.AddAbility(Abilities.ShortBlade, 12);
+            abilities.AddAbility(Abilities.LightArmor, 13);
             entity.AddComponent(abilities);
 
             return entity;

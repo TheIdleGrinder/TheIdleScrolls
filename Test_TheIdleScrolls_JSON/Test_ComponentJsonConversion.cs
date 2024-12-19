@@ -1,5 +1,6 @@
 using System.Text.Json.Nodes;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_JSON;
 using TheIdleScrolls_Storage;
 
@@ -13,19 +14,10 @@ namespace Test_TheIdleScrolls_JSON
         public void Setup()
         {
             component = new();
-            var abilityLbl = new Ability("LBL")
-            {
-                Level = 17,
-                XP = 71
-            };
-            component.AddAbility(abilityLbl);
-
-            var abilityAxe = new Ability("AXE")
-            {
-                Level = 2,
-                XP = 15
-            };
-            component.AddAbility(abilityAxe);
+            component.AddAbility(Abilities.LongBlade);
+            component.UpdateAbility(Abilities.LongBlade, 17, 71);
+            component.AddAbility(Abilities.Axe);
+            component.UpdateAbility(Abilities.Axe, 2, 15);
         }
 
         [Test]

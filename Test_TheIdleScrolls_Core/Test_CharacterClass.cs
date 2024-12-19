@@ -14,7 +14,7 @@ namespace Test_TheIdleScrolls_Core
             result.AddComponent(abiComp);
             foreach (string a in abilities.Keys)
             {
-                abiComp.UpdateAbility(a, abilities[a], 0);
+                abiComp.AddAbility(a, abilities[a]);
             }
             return result;
         }
@@ -26,7 +26,11 @@ namespace Test_TheIdleScrolls_Core
 
         private void SetAbilityLevel(Entity character, string ability, int level)
         {
-            character.GetComponent<AbilitiesComponent>()?.UpdateAbility(ability, level, 0);
+            var abiComp = character.GetComponent<AbilitiesComponent>()!;
+            if (abiComp.GetAbility(ability) == null)
+                abiComp.AddAbility(ability, level);
+            else
+                abiComp.UpdateAbility(ability, level, 0);
         }
 
         [Test]
