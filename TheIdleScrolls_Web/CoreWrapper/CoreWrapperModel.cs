@@ -293,10 +293,10 @@ namespace TheIdleScrolls_Web.CoreWrapper
             return result;
         }
 
-        public double CalculateReforgingSuccessRate(int rarity)
+        public double CalculateRefiningSuccessRate(int rarity)
         {
             int level = Abilities.FirstOrDefault(a => a.Key == TheIdleScrolls_Core.Definitions.Abilities.Crafting)?.Level ?? 0;
-            return Functions.CalculateReforgingSuccessRate(level, rarity);
+            return Functions.CalculateRefiningSuccessRate(level, rarity);
         }
 
         public async Task ExportAll()

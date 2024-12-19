@@ -34,9 +34,9 @@ namespace TheIdleScrolls_Core.Components
         public Dictionary<string, Dictionary<int, int>> DungeonCompletions { get; set; } = [];
         public int MaxCoins { get; set; } = 0;
         public int TotalCoins { get; set; } = 0;
-        public int CoinsSpentOnForging { get; set; } = 0;
-        public int BestReforge { get; set;} = 0;
-        public int BestG0Reforge { get; set;} = 0;
+        public int CoinsSpentOnCrafting { get; set; } = 0;
+        public int BestRefine { get; set;} = 0;
+        public int BestG0Refine { get; set;} = 0;
         public Dictionary<string, int> DefeatedMobs { get; set; } = [];
         public Dictionary<string, int> ConditionalKills { get; set; } = [];
 
@@ -63,10 +63,10 @@ namespace TheIdleScrolls_Core.Components
                 sb.AppendLine($"Total Coins earned: {TotalCoins}");
                 sb.AppendLine($"Most coins saved: {MaxCoins}");
             }
-            if (CoinsSpentOnForging > 0)
+            if (CoinsSpentOnCrafting > 0)
             {
-                sb.AppendLine($"Coins spent on reforging: {CoinsSpentOnForging}");
-                sb.AppendLine($"Highest rarity from reforging: +{BestReforge}");
+                sb.AppendLine($"Coins spent on crafting: {CoinsSpentOnCrafting}");
+                sb.AppendLine($"Highest rarity from refining: +{BestRefine}");
             }
             sb.AppendLine();
             if (DungeonTimes.Any())

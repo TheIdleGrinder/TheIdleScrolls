@@ -307,23 +307,23 @@ namespace TheIdleScrolls_Core.Resources
             for (int i = 0; i < craftNames.Length; i++)
             {
                 achievements.Add(new(
-                    $"BestReforge+{i + 1}",
+                    $"BestRefine+{i + 1}",
                     $"{craftNames[i]} Craft",
-                    $"Reforge an item to +{i + 1} rarity",
-                    (i > 0) ? ExpressionParser.ParseToFunction($"BestReforge+{i}") : tautology,
-                    ExpressionParser.ParseToFunction($"BestReforge >= {i + 1}")));
+                    $"Refine an item to +{i + 1} rarity",
+                    (i > 0) ? ExpressionParser.ParseToFunction($"BestRefine+{i}") : tautology,
+                    ExpressionParser.ParseToFunction($"BestRefine >= {i + 1}")));
             }
-            Achievement tier0Reforge = new(
-                "G0Reforge+3",
+            Achievement tier0Refine = new(
+                "G0Refine+3",
                 "Still not Viable",
-                "Reforge a training item to +3 rarity or higher",
-                ExpressionParser.ParseToFunction("BestReforge+3"),
+                "Refine a training item to +3 rarity or higher",
+                ExpressionParser.ParseToFunction("BestRefine+3"),
                 ExpressionParser.ParseToFunction("BestG0Craft >= 3")
                 )
             {
                 Hidden = true
             };
-            achievements.Add(tier0Reforge);
+            achievements.Add(tier0Refine);
 
             // Coins achievements
             ranks =

@@ -23,10 +23,10 @@ namespace TheIdleScrolls_Core.Items
 
         public int Value => Item.GetComponent<ItemValueComponent>()?.Value ?? 0;
 
-        public (int Cost, double Duration) Reforging => (Functions.CalculateCraftingCost(Item, Owner), 
-                                                        Functions.CalculateReforgingDuration(Item, Owner));
+        public (int Cost, double Duration) Refining => (Functions.CalculateCraftingCost(Item, Owner), 
+                                                        Functions.CalculateRefiningDuration(Item, Owner));
 
-        public bool Crafted => Item.GetComponent<ItemReforgeableComponent>()?.Reforged ?? false;
+        public bool Crafted => Item.GetComponent<ItemRefinableComponent>()?.Refined ?? false;
 
         private Entity Item { get; }
         private Entity? Owner { get; }

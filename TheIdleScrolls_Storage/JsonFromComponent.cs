@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Storage
                 {
                     continue;
                 }
-                if (item.GetComponent<ItemReforgeableComponent>()?.Reforged ?? false)
+                if (item.GetComponent<ItemRefinableComponent>()?.Refined ?? false)
                 {
                     code += " #c";
                 }

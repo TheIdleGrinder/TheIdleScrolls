@@ -24,8 +24,8 @@ namespace TheIdleScrolls_Core
             public const double MaxEvasionEffectDuration = 1.0;
 
             public const double CraftingAbilityBonusPerLevel = 0.02;
-            public const double ReforgingBaseDuration = 30.0;
-            public const double ReforgingDurationPerMaterialTier = 10.0;
+            public const double CraftingBaseDuration = 30.0;
+            public const double CraftingDurationPerMaterialTier = 10.0;
 
             public const int    MobBaseHp = 20;
             public const double EarlyHpScaling = 1.056;
@@ -209,16 +209,16 @@ namespace TheIdleScrolls_Core
             return 10.0 * (1.0 * playerLevel / areaLevel) / CalculateMobArmorPierce(areaLevel);
         }
 
-        public static double CalculateReforgingSuccessRate(int abilityLevel, int currentRarity)
+        public static double CalculateRefiningSuccessRate(int abilityLevel, int currentRarity)
         {
             return abilityLevel / (abilityLevel + Math.Pow(currentRarity + 1, 2) * 10);
         }
 
-        public static double CalculateReforgingDuration(Entity item, Entity? crafter)
+        public static double CalculateRefiningDuration(Entity item, Entity? crafter)
         {
             var materialTier = item.GetComponent<ItemMaterialComponent>()?.Tier ?? 0;
-            double baseDuration = Definitions.Stats.ReforgingBaseDuration 
-                + Definitions.Stats.ReforgingDurationPerMaterialTier * materialTier;
+            double baseDuration = Definitions.Stats.CraftingBaseDuration 
+                + Definitions.Stats.CraftingDurationPerMaterialTier * materialTier;
             double speed = crafter?.ApplyAllApplicableModifiers(1.0, 
                 new string[] { Definitions.Tags.CraftingSpeed }, 
                 crafter.GetTags()) ?? 1.0;
@@ -229,7 +229,7 @@ namespace TheIdleScrolls_Core
 
         public static int CalculateCraftingCost(Entity item, Entity? crafter)
         {
-            int baseCost = item.GetComponent<ItemReforgeableComponent>()?.Cost ?? 100;
+            int baseCost = item.GetComponent<ItemRefinableComponent>()?.Cost ?? 100;
             double cost = crafter?.ApplyAllApplicableModifiers(baseCost, 
                 new string[] { Definitions.Tags.CraftingCost },
                 crafter.GetTags()) ?? baseCost;

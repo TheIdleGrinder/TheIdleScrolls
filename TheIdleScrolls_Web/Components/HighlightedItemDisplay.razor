@@ -34,12 +34,12 @@
                 @SellText
             </button>
         }
-        @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting) && ReforgeButtonVisible)
+        @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting) && RefineButtonVisible)
         {
-            <div>Duration: @($"{HighlightedItem?.Reforging.Duration:0} seconds")</div>
-            <div>Odds: @($"{CoreWrapper.CalculateReforgingSuccessRate(HighlightedItem?.Rarity ?? 0):0%}")</div>
-            <button id="btnReforge" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="ReforgeItem">
-                @ReforgeText
+            <div>Duration: @($"{HighlightedItem?.Refining.Duration:0} seconds")</div>
+            <div>Odds: @($"{CoreWrapper.CalculateRefiningSuccessRate(HighlightedItem?.Rarity ?? 0):0%}")</div>
+            <button id="btnRefine" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="RefineItem">
+                @RefineText
             </button>
         }
     }
@@ -47,7 +47,7 @@
     {
         @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting) && CraftButtonVisible && HighlightedItem != null)
         {
-            <div>Duration: @($"{HighlightedItem?.Reforging.Duration:0} seconds")</div>
+            <div>Duration: @($"{HighlightedItem?.Refining.Duration:0} seconds")</div>
             <button id="btnCraft" class="itemButton" disabled="@(HighlightedItem == null || IsItemOwned(HighlightedItem))" @onclick="CraftItem">
                 @CraftText
             </button>
@@ -119,7 +119,7 @@
     [Parameter]
     public bool SellButtonVisible { get; set; } = true;
     [Parameter]
-    public bool ReforgeButtonVisible { get; set; } = false;
+    public bool RefineButtonVisible { get; set; } = false;
     [Parameter]
     public bool CraftButtonVisible { get; set; } = false;
 
@@ -144,8 +144,8 @@
             return "Throw out"; 
         } 
     }
-    string ReforgeText => "Reforge" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Reforging.Cost ?? 0}c)" : "");
-    string CraftText => "Craft" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Reforging.Cost ?? 0}c)" : "");
+    string RefineText => "Refine" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Refining.Cost ?? 0}c)" : "");
+    string CraftText => "Craft" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Refining.Cost ?? 0}c)" : "");
 
     protected override void OnInitialized()
     {
@@ -190,11 +190,11 @@
         }
     }
 
-    void ReforgeItem()
+    void RefineItem()
     {
         if (HighlightedItem != null)
         {
-            CoreWrapper.InputHandler.ReforgeItem(CharId, HighlightedItem.Id);
+            CoreWrapper.InputHandler.RefineItem(CharId, HighlightedItem.Id);
         }
     }
 

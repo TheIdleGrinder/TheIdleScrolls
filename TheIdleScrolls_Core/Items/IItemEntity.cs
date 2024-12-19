@@ -10,7 +10,7 @@ namespace TheIdleScrolls_Core.Items
         public List<EquipmentSlot> Slots { get; }
         public int Rarity { get; }
         public int Value { get; }
-        public (int Cost, double Duration) Reforging { get; }
+        public (int Cost, double Duration) Refining { get; }
         public bool Crafted { get; }
     }
 }

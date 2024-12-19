@@ -69,7 +69,7 @@ namespace TheIdleScrolls_Core.Items
 
             DetermineTags(item);
             UpdateItemValue(item);
-            UpdateReforgingCost(item);
+            UpdateRefiningCost(item);
 
 
             return item;
@@ -108,7 +108,7 @@ namespace TheIdleScrolls_Core.Items
             item.AddComponent(new ItemValueComponent() { Value = value });
         }
 
-        public static void UpdateReforgingCost(Entity item)
+        public static void UpdateRefiningCost(Entity item)
         {
             ItemBlueprint blueprint = item.GetComponent<ItemComponent>()?.Blueprint ?? throw new Exception($"Entity {item.GetName()} is not an item");
             double baseCost = 10.0;
@@ -119,7 +119,7 @@ namespace TheIdleScrolls_Core.Items
                 double matMulti = blueprint.GetMaterial().PowerMultiplier;
                 totalCost = (int)Math.Ceiling(baseCost * (tier + 1) * matMulti);
             }
-            item.AddComponent(new ItemReforgeableComponent() { Cost = totalCost });
+            item.AddComponent(new ItemRefinableComponent() { Cost = totalCost });
         }
 
         public static void DetermineTags(Entity item)

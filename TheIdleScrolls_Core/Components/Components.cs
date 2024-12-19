@@ -269,10 +269,10 @@ namespace TheIdleScrolls_Core.Components
         public int Value = 0;
     }
 
-    public class ItemReforgeableComponent : IComponent
+    public class ItemRefinableComponent : IComponent
     {
         public int Cost = 0;
 
-        public bool Reforged = false;
+        public bool Refined = false;
     }
 }

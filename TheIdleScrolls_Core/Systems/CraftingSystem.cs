@@ -29,8 +29,7 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this, message);
             }
 
-            if (FirstUpdate || coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>()
-                || coordinator.MessageTypeIsOnBoard<FeatureStateMessage>())
+            if (FirstUpdate || coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
             {
                 foreach (var crafter in coordinator.GetEntities<CraftingBenchComponent>())
                 {
@@ -76,12 +75,12 @@ namespace TheIdleScrolls_Core.Systems
                 HandleCraftRequest(owner, craftReq.ItemId, postMessageCallback);
             }
 
-            foreach (var reforgeReq in coordinator.FetchMessagesByType<ReforgeItemRequest>())
+            foreach (var refineReq in coordinator.FetchMessagesByType<RefineItemRequest>())
             {
                 // Fetch owner and item, check id validity
-                var owner = coordinator.GetEntity(reforgeReq.OwnerId) ?? throw new Exception($"Invalid entity id: {reforgeReq.OwnerId}");
-                var item = coordinator.GetEntity(reforgeReq.ItemId) ?? throw new Exception($"Invalid entity id: {reforgeReq.ItemId}");
-                HandleReforgeRequest(owner, item, postMessageCallback);
+                var owner = coordinator.GetEntity(refineReq.OwnerId) ?? throw new Exception($"Invalid entity id: {refineReq.OwnerId}");
+                var item = coordinator.GetEntity(refineReq.ItemId) ?? throw new Exception($"Invalid entity id: {refineReq.ItemId}");
+                HandleRefineRequest(owner, item, postMessageCallback);
             }
 
             // Updating twice per second is enough
@@ -109,7 +108,7 @@ namespace TheIdleScrolls_Core.Systems
             Entity? prototype = craftComp.AvailablePrototypes.FirstOrDefault(i => i.Id == prototypeId)
                 ?? throw new Exception($"Invalid crafting prototype id: #{prototypeId}");
 
-            // Check funds, for now crafting cost = reforging cost
+            // Check funds, for now crafting cost = refining cost
             int cost = Functions.CalculateCraftingCost(prototype, crafter);
             if (!CheckAndSpendCoins(crafter, cost, postMessage))
             {
@@ -122,12 +121,12 @@ namespace TheIdleScrolls_Core.Systems
                 ?? throw new Exception($"Failed to create item from prototype #{prototypeId}");
 
             // Start crafting
-            double duration = Functions.CalculateReforgingDuration(newItem, crafter);
+            double duration = Functions.CalculateRefiningDuration(newItem, crafter);
             craftComp.AddCraft(new(CraftingType.Craft, newItem, duration, 0.0, cost));
             postMessage(new CraftingStartedMessage(crafter, newItem, cost, CraftingType.Craft));
         }
 
-        public void HandleReforgeRequest(Entity owner, Entity item, Action<IMessage> postMessage)
+        public void HandleRefineRequest(Entity owner, Entity item, Action<IMessage> postMessage)
         {
             var inventoryComp = owner.GetComponent<InventoryComponent>() ?? throw new Exception($"{owner.GetName()} does not have an inventory");
             // Check ownership
@@ -152,12 +151,12 @@ namespace TheIdleScrolls_Core.Systems
                 return;
             }
 
-            // Start reforging
-            double duration = Functions.CalculateReforgingDuration(item, owner);
+            // Start refining
+            double duration = Functions.CalculateRefiningDuration(item, owner);
             double roll = Rng.NextDouble();
-            craftComp.AddCraft(new(CraftingType.Reforge, item, duration, roll, cost));
+            craftComp.AddCraft(new(CraftingType.Refine, item, duration, roll, cost));
             inventoryComp.RemoveItem(item);
-            postMessage(new CraftingStartedMessage(owner, item, cost, CraftingType.Reforge));
+            postMessage(new CraftingStartedMessage(owner, item, cost, CraftingType.Refine));
             postMessage(new InventoryChangedMessage(owner));
         }
 
@@ -167,7 +166,7 @@ namespace TheIdleScrolls_Core.Systems
             var craftId = craftComp.ActiveCrafts.FirstOrDefault(c => c.TargetItem.Id == itemId)?.ID
                 ?? throw new Exception($"Crafting process for item #{itemId} not found");
             var craft = craftComp.RemoveCraft(craftId) ?? throw new Exception($"Crafting process #{craftId} not found");
-            if (craft.Type == CraftingType.Reforge)
+            if (craft.Type == CraftingType.Refine)
             {
                 var invComp = owner.GetComponent<InventoryComponent>()!; // CornerCut: technically not guaranteed
                 invComp.AddItem(craft.TargetItem);
@@ -244,12 +243,12 @@ namespace TheIdleScrolls_Core.Systems
                             coordinator.AddEntity(craft.TargetItem);
                             coordinator.PostMessage(this, new CraftingProcessFinished(crafter, craft, true));
                         }
-                        if (craft.Type == CraftingType.Reforge)
+                        if (craft.Type == CraftingType.Refine)
                         {
 							int abilityLevel = crafter.GetComponent<AbilitiesComponent>()
                                 ?.GetAbility(Abilities.Crafting)?.Level ?? 1;
 							int rarity = craft.TargetItem.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
-                            double percentage = Functions.CalculateReforgingSuccessRate(abilityLevel, rarity);
+                            double percentage = Functions.CalculateRefiningSuccessRate(abilityLevel, rarity);
 
                             int newRarity = rarity + (percentage >= craft.Roll ? 1 : -1);
                             if (newRarity >= 0)
@@ -259,7 +258,7 @@ namespace TheIdleScrolls_Core.Systems
                             coordinator.PostMessage(this, new CraftingProcessFinished(crafter, craft, newRarity > rarity));
 						}
 
-                        craft.TargetItem.GetComponent<ItemReforgeableComponent>()!.Reforged = true;
+                        craft.TargetItem.GetComponent<ItemRefinableComponent>()!.Refined = true;
                         var invComp = crafter.GetComponent<InventoryComponent>()!; // CornerCut: technically not guaranteed
                         invComp.AddItem(craft.TargetItem);
                         coordinator.PostMessage(this, new InventoryChangedMessage(crafter));
@@ -329,12 +328,12 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
-    public class ReforgeItemRequest : IMessage
+    public class RefineItemRequest : IMessage
     {
         public uint OwnerId { get; set; }
         public uint ItemId { get; set; }
 
-        public ReforgeItemRequest(uint ownerId, uint itemId)
+        public RefineItemRequest(uint ownerId, uint itemId)
         {
             OwnerId = ownerId;
             ItemId = itemId;
@@ -342,7 +341,7 @@ namespace TheIdleScrolls_Core.Systems
 
         string IMessage.BuildMessage()
         {
-            return $"Request: #{OwnerId} to reforge item #{ItemId}";
+            return $"Request: #{OwnerId} to refine item #{ItemId}";
         }
 
         IMessage.PriorityLevel IMessage.GetPriority()
@@ -398,7 +397,7 @@ namespace TheIdleScrolls_Core.Systems
 
 		string IMessage.BuildMessage()
         {
-			return $"{Owner.GetName()} spent {CoinsPaid}c to start {(Type == CraftingType.Reforge ? "reforging" : "crafting")} {Item.GetName()}";
+			return $"{Owner.GetName()} spent {CoinsPaid}c to start {(Type == CraftingType.Refine ? "refining" : "crafting")} {Item.GetName()}";
 		}
 
 		IMessage.PriorityLevel IMessage.GetPriority()
@@ -428,7 +427,7 @@ namespace TheIdleScrolls_Core.Systems
             }
             else
             {
-                return $"{Owner.GetName()} finished reforging {Craft.TargetItem.GetName()}: Rarity {(Success ? "increased" : "reduced")}";
+                return $"{Owner.GetName()} finished refining {Craft.TargetItem.GetName()}: Rarity {(Success ? "increased" : "reduced")}";
             }
         }
 
