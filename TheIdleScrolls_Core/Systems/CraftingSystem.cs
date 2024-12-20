@@ -144,6 +144,14 @@ namespace TheIdleScrolls_Core.Systems
                 return;
             }
 
+            // Check for previous quality
+            int quality = item.GetComponent<ItemQualityComponent>()?.Quality ?? 0;
+            if (quality >= ItemKingdom.MaxItemQuality)
+            {
+                postMessage(new TextMessage($"{item.GetName()} is already at maximum quality", IMessage.PriorityLevel.VeryHigh));
+                return;
+            }
+
             // Check funds
             int cost = Functions.CalculateCraftingCost(item, owner);
             if (!CheckAndSpendCoins(owner, cost, postMessage))
@@ -247,15 +255,15 @@ namespace TheIdleScrolls_Core.Systems
                         {
 							int abilityLevel = crafter.GetComponent<AbilitiesComponent>()
                                 ?.GetAbility(Abilities.Crafting)?.Level ?? 1;
-							int rarity = craft.TargetItem.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
-                            double percentage = Functions.CalculateRefiningSuccessRate(abilityLevel, rarity);
+							int quality = craft.TargetItem.GetComponent<ItemQualityComponent>()?.Quality ?? 0;
+                            double percentage = Functions.CalculateRefiningSuccessRate(abilityLevel, quality);
 
-                            int newRarity = rarity + (percentage >= craft.Roll ? 1 : -1);
-                            if (newRarity >= 0)
+                            int newQuality = quality + (percentage >= craft.Roll ? 1 : -1);
+                            if (newQuality >= 0)
                             {
-                                ItemFactory.SetItemRarity(craft.TargetItem, newRarity);
+                                ItemFactory.SetItemQuality(craft.TargetItem, newQuality);
                             }
-                            coordinator.PostMessage(this, new CraftingProcessFinished(crafter, craft, newRarity > rarity));
+                            coordinator.PostMessage(this, new CraftingProcessFinished(crafter, craft, newQuality > quality));
 						}
 
                         craft.TargetItem.GetComponent<ItemRefinableComponent>()!.Refined = true;
@@ -427,7 +435,7 @@ namespace TheIdleScrolls_Core.Systems
             }
             else
             {
-                return $"{Owner.GetName()} finished refining {Craft.TargetItem.GetName()}: Rarity {(Success ? "increased" : "reduced")}";
+                return $"{Owner.GetName()} finished refining {Craft.TargetItem.GetName()}: Quality {(Success ? "increased" : "reduced")}";
             }
         }
 

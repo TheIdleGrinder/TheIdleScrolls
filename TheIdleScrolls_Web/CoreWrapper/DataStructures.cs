@@ -72,7 +72,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             {
                 foreach (var slot in item.Slots)
                 {
-                    var displayItem = item;// firstSlot ? item : item with { Rarity = -1 };
+                    var displayItem = item;
                     switch (slot)
                     {
                         case EquipmentSlot.Hand:

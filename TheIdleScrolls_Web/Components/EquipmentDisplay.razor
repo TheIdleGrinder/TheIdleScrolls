@@ -72,15 +72,15 @@
     {
         var item = GetItem(slot);
 
-        // If the item is a two-handed weapon, we want to display the name in the offhand slot with rarity -1
+        // If the item is a two-handed weapon, we want to display the name in the offhand slot with quality -1
         // CornerCut: currently the only items with multiple slots are two-handed weapons
-        int? rarityOverride = null;
+        int? qualityOverride = null;
         if (item != null && item.Slots.Count > 1 && slot == ExactEquipSlot.OffHand)
         {
-            rarityOverride = -1;
+            qualityOverride = -1;
         }
 
-        string result = CssUtilities.GetClassesForItem(item, rarityOverride);
+        string result = CssUtilities.GetClassesForItem(item, qualityOverride);
         if (item != null)
         {
             result += CoreWrapper.IsItemHighlighted(item.Id) ? " selectedItem" : "";

@@ -8,7 +8,7 @@ namespace TheIdleScrolls_Core.Items
         public string Name { get; }
         public string Description { get; }
         public List<EquipmentSlot> Slots { get; }
-        public int Rarity { get; }
+        public int Quality { get; }
         public int Value { get; }
         public (int Cost, double Duration) Refining { get; }
         public bool Crafted { get; }

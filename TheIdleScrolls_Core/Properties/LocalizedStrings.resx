@@ -421,13 +421,13 @@
     <value>Deep Void Flamethrower</value>
   </data>
   <data name="MOB_GLIMPSEA" xml:space="preserve">
-    <value>Vision from Strange Tales</value>
+    <value>Glimpse of Foes Ahead</value>
   </data>
   <data name="MOB_GLIMPSEB" xml:space="preserve">
-    <value>Vision of Ancient Glory</value>
+    <value>Glimpse of Foes Ahead</value>
   </data>
   <data name="MOB_GLIMPSEC" xml:space="preserve">
-    <value>Vision of Swirling Times</value>
+    <value>Glimpse of Foes Ahead</value>
   </data>
   <data name="MOB_GORGON" xml:space="preserve">
     <value>Pale Gorgon</value>

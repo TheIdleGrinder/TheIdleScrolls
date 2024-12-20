@@ -191,13 +191,13 @@ namespace TheIdleScrolls_Core.Components
         }
     }
 
-    public class ItemRarityComponent : IComponent
+    public class ItemQualityComponent : IComponent
     {
-        public int RarityLevel { get; set; }
+        public int Quality { get; set; }
 
-        public ItemRarityComponent(int rarityLevel)
+        public ItemQualityComponent(int quality)
         {
-            RarityLevel = rarityLevel;
+            Quality = quality;
         }
     }
 

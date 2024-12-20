@@ -19,9 +19,9 @@ namespace Test_TheIdleScrolls_Core
                 {
                     foreach (var materialId in family.Genera[genusIndex].ValidMaterials)
                     {
-                        for (int rarity = 0; rarity <= ItemKingdom.Rarities.Count; rarity++)
+                        for (int quality = 0; quality <= ItemKingdom.Qualities.Count; quality++)
                         {
-                            ItemBlueprint blueprint = new(family.Id, genusIndex, materialId, rarity);
+                            ItemBlueprint blueprint = new(family.Id, genusIndex, materialId, quality);
                             string code = blueprint.ToString();
                             ItemBlueprint result = ItemBlueprint.Parse(code);
                             Assert.Multiple(() =>
@@ -29,7 +29,7 @@ namespace Test_TheIdleScrolls_Core
                                 Assert.That(result.FamilyId, Is.EqualTo(blueprint.FamilyId));
                                 Assert.That(result.GenusIndex, Is.EqualTo(blueprint.GenusIndex));
                                 Assert.That(result.MaterialId, Is.EqualTo(blueprint.MaterialId));
-                                Assert.That(result.Rarity, Is.EqualTo(blueprint.Rarity));
+                                Assert.That(result.Quality, Is.EqualTo(blueprint.Quality));
                                 Assert.That(blueprint, Is.EqualTo(result));
                             });
                         }

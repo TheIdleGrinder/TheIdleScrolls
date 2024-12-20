@@ -19,7 +19,7 @@ namespace TheIdleScrolls_Core.Items
 
         public List<EquipmentSlot> Slots => Item.GetRequiredSlots();
 
-        public int Rarity => Item.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
+        public int Quality => Item.GetComponent<ItemQualityComponent>()?.Quality ?? 0;
 
         public int Value => Item.GetComponent<ItemValueComponent>()?.Value ?? 0;
 

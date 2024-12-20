@@ -58,10 +58,10 @@ namespace TheIdleScrolls_Core.Items
             var material = ItemKingdom.Materials.Where(m => m.Id == blueprint.MaterialId).First();
             SetItemMaterial(item, material);
 
-            // Apply rarity
-            if (blueprint.Rarity > 0)
+            // Apply quality
+            if (blueprint.Quality > 0)
             {
-                SetItemRarity(item, blueprint.Rarity);
+                SetItemQuality(item, blueprint.Quality);
             }
 
             // Add drop level
@@ -75,11 +75,11 @@ namespace TheIdleScrolls_Core.Items
             return item;
         }
 
-        public static void SetItemRarity(Entity item, int rarityLevel)
+        public static void SetItemQuality(Entity item, int quality)
         {
             var itemComp = item.GetComponent<ItemComponent>() ?? throw new Exception($"Entity {item.GetName()} is not an item");
-            itemComp.Blueprint = itemComp.Blueprint with { Rarity = rarityLevel };
-            item.AddComponent(new ItemRarityComponent(rarityLevel));
+            itemComp.Blueprint = itemComp.Blueprint with { Quality = quality };
+            item.AddComponent(new ItemQualityComponent(quality));
             CalculateItemStats(item);
             UpdateItemName(item);
             UpdateItemValue(item);
@@ -101,9 +101,8 @@ namespace TheIdleScrolls_Core.Items
             {
                 double baseValue = 5.0;
                 int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10); // +10 because first tier has drop level 0 (+10 from material) 
-                int rarity = blueprint.Rarity;
                 double matMulti = blueprint.GetMaterial().PowerMultiplier;
-                value = (int)Math.Ceiling(baseValue * tier * matMulti * Math.Pow(1.25, rarity));
+                value = (int)Math.Ceiling(baseValue * tier * matMulti * Math.Pow(1.25, blueprint.Quality));
             }            
             item.AddComponent(new ItemValueComponent() { Value = value });
         }
@@ -131,9 +130,9 @@ namespace TheIdleScrolls_Core.Items
             tagsComp.AddTag(blueprint.GetMaterial().Name);
             tagsComp.AddTag(blueprint.GetFamilyDescription().RelatedAbilityId);
 
-            if (item.HasComponent<ItemRarityComponent>())
+            if (item.HasComponent<ItemQualityComponent>())
             {
-                tagsComp.AddTag($"{Tags.RarityPrefix}{blueprint.Rarity}");
+                tagsComp.AddTag($"{Tags.QualityPrefix}{blueprint.Quality}");
             }
             if (item.IsWeapon())
             {
@@ -173,47 +172,47 @@ namespace TheIdleScrolls_Core.Items
             return genusLevel + materialLevel;
         }
 
-        public static int GetRandomRarity(int itemLevel, double rarityMultiplier)
+        public static int GetRandomQuality(int itemLevel, double rarityMultiplier)
         {
-            int n = ItemKingdom.Rarities.Count;
+            int n = ItemKingdom.Qualities.Count;
             double[] weights = new double[n];
 
             // Build list of weights in reverse order
             // This ensures that low rarities get 'pushed' out of range first at high bonuses
             for (int i = 0; i < n; i++)
             {
-                double weight = rarityMultiplier / ItemKingdom.Rarities[i].InverseWeight;
-                if (itemLevel < ItemKingdom.Rarities[i].MinLevel)
+                double weight = rarityMultiplier / ItemKingdom.Qualities[i].InverseWeight;
+                if (itemLevel < ItemKingdom.Qualities[i].MinLevel)
                     weight = 0.0;
                 weights[n - i - 1] = weight;
             }
 
             double draw = new Random().NextDouble();
-            int rarity = 0;
+            int quality = 0;
             for (int i = 0; i < weights.Length; i++)
             {
                 draw -= weights[i];
                 if (draw < 0)
                 {
-                    rarity = n - i; // i'th highest rarity => level == n - i (instead of n - i - 1 since rarities start at 1)
+                    quality = n - i; // i'th highest quality => level == n - i (instead of n - i - 1 since quality levels start at 1)
                     break;
                 }
             }
-            return rarity;
+            return quality;
         }
 
-        public static List<double> GetRarityWeights(int itemLevel, double rarityMultiplier)
+        public static List<double> GetQualityWeights(int itemLevel, double rarityMultiplier)
         {
-            int n = ItemKingdom.Rarities.Count;
-            double[] weights = new double[n + 1]; // +1 for rarity 0
+            int n = ItemKingdom.Qualities.Count;
+            double[] weights = new double[n + 1]; // +1 for quality 0
             double remaining = 1.0;
 
             // Build list of weights in reverse order
             // This ensures that low rarities get 'pushed' out of range first at high bonuses
             for (int i = n - 1; i >= 0; i--)
             {
-                double weight = Math.Min(rarityMultiplier / ItemKingdom.Rarities[i].InverseWeight, remaining);
-                if (itemLevel < ItemKingdom.Rarities[i].MinLevel)
+                double weight = Math.Min(rarityMultiplier / ItemKingdom.Qualities[i].InverseWeight, remaining);
+                if (itemLevel < ItemKingdom.Qualities[i].MinLevel)
                     weight = 0.0;
                 remaining -= weight;
                 weights[i + 1] = weight;
@@ -224,23 +223,22 @@ namespace TheIdleScrolls_Core.Items
 
         private static void CalculateItemStats(Entity item)
         {
-            const double rarityScaling = 1.25;
             var itemComp = item.GetComponent<ItemComponent>() 
                 ?? throw new Exception($"Entity {item.GetName()} is not an item");
             var description = itemComp.Blueprint.GetGenusDescription();
-            int rarityLevel = item.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
+            int qualityLevel = item.GetComponent<ItemQualityComponent>()?.Quality ?? 0;
             double materialMulti = itemComp.Blueprint.GetMaterial().PowerMultiplier;
 
             if (description.Weapon != null)
             {
-                double dmg = Math.Round(description.Weapon.BaseDamage * Math.Pow(rarityScaling, rarityLevel) * materialMulti, 1);
+                double dmg = Math.Round(description.Weapon.BaseDamage * Math.Pow(Stats.QualityMultiplier, qualityLevel) * materialMulti, 1);
                 item.AddComponent(new WeaponComponent(dmg, description.Weapon.BaseCooldown));
             }
 
             if (description.Armor != null)
             {
-                double armor = Math.Round(description.Armor.BaseArmor * Math.Pow(rarityScaling, rarityLevel) * materialMulti, 1);
-                double evasion = Math.Round(description.Armor.BaseEvasion * Math.Pow(rarityScaling, rarityLevel) * materialMulti, 1);
+                double armor = Math.Round(description.Armor.BaseArmor * Math.Pow(Stats.QualityMultiplier, qualityLevel) * materialMulti, 1);
+                double evasion = Math.Round(description.Armor.BaseEvasion * Math.Pow(Stats.QualityMultiplier, qualityLevel) * materialMulti, 1);
                 item.AddComponent(new ArmorComponent(armor, evasion));
             }
         }
@@ -249,7 +247,7 @@ namespace TheIdleScrolls_Core.Items
         {
             var itemComp = item.GetComponent<ItemComponent>() ?? throw new Exception($"Entity {item.GetName()} is not an item");
             var blueprint = itemComp.Blueprint;
-            var name = $"{blueprint.GetMaterial().Name} {blueprint.GetGenusDescription().Name}{(blueprint.Rarity > 0 ? $" + {blueprint.Rarity}" : "")}";
+            var name = $"{blueprint.GetMaterial().Name} {blueprint.GetGenusDescription().Name}{(blueprint.Quality > 0 ? $" + {blueprint.Quality}" : "")}";
 
             item.AddComponent(new NameComponent(name));
         }

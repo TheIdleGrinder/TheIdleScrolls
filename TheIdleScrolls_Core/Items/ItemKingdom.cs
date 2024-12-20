@@ -64,7 +64,7 @@ namespace TheIdleScrolls_Core.Items
         }
     }
 
-    public class ItemRarityDescription
+    public class ItemQualityDescription
     {
         public int MinLevel { get; set; } = 1;
         public double InverseWeight { get; set; } = 10.0;
@@ -73,7 +73,7 @@ namespace TheIdleScrolls_Core.Items
     public class ItemKingdom
     {
         public static List<ItemFamilyDescription> Families { get; } = ItemList.ItemFamilies;
-        public static List<ItemRarityDescription> Rarities { get; } = new()
+        public static List<ItemQualityDescription> Qualities { get; } = new()
         {
             new() { MinLevel = 10,  InverseWeight =     5.0 },
             new() { MinLevel = 30,  InverseWeight =    25.0 },
@@ -83,6 +83,8 @@ namespace TheIdleScrolls_Core.Items
             new() { MinLevel = 110, InverseWeight = 15000.0 },
             new() { MinLevel = 150, InverseWeight = 75000.0 },
         };
+        public static int MaxItemQuality => Qualities.Count;
+
         public static List<ItemMaterial> Materials { get; } = Definitions.Materials.MaterialList;
 
         public ItemKingdom()

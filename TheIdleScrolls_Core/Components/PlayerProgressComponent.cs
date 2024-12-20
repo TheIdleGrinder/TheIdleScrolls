@@ -66,7 +66,7 @@ namespace TheIdleScrolls_Core.Components
             if (CoinsSpentOnCrafting > 0)
             {
                 sb.AppendLine($"Coins spent on crafting: {CoinsSpentOnCrafting}");
-                sb.AppendLine($"Highest rarity from refining: +{BestRefine}");
+                sb.AppendLine($"Highest quality from refining: +{BestRefine}");
             }
             sb.AppendLine();
             if (DungeonTimes.Any())

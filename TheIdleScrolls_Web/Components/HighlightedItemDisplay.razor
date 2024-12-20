@@ -37,7 +37,7 @@
         @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting) && RefineButtonVisible)
         {
             <div>Duration: @($"{HighlightedItem?.Refining.Duration:0} seconds")</div>
-            <div>Odds: @($"{CoreWrapper.CalculateRefiningSuccessRate(HighlightedItem?.Rarity ?? 0):0%}")</div>
+            <div>Odds: @($"{CoreWrapper.CalculateRefiningSuccessRate(HighlightedItem?.Quality ?? 0):0%}")</div>
             <button id="btnRefine" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="RefineItem">
                 @RefineText
             </button>

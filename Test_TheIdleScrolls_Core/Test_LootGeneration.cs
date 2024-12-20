@@ -54,18 +54,18 @@ namespace Test_TheIdleScrolls_Core
         [TestCase(50, 4.0)]
         [TestCase(250, 100.0)]
         [TestCase(250, 0.0)]
-        public void ProducesCorrectRarityTable(int level, double rarityMulti)
+        public void ProducesCorrectQualityTable(int level, double rarityMulti)
         {
-            var rarities = ItemFactory.GetRarityWeights(level, rarityMulti);
+            var rarities = ItemFactory.GetQualityWeights(level, rarityMulti);
 
-            Assert.That(rarities, Has.Count.EqualTo(ItemKingdom.Rarities.Count + 1));
+            Assert.That(rarities, Has.Count.EqualTo(ItemKingdom.Qualities.Count + 1));
             Assert.That(rarities.Sum(), Is.EqualTo(1.0).Within(0.0001));
             double remaining = 1.0;
             for (int i = rarities.Count - 1; i > 0; i--)
             {
-                double weight = Math.Min(rarityMulti / ItemKingdom.Rarities[i - 1].InverseWeight, remaining);
+                double weight = Math.Min(rarityMulti / ItemKingdom.Qualities[i - 1].InverseWeight, remaining);
                 remaining -= weight;
-                if (level >= ItemKingdom.Rarities[i - 1].MinLevel)
+                if (level >= ItemKingdom.Qualities[i - 1].MinLevel)
                     Assert.That(rarities[i], Is.EqualTo(weight).Within(0.0001));
                 else
                     Assert.That(rarities[i], Is.EqualTo(0.0));

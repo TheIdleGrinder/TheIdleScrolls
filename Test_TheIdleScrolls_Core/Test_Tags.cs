@@ -71,9 +71,9 @@ namespace Test_TheIdleScrolls_Core
         [TestCase(MaterialId.Leather1, ItemFamilies.LightGloves, 0, 2, "Arms")]
         [TestCase(MaterialId.Leather3, ItemFamilies.LightBoots, 1, 0, "Legs")]
         [TestCase(MaterialId.Wood3, ItemFamilies.HeavyShield, 0, 1, "Shield")]
-        public void Correct_tags_are_set_in_items(MaterialId material, string family, int genus, int rarity, string slots)
+        public void Correct_tags_are_set_in_items(MaterialId material, string family, int genus, int quality, string slots)
         {
-            ItemBlueprint blueprint = new(family, genus, material, rarity);
+            ItemBlueprint blueprint = new(family, genus, material, quality);
             var item = ItemFactory.MakeItem(blueprint);
             Assert.That(item, Is.Not.Null);
             Assert.Multiple(() =>
@@ -82,9 +82,9 @@ namespace Test_TheIdleScrolls_Core
                 Assert.That(item.HasTag(family));
                 Assert.That(item.HasTag(blueprint.GetMaterial().Name));
             });
-            if (rarity > 0)
+            if (quality > 0)
             {
-                Assert.That(item!.HasTag($"+{rarity}"));
+                Assert.That(item!.HasTag($"+{quality}"));
             }
             if (item.IsWeapon())
             {

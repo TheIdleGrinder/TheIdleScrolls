@@ -309,14 +309,14 @@ namespace TheIdleScrolls_Core.Resources
                 achievements.Add(new(
                     $"BestRefine+{i + 1}",
                     $"{craftNames[i]} Craft",
-                    $"Refine an item to +{i + 1} rarity",
+                    $"Refine an item to quality +{i + 1}",
                     (i > 0) ? ExpressionParser.ParseToFunction($"BestRefine+{i}") : tautology,
                     ExpressionParser.ParseToFunction($"BestRefine >= {i + 1}")));
             }
             Achievement tier0Refine = new(
                 "G0Refine+3",
                 "Still not Viable",
-                "Refine a training item to +3 rarity or higher",
+                "Refine a training item to quality +3 or better",
                 ExpressionParser.ParseToFunction("BestRefine+3"),
                 ExpressionParser.ParseToFunction("BestG0Craft >= 3")
                 )
