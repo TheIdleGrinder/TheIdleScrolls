@@ -36,11 +36,21 @@
         }
         @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting) && RefineButtonVisible)
         {
-            <div>Duration: @($"{HighlightedItem?.Refining.Duration:0} seconds")</div>
-            <div>Odds: @($"{CoreWrapper.CalculateRefiningSuccessRate(HighlightedItem?.Quality ?? 0):0%}")</div>
-            <button id="btnRefine" class="itemButton" disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="RefineItem">
-                @RefineText
-            </button>
+            @if (MaxQuality)
+            {
+                <div style="height: 5.5rem; font-size: larger; align-content: center">
+                    Maximum Quality
+                </div>
+            }
+            else
+            {
+                <div>Duration: @($"{HighlightedItem?.Refining.Duration:0} seconds")</div>
+                <div>Odds: @($"{CoreWrapper.CalculateRefiningSuccessRate(HighlightedItem?.Quality ?? 0):0%}")</div>
+                <button id="btnRefine" class="itemButton" @onclick="RefineItem"
+                        disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem) || MaxQuality)">
+                    @RefineText
+                </button>
+            }
         }
     }
     else
@@ -144,7 +154,12 @@
             return "Throw out"; 
         } 
     }
-    string RefineText => "Refine" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Refining.Cost ?? 0}c)" : "");
+
+    bool MaxQuality => ((HighlightedItem?.Quality ?? 0) >= ItemKingdom.MaxItemQuality);
+
+    string RefineText => !MaxQuality 
+        ? ("Refine" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Refining.Cost ?? 0}c)" : ""))
+        : "Maxed";
     string CraftText => "Craft" + ((HighlightedItem != null) ? $" (-{HighlightedItem?.Refining.Cost ?? 0}c)" : "");
 
     protected override void OnInitialized()
