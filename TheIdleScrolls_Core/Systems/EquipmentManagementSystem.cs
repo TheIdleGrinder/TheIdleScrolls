@@ -57,15 +57,8 @@ namespace TheIdleScrolls_Core.Systems
                         {
                             //Try finding a single(!) item to replace
                             List<EquipmentSlot> missing = equipmentComp.GetMissingEquipmentSlotsForItem(item);
-                            // Shields replace shields, weapons replace weapons first
                             Entity? prevItem = FindBlockingItem(equipmentComp, missing, item.IsShield());
-                            // If no shield or weapon to replace is found, try the other type next
-                            // CornerCut: This does not work for items that are both weapons and shields
-                            //if (prevItem == null && (item.IsWeapon() || item.IsShield()))
-                            //{
-                            //    prevItem = FindBlockingItem(equipmentComp, missing, item.IsShield(), item.IsWeapon());
-                            //}
-                                
+                               
                             if (prevItem != null)
                             {
                                 if (equipmentComp.UnequipItem(prevItem, false))
