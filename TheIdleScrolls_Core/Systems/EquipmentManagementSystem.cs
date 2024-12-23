@@ -46,7 +46,7 @@ namespace TheIdleScrolls_Core.Systems
                 Entity item = coordinator.GetEntity(move.ItemId) ?? throw new Exception($"No item with id {move.ItemId}");
                 if (move.Equip)
                 {
-                    bool inInventory = inventoryComp.RemoveItem(item);
+                    bool inInventory = inventoryComp.GetItems().Contains(item);
                     if (inInventory)
                     {
                         var equippableComp = item.GetComponent<EquippableComponent>();
@@ -79,12 +79,9 @@ namespace TheIdleScrolls_Core.Systems
                         }
 
                         bool couldEquip = equipmentComp.EquipItem(item);
-                        if (!couldEquip)
+                        if (couldEquip)
                         {
-                            inventoryComp.AddItem(item); // Put item back in inventory
-                        }
-                        else
-                        {
+                            inventoryComp.RemoveItem(item);
                             coordinator.PostMessage(this, new ItemMovedMessage(owner, item, move.Equip));
                         }
                     }
