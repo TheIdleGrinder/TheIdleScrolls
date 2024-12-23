@@ -172,7 +172,7 @@
     {
         if (item == null)
             return false;
-        return (CoreWrapper.Equipment.Items.Any(i => i.Id == item.Id));
+        return (CoreWrapper.Equipment.Any(i => i.Id == item.Id));
     }
 
     bool IsItemOwned(IItemEntity? item)

@@ -1,4 +1,7 @@
+@using MiniECS
 @using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Definitions
 @using TheIdleScrolls_Core.Items
 @using TheIdleScrolls_Web.CoreWrapper
 
@@ -6,39 +9,39 @@
 
 <div class="equipFrame">
     <div class="equipLine">
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Head)" 
-        @onclick=@(() => SelectItem(ExactEquipSlot.Head))
-        @ondblclick=@(() => UnequipItem(ExactEquipSlot.Head))>
-            @GetItemName(ExactEquipSlot.Head, "Head")
+        <p class="equipSlot @GetClassesForItem(EquipmentSlot.Head)"
+           @onclick=@(() => SelectItem(EquipmentSlot.Head))
+           @ondblclick=@(() => UnequipItem(EquipmentSlot.Head))>
+            @GetItemName(EquipmentSlot.Head, 0, "Head")
         </p>
     </div>
     <div class="equipLine">
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.MainHand)"
-        @onclick=@(() => SelectItem(ExactEquipSlot.MainHand))
-        @ondblclick=@(() => UnequipItem(ExactEquipSlot.MainHand))>
-           @GetItemName(ExactEquipSlot.MainHand, "Hand")
+        <p class="equipSlot @GetClassesForItem(EquipmentSlot.Hand, 0)"
+           @onclick=@(() => SelectItem(EquipmentSlot.Hand, 0))
+           @ondblclick=@(() => UnequipItem(EquipmentSlot.Hand, 0))>
+            @GetItemName(EquipmentSlot.Hand, 0, "Hand")
         </p>
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Chest)"
-        @onclick=@(() => SelectItem(ExactEquipSlot.Chest))
-        @ondblclick=@(() => UnequipItem(ExactEquipSlot.Chest))>
-            @GetItemName(ExactEquipSlot.Chest, "Chest")
+        <p class="equipSlot @GetClassesForItem(EquipmentSlot.Chest)"
+           @onclick=@(() => SelectItem(EquipmentSlot.Chest))
+           @ondblclick=@(() => UnequipItem(EquipmentSlot.Chest))>
+            @GetItemName(EquipmentSlot.Chest, 0, "Chest")
         </p>
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.OffHand)" 
-        @onclick=@(() => SelectItem(ExactEquipSlot.OffHand))
-        @ondblclick=@(() => UnequipItem(ExactEquipSlot.OffHand))>
-            @GetItemName(ExactEquipSlot.OffHand, "Hand")
+        <p class="equipSlot @GetClassesForItem(EquipmentSlot.Hand, 1)"
+           @onclick=@(() => SelectItem(EquipmentSlot.Hand, 1))
+           @ondblclick=@(() => UnequipItem(EquipmentSlot.Hand, 1))>
+            @GetItemName(EquipmentSlot.Hand, 1, "Hand")
         </p>
     </div>
     <div class="equipLine">
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Arms)" 
-        @onclick=@(() => SelectItem(ExactEquipSlot.Arms))
-        @ondblclick=@(() => UnequipItem(ExactEquipSlot.Arms))>
-            @GetItemName(ExactEquipSlot.Arms, "Arms")
+        <p class="equipSlot @GetClassesForItem(EquipmentSlot.Arms)"
+           @onclick=@(() => SelectItem(EquipmentSlot.Arms))
+           @ondblclick=@(() => UnequipItem(EquipmentSlot.Arms))>
+            @GetItemName(EquipmentSlot.Arms, 0, "Arms")
         </p>
-        <p class="equipSlot @GetClassesForItem(ExactEquipSlot.Legs)" 
-        @onclick=@(() => SelectItem(ExactEquipSlot.Legs))
-        @ondblclick=@(() => UnequipItem(ExactEquipSlot.Legs))>
-            @GetItemName(ExactEquipSlot.Legs, "Legs")
+        <p class="equipSlot @GetClassesForItem(EquipmentSlot.Legs)"
+           @onclick=@(() => SelectItem(EquipmentSlot.Legs))
+           @ondblclick=@(() => UnequipItem(EquipmentSlot.Legs))>
+            @GetItemName(EquipmentSlot.Legs, 0, "Legs")
         </p>
     </div>
     @if (CoreWrapper.CharacterStats.Encumbrance > 0.0)
@@ -64,18 +67,27 @@
         base.OnInitialized();
     }
 
-    IItemEntity? GetItem(ExactEquipSlot slot) => CoreWrapper.Equipment.GetItem(slot);
-    string GetItemName(IItemEntity? item, string _default) => (item != null) ? item.Name : _default;
-    string GetItemName(ExactEquipSlot slot, string _default) => GetItemName(GetItem(slot), _default);
-
-    string GetClassesForItem(ExactEquipSlot slot) 
+    IItemEntity? GetItemInSlot(EquipmentSlot slot, int index = 0)
     {
-        var item = GetItem(slot);
+        Entity? item = CoreWrapper.PlayerCharacter?.GetComponent<EquipmentComponent>()?.GetItemInSlot(slot, index);
+        if (item == null)
+        {
+            return null;
+        }
+        return new ItemEntityWrapper(item, CoreWrapper.PlayerCharacter);
+    }
+
+    string GetItemName(IItemEntity? item, string _default) => (item != null) ? item.Name : _default;
+    string GetItemName(EquipmentSlot slot, int index, string _default) => GetItemName(GetItemInSlot(slot, index), _default);
+
+    string GetClassesForItem(EquipmentSlot slot, int index = 0) 
+    {
+        var item = GetItemInSlot(slot, index);
 
         // If the item is a two-handed weapon, we want to display the name in the offhand slot with quality -1
         // CornerCut: currently the only items with multiple slots are two-handed weapons
         int? qualityOverride = null;
-        if (item != null && item.Slots.Count > 1 && slot == ExactEquipSlot.OffHand)
+        if (item != null && item.Slots.Count > 1 && index > 0) 
         {
             qualityOverride = -1;
         }
@@ -85,25 +97,25 @@
         {
             result += CoreWrapper.IsItemHighlighted(item.Id) ? " selectedItem" : "";
         }
-        if (!CoreWrapper.IsFeatureAvailable(GameFeature.Armor) && slot != ExactEquipSlot.MainHand && slot != ExactEquipSlot.OffHand)
+        if (!CoreWrapper.IsFeatureAvailable(GameFeature.Armor) && slot != EquipmentSlot.Hand)
         {
             result += " hiddenSlot";
         }
         return result;
     }
 
-    void SelectItem(ExactEquipSlot slot)
+    void SelectItem(EquipmentSlot slot, int index = 0)
     {
-        var item = GetItem(slot);
+        var item = GetItemInSlot(slot, index);
         if (item != null)
         {
             CoreWrapper.ToggleItemHighlight(item.Id);
         }
     }
 
-    void UnequipItem(ExactEquipSlot slot)
+    void UnequipItem(EquipmentSlot slot, int index = 0)
     {
-        var item = GetItem(slot);
+        var item = GetItemInSlot(slot, index);
         if (item != null)
         {
             CoreWrapper.InputHandler.UnequipItem(CoreWrapper.Character.Id, item.Id);

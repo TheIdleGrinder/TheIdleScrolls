@@ -103,7 +103,7 @@
     void UpdateSelectedItem()
     {
         // Reset selected index if an equipped or no item is highlighted
-        if (CoreWrapper.HighlightedItem == uint.MaxValue || CoreWrapper.Equipment.Items.Any(item => item.Id == CoreWrapper.HighlightedItem))
+        if (CoreWrapper.HighlightedItem == uint.MaxValue || CoreWrapper.Equipment.Any(item => item.Id == CoreWrapper.HighlightedItem))
         {
             selectedIndex = -1;
         }
