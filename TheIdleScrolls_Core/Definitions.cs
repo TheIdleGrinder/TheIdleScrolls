@@ -24,8 +24,8 @@ namespace TheIdleScrolls_Core
             public const double MaxEvasionEffectDuration = 1.0;
 
             public const double CraftingAbilityBonusPerLevel = 0.02;
-            public const double ReforgingBaseDuration = 30.0;
-            public const double ReforgingDurationPerMaterialTier = 10.0;
+            public const double CraftingBaseDuration = 30.0;
+            public const double CraftingDurationPerMaterialTier = 10.0;
 
             public const int    MobBaseHp = 20;
             public const double EarlyHpScaling = 1.056;
@@ -34,6 +34,8 @@ namespace TheIdleScrolls_Core
 
             public const int    DefaultDropLevelRange = 20;
             public const int    DungeonDropLevelRange = 9;
+
+            public const double QualityMultiplier   = 1.25;
         }
 
         public static class DungeonIds
@@ -66,7 +68,7 @@ namespace TheIdleScrolls_Core
 
             public const string TimeLoss = "TimeLoss";
 
-            public const string RarityPrefix = "+";
+            public const string QualityPrefix = "+";
             public const string HandSuffix = "H";
             public const string Weapon = "Weapon";
             public const string Armor = "Armor";
@@ -126,7 +128,7 @@ namespace TheIdleScrolls_Core
         public static double CalculateAssumedPlayerDamageMultiplier(int level)
         {
             var maxGearLevel = Definitions.Stats.ScalingSwitchLevel;
-            var rarityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 rarity at level 150
+            var qualityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 at level 150
 
             // Assumption: Ability levels somewhat align with character level
             return (1.0 + CalculateAbilityAttackDamageBonus(level))                 // Ability damage bonus
@@ -134,18 +136,18 @@ namespace TheIdleScrolls_Core
                 * (1.0 + Definitions.Stats.AttackBonusPerLevel * (level - 1))       // Level scaling
                 * Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
                 * (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of weapons
-                * (1.0 + level * rarityBonusPerLevel)                               // Smooth transition to +4 rarity at level 150
+                * (1.0 + level * qualityBonusPerLevel)                              // Smooth transition to +4 at level 150
                 ;
         }
 
         public static double CalculateAssumedPlayerDefenseMultiplier(int level)
         {
             var maxGearLevel = Definitions.Stats.ScalingSwitchLevel;
-            var rarityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 rarity at level 150
-            return (1.0 + CalculateAbilityDefenseBonus(level))                    // Ability defense bonus
-				* Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))  // Material scaling (4 tiers)
-				* (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))    // Smooth transition to highest tier of armor
-				* (1.0 + level * rarityBonusPerLevel)                             // Smooth transition to +4 rarity at level 150
+            var qualityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150;               // Smooth transition to +4 at level 150
+            return (1.0 + CalculateAbilityDefenseBonus(level))                      // Ability defense bonus
+				* Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
+				* (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of armor
+				* (1.0 + level * qualityBonusPerLevel)                              // Smooth transition to +4 at level 150
 				;
         }
 
@@ -209,16 +211,16 @@ namespace TheIdleScrolls_Core
             return 10.0 * (1.0 * playerLevel / areaLevel) / CalculateMobArmorPierce(areaLevel);
         }
 
-        public static double CalculateReforgingSuccessRate(int abilityLevel, int currentRarity)
+        public static double CalculateRefiningSuccessRate(int abilityLevel, int currentQuality)
         {
-            return abilityLevel / (abilityLevel + Math.Pow(currentRarity + 1, 2) * 10);
+            return abilityLevel / (abilityLevel + Math.Pow(currentQuality + 1, 2) * 10);
         }
 
-        public static double CalculateReforgingDuration(Entity item, Entity? crafter)
+        public static double CalculateRefiningDuration(Entity item, Entity? crafter)
         {
             var materialTier = item.GetComponent<ItemMaterialComponent>()?.Tier ?? 0;
-            double baseDuration = Definitions.Stats.ReforgingBaseDuration 
-                + Definitions.Stats.ReforgingDurationPerMaterialTier * materialTier;
+            double baseDuration = Definitions.Stats.CraftingBaseDuration 
+                + Definitions.Stats.CraftingDurationPerMaterialTier * materialTier;
             double speed = crafter?.ApplyAllApplicableModifiers(1.0, 
                 new string[] { Definitions.Tags.CraftingSpeed }, 
                 crafter.GetTags()) ?? 1.0;
@@ -229,7 +231,7 @@ namespace TheIdleScrolls_Core
 
         public static int CalculateCraftingCost(Entity item, Entity? crafter)
         {
-            int baseCost = item.GetComponent<ItemReforgeableComponent>()?.Cost ?? 100;
+            int baseCost = item.GetComponent<ItemRefinableComponent>()?.Cost ?? 100;
             double cost = crafter?.ApplyAllApplicableModifiers(baseCost, 
                 new string[] { Definitions.Tags.CraftingCost },
                 crafter.GetTags()) ?? baseCost;

@@ -18,7 +18,7 @@ namespace TheIdleScrolls_Core
 
         public void CraftItem(uint playerId, uint itemId); // Requires item to be picked from the list of available prototypes
 
-        public void ReforgeItem(uint playerId, uint itemId);
+        public void RefineItem(uint playerId, uint itemId);
 
         public void CancelCraft(uint playerId, uint itemId);
 

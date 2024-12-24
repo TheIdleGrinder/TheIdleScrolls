@@ -48,8 +48,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public CraftingBenchRepresentation CraftingBench { get; private set; } = new(0, 0, 0, new());
         public bool AutoProceedActive { get; private set; } = false;
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
-        public Equipment Equipment { get; private set; } = new();
         public List<IItemEntity> Inventory { get; private set; } = new();
+        public List<IItemEntity> Equipment { get; private set; } = new();
         public int Coins { get; private set; } = 0;
         public CharacterStats CharacterStats { get; private set; } = new();
         public List<AchievementRepresentation> Achievements { get; private set; } = new();
@@ -178,7 +178,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 else
                     AvailableFeatures.Remove(feature);
             };
-            emitter.PlayerEquipmentChanged += (List<IItemEntity> items) => Equipment.SetItems(items);
+            emitter.PlayerEquipmentChanged += (List<IItemEntity> items) => Equipment = items;
             emitter.PlayerInventoryChanged += (List<IItemEntity> items) => Inventory = items;
             emitter.PlayerCoinsChanged += (int coins) => Coins = coins;
             emitter.PlayerOffenseChanged += (double dmg, double cdMax, double cd) =>
@@ -287,16 +287,16 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
         public IItemEntity? GetItem(uint itemId)
         {
-            var result = Equipment.Items.FirstOrDefault(item => item.Id == itemId) 
+            var result = Equipment.FirstOrDefault(item => item.Id == itemId) 
                 ?? Inventory.FirstOrDefault(item => item.Id == itemId)
                 ?? CraftingRecipes.FirstOrDefault(item => item.Id == itemId);
             return result;
         }
 
-        public double CalculateReforgingSuccessRate(int rarity)
+        public double CalculateRefiningSuccessRate(int quality)
         {
             int level = Abilities.FirstOrDefault(a => a.Key == TheIdleScrolls_Core.Definitions.Abilities.Crafting)?.Level ?? 0;
-            return Functions.CalculateReforgingSuccessRate(level, rarity);
+            return Functions.CalculateRefiningSuccessRate(level, quality);
         }
 
         public async Task ExportAll()

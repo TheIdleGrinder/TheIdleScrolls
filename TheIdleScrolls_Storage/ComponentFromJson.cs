@@ -54,9 +54,9 @@ namespace TheIdleScrolls_JSON
                     {
                         case "#C":
                             {
-                                var forgeComp = item.GetComponent<ItemReforgeableComponent>();
-                                if (forgeComp != null)
-                                    forgeComp.Reforged = true; 
+                                var refineComp = item.GetComponent<ItemRefinableComponent>();
+                                if (refineComp != null)
+                                    refineComp.Refined = true; 
                                 break;
                             }
                         default: 

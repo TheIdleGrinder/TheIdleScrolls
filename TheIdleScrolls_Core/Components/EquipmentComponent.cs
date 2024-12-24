@@ -19,28 +19,54 @@ namespace TheIdleScrolls_Core.Components
 
     public class EquipmentComponent : IComponent
     {
-        readonly List<EquipmentSlot> m_freeSlots;
-        readonly List<Entity> m_items = new();
-        double m_encumbrance = 0.0;
+        const uint FreeSlotId = uint.MaxValue;
+
+        readonly Dictionary<EquipmentSlot, uint[]> SlotUsage = [];
+        readonly Dictionary<uint, Entity> Items = [];
+        double Encumbrance = 0.0;
 
         public EquipmentComponent(List<EquipmentSlot> equipmentSlots)
         {
-            m_freeSlots = equipmentSlots;
+            SetupSlots(equipmentSlots);
         }
 
         public EquipmentComponent()
         {
-            m_freeSlots = new() { 
+            SetupSlots([
                 EquipmentSlot.Hand, 
                 EquipmentSlot.Hand, 
                 EquipmentSlot.Chest, 
                 EquipmentSlot.Head, 
                 EquipmentSlot.Arms, 
                 EquipmentSlot.Legs 
-            };
+            ]);
         }
 
-        public double TotalEncumbrance => m_encumbrance;
+        void SetupSlots(List<EquipmentSlot> equipmentSlots)
+        {
+            SlotUsage.Clear();
+            foreach (var slot in equipmentSlots.ToHashSet())
+            {
+                SlotUsage[slot] = Enumerable.Repeat(FreeSlotId, equipmentSlots.Count(s => s == slot)).ToArray();
+            }
+        }
+
+        public List<EquipmentSlot> FreeSlots { get 
+            {
+                List<EquipmentSlot> result = [];
+                foreach (var key in SlotUsage.Keys)
+                {
+                    foreach (var slot in SlotUsage[key])
+                    {
+                        if (slot == FreeSlotId)
+                            result.Add(key);
+                    }
+                }
+                return result;
+            } 
+        }
+
+        public double TotalEncumbrance => Encumbrance;
 
         public bool EquipItem(Entity item)
         {
@@ -54,19 +80,71 @@ namespace TheIdleScrolls_Core.Components
                 return false;
 
             List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
-            requiredSlots.ForEach(s => m_freeSlots.Remove(s));
-            m_items.Add(item);
+            
+            Items[item.Id] = item;
+
+            foreach (var slot in requiredSlots)
+            {
+                if (SlotUsage.TryGetValue(slot, out uint[]? slots))
+                {
+                    if (TakesSlotsBackwards(item))
+                    {
+                        for (int i = slots.Length - 1; i >= 0; i--)
+                        {
+                            if (slots[i] == FreeSlotId)
+                            {
+                                slots[i] = item.Id;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < slots.Length; i++)
+                        {
+                            if (slots[i] == FreeSlotId)
+                            {
+                                slots[i] = item.Id;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
             UpdateEncumbrance();
             return true;
         }
 
-        public bool UnequipItem(Entity item)
+        public bool UnequipItem(Entity item, bool moveItemsUp = true)
         {
-            bool removed = m_items.Remove(item);
+            bool removed = Items.Remove(item.Id);
             if (removed)
             {
-                List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
-                requiredSlots.ForEach(s => m_freeSlots.Add(s));
+                foreach (var slot in item.GetRequiredSlots())
+                {
+                    if (SlotUsage.TryGetValue(slot, out uint[]? slots))
+                    {
+                        for (int i = 0; i < slots.Length; i++)
+                        {
+                            if (slots[i] == item.Id)
+                            {
+                                slots[i] = FreeSlotId;
+                                if (!moveItemsUp)
+                                    break;
+                                for (int j = i + 1; j < slots.Length; j++)
+                                {
+                                    if (slots[j] != FreeSlotId && !TakesSlotsBackwards(GetItemInSlot(slot, j)!))
+                                    {
+                                        slots[i] = slots[j];
+                                        slots[j] = FreeSlotId;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
             }
             UpdateEncumbrance();
             return removed;
@@ -74,11 +152,11 @@ namespace TheIdleScrolls_Core.Components
 
         public List<EquipmentSlot> GetMissingEquipmentSlotsForItem(Entity item)
         {
-            List<EquipmentSlot> result = new();
+            List<EquipmentSlot> result = [];
             List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
             foreach (var slot in requiredSlots.ToHashSet())
             {
-                int missing = requiredSlots.Count(s => s == slot) - m_freeSlots.Count(s => s == slot);
+                int missing = requiredSlots.Count(s => s == slot) - FreeSlots.Count(s => s == slot);
                 for (int i = 0; i < missing; i++)
                     result.Add(slot);
             }
@@ -93,13 +171,13 @@ namespace TheIdleScrolls_Core.Components
 
             // Block second shield
             // CornerCut: allow more shields for characters with more arms
-            if (item.IsShield() && m_items.Any(i => i.IsShield()))
+            if (item.IsShield() && Items.Values.Any(i => i.IsShield()))
                 return false;
 
             List<EquipmentSlot> requiredSlots = item.GetRequiredSlots();
             foreach (var slot in requiredSlots)
             {
-                if (requiredSlots.Count(s => s == slot) > m_freeSlots.Count(s => s == slot))
+                if (requiredSlots.Count(s => s == slot) > FreeSlots.Count(s => s == slot))
                 {
                     return false;
                 }
@@ -112,33 +190,54 @@ namespace TheIdleScrolls_Core.Components
         /// </summary>
         /// <param name="slot">Equipment slot to look in</param>
         /// <returns>Item if any is eqipped in slot</returns>
-        public Entity? GetItemInSlot(EquipmentSlot slot)
+        public Entity? GetItemInSlot(EquipmentSlot slotType)
         {
-            foreach (var item in m_items)
+            if (!SlotUsage.TryGetValue(slotType, out uint[]? slots))
+                return null;
+            foreach (var itemId in slots)
             {
-                if (item.GetComponent<EquippableComponent>()?.Slots.Contains(slot) ?? false)
-                {
-                    return item;
-                }
+                if (itemId != FreeSlotId)
+                    return Items[itemId];
             }
             return null;
         }
 
         public List<Entity> GetItems()
         {
-            return m_items.ToList();
+            List<uint> ids = [];
+            foreach (var slot in SlotUsage.Keys)
+            {
+                foreach (var itemId in SlotUsage[slot])
+                {
+                    if (itemId != FreeSlotId && !ids.Contains(itemId))
+                        ids.Add(itemId);
+                }
+            }
+            return ids.Select(id => Items[id]).ToList();
+        }
+
+        public Entity? GetItemInSlot(EquipmentSlot slot, int index)
+        {
+            return SlotUsage.TryGetValue(slot, out uint[]? slots) && index < slots.Length
+                ? (Items.TryGetValue(slots[index], out Entity? item) ? item : null)
+                : null;
         }
 
         public List<EquipmentSlot> GetFreeSlots()
         {
-            return m_freeSlots.ToList();
+            return FreeSlots;
         }
 
         void UpdateEncumbrance()
         {
-            m_encumbrance = m_items
+            Encumbrance = Items.Values
                 .Select(i => i.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0)
                 .Sum();
+        }
+
+        bool TakesSlotsBackwards(Entity item)
+        {
+            return item.IsShield(); // Shields occupy the last available slot first
         }
     }
 }

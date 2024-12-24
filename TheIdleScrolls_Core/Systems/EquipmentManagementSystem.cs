@@ -46,7 +46,7 @@ namespace TheIdleScrolls_Core.Systems
                 Entity item = coordinator.GetEntity(move.ItemId) ?? throw new Exception($"No item with id {move.ItemId}");
                 if (move.Equip)
                 {
-                    bool inInventory = inventoryComp.RemoveItem(item);
+                    bool inInventory = inventoryComp.GetItems().Contains(item);
                     if (inInventory)
                     {
                         var equippableComp = item.GetComponent<EquippableComponent>();
@@ -57,18 +57,11 @@ namespace TheIdleScrolls_Core.Systems
                         {
                             //Try finding a single(!) item to replace
                             List<EquipmentSlot> missing = equipmentComp.GetMissingEquipmentSlotsForItem(item);
-                            // Shields replace shields, weapons replace weapons first
-                            Entity? prevItem = FindBlockingItem(equipmentComp, missing, item.IsWeapon(), item.IsShield());
-                            // If no shield or weapon to replace is found, try the other type next
-                            // CornerCut: This does not work for items that are both weapons and shields
-                            if (prevItem == null && (item.IsWeapon() || item.IsShield()))
-                            {
-                                prevItem = FindBlockingItem(equipmentComp, missing, item.IsShield(), item.IsWeapon());
-                            }
-                                
+                            Entity? prevItem = FindBlockingItem(equipmentComp, missing, item.IsShield());
+                               
                             if (prevItem != null)
                             {
-                                if (equipmentComp.UnequipItem(prevItem))
+                                if (equipmentComp.UnequipItem(prevItem, false))
                                     inventoryComp.AddItem(prevItem);
                             }
                             else
@@ -79,12 +72,9 @@ namespace TheIdleScrolls_Core.Systems
                         }
 
                         bool couldEquip = equipmentComp.EquipItem(item);
-                        if (!couldEquip)
+                        if (couldEquip)
                         {
-                            inventoryComp.AddItem(item); // Put item back in inventory
-                        }
-                        else
-                        {
+                            inventoryComp.RemoveItem(item);
                             coordinator.PostMessage(this, new ItemMovedMessage(owner, item, move.Equip));
                         }
                     }
@@ -151,9 +141,12 @@ namespace TheIdleScrolls_Core.Systems
         /// <param name="onlyWeapons"></param>
         /// <param name="onlyShields"></param>
         /// <returns></returns>
-        private static Entity? FindBlockingItem(EquipmentComponent equipment, List<EquipmentSlot> slots, bool onlyWeapons, bool onlyShields)
+        private static Entity? FindBlockingItem(EquipmentComponent equipment, List<EquipmentSlot> slots, bool takeSlotsBackwards)
         {
-            foreach (var item in equipment.GetItems().Where(i => (!onlyWeapons || i.IsWeapon()) && (!onlyShields || i.IsShield())))
+            List<Entity> items = equipment.GetItems();
+            if (takeSlotsBackwards) // Shields go in the last slot first
+                items.Reverse();
+            foreach (var item in items)
             {
                 if (AIsSubsetOfB(slots, item.GetComponent<EquippableComponent>()?.Slots ?? new()))
                     return item;

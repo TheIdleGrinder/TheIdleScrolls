@@ -115,21 +115,20 @@ namespace TheIdleScrolls_Core.Systems
             var craftMsgs = coordinator.FetchMessagesByType<CraftingStartedMessage>();
             foreach (var craftMsg in craftMsgs.Where(m => m.Owner == m_player))
             {
-                progComp.Data.CoinsSpentOnForging += craftMsg.CoinsPaid;
-                
+                progComp.Data.CoinsSpentOnCrafting += craftMsg.CoinsPaid;                
             }
             var forgeMsgs = coordinator.FetchMessagesByType<CraftingProcessFinished>();
             foreach (var forgeMsg in forgeMsgs.Where(m => m.Owner == m_player))
             {
-                int rarity = forgeMsg.Craft.TargetItem.GetComponent<ItemRarityComponent>()?.RarityLevel ?? 0;
-				if (rarity > progComp.Data.BestReforge)
+                int quality = forgeMsg.Craft.TargetItem.GetComponent<ItemQualityComponent>()?.Quality ?? 0;
+				if (quality > progComp.Data.BestRefine)
 				{
-					progComp.Data.BestReforge = rarity;
+					progComp.Data.BestRefine = quality;
 				}
 				if ((forgeMsg.Craft.TargetItem.GetBlueprint()?.MaterialId ?? MaterialId.Wood3) == MaterialId.Simple
-					&& rarity > progComp.Data.BestG0Reforge)
+					&& quality > progComp.Data.BestG0Refine)
 				{
-					progComp.Data.BestG0Reforge = rarity;
+					progComp.Data.BestG0Refine = quality;
 				}
 			}
         }

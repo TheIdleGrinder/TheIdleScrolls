@@ -11,7 +11,7 @@ namespace TheIdleScrolls_Core.Crafting
 	public enum CraftingType
 	{
 		Craft,
-		Reforge
+		Refine
 	}
 
 	public class CraftingProcess

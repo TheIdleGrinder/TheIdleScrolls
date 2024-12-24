@@ -42,9 +42,9 @@ namespace TheIdleScrollsApp
             m_requests.Add(new CraftItemRequest(playerId, itemId));
         }
 
-        public void ReforgeItem(uint playerId, uint itemId)
+        public void RefineItem(uint playerId, uint itemId)
         {
-            m_requests.Add(new ReforgeItemRequest(playerId, itemId));
+            m_requests.Add(new RefineItemRequest(playerId, itemId));
         }
 
         public void CancelCraft(uint playerId, uint itemId)

@@ -68,13 +68,13 @@ namespace TheIdleScrolls_Core.Utility
             {
                 return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.TotalCoins ?? 0.0);
             }
-            else if (m_fieldId == "BestReforge")
+            else if (m_fieldId == "BestRefine")
             {
-                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.BestReforge ?? 0.0);
+                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.BestRefine ?? 0.0);
             }
             else if (m_fieldId == "BestG0Craft")
             {
-                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.BestG0Reforge ?? 0.0);
+                return (double)(target.GetComponent<PlayerProgressComponent>()?.Data.BestG0Refine ?? 0.0);
             }
             else if (m_fieldId.StartsWith("dng_open:"))
             {

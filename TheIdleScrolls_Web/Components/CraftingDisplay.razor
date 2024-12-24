@@ -27,8 +27,8 @@
         <button class="tablinks @GetTabButtonClasses(CraftingMode.Craft)" 
             @onclick="@(() => Mode = CraftingMode.Craft)">Craft
         </button>
-        <button class="tablinks @GetTabButtonClasses(CraftingMode.Reforge)"  
-            @onclick="@(() => Mode = CraftingMode.Reforge)">Reforge
+        <button class="tablinks @GetTabButtonClasses(CraftingMode.Refine)"  
+            @onclick="@(() => Mode = CraftingMode.Refine)">Refine
         </button>
     </div>
 
@@ -43,7 +43,7 @@
         <HighlightedItemDisplay 
             EquipButtonVisible="false" 
             SellButtonVisible="false"
-            ReforgeButtonVisible="@(Mode == CraftingMode.Reforge)"
+            RefineButtonVisible="@(Mode == CraftingMode.Refine)"
             CraftButtonVisible="@(Mode == CraftingMode.Craft)"
         >
         </HighlightedItemDisplay>
@@ -100,9 +100,9 @@ div.wrapper {
 </style>
 
 @code {
-    enum CraftingMode { Craft, Reforge }
+    enum CraftingMode { Craft, Refine }
 
-    CraftingMode Mode = CraftingMode.Reforge;
+    CraftingMode Mode = CraftingMode.Refine;
 
     List<CraftingProcessRepresentation> Crafts => CoreWrapper.CraftingBench.Crafts;
 
@@ -113,7 +113,7 @@ div.wrapper {
         return Mode switch
         {
             CraftingMode.Craft => CoreWrapper.CraftingRecipes,
-            CraftingMode.Reforge => CoreWrapper.Inventory,
+            CraftingMode.Refine => CoreWrapper.Inventory,
             _ => throw new NotImplementedException()
         };
     }

@@ -970,7 +970,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Vision from Strange Tales ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Glimpse of Foes Ahead ähnelt.
         /// </summary>
         internal static string MOB_GLIMPSEA {
             get {
@@ -979,7 +979,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Vision of Ancient Glory ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Glimpse of Foes Ahead ähnelt.
         /// </summary>
         internal static string MOB_GLIMPSEB {
             get {
@@ -988,7 +988,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Vision of Swirling Times ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Glimpse of Foes Ahead ähnelt.
         /// </summary>
         internal static string MOB_GLIMPSEC {
             get {

@@ -5,19 +5,19 @@ namespace TheIdleScrolls_Web.Components
 {
     public class CssUtilities
     {
-        public static string GetClassesForItem(IItemEntity? item, int? rarityOverride = null)
+        public static string GetClassesForItem(IItemEntity? item, int? qualityOverride = null)
         {
             string classes = "";
 
-            int rarity = rarityOverride ?? item?.Rarity ?? -1;
-            if (item == null || rarity < 0)
+            int quality = qualityOverride ?? item?.Quality ?? -1;
+            if (item == null || quality < 0)
             {
                 classes += " rarity-none";
             }
             else
             {
-                classes += $" rarity-{rarity}";
-                if (rarity > 0)
+                classes += $" rarity-{quality}";
+                if (quality > 0)
                     classes += " rare-item";
             }
 

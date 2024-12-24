@@ -15,8 +15,6 @@ namespace TheIdleScrolls_Core.Systems
     {
         const double WildDropChance = 0.04;
         const double FirstClearRarityBonus = 2.5;
-        const int WildernessMinDropCutoff = Materials.LevelT3 + ItemTiers.LevelT1 + 1;
-        const int DungeonMinDropCutoff = Materials.LevelT3 + ItemTiers.LevelT3;
 
         Entity? m_player = null;
 
@@ -39,7 +37,7 @@ namespace TheIdleScrolls_Core.Systems
                     // -17: dungeons are mostly at multiples of 10, so this excludes weapons at -20
                     // -9: only include the most recent tiers of items
                     int range = 20;
-                    // 0.0 rarity => no "magic" items from normal mobs
+                    // 0.0 rarity => no improved items from normal mobs
                     LootTableParameters parameters = new(zone.Level, range, 0.0, zone.SpecialDrops);
                     GiveRandomLoot(parameters, coordinator);
                 }
@@ -151,7 +149,7 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             LootTable table = new();
-            List<double> rarityWeights = ItemFactory.GetRarityWeights(parameters.ItemLevel, parameters.RarityMultiplier);
+            List<double> qualityWeights = ItemFactory.GetQualityWeights(parameters.ItemLevel, parameters.RarityMultiplier);
 
             // TODO:
             // 1. Filter out items that are too high level or have unfulfilled restrictions
@@ -168,12 +166,12 @@ namespace TheIdleScrolls_Core.Systems
             validDrops = validDrops.Where(b => b.GetDropLevel() >= minLevel);
             foreach (var item in validDrops)
             {
-                for (int r = 0; r < rarityWeights.Count; r++)
+                for (int q = 0; q < qualityWeights.Count; q++)
                 {
-                    if (rarityWeights[r] == 0.0)
+                    if (qualityWeights[q] == 0.0)
                         continue;
-                    ItemBlueprint rareId = item with { Rarity = r };
-                    table.AddEntry(rareId.ToString(), rarityWeights[r]);
+                    ItemBlueprint rareId = item with { Quality = q };
+                    table.AddEntry(rareId.ToString(), qualityWeights[q]);
                 }
             }
 

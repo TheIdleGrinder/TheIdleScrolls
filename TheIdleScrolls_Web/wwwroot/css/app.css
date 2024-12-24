@@ -139,13 +139,13 @@ div.progressFill {
     color: seagreen;
 }
 .rarity-4 {
-    color: yellowgreen;
+    color: chartreuse;
 }
 .rarity-5 {
     color: gold;
 }
 .rarity-6 {
-    color: goldenrod;
+    color: darkorange;
 }
 .rarity-7 {
     color: red;
@@ -286,5 +286,5 @@ img.pixelart {
 }
 
 .selectedItem {
-    background-color: lightskyblue;
+    background-color: skyblue;
 }

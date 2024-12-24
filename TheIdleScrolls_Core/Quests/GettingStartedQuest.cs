@@ -45,7 +45,6 @@ namespace TheIdleScrolls_Core.Quests
             const int LvlAbilities = 4;
             const int LvlPerks = 5;
             const int LvlTravel = 10;
-            const int LvlCrafting = 20;
             const int LvlBounties = 24;
 
             int level = entity.GetLevel();
