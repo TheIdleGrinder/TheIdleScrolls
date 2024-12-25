@@ -14,7 +14,7 @@ namespace TheIdleScrolls_Core.Quests
     {
         enum States { NotStarted, Void, Pinnacle, Finished }
 
-        bool FirstUpdate = true; // The quest first starts after starting the game for the first time after finishing the story
+        bool FirstUpdate = true;
 
         public override QuestId GetId()
         {
@@ -28,13 +28,13 @@ namespace TheIdleScrolls_Core.Quests
                 return;
 
             States state = (States)questComp.GetQuestProgress(GetId());
-            if (!FirstUpdate && state == States.NotStarted)
+            
+            if (state == States.NotStarted)
             {
-                return;
-            }
-
-            if (FirstUpdate)
-            {
+                if (!FirstUpdate)
+                {
+                    return; // Quest begins immediately after starting the game for the first time after finishing the story
+                }
                 FirstUpdate = false;
                 var dungeons = entity.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeons() ?? [];
                 if (dungeons.Contains(Definitions.DungeonIds.Threshold))

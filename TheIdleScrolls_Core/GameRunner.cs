@@ -14,7 +14,7 @@ namespace TheIdleScrolls_Core
     {
         ulong m_ticks = 0;
 
-        readonly World m_world = new() { XpMultiplier = 5.0, RarityMultiplier = 2.0 };
+        public readonly World GameWorld = new() { XpMultiplier = 5.0, RarityMultiplier = 2.0 };
 
         readonly Coordinator m_coordinator = new();
 
@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Core
         public ulong Ticks { get { return m_ticks; } }
 
         public DataAccessHandler DataAccessHandler { get { return m_dataHandler; } }
-        public WorldMap WorldMap { get { return m_world.Map; } }
+        public WorldMap WorldMap { get { return GameWorld.Map; } }
 
         public GameRunner(DataAccessHandler dataHandler)
         {
@@ -80,7 +80,7 @@ namespace TheIdleScrolls_Core
                 globalEntity.AddComponent(new PlayerProgressComponent()); // so far only used for tutorial progress
             }
             m_coordinator.AddEntity(globalEntity);
-            m_world.GlobalEntity = globalEntity;
+            GameWorld.GlobalEntity = globalEntity;
 
             var player = await PlayerFactory.MakeOrLoadPlayer(playerName, m_dataHandler);
             AddPlayerToCoordinator(player);
@@ -125,7 +125,7 @@ namespace TheIdleScrolls_Core
         public void ExecuteTick(double dt)
         {
             var tickStart = DateTime.Now;
-            dt *= m_world.SpeedMultiplier;
+            dt *= GameWorld.SpeedMultiplier;
             m_ticks++;
 
             System.Diagnostics.Stopwatch sw = new();
@@ -137,7 +137,7 @@ namespace TheIdleScrolls_Core
                     sw.Restart();
 
                     m_coordinator.DeleteMessagesFromSender(system);
-                    system.Update(m_world, m_coordinator, dt);
+                    system.Update(GameWorld, m_coordinator, dt);
 
                     sw.Stop();
                 //if (sw.ElapsedMilliseconds > 5)
@@ -165,8 +165,8 @@ namespace TheIdleScrolls_Core
         {
             if (!IsPaused)
             {
-                m_prevSpeedMulti = m_world.SpeedMultiplier;
-                m_world.SpeedMultiplier = 0.0;
+                m_prevSpeedMulti = GameWorld.SpeedMultiplier;
+                GameWorld.SpeedMultiplier = 0.0;
             }
         }
 
@@ -174,7 +174,7 @@ namespace TheIdleScrolls_Core
         {
             if (IsPaused)
             {
-                m_world.SpeedMultiplier = m_prevSpeedMulti;
+                GameWorld.SpeedMultiplier = m_prevSpeedMulti;
                 m_prevSpeedMulti = -1.0;
             }
         }
@@ -196,7 +196,7 @@ namespace TheIdleScrolls_Core
 
         public bool IsGameOver()
         {
-            return m_world.GameOver;
+            return GameWorld.GameOver;
         }
     }
 }

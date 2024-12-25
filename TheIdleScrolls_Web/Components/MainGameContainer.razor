@@ -2,7 +2,7 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div class="main-frame">
+<div class="main-frame @GameEndAnimationClass">
     <div class="left-frame play-area-frame" >
         <CurrentAreaSelector></CurrentAreaSelector>
         <hr class="thick" style="margin: 0.1rem 0.5rem;">
@@ -97,12 +97,15 @@
             }
         </div>
     </div>
-    @if (CoreWrapper.DialogueMessages.Count > 0)
-    {
-        <DialogueDisplay></DialogueDisplay>
-    }
 
+    <div id="gameEndCover"></div>
 </div>
+
+
+@if (CoreWrapper.DialogueMessages.Count > 0)
+{
+    <DialogueDisplay></DialogueDisplay>
+}
 
 <style>
     #tabbedContainer {
@@ -114,9 +117,6 @@
         left: 0;
         right: 0;
         bottom: 0;
-        /*border: 1px solid var(--frame-color);*/
-        /*background-color: var(--back-color);*/
-        /*border-top: none;*/
     }
 
     #travelPage {
@@ -182,12 +182,59 @@
         flex-direction: row;
         flex-wrap: wrap;
     }
+
+    #gameEndCover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(255, 255, 255, 1.0);
+        animation: fadeIn 10s;
+        display: @GameEndAnimation;
+    }
+
+    .spinning {
+        animation: spinout 10s ease-in;
+    }
+
+    @@keyframes fadeIn {
+        0% { opacity: 0.0; }
+        100% { opacity: 1.0; }
+    }
+
+    @@keyframes spinout {
+        0% { 
+            transform: rotate(0deg); 
+            scale: 100%; 
+            filter: blur(0) grayscale(0%);
+        }
+        25% {
+            filter: blur(0) grayscale(40%);
+        }
+        50% {
+            transform: rotate(0deg);
+            scale: 100%;
+            filter: blur(1rem) grayscale(60%);
+        }
+        100% { 
+            transform: rotate(1080deg); 
+            scale: 0%;
+            filter: blur(1.5rem) grayscale(100%);
+        }
+    }
+
 </style>
 
 @code {
     enum Tab { Travel, Inventory, Crafting, Abilities, Achievements, Stats, Help, Perks };
 
     Tab m_activeTab = Tab.Achievements;
+
+    string GameEndAnimation => CoreWrapper.GameWorld.GameEndAnimation ? "inherit" : "none";
+    string GameEndAnimationClass => CoreWrapper.GameWorld.GameEndAnimation ? "spinning" : "";
 
     protected override void OnInitialized()
     {
