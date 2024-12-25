@@ -63,6 +63,42 @@ namespace TheIdleScrolls_Core.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        internal static string Endgame_Finished {
+            get {
+                return ResourceManager.GetString("Endgame_Finished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die far into swirling web of paths, three places as real as your own world ähnelt.
+        /// </summary>
+        internal static string Endgame_Pinnacle {
+            get {
+                return ResourceManager.GetString("Endgame_Pinnacle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tumble, new life?, new world? ähnelt.
+        /// </summary>
+        internal static string Endgame_Start {
+            get {
+                return ResourceManager.GetString("Endgame_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die connection broken, rift still open, gate to pathways, dare venture? ähnelt.
+        /// </summary>
+        internal static string Endgame_Void {
+            get {
+                return ResourceManager.GetString("Endgame_Void", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         internal static string Story_CastleFinished {
             get {
                 return ResourceManager.GetString("Story_CastleFinished", resourceCulture);

@@ -119,7 +119,7 @@
   </resheader>
   <data name="Story_CastleFinished" xml:space="preserve">
     <value />
-    <comment>s30</comment>
+    <comment>s30 (message in LabyrinthOpen)</comment>
   </data>
   <data name="Story_CastleOpen" xml:space="preserve">
     <value>The time has come to confront the treacherous lord who commands the cult threatening the realm. Within the walls of this castle you hope to find their secret headquarter. Here, you might be able to put an end to their insidious activities once and for all.</value>
@@ -173,5 +173,17 @@ Time to finish: {0}</value>
   <data name="Story_ThresholdOpen" xml:space="preserve">
     <value>The portal to the demonic realm stands wide open, a mesmerizing yet terrifying spectacle. A once-controllable situation has spiraled into an existential crisis, and now, a malevolent army spills forth. You cannot know how long this gateway will remain open or if it will ever close again. All you can do now, is to guard the threshold against the encroaching darkness and drive back whatever foe attempts to cross it.</value>
     <comment>s55</comment>
+  </data>
+  <data name="Endgame_Start" xml:space="preserve">
+    <value>Tumble, new life?, new world?</value>
+  </data>
+  <data name="Endgame_Void" xml:space="preserve">
+    <value>connection broken, rift still open, gate to pathways, dare venture?</value>
+  </data>
+  <data name="Endgame_Pinnacle" xml:space="preserve">
+    <value>far into swirling web of paths, three places as real as your own world</value>
+  </data>
+  <data name="Endgame_Finished" xml:space="preserve">
+    <value></value>
   </data>
 </root>

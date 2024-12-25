@@ -57,6 +57,11 @@ namespace TheIdleScrolls_Core
             public const string EndgameAges = "AGES";
         }
 
+        public static class DungeonLevels
+        {
+            public const int LevelVoidMax = 125;
+        }
+
         public static class Tags
         {
             public const string Damage = "Damage";

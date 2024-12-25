@@ -23,7 +23,8 @@ namespace TheIdleScrolls_Core.Systems
             m_quests = new List<AbstractQuest>() 
             { 
                 new GettingStartedQuest(),
-                new StoryQuest()
+                new StoryQuest(),
+                new EndgameQuest()
             };
         }
 
