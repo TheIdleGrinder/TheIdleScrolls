@@ -275,4 +275,12 @@ namespace TheIdleScrolls_Core.Components
 
         public bool Refined = false;
     }
+
+    /// <summary>
+    /// Denotes to the SaveSystem that the entity is should not be saved (used for testing).
+    /// </summary>
+    public class ROMComponent : IComponent
+    {
+        public bool ROM = true;
+    }
 }
