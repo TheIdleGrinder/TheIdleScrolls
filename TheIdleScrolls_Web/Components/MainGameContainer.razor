@@ -197,7 +197,7 @@
     }
 
     .spinning {
-        animation: spinout 10s ease-in;
+        animation: spinout 10s linear;
     }
 
     @@keyframes fadeIn {
@@ -212,6 +212,8 @@
             filter: blur(0) grayscale(0%);
         }
         25% {
+            transform: rotate(0deg);
+            scale: 100%;
             filter: blur(0) grayscale(40%);
         }
         50% {
