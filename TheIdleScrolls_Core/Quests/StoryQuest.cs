@@ -188,9 +188,9 @@ namespace TheIdleScrolls_Core.Quests
                     postMessageCallback(new DungeonCompletedMessage(locationComp.DungeonId, locationComp.DungeonLevel, first));
                     postMessageCallback(new TutorialMessage(TutorialStep.Finished,
                         Properties.LocalizedStrings.STORY_END_TITLE,
-                        String.Format(Properties.Quests.Story_ThresholdFinished, playtime)));
+                        Properties.Quests.Story_ThresholdFinished));
                     UpdateState(States.ThresholdFinished, String.Empty);
-                    world.GameOver = true;                    
+                    world.GameOver = true;
                 }
             }
         }

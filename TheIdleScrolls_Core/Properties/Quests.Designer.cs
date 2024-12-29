@@ -61,7 +61,8 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die From humble beginnings, battling dummies and rats, to defending your world against an invasion, to walking between worlds yourself - you’ve come so far. Each challenge demanded not just strength but also your craftiness and dedication. You honed your skills, forged your path (and your gear), and became the hero these trials required.
+        ///For now, your story ends here. But who knows? In realms like these, endings often make way for new beginnings. ähnelt.
         /// </summary>
         internal static string Endgame_Finished {
             get {
@@ -70,7 +71,9 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die far into swirling web of paths, three places as real as your own world ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Your expeditions into the Void have been many. Time and again, you’ve braved its twisting paths and shadowed expanses, pushing further with each foray.
+        ///Now, the twisting pathways converge and you find yourself in front of three portals, their flickering light unmistakably similar to the one you have been using to travel between this world and your own. These must be the remnants of other severed connections, doorways that survived the collapse.
+        ///Beyond them, your ultimate challenge awaits you. ähnelt.
         /// </summary>
         internal static string Endgame_Pinnacle {
             get {
@@ -79,7 +82,8 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Tumble, new life?, new world? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The landscape around the lighthouse snaps into focus. You stagger as the world feels both immediate and distant, like waking from a dream. You remember fighting at the threshold, then just a moment of indescribable nothingness.
+        ///The sharp voices of those around you cut through the haze. The survivors stare, their astonishment giving way to joy. They rush toward you, some shouting your name. They say you vanished for mere seconds, yet the void clings faintly to your thoughts, a sensation without form. ähnelt.
         /// </summary>
         internal static string Endgame_Start {
             get {
@@ -88,7 +92,9 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die connection broken, rift still open, gate to pathways, dare venture? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The portal’s connection is severed but the rupture in reality persists. What once served as a bridge to another place now stands adrift, its energy still surging but its destination lost.
+        ///Through the bluish glow, an unfamiliar realm comes into view. A web of twisting pathways stretches into the void, branching endlessly into a shadowed expanse. A landscape as intriguing as it is unsettling.
+        ///The void beckons to the bold and the reckless, a realm of mysteries that promise both great reward and untold peril. ähnelt.
         /// </summary>
         internal static string Endgame_Void {
             get {
@@ -199,9 +205,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops.
-        ///
-        ///Time to finish: {0} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops. ähnelt.
         /// </summary>
         internal static string Story_ThresholdFinished {
             get {

@@ -22,7 +22,7 @@
 
 <style>
     .fading-out {
-        animation: fade-out 5s;
+        animation: fade-out 5s forwards;
     }
 
     @@keyframes fade-out {
@@ -44,6 +44,7 @@
     {
         base.OnInitialized();
         UpdateLoop();
+        CoreWrapper.GameLoopRunStateChanged += (bool active) => StateHasChanged();
     }
 
     private void Reset()

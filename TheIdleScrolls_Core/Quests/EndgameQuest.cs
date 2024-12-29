@@ -61,7 +61,15 @@ namespace TheIdleScrolls_Core.Quests
 
             if (state == States.Pinnacle)
             {
-
+                string[] pinnacleIds = [Definitions.DungeonIds.EndgameAges, 
+                                        Definitions.DungeonIds.EndgameMagic, 
+                                        Definitions.DungeonIds.EndgamePyramid];
+                var dungeons = entity.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeons() ?? [];
+                if (pinnacleIds.All(id => dungeons.Contains(id)))
+                {
+                    questComp.SetQuestProgress(GetId(), (int)States.Finished);
+                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Finished, Properties.Quests.Endgame_Finished));
+                }
             }
         }
     }

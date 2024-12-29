@@ -139,6 +139,10 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
         public void StopGameLoop()
         {
+            if (gameRunner != null)
+            {
+                GameWorld.GameEndAnimation = false;
+            }
             gameLoopRunning = false;
             GameLoopRunStateChanged?.Invoke(gameLoopRunning);
             StateChanged?.Invoke();
