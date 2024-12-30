@@ -92,6 +92,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Beyond the Portal ähnelt.
+        /// </summary>
+        internal static string Endgame_Title {
+            get {
+                return ResourceManager.GetString("Endgame_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The portal’s connection is severed but the rupture in reality persists. What once served as a bridge to another place now stands adrift, its energy still surging but its destination lost.
         ///Through the bluish glow, an unfamiliar realm comes into view. A web of twisting pathways stretches into the void, branching endlessly into a shadowed expanse. A landscape as intriguing as it is unsettling.
         ///The void beckons to the bold and the reckless, a realm of mysteries that promise both great reward and untold peril. ähnelt.
@@ -219,6 +228,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string Story_ThresholdOpen {
             get {
                 return ResourceManager.GetString("Story_ThresholdOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string Story_Title {
+            get {
+                return ResourceManager.GetString("Story_Title", resourceCulture);
             }
         }
     }

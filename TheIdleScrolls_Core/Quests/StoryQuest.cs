@@ -48,10 +48,12 @@ namespace TheIdleScrolls_Core.Quests
             if (storyComp == null || locationComp == null)
                 return;
 
-            var UpdateState = (States state, string message) =>
+            var UpdateState = (States state, string message, string title = "") =>
             {
                 storyComp.SetQuestProgress(GetId(), state);
-                postMessageCallback(new QuestProgressMessage(GetId(), (int)state, message == string.Empty ? null : message));
+                postMessageCallback(new QuestProgressMessage(GetId(), (int)state, 
+                    message == string.Empty ? null : message, 
+                    title == string.Empty ? Properties.Quests.Story_Title : title));
             };
             
             var progress = (States)storyComp.GetQuestProgress(GetId());
@@ -186,10 +188,7 @@ namespace TheIdleScrolls_Core.Quests
                     bool first = !entity.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
                     postMessageCallback(new ManualSaveRequest());
                     postMessageCallback(new DungeonCompletedMessage(locationComp.DungeonId, locationComp.DungeonLevel, first));
-                    postMessageCallback(new TutorialMessage(TutorialStep.Finished,
-                        Properties.LocalizedStrings.STORY_END_TITLE,
-                        Properties.Quests.Story_ThresholdFinished));
-                    UpdateState(States.ThresholdFinished, String.Empty);
+                    UpdateState(States.ThresholdFinished, Properties.Quests.Story_ThresholdFinished, Properties.LocalizedStrings.STORY_END_TITLE);
                     world.GameOver = true;
                 }
             }

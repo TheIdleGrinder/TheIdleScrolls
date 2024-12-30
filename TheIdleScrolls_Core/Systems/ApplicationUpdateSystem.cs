@@ -299,7 +299,7 @@ namespace TheIdleScrolls_Core.Systems
             var tutorialMessages = coordinator.FetchMessagesByType<TutorialMessage>();
             foreach (var questMessage in questMessages)
             {
-                string title = questMessage.Quest.ToString();
+                string title = questMessage.MessageTitle ?? questMessage.Quest.ToString();
                 string text = questMessage.QuestMessage ?? "";
                 // Loop over attached tutorial messages, though there is probably never more than one
                 foreach (TutorialMessage tutMessage in tutorialMessages.Where(m => m.QuestMessage == questMessage))

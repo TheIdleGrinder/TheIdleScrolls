@@ -40,8 +40,12 @@ namespace TheIdleScrolls_Core.Quests
                 if (dungeons.Contains(Definitions.DungeonIds.Threshold))
                 {
                     questComp.SetQuestProgress(GetId(), (int)States.Void);
-                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Void, Properties.Quests.Endgame_Start));
-                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Void, Properties.Quests.Endgame_Void));
+                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Void, 
+                        Properties.Quests.Endgame_Start, 
+                        Properties.Quests.Endgame_Title));
+                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Void, 
+                        Properties.Quests.Endgame_Void,
+                        Properties.Quests.Endgame_Title));
                 }
                 else
                 {
@@ -55,7 +59,9 @@ namespace TheIdleScrolls_Core.Quests
                 if (dungeons.Contains((Definitions.DungeonIds.Void, Definitions.DungeonLevels.LevelVoidMax)))
                 {
                     questComp.SetQuestProgress(GetId(), (int)States.Pinnacle);
-                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Pinnacle, Properties.Quests.Endgame_Pinnacle));
+                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Pinnacle, 
+                        Properties.Quests.Endgame_Pinnacle,
+                        Properties.Quests.Endgame_Title));
                 }
             }
 
@@ -68,7 +74,9 @@ namespace TheIdleScrolls_Core.Quests
                 if (pinnacleIds.All(id => dungeons.Contains(id)))
                 {
                     questComp.SetQuestProgress(GetId(), (int)States.Finished);
-                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Finished, Properties.Quests.Endgame_Finished));
+                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Finished, 
+                        Properties.Quests.Endgame_Finished,
+                        Properties.Quests.Endgame_Title));
                 }
             }
         }

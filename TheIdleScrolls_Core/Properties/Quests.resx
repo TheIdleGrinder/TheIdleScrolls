@@ -190,4 +190,10 @@ Beyond them, your ultimate challenge awaits you.</value>
     <value>From humble beginnings, battling dummies and rats, to defending your world against an invasion, to walking between worlds yourself - you’ve come so far. Each challenge demanded not just strength but also your craftiness and dedication. You honed your skills, forged your path (and your gear), and became the hero these trials required.
 For now, your story ends here. But who knows? In realms like these, endings often make way for new beginnings.</value>
   </data>
+  <data name="Endgame_Title" xml:space="preserve">
+    <value>Beyond the Portal</value>
+  </data>
+  <data name="Story_Title" xml:space="preserve">
+    <value></value>
+  </data>
 </root>

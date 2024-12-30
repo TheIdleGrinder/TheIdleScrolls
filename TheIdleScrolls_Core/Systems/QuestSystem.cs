@@ -14,30 +14,29 @@ namespace TheIdleScrolls_Core.Systems
 
     public class QuestSystem : AbstractSystem
     {
-        Entity? m_player = null;
+        Entity? Player = null;
 
-        readonly List<AbstractQuest> m_quests;
+        readonly List<AbstractQuest> Quests;
 
         public QuestSystem()
         {
-            m_quests = new List<AbstractQuest>() 
-            { 
+            Quests = [
                 new GettingStartedQuest(),
                 new StoryQuest(),
                 new EndgameQuest()
-            };
+            ];
         }
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            m_player ??= coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
+            Player ??= coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
 
-            if (m_player == null)
+            if (Player == null)
                 return;
 
-            foreach (AbstractQuest quest in m_quests)
+            foreach (AbstractQuest quest in Quests)
             {
-                quest.UpdateEntity(m_player, coordinator, world, dt,
+                quest.UpdateEntity(Player, coordinator, world, dt,
                     (IMessage message) =>
                     {
                         coordinator.PostMessage(this, message as dynamic);
@@ -50,17 +49,18 @@ namespace TheIdleScrolls_Core.Systems
     /// <summary>
     /// Potentially placeholder. Used to notify other systems of the fact that a quest state has changed.
     /// </summary>
-    public class QuestProgressMessage : IMessage
+    public record QuestProgressMessage(QuestId Quest, int Progress, string? QuestMessage = null, string? MessageTitle = null) : IMessage
     {
-        public QuestId Quest { get; }
-        public int Progress { get; }
-        public string? QuestMessage { get; }
-
         string IMessage.BuildMessage()
         {
-            if (QuestMessage != null)
+            if (QuestMessage != null && QuestMessage != string.Empty)
             {
-                return $"{Quest}|{Progress}: {QuestMessage}";
+                string result = $"{Quest}|{Progress}: ";
+                if (MessageTitle != null && MessageTitle != string.Empty)
+                {
+                    result += MessageTitle + " - ";
+                }
+                return result + QuestMessage;
             }
             else
             {
@@ -68,39 +68,13 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.Debug;
-        }
-
-        public QuestProgressMessage(QuestId quest, int progress, string? message = null)
-        {
-            Quest = quest;
-            Progress = progress;
-            QuestMessage = message;
-        }
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 
-    public class FeatureStateMessage : IMessage
+    public record FeatureStateMessage(GameFeature Feature, bool Enabled) : IMessage
     {
-        public GameFeature Feature { get; }
-        public bool Enabled { get; }
-
-        string IMessage.BuildMessage()
-        {
-            return $"Feature '{Feature}' has been {(Enabled ? "en" : "dis")}abled";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.Debug;
-        }
-
-        public FeatureStateMessage(GameFeature feature, bool enabled)
-        {
-            Feature = feature;
-            Enabled = enabled;
-        }
+        string IMessage.BuildMessage() => $"Feature '{Feature}' has been {(Enabled ? "en" : "dis")}abled";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 
 }
