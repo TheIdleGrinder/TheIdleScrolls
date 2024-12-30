@@ -33,6 +33,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public event GameLoopRunStateChangedHandler? GameLoopRunStateChanged;
 
         public IUserInputHandler InputHandler { get => gameRunner.GetUserInputHandler(); }
+        public World GameWorld { get => gameRunner.GameWorld; }
 
         public bool GameLoopRunning => gameLoopRunning;
         public List<string> StoredCharacters { get; set; } = new();
@@ -138,6 +139,10 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
         public void StopGameLoop()
         {
+            if (gameRunner != null)
+            {
+                GameWorld.GameEndAnimation = false;
+            }
             gameLoopRunning = false;
             GameLoopRunStateChanged?.Invoke(gameLoopRunning);
             StateChanged?.Invoke();

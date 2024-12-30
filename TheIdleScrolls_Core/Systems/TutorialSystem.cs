@@ -131,16 +131,6 @@ namespace TheIdleScrolls_Core.Systems
                     "Good job, you completed your first dungeon and obtained a reward:" +
                     $"\n  - Received '{itemName}'"));
             }
-            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Finished)
-                && globalProgress.Data.GetClearedDungeons().Contains(FinalStoryDungeon))
-            {
-                globalProgress.Data.TutorialProgress.Add(TutorialStep.Finished);
-                var time = globalProgress.Data.Playtime;
-                coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Finished, "",
-                    "Congratulations you cleared the final dungeon and completed the game." +
-                    $"\nFeel free to keep grinding and earning achievements or create a new character to try for a faster time!"));                    
-            }
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Evasion)
                 && (m_player.GetComponent<DefenseComponent>()?.Evasion ?? 0) > 0)
             {

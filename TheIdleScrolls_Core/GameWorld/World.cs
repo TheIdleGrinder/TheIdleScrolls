@@ -11,12 +11,13 @@ namespace TheIdleScrolls_Core.GameWorld
 {
     public class World
     {
-        public bool GameOver = false; // Corner cut: should this be part of the world?
+        public bool GameOver { get; set; } = false; // Corner cut: should this be part of the world?
+        public bool GameEndAnimation { get; set; } = false; // Corner cut: should this be part of the world?
 
-        public double XpMultiplier = 1.0;
-        public double SpeedMultiplier = 1.0;
-        public double RarityMultiplier = 1.0;
-        public double QuantityMultiplier = 1.0;
+        public double XpMultiplier { get; set; } = 1.0;
+        public double SpeedMultiplier { get; set; } = 1.0;
+        public double RarityMultiplier { get; set; } = 1.0;
+        public double QuantityMultiplier { get; set; } = 1.0;
 
         public AreaKingdomDescription AreaKingdom { get; private set; } = new();
 

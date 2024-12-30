@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TheIdleScrolls_Core.Components
 {
-    public enum QuestId { GettingStarted, Story }
+    public enum QuestId { GettingStarted, Story, Endgame }
 
     public class QuestProgressComponent : IComponent
     {

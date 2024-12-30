@@ -26,6 +26,10 @@ namespace TheIdleScrolls_Core.Systems
                 Entity? player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
                 if (player != null)
                 {
+                    if (player.HasComponent<ROMComponent>())
+                    {
+                        return;
+                    }
                     m_dataAccessHandler.StoreEntity(player);
                     coordinator.PostMessage(this, new TextMessage("Game saved"));
                     m_cooldown.Reset();
