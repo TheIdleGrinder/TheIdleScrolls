@@ -11,13 +11,27 @@ namespace TheIdleScrolls_Core.Components
 {
     public class PerksComponent : IComponent
     {
-        readonly List<Perk> Perks = new();
+        public int ActivePerkLimit { get; set; } = 0;
 
-        readonly HashSet<string> ChangedPerks = new(); // Holds list of perks that need to be processed by the PerksSystem
+        readonly HashSet<string> ActivePerks = [];
+
+        readonly List<Perk> Perks = [];
+
+        readonly HashSet<string> ChangedPerks = []; // Holds list of perks that need to be processed by the PerksSystem
 
         public void AddPerk(Perk perk)
         {
-            Perks.Add(perk);
+            if (Perks.Any(p => p.Id == perk.Id))
+                return;
+            if (perk.AlwaysActive)
+            {
+                Perks.Insert(0, perk);
+                ActivePerks.Add(perk.Id);
+            }
+            else
+            {
+                Perks.Add(perk);
+            }
             ChangedPerks.Add(perk.Id);
         }
 
@@ -40,9 +54,24 @@ namespace TheIdleScrolls_Core.Components
             return Perks;
         }
 
+        public List<Perk> GetActivePerks()
+        {
+            return Perks.Where(p => ActivePerks.Contains(p.Id)).ToList();
+        }
+
+        public int GetUsedPerkPoints()
+        {
+            return GetActivePerks().Where(p => !p.AlwaysActive).Count();
+        }
+
         public bool HasPerk(string id)
         {
             return Perks.Any(p => p.Id == id);
+        }
+
+        public bool IsPerkActive(string id)
+        {
+            return HasPerk(id) && ActivePerks.Contains(id);
         }
 
         public List<Perk> GetChangedPerks() => Perks.Where(p => ChangedPerks.Contains(p.Id)).ToList();
@@ -55,6 +84,21 @@ namespace TheIdleScrolls_Core.Components
         public void MarkPerkAsUpdated(Perk perk)
         {
             ChangedPerks.Remove(perk.Id);
+        }
+
+        public bool SetPerkActive(string id, bool active)
+        {
+            if (active)
+            {
+                if (!HasPerk(id))
+                    return false;
+                ActivePerks.Add(id);
+            }
+            else
+            {
+                ActivePerks.Remove(id);
+            }
+            return true;
         }
     }
 }

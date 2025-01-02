@@ -21,13 +21,14 @@ namespace TheIdleScrolls_Core.Modifiers
 
     public class Perk
     {
-        public string Id { get; set; }
-        public string Name { get; set; } = "??";
-        public string Description { get; set; } = "??";
-        public List<Modifier> Modifiers { get; private set; } = new();
-        public HashSet<UpdateTrigger> UpdateTriggers { get; private set; } = new();
+        public string Id { get; init; }
+        public string Name { get; init; } = "??";
+        public string Description { get; private set; } = "??";
+        public List<Modifier> Modifiers { get; private set; } = [];
+        public HashSet<UpdateTrigger> UpdateTriggers { get; init; } = [];
+        public bool AlwaysActive { get; init; } = false;
         public Func<Entity, World, Coordinator, List<Modifier>> ModifiersFunc { get; private set; } 
-            = (Entity e, World w, Coordinator c) => { return new(); };
+            = (Entity e, World w, Coordinator c) => { return []; };
 
         public Perk(string id, string name, string description, 
             HashSet<UpdateTrigger> updateTriggers, 

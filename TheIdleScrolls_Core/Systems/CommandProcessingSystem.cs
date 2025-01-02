@@ -87,6 +87,11 @@ namespace TheIdleScrollsApp
             m_requests.Add(new DialogueResponseMessage(id, response));
         }
 
+        public void SetPerkActive(uint playerId, string perkId, bool active)
+        {
+            m_requests.Add(new SetPerkActiveRequest(playerId, perkId, active));
+        }
+
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             List<IMessage> processed = new();

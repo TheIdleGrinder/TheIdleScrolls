@@ -1,20 +1,27 @@
 ﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Modifiers
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
 
 <div class="perks-container">
-    @foreach (var perk in CoreWrapper.Perks.Where(p => p.Modifiers.Count > 0))
+    @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
     {
-        <div class="perk">
+        <div class="perk @PerkClasses(perk)" @onclick=@(() => SetActive(perk.Id, !IsActive(perk.Id)))>
             <div class="perk-name">@perk.Name</div>
+            @if (perk.AlwaysActive)
+            {
+                <div class="perk-always-active-indicator">Always Active</div>
+            }
             <div class="perk-description">@perk.Description</div>
             <div class="perk-modifiers">
                 @foreach (var modifier in perk.Modifiers)
                 {
-                    <div class="perk-modifier">➤ @modifier</div>
+                    <div class="perk-modifier">➤ @modifier.ToPrettyString()</div>
                 }
             </div>
+            
         </div>
     }
 </div>
@@ -31,6 +38,7 @@
         margin: 5px;
         padding: 5px;
         border: 1px solid var(--frame-color);
+        position: relative;
     }
 
     .perk-name {
@@ -45,6 +53,31 @@
         margin: 2px;
         margin-left: 7px;
         font-style: italic;
+        font-size: small;
+    }
+
+    .perk-active {
+        color: black;
+        background-color: var(--back-color-special);
+    }
+
+    .perk-inactive {
+        color: gray;
+        font-style: italic;
+        background-color: white;
+    }
+
+    .perk-always-active {
+        border: solid 2px var(--frame-color);
+    }
+
+    .perk-always-active-indicator {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        font-style: italic;
+        font-size: smaller;
+        color: var(--frame-color);
     }
 
 </style>
@@ -54,5 +87,27 @@
     {
         CoreWrapper.StateChanged += StateHasChanged;
         base.OnInitialized();
+    }
+
+    List<Perk> Perks => CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>()?.GetPerks() ?? [];
+
+    bool IsActive(string id)
+    {
+        return CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>()?.IsPerkActive(id) ?? false; 
+    }
+
+    string PerkClasses(Perk perk)
+    {
+        string classes = IsActive(perk.Id) ? "perk-active" : "perk-inactive";
+        if (perk.AlwaysActive)
+            classes += " perk-always-active";
+        return classes;
+    }
+
+    void SetActive(string id, bool active)
+    {
+        if (CoreWrapper.PlayerCharacter == null)
+            return;
+        CoreWrapper.InputHandler.SetPerkActive(CoreWrapper.PlayerCharacter.Id, id, active);
     }
 }

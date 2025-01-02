@@ -16,7 +16,6 @@ namespace TheIdleScrolls_Core.Systems
     public class PerksSystem : AbstractSystem
     {
         bool FirstUpdate = true;
-        bool FirstAchievementUpdate = true;
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -30,12 +29,14 @@ namespace TheIdleScrolls_Core.Systems
 
                 void UpdatePerk(Perk perk)
                 {
-                    if (modsComp != null)
+                    bool isActive = perksComp.IsPerkActive(perk.Id);
+                    if (isActive && modsComp != null)
                     {
                         perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
                     }
-                    perk.UpdateModifiers(entity, world, coordinator);
-                    if (modsComp != null)
+                    // Update inactive perks as well because their state is shown in the UI
+                    perk.UpdateModifiers(entity, world, coordinator); 
+                    if (isActive && modsComp != null)
                     {
                         perk.Modifiers.ForEach(m => modsComp.AddModifier(m));
                     }
@@ -60,6 +61,34 @@ namespace TheIdleScrolls_Core.Systems
                         coordinator.PostMessage(this, new PerkUpdatedMessage(entity, perk));
                     }
                 }
+            }
+
+            foreach (var setPerkActiveRequest in coordinator.FetchMessagesByType<SetPerkActiveRequest>())
+            {
+                var owner = coordinator.GetEntity(setPerkActiveRequest.OwnerId) 
+                    ?? throw new Exception($"Entity #{setPerkActiveRequest.OwnerId} not found");
+                var perksComp = owner.GetComponent<PerksComponent>()!;
+                if (perksComp.IsPerkActive(setPerkActiveRequest.PerkId) == setPerkActiveRequest.Active)
+                {
+                    continue;
+                }
+                var perk = perksComp.GetPerks().First(p => p.Id == setPerkActiveRequest.PerkId);
+                if (perk.AlwaysActive)
+                    continue;
+                perksComp.SetPerkActive(setPerkActiveRequest.PerkId, setPerkActiveRequest.Active);
+                var modsComp = owner.GetComponent<ModifierComponent>();
+                if (modsComp == null)
+                    continue;
+                
+                if (setPerkActiveRequest.Active)
+                {
+                    perk.Modifiers.ForEach(modsComp.AddModifier);
+                }
+                else
+                {
+                    perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
+                }
+                coordinator.PostMessage(this, new PerkActiveStateChangedMessage(owner, perk, setPerkActiveRequest.Active));
             }
 
             FirstUpdate = false;
@@ -92,51 +121,12 @@ namespace TheIdleScrolls_Core.Systems
 
         static void AddBasicPerks(PerksComponent perksComponent)
         {
-            // Create perk for weapon abilities
-            List<string> abilities = new();
-            List<ModifierType> modifiers = new();
-            List<double> values = new();
-            List<IEnumerable<string>> localTags = new();
-            List<IEnumerable<string>> globalTags = new();
-            foreach (string ability in Definitions.Abilities.Attack)
-            {
-                abilities.Add(ability);
-                abilities.Add(ability);
-                modifiers.Add(ModifierType.More);
-                modifiers.Add(ModifierType.More);
-                values.Add(Stats.AttackDamagePerAbilityLevel);
-                values.Add(Stats.AttackSpeedPerAbilityLevel);
-                localTags.Add([Tags.Damage]);
-                localTags.Add([Tags.AttackSpeed]);
-                globalTags.Add([]);
-                globalTags.Add([]);
-            }
-            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("WeaponAbilities", "Abilities: Offense",
-                "Increases damage and speed of attacks with different weapons based on ability levels",
-                abilities, modifiers,
-                values,
-                localTags,
-                globalTags,
-                false)
-            );
-
-            abilities = [.. Abilities.Defense];
-            // Create perk for armor abilities
-            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("ArmorAbilities", "Abilities: Defense",
-                "Increases armor and evasion rating with different armor types based on ability levels",
-                abilities,
-                abilities.Select(_ => ModifierType.More).ToList(),
-                abilities.Select(_ => Stats.DefensePerAbilityLevel).ToList(),
-                abilities.Select(_ => (IEnumerable<string>)[Tags.Defense]).ToList(),
-                abilities.Select(_ => (IEnumerable<string>)[]).ToList(),
-                false)
-            );
-
             // Create perk for fighting styles
-            perksComponent.AddPerk(new("FightingStyles", "Fighting Styles", 
+            perksComponent.AddPerk(new("FightingStyles", "Fighting Styles",
                 "Gain combat bonusses based on the ability level of your current fighting style",
                 [UpdateTrigger.AbilityIncreased],
-                (e, w, c) => {
+                (e, w, c) =>
+                {
                     List<Modifier> modifiers = [];
                     int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.DualWield)?.Level ?? 0;
                     if (level > 0)
@@ -160,8 +150,50 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     return modifiers;
                 })
+            {
+                AlwaysActive = true
+            }
             );
-                        
+
+            // Create perk for armor abilities
+            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("ArmorAbilities", "Abilities: Defense",
+                "Increases armor and evasion rating with different armor types based on ability levels",
+                Abilities.Defense,
+                Abilities.Defense.Select(_ => ModifierType.More).ToList(),
+                Abilities.Defense.Select(_ => Stats.DefensePerAbilityLevel).ToList(),
+                Abilities.Defense.Select(_ => (IEnumerable<string>)[Tags.Defense]).ToList(),
+                Abilities.Defense.Select(_ => (IEnumerable<string>)[]).ToList(),
+                true)
+            );
+
+            // Create perk for weapon abilities
+            List<string> abilities = new();
+            List<ModifierType> modifiers = new();
+            List<double> values = new();
+            List<IEnumerable<string>> localTags = new();
+            List<IEnumerable<string>> globalTags = new();
+            foreach (string ability in Abilities.Attack)
+            {
+                abilities.Add(ability);
+                abilities.Add(ability);
+                modifiers.Add(ModifierType.More);
+                modifiers.Add(ModifierType.More);
+                values.Add(Stats.AttackDamagePerAbilityLevel);
+                values.Add(Stats.AttackSpeedPerAbilityLevel);
+                localTags.Add([Tags.Damage]);
+                localTags.Add([Tags.AttackSpeed]);
+                globalTags.Add([]);
+                globalTags.Add([]);
+            }
+            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("WeaponAbilities", "Abilities: Offense",
+                "Increases damage and speed of attacks with different weapons based on ability levels",
+                abilities, modifiers,
+                values,
+                localTags,
+                globalTags,
+                true)
+            );
+              
             // Create perk for damage per level
             Perk damagePerLevel = new("dpl", "Damage per Level",
                 $"{Stats.AttackBonusPerLevel:0.#%} increased damage per level",
@@ -175,7 +207,10 @@ namespace TheIdleScrolls_Core.Systems
                             new() { Tags.Damage }, new())
                     };
                 }
-            );
+            )
+            {
+                AlwaysActive = true
+            };
 
             perksComponent.AddPerk(damagePerLevel);
         }
@@ -186,5 +221,18 @@ namespace TheIdleScrolls_Core.Systems
     {
         string IMessage.BuildMessage() => $"Perk '{Perk.Name}' was updated for entity {Owner.GetName()}";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
+
+    public record SetPerkActiveRequest(uint OwnerId, string PerkId, bool Active) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Request to set perk '{PerkId}' active status to {(Active ? "active" : "inactive")} " +
+            $"for entity #{OwnerId}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
+
+    public record PerkActiveStateChangedMessage(Entity Owner, Perk Perk, bool Active) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Perk '{Perk.Name}' active state changed to {Active} for entity {Owner.GetName()}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
 }

@@ -67,11 +67,10 @@ namespace TheIdleScrolls_Core.Modifiers
                                                      ModifierType modType,
                                                      double valuePerLevel, 
                                                      IEnumerable<string> localTags,
-                                                     IEnumerable<string> globalTags,
-                                                     bool exponentialMore = false)
+                                                     IEnumerable<string> globalTags)
         {
             return MakeAbilityLevelBasedMultiModPerk(id, name, description, 
-                new() { ability }, new() { modType }, new() { valuePerLevel }, new() { localTags }, new() { globalTags }, exponentialMore
+                new() { ability }, new() { modType }, new() { valuePerLevel }, new() { localTags }, new() { globalTags }
             );
         }
 
@@ -83,7 +82,7 @@ namespace TheIdleScrolls_Core.Modifiers
                                                              List<double> valuesPerLevel,
                                                              List<IEnumerable<string>> localTags,
                                                              List<IEnumerable<string>> globalTags,
-                                                             bool exponentialMore = false)
+                                                             bool alwaysActive = false)
         {
             return new(
                 id,
@@ -99,13 +98,14 @@ namespace TheIdleScrolls_Core.Modifiers
                         if (level == 0)
                             continue;
                         double bonus = level * valuesPerLevel[i];
-                        if (modTypes[i] == ModifierType.More && exponentialMore)
-                            bonus = Math.Pow(1.0 + valuesPerLevel[i], level) - 1.0;
                         mods.Add(new($"{id}_{i}", modTypes[i], bonus, localTags[i].Append(abilities[i]).ToHashSet(), globalTags[i].ToHashSet()));
                     }
                     return mods;
                 }
-            );
+            )
+            {
+                AlwaysActive = alwaysActive
+            };
         }
 
         public static Perk MakeCharacterLevelBasedPerk(string id,
@@ -115,10 +115,10 @@ namespace TheIdleScrolls_Core.Modifiers
                                                        double valuePerLevel,
                                                        IEnumerable<string> localTags,
                                                        IEnumerable<string> globalTags,
-                                                       bool exponentialMore = false)
+                                                       bool alwaysActive = false)
         {
             return MakeCharacterLevelBasedMultiModPerk(id, name, description, 
-                new() { modType }, new() { valuePerLevel }, new() { localTags }, new() { globalTags }, exponentialMore
+                new() { modType }, new() { valuePerLevel }, new() { localTags }, new() { globalTags }, alwaysActive
             );
         }
 
@@ -129,7 +129,7 @@ namespace TheIdleScrolls_Core.Modifiers
                                                        List<double> valuesPerLevel,
                                                        List<IEnumerable<string>> localTags, 
                                                        List<IEnumerable<string>> globalTags, 
-                                                       bool exponentialMore = false)
+                                                       bool alwaysActive = false)
         {
             return new(
                 id,
@@ -143,13 +143,14 @@ namespace TheIdleScrolls_Core.Modifiers
                     for (int i = 0; i < modTypes.Count; i++)
                     {
                         double bonus = level * valuesPerLevel[i];
-                        if (modTypes[i] == ModifierType.More && exponentialMore)
-                            bonus = Math.Pow(1.0 + valuesPerLevel[i], level) - 1.0;
                         mods.Add(new($"{id}_{i}", modTypes[i], bonus, localTags[i].ToHashSet(), globalTags[i].ToHashSet()));
                     }
                     return mods;
                 }
-            );
+            )
+            {
+                AlwaysActive = alwaysActive
+            };
         }
 
         public static Perk MakeStaticPerk(string id,
@@ -158,7 +159,8 @@ namespace TheIdleScrolls_Core.Modifiers
                                           ModifierType modType,
                                           double value,
                                           IEnumerable<string> localTags,
-                                          IEnumerable<string> globalTags)
+                                          IEnumerable<string> globalTags,
+                                          bool alwaysActive = false)
         {
             return new(
                 id,
@@ -169,7 +171,10 @@ namespace TheIdleScrolls_Core.Modifiers
                 {
                     return new() { new(id, modType, value, localTags.ToHashSet(), globalTags.ToHashSet()) };
                 }
-            );
+            )
+            {
+                AlwaysActive = alwaysActive
+            };
         }
 
         public static Perk MakeStaticMultiModPerk(string id,
@@ -178,7 +183,8 @@ namespace TheIdleScrolls_Core.Modifiers
                                                   List<ModifierType> modTypes,
                                                   List<double> values,
                                                   List<IEnumerable<string>> localTags,
-                                                  List<IEnumerable<string>> globalTags)
+                                                  List<IEnumerable<string>> globalTags,
+                                                  bool alwaysActive = false)
         {
             return new(
                 id,
@@ -194,7 +200,10 @@ namespace TheIdleScrolls_Core.Modifiers
                     }
                     return mods;
                 }
-            );
+            )
+            {
+                AlwaysActive = alwaysActive
+            };
         }
     }
 }
