@@ -8,17 +8,30 @@
 <div class="perks-container">
     @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
     {
-        <div class="perk @PerkClasses(perk)" @onclick=@(() => SetActive(perk.Id, !IsActive(perk.Id)))>
+        bool isActive = IsActive(perk.Id);
+        string hiddenStyle = "display: none";
+        <div class="perk @PerkClasses(perk)">
             <div class="perk-name">@perk.Name</div>
             @if (perk.AlwaysActive)
             {
-                <div class="perk-always-active-indicator">Always Active</div>
+                <div class="perk-always-active-indicator">Permanent</div>
             }
             <div class="perk-description">@perk.Description</div>
             <div class="perk-modifiers">
                 @foreach (var modifier in perk.Modifiers)
                 {
                     <div class="perk-modifier">➤ @modifier.ToPrettyString()</div>
+                }
+            </div>
+            <div class="perk-buttons-area">
+                @if (!perk.AlwaysActive)
+                {
+                    <button class="perk-button perk-button-deactivate" 
+                        style="@(isActive ? "" : hiddenStyle)"
+                        @onclick=@(() => SetActive(perk.Id, false))>-</button>
+                    <button class="perk-button perk-button-activate" 
+                        style="@(isActive ? hiddenStyle : "")"
+                        @onclick=@(() => SetActive(perk.Id, true))>+</button>
                 }
             </div>
             
@@ -78,6 +91,31 @@
         font-style: italic;
         font-size: smaller;
         color: var(--frame-color);
+    }
+
+    .perk-buttons-area {
+        position: absolute;
+        bottom: 0.5rem;
+        right: 0.5rem;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    button.perk-button {
+        cursor: pointer;
+        min-height: 0;
+        min-width: 0;
+        height: 2rem;
+        width: 2rem;
+    }
+
+    button.perk-button-activate {
+        background-color: greenyellow;
+    }
+
+    button.perk-button-deactivate {
+        background-color: coral;
     }
 
 </style>
