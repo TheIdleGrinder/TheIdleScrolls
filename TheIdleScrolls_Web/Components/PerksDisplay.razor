@@ -5,43 +5,63 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div class="perks-container">
-    @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
-    {
-        bool isActive = IsActive(perk.Id);
-        string hiddenStyle = "display: none";
-        <div class="perk @PerkClasses(perk)">
-            <div class="perk-name">@perk.Name</div>
-            @if (perk.AlwaysActive)
-            {
-                <div class="perk-always-active-indicator">Permanent</div>
-            }
-            <div class="perk-description">@perk.Description</div>
-            <div class="perk-modifiers">
-                @foreach (var modifier in perk.Modifiers)
+<div id="perks-container">
+
+    <div class="perks-list">
+        @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
+        {
+            bool isActive = IsActive(perk.Id);
+            string hiddenStyle = "display: none";
+            <div class="perk @PerkClasses(perk)">
+                <div class="perk-name">@perk.Name</div>
+                @if (perk.AlwaysActive)
                 {
-                    <div class="perk-modifier">➤ @modifier.ToPrettyString()</div>
+                    <div class="perk-always-active-indicator">Permanent</div>
                 }
-            </div>
-            <div class="perk-buttons-area">
-                @if (!perk.AlwaysActive)
-                {
-                    <button class="perk-button perk-button-deactivate" 
-                        style="@(isActive ? "" : hiddenStyle)"
-                        @onclick=@(() => SetActive(perk.Id, false))>-</button>
-                    <button class="perk-button perk-button-activate" 
-                        style="@(isActive ? hiddenStyle : "")"
-                        @onclick=@(() => SetActive(perk.Id, true))>+</button>
-                }
-            </div>
+                <div class="perk-description">@perk.Description</div>
+                <div class="perk-modifiers">
+                    @foreach (var modifier in perk.Modifiers)
+                    {
+                        <div class="perk-modifier">➤ @modifier.ToPrettyString()</div>
+                    }
+                </div>
+                <div class="perk-buttons-area">
+                    @if (!perk.AlwaysActive)
+                    {
+                        <button class="perk-button perk-button-deactivate" 
+                            style="@(isActive ? "" : hiddenStyle)"
+                            @onclick=@(() => SetActive(perk.Id, false))>-</button>
+                        <button class="perk-button perk-button-activate" 
+                            style="@(isActive ? hiddenStyle : "")"
+                            @onclick=@(() => SetActive(perk.Id, true))>+</button>
+                    }
+                </div>
             
-        </div>
-    }
+            </div>
+        }
+    </div>
+
+    <div id="perks-header">
+        <p style="margin-bottom: 0">Points Spent: @PerksUsed / @PerksLimit</p>
+    </div>
+
 </div>
 
 
 <style>
-    .perks-container {
+    #perks-container {
+        display: flex;
+        flex-direction: column;
+        max-height: 100%;
+        overflow-y: auto;
+    }
+
+    #perks-header {
+        padding: 1.0rem;
+        border-top: 2px double var(--frame-color);
+    }
+
+    .perks-list {
         padding: 5px;
         max-height: 100%;
         overflow-y: auto;
@@ -127,7 +147,10 @@
         base.OnInitialized();
     }
 
-    List<Perk> Perks => CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>()?.GetPerks() ?? [];
+    PerksComponent? PerksComponent => CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
+    List<Perk> Perks => PerksComponent?.GetPerks() ?? [];
+    int PerksUsed => PerksComponent?.GetUsedPerkPoints() ?? 0;
+    int PerksLimit => PerksComponent?.ActivePerkLimit ?? 0;
 
     bool IsActive(string id)
     {
