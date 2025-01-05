@@ -36,6 +36,8 @@ namespace TheIdleScrolls_Core
             public const int    DungeonDropLevelRange = 9;
 
             public const double QualityMultiplier   = 1.25;
+
+            public const int    LevelsPerPerkPoint = 5;
         }
 
         public static class DungeonIds

@@ -11,7 +11,7 @@ namespace TheIdleScrolls_Core.Components
 {
     public class PerksComponent : IComponent
     {
-        public int ActivePerkLimit { get; set; } = 0;
+        public int ActivePerkLimit { get; set; } = -1;
 
         public readonly HashSet<string> ActivePerkIds = [];
 
@@ -23,7 +23,7 @@ namespace TheIdleScrolls_Core.Components
         {
             if (Perks.Any(p => p.Id == perk.Id))
                 return;
-            if (perk.AlwaysActive)
+            if (perk.Permanent)
             {
                 Perks.Insert(0, perk);
                 ActivePerkIds.Add(perk.Id);
@@ -61,7 +61,12 @@ namespace TheIdleScrolls_Core.Components
 
         public int GetUsedPerkPoints()
         {
-            return GetActivePerks().Where(p => !p.AlwaysActive).Count();
+            return GetActivePerks().Where(p => !p.Permanent).Count();
+        }
+
+        public int GetAvailablePerkPoints()
+        {
+            return ActivePerkLimit - GetUsedPerkPoints();
         }
 
         public bool HasPerk(string id)

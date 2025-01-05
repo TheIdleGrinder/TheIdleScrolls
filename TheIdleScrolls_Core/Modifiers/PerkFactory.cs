@@ -104,7 +104,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 }
             )
             {
-                AlwaysActive = alwaysActive
+                Permanent = alwaysActive
             };
         }
 
@@ -149,7 +149,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 }
             )
             {
-                AlwaysActive = alwaysActive
+                Permanent = alwaysActive
             };
         }
 
@@ -173,7 +173,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 }
             )
             {
-                AlwaysActive = alwaysActive
+                Permanent = alwaysActive
             };
         }
 
@@ -202,7 +202,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 }
             )
             {
-                AlwaysActive = alwaysActive
+                Permanent = alwaysActive
             };
         }
     }

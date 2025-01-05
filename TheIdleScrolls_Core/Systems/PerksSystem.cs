@@ -1,10 +1,4 @@
 ﻿using MiniECS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
@@ -50,6 +44,12 @@ namespace TheIdleScrolls_Core.Systems
                     perksComp.GetPerks().ForEach(m => UpdatePerk(m));
                 }
 
+                // Update number of available perk points
+                if (FirstUpdate || coordinator.MessageTypeIsOnBoard<LevelUpMessage>())
+                {
+                    perksComp.ActivePerkLimit = (entity.GetComponent<LevelComponent>()?.Level ?? 0) / Stats.LevelsPerPerkPoint;
+                }
+
                 // Update Modifiers
                 var changedPerks = perksComp.GetChangedPerks();
                 foreach (var perk in perksComp.GetPerks())
@@ -63,19 +63,32 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
 
+            // Handle perk activation requests
             foreach (var setPerkActiveRequest in coordinator.FetchMessagesByType<SetPerkActiveRequest>())
             {
                 var owner = coordinator.GetEntity(setPerkActiveRequest.OwnerId) 
                     ?? throw new Exception($"Entity #{setPerkActiveRequest.OwnerId} not found");
                 var perksComp = owner.GetComponent<PerksComponent>()!;
-                if (perksComp.IsPerkActive(setPerkActiveRequest.PerkId) == setPerkActiveRequest.Active)
+                var perk = perksComp.GetPerks().First(p => p.Id == setPerkActiveRequest.PerkId);
+                
+                if (perksComp.IsPerkActive(perk.Id) == setPerkActiveRequest.Active)
                 {
                     continue;
                 }
-                var perk = perksComp.GetPerks().First(p => p.Id == setPerkActiveRequest.PerkId);
-                if (perk.AlwaysActive)
+                if (perk.Permanent)
+                {
+                    coordinator.PostMessage(this, new TextMessage("Permanent perks cannot be deactivated", IMessage.PriorityLevel.VeryHigh));
                     continue;
+                }
+                if (setPerkActiveRequest.Active && perksComp.GetAvailablePerkPoints() <= 0)
+                {
+                    coordinator.PostMessage(this, new TextMessage($"{owner.GetName()} has no free perk points", IMessage.PriorityLevel.VeryHigh));
+                    continue;
+                }
+
                 perksComp.SetPerkActive(setPerkActiveRequest.PerkId, setPerkActiveRequest.Active);
+                
+                
                 var modsComp = owner.GetComponent<ModifierComponent>();
                 if (modsComp == null)
                     continue;
@@ -151,7 +164,7 @@ namespace TheIdleScrolls_Core.Systems
                     return modifiers;
                 })
             {
-                AlwaysActive = true
+                Permanent = true
             }
             );
 
@@ -209,7 +222,7 @@ namespace TheIdleScrolls_Core.Systems
                 }
             )
             {
-                AlwaysActive = true
+                Permanent = true
             };
 
             perksComponent.AddPerk(damagePerLevel);

@@ -14,7 +14,7 @@
             string hiddenStyle = "display: none";
             <div class="perk @PerkClasses(perk)">
                 <div class="perk-name">@perk.Name</div>
-                @if (perk.AlwaysActive)
+                @if (perk.Permanent)
                 {
                     <div class="perk-always-active-indicator">Permanent</div>
                 }
@@ -26,7 +26,7 @@
                     }
                 </div>
                 <div class="perk-buttons-area">
-                    @if (!perk.AlwaysActive)
+                    @if (!perk.Permanent)
                     {
                         <button class="perk-button perk-button-deactivate" 
                             style="@(isActive ? "" : hiddenStyle)"
@@ -160,7 +160,7 @@
     string PerkClasses(Perk perk)
     {
         string classes = IsActive(perk.Id) ? "perk-active" : "perk-inactive";
-        if (perk.AlwaysActive)
+        if (perk.Permanent)
             classes += " perk-always-active";
         return classes;
     }
