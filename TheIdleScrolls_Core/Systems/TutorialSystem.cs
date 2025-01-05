@@ -71,8 +71,9 @@ namespace TheIdleScrolls_Core.Systems
                     if ((progress & GettingStartedQuest.StateFlags.Perks) != 0)
                     {
                         addTutorialProgress(TutorialStep.Perks, "Perks of the Trade",
-                            "You can see the exact values of your ability bonus by checking the 'Perks' tab. As you continue playing " +
-                            "and earning achievements, you will also unlock additional perks.", message);
+                            "The 'Perks' tab contains a list of all your perks. Some are permanent, so they will always affect your " +
+                            "character. Others have to be activated by assigning a perk point to them. As you continue playing " +
+                            "and earning achievements, you will unlock additional perks to choose from.", message);
                     }
                     if ((progress & GettingStartedQuest.StateFlags.MobAttacks) != 0)
                     {
