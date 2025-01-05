@@ -165,8 +165,8 @@ namespace TheIdleScrolls_Core.Systems
                 })
             {
                 Permanent = true
-            }
-            );
+            },
+            0);
 
             // Create perk for armor abilities
             perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("ArmorAbilities", "Abilities: Defense",
@@ -176,7 +176,8 @@ namespace TheIdleScrolls_Core.Systems
                 Abilities.Defense.Select(_ => Stats.DefensePerAbilityLevel).ToList(),
                 Abilities.Defense.Select(_ => (IEnumerable<string>)[Tags.Defense]).ToList(),
                 Abilities.Defense.Select(_ => (IEnumerable<string>)[]).ToList(),
-                true)
+                true),
+                0
             );
 
             // Create perk for weapon abilities
@@ -204,7 +205,8 @@ namespace TheIdleScrolls_Core.Systems
                 values,
                 localTags,
                 globalTags,
-                true)
+                true),
+                0
             );
               
             // Create perk for damage per level
@@ -225,7 +227,7 @@ namespace TheIdleScrolls_Core.Systems
                 Permanent = true
             };
 
-            perksComponent.AddPerk(damagePerLevel);
+            perksComponent.AddPerk(damagePerLevel, 0);
         }
     }
 

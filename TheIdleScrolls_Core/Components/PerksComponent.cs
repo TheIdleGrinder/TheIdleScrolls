@@ -19,18 +19,28 @@ namespace TheIdleScrolls_Core.Components
 
         readonly HashSet<string> ChangedPerks = []; // Holds list of perks that need to be processed by the PerksSystem
 
-        public void AddPerk(Perk perk)
+        public void AddPerk(Perk perk, int index = -1)
         {
             if (Perks.Any(p => p.Id == perk.Id))
                 return;
-            if (perk.Permanent)
+            if (index >= 0 && index <= Perks.Count)
             {
-                Perks.Insert(0, perk);
-                ActivePerkIds.Add(perk.Id);
+                Perks.Insert(index, perk);
             }
             else
             {
-                Perks.Add(perk);
+                if (perk.Permanent)
+                {
+                    Perks.Insert(GetPermanentPerkCount(), perk);
+                }
+                else
+                {
+                    Perks.Add(perk);
+                }
+            }
+            if (perk.Permanent)
+            {
+                ActivePerkIds.Add(perk.Id);
             }
             ChangedPerks.Add(perk.Id);
         }
@@ -62,6 +72,11 @@ namespace TheIdleScrolls_Core.Components
         public int GetUsedPerkPoints()
         {
             return GetActivePerks().Where(p => !p.Permanent).Count();
+        }
+
+        public int GetPermanentPerkCount()
+        {
+            return GetActivePerks().Where(p => p.Permanent).Count();
         }
 
         public int GetAvailablePerkPoints()
