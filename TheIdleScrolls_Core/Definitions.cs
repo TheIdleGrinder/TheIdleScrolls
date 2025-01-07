@@ -37,7 +37,11 @@ namespace TheIdleScrolls_Core
 
             public const double QualityMultiplier   = 1.25;
 
-            public const int    LevelsPerPerkPoint = 5;
+            public const int    LevelsPerPerkPoint          = 5;
+            public const double BasicDamageIncrease         = 0.08;
+            public const double BasicAttackSpeedIncrease    = 0.05;
+            public const double BasicDefenseIncrease        = 0.08;
+            public const double BasicTimeIncrease           = 0.05;
         }
 
         public static class DungeonIds

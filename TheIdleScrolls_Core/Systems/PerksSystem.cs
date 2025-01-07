@@ -228,6 +228,25 @@ namespace TheIdleScrolls_Core.Systems
             };
 
             perksComponent.AddPerk(damagePerLevel, 0);
+
+            // Create basic minor perks
+            string prefix = "Minor";
+            int index = perksComponent.GetPermanentPerkCount();
+            for (int i = 0; i < 5; i++)
+            {
+                perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Dmg{i}", $"Basic Damage", "", 
+                    ModifierType.Increase, Stats.BasicDamageIncrease, 
+                    [Tags.Damage], []), index + i);
+                perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}As{i}", $"Basic Attack Speed", "",
+                    ModifierType.Increase, Stats.BasicAttackSpeedIncrease,
+                    [Tags.AttackSpeed], []), index + 2 * i + 1);
+                perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Def{i}", $"Basic Defense", "",
+                    ModifierType.Increase, Stats.BasicDefenseIncrease,
+                    [Tags.Defense], []), index + 3 * i + 2);
+                perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Time{i}", $"Basic Time Limit", "",
+                    ModifierType.Increase, Stats.BasicTimeIncrease,
+                    [Tags.TimeShield], []), index + 4 * i + 3);
+            }
         }
     }
 
