@@ -349,11 +349,13 @@ namespace TheIdleScrolls_JSON
         {
             try
             {
-                component.ActivePerkIds.Clear();
+                component.ActivePerkLevels.Clear();
                 var jsonPerks = json["ActivePerks"]!.AsArray();
                 foreach (var jsonPerk in jsonPerks)
                 {
-                    component.ActivePerkIds.Add(jsonPerk!.GetValue<string>());
+                    string line = jsonPerk!.GetValue<string>();
+                    string[] parts = line.Split(':');
+                    component.ActivePerkLevels[parts[0]] = Int32.Parse(parts[1]);
                 }
                 return true;
             }

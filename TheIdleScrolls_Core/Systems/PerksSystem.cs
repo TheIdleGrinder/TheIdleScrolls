@@ -47,7 +47,7 @@ namespace TheIdleScrolls_Core.Systems
                 // Update number of available perk points
                 if (FirstUpdate || coordinator.MessageTypeIsOnBoard<LevelUpMessage>())
                 {
-                    perksComp.ActivePerkLimit = (entity.GetComponent<LevelComponent>()?.Level ?? 0) / Stats.LevelsPerPerkPoint;
+                    perksComp.PerkPointLimit = (entity.GetComponent<LevelComponent>()?.Level ?? 0) / Stats.LevelsPerPerkPoint;
                 }
 
                 // Update Modifiers
@@ -64,44 +64,42 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Handle perk activation requests
-            foreach (var setPerkActiveRequest in coordinator.FetchMessagesByType<SetPerkActiveRequest>())
+            foreach (var setLevelRequest in coordinator.FetchMessagesByType<SetPerkLevelRequest>())
             {
-                var owner = coordinator.GetEntity(setPerkActiveRequest.OwnerId) 
-                    ?? throw new Exception($"Entity #{setPerkActiveRequest.OwnerId} not found");
+                var owner = coordinator.GetEntity(setLevelRequest.OwnerId) 
+                    ?? throw new Exception($"Entity #{setLevelRequest.OwnerId} not found");
                 var perksComp = owner.GetComponent<PerksComponent>()!;
-                var perk = perksComp.GetPerks().First(p => p.Id == setPerkActiveRequest.PerkId);
+                var perk = perksComp.GetPerks().First(p => p.Id == setLevelRequest.PerkId);
                 
-                if (perksComp.IsPerkActive(perk.Id) == setPerkActiveRequest.Active)
+                if (perksComp.GetPerkLevel(perk.Id) == setLevelRequest.Level)
                 {
                     continue;
                 }
                 if (perk.Permanent)
                 {
-                    coordinator.PostMessage(this, new TextMessage("Permanent perks cannot be deactivated", IMessage.PriorityLevel.VeryHigh));
+                    coordinator.PostMessage(this, new TextMessage("Permanent perks cannot be changed", IMessage.PriorityLevel.VeryHigh));
                     continue;
                 }
-                if (setPerkActiveRequest.Active && perksComp.GetAvailablePerkPoints() <= 0)
+                if (setLevelRequest.Level - perksComp.GetPerkLevel(perk.Id) > perksComp.GetAvailablePerkPoints())
                 {
-                    coordinator.PostMessage(this, new TextMessage($"{owner.GetName()} has no free perk points", IMessage.PriorityLevel.VeryHigh));
+                    coordinator.PostMessage(this, new TextMessage($"{owner.GetName()} does not have enough free perk points",
+                        IMessage.PriorityLevel.VeryHigh));
                     continue;
                 }
 
-                perksComp.SetPerkActive(setPerkActiveRequest.PerkId, setPerkActiveRequest.Active);
+                perksComp.SetPerkLevel(setLevelRequest.PerkId, setLevelRequest.Level);
                 
                 
                 var modsComp = owner.GetComponent<ModifierComponent>();
                 if (modsComp == null)
                     continue;
-                
-                if (setPerkActiveRequest.Active)
+
+                perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
+                if (setLevelRequest.Level > 0)
                 {
                     perk.Modifiers.ForEach(modsComp.AddModifier);
                 }
-                else
-                {
-                    perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
-                }
-                coordinator.PostMessage(this, new PerkActiveStateChangedMessage(owner, perk, setPerkActiveRequest.Active));
+                coordinator.PostMessage(this, new PerkLevelChangedMessage(owner, perk, setLevelRequest.Level));
             }
 
             FirstUpdate = false;
@@ -257,16 +255,16 @@ namespace TheIdleScrolls_Core.Systems
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 
-    public record SetPerkActiveRequest(uint OwnerId, string PerkId, bool Active) : IMessage
+    public record SetPerkLevelRequest(uint OwnerId, string PerkId, int Level) : IMessage
     {
-        string IMessage.BuildMessage() => $"Request to set perk '{PerkId}' active status to {(Active ? "active" : "inactive")} " +
+        string IMessage.BuildMessage() => $"Request to set perk '{PerkId}' level to {Level} " +
             $"for entity #{OwnerId}";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 
-    public record PerkActiveStateChangedMessage(Entity Owner, Perk Perk, bool Active) : IMessage
+    public record PerkLevelChangedMessage(Entity Owner, Perk Perk, int Level) : IMessage
     {
-        string IMessage.BuildMessage() => $"Perk '{Perk.Name}' active state changed to {Active} for entity {Owner.GetName()}";
+        string IMessage.BuildMessage() => $"Perk '{Perk.Name}' level changed to {Level} for entity {Owner.GetName()}";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
 }

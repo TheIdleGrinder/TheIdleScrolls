@@ -27,6 +27,7 @@ namespace TheIdleScrolls_Core.Modifiers
         public List<Modifier> Modifiers { get; private set; } = [];
         public HashSet<UpdateTrigger> UpdateTriggers { get; init; } = [];
         public bool Permanent { get; init; } = false;
+        public int MaxLevel { get; init; } = 1;
         public Func<Entity, World, Coordinator, List<Modifier>> ModifiersFunc { get; private set; } 
             = (Entity e, World w, Coordinator c) => { return []; };
 

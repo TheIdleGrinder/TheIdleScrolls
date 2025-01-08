@@ -87,9 +87,9 @@ namespace TheIdleScrollsApp
             m_requests.Add(new DialogueResponseMessage(id, response));
         }
 
-        public void SetPerkActive(uint playerId, string perkId, bool active)
+        public void SetPerkLevel(uint playerId, string perkId, int level)
         {
-            m_requests.Add(new SetPerkActiveRequest(playerId, perkId, active));
+            m_requests.Add(new SetPerkLevelRequest(playerId, perkId, level));
         }
 
         public override void Update(World world, Coordinator coordinator, double dt)

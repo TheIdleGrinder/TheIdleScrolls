@@ -38,7 +38,7 @@ namespace TheIdleScrolls_Core
 
         public void SendDialogueResponse(string id, string response);
 
-        public void SetPerkActive(uint playerId, string perkId, bool active);
+        public void SetPerkLevel(uint playerId, string perkId, int level);
     }
 
 }

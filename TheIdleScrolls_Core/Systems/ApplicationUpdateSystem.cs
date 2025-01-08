@@ -151,7 +151,7 @@ namespace TheIdleScrolls_Core.Systems
                     var representations = perkComp.GetPerks()
                         .Select(p => new PerkRepresentation(p.Id, p.Name, p.Description, 
                             p.Modifiers.Select(m => m.ToPrettyString()).ToList(),
-                            perkComp.IsPerkActive(p.Id)))
+                            perkComp.GetPerkLevel(p.Id)))
                         .ToList();
                     PlayerPerksChanged?.Invoke(representations);
                 }

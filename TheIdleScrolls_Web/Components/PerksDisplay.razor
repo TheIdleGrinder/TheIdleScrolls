@@ -30,10 +30,10 @@
                     {
                         <button class="perk-button perk-button-deactivate" 
                             style="@(isActive ? "" : hiddenStyle)"
-                            @onclick=@(() => SetActive(perk.Id, false))>-</button>
+                            @onclick=@(() => SetLevel(perk.Id, GetLevel(perk.Id) - 1))>-</button>
                         <button class="perk-button perk-button-activate" 
                             style="@(isActive ? hiddenStyle : "")"
-                            @onclick=@(() => SetActive(perk.Id, true))>+</button>
+                            @onclick=@(() => SetLevel(perk.Id, GetLevel(perk.Id) + 1))>+</button>
                     }
                 </div>
             
@@ -152,11 +152,16 @@
     PerksComponent? PerksComponent => CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
     List<Perk> Perks => PerksComponent?.GetPerks() ?? [];
     int PerksUsed => PerksComponent?.GetUsedPerkPoints() ?? 0;
-    int PerksLimit => PerksComponent?.ActivePerkLimit ?? 0;
+    int PerksLimit => PerksComponent?.PerkPointLimit ?? 0;
 
     bool IsActive(string id)
     {
-        return CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>()?.IsPerkActive(id) ?? false; 
+        return PerksComponent?.IsPerkActive(id) ?? false; 
+    }
+
+    int GetLevel(string id)
+    {
+        return PerksComponent?.GetPerkLevel(id) ?? 0;
     }
 
     string PerkClasses(Perk perk)
@@ -167,10 +172,10 @@
         return classes;
     }
 
-    void SetActive(string id, bool active)
+    void SetLevel(string id, int level)
     {
         if (CoreWrapper.PlayerCharacter == null)
             return;
-        CoreWrapper.InputHandler.SetPerkActive(CoreWrapper.PlayerCharacter.Id, id, active);
+        CoreWrapper.InputHandler.SetPerkLevel(CoreWrapper.PlayerCharacter.Id, id, level);
     }
 }
