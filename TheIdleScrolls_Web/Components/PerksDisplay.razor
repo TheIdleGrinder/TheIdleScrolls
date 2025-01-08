@@ -11,6 +11,7 @@
         @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
         {
             bool isActive = IsActive(perk.Id);
+            string unavailableStyle = "background-color: lightgray";
             string hiddenStyle = "display: none";
             <div class="perk @PerkClasses(perk)">
                 <div class="perk-name">@perk.Name</div>
@@ -30,9 +31,11 @@
                     {
                         <button class="perk-button perk-button-deactivate" 
                             style="@(isActive ? "" : hiddenStyle)"
+                            disabled="@(GetLevel(perk.Id) == 0)"
                             @onclick=@(() => SetLevel(perk.Id, GetLevel(perk.Id) - 1))>-</button>
                         <button class="perk-button perk-button-activate" 
-                            style="@(isActive ? hiddenStyle : "")"
+                            style="@(!CanIncreaseLevel(perk) ? unavailableStyle : "")"
+                            disabled="@(!CanIncreaseLevel(perk))"
                             @onclick=@(() => SetLevel(perk.Id, GetLevel(perk.Id) + 1))>+</button>
                     }
                 </div>
@@ -162,6 +165,12 @@
     int GetLevel(string id)
     {
         return PerksComponent?.GetPerkLevel(id) ?? 0;
+    }
+
+    bool CanIncreaseLevel(Perk perk)
+    {
+        int level = GetLevel(perk.Id);
+        return level < perk.MaxLevel;
     }
 
     string PerkClasses(Perk perk)
