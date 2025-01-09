@@ -40,7 +40,7 @@ namespace TheIdleScrolls_Core.Components
             }
             if (perk.Permanent)
             {
-                ActivePerkLevels.Add(perk.Id, perk.MaxLevel);
+                ActivePerkLevels[perk.Id] = perk.MaxLevel;
             }
             ChangedPerks.Add(perk.Id);
         }

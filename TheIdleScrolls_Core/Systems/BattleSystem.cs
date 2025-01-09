@@ -112,7 +112,7 @@ namespace TheIdleScrolls_Core.Systems
                     double timeLoss = dt * damage / armorBonus;
 
                     timeLoss = player.GetComponent<ModifierComponent>()
-                        ?.ApplyApplicableModifiers(timeLoss, [Definitions.Tags.TimeLoss], player.GetTags())
+                        ?.ApplyApplicableModifiers(timeLoss, [Tags.TimeLoss], player.GetTags())
                         ?? timeLoss;
 
                     var shieldComp = player.GetComponent<TimeShieldComponent>();
