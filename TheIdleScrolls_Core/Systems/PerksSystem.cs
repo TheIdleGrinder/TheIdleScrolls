@@ -29,7 +29,9 @@ namespace TheIdleScrolls_Core.Systems
                         perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
                     }
                     // Update inactive perks as well because their state is shown in the UI
-                    perk.UpdateModifiers(entity, world, coordinator); 
+                    // Minimum level is 1, so that the modifiers are not 0
+                    // CornerCut: this line makes me anxious, it's a future problem waiting to happen
+                    perk.UpdateModifiers(Math.Max(perksComp.GetPerkLevel(perk.Id), 1), entity, world, coordinator); 
                     if (isActive && modsComp != null)
                     {
                         perk.Modifiers.ForEach(m => modsComp.AddModifier(m));
@@ -136,7 +138,7 @@ namespace TheIdleScrolls_Core.Systems
             perksComponent.AddPerk(new("FightingStyles", "Fighting Styles",
                 "Gain combat bonusses based on the ability level of your current fighting style",
                 [UpdateTrigger.AbilityIncreased],
-                (e, w, c) =>
+                (_, e, w, c) =>
                 {
                     List<Modifier> modifiers = [];
                     int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.DualWield)?.Level ?? 0;
@@ -211,7 +213,7 @@ namespace TheIdleScrolls_Core.Systems
             Perk damagePerLevel = new("dpl", "Damage per Level",
                 $"{Stats.AttackBonusPerLevel:0.#%} increased damage per level",
                 new() { UpdateTrigger.LevelUp },
-                delegate (Entity entity, World world, Coordinator coordinator)
+                delegate (int _, Entity entity, World world, Coordinator coordinator)
                 {
                     int level = entity.GetComponent<LevelComponent>()?.Level ?? 0;
                     return new()
@@ -230,21 +232,19 @@ namespace TheIdleScrolls_Core.Systems
             // Create basic minor perks
             string prefix = "Minor";
             int index = perksComponent.GetPermanentPerkCount();
-            for (int i = 0; i < 5; i++)
-            {
-                perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Dmg{i}", $"Basic Damage", "", 
-                    ModifierType.Increase, Stats.BasicDamageIncrease, 
-                    [Tags.Damage], []), index + i);
-                perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}As{i}", $"Basic Attack Speed", "",
-                    ModifierType.Increase, Stats.BasicAttackSpeedIncrease,
-                    [Tags.AttackSpeed], []), index + 2 * i + 1);
-                perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Def{i}", $"Basic Defense", "",
-                    ModifierType.Increase, Stats.BasicDefenseIncrease,
-                    [Tags.Defense], []), index + 3 * i + 2);
-                perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Time{i}", $"Basic Time Limit", "",
-                    ModifierType.Increase, Stats.BasicTimeIncrease,
-                    [Tags.TimeShield], []), index + 4 * i + 3);
-            }
+
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Dmg", $"Basic Damage", "",
+                    ModifierType.Increase, Stats.BasicDamageIncrease,
+                    [Tags.Damage], [], maxLevel: 10), index);
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}As", $"Basic Attack Speed", "",
+                ModifierType.Increase, Stats.BasicAttackSpeedIncrease,
+                [Tags.AttackSpeed], [], maxLevel: 10), index + 1);
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Def", $"Basic Defense", "",
+                ModifierType.Increase, Stats.BasicDefenseIncrease,
+                [Tags.Defense], [], maxLevel: 10), index + 2);
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Time", $"Basic Time Limit", "",
+                ModifierType.Increase, Stats.BasicTimeIncrease,
+                [Tags.TimeShield], [], maxLevel: 10), index + 3);
         }
     }
 

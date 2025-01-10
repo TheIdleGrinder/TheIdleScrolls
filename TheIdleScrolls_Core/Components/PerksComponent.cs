@@ -125,6 +125,7 @@ namespace TheIdleScrolls_Core.Components
             {
                 ActivePerkLevels[id] = level;
             }
+            ChangedPerks.Add(id);
             return true;
         }
     }

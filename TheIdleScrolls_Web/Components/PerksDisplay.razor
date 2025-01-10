@@ -12,9 +12,9 @@
         {
             bool isActive = IsActive(perk.Id);
             string unavailableStyle = "background-color: lightgray";
-            string hiddenStyle = "display: none";
+            string hiddenStyle = "visibility: hidden";
             <div class="perk @PerkClasses(perk)">
-                <div class="perk-name">@perk.Name</div>
+                <div class="perk-name">@GetTitleLine(perk)</div>
                 @if (perk.Permanent)
                 {
                     <div class="perk-always-active-indicator">Permanent</div>
@@ -34,8 +34,8 @@
                             disabled="@(GetLevel(perk.Id) == 0)"
                             @onclick=@(() => SetLevel(perk.Id, GetLevel(perk.Id) - 1))>-</button>
                         <button class="perk-button perk-button-activate" 
-                            style="@(!CanIncreaseLevel(perk) ? unavailableStyle : "")"
-                            disabled="@(!CanIncreaseLevel(perk))"
+                            style="@(!CanIncreaseLevel(perk) ? hiddenStyle : (FreePerkPoints > 0 ? "" : unavailableStyle))"
+                            disabled="@(!CanIncreaseLevel(perk) || FreePerkPoints == 0)"
                             @onclick=@(() => SetLevel(perk.Id, GetLevel(perk.Id) + 1))>+</button>
                     }
                 </div>
@@ -156,6 +156,7 @@
     List<Perk> Perks => PerksComponent?.GetPerks() ?? [];
     int PerksUsed => PerksComponent?.GetUsedPerkPoints() ?? 0;
     int PerksLimit => PerksComponent?.PerkPointLimit ?? 0;
+    int FreePerkPoints => PerksLimit - PerksUsed;
 
     bool IsActive(string id)
     {
@@ -166,6 +167,8 @@
     {
         return PerksComponent?.GetPerkLevel(id) ?? 0;
     }
+
+    string GetTitleLine(Perk perk) => $"{perk.Name} " + (perk.MaxLevel > 1 ? $"({GetLevel(perk.Id)}/{perk.MaxLevel})" : "");
 
     bool CanIncreaseLevel(Perk perk)
     {

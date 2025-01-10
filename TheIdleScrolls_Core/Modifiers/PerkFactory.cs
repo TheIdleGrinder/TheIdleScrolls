@@ -23,19 +23,19 @@ namespace TheIdleScrolls_Core.Modifiers
                     $"{(dmg && aps ? "and " : "")}{(aps ? $"{speedPerLevel:0.#%} more attack speed " : "")}" +
                     $"with {ability.Localize()} weapons",
                 new() { UpdateTrigger.AbilityIncreased },
-                delegate (Entity entity, World world, Coordinator coordinator)
+                delegate (int level, Entity entity, World world, Coordinator coordinator)
                 {
-                    int level = entity.GetComponent<AbilitiesComponent>()?.GetAbility(ability)?.Level ?? 0;
+                    int abilityLevel = entity.GetComponent<AbilitiesComponent>()?.GetAbility(ability)?.Level ?? 0;
                     List<Modifier> mods = new();
                     if (dmg)
                     {
-                        double bonus = Math.Pow(1.0 + damagePerLevel, level) - 1.0;
-                        mods.Add(new(id + "_dmg", ModifierType.More, bonus, new() { ability, Definitions.Tags.Damage }, new()));
+                        double bonus = Math.Pow(1.0 + damagePerLevel, abilityLevel) - 1.0;
+                        mods.Add(new(id + "_dmg", ModifierType.More, level * bonus, new() { ability, Definitions.Tags.Damage }, new()));
                     }
                     if (aps)
                     {
-                        double bonus = Math.Pow(1.0 + speedPerLevel, level) - 1.0;
-                        mods.Add(new(id + "_aps", ModifierType.More, bonus, new() { ability, Definitions.Tags.AttackSpeed }, new()));
+                        double bonus = Math.Pow(1.0 + speedPerLevel, abilityLevel) - 1.0;
+                        mods.Add(new(id + "_aps", ModifierType.More, level * bonus, new() { ability, Definitions.Tags.AttackSpeed }, new()));
                     }
                     return mods;
                 }
@@ -49,12 +49,12 @@ namespace TheIdleScrolls_Core.Modifiers
                 $"Ability: {ability.Localize()}",
                     $"For each ability level: {defensePerLevel:0.#%} more armor and evasion rating with {ability.Localize()}",
                 new() { UpdateTrigger.AbilityIncreased },
-                delegate (Entity entity, World world, Coordinator coordinator)
+                delegate (int level, Entity entity, World world, Coordinator coordinator)
                 {
-                    int level = entity.GetComponent<AbilitiesComponent>()?.GetAbility(ability)?.Level ?? 0;
+                    int abilityLevel = entity.GetComponent<AbilitiesComponent>()?.GetAbility(ability)?.Level ?? 0;
                     List<Modifier> mods = new();
-                    double bonus = Math.Pow(1.0 + defensePerLevel, level) - 1.0;
-                    mods.Add(new(id + "_def", ModifierType.More, bonus, new() { ability, Definitions.Tags.Defense }, new()));
+                    double bonus = Math.Pow(1.0 + defensePerLevel, abilityLevel) - 1.0;
+                    mods.Add(new(id + "_def", ModifierType.More, level * bonus, new() { ability, Definitions.Tags.Defense }, new()));
                     return mods;
                 }
             );
@@ -89,16 +89,16 @@ namespace TheIdleScrolls_Core.Modifiers
                 name,
                 description,
                 new() { UpdateTrigger.AbilityIncreased },
-                delegate (Entity entity, World world, Coordinator coordinator)
+                delegate (int level, Entity entity, World world, Coordinator coordinator)
                 {
                     List<Modifier> mods = new();
                     for (int i = 0; i < modTypes.Count; i++)
                     {
-                        int level = entity.GetComponent<AbilitiesComponent>()?.GetAbility(abilities[i])?.Level ?? 0;
-                        if (level == 0)
+                        int abilityLevel = entity.GetComponent<AbilitiesComponent>()?.GetAbility(abilities[i])?.Level ?? 0;
+                        if (abilityLevel == 0)
                             continue;
-                        double bonus = level * valuesPerLevel[i];
-                        mods.Add(new($"{id}_{i}", modTypes[i], bonus, localTags[i].Append(abilities[i]).ToHashSet(), globalTags[i].ToHashSet()));
+                        double bonus = abilityLevel * valuesPerLevel[i];
+                        mods.Add(new($"{id}_{i}", modTypes[i], level * bonus, localTags[i].Append(abilities[i]).ToHashSet(), globalTags[i].ToHashSet()));
                     }
                     return mods;
                 }
@@ -136,14 +136,14 @@ namespace TheIdleScrolls_Core.Modifiers
                 name,
                 description,
                 new() { UpdateTrigger.LevelUp },
-                delegate (Entity entity, World world, Coordinator coordinator)
+                delegate (int level, Entity entity, World world, Coordinator coordinator)
                 {
-                    int level = entity.GetComponent<LevelComponent>()?.Level ?? 0;
+                    int charLevel = entity.GetComponent<LevelComponent>()?.Level ?? 0;
                     List<Modifier> mods = new();
                     for (int i = 0; i < modTypes.Count; i++)
                     {
-                        double bonus = level * valuesPerLevel[i];
-                        mods.Add(new($"{id}_{i}", modTypes[i], bonus, localTags[i].ToHashSet(), globalTags[i].ToHashSet()));
+                        double bonus = charLevel * valuesPerLevel[i];
+                        mods.Add(new($"{id}_{i}", modTypes[i], level * bonus, localTags[i].ToHashSet(), globalTags[i].ToHashSet()));
                     }
                     return mods;
                 }
@@ -160,20 +160,22 @@ namespace TheIdleScrolls_Core.Modifiers
                                           double value,
                                           IEnumerable<string> localTags,
                                           IEnumerable<string> globalTags,
-                                          bool alwaysActive = false)
+                                          bool alwaysActive = false,
+                                          int maxLevel = 1)
         {
             return new(
                 id,
                 name,
                 description,
                 new(),
-                delegate (Entity entity, World world, Coordinator coordinator)
+                delegate (int level, Entity entity, World world, Coordinator coordinator)
                 {
-                    return new() { new(id, modType, value, localTags.ToHashSet(), globalTags.ToHashSet()) };
+                    return new() { new(id, modType, level * value, localTags.ToHashSet(), globalTags.ToHashSet()) };
                 }
             )
             {
-                Permanent = alwaysActive
+                Permanent = alwaysActive,
+                MaxLevel = maxLevel
             };
         }
 
@@ -184,25 +186,27 @@ namespace TheIdleScrolls_Core.Modifiers
                                                   List<double> values,
                                                   List<IEnumerable<string>> localTags,
                                                   List<IEnumerable<string>> globalTags,
-                                                  bool alwaysActive = false)
+                                                  bool alwaysActive = false,
+                                                  int maxLevel = 1)
         {
             return new(
                 id,
                 name,
                 description,
                 new(),
-                delegate (Entity entity, World world, Coordinator coordinator)
+                delegate (int level, Entity entity, World world, Coordinator coordinator)
                 {
                     List<Modifier> mods = new();
                     for (int i = 0; i < modTypes.Count; i++)
                     {
-                        mods.Add(new($"{id}_{i}", modTypes[i], values[i], localTags[i].ToHashSet(), globalTags[i].ToHashSet()));
+                        mods.Add(new($"{id}_{i}", modTypes[i], level * values[i], localTags[i].ToHashSet(), globalTags[i].ToHashSet()));
                     }
                     return mods;
                 }
             )
             {
-                Permanent = alwaysActive
+                Permanent = alwaysActive,
+                MaxLevel = maxLevel
             };
         }
     }

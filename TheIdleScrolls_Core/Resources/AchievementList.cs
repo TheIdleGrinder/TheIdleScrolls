@@ -570,7 +570,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("BLN", 25) => new($"{id}{level}", "Stunning Blow",
                                 $"Gain {5} to base armor value for each defensive item while using {id.Localize()} after first strike",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
-                                (e, w, c) =>
+                                (_, e, w, c) =>
                                 {
                                     bool firstStrike = (e.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
                                     bool usingBlunt = e.GetComponent<EquipmentComponent>()?.GetItems()
@@ -604,7 +604,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("AXE", 75) => new($"{id}{level}", "Frenzy",
                                 $"Gain {0.05:0.#%} more attack speed with {id.Localize()}s after every attack (up to {0.5:0.#%})",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
-                                (e, w, c) =>
+                                (_, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
@@ -615,7 +615,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("BLN", 75) => new($"{id}{level}", "Armor Breaker",
                                 $"Gain {0.05:0.#%} more damage with {id.Localize()} after every attack (up to {0.5:0.#%})",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
-                                (e, w, c) =>
+                                (_, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
@@ -626,7 +626,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("LBL", 75) => new($"{id}{level}", "Fluent Technique",
                                 $"Gain {0.25:0.#%} more damage or attack speed with {id.Localize()}s (changes after each attack)",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
-                                (e, w, c) =>
+                                (_, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     bool damage = (attacks % 2) == 0;
@@ -645,7 +645,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("POL", 75) => new($"{id}{level}", "Skewer",
                                 $"Gain {0.05:0.#%} more damage with {id.Localize()}s after every attack (up to {0.5:0.#%})",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
-                                (e, w, c) =>
+                                (_, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
@@ -656,7 +656,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("SBL", 75) => new($"{id}{level}", "Critical Strikes",
                                 $"Deal {1.0:0.#%} more damage with {id.Localize()}s every third attack",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
-                                (e, w, c) =>
+                                (_, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     bool bonus = (attacks % 3) == 2;
@@ -681,7 +681,7 @@ namespace TheIdleScrolls_Core.Resources
                                 []),
                 ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Light shields also grant evasion rating equal to {.25:0.#%} of their armor",
                                 [UpdateTrigger.EquipmentChanged],
-                                (e, w, c) =>
+                                (_, e, w, c) =>
                                 {
                                     double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
@@ -695,7 +695,7 @@ namespace TheIdleScrolls_Core.Resources
                                 }),
                 ("HAR", 50) => new($"{id}{level}", "Bulwark", $"{0.5:0.#%} multiplier to defenses from equipped heavy shield",
                                 [UpdateTrigger.EquipmentChanged],
-                                (e, w, c) =>
+                                (_, e, w, c) =>
                                 {
                                     double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
@@ -732,7 +732,7 @@ namespace TheIdleScrolls_Core.Resources
                                 => new($"{id}{level}", "Crafting Apprentice",
                                     $"Gain an additional slot in the crafting queue plus another one for every 25 levels of the Crafting ability",
                                     [UpdateTrigger.AbilityIncreased],
-                                    (e, w, c) =>
+                                    (_, e, w, c) =>
                                     {
                                         int craftLevel = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
                                         return [ new($"{id}{level}", ModifierType.AddFlat, (craftLevel / 25) + 1,
