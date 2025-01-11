@@ -168,7 +168,7 @@ namespace TheIdleScrolls_Core.Systems
 
             double baseDuration = Functions.CalculateBaseTimeLimit(player.GetLevel(), zone.Level);
             double duration = zone.TimeMultiplier * player.ApplyAllApplicableModifiers(baseDuration, [Tags.TimeShield], player.GetTags());
-            player.GetComponent<TimeShieldComponent>()?.Rescale(zone.TimeMultiplier * duration);
+            player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 
         static DamageDoneMessage? ApplyAttack(Entity attacker, Entity target)
