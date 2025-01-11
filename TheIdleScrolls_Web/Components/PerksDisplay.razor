@@ -34,7 +34,7 @@
                             disabled="@(GetLevel(perk.Id) == 0)"
                             @onclick=@(() => SetLevel(perk.Id, GetLevel(perk.Id) - 1))>-</button>
                         <button class="perk-button perk-button-activate" 
-                            style="@(!CanIncreaseLevel(perk) ? hiddenStyle : (FreePerkPoints > 0 ? "" : unavailableStyle))"
+                            style="@(!CanIncreaseLevel(perk) ? unavailableStyle : (FreePerkPoints > 0 ? "" : unavailableStyle))"
                             disabled="@(!CanIncreaseLevel(perk) || FreePerkPoints == 0)"
                             @onclick=@(() => SetLevel(perk.Id, GetLevel(perk.Id) + 1))>+</button>
                     }
@@ -46,6 +46,10 @@
 
     <div id="perks-header">
         <p style="margin-bottom: 0">Points Spent: @PerksUsed / @PerksLimit</p>
+        @if (FreePerkPoints > 0)
+        {
+            <p id="perks-available-points">@FreePerkPoints Point@(FreePerkPoints == 1 ? "" : "s") Available</p>
+        }
     </div>
 
 </div>
@@ -64,6 +68,14 @@
         border-top: 2px double var(--frame-color);
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
+    }
+
+    #perks-available-points {
+        margin-left: 2rem;
+        margin-bottom: 0;
+        font-weight: bold;
+        color: green;        
     }
 
     .perks-list {
