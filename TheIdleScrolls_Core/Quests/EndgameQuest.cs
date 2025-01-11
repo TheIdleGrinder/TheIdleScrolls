@@ -27,7 +27,7 @@ namespace TheIdleScrolls_Core.Quests
             if (questComp == null)
                 return;
 
-            States state = (States)questComp.GetQuestProgress(GetId());
+            States state = (States)questComp.GetQuestProgress(GetId(), 0);
             
             if (state == States.NotStarted)
             {
