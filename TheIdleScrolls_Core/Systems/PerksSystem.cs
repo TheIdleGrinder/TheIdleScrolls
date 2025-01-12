@@ -49,7 +49,13 @@ namespace TheIdleScrolls_Core.Systems
                 // Update number of available perk points
                 if (FirstUpdate || coordinator.MessageTypeIsOnBoard<LevelUpMessage>())
                 {
+                    int previousLimit = perksComp.PerkPointLimit;
                     perksComp.PerkPointLimit = (entity.GetComponent<LevelComponent>()?.Level ?? 0) / Stats.LevelsPerPerkPoint;
+                    if (previousLimit != perksComp.PerkPointLimit)
+                    {
+                        coordinator.PostMessage(this, new TextMessage($"{entity.GetName()} has {perksComp.GetAvailablePerkPoints()} free perk points",
+                            IMessage.PriorityLevel.VeryLow));
+                    }
                 }
 
                 // Update Modifiers
@@ -252,6 +258,12 @@ namespace TheIdleScrolls_Core.Systems
     public record PerkUpdatedMessage(Entity Owner, Perk Perk) : IMessage
     {
         string IMessage.BuildMessage() => $"Perk '{Perk.Name}' was updated for entity {Owner.GetName()}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
+
+    public record PerkPointLimitChanged(Entity Owner, int PointLimit) : IMessage
+    {
+        string IMessage.BuildMessage() => $"{Owner.GetName()} has {PointLimit} perk points available";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 

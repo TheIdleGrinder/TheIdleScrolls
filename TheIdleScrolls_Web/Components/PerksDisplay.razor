@@ -160,7 +160,7 @@
 @code {
     protected override void OnInitialized()
     {
-        CoreWrapper.StateChanged += StateHasChanged;
+        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged += (_) => StateHasChanged();
         base.OnInitialized();
     }
 

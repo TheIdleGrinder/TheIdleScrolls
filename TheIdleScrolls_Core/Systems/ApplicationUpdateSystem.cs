@@ -143,7 +143,9 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Update perks
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>())
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
+                || coordinator.MessageTypeIsOnBoard<PerkLevelChangedMessage>()
+                || coordinator.MessageTypeIsOnBoard<PerkPointLimitChanged>())
             {
                 var perkComp = player.GetComponent<PerksComponent>();
                 if (perkComp != null)
