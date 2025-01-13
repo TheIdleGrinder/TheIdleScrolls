@@ -258,12 +258,96 @@ namespace TheIdleScrolls_Core.Resources
             {
                 Reward = GetPerkForLeveledAchievement(Abilities.DualWield, 25)
             });
+            achievements.Add(new(Abilities.DualWield + "50", $"Dual Weapon Adept",
+                $"Reach ability level {50} for the {AbilityList.GetAbility(Abilities.DualWield)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.DualWield + "25"),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.DualWield], 50))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.DualWield, 50)
+            });
+            achievements.Add(new(Abilities.DualWield + "75", "Dual Weapon Expert",
+                $"Reach ability level {75} for the {AbilityList.GetAbility(Abilities.DualWield)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.DualWield + "50"),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.DualWield], 75))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.DualWield, 75)
+            });
+            achievements.Add(new(Abilities.DualWield + "100", "Dual Weapon Master",
+                $"Reach ability level {100} for the {AbilityList.GetAbility(Abilities.DualWield)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.DualWield + "75"),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.DualWield], 100))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.DualWield, 100)
+            });
+            achievements.Add(new(Abilities.Shielded + "50", "Shield Adept",
+                $"Reach ability level {50} for the {AbilityList.GetAbility(Abilities.Shielded)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.Shielded),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.Shielded], 50))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.Shielded, 50)
+            });
+            achievements.Add(new(Abilities.Shielded + "75", "Shield Expert",
+                $"Reach ability level {75} for the {AbilityList.GetAbility(Abilities.Shielded)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.Shielded + "50"),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.Shielded], 75))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.Shielded, 75)
+            });
+            achievements.Add(new(Abilities.Shielded + "100", "Shield Master",
+                $"Reach ability level {100} for the {AbilityList.GetAbility(Abilities.Shielded)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.Shielded + "75"),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.Shielded], 100))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.Shielded, 100)
+            });
             achievements.Add(new(Abilities.SingleHanded + "25", "Fire Dancer",
                 $"Reach ability level {25} for the {AbilityList.GetAbility(Abilities.SingleHanded)!.Name} style",
                 Conditions.AchievementUnlockedCondition(Abilities.SingleHanded),
                 Conditions.HasLevelledAllAbilitiesCondition([Abilities.SingleHanded], 25))
             {
                 Reward = GetPerkForLeveledAchievement(Abilities.SingleHanded, 25)
+            });
+            achievements.Add(new(Abilities.SingleHanded + "50", "Single Weapon Adept",
+                $"Reach ability level {50} for the {AbilityList.GetAbility(Abilities.SingleHanded)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.SingleHanded + "25"),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.SingleHanded], 50))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.SingleHanded, 50)
+            });
+            achievements.Add(new(Abilities.SingleHanded + "75", "Single Weapon Expert",
+                $"Reach ability level {75} for the {AbilityList.GetAbility(Abilities.SingleHanded)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.SingleHanded + "50"),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.SingleHanded], 75))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.SingleHanded, 75)
+            });
+            achievements.Add(new(Abilities.SingleHanded + "100", "Single Weapon Master",
+                $"Reach ability level {100} for the {AbilityList.GetAbility(Abilities.SingleHanded)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.SingleHanded + "75"),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.SingleHanded], 100))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.SingleHanded, 100)
+            });
+            achievements.Add(new(Abilities.TwoHanded + "50", "Two-Handed Adept",
+                $"Reach ability level {50} for the {AbilityList.GetAbility(Abilities.TwoHanded)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.TwoHanded),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.TwoHanded], 50))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.TwoHanded, 50)
+            });
+            achievements.Add(new(Abilities.TwoHanded + "75", "Two-Handed Expert",
+                $"Reach ability level {75} for the {AbilityList.GetAbility(Abilities.TwoHanded)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.TwoHanded + "50"),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.TwoHanded], 75))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.TwoHanded, 75)
+            });
+            achievements.Add(new(Abilities.TwoHanded + "100", "Two-Handed Master",
+                $"Reach ability level {100} for the {AbilityList.GetAbility(Abilities.TwoHanded)!.Name} style",
+                Conditions.AchievementUnlockedCondition(Abilities.TwoHanded + "75"),
+                Conditions.HasLevelledAllAbilitiesCondition([Abilities.TwoHanded], 100))
+            {
+                Reward = GetPerkForLeveledAchievement(Abilities.TwoHanded, 100)
             });
 
             // 'of all trades' achievements
@@ -778,12 +862,40 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.DualWieldAttackSpeedMulti,
                                     [Tags.AttackSpeed],
                                     [Tags.DualWield]),
+                (Abilities.DualWield, 100) => PerkFactory.MakeStaticPerk($"{id}{level}", 
+                                    $"{Properties.LocalizedStrings.ABL_DualWield} Master",
+                                    $"Gain a {0.1:0.#%} attack speed multiplier",
+                                    ModifierType.More,
+                                    0.1,
+                                    [Tags.AttackSpeed],
+                                    []),
+                (Abilities.Shielded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
+                                    $"{Properties.LocalizedStrings.ABL_Shielded} Master",
+                                    $"Gain a {0.1:0.#%} defense multiplier",
+                                    ModifierType.More,
+                                    0.1,
+                                    [Tags.Defense],
+                                    []),
                 (Abilities.SingleHanded, 25) => PerkFactory.MakeStaticPerk($"{id}{level}", $"Fire Dancing",
                                     $"{0.2:0.#%} more damage in single-handed style",
                                     ModifierType.More,
                                     0.2,
                                     [Tags.Damage],
                                     [Tags.SingleHanded]),
+                (Abilities.SingleHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
+                                    $"{Properties.LocalizedStrings.ABL_SingleHanded} Master",
+                                    $"Gain a {0.1:0.#%} time limit multiplier",
+                                    ModifierType.More,
+                                    0.1,
+                                    [Tags.TimeShield],
+                                    []),
+                (Abilities.TwoHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
+                                    $"{Properties.LocalizedStrings.ABL_TwoHanded} Master",
+                                    $"Gain a {0.1:0.#%} damage multiplier",
+                                    ModifierType.More,
+                                    0.1,
+                                    [Tags.Damage],
+                                    []),
                 _ => null
             };
             return perk != null ? new PerkReward(perk) as dynamic : null;
