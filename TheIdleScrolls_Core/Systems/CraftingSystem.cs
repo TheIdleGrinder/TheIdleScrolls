@@ -29,7 +29,8 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this, message);
             }
 
-            if (FirstUpdate || coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>())
+            if (FirstUpdate || coordinator.MessageTypeIsOnBoard<DungeonCompletedMessage>()
+                            || coordinator.MessageTypeIsOnBoard<FeatureStateMessage>()) // To update when the bench is unlocked
             {
                 foreach (var crafter in coordinator.GetEntities<CraftingBenchComponent>())
                 {

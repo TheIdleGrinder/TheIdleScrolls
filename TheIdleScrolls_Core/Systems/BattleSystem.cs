@@ -112,7 +112,7 @@ namespace TheIdleScrolls_Core.Systems
                     double timeLoss = dt * damage / armorBonus;
 
                     timeLoss = player.GetComponent<ModifierComponent>()
-                        ?.ApplyApplicableModifiers(timeLoss, [Definitions.Tags.TimeLoss], player.GetTags())
+                        ?.ApplyApplicableModifiers(timeLoss, [Tags.TimeLoss], player.GetTags())
                         ?? timeLoss;
 
                     var shieldComp = player.GetComponent<TimeShieldComponent>();
@@ -168,7 +168,7 @@ namespace TheIdleScrolls_Core.Systems
 
             double baseDuration = Functions.CalculateBaseTimeLimit(player.GetLevel(), zone.Level);
             double duration = zone.TimeMultiplier * player.ApplyAllApplicableModifiers(baseDuration, [Tags.TimeShield], player.GetTags());
-            player.GetComponent<TimeShieldComponent>()?.Rescale(zone.TimeMultiplier * duration);
+            player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 
         static DamageDoneMessage? ApplyAttack(Entity attacker, Entity target)

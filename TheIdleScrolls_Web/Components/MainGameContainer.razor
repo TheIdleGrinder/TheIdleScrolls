@@ -1,4 +1,5 @@
-﻿@using TheIdleScrolls_Web.CoreWrapper
+﻿@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
 
@@ -31,7 +32,7 @@
             }
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Perks))
             {
-                <button class="tablinks @AddTabClass(Tab.Perks)" @onclick="@(() => SetTab(Tab.Perks))">Perks</button>
+                <button class="tablinks @AddTabClass(Tab.Perks)" @onclick="@(() => SetTab(Tab.Perks))">@PerkTabTitle()</button>
             }
             <button class="tablinks @AddTabClass(Tab.Achievements)" @onclick="@(() => SetTab(Tab.Achievements))">Achievements</button>
             <button class="tablinks @AddTabClass(Tab.Stats)" @onclick="@(() => SetTab(Tab.Stats))">Stats</button>
@@ -237,6 +238,15 @@
 
     string GameEndAnimation => CoreWrapper.GameWorld.GameEndAnimation ? "inherit" : "none";
     string GameEndAnimationClass => CoreWrapper.GameWorld.GameEndAnimation ? "spinning" : "";
+
+    string PerkTabTitle()
+    {
+        var perksComp = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
+        if (perksComp == null)
+            return "Perks";
+        int freePoints = perksComp.PerkPointLimit - perksComp.GetUsedPerkPoints();
+        return "Perks" + (freePoints > 0 ? $" ({freePoints})" : "");
+    }
 
     protected override void OnInitialized()
     {

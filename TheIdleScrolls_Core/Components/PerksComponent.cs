@@ -11,13 +11,37 @@ namespace TheIdleScrolls_Core.Components
 {
     public class PerksComponent : IComponent
     {
-        readonly List<Perk> Perks = new();
+        public int PerkPointLimit { get; set; } = -1;
 
-        readonly HashSet<string> ChangedPerks = new(); // Holds list of perks that need to be processed by the PerksSystem
+        public readonly Dictionary<string, int> ActivePerkLevels = [];
 
-        public void AddPerk(Perk perk)
+        readonly List<Perk> Perks = [];
+
+        readonly HashSet<string> ChangedPerks = []; // Holds list of perks that need to be processed by the PerksSystem
+
+        public void AddPerk(Perk perk, int index = -1)
         {
-            Perks.Add(perk);
+            if (Perks.Any(p => p.Id == perk.Id))
+                return;
+            if (index >= 0 && index <= Perks.Count)
+            {
+                Perks.Insert(index, perk);
+            }
+            else
+            {
+                if (perk.Permanent)
+                {
+                    Perks.Insert(GetPermanentPerkCount(), perk);
+                }
+                else
+                {
+                    Perks.Add(perk);
+                }
+            }
+            if (perk.Permanent)
+            {
+                ActivePerkLevels[perk.Id] = perk.MaxLevel;
+            }
             ChangedPerks.Add(perk.Id);
         }
 
@@ -40,9 +64,39 @@ namespace TheIdleScrolls_Core.Components
             return Perks;
         }
 
+        public List<Perk> GetActivePerks()
+        {
+            return Perks.Where(p => ActivePerkLevels.ContainsKey(p.Id)).ToList();
+        }
+
+        public int GetUsedPerkPoints()
+        {
+            return GetActivePerks().Where(p => !p.Permanent).Sum(p => ActivePerkLevels[p.Id]);
+        }
+
+        public int GetPermanentPerkCount()
+        {
+            return GetActivePerks().Where(p => p.Permanent).Count();
+        }
+
+        public int GetAvailablePerkPoints()
+        {
+            return PerkPointLimit - GetUsedPerkPoints();
+        }
+
         public bool HasPerk(string id)
         {
             return Perks.Any(p => p.Id == id);
+        }
+
+        public int GetPerkLevel(string id)
+        {
+            return ActivePerkLevels.TryGetValue(id, out int value) ? value : 0;
+        }
+
+        public bool IsPerkActive(string id)
+        {
+            return HasPerk(id) && ActivePerkLevels.ContainsKey(id) && ActivePerkLevels[id] > 0;
         }
 
         public List<Perk> GetChangedPerks() => Perks.Where(p => ChangedPerks.Contains(p.Id)).ToList();
@@ -55,6 +109,24 @@ namespace TheIdleScrolls_Core.Components
         public void MarkPerkAsUpdated(Perk perk)
         {
             ChangedPerks.Remove(perk.Id);
+        }
+
+        public bool SetPerkLevel(string id, int level)
+        {
+            if (!HasPerk(id))
+                return false;
+            if (level < 0)
+                return false;
+            if (level == 0)
+            {
+                ActivePerkLevels.Remove(id);
+            }
+            else
+            {
+                ActivePerkLevels[id] = level;
+            }
+            ChangedPerks.Add(id);
+            return true;
         }
     }
 }

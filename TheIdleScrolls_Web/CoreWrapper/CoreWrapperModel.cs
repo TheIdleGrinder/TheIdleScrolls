@@ -34,6 +34,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
         public IUserInputHandler InputHandler { get => gameRunner.GetUserInputHandler(); }
         public World GameWorld { get => gameRunner.GameWorld; }
+        public GameRunner GameRunner { get => gameRunner; }
 
         public bool GameLoopRunning => gameLoopRunning;
         public List<string> StoredCharacters { get; set; } = new();

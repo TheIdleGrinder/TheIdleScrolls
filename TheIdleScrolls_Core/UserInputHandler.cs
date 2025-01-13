@@ -37,6 +37,8 @@ namespace TheIdleScrolls_Core
         public void SetAutoProceed(bool autoProceed);
 
         public void SendDialogueResponse(string id, string response);
+
+        public void SetPerkLevel(uint playerId, string perkId, int level);
     }
 
 }

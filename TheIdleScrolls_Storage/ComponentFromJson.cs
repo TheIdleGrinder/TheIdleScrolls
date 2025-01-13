@@ -344,5 +344,25 @@ namespace TheIdleScrolls_JSON
                 return false;
             }
         }
+
+        public static bool SetFromJson(this PerksComponent component, JsonNode json)
+        {
+            try
+            {
+                component.ActivePerkLevels.Clear();
+                var jsonPerks = json["ActivePerks"]!.AsArray();
+                foreach (var jsonPerk in jsonPerks)
+                {
+                    string line = jsonPerk!.GetValue<string>();
+                    string[] parts = line.Split(':');
+                    component.ActivePerkLevels[parts[0]] = Int32.Parse(parts[1]);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

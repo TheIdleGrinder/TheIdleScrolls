@@ -43,6 +43,7 @@ namespace TheIdleScrolls_Core
             m_appUpdateSystem = new ApplicationUpdateSystem();
 
             m_systems.Add(m_userInputHandler as dynamic);
+            m_systems.Add(new AchievementsSystem());
             m_systems.Add(new TravelSystem());
             m_systems.Add(new BattleSystem());
             m_systems.Add(new MobSpawnerSystem());
@@ -60,7 +61,6 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new LootSystem());
             m_systems.Add(new CraftingSystem());
             m_systems.Add(new PlayerProgressSystem());
-            m_systems.Add(new AchievementsSystem());
             m_systems.Add(new SaveSystem(dataHandler));
             m_systems.Add(m_appUpdateSystem);
         }

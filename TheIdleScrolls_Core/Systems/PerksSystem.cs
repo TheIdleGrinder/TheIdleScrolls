@@ -1,10 +1,4 @@
 ﻿using MiniECS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
@@ -16,7 +10,6 @@ namespace TheIdleScrolls_Core.Systems
     public class PerksSystem : AbstractSystem
     {
         bool FirstUpdate = true;
-        bool FirstAchievementUpdate = true;
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
@@ -30,12 +23,16 @@ namespace TheIdleScrolls_Core.Systems
 
                 void UpdatePerk(Perk perk)
                 {
-                    if (modsComp != null)
+                    bool isActive = perksComp.IsPerkActive(perk.Id);
+                    if (isActive && modsComp != null)
                     {
                         perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
                     }
-                    perk.UpdateModifiers(entity, world, coordinator);
-                    if (modsComp != null)
+                    // Update inactive perks as well because their state is shown in the UI
+                    // Minimum level is 1, so that the modifiers are not 0
+                    // CornerCut: this line makes me anxious, it's a future problem waiting to happen
+                    perk.UpdateModifiers(Math.Max(perksComp.GetPerkLevel(perk.Id), 1), entity, world, coordinator); 
+                    if (isActive && modsComp != null)
                     {
                         perk.Modifiers.ForEach(m => modsComp.AddModifier(m));
                     }
@@ -49,6 +46,18 @@ namespace TheIdleScrolls_Core.Systems
                     perksComp.GetPerks().ForEach(m => UpdatePerk(m));
                 }
 
+                // Update number of available perk points
+                if (FirstUpdate || coordinator.MessageTypeIsOnBoard<LevelUpMessage>())
+                {
+                    int previousLimit = perksComp.PerkPointLimit;
+                    perksComp.PerkPointLimit = (entity.GetComponent<LevelComponent>()?.Level ?? 0) / Stats.LevelsPerPerkPoint;
+                    if (previousLimit != perksComp.PerkPointLimit)
+                    {
+                        coordinator.PostMessage(this, new TextMessage($"{entity.GetName()} has {perksComp.GetAvailablePerkPoints()} free perk points",
+                            IMessage.PriorityLevel.VeryLow));
+                    }
+                }
+
                 // Update Modifiers
                 var changedPerks = perksComp.GetChangedPerks();
                 foreach (var perk in perksComp.GetPerks())
@@ -60,6 +69,45 @@ namespace TheIdleScrolls_Core.Systems
                         coordinator.PostMessage(this, new PerkUpdatedMessage(entity, perk));
                     }
                 }
+            }
+
+            // Handle perk activation requests
+            foreach (var setLevelRequest in coordinator.FetchMessagesByType<SetPerkLevelRequest>())
+            {
+                var owner = coordinator.GetEntity(setLevelRequest.OwnerId) 
+                    ?? throw new Exception($"Entity #{setLevelRequest.OwnerId} not found");
+                var perksComp = owner.GetComponent<PerksComponent>()!;
+                var perk = perksComp.GetPerks().First(p => p.Id == setLevelRequest.PerkId);
+                
+                if (perksComp.GetPerkLevel(perk.Id) == setLevelRequest.Level)
+                {
+                    continue;
+                }
+                if (perk.Permanent)
+                {
+                    coordinator.PostMessage(this, new TextMessage("Permanent perks cannot be changed", IMessage.PriorityLevel.VeryHigh));
+                    continue;
+                }
+                if (setLevelRequest.Level - perksComp.GetPerkLevel(perk.Id) > perksComp.GetAvailablePerkPoints())
+                {
+                    coordinator.PostMessage(this, new TextMessage($"{owner.GetName()} does not have enough free perk points",
+                        IMessage.PriorityLevel.VeryHigh));
+                    continue;
+                }
+
+                perksComp.SetPerkLevel(setLevelRequest.PerkId, setLevelRequest.Level);
+                
+                
+                var modsComp = owner.GetComponent<ModifierComponent>();
+                if (modsComp == null)
+                    continue;
+
+                perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
+                if (setLevelRequest.Level > 0)
+                {
+                    perk.Modifiers.ForEach(modsComp.AddModifier);
+                }
+                coordinator.PostMessage(this, new PerkLevelChangedMessage(owner, perk, setLevelRequest.Level));
             }
 
             FirstUpdate = false;
@@ -92,51 +140,12 @@ namespace TheIdleScrolls_Core.Systems
 
         static void AddBasicPerks(PerksComponent perksComponent)
         {
-            // Create perk for weapon abilities
-            List<string> abilities = new();
-            List<ModifierType> modifiers = new();
-            List<double> values = new();
-            List<IEnumerable<string>> localTags = new();
-            List<IEnumerable<string>> globalTags = new();
-            foreach (string ability in Definitions.Abilities.Attack)
-            {
-                abilities.Add(ability);
-                abilities.Add(ability);
-                modifiers.Add(ModifierType.More);
-                modifiers.Add(ModifierType.More);
-                values.Add(Stats.AttackDamagePerAbilityLevel);
-                values.Add(Stats.AttackSpeedPerAbilityLevel);
-                localTags.Add([Tags.Damage]);
-                localTags.Add([Tags.AttackSpeed]);
-                globalTags.Add([]);
-                globalTags.Add([]);
-            }
-            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("WeaponAbilities", "Abilities: Offense",
-                "Increases damage and speed of attacks with different weapons based on ability levels",
-                abilities, modifiers,
-                values,
-                localTags,
-                globalTags,
-                false)
-            );
-
-            abilities = [.. Abilities.Defense];
-            // Create perk for armor abilities
-            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("ArmorAbilities", "Abilities: Defense",
-                "Increases armor and evasion rating with different armor types based on ability levels",
-                abilities,
-                abilities.Select(_ => ModifierType.More).ToList(),
-                abilities.Select(_ => Stats.DefensePerAbilityLevel).ToList(),
-                abilities.Select(_ => (IEnumerable<string>)[Tags.Defense]).ToList(),
-                abilities.Select(_ => (IEnumerable<string>)[]).ToList(),
-                false)
-            );
-
             // Create perk for fighting styles
-            perksComponent.AddPerk(new("FightingStyles", "Fighting Styles", 
+            perksComponent.AddPerk(new("FightingStyles", "Fighting Styles",
                 "Gain combat bonusses based on the ability level of your current fighting style",
                 [UpdateTrigger.AbilityIncreased],
-                (e, w, c) => {
+                (_, e, w, c) =>
+                {
                     List<Modifier> modifiers = [];
                     int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.DualWield)?.Level ?? 0;
                     if (level > 0)
@@ -160,13 +169,57 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     return modifiers;
                 })
+            {
+                Permanent = true
+            },
+            0);
+
+            // Create perk for armor abilities
+            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("ArmorAbilities", "Abilities: Defense",
+                "Increases armor and evasion rating with different armor types based on ability levels",
+                Abilities.Defense,
+                Abilities.Defense.Select(_ => ModifierType.More).ToList(),
+                Abilities.Defense.Select(_ => Stats.DefensePerAbilityLevel).ToList(),
+                Abilities.Defense.Select(_ => (IEnumerable<string>)[Tags.Defense]).ToList(),
+                Abilities.Defense.Select(_ => (IEnumerable<string>)[]).ToList(),
+                true),
+                0
             );
-                        
+
+            // Create perk for weapon abilities
+            List<string> abilities = new();
+            List<ModifierType> modifiers = new();
+            List<double> values = new();
+            List<IEnumerable<string>> localTags = new();
+            List<IEnumerable<string>> globalTags = new();
+            foreach (string ability in Abilities.Attack)
+            {
+                abilities.Add(ability);
+                abilities.Add(ability);
+                modifiers.Add(ModifierType.More);
+                modifiers.Add(ModifierType.More);
+                values.Add(Stats.AttackDamagePerAbilityLevel);
+                values.Add(Stats.AttackSpeedPerAbilityLevel);
+                localTags.Add([Tags.Damage]);
+                localTags.Add([Tags.AttackSpeed]);
+                globalTags.Add([]);
+                globalTags.Add([]);
+            }
+            perksComponent.AddPerk(PerkFactory.MakeAbilityLevelBasedMultiModPerk("WeaponAbilities", "Abilities: Offense",
+                "Increases damage and speed of attacks with different weapons based on ability levels",
+                abilities, modifiers,
+                values,
+                localTags,
+                globalTags,
+                true),
+                0
+            );
+              
             // Create perk for damage per level
             Perk damagePerLevel = new("dpl", "Damage per Level",
                 $"{Stats.AttackBonusPerLevel:0.#%} increased damage per level",
                 new() { UpdateTrigger.LevelUp },
-                delegate (Entity entity, World world, Coordinator coordinator)
+                delegate (int _, Entity entity, World world, Coordinator coordinator)
                 {
                     int level = entity.GetComponent<LevelComponent>()?.Level ?? 0;
                     return new()
@@ -175,9 +228,29 @@ namespace TheIdleScrolls_Core.Systems
                             new() { Tags.Damage }, new())
                     };
                 }
-            );
+            )
+            {
+                Permanent = true
+            };
 
-            perksComponent.AddPerk(damagePerLevel);
+            perksComponent.AddPerk(damagePerLevel, 0);
+
+            // Create basic minor perks
+            string prefix = "Minor";
+            int index = perksComponent.GetPermanentPerkCount();
+
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Dmg", $"Basic Damage", "",
+                    ModifierType.Increase, Stats.BasicDamageIncrease,
+                    [Tags.Damage], [], maxLevel: 10), index);
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}As", $"Basic Attack Speed", "",
+                ModifierType.Increase, Stats.BasicAttackSpeedIncrease,
+                [Tags.AttackSpeed], [], maxLevel: 10), index + 1);
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Def", $"Basic Defense", "",
+                ModifierType.Increase, Stats.BasicDefenseIncrease,
+                [Tags.Defense], [], maxLevel: 10), index + 2);
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Time", $"Basic Time Limit", "",
+                ModifierType.Increase, Stats.BasicTimeIncrease,
+                [Tags.TimeShield], [], maxLevel: 10), index + 3);
         }
     }
 
@@ -186,5 +259,24 @@ namespace TheIdleScrolls_Core.Systems
     {
         string IMessage.BuildMessage() => $"Perk '{Perk.Name}' was updated for entity {Owner.GetName()}";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
+
+    public record PerkPointLimitChanged(Entity Owner, int PointLimit) : IMessage
+    {
+        string IMessage.BuildMessage() => $"{Owner.GetName()} has {PointLimit} perk points available";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
+
+    public record SetPerkLevelRequest(uint OwnerId, string PerkId, int Level) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Request to set perk '{PerkId}' level to {Level} " +
+            $"for entity #{OwnerId}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
+
+    public record PerkLevelChangedMessage(Entity Owner, Perk Perk, int Level) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Perk '{Perk.Name}' level changed to {Level} for entity {Owner.GetName()}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
 }

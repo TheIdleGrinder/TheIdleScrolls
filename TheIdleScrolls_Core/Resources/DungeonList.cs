@@ -113,7 +113,7 @@ namespace TheIdleScrolls_Core.Resources
                         new("MOB_ABOMINATION", hP: 4.0, damage: 1.0),
                         new("BOSS_NECROMANCER", hP: 3.5, damage: 1.5)
                     },
-                    Rewards = new() { DropLevelRange = LevelCrypt - 11 } // Prevents weapons from dropping
+                    Rewards = new() { DropLevelRange = LevelCrypt - 12 } // Prevents weapons from dropping
                 },
                 new()
                 {
