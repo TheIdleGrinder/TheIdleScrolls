@@ -216,8 +216,8 @@ namespace TheIdleScrolls_Core.Systems
             );
               
             // Create perk for damage per level
-            Perk damagePerLevel = new("dpl", "Damage per Level",
-                $"{Stats.AttackBonusPerLevel:0.#%} increased damage per level",
+            Perk damagePerLevel = new("dpl", "Experienced Adventurer",
+                $"Gain {Stats.AttackBonusPerLevel:0.#%} increased damage and time limit per level",
                 new() { UpdateTrigger.LevelUp },
                 delegate (int _, Entity entity, World world, Coordinator coordinator)
                 {
@@ -225,7 +225,9 @@ namespace TheIdleScrolls_Core.Systems
                     return new()
                     {
                         new("dpl_dmg", ModifierType.Increase, (level - 1) * Stats.AttackBonusPerLevel,
-                            new() { Tags.Damage }, new())
+                            new() { Tags.Damage }, new()),
+                        new("dpl_time", ModifierType.Increase, (level - 1) * Stats.TimeShieldBonusPerLevel,
+                            new() { Tags.TimeShield }, new())
                     };
                 }
             )
