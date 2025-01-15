@@ -484,7 +484,7 @@ namespace TheIdleScrolls_Core.Resources
                         "Agile",
                         $"Gain +{noArmorBaseEvasion:0.#} base evasion rating while unarmored",
                         ModifierType.AddBase,
-                        noArmorBaseEvasion1,
+                        noArmorBaseEvasion,
                         [Tags.EvasionRating],
                         [Tags.Unarmored]
                     ))
@@ -862,13 +862,27 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.DualWieldAttackSpeedMulti,
                                     [Tags.AttackSpeed],
                                     [Tags.DualWield]),
-                (Abilities.DualWield, 75) => PerkFactory.MakeAbilityLevelBasedPerk($"{id}{level}", $"???",
-                                    $"Gain {0.1} base damage per level of the {Properties.LocalizedStrings.ABL_DualWield} ability",
-                                    Abilities.DualWield,
-                                    ModifierType.AddBase,
-                                    0.1,
-                                    [Tags.Damage],
-                                    []),
+                (Abilities.DualWield, 50) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", $"Reckless Assault",
+                                    $"Sacrifice some defense to gain increased attack speed",
+                                    [ModifierType.Increase, ModifierType.Increase],
+                                    [0.1, -0.05],
+                                    [[Tags.AttackSpeed], [Tags.Defense]],
+                                    [[], []], 
+                                    maxLevel: 5),
+                (Abilities.DualWield, 75) => new($"{id}{level}", "Assassin",
+                                $"Gain {0.1} base damage per level of the {Properties.LocalizedStrings.ABL_DualWield} ability",
+                                [UpdateTrigger.AbilityIncreased],
+                                (_, e, w, c) =>
+                                {
+                                    int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                                    return
+                                    [
+                                        new($"{id}{level}_dmg", ModifierType.AddBase, 0.1 * lvl,
+                                            [ Tags.Damage ],
+                                            []
+                                        )
+                                    ];
+                                }),
                 (Abilities.DualWield, 100) => PerkFactory.MakeStaticPerk($"{id}{level}", 
                                     $"{Properties.LocalizedStrings.ABL_DualWield} Master",
                                     $"Gain a {0.1:0.#%} attack speed multiplier",
@@ -876,7 +890,14 @@ namespace TheIdleScrolls_Core.Resources
                                     0.1,
                                     [Tags.AttackSpeed],
                                     []),
-                (Abilities.Shielded, 75) => new($"{id}{level}", "???",
+                (Abilities.Shielded, 50) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", $"Methodical",
+                                    $"Sacrifice some damage to gain increased defenses",
+                                    [ModifierType.Increase, ModifierType.Increase],
+                                    [0.1, -0.1],
+                                    [[Tags.Defense], [Tags.Damage]],
+                                    [[], []],
+                                    maxLevel: 5),
+                (Abilities.Shielded, 75) => new($"{id}{level}", "Juggernaut",
                                 $"Gain {0.001:0.###%} increased damage per {500} points of armor rating per level of " +
                                 $"the {Properties.LocalizedStrings.ABL_Shielded} ability",
                                 [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged, 
@@ -906,9 +927,16 @@ namespace TheIdleScrolls_Core.Resources
                                     0.2,
                                     [Tags.Damage],
                                     [Tags.SingleHanded]),
-                (Abilities.SingleHanded, 75) => PerkFactory.MakeAbilityLevelBasedPerk($"{id}{level}", $"???",
-                                    $"Gain {0.02:0.#%} increased damage per level of the {Properties.LocalizedStrings.ABL_SingleHanded} " +
-                                    $"ability while evading",
+                (Abilities.SingleHanded, 50) => PerkFactory.MakeStaticPerk($"{id}{level}", $"Fleet-footed", // TODO: Global armor/evasion
+                                    $"Gain base evasion rating while fighting single-handed",
+                                    ModifierType.AddBase,
+                                    1.0,
+                                    [Tags.EvasionRating],
+                                    [Tags.SingleHanded],
+                                    maxLevel: 5),
+                (Abilities.SingleHanded, 75) => PerkFactory.MakeAbilityLevelBasedPerk($"{id}{level}", $"Duelist",
+                                    $"Gain {0.02:0.#%} increased damage per level of the " +
+                                    $"{Properties.LocalizedStrings.ABL_SingleHanded} ability while evading",
                                     Abilities.SingleHanded,
                                     ModifierType.Increase,
                                     0.02,
@@ -921,7 +949,14 @@ namespace TheIdleScrolls_Core.Resources
                                     0.1,
                                     [Tags.TimeShield],
                                     []),
-                (Abilities.TwoHanded, 75) => new($"{id}{level}", "???",
+                (Abilities.TwoHanded, 50) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", $"Precise Attacks",
+                                    $"Sacrifice some attack speed to gain increased damage",
+                                    [ModifierType.Increase, ModifierType.Increase],
+                                    [0.12, -0.05],
+                                    [[Tags.Damage], [Tags.AttackSpeed]],
+                                    [[], []],
+                                    maxLevel: 5),
+                (Abilities.TwoHanded, 75) => new($"{id}{level}", "Executioner",
                                 $"Gain {0.01:0.#%} increased damage per second of attack time per level of " +
                                 $"{Properties.LocalizedStrings.ABL_TwoHanded} ability",
                                 [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
