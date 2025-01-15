@@ -862,6 +862,13 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.DualWieldAttackSpeedMulti,
                                     [Tags.AttackSpeed],
                                     [Tags.DualWield]),
+                (Abilities.DualWield, 75) => PerkFactory.MakeAbilityLevelBasedPerk($"{id}{level}", $"???",
+                                    $"Gain {0.1} base damage per level of the {Properties.LocalizedStrings.ABL_DualWield} ability",
+                                    Abilities.DualWield,
+                                    ModifierType.AddBase,
+                                    0.1,
+                                    [Tags.Damage],
+                                    []),
                 (Abilities.DualWield, 100) => PerkFactory.MakeStaticPerk($"{id}{level}", 
                                     $"{Properties.LocalizedStrings.ABL_DualWield} Master",
                                     $"Gain a {0.1:0.#%} attack speed multiplier",
@@ -869,6 +876,23 @@ namespace TheIdleScrolls_Core.Resources
                                     0.1,
                                     [Tags.AttackSpeed],
                                     []),
+                (Abilities.Shielded, 75) => new($"{id}{level}", "???",
+                                $"Gain {0.001:0.###%} increased damage per {500} points of armor rating per level of " +
+                                $"the {Properties.LocalizedStrings.ABL_Shielded} ability",
+                                [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged, 
+                                    UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
+                                (_, e, w, c) =>
+                                {
+                                    double armor = e.GetComponent<DefenseComponent>()?.Armor ?? 0;
+                                    int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                                    return
+                                    [
+                                        new($"{id}{level}_dmg", ModifierType.Increase, 0.001 * (lvl * armor / 500.0),
+                                            [ Tags.Damage ],
+                                            []
+                                        )
+                                    ];
+                                }),
                 (Abilities.Shielded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_Shielded} Master",
                                     $"Gain a {0.1:0.#%} defense multiplier",
@@ -882,6 +906,14 @@ namespace TheIdleScrolls_Core.Resources
                                     0.2,
                                     [Tags.Damage],
                                     [Tags.SingleHanded]),
+                (Abilities.SingleHanded, 75) => PerkFactory.MakeAbilityLevelBasedPerk($"{id}{level}", $"???",
+                                    $"Gain {0.02:0.#%} increased damage per level of the {Properties.LocalizedStrings.ABL_SingleHanded} " +
+                                    $"ability while evading",
+                                    Abilities.SingleHanded,
+                                    ModifierType.Increase,
+                                    0.02,
+                                    [Tags.Damage],
+                                    [Tags.Evading]),
                 (Abilities.SingleHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_SingleHanded} Master",
                                     $"Gain a {0.1:0.#%} time limit multiplier",
@@ -889,6 +921,23 @@ namespace TheIdleScrolls_Core.Resources
                                     0.1,
                                     [Tags.TimeShield],
                                     []),
+                (Abilities.TwoHanded, 75) => new($"{id}{level}", "???",
+                                $"Gain {0.01:0.#%} increased damage per second of attack time per level of " +
+                                $"{Properties.LocalizedStrings.ABL_TwoHanded} ability",
+                                [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
+                                    UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
+                                (_, e, w, c) =>
+                                {
+                                    double cooldown = e.GetComponent<AttackComponent>()?.Cooldown.Duration ?? 0.0;
+                                    int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                                    return
+                                    [
+                                        new($"{id}{level}_dmg", ModifierType.Increase, cooldown * lvl / 100,
+                                            [ Tags.Damage ],
+                                            []
+                                        )
+                                    ];
+                                }),
                 (Abilities.TwoHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_TwoHanded} Master",
                                     $"Gain a {0.1:0.#%} damage multiplier",

@@ -97,6 +97,7 @@ namespace TheIdleScrolls_Core
             public const string MixedWeapons = "MixedWeapons";
             public const string MixedArmor = "MixedArmor";
             public const string FirstStrike = "FirstStrike";
+            public const string Evading = "Evading";
 
             public const string CharacterXpGain = "CharacterXpGain";
             public const string AbilityXpGain = "AbilityXpGain";

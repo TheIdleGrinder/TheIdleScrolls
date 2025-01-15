@@ -205,6 +205,7 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             AddOrRemoveTag(Definitions.Tags.FirstStrike, player.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
+            AddOrRemoveTag(Definitions.Tags.Evading, player.GetComponent<EvaderComponent>()?.Active ?? false);
         }
     }
 
