@@ -122,19 +122,16 @@ namespace TheIdleScrolls_Core
     {
         public static double CalculateAbilityAttackSpeedBonus(int abilityLevel)
         {
-            //return Math.Pow(1.0 + Definitions.Stats.AttackSpeedPerAbilityLevel, abilityLevel) - 1.0;
             return Stats.AttackSpeedPerAbilityLevel * abilityLevel;
         }
 
         public static double CalculateAbilityAttackDamageBonus(int abilityLevel)
         {
-            //return Math.Pow(1.0 + Definitions.Stats.AttackDamagePerAbilityLevel, abilityLevel) - 1.0;
             return Stats.AttackDamagePerAbilityLevel * abilityLevel;
         }
 
         public static double CalculateAbilityDefenseBonus(int abilityLevel)
         {
-            //return Math.Pow(1.0 + Definitions.Stats.DefensePerAbilityLevel, abilityLevel) - 1.0;
             return Stats.DefensePerAbilityLevel * abilityLevel;
         }
 
@@ -164,7 +161,8 @@ namespace TheIdleScrolls_Core
 				* Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
 				* (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of armor
 				* (1.0 + level * qualityBonusPerLevel)                              // Smooth transition to +4 at level 150
-				;
+                * (1.0 + (level - 1) * Stats.TimeShieldBonusPerLevel)               // Account for time shield bonus from levelling
+                ;
         }
 
         public static double CalculateDefenseRating(double armor, double evasion, int level)
@@ -193,13 +191,6 @@ namespace TheIdleScrolls_Core
 
         public static int CalculateMobHp(int mobLevel, double multiplier = 1.0)
         {
-            // Old calculation, kept for future reference
-            //return (int) Math.Min(1_000_000_000, 
-            //    Definitions.Stats.MobBaseHp * multiplier
-            //    * Math.Pow(Definitions.Stats.EarlyHpScaling, Math.Min(mobLevel, Definitions.Stats.ScalingSwitchLevel))
-            //    * Math.Pow(Definitions.Stats.LaterHpScaling, Math.Max(mobLevel - Definitions.Stats.ScalingSwitchLevel, 0))
-            //    * (1.0 + Definitions.Stats.AttackBonusPerLevel * (mobLevel - 1))
-            //);
             double mobBaseHpMultiplier = 0.9;
             return (int) Math.Min(1_000_000_000,
                 Stats.MobBaseHp * multiplier
