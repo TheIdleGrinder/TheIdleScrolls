@@ -727,6 +727,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die global ähnelt.
+        /// </summary>
+        internal static string Global {
+            get {
+                return ResourceManager.GetString("Global", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Heavy Armor ähnelt.
         /// </summary>
         internal static string HAR {
@@ -750,6 +759,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string LBL {
             get {
                 return ResourceManager.GetString("LBL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die local ähnelt.
+        /// </summary>
+        internal static string Local {
+            get {
+                return ResourceManager.GetString("Local", resourceCulture);
             }
         }
         

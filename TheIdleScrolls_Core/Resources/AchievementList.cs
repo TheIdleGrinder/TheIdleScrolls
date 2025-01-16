@@ -1,13 +1,4 @@
 ﻿using MiniECS;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Numerics;
-using System.Reflection.Emit;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
@@ -929,11 +920,11 @@ namespace TheIdleScrolls_Core.Resources
                                     0.2,
                                     [Tags.Damage],
                                     [Tags.SingleHanded]),
-                (Abilities.SingleHanded, 50) => PerkFactory.MakeStaticPerk($"{id}{level}", $"Fleet-footed", // TODO: Global armor/evasion
+                (Abilities.SingleHanded, 50) => PerkFactory.MakeStaticPerk($"{id}{level}", $"Fleet-footed",
                                     $"Gain base evasion rating while fighting single-handed",
                                     ModifierType.AddBase,
-                                    1.0,
-                                    [Tags.EvasionRating],
+                                    10.0,
+                                    [Tags.EvasionRating, Tags.Global],
                                     [Tags.SingleHanded],
                                     maxLevel: 5),
                 (Abilities.SingleHanded, 75) => PerkFactory.MakeAbilityLevelBasedPerk($"{id}{level}", $"Duelist",
