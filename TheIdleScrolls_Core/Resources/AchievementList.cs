@@ -640,9 +640,9 @@ namespace TheIdleScrolls_Core.Resources
                                 [],
                                 true),
                 ("KILL", 1000) => PerkFactory.MakeStaticPerk($"{id}{level}", "Battle Tested",
-                                $"Gain {0.5:0.#%} increased damage",
+                                $"Gain {0.25:0.#%} increased damage",
                                 ModifierType.Increase,
-                                0.5,
+                                0.25,
                                 [Tags.Damage],
                                 []),
                 ("AXE", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Furious Swings",
@@ -686,29 +686,29 @@ namespace TheIdleScrolls_Core.Resources
                                 [Tags.Damage, Abilities.ShortBlade],
                                 [Tags.FirstStrike]),
                 ("AXE", 75) => new($"{id}{level}", "Frenzy",
-                                $"Gain {0.05:0.#%} more attack speed with {id.Localize()}s after every attack (up to {0.5:0.#%})",
+                                $"Gain {0.04:0.#%} increased attack speed with {id.Localize()}s after every attack (up to {0.4:0.#%})",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (_, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
-                                    return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
+                                    return [ new($"{id}{level}", ModifierType.Increase, Math.Min(attacks * 0.04, 0.4),
                                         [ Tags.AttackSpeed, Abilities.Axe ],
                                         [])
                                     ];
                                 }),
                 ("BLN", 75) => new($"{id}{level}", "Armor Breaker",
-                                $"Gain {0.05:0.#%} more damage with {id.Localize()} after every attack (up to {0.5:0.#%})",
+                                $"Gain {0.05:0.#%} increased damage with {id.Localize()} after every attack (up to {0.5:0.#%})",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (_, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
-                                    return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
+                                    return [ new($"{id}{level}", ModifierType.Increase, Math.Min(attacks * 0.05, 0.5),
                                         [ Tags.Damage, Abilities.Blunt ],
                                         [])
                                     ];
                                 }),
                 ("LBL", 75) => new($"{id}{level}", "Fluent Technique",
-                                $"Gain {0.25:0.#%} more damage or attack speed with {id.Localize()}s (changes after each attack)",
+                                $"Gain {0.25:0.#%} increased damage or attack speed with {id.Localize()}s (changes after each attack)",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (_, e, w, c) =>
                                 {
@@ -716,37 +716,39 @@ namespace TheIdleScrolls_Core.Resources
                                     bool damage = (attacks % 2) == 0;
                                     return
                                     [
-                                        new($"{id}{level}_dmg", ModifierType.More, damage ? 0.25 : 0.0,
-                                            [ Tags.Damage, Abilities.LongBlade ],
-                                            []
+                                        new($"{id}{level}_dmg", ModifierType.Increase, damage ? 0.25 : 0.0,
+                                            [ Tags.Damage, Abilities.LongBlade ], []
                                         ),
-                                        new($"{id}{level}_spd", ModifierType.More, damage ? 0.0 : 0.25,
-                                            [ Tags.AttackSpeed, Abilities.LongBlade ],
-                                            []
+                                        new($"{id}{level}_spd", ModifierType.Increase, damage ? 0.0 : 0.25,
+                                            [ Tags.AttackSpeed, Abilities.LongBlade ], []
                                         )
                                     ];
                                 }),
                 ("POL", 75) => new($"{id}{level}", "Skewer",
-                                $"Gain {0.05:0.#%} more damage with {id.Localize()}s after every attack (up to {0.5:0.#%})",
+                                $"Gain {0.05:0.#%} increased damage with {id.Localize()}s after every attack (up to {0.5:0.#%})",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (_, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
-                                    return [ new($"{id}{level}", ModifierType.More, Math.Min(attacks * 0.05, 0.5),
-                                        [ Tags.Damage, Abilities.Polearm ],
-                                        [])
+                                    return [ new($"{id}{level}", 
+                                             ModifierType.Increase, 
+                                             Math.Min(attacks * 0.05, 0.5),
+                                             [ Tags.Damage, Abilities.Polearm ],
+                                             [])
                                     ];
                                 }),
                 ("SBL", 75) => new($"{id}{level}", "Critical Strikes",
-                                $"Deal {1.0:0.#%} more damage with {id.Localize()}s every third attack",
+                                $"Deal {1.5:0.#%} increased damage with {id.Localize()}s every third attack",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (_, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     bool bonus = (attacks % 3) == 2;
-                                    return [ new($"{id}{level}", ModifierType.More, bonus ? 1.0 : 0.0,
-                                        [ Tags.Damage, Abilities.ShortBlade ],
-                                        [])
+                                    return [ new($"{id}{level}", 
+                                             ModifierType.Increase, 
+                                             bonus ? 1.5 : 0.0,
+                                            [ Tags.Damage, Abilities.ShortBlade ],
+                                            [])
                                     ];
                                 }),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 50)
@@ -793,15 +795,15 @@ namespace TheIdleScrolls_Core.Resources
                                 }),
                 ("LAR" or "HAR", 25)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Apprentice",
-                                    $"Gain a {0.1:0.#%} defense multiplier with {id.Localize()}",
-                                    ModifierType.More,
+                                    $"Gain {0.1:0.#%} increased defense with {id.Localize()}",
+                                    ModifierType.Increase,
                                     0.1,
                                     [Tags.Defense, id],
                                     []),
                 ("LAR" or "HAR", 75)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"Comfortable in {id.Localize()}",
-                                    $"Gain a {0.1:0.#%} attack speed multiplier while wearing {id.Localize()}",
-                                    ModifierType.More,
+                                    $"Gain {0.1:0.#%} increased attack speed while wearing {id.Localize()}",
+                                    ModifierType.Increase,
                                     0.1,
                                     [Tags.AttackSpeed],
                                     [id]),
@@ -898,7 +900,7 @@ namespace TheIdleScrolls_Core.Resources
                                     [[], []],
                                     maxLevel: 5),
                 (Abilities.Shielded, 75) => new($"{id}{level}", "Juggernaut",
-                                $"Gain {0.001:0.###%} increased damage per {500} points of armor rating per level of " +
+                                $"Gain {0.001:0.###%} increased damage per {1000} points of armor rating per level of " +
                                 $"the {Properties.LocalizedStrings.ABL_Shielded} ability",
                                 [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged, 
                                     UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
@@ -908,7 +910,7 @@ namespace TheIdleScrolls_Core.Resources
                                     int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
                                     return
                                     [
-                                        new($"{id}{level}_dmg", ModifierType.Increase, 0.001 * (lvl * armor / 500.0),
+                                        new($"{id}{level}_dmg", ModifierType.Increase, 0.001 * (lvl * armor / 1000.0),
                                             [ Tags.Damage ],
                                             []
                                         )
