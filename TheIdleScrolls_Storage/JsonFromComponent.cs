@@ -232,14 +232,14 @@ namespace TheIdleScrolls_Storage
 
         public static JsonObject? ToJson(this PerksComponent component)
         {
-            JsonArray activePerks = [];
-            foreach (var perk in component.ActivePerkLevels)
+            JsonArray perkLevels = [];
+            foreach (var perk in component.PerkLevels)
             {
-                activePerks.Add($"{perk.Key}:{perk.Value}");
+                perkLevels.Add($"{perk.Key}:{perk.Value}");
             }
             return new JsonObject()
             {
-                { "ActivePerks", activePerks }
+                { "PerkLevels", perkLevels }
             };
         }
 

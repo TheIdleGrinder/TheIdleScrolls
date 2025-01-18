@@ -258,8 +258,8 @@ namespace TheIdleScrolls_Core.Systems
 
     public record PerkAddedMessage(Entity Owner, Perk Perk) : IMessage
     {
-        string IMessage.BuildMessage() => $"Perk '{Perk.Name}' was added for entity {Owner.GetName()}";
-        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+        string IMessage.BuildMessage() => $"{Owner.GetName()} gained perk '{Perk.Name}'";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }
 
     // Message that is posted when a perk has been added or updated

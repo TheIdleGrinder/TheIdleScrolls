@@ -22,8 +22,12 @@ namespace TheIdleScrolls_Core.Achievements
                 return false;
             if (!perkComp.HasPerk(Perk.Id))
             {
+                bool sendMessage = !perkComp.PerkLevels.ContainsKey(Perk.Id);
                 perkComp.AddPerk(Perk);
-                postMessageCallback(new PerkAddedMessage(entity, Perk));
+                if (sendMessage)
+                {
+                    postMessageCallback(new PerkAddedMessage(entity, Perk));
+                }
             }
             return true;
         }
