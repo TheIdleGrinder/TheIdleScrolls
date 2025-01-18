@@ -1,10 +1,4 @@
 ﻿using MiniECS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Cache;
-using System.Text;
-using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Crafting;
@@ -36,6 +30,8 @@ namespace TheIdleScrolls_Core.Systems
         public event DefenseChangedHandler? PlayerDefenseChanged;
         public event AbilitiesChangedHandler? PlayerAbilitiesChanged;
         public event PerksChangedHandler? PlayerPerksChanged;
+        public event PerkUpdatedHandler? PerkUpdated;
+        public event AvailablePerkPointsChangedHandler? AvailablePerkPointsChanged;
         public event MobChangedHandler? MobChanged;
         public event AreaChangedHandler? PlayerAreaChanged;
         public event AutoProceedStateChangedHandler? PlayerAutoProceedStateChanged;
@@ -50,12 +46,16 @@ namespace TheIdleScrolls_Core.Systems
         public event NewLogMessagesHandler? NewLogMessages;
         public event DialogueMessageHandler? DialogueMessageReceived;
 
+        UInt64 _Frames = 0;
+
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             if (m_appModel == null)
                 return;
             if (m_playerId == 0)
                 m_playerId = coordinator.GetEntities<PlayerComponent>().FirstOrDefault()?.Id ?? 0;
+
+            _Frames++;
 
             var player = coordinator.GetEntity(m_playerId);
             if (player == null)
@@ -143,19 +143,29 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Update perks
-            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
-                || coordinator.MessageTypeIsOnBoard<PerkLevelChangedMessage>()
-                || coordinator.MessageTypeIsOnBoard<PerkPointLimitChanged>())
+            if (m_firstUpdate 
+                || coordinator.MessageTypeIsOnBoard<PerkPointLimitChanged>()
+                || coordinator.MessageTypeIsOnBoard<PerkAddedMessage>()
+                )
             {
                 var perkComp = player.GetComponent<PerksComponent>();
                 if (perkComp != null)
                 {
-                    var representations = perkComp.GetPerks()
-                        .Select(p => new PerkRepresentation(p.Id, p.Name, p.Description, 
-                            p.Modifiers.Select(m => m.ToPrettyString()).ToList(),
-                            perkComp.GetPerkLevel(p.Id)))
-                        .ToList();
-                    PlayerPerksChanged?.Invoke(representations);
+                    PlayerPerksChanged?.Invoke([]); // Empty because the GUI now takes Perks directly from the component
+                }
+            }
+            foreach (var message in coordinator.FetchMessagesByType<PerkUpdatedMessage>())
+            {
+                PerkUpdated?.Invoke(message.Perk.Id);
+            }
+            if (m_firstUpdate 
+                || coordinator.MessageTypeIsOnBoard<PerkPointLimitChanged>()
+                || coordinator.MessageTypeIsOnBoard<PerkLevelChangedMessage>())
+            {
+                var perkComp = player.GetComponent<PerksComponent>();
+                if (perkComp != null)
+                {
+                    AvailablePerkPointsChanged?.Invoke(perkComp.GetAvailablePerkPoints());
                 }
             }
 

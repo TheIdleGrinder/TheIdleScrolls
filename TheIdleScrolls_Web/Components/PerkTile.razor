@@ -1,0 +1,162 @@
+﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Modifiers
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="perk @PerkClasses()">
+    <div class="perk-name">@GetTitleLine()</div>
+    @if (Perk?.Permanent ?? false)
+    {
+        <div class="perk-always-active-indicator">Permanent</div>
+    }
+    <div class="perk-description">@Perk?.Description</div>
+    <div class="perk-modifiers">
+        @foreach (var modifier in Perk?.Modifiers ?? [])
+        {
+            <div class="perk-modifier">➤ @modifier.ToPrettyString()</div>
+        }
+    </div>
+    <div class="perk-buttons-area">
+        @if (!Perk?.Permanent ?? false)
+        {
+            <button class="perk-button perk-button-deactivate"
+                    style="@(IsActive ? "" : HiddenStyle)"
+                    disabled="@(PerkLevel == 0)"
+                    @onclick=@(() => SetLevel(PerkLevel - 1))>
+                -
+            </button>
+            <button class="perk-button perk-button-activate"
+                    style="@(!CanIncreaseLevel() ? UnavailableStyle : (FreePerkPoints > 0 ? "" : UnavailableStyle))"
+                    disabled="@(!CanIncreaseLevel() || FreePerkPoints == 0)"
+                    @onclick=@(() => SetLevel(PerkLevel + 1))>
+                +
+            </button>
+        }
+    </div>
+</div>
+
+<style>
+    .perk {
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid var(--frame-color);
+        position: relative;
+    }
+
+    .perk-name {
+        font-weight: bold;
+    }
+
+    .perk-description {
+        margin: 2px;
+    }
+
+    .perk-modifier {
+        margin: 2px;
+        margin-left: 7px;
+        font-style: italic;
+        font-size: small;
+    }
+
+    .perk-active {
+        color: black;
+        background-color: var(--back-color-special);
+    }
+
+    .perk-inactive {
+        color: gray;
+        font-style: italic;
+        background-color: white;
+    }
+
+    .perk-always-active {
+        border: solid 2px var(--frame-color);
+    }
+
+    .perk-always-active-indicator {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        font-style: italic;
+        font-size: smaller;
+        color: var(--frame-color);
+    }
+
+    .perk-buttons-area {
+        position: absolute;
+        bottom: 0.5rem;
+        right: 0.5rem;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    button.perk-button {
+        cursor: pointer;
+        min-height: 0;
+        min-width: 0;
+        height: 2rem;
+        width: 2rem;
+    }
+
+    button.perk-button-activate {
+        background-color: greenyellow;
+    }
+
+    button.perk-button-deactivate {
+        background-color: coral;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string PerkId { get; set; } = "";
+    [Parameter]
+    public PerksComponent? PerksComp { get; set; } = null;
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.GameRunner.GetEventEmitter().PerkUpdated += (string id) => {
+            if (id == PerkId)
+                StateHasChanged();
+        };
+        base.OnInitialized();
+    }
+
+    const string HiddenStyle = "visibility: hidden";
+    const string UnavailableStyle = "background-color: lightgray";
+
+    Perk? Perk => PerksComp?.GetPerks()?.FirstOrDefault(p => p.Id == PerkId);
+
+    int PerkLevel => PerksComp?.GetPerkLevel(PerkId) ?? 0;
+    bool IsActive => PerksComp?.IsPerkActive(PerkId) ?? false;
+    int FreePerkPoints => PerksComp?.GetAvailablePerkPoints() ?? 0;
+
+    string GetTitleLine() => Perk == null ? "" : $"{Perk.Name} " + (Perk.MaxLevel > 1 ? $"({Perk.CurrentLevel}/{Perk.MaxLevel})" : "");
+
+    bool CanIncreaseLevel()
+    {
+        if (Perk == null)
+            return false;
+        return PerkLevel < Perk.MaxLevel;
+    }
+
+    string PerkClasses()
+    {
+        if (Perk == null)
+            return "";
+        string classes = IsActive ? "perk-active" : "perk-inactive";
+        if (Perk.Permanent)
+            classes += " perk-always-active";
+        return classes;
+    }
+
+    void SetLevel(int level)
+    {
+        if (CoreWrapper.PlayerCharacter == null)
+            return;
+        CoreWrapper.InputHandler.SetPerkLevel(CoreWrapper.PlayerCharacter.Id, PerkId, level);
+    }
+}
