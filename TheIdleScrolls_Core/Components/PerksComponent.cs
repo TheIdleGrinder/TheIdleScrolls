@@ -11,11 +11,14 @@ namespace TheIdleScrolls_Core.Components
 {
     public class PerksComponent : IComponent
     {
-        public int PerkPointLimit { get; set; } = -1;
-
+        public int PerkPointLimit => BasePerkPoints + BonusPerkPointIds.Count;
+        public int BasePerkPoints { get; set; } = 0;
+        
         public readonly Dictionary<string, int> PerkLevels = [];
 
         readonly List<Perk> Perks = [];
+
+        readonly HashSet<string> BonusPerkPointIds = [];
 
         readonly HashSet<string> ChangedPerks = []; // Holds list of perks that need to be processed by the PerksSystem
 
@@ -114,6 +117,11 @@ namespace TheIdleScrolls_Core.Components
         public void MarkPerkAsUpdated(Perk perk)
         {
             ChangedPerks.Remove(perk.Id);
+        }
+
+        public bool AddBonusPerkPoint(string id)
+        {
+            return BonusPerkPointIds.Add(id);
         }
 
         public bool SetPerkLevel(string id, int level)

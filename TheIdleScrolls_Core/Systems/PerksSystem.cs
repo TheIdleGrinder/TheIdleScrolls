@@ -47,14 +47,19 @@ namespace TheIdleScrolls_Core.Systems
                 }
 
                 // Update number of available perk points
-                if (FirstUpdate || coordinator.MessageTypeIsOnBoard<LevelUpMessage>())
+                if (FirstUpdate 
+                    || coordinator.MessageTypeIsOnBoard<LevelUpMessage>()
+                    )
                 {
                     int previousLimit = perksComp.PerkPointLimit;
-                    perksComp.PerkPointLimit = (entity.GetComponent<LevelComponent>()?.Level ?? 0) / Stats.LevelsPerPerkPoint;
-                    if (previousLimit != perksComp.PerkPointLimit)
+                    perksComp.BasePerkPoints = (entity.GetComponent<LevelComponent>()?.Level ?? 0) / Stats.LevelsPerPerkPoint;
+                    int change = perksComp.PerkPointLimit - previousLimit;
+                    if (change != 0)
                     {
-                        coordinator.PostMessage(this, new TextMessage($"{entity.GetName()} has {perksComp.GetAvailablePerkPoints()} free perk points",
-                            IMessage.PriorityLevel.VeryLow));
+                        if (!FirstUpdate)
+                        {
+                            coordinator.PostMessage(this, new PerkPointLimitChanged(entity, change, perksComp.PerkPointLimit));
+                        }
                     }
                 }
 
@@ -269,10 +274,12 @@ namespace TheIdleScrolls_Core.Systems
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 
-    public record PerkPointLimitChanged(Entity Owner, int PointLimit) : IMessage
+    public record PerkPointLimitChanged(Entity Owner, int Change, int PointLimit) : IMessage
     {
-        string IMessage.BuildMessage() => $"{Owner.GetName()} has {PointLimit} perk points available";
-        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+        string IMessage.BuildMessage() => (Change == 1)
+            ? $"{Owner.GetName()} gained a perk point"
+            : $"{Owner.GetName()} gained {Change} perk points";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }
 
     public record SetPerkLevelRequest(uint OwnerId, string PerkId, int Level) : IMessage

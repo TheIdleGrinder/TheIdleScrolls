@@ -94,18 +94,18 @@ namespace TheIdleScrolls_Core.Resources
             }
 
             // Dungeon achievements
-            (string Id, string Name, string Title)[] dungeons =
+            (string Id, string Name, string Title, int PerkPoints)[] dungeons =
             [
-                (DungeonIds.Crypt, Properties.Places.Dungeon_Crypt, "Cryptkeeper"),
-                (DungeonIds.MercenaryCamp, Properties.Places.Dungeon_MercenaryCamp, "Sellsword Slayer"),
-                (DungeonIds.Lighthouse, Properties.Places.Dungeon_Lighthouse, "I Shall Be Light"),
-                (DungeonIds.Temple, Properties.Places.Dungeon_Temple, "I Shall Keep Faith"),
-                (DungeonIds.CultistCastle, Properties.Places.Dungeon_CultistCastle, "I Shall Hone My Craft"),
-                (DungeonIds.Labyrinth, Properties.Places.Dungeon_Labyrinth, "I Shall Have No Mercy"),
-                (DungeonIds.ReturnToLighthouse, Properties.Places.Dungeon_ReturnToLighthouse, "I Shall Have No Fear"),
-                (DungeonIds.Threshold, Properties.Places.Dungeon_Threshold, "I Shall Have No Remorse"),
+                (DungeonIds.Crypt, Properties.Places.Dungeon_Crypt, "Cryptkeeper", 0),
+                (DungeonIds.MercenaryCamp, Properties.Places.Dungeon_MercenaryCamp, "Sellsword Slayer", 0),
+                (DungeonIds.Lighthouse, Properties.Places.Dungeon_Lighthouse, "I Shall Be Light", 1),
+                (DungeonIds.Temple, Properties.Places.Dungeon_Temple, "I Shall Keep Faith", 1),
+                (DungeonIds.CultistCastle, Properties.Places.Dungeon_CultistCastle, "I Shall Hone My Craft", 1),
+                (DungeonIds.Labyrinth, Properties.Places.Dungeon_Labyrinth, "I Shall Have No Mercy", 1),
+                (DungeonIds.ReturnToLighthouse, Properties.Places.Dungeon_ReturnToLighthouse, "I Shall Have No Fear", 1),
+                (DungeonIds.Threshold, Properties.Places.Dungeon_Threshold, "I Shall Have No Remorse", 2),
             ];
-            foreach (var (id, name, title) in dungeons)
+            foreach (var (id, name, title, points) in dungeons)
             {
                 var achievement = new Achievement()
                 {
@@ -119,6 +119,15 @@ namespace TheIdleScrolls_Core.Resources
                 if (id == DungeonIds.Threshold)
                 {
                     achievement.Description = $"Hold off the demonic invasion at {name}";
+                }
+                if (points > 0)
+                {
+                    HashSet<string> pointIds = [];
+                    for (int i = 0; i < points; i++)
+                    {
+                        pointIds.Add($"{achievement.Id}.{i}");
+                    }
+                    achievement.Reward = new PerkPointReward(pointIds);
                 }
                 achievements.Add(achievement);
             }
@@ -891,22 +900,22 @@ namespace TheIdleScrolls_Core.Resources
                                     [[], []],
                                     maxLevel: 5),
                 (Abilities.Shielded, 75) => new($"{id}{level}", "Juggernaut",
-                                $"Gain {0.001:0.###%} increased damage per {1000} points of armor rating per level of " +
-                                $"the {Properties.LocalizedStrings.ABL_Shielded} ability",
-                                [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged, 
-                                    UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
-                                (_, e, w, c) =>
-                                {
-                                    double armor = e.GetComponent<DefenseComponent>()?.Armor ?? 0;
-                                    int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
-                                    return
-                                    [
-                                        new($"{id}{level}_dmg", ModifierType.Increase, 0.001 * (lvl * armor / 1000.0),
-                                            [ Tags.Damage ],
-                                            []
-                                        )
-                                    ];
-                                }),
+                                    $"Gain {0.001:0.###%} increased damage per {1000} points of armor rating per level of " +
+                                    $"the {Properties.LocalizedStrings.ABL_Shielded} ability",
+                                    [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged, 
+                                        UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
+                                    (_, e, w, c) =>
+                                    {
+                                        double armor = e.GetComponent<DefenseComponent>()?.Armor ?? 0;
+                                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                                        return
+                                        [
+                                            new($"{id}{level}_dmg", ModifierType.Increase, 0.001 * (lvl * armor / 1000.0),
+                                                [ Tags.Damage ],
+                                                []
+                                            )
+                                        ];
+                                    }),
                 (Abilities.Shielded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_Shielded} Master",
                                     $"Gain a {0.1:0.#%} defense multiplier",
@@ -927,14 +936,21 @@ namespace TheIdleScrolls_Core.Resources
                                     [Tags.EvasionRating, Tags.Global],
                                     [Tags.SingleHanded],
                                     maxLevel: 5),
-                (Abilities.SingleHanded, 75) => PerkFactory.MakeAbilityLevelBasedPerk($"{id}{level}", $"Duelist",
+                (Abilities.SingleHanded, 75) => new($"{id}{level}", "Duelist",
                                     $"Gain {0.02:0.#%} increased damage per level of the " +
-                                    $"{Properties.LocalizedStrings.ABL_SingleHanded} ability while evading",
-                                    Abilities.SingleHanded,
-                                    ModifierType.Increase,
-                                    0.02,
-                                    [Tags.Damage],
-                                    [Tags.Evading]),
+                                        $"{Properties.LocalizedStrings.ABL_SingleHanded} ability while evading",
+                                    [UpdateTrigger.AbilityIncreased],
+                                    (_, e, w, c) =>
+                                    {
+                                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                                        return
+                                        [
+                                            new($"{id}{level}_dmg", ModifierType.Increase, 0.02 * lvl,
+                                                [Tags.Damage],
+                                                [Tags.Evading]
+                                            )
+                                        ];
+                                    }),
                 (Abilities.SingleHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_SingleHanded} Master",
                                     $"Gain a {0.1:0.#%} time limit multiplier",
