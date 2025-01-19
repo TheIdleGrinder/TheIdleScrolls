@@ -134,7 +134,8 @@
     bool IsActive => PerksComp?.IsPerkActive(PerkId) ?? false;
     int FreePerkPoints => PerksComp?.GetAvailablePerkPoints() ?? 0;
 
-    string GetTitleLine() => Perk == null ? "" : $"{Perk.Name} " + (Perk.MaxLevel > 1 ? $"({Perk.CurrentLevel}/{Perk.MaxLevel})" : "");
+    string GetTitleLine() => Perk == null ? "" : $"{Perk.Name}" 
+        + (Perk.MaxLevel > 1 ? $" ({PerksComp?.GetPerkLevel(Perk.Id) ?? 0}/{Perk.MaxLevel})" : "");
 
     bool CanIncreaseLevel()
     {
