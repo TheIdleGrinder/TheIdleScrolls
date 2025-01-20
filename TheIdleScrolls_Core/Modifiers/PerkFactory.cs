@@ -12,54 +12,6 @@ namespace TheIdleScrolls_Core.Modifiers
 {
     public static class PerkFactory
     {
-        public static Perk MakeOffensiveAbilityBasedPerk(string id, string ability, double damagePerLevel, double speedPerLevel)
-        {
-            bool dmg = damagePerLevel != 0;
-            bool aps = speedPerLevel != 0;
-            return new(
-                id, 
-                $"Ability: {ability.Localize()}",
-                $"For each ability level: {(dmg ? $"{damagePerLevel:0.#%} more damage " : "")}" + 
-                    $"{(dmg && aps ? "and " : "")}{(aps ? $"{speedPerLevel:0.#%} more attack speed " : "")}" +
-                    $"with {ability.Localize()} weapons",
-                new() { UpdateTrigger.AbilityIncreased },
-                delegate (int level, Entity entity, World world, Coordinator coordinator)
-                {
-                    int abilityLevel = entity.GetComponent<AbilitiesComponent>()?.GetAbility(ability)?.Level ?? 0;
-                    List<Modifier> mods = new();
-                    if (dmg)
-                    {
-                        double bonus = Math.Pow(1.0 + damagePerLevel, abilityLevel) - 1.0;
-                        mods.Add(new(id + "_dmg", ModifierType.More, level * bonus, new() { ability, Definitions.Tags.Damage }, new()));
-                    }
-                    if (aps)
-                    {
-                        double bonus = Math.Pow(1.0 + speedPerLevel, abilityLevel) - 1.0;
-                        mods.Add(new(id + "_aps", ModifierType.More, level * bonus, new() { ability, Definitions.Tags.AttackSpeed }, new()));
-                    }
-                    return mods;
-                }
-            );
-        }
-
-        public static Perk MakeDefensiveAbilityBasedPerk(string id, string ability, double defensePerLevel)
-        {
-            return new(
-                id,
-                $"Ability: {ability.Localize()}",
-                    $"For each ability level: {defensePerLevel:0.#%} more armor and evasion rating with {ability.Localize()}",
-                new() { UpdateTrigger.AbilityIncreased },
-                delegate (int level, Entity entity, World world, Coordinator coordinator)
-                {
-                    int abilityLevel = entity.GetComponent<AbilitiesComponent>()?.GetAbility(ability)?.Level ?? 0;
-                    List<Modifier> mods = new();
-                    double bonus = Math.Pow(1.0 + defensePerLevel, abilityLevel) - 1.0;
-                    mods.Add(new(id + "_def", ModifierType.More, level * bonus, new() { ability, Definitions.Tags.Defense }, new()));
-                    return mods;
-                }
-            );
-        }
-
         public static Perk MakeAbilityLevelBasedPerk(string id,
                                                      string name,
                                                      string description,

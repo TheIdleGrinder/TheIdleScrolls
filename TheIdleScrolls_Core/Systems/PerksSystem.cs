@@ -47,14 +47,19 @@ namespace TheIdleScrolls_Core.Systems
                 }
 
                 // Update number of available perk points
-                if (FirstUpdate || coordinator.MessageTypeIsOnBoard<LevelUpMessage>())
+                if (FirstUpdate 
+                    || coordinator.MessageTypeIsOnBoard<LevelUpMessage>()
+                    )
                 {
                     int previousLimit = perksComp.PerkPointLimit;
-                    perksComp.PerkPointLimit = (entity.GetComponent<LevelComponent>()?.Level ?? 0) / Stats.LevelsPerPerkPoint;
-                    if (previousLimit != perksComp.PerkPointLimit)
+                    perksComp.BasePerkPoints = (entity.GetComponent<LevelComponent>()?.Level ?? 0) / Stats.LevelsPerPerkPoint;
+                    int change = perksComp.PerkPointLimit - previousLimit;
+                    if (change != 0)
                     {
-                        coordinator.PostMessage(this, new TextMessage($"{entity.GetName()} has {perksComp.GetAvailablePerkPoints()} free perk points",
-                            IMessage.PriorityLevel.VeryLow));
+                        if (!FirstUpdate)
+                        {
+                            coordinator.PostMessage(this, new PerkPointLimitChanged(entity, change, perksComp.PerkPointLimit));
+                        }
                     }
                 }
 
@@ -216,8 +221,8 @@ namespace TheIdleScrolls_Core.Systems
             );
               
             // Create perk for damage per level
-            Perk damagePerLevel = new("dpl", "Damage per Level",
-                $"{Stats.AttackBonusPerLevel:0.#%} increased damage per level",
+            Perk damagePerLevel = new("dpl", "Experienced Adventurer",
+                $"Gain {Stats.AttackBonusPerLevel:0.#%} increased damage and time limit per level",
                 new() { UpdateTrigger.LevelUp },
                 delegate (int _, Entity entity, World world, Coordinator coordinator)
                 {
@@ -225,7 +230,9 @@ namespace TheIdleScrolls_Core.Systems
                     return new()
                     {
                         new("dpl_dmg", ModifierType.Increase, (level - 1) * Stats.AttackBonusPerLevel,
-                            new() { Tags.Damage }, new())
+                            new() { Tags.Damage }, new()),
+                        new("dpl_time", ModifierType.Increase, (level - 1) * Stats.TimeShieldBonusPerLevel,
+                            new() { Tags.TimeShield }, new())
                     };
                 }
             )
@@ -254,6 +261,12 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
+    public record PerkAddedMessage(Entity Owner, Perk Perk) : IMessage
+    {
+        string IMessage.BuildMessage() => $"{Owner.GetName()} gained perk '{Perk.Name}'";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
+    }
+
     // Message that is posted when a perk has been added or updated
     public record PerkUpdatedMessage(Entity Owner, Perk Perk) : IMessage
     {
@@ -261,10 +274,12 @@ namespace TheIdleScrolls_Core.Systems
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 
-    public record PerkPointLimitChanged(Entity Owner, int PointLimit) : IMessage
+    public record PerkPointLimitChanged(Entity Owner, int Change, int PointLimit) : IMessage
     {
-        string IMessage.BuildMessage() => $"{Owner.GetName()} has {PointLimit} perk points available";
-        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+        string IMessage.BuildMessage() => (Change == 1)
+            ? $"{Owner.GetName()} gained a perk point"
+            : $"{Owner.GetName()} gained {Change} perk points";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
     }
 
     public record SetPerkLevelRequest(uint OwnerId, string PerkId, int Level) : IMessage

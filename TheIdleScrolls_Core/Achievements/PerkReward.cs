@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
+using TheIdleScrolls_Core.Systems;
 
 namespace TheIdleScrolls_Core.Achievements
 {
@@ -21,8 +22,12 @@ namespace TheIdleScrolls_Core.Achievements
                 return false;
             if (!perkComp.HasPerk(Perk.Id))
             {
+                bool sendMessage = !perkComp.PerkLevels.ContainsKey(Perk.Id);
                 perkComp.AddPerk(Perk);
-                // No need to send message, PerkSystem will update the perk and send one
+                if (sendMessage)
+                {
+                    postMessageCallback(new PerkAddedMessage(entity, Perk));
+                }
             }
             return true;
         }
