@@ -237,6 +237,8 @@ namespace TheIdleScrolls_Core.Components
 
         bool TakesSlotsBackwards(Entity item)
         {
+            if (item == null)
+                return false;
             return item.IsShield(); // Shields occupy the last available slot first
         }
     }
