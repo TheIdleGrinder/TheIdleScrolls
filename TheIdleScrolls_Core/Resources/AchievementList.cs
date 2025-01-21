@@ -633,16 +633,16 @@ namespace TheIdleScrolls_Core.Resources
             var perk = (id, level) switch
             {
                 ("LVL", 150) => PerkFactory.MakeStaticPerk($"{id}{level}", "Experienced",
-                                $"Gain {0.3:0.#%} increased experience",
+                                $"Gain {Stats.SavantXpMultiplier:0.#%} increased experience",
                                 ModifierType.Increase,
-                                0.3,
+                                Stats.SavantXpMultiplier,
                                 [Tags.CharacterXpGain],
                                 [],
                                 true),
                 ("KILL", 1000) => PerkFactory.MakeStaticPerk($"{id}{level}", "Battle Tested",
                                 $"",
                                 ModifierType.Increase,
-                                0.3,
+                                2 * Stats.BigPerkFactor * Stats.BasicDamageIncrease,
                                 [Tags.Damage],
                                 []),
                 ("AXE", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Furious Swings",
@@ -764,15 +764,15 @@ namespace TheIdleScrolls_Core.Resources
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Adept",
                                 $"Gain {0.12:0.#%} increased damage with {id.Localize()}s",
                                 ModifierType.Increase,
-                                0.12,
+                                Stats.BigPerkFactor * Stats.BasicDamageIncrease,
                                 [Tags.Damage, id],
                                 [],
                                 maxLevel: 3),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 100)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
-                                $"Gain a {0.1:0.#%} damage multiplier",
+                                $"Gain a {Stats.MasterPerkMultiplier:0.#%} damage multiplier",
                                 ModifierType.More,
-                                0.1,
+                                Stats.MasterPerkMultiplier,
                                 [Tags.Damage],
                                 []),
                 ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Light shields also grant evasion rating equal to {.3:0.#%} of their armor",
@@ -805,24 +805,24 @@ namespace TheIdleScrolls_Core.Resources
                                 }),
                 ("LAR" or "HAR", 25)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Apprentice",
-                                    $"Gain {0.1:0.#%} increased defense with {id.Localize()}",
+                                    $"Gain increased defense with {id.Localize()}",
                                     ModifierType.Increase,
-                                    0.1,
+                                    Stats.BigPerkFactor * Stats.BasicDefenseIncrease,
                                     [Tags.Defense, id],
                                     [],
                                     maxLevel: 5),
                 ("LAR" or "HAR", 75)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"Comfortable in {id.Localize()}",
-                                    $"Gain {0.1:0.#%} increased attack speed while wearing {id.Localize()}",
+                                    $"Gain increased attack speed while wearing {id.Localize()}",
                                     ModifierType.Increase,
-                                    0.1,
+                                    Stats.BigPerkFactor * Stats.BasicAttackSpeedIncrease,
                                     [Tags.AttackSpeed],
                                     [id]),
                 ("LAR" or "HAR", 100)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
-                                    $"Gain a {0.1:0.#%} defense multiplier",
+                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} defense multiplier",
                                     ModifierType.More,
-                                    0.1,
+                                    Stats.MasterPerkMultiplier,
                                     [Tags.Defense],
                                     []),
                 ("ABL_CRAFT", 25)
@@ -838,9 +838,9 @@ namespace TheIdleScrolls_Core.Resources
                                             )
                                         ];
                                     })
-                                {
-                                    Permanent = true
-                                },
+                                    {
+                                        Permanent = true
+                                    },
                 ("ABL_CRAFT", 50)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Journeyman",
                                     $"Gain a discount for all crafts",
@@ -864,9 +864,9 @@ namespace TheIdleScrolls_Core.Resources
                                     [], true),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "LAR" or "HAR" or "ABL_CRAFT", 150)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Savant",
-                                    $"{0.3:0.#%} increased experience gain for {id.Localize()} ability",
+                                    $"{Stats.SavantXpMultiplier:0.#%} increased experience gain for {id.Localize()} ability",
                                     ModifierType.Increase,
-                                    0.3,
+                                    Stats.SavantXpMultiplier,
                                     [Tags.AbilityXpGain, id],
                                     [], true),
                 (Abilities.DualWield, 25) => PerkFactory.MakeStaticPerk($"{id}{level}", $"Ambidextrous",
@@ -883,24 +883,24 @@ namespace TheIdleScrolls_Core.Resources
                                     [[], []], 
                                     maxLevel: 5),
                 (Abilities.DualWield, 75) => new($"{id}{level}", "Assassin",
-                                $"Gain {0.1} base damage per level of the {Properties.LocalizedStrings.ABL_DualWield} ability",
-                                [UpdateTrigger.AbilityIncreased],
-                                (_, e, w, c) =>
-                                {
-                                    int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
-                                    return
-                                    [
-                                        new($"{id}{level}_dmg", ModifierType.AddBase, 0.1 * lvl,
-                                            [ Tags.Damage ],
-                                            []
-                                        )
-                                    ];
-                                }),
+                                    $"Gain {0.1} base damage per level of the {Properties.LocalizedStrings.ABL_DualWield} ability",
+                                    [UpdateTrigger.AbilityIncreased],
+                                    (_, e, w, c) =>
+                                    {
+                                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                                        return
+                                        [
+                                            new($"{id}{level}_dmg", ModifierType.AddBase, 0.1 * lvl,
+                                                [ Tags.Damage ],
+                                                []
+                                            )
+                                        ];
+                                    }),
                 (Abilities.DualWield, 100) => PerkFactory.MakeStaticPerk($"{id}{level}", 
                                     $"{Properties.LocalizedStrings.ABL_DualWield} Master",
-                                    $"Gain a {0.1:0.#%} attack speed multiplier",
+                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} attack speed multiplier",
                                     ModifierType.More,
-                                    0.1,
+                                    Stats.MasterPerkMultiplier,
                                     [Tags.AttackSpeed],
                                     []),
                 (Abilities.Shielded, 50) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", $"Methodical",
@@ -929,9 +929,9 @@ namespace TheIdleScrolls_Core.Resources
                                     }),
                 (Abilities.Shielded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_Shielded} Master",
-                                    $"Gain a {0.1:0.#%} defense multiplier",
+                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} defense multiplier",
                                     ModifierType.More,
-                                    0.1,
+                                    Stats.MasterPerkMultiplier,
                                     [Tags.Defense],
                                     []),
                 (Abilities.SingleHanded, 25) => PerkFactory.MakeStaticPerk($"{id}{level}", $"Fire Dancing",
@@ -973,9 +973,9 @@ namespace TheIdleScrolls_Core.Resources
                                     }),
                 (Abilities.SingleHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_SingleHanded} Master",
-                                    $"Gain a {0.1:0.#%} time limit multiplier",
+                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} time limit multiplier",
                                     ModifierType.More,
-                                    0.1,
+                                    Stats.MasterPerkMultiplier,
                                     [Tags.TimeShield],
                                     []),
                 (Abilities.TwoHanded, 50) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", $"Precise Attacks",
@@ -986,27 +986,27 @@ namespace TheIdleScrolls_Core.Resources
                                     [[], []],
                                     maxLevel: 5),
                 (Abilities.TwoHanded, 75) => new($"{id}{level}", "Executioner",
-                                $"Gain {0.01:0.#%} increased damage per second of attack time per level of " +
-                                $"{Properties.LocalizedStrings.ABL_TwoHanded} ability",
-                                [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
-                                    UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
-                                (_, e, w, c) =>
-                                {
-                                    double cooldown = e.GetComponent<AttackComponent>()?.Cooldown.Duration ?? 0.0;
-                                    int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
-                                    return
-                                    [
-                                        new($"{id}{level}_dmg", ModifierType.Increase, cooldown * lvl / 100,
-                                            [ Tags.Damage ],
-                                            []
-                                        )
-                                    ];
-                                }),
+                                    $"Gain {0.01:0.#%} increased damage per second of attack time per level of " +
+                                    $"{Properties.LocalizedStrings.ABL_TwoHanded} ability",
+                                    [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
+                                        UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
+                                    (_, e, w, c) =>
+                                    {
+                                        double cooldown = e.GetComponent<AttackComponent>()?.Cooldown.Duration ?? 0.0;
+                                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                                        return
+                                        [
+                                            new($"{id}{level}_dmg", ModifierType.Increase, cooldown * lvl / 100,
+                                                [ Tags.Damage ],
+                                                []
+                                            )
+                                        ];
+                                    }),
                 (Abilities.TwoHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_TwoHanded} Master",
-                                    $"Gain a {0.1:0.#%} damage multiplier",
+                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} damage multiplier",
                                     ModifierType.More,
-                                    0.1,
+                                    Stats.MasterPerkMultiplier,
                                     [Tags.Damage],
                                     []),
                 _ => null
