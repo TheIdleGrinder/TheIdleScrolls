@@ -149,7 +149,7 @@ namespace TheIdleScrolls_Core
             // Assumption: Ability levels somewhat align with character level
             return (1.0 + CalculateAbilityAttackDamageBonus(level))                 // Ability damage bonus
                 * (1.0 + CalculateAbilityAttackSpeedBonus(level))                   // Ability attack speed bonus
-                * (1.0 + Stats.AttackBonusPerLevel * (level - 1))                   // Level scaling
+                * (1.0 + 2 * Stats.AttackBonusPerLevel * (level - 1))               // Level scaling (x2 for perks)
                 * Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
                 * (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of weapons
                 * (1.0 + level * qualityBonusPerLevel)                              // Smooth transition to +4 at level 150
@@ -164,7 +164,7 @@ namespace TheIdleScrolls_Core
 				* Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
 				* (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of armor
 				* (1.0 + level * qualityBonusPerLevel)                              // Smooth transition to +4 at level 150
-                * (1.0 + (level - 1) * Stats.TimeShieldBonusPerLevel)               // Account for time shield bonus from levelling
+                * (1.0 + 2 * (level - 1) * Stats.TimeShieldBonusPerLevel)           // Account for time shield bonus from levelling (x2 for perks)
                 ;
         }
 
