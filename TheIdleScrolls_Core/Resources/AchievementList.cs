@@ -875,13 +875,17 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.DualWieldAttackSpeedMulti,
                                     [Tags.AttackSpeed],
                                     [Tags.DualWield]),
-                (Abilities.DualWield, 50) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", $"Reckless Assault",
-                                    $"Sacrifice some defense to gain increased attack speed",
-                                    [ModifierType.More, ModifierType.More],
-                                    [0.09, -0.05],
-                                    [[Tags.AttackSpeed], [Tags.Defense]],
-                                    [[], []], 
-                                    maxLevel: 5),
+                (Abilities.DualWield, 50) => new($"{id}{level}", "Reckless Assault",
+                                    $"Sacrifice some defense to gain an exponentially increasing multiplier to attack speed",
+                                    [],
+                                    (l, e, w, c) => 
+                                    [
+                                        new($"{id}{level}_as", ModifierType.More, Math.Pow(1.09, l) - 1.0, [ Tags.AttackSpeed ], []),
+                                        new($"{id}{level}_def", ModifierType.More, Math.Pow(0.95, l) - 1.0, [ Tags.Defense ], [])
+                                    ])
+                                    {
+                                        MaxLevel = 5
+                                    },
                 (Abilities.DualWield, 75) => new($"{id}{level}", "Assassin",
                                     $"Gain {0.1} base damage per level of the {Properties.LocalizedStrings.ABL_DualWield} ability",
                                     [UpdateTrigger.AbilityIncreased],
@@ -903,13 +907,17 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.MasterPerkMultiplier,
                                     [Tags.AttackSpeed],
                                     []),
-                (Abilities.Shielded, 50) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", $"Methodical",
-                                    $"Sacrifice some damage to gain increased defenses",
-                                    [ModifierType.More, ModifierType.More],
-                                    [0.09, -0.05],
-                                    [[Tags.Defense], [Tags.Damage]],
-                                    [[], []],
-                                    maxLevel: 5),
+                (Abilities.Shielded, 50) => new($"{id}{level}", "Methodical",
+                                    $"Sacrifice some damage to gain an exponentially increasing multiplier to defense",
+                                    [],
+                                    (l, e, w, c) =>
+                                    [
+                                        new($"{id}{level}_def", ModifierType.More, Math.Pow(1.09, l) - 1.0, [ Tags.Defense ], []),
+                                        new($"{id}{level}_dmg", ModifierType.More, Math.Pow(0.95, l) - 1.0, [ Tags.Damage ], [])
+                                    ])
+                                    {
+                                        MaxLevel = 5
+                                    },
                 (Abilities.Shielded, 75) => new($"{id}{level}", "Juggernaut",
                                     $"Gain {0.001:0.###%} increased damage per {1000} points of armor rating per level of " +
                                     $"the {Properties.LocalizedStrings.ABL_Shielded} ability",
@@ -978,13 +986,17 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.MasterPerkMultiplier,
                                     [Tags.TimeShield],
                                     []),
-                (Abilities.TwoHanded, 50) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", $"Precise Attacks",
-                                    $"Sacrifice some attack speed to gain increased damage",
-                                    [ModifierType.More, ModifierType.More],
-                                    [0.09, -0.05],
-                                    [[Tags.Damage], [Tags.AttackSpeed]],
-                                    [[], []],
-                                    maxLevel: 5),
+                (Abilities.TwoHanded, 50) => new($"{id}{level}", "Precise Attacks",
+                                    $"Sacrifice some attack speed to gain an exponentially increasing multiplier to damage",
+                                    [],
+                                    (l, e, w, c) =>
+                                    [
+                                        new($"{id}{level}_dmg", ModifierType.More, Math.Pow(1.09, l) - 1.0, [ Tags.Damage ], []),
+                                        new($"{id}{level}_as", ModifierType.More, Math.Pow(0.95, l) - 1.0, [ Tags.AttackSpeed ], [])
+                                    ])
+                                    {
+                                        MaxLevel = 5
+                                    },
                 (Abilities.TwoHanded, 75) => new($"{id}{level}", "Executioner",
                                     $"Gain {0.01:0.#%} increased damage per second of attack time per level of " +
                                     $"{Properties.LocalizedStrings.ABL_TwoHanded} ability",
