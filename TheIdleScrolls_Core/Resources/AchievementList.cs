@@ -368,7 +368,7 @@ namespace TheIdleScrolls_Core.Resources
                 (i > 0) ? ExpressionParser.ParseToFunction($"{oAllRanks[i - 1].Rank[..1]}oALL") : tautology,
                 Conditions.HasLevelledAllAbilitiesCondition(Abilities.Styles, level))
                 {
-                    Reward = GetPerkForLeveledAchievement("oALL", level)
+                    Reward = GetRewardForLeveledAchievement("oALL", level)
                 };
                 achievements.Add(achievement);
             }
@@ -697,7 +697,7 @@ namespace TheIdleScrolls_Core.Resources
                                         [])
                                     ];
                                 })
-                                { MaxLevel = 3 },
+                { MaxLevel = 3 },
                 ("BLN", 75) => new($"{id}{level}", "Armor Breaker",
                                 $"Gain {0.02:0.#%}/{0.04:0.#%}/{0.06:0.#%} increased damage with {id.Localize()}s " +
                                     $"after every attack (up to {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%})",
@@ -710,7 +710,7 @@ namespace TheIdleScrolls_Core.Resources
                                         [])
                                     ];
                                 })
-                                { MaxLevel = 3 },
+                { MaxLevel = 3 },
                 ("LBL", 75) => new($"{id}{level}", "Fluent Technique",
                                 $"Gain {0.1:0.#%}/{0.2:0.#%}/{0.3:0.#%} increased damage or attack speed with {id.Localize()}s " +
                                     $"(changes after each attack)",
@@ -729,7 +729,7 @@ namespace TheIdleScrolls_Core.Resources
                                         )
                                     ];
                                 })
-                                { MaxLevel = 3},
+                { MaxLevel = 3 },
                 ("POL", 75) => new($"{id}{level}", "Skewer",
                                 $"Gain {0.02:0.#%}/{0.04:0.#%}/{0.06:0.#%} increased damage with {id.Localize()}s " +
                                     $"after every attack (up to {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%})",
@@ -737,14 +737,14 @@ namespace TheIdleScrolls_Core.Resources
                                 (l, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
-                                    return [ new($"{id}{level}", 
-                                             ModifierType.Increase, 
+                                    return [ new($"{id}{level}",
+                                             ModifierType.Increase,
                                              Math.Min(attacks * 0.05, 0.5),
                                              [ Tags.Damage, Abilities.Polearm ],
                                              [])
                                     ];
                                 })
-                                { MaxLevel = 3 },
+                { MaxLevel = 3 },
                 ("SBL", 75) => new($"{id}{level}", "Critical Strikes",
                                 $"Deal {1.5:0.#%} increased damage with {id.Localize()}s once every {5}/{4}/{3} attacks",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
@@ -752,14 +752,14 @@ namespace TheIdleScrolls_Core.Resources
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     bool bonus = (attacks % (6 - l)) == (5 - l);
-                                    return [ new($"{id}{level}", 
-                                             ModifierType.Increase, 
+                                    return [ new($"{id}{level}",
+                                             ModifierType.Increase,
                                              bonus ? 1.5 : 0.0,
                                             [ Tags.Damage, Abilities.ShortBlade ],
                                             [])
                                     ];
                                 })
-                                { MaxLevel = 3 },
+                { MaxLevel = 3 },
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 50)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Adept",
                                 $"Gain {0.12:0.#%} increased damage with {id.Localize()}s",
@@ -838,9 +838,9 @@ namespace TheIdleScrolls_Core.Resources
                                             )
                                         ];
                                     })
-                                    {
-                                        Permanent = true
-                                    },
+                                {
+                                    Permanent = true
+                                },
                 ("ABL_CRAFT", 50)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", "Crafting Journeyman",
                                     $"Gain a discount for all crafts",
@@ -878,14 +878,14 @@ namespace TheIdleScrolls_Core.Resources
                 (Abilities.DualWield, 50) => new($"{id}{level}", "Reckless Assault",
                                     $"Sacrifice some defense to gain an exponentially increasing multiplier to attack speed",
                                     [],
-                                    (l, e, w, c) => 
+                                    (l, e, w, c) =>
                                     [
                                         new($"{id}{level}_as", ModifierType.More, Math.Pow(1.09, l) - 1.0, [ Tags.AttackSpeed ], []),
                                         new($"{id}{level}_def", ModifierType.More, Math.Pow(0.95, l) - 1.0, [ Tags.Defense ], [])
                                     ])
-                                    {
-                                        MaxLevel = 5
-                                    },
+                {
+                    MaxLevel = 5
+                },
                 (Abilities.DualWield, 75) => new($"{id}{level}", "Assassin",
                                     $"Gain {0.1} base damage per level of the {Properties.LocalizedStrings.ABL_DualWield} ability",
                                     [UpdateTrigger.AbilityIncreased],
@@ -900,7 +900,7 @@ namespace TheIdleScrolls_Core.Resources
                                             )
                                         ];
                                     }),
-                (Abilities.DualWield, 100) => PerkFactory.MakeStaticPerk($"{id}{level}", 
+                (Abilities.DualWield, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_DualWield} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} attack speed multiplier",
                                     ModifierType.More,
@@ -915,13 +915,13 @@ namespace TheIdleScrolls_Core.Resources
                                         new($"{id}{level}_def", ModifierType.More, Math.Pow(1.09, l) - 1.0, [ Tags.Defense ], []),
                                         new($"{id}{level}_dmg", ModifierType.More, Math.Pow(0.95, l) - 1.0, [ Tags.Damage ], [])
                                     ])
-                                    {
-                                        MaxLevel = 5
-                                    },
+                {
+                    MaxLevel = 5
+                },
                 (Abilities.Shielded, 75) => new($"{id}{level}", "Juggernaut",
                                     $"Gain {0.001:0.###%} increased damage per {1000} points of armor rating per level of " +
                                     $"the {Properties.LocalizedStrings.ABL_Shielded} ability",
-                                    [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged, 
+                                    [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
                                         UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
                                     (_, e, w, c) =>
                                     {
@@ -963,7 +963,7 @@ namespace TheIdleScrolls_Core.Resources
                                             )
                                         ];
                                     })
-                                    { MaxLevel = 5 },
+                { MaxLevel = 5 },
                 (Abilities.SingleHanded, 75) => new($"{id}{level}", "Duelist",
                                     $"Gain {0.02:0.#%} increased damage per level of the " +
                                         $"{Properties.LocalizedStrings.ABL_SingleHanded} ability while evading",
@@ -994,9 +994,9 @@ namespace TheIdleScrolls_Core.Resources
                                         new($"{id}{level}_dmg", ModifierType.More, Math.Pow(1.09, l) - 1.0, [ Tags.Damage ], []),
                                         new($"{id}{level}_as", ModifierType.More, Math.Pow(0.95, l) - 1.0, [ Tags.AttackSpeed ], [])
                                     ])
-                                    {
-                                        MaxLevel = 5
-                                    },
+                {
+                    MaxLevel = 5
+                },
                 (Abilities.TwoHanded, 75) => new($"{id}{level}", "Executioner",
                                     $"Gain {0.01:0.#%} increased damage per second of attack time per level of " +
                                     $"{Properties.LocalizedStrings.ABL_TwoHanded} ability",
@@ -1021,9 +1021,60 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.MasterPerkMultiplier,
                                     [Tags.Damage],
                                     []),
+                ("oALL", 25) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", "Fighting Affinity",
+                                    $"{Stats.SavantXpMultiplier:0.#%} increased experience gain for fighting style abilities",
+                                    Enumerable.Repeat(ModifierType.Increase, 4).ToList(),
+                                    Enumerable.Repeat(Stats.SavantXpMultiplier, 4).ToList(),
+                                    [
+                                        [Tags.AbilityXpGain, Abilities.DualWield], 
+                                        [Tags.AbilityXpGain, Abilities.Shielded], 
+                                        [Tags.AbilityXpGain, Abilities.SingleHanded], 
+                                        [Tags.AbilityXpGain, Abilities.TwoHanded]
+                                    ],
+                                    [[], [], [], []],
+                                    alwaysActive: true),
+                ("oALL", 50) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", "Allrounder", 
+                                    "",
+                                    Enumerable.Repeat(ModifierType.Increase, 4).ToList(),
+                                    [Stats.BasicDamageIncrease, Stats.BasicAttackSpeedIncrease, Stats.BasicDefenseIncrease, Stats.BasicTimeIncrease],
+                                    [[Tags.Damage], [Tags.AttackSpeed], [Tags.Defense], [Tags.TimeShield]],
+                                    [[], [], [], []],
+                                    maxLevel: 3),
+                ("oALL", 100) => new($"{id}{level}", "Ascendant",
+                                    $"Gain half the bonuses of the Assassin, Juggernaut, Duelist and Executioner perks",
+                                    [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
+                                        UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
+                                    (_, e, w, c) =>
+                                    {
+                                        double cooldown = e.GetComponent<AttackComponent>()?.Cooldown.Duration ?? 0.0;
+                                        double armor = e.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
+                                        var abilitiesComp = e.GetComponent<AbilitiesComponent>();
+                                        int lvlDW = abilitiesComp?.GetAbility(Abilities.DualWield)?.Level ?? 0;
+                                        int lvlSh = abilitiesComp?.GetAbility(Abilities.Shielded)?.Level ?? 0;
+                                        int lvlSi = abilitiesComp?.GetAbility(Abilities.SingleHanded)?.Level ?? 0;
+                                        int lvlTH = abilitiesComp?.GetAbility(Abilities.TwoHanded)?.Level ?? 0;
+                                        return
+                                        [
+                                            new($"{id}{level}_DW", ModifierType.AddBase, 0.05 * lvlDW, [Tags.Damage], []),
+                                            new($"{id}{level}_Sh", ModifierType.Increase, 0.001 * (lvlSh * armor / 2000.0), [Tags.Damage], []),
+                                            new($"{id}{level}_Si", ModifierType.Increase, 0.01 * lvlSi, [Tags.Damage], [Tags.Evading]),
+                                            new($"{id}{level}_TH", ModifierType.Increase, cooldown * lvlTH / 200.0, [Tags.Damage], [])
+                                        ];
+                                    }),
                 _ => null
             };
             return perk != null ? new PerkReward(perk) as dynamic : null;
+        }
+
+        public static IAchievementReward? GetRewardForLeveledAchievement(string id, int level)
+        {
+            switch (id, level)
+            {
+                case ("oALL", 75): break;
+                default: 
+                    break;
+            }
+            return GetPerkForLeveledAchievement(id, level);
         }
     }
 }
