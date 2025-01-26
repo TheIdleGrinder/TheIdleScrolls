@@ -1070,7 +1070,7 @@ namespace TheIdleScrolls_Core.Resources
         {
             switch (id, level)
             {
-                case ("oALL", 75): break;
+                case ("oALL", 75): return new AbilityLevelReward(Abilities.Styles, 25);
                 default: 
                     break;
             }
