@@ -136,6 +136,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
                     StopGameLoop();
                 }
             }
+            DialogueMessages.Clear();
+            ExpiringMessages.Clear();
         }
 
         public void StopGameLoop()
