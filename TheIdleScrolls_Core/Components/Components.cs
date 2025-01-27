@@ -130,6 +130,11 @@ namespace TheIdleScrolls_Core.Components
         {
             Current += amount;
         }
+
+        public void Reset()
+        {
+            Current = 0;
+        }
     }
 
     public class ItemComponent : IComponent
