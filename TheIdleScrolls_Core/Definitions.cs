@@ -222,7 +222,7 @@ namespace TheIdleScrolls_Core
         {
             if (areaLevel == 0)
                 return 0.0;
-            return 10.0 * (1.0 * playerLevel / areaLevel) / CalculateMobArmorPierce(areaLevel);
+            return 10.0 / CalculateMobArmorPierce(areaLevel);
         }
 
         public static double CalculateRefiningSuccessRate(int abilityLevel, int currentQuality)
