@@ -256,11 +256,11 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     const string hiddenInfo = "?????????? (Secret achievement)";
                     List<AchievementRepresentation> achievements = achComp.Achievements
-                        .Where(a => a.Status != Achievements.AchievementStatus.Unavailable)
+                        .Where(a => a.Status != AchievementStatus.Unavailable)
                         .Select(a => new AchievementRepresentation(
                             a.Title,
                             (a.Hidden && a.Status != AchievementStatus.Awarded) ? hiddenInfo : a.Description, 
-                            a.Status == Achievements.AchievementStatus.Awarded,
+                            a.Status == AchievementStatus.Awarded,
                             a.Reward?.Description ?? "")
                     ).ToList();
                     AchievementsChanged?.Invoke(achievements, achComp.Achievements.Count);
