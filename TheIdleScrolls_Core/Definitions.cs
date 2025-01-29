@@ -19,6 +19,7 @@ namespace TheIdleScrolls_Core
             public const double AttackSpeedPerAbilityLevel = 0.01;
             public const double DualWieldAttackSpeedMulti = 0.2;
             public const double DefensePerAbilityLevel = 0.02;
+            public const double MaxAttacksPerSecond = 10.0;
 
             public const double ArmorSlowdownPerPoint = 0.01;
             public const double EvasionBonusPerPoint = 0.01;

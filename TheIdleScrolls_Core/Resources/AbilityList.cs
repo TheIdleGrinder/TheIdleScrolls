@@ -88,25 +88,25 @@ namespace TheIdleScrolls_Core.Resources
             // Fighting Styles
             abilities.Add(new AbilityDefinition(Abilities.DualWield)
             {
-                Name = Properties.LocalizedStrings.ABL_DualWield,
+                Name = Properties.LocalizedStrings.ABL_DUALWIELD,
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve
             });
             abilities.Add(new AbilityDefinition(Abilities.Shielded)
             {
-                Name = Properties.LocalizedStrings.ABL_Shielded,
+                Name = Properties.LocalizedStrings.ABL_SHIELDED,
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve
             });
             abilities.Add(new AbilityDefinition(Abilities.SingleHanded)
             {
-                Name = Properties.LocalizedStrings.ABL_SingleHanded,
+                Name = Properties.LocalizedStrings.ABL_SINGLEHANDED,
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve
             });
             abilities.Add(new AbilityDefinition(Abilities.TwoHanded)
             {
-                Name = Properties.LocalizedStrings.ABL_TwoHanded,
+                Name = Properties.LocalizedStrings.ABL_TWOHANDED,
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve
             });

@@ -84,7 +84,8 @@ namespace TheIdleScrolls_Core.Systems
                     ?? throw new Exception($"Entity #{setLevelRequest.OwnerId} not found");
                 var perksComp = owner.GetComponent<PerksComponent>()!;
                 var perk = perksComp.GetPerks().First(p => p.Id == setLevelRequest.PerkId);
-                
+                bool decreasing = perksComp.GetPerkLevel(perk.Id) > setLevelRequest.Level;
+
                 if (perksComp.GetPerkLevel(perk.Id) == setLevelRequest.Level)
                 {
                     continue;
@@ -94,7 +95,7 @@ namespace TheIdleScrolls_Core.Systems
                     coordinator.PostMessage(this, new TextMessage("Permanent perks cannot be changed", IMessage.PriorityLevel.VeryHigh));
                     continue;
                 }
-                if (setLevelRequest.Level - perksComp.GetPerkLevel(perk.Id) > perksComp.GetAvailablePerkPoints())
+                if (setLevelRequest.Level - perksComp.GetPerkLevel(perk.Id) > perksComp.GetAvailablePerkPoints() && !decreasing)
                 {
                     coordinator.PostMessage(this, new TextMessage($"{owner.GetName()} does not have enough free perk points",
                         IMessage.PriorityLevel.VeryHigh));

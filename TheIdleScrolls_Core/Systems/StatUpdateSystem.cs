@@ -134,7 +134,7 @@ namespace TheIdleScrolls_Core.Systems
                 attackComp.RawDamage = Math.Round(rawDamage);
 
                 cooldown *= 1.0 + encumbrance / 100.0; // Encumbrance slows attack speed multiplicatively
-                cooldown = Math.Max(cooldown, 0.1); // Maximum of 10 attacks per second
+                cooldown = Math.Max(cooldown, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
                 if (cooldown != attackComp.Cooldown.Duration)
                     attackComp.Cooldown.ChangeDuration(cooldown, true);
             }

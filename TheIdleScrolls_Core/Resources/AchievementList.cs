@@ -887,7 +887,7 @@ namespace TheIdleScrolls_Core.Resources
                     MaxLevel = 5
                 },
                 (Abilities.DualWield, 75) => new($"{id}{level}", "Assassin",
-                                    $"Gain {0.1} base damage per level of the {Properties.LocalizedStrings.ABL_DualWield} ability",
+                                    $"Gain {0.1} base damage per level of the {Properties.LocalizedStrings.ABL_DUALWIELD} ability",
                                     [UpdateTrigger.AbilityIncreased],
                                     (_, e, w, c) =>
                                     {
@@ -901,7 +901,7 @@ namespace TheIdleScrolls_Core.Resources
                                         ];
                                     }),
                 (Abilities.DualWield, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
-                                    $"{Properties.LocalizedStrings.ABL_DualWield} Master",
+                                    $"{Properties.LocalizedStrings.ABL_DUALWIELD} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} attack speed multiplier",
                                     ModifierType.More,
                                     Stats.MasterPerkMultiplier,
@@ -920,7 +920,7 @@ namespace TheIdleScrolls_Core.Resources
                 },
                 (Abilities.Shielded, 75) => new($"{id}{level}", "Juggernaut",
                                     $"Gain {0.001:0.###%} increased damage per {1000} points of armor rating per level of " +
-                                    $"the {Properties.LocalizedStrings.ABL_Shielded} ability",
+                                    $"the {Properties.LocalizedStrings.ABL_SHIELDED} ability",
                                     [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
                                         UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
                                     (_, e, w, c) =>
@@ -936,7 +936,7 @@ namespace TheIdleScrolls_Core.Resources
                                         ];
                                     }),
                 (Abilities.Shielded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
-                                    $"{Properties.LocalizedStrings.ABL_Shielded} Master",
+                                    $"{Properties.LocalizedStrings.ABL_SHIELDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} defense multiplier",
                                     ModifierType.More,
                                     Stats.MasterPerkMultiplier,
@@ -949,7 +949,7 @@ namespace TheIdleScrolls_Core.Resources
                                     [Tags.Damage],
                                     [Tags.SingleHanded]),
                 (Abilities.SingleHanded, 50) => new($"{id}{level}", "Fleet-footed",
-                                    $"Gain base evasion rating per level of the {Properties.LocalizedStrings.ABL_SingleHanded} " +
+                                    $"Gain base evasion rating per level of the {Properties.LocalizedStrings.ABL_SINGLEHANDED} " +
                                         $"ability while fighting single-handed",
                                     [UpdateTrigger.AbilityIncreased],
                                     (l, e, w, c) =>
@@ -966,7 +966,7 @@ namespace TheIdleScrolls_Core.Resources
                 { MaxLevel = 5 },
                 (Abilities.SingleHanded, 75) => new($"{id}{level}", "Duelist",
                                     $"Gain {0.02:0.#%} increased damage per level of the " +
-                                        $"{Properties.LocalizedStrings.ABL_SingleHanded} ability while evading",
+                                        $"{Properties.LocalizedStrings.ABL_SINGLEHANDED} ability while evading",
                                     [UpdateTrigger.AbilityIncreased],
                                     (_, e, w, c) =>
                                     {
@@ -980,7 +980,7 @@ namespace TheIdleScrolls_Core.Resources
                                         ];
                                     }),
                 (Abilities.SingleHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
-                                    $"{Properties.LocalizedStrings.ABL_SingleHanded} Master",
+                                    $"{Properties.LocalizedStrings.ABL_SINGLEHANDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} time limit multiplier",
                                     ModifierType.More,
                                     Stats.MasterPerkMultiplier,
@@ -999,7 +999,7 @@ namespace TheIdleScrolls_Core.Resources
                 },
                 (Abilities.TwoHanded, 75) => new($"{id}{level}", "Executioner",
                                     $"Gain {0.01:0.#%} increased damage per second of attack time per level of " +
-                                    $"{Properties.LocalizedStrings.ABL_TwoHanded} ability",
+                                    $"{Properties.LocalizedStrings.ABL_TWOHANDED} ability",
                                     [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
                                         UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
                                     (_, e, w, c) =>
@@ -1015,7 +1015,7 @@ namespace TheIdleScrolls_Core.Resources
                                         ];
                                     }),
                 (Abilities.TwoHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
-                                    $"{Properties.LocalizedStrings.ABL_TwoHanded} Master",
+                                    $"{Properties.LocalizedStrings.ABL_TWOHANDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} damage multiplier",
                                     ModifierType.More,
                                     Stats.MasterPerkMultiplier,

@@ -5,7 +5,9 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Modifiers;
+using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core.Components
 {
@@ -22,8 +24,12 @@ namespace TheIdleScrolls_Core.Components
 
         readonly HashSet<string> ChangedPerks = []; // Holds list of perks that need to be processed by the PerksSystem
 
+        static List<string> OrderedPerkIds = []; // Holds the order of perks, which is used when adding new perks
+
         public void AddPerk(Perk perk, int index = -1)
         {
+            if (OrderedPerkIds.Count == 0)
+                PrepareOrderList();
             if (Perks.Any(p => p.Id == perk.Id))
                 return;
             if (index >= 0 && index <= Perks.Count)
@@ -32,14 +38,37 @@ namespace TheIdleScrolls_Core.Components
             }
             else
             {
-                if (perk.Permanent)
+                int targetIndex = OrderedPerkIds.IndexOf(perk.Id);
+                if (targetIndex == -1)
                 {
-                    Perks.Insert(GetPermanentPerkCount(), perk);
+                    if (perk.Permanent)
+                    {
+                        Perks.Insert(GetPermanentPerkCount(), perk);
+                    }
+                    else
+                    {
+                        Perks.Add(perk);
+                    }
                 }
                 else
                 {
-                    Perks.Add(perk);
+                    bool added = false;
+                    foreach (var p in Perks)
+                    {
+                        int pIndex = OrderedPerkIds.IndexOf(p.Id);
+                        if (pIndex > targetIndex) // Conveniently skips perks basic perks that are not in the list
+                        {
+                            Perks.Insert(Perks.IndexOf(p), perk);
+                            added = true;
+                            break;
+                        }
+                    }
+                    if (!added)
+                    {
+                        Perks.Add(perk);
+                    }
                 }
+                
             }
             if (!PerkLevels.ContainsKey(perk.Id))
             {
@@ -133,6 +162,28 @@ namespace TheIdleScrolls_Core.Components
             PerkLevels[id] = level;
             ChangedPerks.Add(id);
             return true;
+        }
+
+        private static void PrepareOrderList()
+        {
+            List<string> permanent = [];
+            List<string> nonPermanent = [];
+            foreach (var ach in AchievementList.GetAllAchievements())
+            {
+                if (ach.Reward != null && ach.Reward.GetType() == typeof(PerkReward))
+                {
+                    var perk = ((PerkReward)ach.Reward).Perk;
+                    if (perk.Permanent)
+                    {
+                        permanent.Add(perk.Id);
+                    }
+                    else
+                    {
+                        nonPermanent.Add(perk.Id);
+                    }
+                }
+            }
+            OrderedPerkIds = permanent.Concat(nonPermanent).ToList();
         }
     }
 }
