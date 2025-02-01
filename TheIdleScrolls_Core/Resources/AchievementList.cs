@@ -4,6 +4,7 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
+using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Resources
@@ -198,7 +199,7 @@ namespace TheIdleScrolls_Core.Resources
                         (i > 0) ? ExpressionParser.ParseToFunction($"{weapFamily}{ranks[i - 1].Level}") : tautology,
                         ExpressionParser.ParseToFunction($"abl:{weapFamily} >= {level}"))
                     {
-                        Reward = GetPerkForLeveledAchievement(weapFamily, level)
+                        Reward = GetRewardForLeveledAchievement(weapFamily, level)
                     };
                     achievements.Add(achievement);
                 }
@@ -215,7 +216,7 @@ namespace TheIdleScrolls_Core.Resources
                         (i > 0) ? ExpressionParser.ParseToFunction($"{armorFamily}{ranks[i - 1].Level}") : tautology,
                         ExpressionParser.ParseToFunction($"abl:{armorFamily} >= {level}"))
                     {
-                        Reward = GetPerkForLeveledAchievement(armorFamily, level)
+                        Reward = GetRewardForLeveledAchievement(armorFamily, level)
                     };
                     achievements.Add(achievement);
                 }
@@ -378,13 +379,13 @@ namespace TheIdleScrolls_Core.Resources
             {
                 int level = ranks[i].Level;
                 achievements.Add(new(
-                    $"CRAFTING{level}",
+                    $"{Abilities.Crafting}{level}",
                     $"{ranks[i].Rank} Blacksmith",
                     $"Train Crafting ability to level {level}",
-                    (i > 0) ? ExpressionParser.ParseToFunction($"CRAFTING{ranks[i - 1].Level}") : tautology,
+                    (i > 0) ? ExpressionParser.ParseToFunction($"{Abilities.Crafting}{ranks[i - 1].Level}") : tautology,
                     ExpressionParser.ParseToFunction($"abl:ABL_CRAFT >= {level}"))
                 {
-                    Reward = GetPerkForLeveledAchievement("ABL_CRAFT", level)
+                    Reward = GetRewardForLeveledAchievement(Abilities.Crafting, level)
                 });
             }
             string[] craftNames = [ "Transmuted", "Augmented", "Regal", "Exalted", "Divine", "Awakened", "Eternal" ];
@@ -632,7 +633,7 @@ namespace TheIdleScrolls_Core.Resources
         {
             var perk = (id, level) switch
             {
-                ("LVL", 150) => PerkFactory.MakeStaticPerk($"{id}{level}", "Experienced",
+                ("LVL", 150) => PerkFactory.MakeStaticPerk($"{id}{level}", "Quick Learner",
                                 $"Gain {Stats.SavantXpMultiplier:0.#%} increased experience",
                                 ModifierType.Increase,
                                 Stats.SavantXpMultiplier,
@@ -1070,6 +1071,15 @@ namespace TheIdleScrolls_Core.Resources
         {
             switch (id, level)
             {
+                case (Abilities.Axe 
+                    or Abilities.Blunt 
+                    or Abilities.LongBlade 
+                    or Abilities.Polearm 
+                    or Abilities.ShortBlade 
+                    or Abilities.LightArmor 
+                    or Abilities.HeavyArmor 
+                    or Abilities.Crafting, 150): return new TextReward($"Natural Affinity for '{id.Localize()}' ability");
+                case ("oALL", 25): return new TextReward("Natural Affinity for fighting styles");
                 case ("oALL", 75): return new AbilityLevelReward(Abilities.Styles, 25);
                 default: 
                     break;

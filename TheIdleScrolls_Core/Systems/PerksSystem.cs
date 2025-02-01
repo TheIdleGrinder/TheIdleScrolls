@@ -1,4 +1,5 @@
 ﻿using MiniECS;
+using System.Reflection.Metadata.Ecma335;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
@@ -147,6 +148,38 @@ namespace TheIdleScrolls_Core.Systems
 
         static void AddBasicPerks(PerksComponent perksComponent)
         {
+            // Create perk that bundles the bonuses to ability experience gains
+            perksComponent.AddPerk(new("NaturalAffinities", "Natural Affinity",
+                "Gain increased experience with for your abilities",
+                [UpdateTrigger.AchievementUnlocked],
+                (_, _, w, _) =>
+                {
+                    var achComp = w.GlobalEntity.GetComponent<AchievementsComponent>();
+                    if (achComp == null)
+                        return [];
+                    List<Modifier> mods = [];
+                    List<string> ids = [.. Abilities.Weapons, .. Abilities.Armors, Abilities.Crafting];
+                    foreach (string id in ids)
+                    {
+                        if (achComp.IsAchievementUnlocked($"{id}150"))
+                        {
+                            mods.Add(new($"NatAff_{id}", ModifierType.Increase, Stats.SavantXpMultiplier, [Tags.AbilityXpGain, id], []));
+                        }
+                    }
+                    if (achComp.IsAchievementUnlocked("JoALL"))
+                    {
+                        foreach (string id in Abilities.Styles)
+                        {
+                            mods.Add(new("NatAff_FS", ModifierType.Increase, Stats.SavantXpMultiplier, [Tags.AbilityXpGain, id], []));
+                        }
+                    }
+                    return mods;
+                })
+                {
+                    Permanent = true
+                }, 
+                0);
+
             // Create perk for fighting styles
             perksComponent.AddPerk(new("FightingStyles", "Fighting Styles",
                 "Gain combat bonusses based on the ability level of your current fighting style",

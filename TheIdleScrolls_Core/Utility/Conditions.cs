@@ -42,8 +42,7 @@ namespace TheIdleScrolls_Core.Utility
 
         public static bool IsAchievementUnlocked(World w, string achievementId)
         {
-            return w.GlobalEntity.GetComponent<AchievementsComponent>()?.Achievements
-                ?.Any(a => a.Id == achievementId && a.Status == Achievements.AchievementStatus.Awarded) ?? false;
+            return w.GlobalEntity.GetComponent<AchievementsComponent>()?.IsAchievementUnlocked(achievementId) ?? false;
         }
 
         public static bool HasDefeatedMobs(Entity e, IEnumerable<string> mobTypes)
