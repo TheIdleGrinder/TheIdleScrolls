@@ -12,8 +12,6 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class TravelSystem : AbstractSystem
     {
-        bool m_autoProceed = false;
-
         bool m_firstUpdate = true;
 
         public override void Update(World world, Coordinator coordinator, double dt)
@@ -30,7 +28,6 @@ namespace TheIdleScrolls_Core.Systems
             if (m_firstUpdate)
             {
                 m_firstUpdate = false;
-                coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed)); // CornerCut: make info accessible to app
             }
 
             // Update available areas
@@ -67,7 +64,7 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this, new AutoProceedRequest(false));
             }
             // Translate Death (victory) && auto proceed => Travel one zone forward
-            if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed && !locationComp.InDungeon)
+            if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && (travelComp?.AutoProceed ?? false) && !locationComp.InDungeon)
             {
                 coordinator.PostMessage(this, new SingleStepTravelRequest(true));
             }
@@ -99,10 +96,10 @@ namespace TheIdleScrolls_Core.Systems
 
             // Handle changes to auto proceed status
             var autoProcRequest = coordinator.FetchMessagesByType<AutoProceedRequest>().LastOrDefault(); // Consider only most recent
-            if (autoProcRequest != null)
+            if (autoProcRequest != null && travelComp != null)
             {
-                m_autoProceed = autoProcRequest.AutoProceed;
-                coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed));
+                travelComp.AutoProceed = autoProcRequest.AutoProceed;
+                coordinator.PostMessage(this, new AutoProceedStatusMessage(travelComp.AutoProceed));
             }
         }
     }
