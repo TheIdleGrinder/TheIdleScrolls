@@ -50,6 +50,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<IItemEntity> CraftingRecipes { get; private set; } = new();
         public CraftingBenchRepresentation CraftingBench { get; private set; } = new(0, 0, 0, new());
         public bool AutoProceedActive => PlayerCharacter?.GetComponent<TravellerComponent>()?.AutoProceed ?? false;
+        public bool AutoGrindActive => PlayerCharacter?.GetComponent<TravellerComponent>()?.AutoGrindDungeons ?? false;
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
         public List<IItemEntity> Inventory { get; private set; } = new();
         public List<IItemEntity> Equipment { get; private set; } = new();
