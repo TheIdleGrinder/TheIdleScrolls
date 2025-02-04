@@ -148,6 +148,16 @@ namespace TheIdleScrolls_Core.Resources
                 $"Complete {Properties.Places.Dungeon_Void} at area level 125",
                 Conditions.AchievementUnlockedCondition("DNG:VOID@100"),
                 Conditions.DungeonLevelCompletedCondition(DungeonIds.Void, 125)));
+
+            achievements.Add(new("DUNGEONGRIND12",
+                "Dungeon Delver's Dozen",
+                $"Complete dungeons 12 times",
+                Conditions.DungeonAvailableCondition(DungeonIds.DenOfRats),
+                Conditions.DungeonClearCountCondition(12)
+            )
+            {
+                Reward = new FeatureReward(GameFeature.DungeonGrinding, "Auto-grind dungeons")
+            });
             achievements.Add(new("VOIDBOSSES",
                 "Void Duelist",
                 $"Defeat all different bosses in {Properties.Places.Dungeon_Void}",

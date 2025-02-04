@@ -106,8 +106,8 @@ namespace TheIdleScrolls_Core.Systems
             var autoGrindRequest = coordinator.FetchMessagesByType<AutoGrindDungeonsRequest>().LastOrDefault(); // Consider only most recent
             if (autoGrindRequest != null && travelComp != null)
             {
-                travelComp.AutoProceed = autoGrindRequest.AutoGrind;
-                coordinator.PostMessage(this, new AutoProceedStatusMessage(travelComp.AutoProceed));
+                travelComp.AutoGrindDungeons = autoGrindRequest.AutoGrind;
+                coordinator.PostMessage(this, new AutoGrindDungeonsStatusMessage(travelComp.AutoGrindDungeons));
             }
         }
     }

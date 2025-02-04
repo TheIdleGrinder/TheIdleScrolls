@@ -64,7 +64,7 @@ namespace TheIdleScrollsApp
 
         public void SetGrindDungeon(bool grind)
         {
-            m_requests.Add(new AutoProceedRequest(grind));
+            m_requests.Add(new AutoGrindDungeonsRequest(grind));
         }
 
         public void TravelIntoWilderness(int areaLevel)

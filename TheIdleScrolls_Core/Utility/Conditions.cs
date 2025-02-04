@@ -55,6 +55,11 @@ namespace TheIdleScrolls_Core.Utility
             return (e.GetComponent<PlayerProgressComponent>()?.Data.ConditionalKills.GetValueOrDefault(tag) ?? 0) >= count;
         }
 
+        public static int GetDungeonClearCount(Entity e)
+        {
+            return e.GetComponent<PlayerProgressComponent>()?.Data.DungeonCompletions.Sum(dc => dc.Value.Sum(kv => kv.Value)) ?? 0;
+        }
+
         public static ConditionFunction WildernessLevelClearedCondition(int level)
         {
             return (e, w) => HasClearedWildernessLevel(e, level);
@@ -98,6 +103,11 @@ namespace TheIdleScrolls_Core.Utility
         public static ConditionFunction HasLevelledAllAbilitiesCondition(List<string> abilityIds, int level)
         {
             return (e, w) => abilityIds.All(id => (e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0) >= level);
+        }
+
+        public static ConditionFunction DungeonClearCountCondition(int count)
+        {
+            return (e, w) => GetDungeonClearCount(e) >= count;
         }
     }
 }
