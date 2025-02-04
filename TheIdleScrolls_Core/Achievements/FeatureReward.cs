@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Systems;
 
 namespace TheIdleScrolls_Core.Achievements
 {
@@ -18,7 +19,11 @@ namespace TheIdleScrolls_Core.Achievements
             var playerComp = entity.GetComponent<PlayerComponent>();
             if (playerComp == null)
                 return false;
-            playerComp.AvailableFeatures.Add(Feature);
+            bool added = playerComp.AvailableFeatures.Add(Feature);
+            if (added)
+            {
+                postMessageCallback(new FeatureStateMessage(Feature, true));
+            }
             return true;
         }
     }
