@@ -62,7 +62,7 @@ namespace TheIdleScrolls_Core.Quests
 
             void setQuestState(StateFlags progress, string message)
             {
-                StateFlags previousState = (StateFlags)storyComp.GetQuestProgress(GetId());
+                StateFlags previousState = (StateFlags)storyComp.GetQuestProgress(GetId(), 0);
                 StateFlags newState = previousState | progress;
                 storyComp.SetQuestProgress(GetId(), newState);
                 postMessageCallback(new QuestProgressMessage(GetId(), (int)newState, message, "Getting Started"));

@@ -232,7 +232,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die A Sinister Threat ähnelt.
         /// </summary>
         internal static string Story_Title {
             get {
