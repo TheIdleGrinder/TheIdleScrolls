@@ -15,8 +15,8 @@ namespace TheIdleScrolls_Core.Resources
         private static void GenerateAbilities()
         {
             List<AbilityDefinition> abilities = [];
-            static int regularXpCurve(int x) => 50 * (int)Math.Pow(x, 1.5);
-            static int slowXpCurve(int x)    => 50 * (int)Math.Pow(2 * x, 1.5); // slower but uses lower cap
+            static int regularXpCurve(int x) => 60 * (int)Math.Pow(x, 1.5);
+            static int slowXpCurve(int x)    => 60 * (int)Math.Pow(2 * x, 1.5); // slower but uses lower cap
             int regularMaxLevel              = 200;
             int slowMaxLevel                 = 100;
 
