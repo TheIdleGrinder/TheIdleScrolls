@@ -190,7 +190,7 @@ namespace TheIdleScrolls_Core.Systems
                     int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.DualWield)?.Level ?? 0;
                     if (level > 0)
                     {
-                        modifiers.Add(new($"abl{Abilities.DualWield}", ModifierType.More, level * 0.005, [Tags.Damage], [Tags.DualWield]));
+                        modifiers.Add(new($"abl{Abilities.DualWield}", ModifierType.More, level * 0.005, [Tags.AttackSpeed], [Tags.DualWield]));
                     }
                     level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.Shielded)?.Level ?? 0;
                     if (level > 0)
@@ -205,7 +205,7 @@ namespace TheIdleScrolls_Core.Systems
                     level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.TwoHanded)?.Level ?? 0;
                     if (level > 0)
                     {
-                        modifiers.Add(new($"abl{Abilities.TwoHanded}", ModifierType.More, level * 0.005, [Tags.AttackSpeed], [Tags.TwoHanded]));
+                        modifiers.Add(new($"abl{Abilities.TwoHanded}", ModifierType.More, level * 0.005, [Tags.Damage], [Tags.TwoHanded]));
                     }
                     return modifiers;
                 })

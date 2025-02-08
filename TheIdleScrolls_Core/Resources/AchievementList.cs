@@ -703,7 +703,7 @@ namespace TheIdleScrolls_Core.Resources
                                 (l, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
-                                    return [ new($"{id}{level}", ModifierType.Increase, Math.Min(attacks * l * 0.01, 0.3),
+                                    return [ new($"{id}{level}", ModifierType.Increase, Math.Min(attacks * l * 0.01, 0.1 * l),
                                         [ Tags.AttackSpeed, Abilities.Axe ],
                                         [])
                                     ];
@@ -716,7 +716,7 @@ namespace TheIdleScrolls_Core.Resources
                                 (l, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
-                                    return [ new($"{id}{level}", ModifierType.Increase, Math.Min(attacks * l * 0.02, 0.6),
+                                    return [ new($"{id}{level}", ModifierType.Increase, Math.Min(attacks * l * 0.02, 0.2 * l),
                                         [ Tags.Damage, Abilities.Blunt ],
                                         [])
                                     ];
@@ -741,16 +741,16 @@ namespace TheIdleScrolls_Core.Resources
                                     ];
                                 })
                 { MaxLevel = 3 },
-                ("POL", 75) => new($"{id}{level}", "Skewer",
-                                $"Gain {0.02:0.#%}/{0.04:0.#%}/{0.06:0.#%} increased damage with {id.Localize()}s " +
-                                    $"after every attack (up to {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%})",
+                ("POL", 75) => new($"{id}{level}", "Skewering Thrusts",
+                                $"Gain {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%} increased damage with {id.Localize()}s. Gets reduced " +
+                                    $"by {0.02:0.#%}/{0.04:0.#%}/{0.06:0.#%} after every attack",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (l, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
                                     return [ new($"{id}{level}",
                                              ModifierType.Increase,
-                                             Math.Min(attacks * 0.05, 0.5),
+                                             0.02 * l * Math.Max(10 - attacks, 1),
                                              [ Tags.Damage, Abilities.Polearm ],
                                              [])
                                     ];
