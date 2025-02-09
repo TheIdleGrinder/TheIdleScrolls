@@ -93,45 +93,45 @@ namespace TheIdleScrolls_Core.Resources
                     {
                         MakeArmor(Properties.Items.Genus_LightChest0, ItemTiers.LevelT0, EquipmentSlot.Chest,  10.0,  6.0, simple),
                         MakeArmor(Properties.Items.Genus_LightChest1, ItemTiers.LevelT1 + ItemTiers.LevelOffsetChest, 
-                            EquipmentSlot.Chest,  14.0,  6.0, leathers),
+                            EquipmentSlot.Chest,  18.0,  6.0, leathers),
                         MakeArmor(Properties.Items.Genus_LightChest2, ItemTiers.LevelT2 + ItemTiers.LevelOffsetChest, 
-                            EquipmentSlot.Chest,  16.0,  6.0, leathers),
+                            EquipmentSlot.Chest,  21.0,  6.0, leathers),
                     }
                 ),
                 new(Definitions.ItemFamilies.LightHelmet, Properties.Items.Family_LightHelmet, Abilities.LightArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_LightHelmet0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetHelmet, 
-                            EquipmentSlot.Head,   10.0,  4.0, leathers),
-                        MakeArmor(Properties.Items.Genus_LightHelmet1, ItemTiers.LevelT2 + ItemTiers.LevelOffsetHelmet, 
                             EquipmentSlot.Head,   12.0,  4.0, leathers),
+                        MakeArmor(Properties.Items.Genus_LightHelmet1, ItemTiers.LevelT2 + ItemTiers.LevelOffsetHelmet, 
+                            EquipmentSlot.Head,   15.0,  4.0, leathers),
                     }
                 ),
                 new(Definitions.ItemFamilies.LightGloves, Properties.Items.Family_LightGloves, Abilities.LightArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_LightGloves0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetGloves, 
-                            EquipmentSlot.Arms,   8.0,  2.5, leathers),
+                            EquipmentSlot.Arms,   9.0,  2.5, leathers),
                         MakeArmor(Properties.Items.Genus_LightGloves1, ItemTiers.LevelT2 + ItemTiers.LevelOffsetGloves, 
-                            EquipmentSlot.Arms,   10.0,  2.5, leathers),
+                            EquipmentSlot.Arms,   11.0,  2.5, leathers),
                     }
                 ),
                 new(Definitions.ItemFamilies.LightBoots, Properties.Items.Family_LightBoots, Abilities.LightArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_LightBoots0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetBoots, 
-                            EquipmentSlot.Legs,   8.0,  2.5, leathers),
+                            EquipmentSlot.Legs,   9.0,  2.5, leathers),
                         MakeArmor(Properties.Items.Genus_LightBoots1, ItemTiers.LevelT2 + ItemTiers.LevelOffsetBoots,
-                            EquipmentSlot.Legs,   10.0,  2.5, leathers),
+                            EquipmentSlot.Legs,   11.0,  2.5, leathers),
                     }
                 ),
                 new(Definitions.ItemFamilies.LightShield, Properties.Items.Family_LightShield, Abilities.LightArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_LightShield0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetShield, 
-                            EquipmentSlot.Hand,   10.0,  3.0, woods),
-                        MakeArmor(Properties.Items.Genus_LIghtShield1, ItemTiers.LevelT2 + ItemTiers.LevelOffsetShield, 
                             EquipmentSlot.Hand,   12.0,  3.0, woods),
+                        MakeArmor(Properties.Items.Genus_LIghtShield1, ItemTiers.LevelT2 + ItemTiers.LevelOffsetShield, 
+                            EquipmentSlot.Hand,   14.0,  3.0, woods),
                     }
                 ),
                 new(Definitions.ItemFamilies.HeavyChest, Properties.Items.Family_HeavyChest, Abilities.HeavyArmor,
@@ -139,45 +139,45 @@ namespace TheIdleScrolls_Core.Resources
                     {
                         MakeArmor(Properties.Items.Genus_HeavyChest0, ItemTiers.LevelT0, EquipmentSlot.Chest,  16.0, 12.0, simple),
                         MakeArmor(Properties.Items.Genus_HeavyChest1, ItemTiers.LevelT1 + ItemTiers.LevelOffsetChest, 
-                            EquipmentSlot.Chest,  22.0, 12.0, metals),
+                            EquipmentSlot.Chest,  22.0, 16.0, metals),
                         MakeArmor(Properties.Items.Genus_HeavyChest2, ItemTiers.LevelT2 + ItemTiers.LevelOffsetChest, 
-                            EquipmentSlot.Chest,  26.0, 12.0, metals),
+                            EquipmentSlot.Chest,  26.0, 16.0, metals),
                     }
                 ),
                 new(Definitions.ItemFamilies.HeavyHelmet, Properties.Items.Family_HeavyHelmet, Abilities.HeavyArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_HeavyHelmet0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetHelmet, 
-                            EquipmentSlot.Head,   16.0,  8.0, metals),
+                            EquipmentSlot.Head,   16.0,  11.0, metals),
                         MakeArmor(Properties.Items.Genus_HeavyHelmet1, ItemTiers.LevelT2 + ItemTiers.LevelOffsetHelmet, 
-                            EquipmentSlot.Head,   19.0,  8.0, metals),
+                            EquipmentSlot.Head,   19.0,  11.0, metals),
                     }
                 ),
                 new(Definitions.ItemFamilies.HeavyGloves, Properties.Items.Family_HeavyGloves, Abilities.HeavyArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_HeavyGloves0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetGloves, 
-                            EquipmentSlot.Arms,   13.0,  5.0, metals),
+                            EquipmentSlot.Arms,   13.0,  6.0, metals),
                         MakeArmor(Properties.Items.Genus_HeavyGloves1, ItemTiers.LevelT2 + ItemTiers.LevelOffsetGloves, 
-                            EquipmentSlot.Arms,   16.0,  5.0, metals),
+                            EquipmentSlot.Arms,   16.0,  6.0, metals),
                     }
                 ),
                 new(Definitions.ItemFamilies.HeavyBoots, Properties.Items.Family_HeavyBoots, Abilities.HeavyArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_HeavyBoots0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetBoots, 
-                            EquipmentSlot.Legs,   13.0,  5.0, metals),
+                            EquipmentSlot.Legs,   13.0,  6.0, metals),
                         MakeArmor(Properties.Items.Genus_HeavyBoots1, ItemTiers.LevelT2 + ItemTiers.LevelOffsetBoots, 
-                            EquipmentSlot.Legs,   16.0,  5.0, metals),
+                            EquipmentSlot.Legs,   16.0,  6.0, metals),
                     }
                 ),
                 new(Definitions.ItemFamilies.HeavyShield, Properties.Items.Family_HeavyShield, Abilities.HeavyArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_HeavyShield0, ItemTiers.LevelT1 + ItemTiers.LevelOffsetShield, 
-                            EquipmentSlot.Hand,   16.0,  6.0, woods),
+                            EquipmentSlot.Hand,   16.0,  9.0, woods),
                         MakeArmor(Properties.Items.Genus_HeavyShield1, ItemTiers.LevelT2 + ItemTiers.LevelOffsetShield, 
-                            EquipmentSlot.Hand,   19.0,  6.0, woods),
+                            EquipmentSlot.Hand,   19.0,  9.0, woods),
                     }
                 )
             };
