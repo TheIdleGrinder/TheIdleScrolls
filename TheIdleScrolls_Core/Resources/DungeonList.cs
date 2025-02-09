@@ -340,7 +340,7 @@ namespace TheIdleScrolls_Core.Resources
                         new(3, 2.4, [ "MOB_RAVEN" ], "Air Wing"),
                         new(2, 1.65, [ "MOB_SNAKE" ], "Water Wing"),
                         new(2, 2.2, [ "MOB_GRYPHON" ], "Fire Wing"),
-                        new(1, 4.0, [ "BOSS_SOREN" ], "Secret Chamber")
+                        new(1, 4.0, [ "BOSS_SOREN" ], "Great Hall")
                     },
                     LocalMobs = new()
                     {

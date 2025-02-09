@@ -23,33 +23,33 @@ namespace TheIdleScrolls_Core.Resources
                     {
                         MakeWeapon(Properties.Items.Genus_OneHandAxe0, ItemTiers.LevelT0, false,  6.0, 1.45, simple),
                         MakeWeapon(Properties.Items.Genus_OneHandAxe1, ItemTiers.LevelT1, false, 10.0, 1.4 , metals),
-                        MakeWeapon(Properties.Items.Genus_OneHandAxe2, ItemTiers.LevelT3, false, 13.0, 1.45, metals.Skip(2).ToList()),
+                        MakeWeapon(Properties.Items.Genus_OneHandAxe2, ItemTiers.LevelT3, false, 13.0, 1.5, metals.Skip(2).ToList()),
                     }
                 ),
                 new(Definitions.ItemFamilies.TwoHandedAxe, Properties.Items.Family_TwoHandAxe, Abilities.Axe,
                     new()
                     {
-                        MakeWeapon(Properties.Items.Genus_TwoHandAxe1, ItemTiers.LevelT2,  true, 16.0, 1.65, metals),
+                        MakeWeapon(Properties.Items.Genus_TwoHandAxe1, ItemTiers.LevelT2,  true, 17.0, 1.7, metals),
                     }
                 ),
                 new(Definitions.ItemFamilies.OneHandedMace, Properties.Items.Family_OneHandMace, Abilities.Blunt,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_OneHandMace0, ItemTiers.LevelT0, false,  7.0, 1.65, simple),
-                        MakeWeapon(Properties.Items.Genus_OneHandMace1, ItemTiers.LevelT1, false, 12.0, 1.65 , metals),
-                        MakeWeapon(Properties.Items.Genus_OneHandMace2, ItemTiers.LevelT3, false, 16.0, 1.75, metals.Skip(2).ToList()),
+                        MakeWeapon(Properties.Items.Genus_OneHandMace1, ItemTiers.LevelT1, false, 12.0, 1.65, metals),
+                        MakeWeapon(Properties.Items.Genus_OneHandMace2, ItemTiers.LevelT3, false, 16.0, 1.8 , metals.Skip(2).ToList()),
                     }
                 ),
                 new(Definitions.ItemFamilies.TwoHandedMace, Properties.Items.Family_TwoHandMace, Abilities.Blunt,
                     new()
                     {
-                        MakeWeapon(Properties.Items.Genus_TwoHandMace1, ItemTiers.LevelT2,  true, 19.0, 1.95, metals),
+                        MakeWeapon(Properties.Items.Genus_TwoHandMace1, ItemTiers.LevelT2,  true, 19.0, 1.9, metals),
                     }
                 ),
                 new(Definitions.ItemFamilies.LongSword, Properties.Items.Family_LongSword, Abilities.LongBlade,
                     new()
                     {
-                        MakeWeapon(Properties.Items.Genus_LongSword1,   ItemTiers.LevelT2, false, 10.0, 1.3 , metals),
+                        MakeWeapon(Properties.Items.Genus_LongSword1,   ItemTiers.LevelT2, false, 11.0, 1.35, metals),
                     }
                 ),
                 new(Definitions.ItemFamilies.TwoHandedSword, Properties.Items.Family_TwoHandSword, Abilities.LongBlade,
@@ -57,15 +57,15 @@ namespace TheIdleScrolls_Core.Resources
                     {
                         MakeWeapon(Properties.Items.Genus_TwoHandSword0, ItemTiers.LevelT0,  true,  5.0, 1.25, simple),
                         MakeWeapon(Properties.Items.Genus_TwoHandSword1, ItemTiers.LevelT1,  true, 13.0, 1.5 , metals),
-                        MakeWeapon(Properties.Items.Genus_TwoHandSword2, ItemTiers.LevelT3,  true, 15.0, 1.4, metals.Skip(2).ToList()),
+                        MakeWeapon(Properties.Items.Genus_TwoHandSword2, ItemTiers.LevelT3,  true, 15.0, 1.4 , metals.Skip(2).ToList()),
                     }
                 ),
                 new(Definitions.ItemFamilies.Spear, Properties.Items.Family_Spear, Abilities.Polearm,
                     new()
                     {
                         MakeWeapon(Properties.Items.Genus_Spear0, ItemTiers.LevelT0,  true,  9.0, 2.05, simple),
-                        MakeWeapon(Properties.Items.Genus_Spear1, ItemTiers.LevelT2,  true, 13.0, 1.4 , woods),
-                        MakeWeapon(Properties.Items.Genus_Spear2, ItemTiers.LevelT3,  true, 26.0, 2.3 , woods.Skip(2).ToList()),
+                        MakeWeapon(Properties.Items.Genus_Spear1, ItemTiers.LevelT2,  true, 14.0, 1.4 , woods),
+                        MakeWeapon(Properties.Items.Genus_Spear2, ItemTiers.LevelT3,  true, 25.0, 2.35, woods.Skip(2).ToList()),
                     }
                 ),
                 new(Definitions.ItemFamilies.Polearm, Properties.Items.Family_Polearm, Abilities.Polearm,
@@ -84,7 +84,7 @@ namespace TheIdleScrolls_Core.Resources
                 new(Definitions.ItemFamilies.ShortSword, Properties.Items.Family_ShortSword, Abilities.ShortBlade,
                     new()
                     {
-                        MakeWeapon(Properties.Items.Genus_ShortSword1, ItemTiers.LevelT2, false,  8.0, 1.05, metals),
+                        MakeWeapon(Properties.Items.Genus_ShortSword1, ItemTiers.LevelT2, false,  9.0, 1.1 , metals),
                         MakeWeapon(Properties.Items.Genus_ShortSword2, ItemTiers.LevelT3, false,  8.0, 0.95, metals.Skip(2).ToList()),
                     }
                 ),
