@@ -968,7 +968,7 @@ namespace TheIdleScrolls_Core.Resources
                                         int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
                                         return
                                         [
-                                            new($"{id}{level}_eva", ModifierType.AddBase, 0.5 * l * lvl,
+                                            new($"{id}{level}_eva", ModifierType.AddBase, 1.0 * l * lvl,
                                                 [Tags.EvasionRating, Tags.Global],
                                                 [Tags.SingleHanded]
                                             )
