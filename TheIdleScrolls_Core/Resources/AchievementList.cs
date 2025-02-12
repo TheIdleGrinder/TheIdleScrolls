@@ -773,7 +773,7 @@ namespace TheIdleScrolls_Core.Resources
                 { MaxLevel = 3 },
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 50)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Adept",
-                                $"Gain {0.12:0.#%} increased damage with {id.Localize()}s",
+                                $"Gain {Stats.BigPerkFactor * Stats.BasicDamageIncrease:0.#%} increased damage with {id.Localize()}s",
                                 ModifierType.Increase,
                                 Stats.BigPerkFactor * Stats.BasicDamageIncrease,
                                 [Tags.Damage, id],
