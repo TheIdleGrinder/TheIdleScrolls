@@ -2,7 +2,7 @@
 
 <div class="crafting-process-frame @(GetComponentClasses())">
     <h5>@(GetCraftTypeName())</h5>
-    <h6 class="@CssUtilities.GetClassesForItem(Craft.Item)">@Craft.Item.Name</h6>
+    <h6 id="craftingProcessItemName" class="@CssUtilities.GetClassesForItem(Craft.Item)">@Craft.Item.Name</h6>
     <div class="progressFrame craftingProgressBarFrame @(GetComponentClasses())" style="justify-content: start">
         <div class="progressFill craftingProgressBar" style="width: @(PctString());"></div>
     </div>
@@ -21,6 +21,7 @@
         border-radius: 8px;
         align-items: center;
         position: relative;
+        white-space: nowrap;
     }
 
     div.craftingProgressBarFrame {
@@ -56,6 +57,10 @@
         min-width: 1.5em;
         min-height: 1.5em;
         border-radius: 50%;
+    }
+
+    #craftingProcessItemName {
+        
     }
 </style>
 
