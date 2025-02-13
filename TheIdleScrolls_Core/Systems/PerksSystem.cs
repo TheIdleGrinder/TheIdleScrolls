@@ -1,4 +1,5 @@
 ﻿using MiniECS;
+using System.Reflection.Metadata.Ecma335;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
@@ -52,7 +53,8 @@ namespace TheIdleScrolls_Core.Systems
                     )
                 {
                     int previousLimit = perksComp.PerkPointLimit;
-                    perksComp.BasePerkPoints = (entity.GetComponent<LevelComponent>()?.Level ?? 0) / Stats.LevelsPerPerkPoint;
+                    int effectiveLevel = Math.Min(entity.GetComponent<LevelComponent>()?.Level ?? 0, Stats.PerkPointLevelLimit);
+                    perksComp.BasePerkPoints = effectiveLevel / Stats.LevelsPerPerkPoint;
                     int change = perksComp.PerkPointLimit - previousLimit;
                     if (change != 0)
                     {
@@ -83,7 +85,8 @@ namespace TheIdleScrolls_Core.Systems
                     ?? throw new Exception($"Entity #{setLevelRequest.OwnerId} not found");
                 var perksComp = owner.GetComponent<PerksComponent>()!;
                 var perk = perksComp.GetPerks().First(p => p.Id == setLevelRequest.PerkId);
-                
+                bool decreasing = perksComp.GetPerkLevel(perk.Id) > setLevelRequest.Level;
+
                 if (perksComp.GetPerkLevel(perk.Id) == setLevelRequest.Level)
                 {
                     continue;
@@ -93,7 +96,7 @@ namespace TheIdleScrolls_Core.Systems
                     coordinator.PostMessage(this, new TextMessage("Permanent perks cannot be changed", IMessage.PriorityLevel.VeryHigh));
                     continue;
                 }
-                if (setLevelRequest.Level - perksComp.GetPerkLevel(perk.Id) > perksComp.GetAvailablePerkPoints())
+                if (setLevelRequest.Level - perksComp.GetPerkLevel(perk.Id) > perksComp.GetAvailablePerkPoints() && !decreasing)
                 {
                     coordinator.PostMessage(this, new TextMessage($"{owner.GetName()} does not have enough free perk points",
                         IMessage.PriorityLevel.VeryHigh));
@@ -145,6 +148,38 @@ namespace TheIdleScrolls_Core.Systems
 
         static void AddBasicPerks(PerksComponent perksComponent)
         {
+            // Create perk that bundles the bonuses to ability experience gains
+            perksComponent.AddPerk(new("NaturalAffinities", "Natural Affinity",
+                "Gain increased experience with for your abilities",
+                [UpdateTrigger.AchievementUnlocked],
+                (_, _, w, _) =>
+                {
+                    var achComp = w.GlobalEntity.GetComponent<AchievementsComponent>();
+                    if (achComp == null)
+                        return [];
+                    List<Modifier> mods = [];
+                    List<string> ids = [.. Abilities.Weapons, .. Abilities.Armors, Abilities.Crafting];
+                    foreach (string id in ids)
+                    {
+                        if (achComp.IsAchievementUnlocked($"{id}150"))
+                        {
+                            mods.Add(new($"NatAff_{id}", ModifierType.Increase, Stats.SavantXpMultiplier, [Tags.AbilityXpGain, id], []));
+                        }
+                    }
+                    if (achComp.IsAchievementUnlocked("JoALL"))
+                    {
+                        foreach (string id in Abilities.Styles)
+                        {
+                            mods.Add(new("NatAff_FS", ModifierType.Increase, Stats.SavantXpMultiplier, [Tags.AbilityXpGain, id], []));
+                        }
+                    }
+                    return mods;
+                })
+                {
+                    Permanent = true
+                }, 
+                0);
+
             // Create perk for fighting styles
             perksComponent.AddPerk(new("FightingStyles", "Fighting Styles",
                 "Gain combat bonusses based on the ability level of your current fighting style",
@@ -155,7 +190,7 @@ namespace TheIdleScrolls_Core.Systems
                     int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.DualWield)?.Level ?? 0;
                     if (level > 0)
                     {
-                        modifiers.Add(new($"abl{Abilities.DualWield}", ModifierType.More, level * 0.005, [Tags.Damage], [Tags.DualWield]));
+                        modifiers.Add(new($"abl{Abilities.DualWield}", ModifierType.More, level * 0.005, [Tags.AttackSpeed], [Tags.DualWield]));
                     }
                     level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.Shielded)?.Level ?? 0;
                     if (level > 0)
@@ -170,7 +205,7 @@ namespace TheIdleScrolls_Core.Systems
                     level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.TwoHanded)?.Level ?? 0;
                     if (level > 0)
                     {
-                        modifiers.Add(new($"abl{Abilities.TwoHanded}", ModifierType.More, level * 0.005, [Tags.AttackSpeed], [Tags.TwoHanded]));
+                        modifiers.Add(new($"abl{Abilities.TwoHanded}", ModifierType.More, level * 0.005, [Tags.Damage], [Tags.TwoHanded]));
                     }
                     return modifiers;
                 })

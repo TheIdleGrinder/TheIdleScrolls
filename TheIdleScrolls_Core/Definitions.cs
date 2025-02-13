@@ -16,9 +16,10 @@ namespace TheIdleScrolls_Core
             public const double AttackBonusPerLevel = 0.02;
             public const double TimeShieldBonusPerLevel = 0.02;
             public const double AttackDamagePerAbilityLevel = 0.02;
-            public const double AttackSpeedPerAbilityLevel = 0.01;
+            public const double AttackSpeedPerAbilityLevel = 0.005;
             public const double DualWieldAttackSpeedMulti = 0.2;
             public const double DefensePerAbilityLevel = 0.02;
+            public const double MaxAttacksPerSecond = 10.0;
 
             public const double ArmorSlowdownPerPoint = 0.01;
             public const double EvasionBonusPerPoint = 0.01;
@@ -42,10 +43,14 @@ namespace TheIdleScrolls_Core
             public const double QualityMultiplier   = 1.25;
 
             public const int    LevelsPerPerkPoint          = 5;
-            public const double BasicDamageIncrease         = 0.08;
+            public const int    PerkPointLevelLimit         = 200;
+            public const double BasicDamageIncrease         = 0.10;
             public const double BasicAttackSpeedIncrease    = 0.05;
             public const double BasicDefenseIncrease        = 0.08;
             public const double BasicTimeIncrease           = 0.05;
+            public const double BigPerkFactor               = 1.5;
+            public const double MasterPerkMultiplier        = 0.1;
+            public const double SavantXpMultiplier          = 0.3;
         }
 
         public static class DungeonIds
@@ -149,7 +154,7 @@ namespace TheIdleScrolls_Core
             // Assumption: Ability levels somewhat align with character level
             return (1.0 + CalculateAbilityAttackDamageBonus(level))                 // Ability damage bonus
                 * (1.0 + CalculateAbilityAttackSpeedBonus(level))                   // Ability attack speed bonus
-                * (1.0 + Stats.AttackBonusPerLevel * (level - 1))                   // Level scaling
+                * (1.0 + 2 * Stats.AttackBonusPerLevel * (level - 1))               // Level scaling (x2 for perks)
                 * Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
                 * (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of weapons
                 * (1.0 + level * qualityBonusPerLevel)                              // Smooth transition to +4 at level 150
@@ -164,7 +169,7 @@ namespace TheIdleScrolls_Core
 				* Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
 				* (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of armor
 				* (1.0 + level * qualityBonusPerLevel)                              // Smooth transition to +4 at level 150
-                * (1.0 + (level - 1) * Stats.TimeShieldBonusPerLevel)               // Account for time shield bonus from levelling
+                * (1.0 + 2 * (level - 1) * Stats.TimeShieldBonusPerLevel)           // Account for time shield bonus from levelling (x2 for perks)
                 ;
         }
 
@@ -218,7 +223,7 @@ namespace TheIdleScrolls_Core
         {
             if (areaLevel == 0)
                 return 0.0;
-            return 10.0 * (1.0 * playerLevel / areaLevel) / CalculateMobArmorPierce(areaLevel);
+            return 10.0 / CalculateMobArmorPierce(areaLevel);
         }
 
         public static double CalculateRefiningSuccessRate(int abilityLevel, int currentQuality)

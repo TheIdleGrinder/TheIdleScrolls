@@ -130,6 +130,11 @@ namespace TheIdleScrolls_Core.Components
         {
             Current += amount;
         }
+
+        public void Reset()
+        {
+            Current = 0;
+        }
     }
 
     public class ItemComponent : IComponent
@@ -239,6 +244,8 @@ namespace TheIdleScrolls_Core.Components
         public bool Active { get; set; } = true;
         public int MaxWilderness { get; set; } = 0;
         public Dictionary<string, int[]> AvailableDungeons { get; set; } = [];
+        public bool AutoProceed { get; set; } = false;
+        public bool AutoGrindDungeons { get; set; } = false;
     }
 
     public class CoinPurseComponent : IComponent

@@ -72,7 +72,7 @@
             others are unlocked by earning achievements. You can view your unlocked perks in the perks screen.
         </p>
         <p>Perks can be activated at any time by assigning a perk point to them. Your character will gain an additional perk point 
-            every @(Stats.LevelsPerPerkPoint) levels.</p>
+            every @(Stats.LevelsPerPerkPoint) levels up until level @(Stats.PerkPointLevelLimit).</p>
         <p>Some perks are permanent, so you can always enjoy all of their bonuses without having to invest a perk point into them.</p>
     }
 
@@ -99,8 +99,9 @@
             defences as you progress through the game.</p>
 
         <h4>Encumbrance</h4>
-        <p>Armor items will protect and you in battle but most of them also encumber you. Encumbrance multiplicatively increases attack cooldown 
-            by 1% per point. So an encumbrance 100% halves the speed at which you attack.
+        <p>Armor items will protect and you in battle but most of them also encumber you. Encumbrance lowers attack speed and evasion rating. 
+            The effective value for these two stats is equal to their original value divided by 1 + encumbrance. So an encumbrance of 100% would 
+            halve the rate at which you attack and evade.
         </p>
     }
 

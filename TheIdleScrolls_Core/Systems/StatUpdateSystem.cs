@@ -128,15 +128,15 @@ namespace TheIdleScrolls_Core.Systems
             armor   += modComp?.ApplyApplicableModifiers(0.0, [Tags.ArmorRating,   Tags.Defense, Tags.Global], globalTags) ?? 0.0;
             evasion += modComp?.ApplyApplicableModifiers(0.0, [Tags.EvasionRating, Tags.Defense, Tags.Global], globalTags) ?? 0.0;
 
+            double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
+
             var attackComp = player.GetComponent<AttackComponent>();
             if (attackComp != null)
             {
-                cooldown *= 1.0 + encumbrance / 100.0; // Encumbrance slows attack speed multiplicatively
-                
                 attackComp.RawDamage = Math.Round(rawDamage);
-                // CornerCut(?): This makes the cooldown not reset in case of a weapon swap.
-                // Theoretically exploitable by switching between fast and slow weapons
-                // Potential TODO: Detect weapon swap
+
+                cooldown *= encumbranceSlowdown; // Encumbrance slows attack speed multiplicatively
+                cooldown = Math.Max(cooldown, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
                 if (cooldown != attackComp.Cooldown.Duration)
                     attackComp.Cooldown.ChangeDuration(cooldown, true);
             }
@@ -144,7 +144,7 @@ namespace TheIdleScrolls_Core.Systems
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null)
             {
-                defenseComp.Evasion = evasion; 
+                defenseComp.Evasion = evasion / encumbranceSlowdown; 
                 defenseComp.Armor = armor;
             }
             

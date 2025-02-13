@@ -3,6 +3,7 @@ using MiniECS;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection.Metadata;
 using TheIdleScrolls_Core;
+using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
@@ -48,7 +49,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public AccessibleAreas Accessible { get; } = new();
         public List<IItemEntity> CraftingRecipes { get; private set; } = new();
         public CraftingBenchRepresentation CraftingBench { get; private set; } = new(0, 0, 0, new());
-        public bool AutoProceedActive { get; private set; } = false;
+        public bool AutoProceedActive => PlayerCharacter?.GetComponent<TravellerComponent>()?.AutoProceed ?? false;
+        public bool AutoGrindActive => PlayerCharacter?.GetComponent<TravellerComponent>()?.AutoGrindDungeons ?? false;
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
         public List<IItemEntity> Inventory { get; private set; } = new();
         public List<IItemEntity> Equipment { get; private set; } = new();
@@ -136,6 +138,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
                     StopGameLoop();
                 }
             }
+            DialogueMessages.Clear();
+            ExpiringMessages.Clear();
         }
 
         public void StopGameLoop()
@@ -176,7 +180,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
             };
             emitter.AvailableCraftingRecipesChanged += (List<IItemEntity> recipes) => CraftingRecipes = recipes;
             emitter.CraftingBenchChanged += (CraftingBenchRepresentation bench) => CraftingBench = bench;
-            emitter.PlayerAutoProceedStateChanged += (bool active) => AutoProceedActive = active;
             emitter.FeatureAvailabilityChanged += (GameFeature feature, bool available) =>
             {
                 if (available)

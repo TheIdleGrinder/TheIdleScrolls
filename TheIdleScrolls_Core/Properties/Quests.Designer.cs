@@ -130,9 +130,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die You stand victorious in the corridors beneath the cultists&apos; castle. While the leader himself has eluded you, destroying their final hideout should spell the end of the cult’s sinister activities.
-        ///
-        ///But your optimism wanes as you realize that his escape wasn&apos;t a defeat but a strategic retreat: Several documents and maps identify an ancient lighthouse that sits atop a nearby cliff as the locus of a final ritual which will break down the walls between worlds. You need to pursue the remaining cultists and prev [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die You stand victorious beneath the cultists&apos; castle, but their leader has escaped—not in defeat, but in retreat: Documents reveal a final ritual at an ancient lighthouse, one that could shatter the walls between worlds. You need to pursue the remaining cultists and prevent their success at all costs! ähnelt.
         /// </summary>
         internal static string Story_LabyrinthFinished {
             get {
@@ -232,7 +230,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die A Sinister Threat ähnelt.
         /// </summary>
         internal static string Story_Title {
             get {

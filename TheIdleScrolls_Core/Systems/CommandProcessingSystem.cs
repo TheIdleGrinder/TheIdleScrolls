@@ -62,6 +62,11 @@ namespace TheIdleScrollsApp
             m_requests.Add(new AutoProceedRequest(autoProceed));
         }
 
+        public void SetGrindDungeon(bool grind)
+        {
+            m_requests.Add(new AutoGrindDungeonsRequest(grind));
+        }
+
         public void TravelIntoWilderness(int areaLevel)
         {
             m_requests.Add(new TravelRequest(areaLevel, 0)); // CornerCut: for now this works, this function will be removed later

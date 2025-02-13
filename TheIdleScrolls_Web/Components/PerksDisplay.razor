@@ -10,7 +10,6 @@
     <div class="perks-list">
         @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
         {
-            Console.WriteLine(perk.Id);
             <PerkTile PerkId=@perk.Id PerksComp=@PerksComponent />
         }
     </div>
@@ -18,7 +17,7 @@
     <div id="perks-header">
         <p style="margin-bottom: 0">Points Spent: @PerksUsed / @PerksLimit</p>
         @if (FreePerkPoints > 0)
-        {
+        {   
             <p id="perks-available-points">@FreePerkPoints Point@(FreePerkPoints == 1 ? "" : "s") Available</p>
         }
     </div>

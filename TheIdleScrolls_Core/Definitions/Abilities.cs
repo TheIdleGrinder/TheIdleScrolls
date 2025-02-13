@@ -25,10 +25,10 @@ namespace TheIdleScrolls_Core.Definitions
         public const string Crafting   = "ABL_CRAFT";
 
         // Fighting Styles
-        public const string TwoHanded     = "TWOHANDED";
-        public const string DualWield     = "DUALWIELD";
-        public const string Shielded      = "SHIELDED";
-        public const string SingleHanded  = "SINGLEHANDED";
+        public const string TwoHanded     = "ABL_TWOHANDED";
+        public const string DualWield     = "ABL_DUALWIELD";
+        public const string Shielded      = "ABL_SHIELDED";
+        public const string SingleHanded  = "ABL_SINGLEHANDED";
 
 
         public static List<string> Weapons { get; } = [Axe, Blunt, LongBlade, Polearm, ShortBlade];

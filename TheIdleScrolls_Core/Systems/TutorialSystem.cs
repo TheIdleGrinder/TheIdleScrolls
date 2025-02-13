@@ -138,20 +138,12 @@ namespace TheIdleScrolls_Core.Systems
                 globalProgress.Data.TutorialProgress.Add(TutorialStep.Evasion);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Evasion, "Travelling Light",
-                    $"You have proven your prowess in unarmored combat. While fighting without armor, you will now be able to " +
-                    $"use your evasiness to gain additional time to defeat your enemies." +
-                    $"\n  - Evasion periodically stops the fight timer"));
+                    $"Armor is not the only way to protect yourself: By evading, you will occasionally be able to completely " +
+                    $"stop the fight timer. The higher your evasion rating, the faster the evasion bar charges and the longer " +
+                    $"the effect remains active." +
+                    $"\n  - Evasion periodically stops the fight timer" +
+                    $"\n  - Being encumbered by your equipment lowers evasion rating"));
             }
-            //if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
-            //    && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey) 
-            //        && a.Status == Achievements.AchievementStatus.Awarded) > 0))
-            //{
-            //    globalProgress.Data.TutorialProgress.Add(TutorialStep.Unarmed);
-            //    coordinator.PostMessage(this,
-            //        new TutorialMessage(TutorialStep.Unarmed, "Iron Fists",
-            //        $"You have proven your prowess in unarmed combat. Fighting without a weapon now grants 0.05 " +
-            //        $"base damage per level for each owned achievement from the 'unarmed' line."));
-            //}
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.FlatCircle)
                 && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey)
                     && a.Id.Contains(UnarmoredKey)

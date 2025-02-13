@@ -12,8 +12,6 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class TravelSystem : AbstractSystem
     {
-        bool m_autoProceed = false;
-
         bool m_firstUpdate = true;
 
         public override void Update(World world, Coordinator coordinator, double dt)
@@ -30,7 +28,6 @@ namespace TheIdleScrolls_Core.Systems
             if (m_firstUpdate)
             {
                 m_firstUpdate = false;
-                coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed)); // CornerCut: make info accessible to app
             }
 
             // Update available areas
@@ -67,7 +64,7 @@ namespace TheIdleScrolls_Core.Systems
                 coordinator.PostMessage(this, new AutoProceedRequest(false));
             }
             // Translate Death (victory) && auto proceed => Travel one zone forward
-            if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && m_autoProceed && !locationComp.InDungeon)
+            if (coordinator.MessageTypeIsOnBoard<DeathMessage>() && (travelComp?.AutoProceed ?? false) && !locationComp.InDungeon)
             {
                 coordinator.PostMessage(this, new SingleStepTravelRequest(true));
             }
@@ -99,10 +96,18 @@ namespace TheIdleScrolls_Core.Systems
 
             // Handle changes to auto proceed status
             var autoProcRequest = coordinator.FetchMessagesByType<AutoProceedRequest>().LastOrDefault(); // Consider only most recent
-            if (autoProcRequest != null)
+            if (autoProcRequest != null && travelComp != null)
             {
-                m_autoProceed = autoProcRequest.AutoProceed;
-                coordinator.PostMessage(this, new AutoProceedStatusMessage(m_autoProceed));
+                travelComp.AutoProceed = autoProcRequest.AutoProceed;
+                coordinator.PostMessage(this, new AutoProceedStatusMessage(travelComp.AutoProceed));
+            }
+
+            // and do the same for auto grinding of dungeons
+            var autoGrindRequest = coordinator.FetchMessagesByType<AutoGrindDungeonsRequest>().LastOrDefault(); // Consider only most recent
+            if (autoGrindRequest != null && travelComp != null)
+            {
+                travelComp.AutoGrindDungeons = autoGrindRequest.AutoGrind;
+                coordinator.PostMessage(this, new AutoGrindDungeonsStatusMessage(travelComp.AutoGrindDungeons));
             }
         }
     }
@@ -129,24 +134,16 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
-    public class AutoProceedStatusMessage : IMessage
+    public record AutoProceedStatusMessage(bool AutoProceed) : IMessage
     {
-        public bool AutoProceed { get; set; }
+        string IMessage.BuildMessage() => $"Auto proceed status changed: {(AutoProceed ? "Enabled" : "Disabled")}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Low;
+    }
 
-        public AutoProceedStatusMessage(bool autoProceed)
-        {
-            AutoProceed = autoProceed;
-        }
-
-        string IMessage.BuildMessage()
-        {
-            return $"Auto proceed status changed: {(AutoProceed ? "Enabled" : "Disabled")}";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.Low;
-        }
+    public record AutoGrindDungeonsStatusMessage(bool AutoProceed) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Auto grind status changed: {(AutoProceed ? "Enabled" : "Disabled")}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Low;
     }
 
     public class TravelRequest : IMessage
@@ -194,24 +191,16 @@ namespace TheIdleScrolls_Core.Systems
         }
     }
 
-    public class AutoProceedRequest : IMessage
+    public record AutoProceedRequest(bool AutoProceed) : IMessage
     {
-        public bool AutoProceed { get; set; }
+        string IMessage.BuildMessage() => $"Request: {(AutoProceed ? "A" : "Dea")}ctivate automatic proceeding";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
 
-        public AutoProceedRequest(bool autoProceed)
-        {
-            AutoProceed = autoProceed;
-        }
-
-        string IMessage.BuildMessage()
-        {
-            return $"Request: {(AutoProceed ? "A" : "Dea")}ctivate automatic proceeding";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.Debug;
-        }
+    public record AutoGrindDungeonsRequest(bool AutoGrind) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Request: {(AutoGrind ? "A" : "Dea")}ctivate automatic dungeon grinding";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 
     public class AreaUnlockedMessage : IMessage

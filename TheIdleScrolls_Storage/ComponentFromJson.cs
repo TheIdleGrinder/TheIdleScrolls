@@ -115,7 +115,8 @@ namespace TheIdleScrolls_JSON
                     int level = Int32.Parse(fields[1]);
                     int xp = Int32.Parse(fields[2]);
 
-                    var abilityDef = AbilityList.GetAbility(key);
+                    var abilityDef = AbilityList.GetAbility(key) 
+                                    ?? AbilityList.GetAbility("ABL_" + key); // Backwards compatibility
                     if (abilityDef == null)
                     {
                         Console.WriteLine($"Ability {key} not found in AbilityList");
