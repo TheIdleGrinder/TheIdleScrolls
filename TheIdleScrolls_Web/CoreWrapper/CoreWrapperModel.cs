@@ -2,6 +2,7 @@
 using MiniECS;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection.Metadata;
+using System.Text;
 using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.DataAccess;
@@ -237,7 +238,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 new LocalBrowserStorageHandler(jSRuntime),
                 new Base64ConversionDecorator<string>(
                     new InputToByteArrayConversionDecorator<byte[]>(
-                        new NopDataEncryptor<byte[]>()
+                        new XORDataEncryptor(Encoding.UTF8.GetBytes("Don't cheat plox"))
                     )
                 ));
             gameRunner = new GameRunner(dataHandler);
