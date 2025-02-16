@@ -10,7 +10,7 @@
     </div>*@
 
     <main>
-        <div class="top-row px-4">
+        <div class="top-row px-4 @BannerClass">
             <h1 class="banner-title" style="cursor: pointer" @onclick="Reset">The Idle Scrolls</h1>
         </div>
 
@@ -20,10 +20,49 @@
     </main>
 </div>
 
+<style>
+    .fading-out {
+        animation: fade-out 5s forwards;
+    }
+
+    @@keyframes fade-out {
+        0% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+</style>
+
 @code {
+    PeriodicTimer periodicTimer = new(TimeSpan.FromMilliseconds(500));
+    string BannerClass => CoreWrapper.GameWorld.GameEndAnimation ? "fading-out" : "";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UpdateLoop();
+        CoreWrapper.GameLoopRunStateChanged += (bool active) => StateHasChanged();
+    }
+
     private void Reset()
     {
-        if (CoreWrapper.GameLoopRunning)
+        if (CoreWrapper.GameLoopRunning && !CoreWrapper.GameWorld.GameEndAnimation)
             CoreWrapper.StopGameLoop();
+    }
+
+    async void UpdateLoop()
+    {
+        while (await periodicTimer.WaitForNextTickAsync())
+        {
+            await InvokeAsync(StateHasChanged);
+            if (CoreWrapper.GameWorld.GameEndAnimation)
+            {
+                periodicTimer.Dispose();
+                break;
+            }
+        }
     }
 }

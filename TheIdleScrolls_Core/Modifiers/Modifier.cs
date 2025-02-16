@@ -77,7 +77,7 @@ namespace TheIdleScrolls_Core.Modifiers
         public static string ToPrettyString(this Modifier modifier, bool showId = false)
         {
             var allTags = modifier.RequiredLocalTags.Union(modifier.RequiredGlobalTags);
-            List<string> targetTags = new() {
+            List<string> targetTags = [
                 Tags.Damage,
                 Tags.AttackSpeed,
                 Tags.Defense,
@@ -90,19 +90,23 @@ namespace TheIdleScrolls_Core.Modifiers
                 Tags.CraftingSpeed,
                 Tags.CraftingCost,
                 Tags.TimeShield
-            };
+            ];
             targetTags = targetTags.Where(t => allTags.Contains(t)).ToList();
-            List<string> whileTags = new()
-            {
-                Tags.Unarmed,
-                Tags.Unarmored,
+            List<string> whileTags =
+            [
                 Tags.DualWield,
+                Tags.Evading,                
                 Tags.Shielded,
                 Tags.SingleHanded,
-                Tags.TwoHanded
-            };
+                Tags.TwoHanded,
+                Tags.Unarmed,
+                Tags.Unarmored
+            ];
             whileTags = whileTags.Where(t => allTags.Contains(t)).ToList();
-            List<string> withTags = allTags.Except(targetTags).Except(whileTags).ToList();
+
+            List<string> localGlobal = allTags.Where(t => t == Tags.Local || t == Tags.Global).ToList();
+
+            List<string> withTags = allTags.Except(targetTags).Except(whileTags).Except(localGlobal).ToList();
 
             double absValue = Math.Abs(modifier.Value);
             string valueString = (modifier.Type, modifier.Value >= 0) switch
@@ -121,12 +125,15 @@ namespace TheIdleScrolls_Core.Modifiers
             string target = String.Join(", ", targetTags.Select(s => s.Localize()));
             if (target == String.Empty)
                 target = "???";
+            string localGlobalString = String.Join(", ", localGlobal.Select(s => s.Localize()));
+            if (localGlobalString.Length > 0)
+                localGlobalString += " ";
 
-            string whileString = String.Join(", ", whileTags.Select(s => s.Localize()));
+            string whileString = String.Join(" and ", whileTags.Select(s => s.Localize()));
             string withString = String.Join(", ", withTags
                 .Select(s => s.Localize() + (Abilities.Weapons.Contains(s) ? "s" : "")));
 
-            return $"{idString}{valueString} {target}" +
+            return $"{idString}{valueString} {localGlobalString}{target}" +
                 $"{((withString.Length > 0) ? " with " : "")}{withString}" +
                 $"{((whileString.Length > 0) ? " while " : "")}{whileString}";
         }

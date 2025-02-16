@@ -62,6 +62,11 @@ namespace TheIdleScrollsApp
             m_requests.Add(new AutoProceedRequest(autoProceed));
         }
 
+        public void SetGrindDungeon(bool grind)
+        {
+            m_requests.Add(new AutoGrindDungeonsRequest(grind));
+        }
+
         public void TravelIntoWilderness(int areaLevel)
         {
             m_requests.Add(new TravelRequest(areaLevel, 0)); // CornerCut: for now this works, this function will be removed later
@@ -85,6 +90,11 @@ namespace TheIdleScrollsApp
         public void SendDialogueResponse(string id, string response)
         {
             m_requests.Add(new DialogueResponseMessage(id, response));
+        }
+
+        public void SetPerkLevel(uint playerId, string perkId, int level)
+        {
+            m_requests.Add(new SetPerkLevelRequest(playerId, perkId, level));
         }
 
         public override void Update(World world, Coordinator coordinator, double dt)

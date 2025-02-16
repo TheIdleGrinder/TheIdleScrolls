@@ -119,16 +119,14 @@
   </resheader>
   <data name="Story_CastleFinished" xml:space="preserve">
     <value />
-    <comment>s30</comment>
+    <comment>s30 (message in LabyrinthOpen)</comment>
   </data>
   <data name="Story_CastleOpen" xml:space="preserve">
     <value>The time has come to confront the treacherous lord who commands the cult threatening the realm. Within the walls of this castle you hope to find their secret headquarter. Here, you might be able to put an end to their insidious activities once and for all.</value>
     <comment>s25</comment>
   </data>
   <data name="Story_LabyrinthFinished" xml:space="preserve">
-    <value>You stand victorious in the corridors beneath the cultists' castle. While the leader himself has eluded you, destroying their final hideout should spell the end of the cult’s sinister activities.
-
-But your optimism wanes as you realize that his escape wasn't a defeat but a strategic retreat: Several documents and maps identify an ancient lighthouse that sits atop a nearby cliff as the locus of a final ritual which will break down the walls between worlds. You need to pursue the remaining cultists and prevent their success at all costs!</value>
+    <value>You stand victorious beneath the cultists' castle, but their leader has escaped—not in defeat, but in retreat: Documents reveal a final ritual at an ancient lighthouse, one that could shatter the walls between worlds. You need to pursue the remaining cultists and prevent their success at all costs!</value>
     <comment>s40</comment>
   </data>
   <data name="Story_LabyrinthOpen" xml:space="preserve">
@@ -165,13 +163,35 @@ You need to keep an eye out for further activities of these cultists!</value>
     <comment>s15</comment>
   </data>
   <data name="Story_ThresholdFinished" xml:space="preserve">
-    <value>At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops.
-
-Time to finish: {0}</value>
+    <value>At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops.</value>
     <comment>s60</comment>
   </data>
   <data name="Story_ThresholdOpen" xml:space="preserve">
     <value>The portal to the demonic realm stands wide open, a mesmerizing yet terrifying spectacle. A once-controllable situation has spiraled into an existential crisis, and now, a malevolent army spills forth. You cannot know how long this gateway will remain open or if it will ever close again. All you can do now, is to guard the threshold against the encroaching darkness and drive back whatever foe attempts to cross it.</value>
     <comment>s55</comment>
+  </data>
+  <data name="Endgame_Start" xml:space="preserve">
+    <value>The landscape around the lighthouse snaps into focus. You stagger as the world feels both immediate and distant, like waking from a dream. You remember fighting at the threshold, then just a moment of indescribable nothingness.
+The sharp voices of those around you cut through the haze. The survivors stare, their astonishment giving way to joy. They rush toward you, some shouting your name. They say you vanished for mere seconds, yet the void clings faintly to your thoughts, a sensation without form.</value>
+  </data>
+  <data name="Endgame_Void" xml:space="preserve">
+    <value>The portal’s connection is severed but the rupture in reality persists. What once served as a bridge to another place now stands adrift, its energy still surging but its destination lost.
+Through the bluish glow, an unfamiliar realm comes into view. A web of twisting pathways stretches into the void, branching endlessly into a shadowed expanse. A landscape as intriguing as it is unsettling.
+The void beckons to the bold and the reckless, a realm of mysteries that promise both great reward and untold peril.</value>
+  </data>
+  <data name="Endgame_Pinnacle" xml:space="preserve">
+    <value>Your expeditions into the Void have been many. Time and again, you’ve braved its twisting paths and shadowed expanses, pushing further with each foray.
+Now, the twisting pathways converge and you find yourself in front of three portals, their flickering light unmistakably similar to the one you have been using to travel between this world and your own. These must be the remnants of other severed connections, doorways that survived the collapse.
+Beyond them, your ultimate challenge awaits you.</value>
+  </data>
+  <data name="Endgame_Finished" xml:space="preserve">
+    <value>From humble beginnings, battling dummies and rats, to defending your world against an invasion, to walking between worlds yourself - you’ve come so far. Each challenge demanded not just strength but also your craftiness and dedication. You honed your skills, forged your path (and your gear), and became the hero these trials required.
+For now, your story ends here. But who knows? In realms like these, endings often make way for new beginnings.</value>
+  </data>
+  <data name="Endgame_Title" xml:space="preserve">
+    <value>Beyond the Portal</value>
+  </data>
+  <data name="Story_Title" xml:space="preserve">
+    <value>A Sinister Threat</value>
   </data>
 </root>

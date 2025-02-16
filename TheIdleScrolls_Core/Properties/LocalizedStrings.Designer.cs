@@ -81,36 +81,36 @@ namespace TheIdleScrolls_Core.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Two Weapons ähnelt.
         /// </summary>
-        internal static string ABL_DualWield {
+        internal static string ABL_DUALWIELD {
             get {
-                return ResourceManager.GetString("ABL_DualWield", resourceCulture);
+                return ResourceManager.GetString("ABL_DUALWIELD", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Shielded ähnelt.
         /// </summary>
-        internal static string ABL_Shielded {
+        internal static string ABL_SHIELDED {
             get {
-                return ResourceManager.GetString("ABL_Shielded", resourceCulture);
+                return ResourceManager.GetString("ABL_SHIELDED", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Single-Handed ähnelt.
         /// </summary>
-        internal static string ABL_SingleHanded {
+        internal static string ABL_SINGLEHANDED {
             get {
-                return ResourceManager.GetString("ABL_SingleHanded", resourceCulture);
+                return ResourceManager.GetString("ABL_SINGLEHANDED", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Two-Handed ähnelt.
         /// </summary>
-        internal static string ABL_TwoHanded {
+        internal static string ABL_TWOHANDED {
             get {
-                return ResourceManager.GetString("ABL_TwoHanded", resourceCulture);
+                return ResourceManager.GetString("ABL_TWOHANDED", resourceCulture);
             }
         }
         
@@ -727,6 +727,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die global ähnelt.
+        /// </summary>
+        internal static string Global {
+            get {
+                return ResourceManager.GetString("Global", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Heavy Armor ähnelt.
         /// </summary>
         internal static string HAR {
@@ -750,6 +759,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string LBL {
             get {
                 return ResourceManager.GetString("LBL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die local ähnelt.
+        /// </summary>
+        internal static string Local {
+            get {
+                return ResourceManager.GetString("Local", resourceCulture);
             }
         }
         

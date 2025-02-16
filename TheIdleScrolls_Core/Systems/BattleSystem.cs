@@ -79,6 +79,7 @@ namespace TheIdleScrolls_Core.Systems
                     throw new Exception("battle is not in progress");
                 }
 
+                battle.Duration += dt;
                 Entity mob = battle.Mob!; // has to be present if battle is in progress
 
                 // Process player attacks
@@ -89,7 +90,10 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     var message = ApplyAttack(player, mob);
                     if (message != null)
+                    {
                         coordinator.PostMessage(this, message);
+                        player.GetComponent<BattlerComponent>()!.DamageDealt += message.Damage;
+                    }
                     player.GetComponent<BattlerComponent>()!.AttacksPerformed++;
                 }
 
@@ -112,8 +116,9 @@ namespace TheIdleScrolls_Core.Systems
                     double timeLoss = dt * damage / armorBonus;
 
                     timeLoss = player.GetComponent<ModifierComponent>()
-                        ?.ApplyApplicableModifiers(timeLoss, [Definitions.Tags.TimeLoss], player.GetTags())
+                        ?.ApplyApplicableModifiers(timeLoss, [Tags.TimeLoss], player.GetTags())
                         ?? timeLoss;
+                    mob.GetComponent<BattlerComponent>()!.DamageDealt += timeLoss;
 
                     var shieldComp = player.GetComponent<TimeShieldComponent>();
                     if (shieldComp != null) // Players without time shield are invincible
@@ -168,7 +173,7 @@ namespace TheIdleScrolls_Core.Systems
 
             double baseDuration = Functions.CalculateBaseTimeLimit(player.GetLevel(), zone.Level);
             double duration = zone.TimeMultiplier * player.ApplyAllApplicableModifiers(baseDuration, [Tags.TimeShield], player.GetTags());
-            player.GetComponent<TimeShieldComponent>()?.Rescale(zone.TimeMultiplier * duration);
+            player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 
         static DamageDoneMessage? ApplyAttack(Entity attacker, Entity target)

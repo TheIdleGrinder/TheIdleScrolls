@@ -230,6 +230,19 @@ namespace TheIdleScrolls_Storage
             return []; // Only necessary so that the component is not 'lost' when saving and reloading
         }
 
+        public static JsonObject? ToJson(this PerksComponent component)
+        {
+            JsonArray perkLevels = [];
+            foreach (var perk in component.PerkLevels)
+            {
+                perkLevels.Add($"{perk.Key}:{perk.Value}");
+            }
+            return new JsonObject()
+            {
+                { "PerkLevels", perkLevels }
+            };
+        }
+
         public static JsonObject JsonFromSth<T>(T thing)
         {
             return (JsonObject)JsonObject.Parse(JsonSerializer.Serialize(thing))!;

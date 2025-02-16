@@ -119,9 +119,22 @@ namespace TheIdleScrolls_Core.Systems
                             new DungeonCompletedMessage(locationComp.DungeonId, 
                                                         locationComp.DungeonLevel, 
                                                         first));
-                        locationComp.EnterDungeon(locationComp.DungeonId, locationComp.DungeonLevel);
-                        coordinator.PostMessage(this,
-                            new AreaChangedMessage(m_player, locationComp.CurrentLocation, locationComp.DungeonId, 0, AreaChangeType.EnteredDungeon));
+                        bool autoGrind = m_player.GetComponent<TravellerComponent>()?.AutoGrindDungeons ?? false;
+                        if (autoGrind)
+                        {
+                            locationComp.EnterDungeon(locationComp.DungeonId, locationComp.DungeonLevel);
+                            coordinator.PostMessage(this,
+                                new AreaChangedMessage(m_player, locationComp.CurrentLocation, 
+                                                        locationComp.DungeonId, 0, AreaChangeType.EnteredDungeon));
+                        }
+                        else
+                        {
+                            locationComp.LeaveDungeon();
+                            coordinator.PostMessage(this, 
+                                new AreaChangedMessage(m_player, locationComp.CurrentLocation, 
+                                                        string.Empty, -1, AreaChangeType.LeftDungeon));
+                        }
+                        
                         // Update available dungeons in case something opened up
                         UpdateAvailableDungeons(m_player, world, coordinator);
                     }

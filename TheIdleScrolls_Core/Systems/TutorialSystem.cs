@@ -71,8 +71,9 @@ namespace TheIdleScrolls_Core.Systems
                     if ((progress & GettingStartedQuest.StateFlags.Perks) != 0)
                     {
                         addTutorialProgress(TutorialStep.Perks, "Perks of the Trade",
-                            "You can see the exact values of your ability bonus by checking the 'Perks' tab. As you continue playing " +
-                            "and earning achievements, you will also unlock additional perks.", message);
+                            "The 'Perks' tab contains a list of all your perks. Some are permanent, so they will always affect your " +
+                            "character. Others have to be activated by assigning a perk point to them. As you continue playing " +
+                            "and earning achievements, you will unlock additional perks to choose from.", message);
                     }
                     if ((progress & GettingStartedQuest.StateFlags.MobAttacks) != 0)
                     {
@@ -131,36 +132,18 @@ namespace TheIdleScrolls_Core.Systems
                     "Good job, you completed your first dungeon and obtained a reward:" +
                     $"\n  - Received '{itemName}'"));
             }
-            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Finished)
-                && globalProgress.Data.GetClearedDungeons().Contains(FinalStoryDungeon))
-            {
-                globalProgress.Data.TutorialProgress.Add(TutorialStep.Finished);
-                var time = globalProgress.Data.Playtime;
-                coordinator.PostMessage(this,
-                    new TutorialMessage(TutorialStep.Finished, "",
-                    "Congratulations you cleared the final dungeon and completed the game." +
-                    $"\nFeel free to keep grinding and earning achievements or create a new character to try for a faster time!"));                    
-            }
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Evasion)
                 && (m_player.GetComponent<DefenseComponent>()?.Evasion ?? 0) > 0)
             {
                 globalProgress.Data.TutorialProgress.Add(TutorialStep.Evasion);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Evasion, "Travelling Light",
-                    $"You have proven your prowess in unarmored combat. While fighting without armor, you will now be able to " +
-                    $"use your evasiness to gain additional time to defeat your enemies." +
-                    $"\n  - Evasion periodically stops the fight timer"));
+                    $"Armor is not the only way to protect yourself: By evading, you will occasionally be able to completely " +
+                    $"stop the fight timer. The higher your evasion rating, the faster the evasion bar charges and the longer " +
+                    $"the effect remains active." +
+                    $"\n  - Evasion periodically stops the fight timer" +
+                    $"\n  - Being encumbered by your equipment lowers evasion rating"));
             }
-            //if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
-            //    && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey) 
-            //        && a.Status == Achievements.AchievementStatus.Awarded) > 0))
-            //{
-            //    globalProgress.Data.TutorialProgress.Add(TutorialStep.Unarmed);
-            //    coordinator.PostMessage(this,
-            //        new TutorialMessage(TutorialStep.Unarmed, "Iron Fists",
-            //        $"You have proven your prowess in unarmed combat. Fighting without a weapon now grants 0.05 " +
-            //        $"base damage per level for each owned achievement from the 'unarmed' line."));
-            //}
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.FlatCircle)
                 && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey)
                     && a.Id.Contains(UnarmoredKey)

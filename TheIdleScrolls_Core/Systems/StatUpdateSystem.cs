@@ -3,6 +3,8 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 
+using TheIdleScrolls_Core.Definitions;
+
 namespace TheIdleScrolls_Core.Systems
 {
     public class StatUpdateSystem : AbstractSystem
@@ -22,7 +24,8 @@ namespace TheIdleScrolls_Core.Systems
                 || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>()
                 || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
                 || coordinator.MessageTypeIsOnBoard<TextMessage>() // CornerCut: This is a hack to force an update at the start of a battle
-                || coordinator.MessageTypeIsOnBoard<DamageDoneMessage>();
+                || coordinator.MessageTypeIsOnBoard<DamageDoneMessage>()
+                || coordinator.MessageTypeIsOnBoard<PerkLevelChangedMessage>();
 
             if (!doUpdate)
                 return;
@@ -68,9 +71,9 @@ namespace TheIdleScrolls_Core.Systems
 
                         if (modComp != null)
                         {
-                            localDmg = modComp.ApplyApplicableModifiers(localDmg, localTags.Append(Definitions.Tags.Damage), globalTags);
+                            localDmg = modComp.ApplyApplicableModifiers(localDmg, localTags.Append(Tags.Damage), globalTags);
                             localCD = 1.0 / modComp.ApplyApplicableModifiers(1.0 / localCD, 
-                                localTags.Append(Definitions.Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
+                                localTags.Append(Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
                                 globalTags);
                         }
 
@@ -86,11 +89,11 @@ namespace TheIdleScrolls_Core.Systems
 
                         if (modComp != null)
                         {
-                            var tags = localTags.Append(Definitions.Tags.Defense);
+                            var tags = localTags.Append(Tags.Defense);
                             localArmor = modComp.ApplyApplicableModifiers(localArmor, 
-                                tags.Append(Definitions.Tags.ArmorRating), globalTags);
+                                tags.Append(Tags.ArmorRating), globalTags);
                             localEvasion = modComp.ApplyApplicableModifiers(localEvasion, 
-                                tags.Append(Definitions.Tags.EvasionRating), globalTags);
+                                tags.Append(Tags.EvasionRating), globalTags);
                         }
 
                         armor += localArmor;
@@ -108,28 +111,32 @@ namespace TheIdleScrolls_Core.Systems
             if (weaponCount == 0)
             {
                 rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, 
-                    [Definitions.Tags.Damage, Definitions.Abilities.Unarmed], globalTags) ?? rawDamage;
+                    [Tags.Damage, Abilities.Unarmed], globalTags) ?? rawDamage;
                 // invert attack speed due to speed/cooldown mismatch
                 cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
-                    [Definitions.Tags.AttackSpeed, Definitions.Abilities.Unarmed], globalTags) ?? cooldown;
+                    [Tags.AttackSpeed, Abilities.Unarmed], globalTags) ?? cooldown;
             }
 
             if (armorCount == 0)
             {
-                var tags = globalTags.Concat([Definitions.Tags.Defense, Definitions.Abilities.Unarmored]);
-                armor = modComp?.ApplyApplicableModifiers(armor, tags.Append(Definitions.Tags.ArmorRating), globalTags) ?? armor;
-                evasion = modComp?.ApplyApplicableModifiers(evasion, tags.Append(Definitions.Tags.EvasionRating), globalTags) ?? evasion;
+                var tags = globalTags.Concat([Tags.Defense, Abilities.Unarmored]);
+                armor = modComp?.ApplyApplicableModifiers(armor, tags.Append(Tags.ArmorRating), globalTags) ?? armor;
+                evasion = modComp?.ApplyApplicableModifiers(evasion, tags.Append(Tags.EvasionRating), globalTags) ?? evasion;
             }
+
+            // Handle global armor and evasion bonuses
+            armor   += modComp?.ApplyApplicableModifiers(0.0, [Tags.ArmorRating,   Tags.Defense, Tags.Global], globalTags) ?? 0.0;
+            evasion += modComp?.ApplyApplicableModifiers(0.0, [Tags.EvasionRating, Tags.Defense, Tags.Global], globalTags) ?? 0.0;
+
+            double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
 
             var attackComp = player.GetComponent<AttackComponent>();
             if (attackComp != null)
             {
-                cooldown *= 1.0 + encumbrance / 100.0; // Encumbrance slows attack speed multiplicatively
-                
                 attackComp.RawDamage = Math.Round(rawDamage);
-                // CornerCut(?): This makes the cooldown not reset in case of a weapon swap.
-                // Theoretically exploitable by switching between fast and slow weapons
-                // Potential TODO: Detect weapon swap
+
+                cooldown *= encumbranceSlowdown; // Encumbrance slows attack speed multiplicatively
+                cooldown = Math.Max(cooldown, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
                 if (cooldown != attackComp.Cooldown.Duration)
                     attackComp.Cooldown.ChangeDuration(cooldown, true);
             }
@@ -137,7 +144,7 @@ namespace TheIdleScrolls_Core.Systems
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null)
             {
-                defenseComp.Evasion = evasion; 
+                defenseComp.Evasion = evasion / encumbranceSlowdown; 
                 defenseComp.Armor = armor;
             }
             
@@ -177,33 +184,34 @@ namespace TheIdleScrolls_Core.Systems
                     .ToHashSet();
                 List<ItemBlueprint> weapons = items.Where(i => i.IsWeapon()).Select(i => i.GetComponent<ItemComponent>()!.Blueprint).ToList();
                 List<string> weaponAbilities = weapons.Select(w => w.GetRelatedAbilityId()).ToList();
-                AddOrRemoveTag(Definitions.Tags.Unarmed, weapons.Count == 0);
-                AddOrRemoveTag(Definitions.Tags.MixedWeapons, weapons.Count > 1 && weaponAbilities.Any(f => f != weaponAbilities[0]));
+                AddOrRemoveTag(Tags.Unarmed, weapons.Count == 0);
+                AddOrRemoveTag(Tags.MixedWeapons, weapons.Count > 1 && weaponAbilities.Any(f => f != weaponAbilities[0]));
 
-                AddOrRemoveTag(Definitions.Tags.DualWield, weapons.Count >= 2);
-                AddOrRemoveTag(Definitions.Tags.TwoHanded, weapons.Count == 1 && weapons[0].GetUsedSlots().Count > 1);
+                AddOrRemoveTag(Tags.DualWield, weapons.Count >= 2);
+                AddOrRemoveTag(Tags.TwoHanded, weapons.Count == 1 && weapons[0].GetUsedSlots().Count > 1);
 
-                AddOrRemoveTag(Definitions.Tags.Unarmored, armors.Count == 0);
-                AddOrRemoveTag(Definitions.Tags.MixedArmor, armors.Count > 1);
+                AddOrRemoveTag(Tags.Unarmored, armors.Count == 0);
+                AddOrRemoveTag(Tags.MixedArmor, armors.Count > 1);
 
                 foreach (var item in items)
                 {
                     comp.AddTags(item.GetTags());
                 }
 
-                bool usingShield = comp.HasTag(Definitions.Tags.Shield);
-                AddOrRemoveTag(Definitions.Tags.Shielded, usingShield);
-                AddOrRemoveTag(Definitions.Tags.SingleHanded, weapons.Count == 1 
+                bool usingShield = comp.HasTag(Tags.Shield);
+                AddOrRemoveTag(Tags.Shielded, usingShield);
+                AddOrRemoveTag(Tags.SingleHanded, weapons.Count == 1 
                                                                 && weapons[0].GetUsedSlots().Count == 1
                                                                 && !usingShield);
             }
             else // No equipment => unarmed, unarmored
             {
-                comp.AddTag(Definitions.Tags.Unarmed);
-                comp.AddTag(Definitions.Tags.Unarmored);
+                comp.AddTag(Tags.Unarmed);
+                comp.AddTag(Tags.Unarmored);
             }
 
-            AddOrRemoveTag(Definitions.Tags.FirstStrike, player.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
+            AddOrRemoveTag(Tags.FirstStrike, player.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
+            AddOrRemoveTag(Tags.Evading, player.GetComponent<EvaderComponent>()?.Active ?? false);
         }
     }
 

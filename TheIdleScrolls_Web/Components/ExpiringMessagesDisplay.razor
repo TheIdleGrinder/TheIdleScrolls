@@ -19,7 +19,7 @@
 		position: absolute;
 		right: 0;
 		top: 0;
-		display: flex;
+		display: @display;
 		flex-direction: column;
 		width: 20vw;
 		margin: 20px;
@@ -38,6 +38,8 @@
 
 @code {
 	PeriodicTimer periodicTimer = new(TimeSpan.FromMilliseconds(200));
+
+	string display => CoreWrapper.GameWorld.GameEndAnimation ? "none" : "flex";
 
 	protected override void OnInitialized()
 	{

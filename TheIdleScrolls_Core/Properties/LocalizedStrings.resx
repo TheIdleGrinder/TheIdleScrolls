@@ -123,16 +123,16 @@
   <data name="ABL_CRAFT" xml:space="preserve">
     <value>Crafting</value>
   </data>
-  <data name="ABL_DualWield" xml:space="preserve">
+  <data name="ABL_DUALWIELD" xml:space="preserve">
     <value>Two Weapons</value>
   </data>
-  <data name="ABL_Shielded" xml:space="preserve">
+  <data name="ABL_SHIELDED" xml:space="preserve">
     <value>Shielded</value>
   </data>
-  <data name="ABL_SingleHanded" xml:space="preserve">
+  <data name="ABL_SINGLEHANDED" xml:space="preserve">
     <value>Single-Handed</value>
   </data>
-  <data name="ABL_TwoHanded" xml:space="preserve">
+  <data name="ABL_TWOHANDED" xml:space="preserve">
     <value>Two-Handed</value>
   </data>
   <data name="ActiveCraftingSlot" xml:space="preserve">
@@ -339,6 +339,9 @@
   <data name="FirstStrike" xml:space="preserve">
     <value>First Strike</value>
   </data>
+  <data name="Global" xml:space="preserve">
+    <value>global</value>
+  </data>
   <data name="HAR" xml:space="preserve">
     <value>Heavy Armor</value>
   </data>
@@ -347,6 +350,9 @@
   </data>
   <data name="LBL" xml:space="preserve">
     <value>Long Blade</value>
+  </data>
+  <data name="Local" xml:space="preserve">
+    <value>local</value>
   </data>
   <data name="MOB_1-CAV" xml:space="preserve">
     <value>Goblin Knight</value>

@@ -2,7 +2,9 @@
 using MiniECS;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection.Metadata;
+using System.Text;
 using TheIdleScrolls_Core;
+using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
@@ -33,6 +35,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public event GameLoopRunStateChangedHandler? GameLoopRunStateChanged;
 
         public IUserInputHandler InputHandler { get => gameRunner.GetUserInputHandler(); }
+        public World GameWorld { get => gameRunner.GameWorld; }
+        public GameRunner GameRunner { get => gameRunner; }
 
         public bool GameLoopRunning => gameLoopRunning;
         public List<string> StoredCharacters { get; set; } = new();
@@ -46,7 +50,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public AccessibleAreas Accessible { get; } = new();
         public List<IItemEntity> CraftingRecipes { get; private set; } = new();
         public CraftingBenchRepresentation CraftingBench { get; private set; } = new(0, 0, 0, new());
-        public bool AutoProceedActive { get; private set; } = false;
+        public bool AutoProceedActive => PlayerCharacter?.GetComponent<TravellerComponent>()?.AutoProceed ?? false;
+        public bool AutoGrindActive => PlayerCharacter?.GetComponent<TravellerComponent>()?.AutoGrindDungeons ?? false;
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
         public List<IItemEntity> Inventory { get; private set; } = new();
         public List<IItemEntity> Equipment { get; private set; } = new();
@@ -134,10 +139,16 @@ namespace TheIdleScrolls_Web.CoreWrapper
                     StopGameLoop();
                 }
             }
+            DialogueMessages.Clear();
+            ExpiringMessages.Clear();
         }
 
         public void StopGameLoop()
         {
+            if (gameRunner != null)
+            {
+                GameWorld.GameEndAnimation = false;
+            }
             gameLoopRunning = false;
             GameLoopRunStateChanged?.Invoke(gameLoopRunning);
             StateChanged?.Invoke();
@@ -170,7 +181,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
             };
             emitter.AvailableCraftingRecipesChanged += (List<IItemEntity> recipes) => CraftingRecipes = recipes;
             emitter.CraftingBenchChanged += (CraftingBenchRepresentation bench) => CraftingBench = bench;
-            emitter.PlayerAutoProceedStateChanged += (bool active) => AutoProceedActive = active;
             emitter.FeatureAvailabilityChanged += (GameFeature feature, bool available) =>
             {
                 if (available)
@@ -228,7 +238,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 new LocalBrowserStorageHandler(jSRuntime),
                 new Base64ConversionDecorator<string>(
                     new InputToByteArrayConversionDecorator<byte[]>(
-                        new NopDataEncryptor<byte[]>()
+                        new XORDataEncryptor(Encoding.UTF8.GetBytes("Don't cheat plox"))
                     )
                 ));
             gameRunner = new GameRunner(dataHandler);

@@ -6,7 +6,7 @@
 <div class="ach-container">
 
     <div class="ach-list">
-        @foreach (var achievement in Achievements)
+        @foreach (var achievement in Achievements.Where(a => !HideEarned || !a.Earned))
         {
             <div class="achievement @(achievement.Earned ? "ach-earned" : "ach-unearned")">
                 <div class="ach-title">@achievement.Title</div>
@@ -20,7 +20,11 @@
     </div>
 
     <div class="ach-header">
-        <p>Completed: @AchievementsEarned / @TotalAchievements</p>
+        <p style="margin-bottom: 0">Completed: @AchievementsEarned / @TotalAchievements</p>
+        <div>
+            <label>Hide completed</label>
+            <input type="checkbox" checked="@HideEarned" @onclick="(() => HideEarned = !HideEarned)" />
+        </div>
     </div>
 </div>
 
@@ -36,12 +40,12 @@
     .ach-header {
         display: flex;
         flex-direction: row;
-        justify-content: center;
         align-items: center;
         flex: 0 0 auto;
         margin: 0;
-        padding: 5px;
+        padding: 1rem;
         border-top: 2px solid var(--frame-color);
+        justify-content: space-between;
     }
 
     .ach-list {
@@ -91,6 +95,7 @@
     List<AchievementRepresentation> Achievements => CoreWrapper.Achievements;
     int TotalAchievements => CoreWrapper.AchievementCount;
     int AchievementsEarned => Achievements.Count(a => a.Earned);
+    bool HideEarned { get; set; } = false;
 
     protected override void OnInitialized()
     {

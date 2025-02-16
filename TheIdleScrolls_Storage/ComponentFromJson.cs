@@ -115,7 +115,8 @@ namespace TheIdleScrolls_JSON
                     int level = Int32.Parse(fields[1]);
                     int xp = Int32.Parse(fields[2]);
 
-                    var abilityDef = AbilityList.GetAbility(key);
+                    var abilityDef = AbilityList.GetAbility(key) 
+                                    ?? AbilityList.GetAbility("ABL_" + key); // Backwards compatibility
                     if (abilityDef == null)
                     {
                         Console.WriteLine($"Ability {key} not found in AbilityList");
@@ -337,6 +338,30 @@ namespace TheIdleScrolls_JSON
             try
             {
                 component.HighestCollected = json["HighestCollected"]?.GetValue<int>() ?? 0;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static bool SetFromJson(this PerksComponent component, JsonNode json)
+        {
+            try
+            {
+                component.PerkLevels.Clear();
+                var jsonPerks = json["PerkLevels"]!.AsArray();
+                foreach (var jsonPerk in jsonPerks)
+                {
+                    string line = jsonPerk!.GetValue<string>();
+                    int splitAt = line.LastIndexOf(':');
+                    if (splitAt == -1)
+                        throw new Exception($"Invalid perk level line: {line}");
+                    string id = line[..splitAt];
+                    int level = Int32.Parse(line[(splitAt + 1)..]);
+                    component.PerkLevels[id] = level;
+                }
                 return true;
             }
             catch (Exception)

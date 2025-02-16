@@ -49,20 +49,21 @@ namespace TheIdleScrolls_Core
             return mob;
         }
 
-        static int CalculateHP(MobDescription description, int level)
+        public static int CalculateHP(MobDescription description, int level)
         {
             return Functions.CalculateMobHp(level, description.HP);
         }
 
-        static int CalculateXpValue(MobDescription description, int level)
+        public static int CalculateXpValue(MobDescription description, int level)
         {
             double dmgMulti = 0.5 + 0.5 * description.Damage;
             double hp = CalculateHP(description, level);
-            double xp = Math.Ceiling(Math.Sqrt(level) * hp * dmgMulti / 10);
+            double levelScaling = Math.Sqrt(level) * (1.0 + level / 100.0);
+            double xp = Math.Ceiling(levelScaling * hp * dmgMulti / 10);
             return (int)Math.Min(xp, 2_500_000);
         }
 
-        static double CalculateDamage(MobDescription description, int level)
+        public static double CalculateDamage(MobDescription description, int level)
         {
             _ = level; // unused
             return description.Damage;

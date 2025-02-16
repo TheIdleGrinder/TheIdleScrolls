@@ -28,8 +28,9 @@ namespace TheIdleScrolls_Core.Quests
         public enum FinalFightState { None = -1, NotStarted, Slowing, Pause, End, Finished }
 
         const int startLevel = 20;
-        const double slopeDuration = 10.0;
-        const double pauseDuration = 5.0;
+        const double SlopeDuration = 10.0;
+        const double PauseDuration = 5.0;
+        const double AnimationDuration = 10.0;
         const string EndbossId = "BOSS_FINAL_DEMON";
 
         public override QuestId GetId()
@@ -47,10 +48,12 @@ namespace TheIdleScrolls_Core.Quests
             if (storyComp == null || locationComp == null)
                 return;
 
-            var UpdateState = (States state, string message) =>
+            var UpdateState = (States state, string message, string title = "") =>
             {
                 storyComp.SetQuestProgress(GetId(), state);
-                postMessageCallback(new QuestProgressMessage(GetId(), (int)state, message == string.Empty ? null : message));
+                postMessageCallback(new QuestProgressMessage(GetId(), (int)state, 
+                    message == string.Empty ? null : message, 
+                    title == string.Empty ? Properties.Quests.Story_Title : title));
             };
             
             var progress = (States)storyComp.GetQuestProgress(GetId());
@@ -148,7 +151,11 @@ namespace TheIdleScrolls_Core.Quests
                 {
                     DateTime startTime = storyComp.RetrieveTemporaryData<DateTime>(StartTimeKey);
                     double duration = (DateTime.Now - startTime).Seconds;
-                    world.SpeedMultiplier = 1.0 - Math.Min(Math.Pow(duration, 0.25) / Math.Pow(slopeDuration, 0.25), 1.0);
+                    world.SpeedMultiplier = 1.0 - Math.Min(Math.Pow(duration, 0.25) / Math.Pow(SlopeDuration, 0.25), 1.0);
+                    if (duration >= (SlopeDuration + PauseDuration - AnimationDuration) && !world.GameEndAnimation)
+                    {
+                        world.GameEndAnimation = true;
+                    }
 
                     // Rescale HP and time on gear change
                     if (coordinator.MessageTypeIsOnBoard<ItemMovedMessage>())
@@ -159,7 +166,7 @@ namespace TheIdleScrolls_Core.Quests
                         ScaleMobHpAndTimeLimit(entity, mob, world);
                     }
 
-                    if (duration >= slopeDuration)
+                    if (duration >= SlopeDuration)
                     {
                         storyComp.StoreTemporaryData(FightStateKey, FinalFightState.Pause);
                     }
@@ -167,8 +174,8 @@ namespace TheIdleScrolls_Core.Quests
                 else if (ffState == FinalFightState.Pause)
                 {
                     DateTime startTime = storyComp.RetrieveTemporaryData<DateTime>(StartTimeKey);
-                    double duration = (DateTime.Now - startTime).Seconds - slopeDuration;
-                    if (duration >= pauseDuration)
+                    double duration = (DateTime.Now - startTime).Seconds - SlopeDuration;
+                    if (duration >= PauseDuration)
                     {
                         storyComp.StoreTemporaryData(FightStateKey, FinalFightState.End);
                     }
@@ -181,11 +188,8 @@ namespace TheIdleScrolls_Core.Quests
                     bool first = !entity.GetComponent<PlayerProgressComponent>()?.Data.DungeonTimes.ContainsKey(locationComp.DungeonId) ?? true;
                     postMessageCallback(new ManualSaveRequest());
                     postMessageCallback(new DungeonCompletedMessage(locationComp.DungeonId, locationComp.DungeonLevel, first));
-                    postMessageCallback(new TutorialMessage(TutorialStep.Finished,
-                        Properties.LocalizedStrings.STORY_END_TITLE,
-                        String.Format(Properties.Quests.Story_ThresholdFinished, playtime)));
-                    UpdateState(States.ThresholdFinished, String.Empty);
-                    world.GameOver = true;                    
+                    UpdateState(States.ThresholdFinished, Properties.Quests.Story_ThresholdFinished, Properties.LocalizedStrings.STORY_END_TITLE);
+                    world.GameOver = true;
                 }
             }
         }
@@ -203,7 +207,7 @@ namespace TheIdleScrolls_Core.Quests
                 var hpComp = mob.GetComponent<LifePoolComponent>() ?? new LifePoolComponent();
                 double remaining = 1.0 * hpComp.Current / hpComp.Maximum;
                 double dps = attackComp.RawDamage / attackComp.Cooldown.Duration;
-                hpComp.Maximum = (int)(baseMultiplier * dps * assumedDpsBonus * slopeDuration);
+                hpComp.Maximum = (int)(baseMultiplier * dps * assumedDpsBonus * SlopeDuration);
                 hpComp.Current = (int)(remaining * hpComp.Maximum);
                 mob.AddComponent(hpComp);
             }
@@ -213,7 +217,7 @@ namespace TheIdleScrolls_Core.Quests
             if (defenseComp != null)
             {
                 double multi = Functions.CalculateArmorBonusMultiplier(defenseComp.Armor, mob.GetLevel(), mobDamage);
-                double targetDuration = slopeDuration / multi;
+                double targetDuration = SlopeDuration / multi;
                 player.GetComponent<TimeShieldComponent>()?.Rescale(baseMultiplier * targetDuration * mobDamage);
                 player.GetComponent<BattlerComponent>()!.Battle!.CustomTimeLimit = true; // Player has to be in the final battle
             }

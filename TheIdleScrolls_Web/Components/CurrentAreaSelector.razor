@@ -15,9 +15,16 @@
 
     @if (CanTravel && !InDungeon)
     {
-        <div id="proceed-button">
+        <div id="proceed-button" class="grind-proceed-button">
             <label>Proceed when possible</label>
             <input type="checkbox" checked="@CoreWrapper.AutoProceedActive" @onclick="ToggleAutoProceed"/>        
+        </div>
+    }
+    @if (CanTravel && InDungeon && CoreWrapper.AvailableFeatures.Contains(TheIdleScrolls_Core.GameFeature.DungeonGrinding))
+    {
+        <div id="grind-button" class="grind-proceed-button">
+            <label>Repeat on finish</label>
+            <input type="checkbox" checked="@CoreWrapper.AutoGrindActive" @onclick="ToggleAutoGrind" />
         </div>
     }
 </div>
@@ -40,7 +47,7 @@
         
     }
 
-    #proceed-button {
+    .grind-proceed-button {
         position: absolute;
         display: flex;
         flex-direction: row;
@@ -111,6 +118,11 @@
     private void ToggleAutoProceed()
     {
         CoreWrapper.InputHandler.SetAutoProceed(!CoreWrapper.AutoProceedActive);
+    }
+
+    private void ToggleAutoGrind()
+    {
+        CoreWrapper.InputHandler.SetGrindDungeon(!CoreWrapper.AutoGrindActive);
     }
 
     private string GetArrowClass()

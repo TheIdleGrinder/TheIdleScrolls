@@ -42,8 +42,7 @@ namespace TheIdleScrolls_Core.Utility
 
         public static bool IsAchievementUnlocked(World w, string achievementId)
         {
-            return w.GlobalEntity.GetComponent<AchievementsComponent>()?.Achievements
-                ?.Any(a => a.Id == achievementId && a.Status == Achievements.AchievementStatus.Awarded) ?? false;
+            return w.GlobalEntity.GetComponent<AchievementsComponent>()?.IsAchievementUnlocked(achievementId) ?? false;
         }
 
         public static bool HasDefeatedMobs(Entity e, IEnumerable<string> mobTypes)
@@ -54,6 +53,11 @@ namespace TheIdleScrolls_Core.Utility
         public static bool HasDefeatedMobsConditionally(Entity e, string tag, int count)
         {
             return (e.GetComponent<PlayerProgressComponent>()?.Data.ConditionalKills.GetValueOrDefault(tag) ?? 0) >= count;
+        }
+
+        public static int GetDungeonClearCount(Entity e)
+        {
+            return e.GetComponent<PlayerProgressComponent>()?.Data.DungeonCompletions.Sum(dc => dc.Value.Sum(kv => kv.Value)) ?? 0;
         }
 
         public static ConditionFunction WildernessLevelClearedCondition(int level)
@@ -99,6 +103,11 @@ namespace TheIdleScrolls_Core.Utility
         public static ConditionFunction HasLevelledAllAbilitiesCondition(List<string> abilityIds, int level)
         {
             return (e, w) => abilityIds.All(id => (e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0) >= level);
+        }
+
+        public static ConditionFunction DungeonClearCountCondition(int count)
+        {
+            return (e, w) => GetDungeonClearCount(e) >= count;
         }
     }
 }

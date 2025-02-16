@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core
 {
@@ -12,16 +13,20 @@ namespace TheIdleScrolls_Core
     {
         public static class Stats
         {
-            public const double AttackBonusPerLevel = 0.1;
+            public const double AttackBonusPerLevel = 0.02;
+            public const double TimeShieldBonusPerLevel = 0.02;
             public const double AttackDamagePerAbilityLevel = 0.02;
-            public const double AttackSpeedPerAbilityLevel = 0.01;
+            public const double AttackSpeedPerAbilityLevel = 0.005;
             public const double DualWieldAttackSpeedMulti = 0.2;
             public const double DefensePerAbilityLevel = 0.02;
+            public const double MaxAttacksPerSecond = 10.0;
 
             public const double ArmorSlowdownPerPoint = 0.01;
             public const double EvasionBonusPerPoint = 0.01;
             public const double MaxEvasionChargeDuration = 5.0;
             public const double MaxEvasionEffectDuration = 1.0;
+            public const double MaxResistanceFromArmor = 0.9;
+            public const double MaxResistanceFromEvasion = 0.9;
 
             public const double CraftingAbilityBonusPerLevel = 0.02;
             public const double CraftingBaseDuration = 30.0;
@@ -36,6 +41,16 @@ namespace TheIdleScrolls_Core
             public const int    DungeonDropLevelRange = 9;
 
             public const double QualityMultiplier   = 1.25;
+
+            public const int    LevelsPerPerkPoint          = 5;
+            public const int    PerkPointLevelLimit         = 200;
+            public const double BasicDamageIncrease         = 0.10;
+            public const double BasicAttackSpeedIncrease    = 0.05;
+            public const double BasicDefenseIncrease        = 0.08;
+            public const double BasicTimeIncrease           = 0.05;
+            public const double BigPerkFactor               = 1.5;
+            public const double MasterPerkMultiplier        = 0.1;
+            public const double SavantXpMultiplier          = 0.3;
         }
 
         public static class DungeonIds
@@ -57,8 +72,16 @@ namespace TheIdleScrolls_Core
             public const string EndgameAges = "AGES";
         }
 
+        public static class DungeonLevels
+        {
+            public const int LevelVoidMax = 125;
+        }
+
         public static class Tags
         {
+            public const string Local = "Local";
+            public const string Global = "Global";
+
             public const string Damage = "Damage";
             public const string AttackSpeed = "AttackSpeed";
             public const string Defense = "Defense";
@@ -86,6 +109,7 @@ namespace TheIdleScrolls_Core
             public const string MixedWeapons = "MixedWeapons";
             public const string MixedArmor = "MixedArmor";
             public const string FirstStrike = "FirstStrike";
+            public const string Evading = "Evading";
 
             public const string CharacterXpGain = "CharacterXpGain";
             public const string AbilityXpGain = "AbilityXpGain";
@@ -106,34 +130,31 @@ namespace TheIdleScrolls_Core
     {
         public static double CalculateAbilityAttackSpeedBonus(int abilityLevel)
         {
-            //return Math.Pow(1.0 + Definitions.Stats.AttackSpeedPerAbilityLevel, abilityLevel) - 1.0;
-            return Definitions.Stats.AttackSpeedPerAbilityLevel * abilityLevel;
+            return Stats.AttackSpeedPerAbilityLevel * abilityLevel;
         }
 
         public static double CalculateAbilityAttackDamageBonus(int abilityLevel)
         {
-            //return Math.Pow(1.0 + Definitions.Stats.AttackDamagePerAbilityLevel, abilityLevel) - 1.0;
-            return Definitions.Stats.AttackDamagePerAbilityLevel * abilityLevel;
+            return Stats.AttackDamagePerAbilityLevel * abilityLevel;
         }
 
         public static double CalculateAbilityDefenseBonus(int abilityLevel)
         {
-            //return Math.Pow(1.0 + Definitions.Stats.DefensePerAbilityLevel, abilityLevel) - 1.0;
-            return Definitions.Stats.DefensePerAbilityLevel * abilityLevel;
+            return Stats.DefensePerAbilityLevel * abilityLevel;
         }
 
         // 4 Material tiers above training equipment, 1.5 multiplier per tier
-        private static double MaterialBonusPerLevel => Math.Pow(1.5, 4.0 / Definitions.Stats.ScalingSwitchLevel);
+        private static double MaterialBonusPerLevel => Math.Pow(1.5, 4.0 / Stats.ScalingSwitchLevel);
 
         public static double CalculateAssumedPlayerDamageMultiplier(int level)
         {
-            var maxGearLevel = Definitions.Stats.ScalingSwitchLevel;
+            var maxGearLevel = Stats.ScalingSwitchLevel;
             var qualityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 at level 150
 
             // Assumption: Ability levels somewhat align with character level
             return (1.0 + CalculateAbilityAttackDamageBonus(level))                 // Ability damage bonus
                 * (1.0 + CalculateAbilityAttackSpeedBonus(level))                   // Ability attack speed bonus
-                * (1.0 + Definitions.Stats.AttackBonusPerLevel * (level - 1))       // Level scaling
+                * (1.0 + 2 * Stats.AttackBonusPerLevel * (level - 1))               // Level scaling (x2 for perks)
                 * Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
                 * (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of weapons
                 * (1.0 + level * qualityBonusPerLevel)                              // Smooth transition to +4 at level 150
@@ -142,13 +163,14 @@ namespace TheIdleScrolls_Core
 
         public static double CalculateAssumedPlayerDefenseMultiplier(int level)
         {
-            var maxGearLevel = Definitions.Stats.ScalingSwitchLevel;
+            var maxGearLevel = Stats.ScalingSwitchLevel;
             var qualityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150;               // Smooth transition to +4 at level 150
             return (1.0 + CalculateAbilityDefenseBonus(level))                      // Ability defense bonus
 				* Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
 				* (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of armor
 				* (1.0 + level * qualityBonusPerLevel)                              // Smooth transition to +4 at level 150
-				;
+                * (1.0 + 2 * (level - 1) * Stats.TimeShieldBonusPerLevel)           // Account for time shield bonus from levelling (x2 for perks)
+                ;
         }
 
         public static double CalculateDefenseRating(double armor, double evasion, int level)
@@ -164,7 +186,7 @@ namespace TheIdleScrolls_Core
             if (enemyAccuracy == 0.0)
                 enemyAccuracy = 1.0;
             double effectiveEvasion = evasion / enemyAccuracy;
-            return 1.0 + effectiveEvasion * Definitions.Stats.EvasionBonusPerPoint;
+            return Math.Min(1.0 + effectiveEvasion * Stats.EvasionBonusPerPoint, 1.0 / (1.0 - Stats.MaxResistanceFromEvasion));
         }
 
         public static double CalculateArmorBonusMultiplier(double armor, int enemyLevel, double incomingDamage = 1.0)
@@ -172,21 +194,14 @@ namespace TheIdleScrolls_Core
             if (incomingDamage == 0.0)
                 incomingDamage = 1.0;
             double effectiveArmor = armor / CalculateMobArmorPierce(enemyLevel, incomingDamage);
-            return 1.0 + effectiveArmor * Definitions.Stats.ArmorSlowdownPerPoint;
+            return Math.Min(1.0 + effectiveArmor * Stats.ArmorSlowdownPerPoint, 1.0 / (1.0 - Stats.MaxResistanceFromArmor));
         }
 
         public static int CalculateMobHp(int mobLevel, double multiplier = 1.0)
         {
-            // Old calculation, kept for future reference
-            //return (int) Math.Min(1_000_000_000, 
-            //    Definitions.Stats.MobBaseHp * multiplier
-            //    * Math.Pow(Definitions.Stats.EarlyHpScaling, Math.Min(mobLevel, Definitions.Stats.ScalingSwitchLevel))
-            //    * Math.Pow(Definitions.Stats.LaterHpScaling, Math.Max(mobLevel - Definitions.Stats.ScalingSwitchLevel, 0))
-            //    * (1.0 + Definitions.Stats.AttackBonusPerLevel * (mobLevel - 1))
-            //);
             double mobBaseHpMultiplier = 0.9;
             return (int) Math.Min(1_000_000_000,
-                Definitions.Stats.MobBaseHp * multiplier
+                Stats.MobBaseHp * multiplier
                 * CalculateAssumedPlayerDamageMultiplier(mobLevel)
                 * (mobBaseHpMultiplier + 0.01 * (mobLevel - 1))
             );
@@ -208,7 +223,7 @@ namespace TheIdleScrolls_Core
         {
             if (areaLevel == 0)
                 return 0.0;
-            return 10.0 * (1.0 * playerLevel / areaLevel) / CalculateMobArmorPierce(areaLevel);
+            return 10.0 / CalculateMobArmorPierce(areaLevel);
         }
 
         public static double CalculateRefiningSuccessRate(int abilityLevel, int currentQuality)
@@ -219,10 +234,10 @@ namespace TheIdleScrolls_Core
         public static double CalculateRefiningDuration(Entity item, Entity? crafter)
         {
             var materialTier = item.GetComponent<ItemMaterialComponent>()?.Tier ?? 0;
-            double baseDuration = Definitions.Stats.CraftingBaseDuration 
-                + Definitions.Stats.CraftingDurationPerMaterialTier * materialTier;
+            double baseDuration = Stats.CraftingBaseDuration 
+                + Stats.CraftingDurationPerMaterialTier * materialTier;
             double speed = crafter?.ApplyAllApplicableModifiers(1.0, 
-                new string[] { Definitions.Tags.CraftingSpeed }, 
+                [Tags.CraftingSpeed], 
                 crafter.GetTags()) ?? 1.0;
             
             // CornerCut: Minimum speed of 1% to prevent eternal crafts, realistically will never be below 1.0
@@ -233,7 +248,7 @@ namespace TheIdleScrolls_Core
         {
             int baseCost = item.GetComponent<ItemRefinableComponent>()?.Cost ?? 100;
             double cost = crafter?.ApplyAllApplicableModifiers(baseCost, 
-                new string[] { Definitions.Tags.CraftingCost },
+                [Tags.CraftingCost],
                 crafter.GetTags()) ?? baseCost;
             return (int)Math.Ceiling(Math.Max(cost, 1.0));
         }

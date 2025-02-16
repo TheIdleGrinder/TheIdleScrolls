@@ -61,6 +61,57 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die From humble beginnings, battling dummies and rats, to defending your world against an invasion, to walking between worlds yourself - you’ve come so far. Each challenge demanded not just strength but also your craftiness and dedication. You honed your skills, forged your path (and your gear), and became the hero these trials required.
+        ///For now, your story ends here. But who knows? In realms like these, endings often make way for new beginnings. ähnelt.
+        /// </summary>
+        internal static string Endgame_Finished {
+            get {
+                return ResourceManager.GetString("Endgame_Finished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Your expeditions into the Void have been many. Time and again, you’ve braved its twisting paths and shadowed expanses, pushing further with each foray.
+        ///Now, the twisting pathways converge and you find yourself in front of three portals, their flickering light unmistakably similar to the one you have been using to travel between this world and your own. These must be the remnants of other severed connections, doorways that survived the collapse.
+        ///Beyond them, your ultimate challenge awaits you. ähnelt.
+        /// </summary>
+        internal static string Endgame_Pinnacle {
+            get {
+                return ResourceManager.GetString("Endgame_Pinnacle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The landscape around the lighthouse snaps into focus. You stagger as the world feels both immediate and distant, like waking from a dream. You remember fighting at the threshold, then just a moment of indescribable nothingness.
+        ///The sharp voices of those around you cut through the haze. The survivors stare, their astonishment giving way to joy. They rush toward you, some shouting your name. They say you vanished for mere seconds, yet the void clings faintly to your thoughts, a sensation without form. ähnelt.
+        /// </summary>
+        internal static string Endgame_Start {
+            get {
+                return ResourceManager.GetString("Endgame_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Beyond the Portal ähnelt.
+        /// </summary>
+        internal static string Endgame_Title {
+            get {
+                return ResourceManager.GetString("Endgame_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The portal’s connection is severed but the rupture in reality persists. What once served as a bridge to another place now stands adrift, its energy still surging but its destination lost.
+        ///Through the bluish glow, an unfamiliar realm comes into view. A web of twisting pathways stretches into the void, branching endlessly into a shadowed expanse. A landscape as intriguing as it is unsettling.
+        ///The void beckons to the bold and the reckless, a realm of mysteries that promise both great reward and untold peril. ähnelt.
+        /// </summary>
+        internal static string Endgame_Void {
+            get {
+                return ResourceManager.GetString("Endgame_Void", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string Story_CastleFinished {
@@ -79,9 +130,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die You stand victorious in the corridors beneath the cultists&apos; castle. While the leader himself has eluded you, destroying their final hideout should spell the end of the cult’s sinister activities.
-        ///
-        ///But your optimism wanes as you realize that his escape wasn&apos;t a defeat but a strategic retreat: Several documents and maps identify an ancient lighthouse that sits atop a nearby cliff as the locus of a final ritual which will break down the walls between worlds. You need to pursue the remaining cultists and prev [Rest der Zeichenfolge wurde abgeschnitten]&quot;; ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die You stand victorious beneath the cultists&apos; castle, but their leader has escaped—not in defeat, but in retreat: Documents reveal a final ritual at an ancient lighthouse, one that could shatter the walls between worlds. You need to pursue the remaining cultists and prevent their success at all costs! ähnelt.
         /// </summary>
         internal static string Story_LabyrinthFinished {
             get {
@@ -163,9 +212,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops.
-        ///
-        ///Time to finish: {0} ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops. ähnelt.
         /// </summary>
         internal static string Story_ThresholdFinished {
             get {
@@ -179,6 +226,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string Story_ThresholdOpen {
             get {
                 return ResourceManager.GetString("Story_ThresholdOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die A Sinister Threat ähnelt.
+        /// </summary>
+        internal static string Story_Title {
+            get {
+                return ResourceManager.GetString("Story_Title", resourceCulture);
             }
         }
     }
