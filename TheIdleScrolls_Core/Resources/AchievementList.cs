@@ -481,9 +481,9 @@ namespace TheIdleScrolls_Core.Resources
 
 
             // Unarmored/Unarmed achievements
-            double noArmorBaseEvasion = 10;
-            double noArmorBaseEvasion1 = 0.5;
-            double noArmorBaseEvasion2 = 1.0;
+            double noArmorBaseEvasion  = 25;
+            double noArmorBaseEvasion1 = 1.0;
+            double noArmorBaseEvasion2 = 2.0;
             achievements.Add(new(
                 "NOARMOR1",
                 "Plain Clothes",
@@ -496,7 +496,7 @@ namespace TheIdleScrolls_Core.Resources
                         $"Gain +{noArmorBaseEvasion:0.#} base evasion rating while unarmored",
                         ModifierType.AddBase,
                         noArmorBaseEvasion,
-                        [Tags.EvasionRating],
+                        [Tags.EvasionRating, Tags.Global],
                         [Tags.Unarmored]
                     ))
                 }
@@ -523,7 +523,7 @@ namespace TheIdleScrolls_Core.Resources
                         $"Gain +{noArmorBaseEvasion1:0.#} evasion rating for each level",
                         ModifierType.AddBase,
                         noArmorBaseEvasion1,
-                        [Tags.EvasionRating],
+                        [Tags.EvasionRating, Tags.Global],
                         [Tags.Unarmored]
                     ))
                 }
@@ -540,7 +540,7 @@ namespace TheIdleScrolls_Core.Resources
                         $"Gain +{noArmorBaseEvasion2:0.#} base evasion rating for each level",
                         ModifierType.AddBase,
                         noArmorBaseEvasion2,
-                        [Tags.EvasionRating],
+                        [Tags.EvasionRating, Tags.Global],
                         [Tags.Unarmored]
                     ))
                 }

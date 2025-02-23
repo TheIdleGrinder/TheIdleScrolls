@@ -117,16 +117,14 @@ namespace TheIdleScrolls_Core.Systems
                     [Tags.AttackSpeed, Abilities.Unarmed], globalTags) ?? cooldown;
             }
 
-            if (armorCount == 0)
-            {
-                var tags = globalTags.Concat([Tags.Defense, Abilities.Unarmored]);
-                armor = modComp?.ApplyApplicableModifiers(armor, tags.Append(Tags.ArmorRating), globalTags) ?? armor;
-                evasion = modComp?.ApplyApplicableModifiers(evasion, tags.Append(Tags.EvasionRating), globalTags) ?? evasion;
-            }
-
             // Handle global armor and evasion bonuses
-            armor   += modComp?.ApplyApplicableModifiers(0.0, [Tags.ArmorRating,   Tags.Defense, Tags.Global], globalTags) ?? 0.0;
-            evasion += modComp?.ApplyApplicableModifiers(0.0, [Tags.EvasionRating, Tags.Defense, Tags.Global], globalTags) ?? 0.0;
+            List<string> globalDefTags = [Tags.Global, Tags.Defense];
+            if (player.HasTag(Tags.Unarmored))
+            {
+                globalDefTags.Add(Abilities.Unarmored); // Bonuses from unarmored ability apply here if unarmored
+            }
+            armor   += modComp?.ApplyApplicableModifiers(0.0, globalDefTags.Append(Tags.ArmorRating),   globalTags) ?? 0.0;
+            evasion += modComp?.ApplyApplicableModifiers(0.0, globalDefTags.Append(Tags.EvasionRating), globalTags) ?? 0.0;
 
             double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
 
