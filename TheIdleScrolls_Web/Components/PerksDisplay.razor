@@ -10,7 +10,7 @@
     <div class="perks-list">
         @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
         {
-            <PerkTile PerkId=@perk.Id PerksComp=@PerksComponent />
+            <PerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) />
         }
     </div>
 
@@ -61,11 +61,16 @@
         CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged += (_) => {
             if (PerksComponent == null)
                 PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
+            CoreWrapper.SeenPerks = Perks.Select(p => p.Id).ToList();
             StateHasChanged(); 
         };
         CoreWrapper.GameRunner.GetEventEmitter().AvailablePerkPointsChanged += (_) => StateHasChanged();
         base.OnInitialized();
         PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
+
+        // Save previously seen perks but update the list of seen perks in the CoreWrapper
+        SeenPerks = new List<string>(CoreWrapper.SeenPerks);
+        CoreWrapper.SeenPerks = Perks.Select(p => p.Id).ToList();
     }
 
     PerksComponent? PerksComponent = null;
@@ -73,4 +78,6 @@
     int PerksUsed => PerksComponent?.GetUsedPerkPoints() ?? 0;
     int PerksLimit => PerksComponent?.PerkPointLimit ?? 0;
     int FreePerkPoints => PerksLimit - PerksUsed;
+
+    List<string> SeenPerks = [];
 }
