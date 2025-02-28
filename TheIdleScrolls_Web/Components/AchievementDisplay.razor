@@ -8,7 +8,7 @@
     <div class="ach-list">
         @foreach (var achievement in Achievements.Where(a => !HideEarned || !a.Earned))
         {
-            <div class="achievement @(achievement.Earned ? "ach-earned" : "ach-unearned")">
+            <div class="achievement @(GetAchievementClasses(achievement))">
                 <div class="ach-title">@achievement.Title</div>
                 <div class="ach-description">@achievement.Description</div>
                 @if (achievement.Reward != string.Empty)
@@ -76,6 +76,18 @@
         background-color: white;
     }
 
+    .ach-new {
+        border-width: 3px;
+    }
+
+    .ach-new.ach-earned {
+        border-color: mediumseagreen;
+    }
+
+    .ach-new.ach-unearned {
+        border-color: limegreen;
+    }
+
     .ach-title {
         font-weight: bold;
     }
@@ -97,9 +109,33 @@
     int AchievementsEarned => Achievements.Count(a => a.Earned);
     bool HideEarned { get; set; } = false;
 
+    List<string> SeenEarnedAchievements {get; set;} = new List<string>();
+
     protected override void OnInitialized()
     {
+        CoreWrapper.GameRunner.GetEventEmitter().AchievementsChanged += (List<AchievementRepresentation> achievements, int count) =>
+        {
+            CoreWrapper.SeenEarnedAchievements = achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
+            StateHasChanged();
+        };
+
         CoreWrapper.StateChanged += StateHasChanged;
         base.OnInitialized();
+
+        SeenEarnedAchievements = new List<string>(CoreWrapper.SeenEarnedAchievements);
+        CoreWrapper.SeenEarnedAchievements = Achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
+    }
+
+    private string GetAchievementClasses(AchievementRepresentation achievement)
+    {
+        string classes = "achievement ";
+        classes += achievement.Earned ? "ach-earned" : "ach-unearned";
+
+        if (achievement.Earned && !SeenEarnedAchievements.Contains(achievement.Title))
+        {
+            classes += "ach-new";
+        }
+
+        return classes;
     }
 }

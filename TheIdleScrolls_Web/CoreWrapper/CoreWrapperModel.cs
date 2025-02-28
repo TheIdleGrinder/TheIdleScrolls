@@ -57,7 +57,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<IItemEntity> Equipment { get; private set; } = new();
         public int Coins { get; private set; } = 0;
         public CharacterStats CharacterStats { get; private set; } = new();
-        public List<AchievementRepresentation> Achievements { get; private set; } = new();
+        public List<AchievementRepresentation> Achievements { get; private set; } = [];
+        public List<string> SeenEarnedAchievements { get; set; } = [];
         public List<AbilityRepresentation> Abilities { get; private set; } = new();
         public List<PerkRepresentation> Perks { get; private set; } = new();
         public List<string> SeenPerks { get; set; } = [];
@@ -209,6 +210,12 @@ namespace TheIdleScrolls_Web.CoreWrapper
             {
                 Achievements = achievements;
                 AchievementCount = count;
+                if (SeenEarnedAchievements.Count == 0)
+                {
+                    SeenEarnedAchievements = achievements
+                                                .Where(a => a.Earned)
+                                                .Select(a => a.Title).ToList();
+                }
             };
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
             emitter.PlayerPerksChanged += (List<PerkRepresentation> perks) =>
