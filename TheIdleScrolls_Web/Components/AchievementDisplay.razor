@@ -26,6 +26,13 @@
             <input type="checkbox" checked="@HideEarned" @onclick="(() => HideEarned = !HideEarned)" />
         </div>
     </div>
+
+    @if (NewAchievements > 0)
+    {
+        <div class="ach-new-indicator">
+            @NewAchievements newly earned!
+        </div>
+    }
 </div>
 
 <style>
@@ -56,6 +63,19 @@
         overflow-y: auto;
         margin: 0;
         padding: 5px;
+    }
+
+    .ach-new-indicator {
+        position: absolute;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 5px;
+        background-color: palegreen;
+        border: 2px solid mediumseagreen;
+        color: black;
+        font-weight: bold;
+        text-align: center;
     }
 
     .achievement {
@@ -110,6 +130,7 @@
     bool HideEarned { get; set; } = false;
 
     List<string> SeenEarnedAchievements {get; set;} = new List<string>();
+    int NewAchievements => AchievementsEarned - SeenEarnedAchievements.Count;
 
     protected override void OnInitialized()
     {
