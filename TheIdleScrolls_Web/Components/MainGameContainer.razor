@@ -261,6 +261,12 @@
 
     string AddTabClass(Tab tab)
     {
-        return (m_activeTab == tab) ? " active" : "";
+        string classString = (m_activeTab == tab) ? "active" : "";
+        if (tab == Tab.Perks && CoreWrapper.Perks.Count > CoreWrapper.SeenPerks.Count
+            || tab == Tab.Achievements && CoreWrapper.Achievements.Where(a => a.Earned).Count() > CoreWrapper.SeenEarnedAchievements.Count)
+        {
+            classString += " new-stuff";
+        }
+        return classString;
     }
 }

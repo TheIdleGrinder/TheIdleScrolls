@@ -233,6 +233,10 @@ button.pressed:hover {
     background-color: #ccc;
 }
 
+.tabs button.new-stuff {
+    font-weight: bold;
+}
+
 div.scrolling-table {
     width: 100%;
     overflow: hidden;
