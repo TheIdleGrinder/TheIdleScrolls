@@ -3,6 +3,8 @@
 @using TheIdleScrolls_Core.Modifiers
 @using TheIdleScrolls_Web.CoreWrapper
 
+@implements IDisposable
+
 @inject CoreWrapperModel CoreWrapper
 
 <div id="perks-container">
@@ -76,14 +78,17 @@
 </style>
 
 @code {
+    PerksChangedHandler PerksHandler => (_) =>
+    {
+        if (PerksComponent == null)
+            PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
+        CoreWrapper.SeenPerks = Perks.Select(p => p.Id).ToList();
+        StateHasChanged();
+    };
+
     protected override void OnInitialized()
     {
-        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged += (_) => {
-            if (PerksComponent == null)
-                PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
-            CoreWrapper.SeenPerks = Perks.Select(p => p.Id).ToList();
-            StateHasChanged(); 
-        };
+        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged += PerksHandler;
         CoreWrapper.GameRunner.GetEventEmitter().AvailablePerkPointsChanged += (_) => StateHasChanged();
         base.OnInitialized();
         PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
@@ -91,6 +96,11 @@
         // Save previously seen perks but update the list of seen perks in the CoreWrapper
         SeenPerks = new List<string>(CoreWrapper.SeenPerks);
         CoreWrapper.SeenPerks = Perks.Select(p => p.Id).ToList();
+    }
+
+    void IDisposable.Dispose()
+    {
+        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged -= PerksHandler;
     }
 
     PerksComponent? PerksComponent = null;

@@ -1,6 +1,8 @@
 ﻿@using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Core
 
+@implements IDisposable
+
 @inject CoreWrapperModel CoreWrapper
 
 <div class="ach-container">
@@ -132,19 +134,26 @@
     List<string> SeenEarnedAchievements {get; set;} = new List<string>();
     int NewAchievements => AchievementsEarned - SeenEarnedAchievements.Count;
 
+    AchievementsChangedHandler AchChangedHandler => (List<AchievementRepresentation> achievements, int count) =>
+    {
+        CoreWrapper.SeenEarnedAchievements = achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
+        StateHasChanged();
+    };
+
     protected override void OnInitialized()
     {
-        CoreWrapper.GameRunner.GetEventEmitter().AchievementsChanged += (List<AchievementRepresentation> achievements, int count) =>
-        {
-            CoreWrapper.SeenEarnedAchievements = achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
-            StateHasChanged();
-        };
+        CoreWrapper.GameRunner.GetEventEmitter().AchievementsChanged += AchChangedHandler;
 
         CoreWrapper.StateChanged += StateHasChanged;
         base.OnInitialized();
 
         SeenEarnedAchievements = new List<string>(CoreWrapper.SeenEarnedAchievements);
         CoreWrapper.SeenEarnedAchievements = Achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
+    }
+
+    void IDisposable.Dispose()
+    {
+        CoreWrapper.GameRunner.GetEventEmitter().AchievementsChanged -= AchChangedHandler;
     }
 
     private string GetAchievementClasses(AchievementRepresentation achievement)
@@ -154,7 +163,7 @@
 
         if (achievement.Earned && !SeenEarnedAchievements.Contains(achievement.Title))
         {
-            classes += "ach-new";
+            classes += " ach-new";
         }
 
         return classes;
