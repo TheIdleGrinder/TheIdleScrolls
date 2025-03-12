@@ -58,7 +58,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public int Coins { get; private set; } = 0;
         public CharacterStats CharacterStats { get; private set; } = new();
         public List<AchievementRepresentation> Achievements { get; private set; } = [];
-        public List<string> SeenEarnedAchievements { get; set; } = [];
+        public List<string> SeenEarnedAchievements { get; set; } = [""]; // Dummy value to identify initial state
         public List<AbilityRepresentation> Abilities { get; private set; } = new();
         public List<PerkRepresentation> Perks { get; private set; } = new();
         public List<string> SeenPerks { get; set; } = [];
@@ -210,7 +210,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             {
                 Achievements = achievements;
                 AchievementCount = count;
-                if (SeenEarnedAchievements.Count == 0)
+                if (SeenEarnedAchievements.Count == 1 && SeenEarnedAchievements[0] == "")
                 {
                     SeenEarnedAchievements = achievements
                                                 .Where(a => a.Earned)

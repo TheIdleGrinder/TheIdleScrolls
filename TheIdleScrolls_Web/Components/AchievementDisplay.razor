@@ -138,6 +138,7 @@
     {
         CoreWrapper.SeenEarnedAchievements = achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
         StateHasChanged();
+        Console.WriteLine($"Update: {SeenEarnedAchievements.Count}/{CoreWrapper.SeenEarnedAchievements.Count}");
     };
 
     protected override void OnInitialized()
@@ -149,10 +150,12 @@
 
         SeenEarnedAchievements = new List<string>(CoreWrapper.SeenEarnedAchievements);
         CoreWrapper.SeenEarnedAchievements = Achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
+        Console.WriteLine($"Init: {SeenEarnedAchievements.Count}/{CoreWrapper.SeenEarnedAchievements.Count}");
     }
 
     void IDisposable.Dispose()
     {
+        Console.WriteLine("Dispose");
         CoreWrapper.GameRunner.GetEventEmitter().AchievementsChanged -= AchChangedHandler;
     }
 
