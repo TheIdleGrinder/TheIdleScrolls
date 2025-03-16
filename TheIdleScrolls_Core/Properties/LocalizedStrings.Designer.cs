@@ -1485,6 +1485,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Time Limit ähnelt.
+        /// </summary>
+        internal static string TimeShield {
+            get {
+                return ResourceManager.GetString("TimeShield", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die using a two-handed weapon ähnelt.
         /// </summary>
         internal static string TwoHanded {

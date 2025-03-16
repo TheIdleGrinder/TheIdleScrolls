@@ -56,13 +56,18 @@ namespace TheIdleScrolls_Core.Systems
                     int effectiveLevel = Math.Min(entity.GetComponent<LevelComponent>()?.Level ?? 0, Stats.PerkPointLevelLimit);
                     perksComp.BasePerkPoints = effectiveLevel / Stats.LevelsPerPerkPoint;
                     int change = perksComp.PerkPointLimit - previousLimit;
-                    if (change != 0)
+                    if (change != 0 && !FirstUpdate)
                     {
-                        if (!FirstUpdate)
-                        {
-                            coordinator.PostMessage(this, new PerkPointLimitChanged(entity, change, perksComp.PerkPointLimit));
-                        }
+                        coordinator.PostMessage(this, new PerkPointLimitChanged(entity, change, perksComp.PerkPointLimit));
                     }
+                }
+                if (perksComp.NewBonusPoints > 0)
+                {
+                    if (!FirstUpdate)
+                    {
+                        coordinator.PostMessage(this, new PerkPointLimitChanged(entity, perksComp.NewBonusPoints, perksComp.PerkPointLimit));
+                    }
+                    perksComp.NewBonusPoints = 0;                    
                 }
 
                 // Update Modifiers

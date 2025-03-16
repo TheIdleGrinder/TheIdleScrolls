@@ -21,6 +21,7 @@ namespace TheIdleScrolls_Core.Components
         readonly List<Perk> Perks = [];
 
         readonly HashSet<string> BonusPerkPointIds = [];
+        public int NewBonusPoints = 0;
 
         readonly HashSet<string> ChangedPerks = []; // Holds list of perks that need to be processed by the PerksSystem
 
@@ -150,6 +151,7 @@ namespace TheIdleScrolls_Core.Components
 
         public bool AddBonusPerkPoint(string id)
         {
+            NewBonusPoints++;
             return BonusPerkPointIds.Add(id);
         }
 

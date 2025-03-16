@@ -3,9 +3,8 @@ div.charOuter {
     flex-direction: column;
     flex: 0 0 auto;
     box-sizing: border-box;
+    padding: 0.4rem;
     padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-bottom: 0.5rem;
     width: 100%;
 }
 

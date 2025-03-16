@@ -593,6 +593,9 @@ Time to finish: {0}</value>
   <data name="STORY_END_TITLE" xml:space="preserve">
     <value>Convergence</value>
   </data>
+  <data name="TimeShield" xml:space="preserve">
+    <value>Time Limit</value>
+  </data>
   <data name="TwoHanded" xml:space="preserve">
     <value>using a two-handed weapon</value>
   </data>
