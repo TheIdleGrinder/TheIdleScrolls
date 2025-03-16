@@ -42,6 +42,10 @@ namespace TheIdleScrolls_Core.Systems
                 Entity? globalEntity = coordinator.GetEntities<AchievementsComponent>().FirstOrDefault();
                 if (globalEntity != null)
                 {
+                    if (globalEntity.HasComponent<ROMComponent>())
+                    {
+                        return;
+                    }
                     m_dataAccessHandler.StoreEntity(globalEntity);
                 }
             }

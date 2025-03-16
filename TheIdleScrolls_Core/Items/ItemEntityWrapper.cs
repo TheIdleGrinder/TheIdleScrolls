@@ -58,7 +58,7 @@ namespace TheIdleScrolls_Core.Items
                     {
                         continue;
                     }
-                    slotStrings.Add((count > 1 ? $"{count}x" : "") + slot.ToString());
+                    slotStrings.Add((count > 1 ? $"{count}x " : "") + slot.ToString());
                 }
                 description += $"; Used Slot(s): {string.Join(", ", slotStrings)}";
             }

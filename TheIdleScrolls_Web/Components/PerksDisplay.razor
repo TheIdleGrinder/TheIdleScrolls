@@ -3,6 +3,8 @@
 @using TheIdleScrolls_Core.Modifiers
 @using TheIdleScrolls_Web.CoreWrapper
 
+@implements IDisposable
+
 @inject CoreWrapperModel CoreWrapper
 
 <div id="perks-container">
@@ -10,7 +12,7 @@
     <div class="perks-list">
         @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
         {
-            <PerkTile PerkId=@perk.Id PerksComp=@PerksComponent />
+            <PerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) />
         }
     </div>
 
@@ -21,6 +23,13 @@
             <p id="perks-available-points">@FreePerkPoints Point@(FreePerkPoints == 1 ? "" : "s") Available</p>
         }
     </div>
+
+    @if (NewPerks > 0)
+    {
+        <div id="perks-new-indicator">
+            @NewPerks newly unlocked!
+        </div>
+    }
 
 </div>
 
@@ -41,6 +50,19 @@
         justify-content: space-between;
     }
 
+    #perks-new-indicator {
+        position: absolute;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 5px;
+        background-color: palegreen;
+        border: 2px solid mediumseagreen;
+        color: black;
+        font-weight: bold;
+        text-align: center;
+    }
+
     #perks-available-points {
         margin-left: 2rem;
         margin-bottom: 0;
@@ -56,16 +78,29 @@
 </style>
 
 @code {
+    PerksChangedHandler PerksHandler => (_) =>
+    {
+        if (PerksComponent == null)
+            PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
+        CoreWrapper.SeenPerks = Perks.Select(p => p.Id).ToList();
+        StateHasChanged();
+    };
+
     protected override void OnInitialized()
     {
-        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged += (_) => {
-            if (PerksComponent == null)
-                PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
-            StateHasChanged(); 
-        };
+        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged += PerksHandler;
         CoreWrapper.GameRunner.GetEventEmitter().AvailablePerkPointsChanged += (_) => StateHasChanged();
         base.OnInitialized();
         PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
+
+        // Save previously seen perks but update the list of seen perks in the CoreWrapper
+        SeenPerks = new List<string>(CoreWrapper.SeenPerks);
+        CoreWrapper.SeenPerks = Perks.Select(p => p.Id).ToList();
+    }
+
+    void IDisposable.Dispose()
+    {
+        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged -= PerksHandler;
     }
 
     PerksComponent? PerksComponent = null;
@@ -73,4 +108,7 @@
     int PerksUsed => PerksComponent?.GetUsedPerkPoints() ?? 0;
     int PerksLimit => PerksComponent?.PerkPointLimit ?? 0;
     int FreePerkPoints => PerksLimit - PerksUsed;
+
+    List<string> SeenPerks = [];
+    int NewPerks => Perks.Count - SeenPerks.Count;
 }

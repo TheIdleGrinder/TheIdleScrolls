@@ -57,9 +57,11 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public List<IItemEntity> Equipment { get; private set; } = new();
         public int Coins { get; private set; } = 0;
         public CharacterStats CharacterStats { get; private set; } = new();
-        public List<AchievementRepresentation> Achievements { get; private set; } = new();
+        public List<AchievementRepresentation> Achievements { get; private set; } = [];
+        public List<string> SeenEarnedAchievements { get; set; } = [""]; // Dummy value to identify initial state
         public List<AbilityRepresentation> Abilities { get; private set; } = new();
         public List<PerkRepresentation> Perks { get; private set; } = new();
+        public List<string> SeenPerks { get; set; } = [];
         public int AchievementCount { get; private set; } = 0;
         public string StatisticsReport { get; private set; } = String.Empty;
         public BountyStateRepresentation BountyState { get; private set; } = new(0, 0, 0, 0, 0, 0);
@@ -208,9 +210,21 @@ namespace TheIdleScrolls_Web.CoreWrapper
             {
                 Achievements = achievements;
                 AchievementCount = count;
+                if (SeenEarnedAchievements.Count == 1 && SeenEarnedAchievements[0] == "")
+                {
+                    SeenEarnedAchievements = achievements
+                                                .Where(a => a.Earned)
+                                                .Select(a => a.Title).ToList();
+                }
             };
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
-            emitter.PlayerPerksChanged += (List<PerkRepresentation> perks) => Perks = perks;
+            emitter.PlayerPerksChanged += (List<PerkRepresentation> perks) =>
+            {
+                if (SeenPerks.Count == 0)
+                {
+                    SeenPerks = PlayerCharacter?.GetComponent<PerksComponent>()?.GetPerks()?.Select(p => p.Id).ToList() ?? [];
+                }
+            };
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
             emitter.BountyStateChanged += (BountyStateRepresentation bounty) => BountyState = bounty;
             emitter.DisplayMessageReceived += (string title, string message) =>

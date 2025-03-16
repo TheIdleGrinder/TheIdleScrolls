@@ -1,6 +1,8 @@
 ﻿@using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Core
 
+@implements IDisposable
+
 @inject CoreWrapperModel CoreWrapper
 
 <div class="ach-container">
@@ -8,7 +10,7 @@
     <div class="ach-list">
         @foreach (var achievement in Achievements.Where(a => !HideEarned || !a.Earned))
         {
-            <div class="achievement @(achievement.Earned ? "ach-earned" : "ach-unearned")">
+            <div class="achievement @(GetAchievementClasses(achievement))">
                 <div class="ach-title">@achievement.Title</div>
                 <div class="ach-description">@achievement.Description</div>
                 @if (achievement.Reward != string.Empty)
@@ -26,6 +28,13 @@
             <input type="checkbox" checked="@HideEarned" @onclick="(() => HideEarned = !HideEarned)" />
         </div>
     </div>
+
+    @if (NewAchievements > 0)
+    {
+        <div class="ach-new-indicator">
+            @NewAchievements newly earned!
+        </div>
+    }
 </div>
 
 <style>
@@ -58,6 +67,19 @@
         padding: 5px;
     }
 
+    .ach-new-indicator {
+        position: absolute;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 5px;
+        background-color: palegreen;
+        border: 2px solid mediumseagreen;
+        color: black;
+        font-weight: bold;
+        text-align: center;
+    }
+
     .achievement {
         margin: 5px;
         padding: 5px;
@@ -74,6 +96,18 @@
         color: gray;
         font-style: italic;
         background-color: white;
+    }
+
+    .ach-new {
+        border-width: 3px;
+    }
+
+    .ach-new.ach-earned {
+        border-color: mediumseagreen;
+    }
+
+    .ach-new.ach-unearned {
+        border-color: limegreen;
     }
 
     .ach-title {
@@ -97,9 +131,44 @@
     int AchievementsEarned => Achievements.Count(a => a.Earned);
     bool HideEarned { get; set; } = false;
 
+    List<string> SeenEarnedAchievements {get; set;} = new List<string>();
+    int NewAchievements => AchievementsEarned - SeenEarnedAchievements.Count;
+
+    AchievementsChangedHandler AchChangedHandler => (List<AchievementRepresentation> achievements, int count) =>
+    {
+        CoreWrapper.SeenEarnedAchievements = achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
+        StateHasChanged();
+        Console.WriteLine($"Update: {SeenEarnedAchievements.Count}/{CoreWrapper.SeenEarnedAchievements.Count}");
+    };
+
     protected override void OnInitialized()
     {
+        CoreWrapper.GameRunner.GetEventEmitter().AchievementsChanged += AchChangedHandler;
+
         CoreWrapper.StateChanged += StateHasChanged;
         base.OnInitialized();
+
+        SeenEarnedAchievements = new List<string>(CoreWrapper.SeenEarnedAchievements);
+        CoreWrapper.SeenEarnedAchievements = Achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
+        Console.WriteLine($"Init: {SeenEarnedAchievements.Count}/{CoreWrapper.SeenEarnedAchievements.Count}");
+    }
+
+    void IDisposable.Dispose()
+    {
+        Console.WriteLine("Dispose");
+        CoreWrapper.GameRunner.GetEventEmitter().AchievementsChanged -= AchChangedHandler;
+    }
+
+    private string GetAchievementClasses(AchievementRepresentation achievement)
+    {
+        string classes = "achievement ";
+        classes += achievement.Earned ? "ach-earned" : "ach-unearned";
+
+        if (achievement.Earned && !SeenEarnedAchievements.Contains(achievement.Title))
+        {
+            classes += " ach-new";
+        }
+
+        return classes;
     }
 }
