@@ -22,9 +22,9 @@ jobs:
             - name: Publish .NET Core Project
               run: dotnet publish TheIdleScrolls_Web/TheIdleScrolls_Web.csproj -c Release -o release --nologo
 
-              # changes the base-tag in index.html from '/' to 'theidlescrolls' to match GitHub Pages repository subdirectory
-            - name: Change base-tag in index.html from / to theidlescrolls
-              run: sed -i 's/<base href="\/" \/>/<base href="\/theidlescrolls\/" \/>/g' release/wwwroot/index.html
+              # changes the base-tag in index.html from '/' to 'TheIdleScrolls' to match GitHub Pages repository subdirectory
+            - name: Change base-tag in index.html from / to TheIdleScrolls
+              run: sed -i 's/<base href="\/" \/>/<base href="\/TheIdleLScrolls\/" \/>/g' release/wwwroot/index.html
 
             - name: copy index.html to 404.html
               run: cp release/wwwroot/index.html release/wwwroot/404.html
