@@ -24,7 +24,7 @@ jobs:
 
               # changes the base-tag in index.html from '/' to 'TheIdleScrolls' to match GitHub Pages repository subdirectory
             - name: Change base-tag in index.html from / to TheIdleScrolls
-              run: sed -i 's/<base href="\/" \/>/<base href="\/TheIdleLScrolls\/" \/>/g' release/wwwroot/index.html
+              run: sed -i 's/<base href="\/" \/>/<base href="\/TheIdleScrolls\/" \/>/g' release/wwwroot/index.html
 
             - name: copy index.html to 404.html
               run: cp release/wwwroot/index.html release/wwwroot/404.html
