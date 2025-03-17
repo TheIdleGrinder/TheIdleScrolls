@@ -20,7 +20,7 @@ jobs:
               run: dotnet workload restore
             
             - name: Publish .NET Core Project
-              run: dotnet publish TheIdleScrolls/TheIdleScrolls_Web.csproj -c Release -o release --nologo
+              run: dotnet publish TheIdleScrolls_Web/TheIdleScrolls_Web.csproj -c Release -o release --nologo
 
               # changes the base-tag in index.html from '/' to 'theidlescrolls' to match GitHub Pages repository subdirectory
             - name: Change base-tag in index.html from / to theidlescrolls
