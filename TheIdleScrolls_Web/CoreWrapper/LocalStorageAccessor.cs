@@ -16,7 +16,14 @@ namespace TheIdleScrolls_Web.CoreWrapper
         {
             if (_accessorJsRef.IsValueCreated is false)
             {
-                _accessorJsRef = new(await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/js/LocalStorageAccessor.js"));
+                try
+                {
+                    _accessorJsRef = new(await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/TheIdleScrolls/js/LocalStorageAccessor.js"));
+                }
+                catch (Exception)
+                {
+                    _accessorJsRef = new(await _jsRuntime.InvokeAsync<IJSObjectReference>("import", "/js/LocalStorageAccessor.js"));
+                }
             }
         }
 
