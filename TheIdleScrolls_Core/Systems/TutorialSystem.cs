@@ -205,6 +205,18 @@ namespace TheIdleScrolls_Core.Systems
                     $"time you defeat {BountySystem.EnemiesPerHunt} enemies in the wilderness. The value of bounties " +
                     $"depends on the level of the defeated enemies."));
             }
+
+            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.FightingStyles)
+                && coordinator.FetchMessagesByType<AbilityAddedMessage>().Any(am => Definitions.Abilities.Styles.Contains(am.AbilityId)))
+            {
+                globalProgress.Data.TutorialProgress.Add(TutorialStep.FightingStyles);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.FightingStyles, "Fighting Styles",
+                    $"You have unlocked your first fighting style. Fighting styles are abilities that give you a bonus when fighting with one " +
+                    $"of the four basic weapon setups ({String.Join(", ", 
+                        Definitions.Abilities.Styles.Select(a => AbilityList.GetAbility(a)!.Name))}). As you level up these abilities, you will " +
+                    $"obtain more perks to strenghten your specialization."));
+            }
         }
     }
 
