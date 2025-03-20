@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Quests;
@@ -158,7 +159,7 @@ namespace TheIdleScrolls_Core.Systems
                 && coordinator.MessageTypeIsOnBoard<ItemReceivedMessage>())
             {
                 if (coordinator.FetchMessagesByType<ItemReceivedMessage>()
-                    .Any(m => (m.Item.GetBlueprint()?.GenusIndex ?? 0) > 0))
+                    .Any(m => (m.Item.GetBlueprint()?.MaterialId ?? MaterialId.Simple) != MaterialId.Simple))
                 {
                     globalProgress.Data.TutorialProgress.Add(TutorialStep.ItemFound);
                     coordinator.PostMessage(this,
