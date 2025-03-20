@@ -70,7 +70,7 @@ namespace Test_TheIdleScrolls_Core
         [TestCase(MaterialId.Simple, ItemFamilies.HeavyChest, 0, 1, "Chest")]
         [TestCase(MaterialId.Leather1, ItemFamilies.LightGloves, 0, 2, "Arms")]
         [TestCase(MaterialId.Leather3, ItemFamilies.LightBoots, 1, 0, "Legs")]
-        [TestCase(MaterialId.Wood3, ItemFamilies.HeavyShield, 0, 1, "Shield")]
+        [TestCase(MaterialId.Wood3, ItemFamilies.HeavyShield, 1, 1, "Shield")]
         public void Correct_tags_are_set_in_items(MaterialId material, string family, int genus, int quality, string slots)
         {
             ItemBlueprint blueprint = new(family, genus, material, quality);

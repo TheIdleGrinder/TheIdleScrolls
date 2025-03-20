@@ -51,7 +51,7 @@ namespace Test_TheIdleScrolls_Core
         [Test]
         public void Default_class_is_selected_correctly()
         {
-            const string defaultKey = "Adventurer";
+            const string defaultKey = "CLASS_DEFAULT";
 
             var cha = CreateCharacter(1, new());
             Assert.That(PlayerFactory.GetCharacterClass(cha), Is.EqualTo(defaultKey));
