@@ -304,7 +304,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Chain Boots ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string Genus_HeavyBoots0 {
             get {
@@ -313,11 +313,20 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Greaves ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Chain Boots ähnelt.
         /// </summary>
         internal static string Genus_HeavyBoots1 {
             get {
                 return ResourceManager.GetString("Genus_HeavyBoots1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Greaves ähnelt.
+        /// </summary>
+        internal static string Genus_HeavyBoots2 {
+            get {
+                return ResourceManager.GetString("Genus_HeavyBoots2", resourceCulture);
             }
         }
         
@@ -349,7 +358,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Chain Gloves ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string Genus_HeavyGloves0 {
             get {
@@ -358,7 +367,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Gauntlets ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Chain Gloves ähnelt.
         /// </summary>
         internal static string Genus_HeavyGloves1 {
             get {
@@ -367,7 +376,16 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Helmet ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gauntlets ähnelt.
+        /// </summary>
+        internal static string Genus_HeavyGloves2 {
+            get {
+                return ResourceManager.GetString("Genus_HeavyGloves2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string Genus_HeavyHelmet0 {
             get {
@@ -376,7 +394,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Full Helmet ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Helmet ähnelt.
         /// </summary>
         internal static string Genus_HeavyHelmet1 {
             get {
@@ -385,7 +403,16 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Kite Shield ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Full Helmet ähnelt.
+        /// </summary>
+        internal static string Genus_HeavyHelmet2 {
+            get {
+                return ResourceManager.GetString("Genus_HeavyHelmet2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Heavy Shield ähnelt.
         /// </summary>
         internal static string Genus_HeavyShield0 {
             get {
@@ -394,7 +421,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Tower Shield ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Kite Shield ähnelt.
         /// </summary>
         internal static string Genus_HeavyShield1 {
             get {
@@ -403,7 +430,16 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Shoes ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tower Shield ähnelt.
+        /// </summary>
+        internal static string Genus_HeavyShield2 {
+            get {
+                return ResourceManager.GetString("Genus_HeavyShield2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string Genus_LightBoots0 {
             get {
@@ -412,11 +448,20 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Boots ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shoes ähnelt.
         /// </summary>
         internal static string Genus_LightBoots1 {
             get {
                 return ResourceManager.GetString("Genus_LightBoots1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Boots ähnelt.
+        /// </summary>
+        internal static string Genus_LightBoots2 {
+            get {
+                return ResourceManager.GetString("Genus_LightBoots2", resourceCulture);
             }
         }
         
@@ -448,7 +493,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Gloves ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string Genus_LightGloves0 {
             get {
@@ -457,7 +502,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Mitts ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gloves ähnelt.
         /// </summary>
         internal static string Genus_LightGloves1 {
             get {
@@ -466,7 +511,16 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cap ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Mitts ähnelt.
+        /// </summary>
+        internal static string Genus_LightGloves2 {
+            get {
+                return ResourceManager.GetString("Genus_LightGloves2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string Genus_LightHelmet0 {
             get {
@@ -475,7 +529,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hood ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cap ähnelt.
         /// </summary>
         internal static string Genus_LightHelmet1 {
             get {
@@ -484,7 +538,16 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Buckler ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hood ähnelt.
+        /// </summary>
+        internal static string Genus_LightHelmet2 {
+            get {
+                return ResourceManager.GetString("Genus_LightHelmet2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Light Shield ähnelt.
         /// </summary>
         internal static string Genus_LightShield0 {
             get {
@@ -493,11 +556,20 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Buckler ähnelt.
+        /// </summary>
+        internal static string Genus_LightShield1 {
+            get {
+                return ResourceManager.GetString("Genus_LightShield1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Round Shield ähnelt.
         /// </summary>
-        internal static string Genus_LIghtShield1 {
+        internal static string Genus_LightShield2 {
             get {
-                return ResourceManager.GetString("Genus_LIghtShield1", resourceCulture);
+                return ResourceManager.GetString("Genus_LightShield2", resourceCulture);
             }
         }
         
