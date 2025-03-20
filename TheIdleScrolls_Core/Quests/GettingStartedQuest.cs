@@ -136,7 +136,7 @@ namespace TheIdleScrolls_Core.Quests
                 });
 
                 string itemString = "";
-                List<string> families = [ItemFamilies.HeavyChest, ItemFamilies.LightChest];
+                List<string> families = [ItemFamilies.HeavyChest, ItemFamilies.HeavyShield, ItemFamilies.LightChest, ItemFamilies.LightShield];
                 foreach (var family in families)
                 {
                     Entity? item = ItemFactory.MakeItem(new(family, 0, MaterialId.Simple));

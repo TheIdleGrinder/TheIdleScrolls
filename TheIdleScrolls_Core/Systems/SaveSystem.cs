@@ -20,7 +20,9 @@ namespace TheIdleScrolls_Core.Systems
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            bool trigger = m_cooldown.Update(dt) > 0 || coordinator.MessageTypeIsOnBoard<ManualSaveRequest>();
+            bool trigger = m_cooldown.Update(dt) > 0 
+                || coordinator.MessageTypeIsOnBoard<ManualSaveRequest>()
+                || coordinator.FetchMessagesByType<BattleStateChangedMessage>().Any(bm => bm.Battle.IsFinished);
             if (trigger)
             {
                 Entity? player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
