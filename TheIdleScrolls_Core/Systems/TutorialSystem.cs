@@ -91,7 +91,7 @@ namespace TheIdleScrolls_Core.Systems
                     if ((progress & GettingStartedQuest.StateFlags.Travel) != 0)
                     {
                         addTutorialProgress(TutorialStep.Travel, "Freedom of Movement",
-                            "Click the arrow buttons to move between zones. Higher level areas become accessible after defeating" +
+                            "Click the arrow buttons to move between zones. Higher level areas become accessible after defeating " +
                             "a mob in the previous zone." +
                             "\nUpon losing a fight, your character will automatically move down one area.",
                             message);

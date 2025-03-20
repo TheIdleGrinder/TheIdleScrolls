@@ -122,18 +122,18 @@ namespace TheIdleScrolls_Core.Resources
                         MakeArmor(Properties.Items.Genus_LightBoots1, ItemTiers.LevelT1 + ItemTiers.LevelOffsetBoots, 
                             EquipmentSlot.Legs,   9.0,  2.5, leathers),
                         MakeArmor(Properties.Items.Genus_LightBoots2, ItemTiers.LevelT2 + ItemTiers.LevelOffsetBoots,
-                            EquipmentSlot.Legs,   11.0,  2.5, leathers),
+                            EquipmentSlot.Legs,  11.0,  2.5, leathers),
                     }
                 ),
                 new(Definitions.ItemFamilies.LightShield, Properties.Items.Family_LightShield, Abilities.LightArmor,
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_LightShield0, ItemTiers.LevelT0,
-                            EquipmentSlot.Hand,   8.0,  2.0, woods),
+                            EquipmentSlot.Hand,   8.0,  2.0, simple),
                         MakeArmor(Properties.Items.Genus_LightShield1, ItemTiers.LevelT1 + ItemTiers.LevelOffsetShield, 
-                            EquipmentSlot.Hand,   12.0,  3.0, woods),
+                            EquipmentSlot.Hand,  12.0,  3.0, woods),
                         MakeArmor(Properties.Items.Genus_LightShield2, ItemTiers.LevelT2 + ItemTiers.LevelOffsetShield, 
-                            EquipmentSlot.Hand,   14.0,  3.0, woods),
+                            EquipmentSlot.Hand,  14.0,  3.0, woods),
                     }
                 ),
                 new(Definitions.ItemFamilies.HeavyChest, Properties.Items.Family_HeavyChest, Abilities.HeavyArmor,
