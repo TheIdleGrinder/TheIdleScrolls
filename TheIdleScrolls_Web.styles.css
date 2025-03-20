@@ -203,7 +203,7 @@ div.framed[b-4q31w84m2x] {
 .main-frame[b-4q31w84m2x] {
     color: var(--text-color);
     max-width: 1500px;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 100px);
     box-sizing: border-box;
     margin: auto;
     gap: 20px;
