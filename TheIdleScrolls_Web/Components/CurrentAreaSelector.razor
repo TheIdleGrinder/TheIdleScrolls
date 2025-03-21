@@ -4,9 +4,9 @@
 
 <div class="outer">
     <div id="area-and-arrows">
-        <button id="btnPrevArea" class="@(GetArrowClass())" disabled=@IsAtMin @onclick="MoveDown">⮜</button>
+        <button id="btnPrevArea" class="arrow-btn @(GetArrowClass())" disabled=@IsAtMin @onclick="MoveDown">b</button>
         <h4>@CoreWrapper.Area.Name</h4>
-        <button id="btnNextArea" class="@(GetArrowClass())" disabled=@IsAtMax @onclick="MoveUp">⮞</button>
+        <button id="btnNextArea" class="arrow-btn @(GetArrowClass())" disabled=@IsAtMax @onclick="MoveUp">a</button>
     </div>
     
     <div id="dungeon-button">
@@ -87,6 +87,12 @@
     #btnLeave {
         padding: 5px 10% 5px 10%;
         max-width: 200px;
+    }
+
+    .arrow-btn {
+        font-family: 'Arrows';
+        font-size: larger;
+        padding-bottom: 2px;
     }
 
 </style>
