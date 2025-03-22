@@ -75,7 +75,8 @@ namespace TheIdleScrolls_Core.Items
             var weaponComp = Item.GetComponent<WeaponComponent>();
             if (weaponComp != null)
             {
-                description += $"; Damage: {weaponComp.Damage}; Attack Time: {weaponComp.Cooldown} s";
+                description += $"; Damage: {weaponComp.Damage} [{(weaponComp.Damage / weaponComp.Cooldown):#.##} DPS]; ";
+                description += $"Attack Time: {weaponComp.Cooldown} s";
             }
 
             var armorComp = Item.GetComponent<ArmorComponent>();
