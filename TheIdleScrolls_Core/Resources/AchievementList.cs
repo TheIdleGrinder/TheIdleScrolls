@@ -187,6 +187,12 @@ namespace TheIdleScrolls_Core.Resources
                 "Complete the Lighthouse without ever losing a fight",
                 ExpressionParser.ParseToFunction($"DNG:{DungeonIds.ReturnToLighthouse}"),
                 ExpressionParser.ParseToFunction($"dng:{DungeonIds.ReturnToLighthouse} > 0 && Losses == 0")));
+            achievements.Add(new($"HC:Pinnacle",
+                "Built different",
+                "Complete the Pinnacle dungeons without ever losing a fight",
+                Conditions.AchievementUnlockedCondition($"HC:{DungeonIds.ReturnToLighthouse}"),
+                ExpressionParser.ParseToFunction($"dng:{DungeonIds.EndgameMagic} > 0 && dng:{DungeonIds.EndgamePyramid} " +
+                    $"&& dng:{DungeonIds.EndgameAges} && Losses == 0")));
 
             // Ability achievements
             (int Level, string Rank)[] ranks =
@@ -619,10 +625,10 @@ namespace TheIdleScrolls_Core.Resources
             achievements.Add(new(
                 "HC:NOARMOR+NOWEAPON",
                 "One with Nothing",
-                "Defeat a level 75 enemy in the wilderness without raising any ability or losing a fight",
+                "Defeat a level 75 enemy in the wilderness without raising a weapon or armor ability or losing a fight",
                 ExpressionParser.ParseToFunction($"HC:NOWEAPON_{noWeaponMaxLevel}"),
-                ExpressionParser.ParseToFunction("Wilderness >= 75 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 " +
-                    "&& abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
+                ExpressionParser.ParseToFunction("Wilderness >= 75 && abl:AXE <= 1 && abl:BLN <= 1 && abl:LBL <= 1 && abl:POL <= 1 " +
+                    "&& abl:SBL <= 1 && abl:LAR <= 1 && abl:HAR <= 1 && Losses == 0"))
                 {
                     Reward = new PerkReward(PerkFactory.MakeStaticMultiModPerk("HC:NOARMOR+NOWEAPON",
                         "Luminous Being",
@@ -781,7 +787,7 @@ namespace TheIdleScrolls_Core.Resources
                                 maxLevel: 3),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 100)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
-                                $"Gain a {Stats.MasterPerkMultiplier:0.#%} damage multiplier",
+                                $"Gain a {Stats.MasterPerkMultiplier:0.#%} multiplier to ALL damage",
                                 ModifierType.More,
                                 Stats.MasterPerkMultiplier,
                                 [Tags.Damage],
@@ -831,7 +837,7 @@ namespace TheIdleScrolls_Core.Resources
                                     [id]),
                 ("LAR" or "HAR", 100)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
-                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} defense multiplier",
+                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} multiplier to ALL defenses",
                                     ModifierType.More,
                                     Stats.MasterPerkMultiplier,
                                     [Tags.Defense],
