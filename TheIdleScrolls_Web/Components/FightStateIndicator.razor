@@ -44,9 +44,9 @@
     {
         <div class="progress-bar-container" style="margin-top: 1rem;">
             Ev
-            <div id="evasion-bar-frame" class="progressFrame" style="justify-content: start">
+            <div id="evasion-bar-frame" class="progressFrame withTooltip" style="justify-content: start">
                 <div id="evasion-bar-fill" class=@(EvasionClass) style="width: @($"{GetEvasionPct():0%}");"></div>
-                <span class="barTooltip">Evade for @($"{Evader?.EvasionDuration:0.##}s") after charging for @($"{Evader?.ChargeDuration:0.##}s")</span>
+                <span class="barTooltip">Evade for @($"{Evader?.EvasionDuration:0.##}") sec. after charging for @($"{Evader?.ChargeDuration:0.##}") sec.</span>
             </div>
         </div>
     }    

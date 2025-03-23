@@ -7,7 +7,7 @@
 
     <p style="margin-bottom: 0.0rem">Level @CoreWrapper.Character.Level @CoreWrapper.Character.Class</p>
 
-    <div id="character-xp-bar-frame" class="progressFrame" style="justify-content: start">
+    <div id="character-xp-bar-frame" class="progressFrame withTooltip" style="justify-content: start">
         <div id="character-xp-bar-fill" class="progressFill" style="width: @($"{xpPct:0%}");"></div>
         <span class="barTooltip">Experience progress: @CoreWrapper.XpCurrent.ToBigIntString() / @CoreWrapper.XpTarget.ToBigIntString()</span>
     </div>
@@ -16,8 +16,10 @@
         <tr class="normal-font">
             <th title="Damage per second">DPS</th>
             <td>@(FormatValue(Stats.Damage / Stats.Cooldown))</td>
-            <th>Resistance</th>
-            <td>@($"{Stats.DefenseRating:0.#%}")</td>
+            <th class="withTooltip">Resistance
+                <span class="barTooltip">Against a standard level @CoreWrapper.Character.Level enemy</span>
+            </th>
+            <td class="withTooltip">@($"{Stats.DefenseRating:0.#%}")</td>
         </tr>
         <tr class="small-font">
             <th>Damage</th>
