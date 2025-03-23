@@ -9,6 +9,7 @@
 
     <div id="character-xp-bar-frame" class="progressFrame" style="justify-content: start">
         <div id="character-xp-bar-fill" class="progressFill" style="width: @($"{xpPct:0%}");"></div>
+        <span class="barTooltip">Experience progress: @CoreWrapper.XpCurrent.ToBigIntString() / @CoreWrapper.XpTarget.ToBigIntString()</span>
     </div>
 
     <table id="character-stat-table">
