@@ -35,14 +35,15 @@
     <div id="crafting-item-list" class="wrapper">
         <InventoryDisplay 
             Title="@(Mode == CraftingMode.Craft ? "Craftable" : "Inventory")" 
-            Items=@GetItemsForMode()>
+            Items=@GetItemsForMode()
+            OnDblClickCallback=@OnDblClickCallback()>
         </InventoryDisplay>
     </div>
 
     <div id="crafting-highlighted-item" class="wrapper">
         <HighlightedItemDisplay 
             EquipButtonVisible="false" 
-            SellButtonVisible="false"
+            SellButtonVisible="true"
             RefineButtonVisible="@(Mode == CraftingMode.Refine)"
             CraftButtonVisible="@(Mode == CraftingMode.Craft)"
         >
@@ -123,5 +124,18 @@ div.wrapper {
     {
         CoreWrapper.StateChanged += StateHasChanged;
         base.OnInitialized();
+    }
+
+    Action<uint> OnDblClickCallback() 
+    {
+        if (Mode == CraftingMode.Craft)
+        {
+            return (uint id) => CoreWrapper.InputHandler.CraftItem(CoreWrapper.Character.Id, id);
+        }
+        else if (Mode == CraftingMode.Refine)
+        {
+            return (uint id) => CoreWrapper.InputHandler.RefineItem(CoreWrapper.Character.Id, id);
+        }
+        return (uint id) => { };
     }
 }
