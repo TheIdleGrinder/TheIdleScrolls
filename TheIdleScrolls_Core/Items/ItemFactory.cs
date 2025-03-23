@@ -99,10 +99,9 @@ namespace TheIdleScrolls_Core.Items
             int value = 0;
             if (blueprint.MaterialId != MaterialId.Simple)
             {
-                double baseValue = 5.0;
                 int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10); // +10 because first tier has drop level 0 (+10 from material) 
                 double matMulti = blueprint.GetMaterial().PowerMultiplier;
-                value = (int)Math.Ceiling(baseValue * tier * matMulti * Math.Pow(1.25, blueprint.Quality));
+                value = (int)Math.Ceiling(Stats.ItemBaseValue * tier * matMulti * Math.Pow(Stats.ItemValueQualityMultiplier, blueprint.Quality));
             }            
             item.AddComponent(new ItemValueComponent() { Value = value });
         }
@@ -110,13 +109,19 @@ namespace TheIdleScrolls_Core.Items
         public static void UpdateRefiningCost(Entity item)
         {
             ItemBlueprint blueprint = item.GetComponent<ItemComponent>()?.Blueprint ?? throw new Exception($"Entity {item.GetName()} is not an item");
-            double baseCost = 10.0;
+            double baseCost = Stats.CraftingBaseCost;
             int totalCost = (int)baseCost;
             if (blueprint.MaterialId != MaterialId.Simple)
             {
-                int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10);
+                //int tier = (int)Math.Sqrt(blueprint.GetGenusDescription().DropLevel + 10);
+                //double matMulti = blueprint.GetMaterial().PowerMultiplier;
+                //totalCost = (int)Math.Ceiling(baseCost * (tier + 1) * matMulti);
+                int tier = blueprint.GetDropLevel() / 10;
                 double matMulti = blueprint.GetMaterial().PowerMultiplier;
-                totalCost = (int)Math.Ceiling(baseCost * (tier + 1) * matMulti);
+                double typeMulti = item.IsWeapon() ? Stats.CraftingCostWeaponMultiplier : 1.0;
+                totalCost = (int)Math.Ceiling(Stats.CraftingBaseCost * typeMulti 
+                    * Math.Pow(tier, Stats.CraftingCostTierExponent) 
+                    * Math.Pow(matMulti, Stats.CraftingCostMaterialExponent));
             }
             item.AddComponent(new ItemRefinableComponent() { Cost = totalCost });
         }
