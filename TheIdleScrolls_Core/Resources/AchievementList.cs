@@ -445,7 +445,7 @@ namespace TheIdleScrolls_Core.Resources
                     (i > 0) ? ExpressionParser.ParseToFunction($"TotalCoins{i - 1}") : tautology,
                     ExpressionParser.ParseToFunction($"TotalCoins >= {coins}"))
                 {
-                    Reward = GetPerkForLeveledAchievement("TotalCoins", coins)
+                    Reward = GetPerkForLeveledAchievement("TotalCoins", i + 1)
                 };
                 achievements.Add(achievement);
             }
@@ -466,7 +466,7 @@ namespace TheIdleScrolls_Core.Resources
                     (i > 0) ? ExpressionParser.ParseToFunction($"MaxCoins{i - 1}") : tautology,
                     ExpressionParser.ParseToFunction($"MaxCoins >= {coins}"))
                 {
-                    Reward = GetPerkForLeveledAchievement("MaxCoins", coins)
+                    Reward = GetPerkForLeveledAchievement("MaxCoins", i + 1)
                 };
                 achievements.Add(achievement);
             }
@@ -669,7 +669,7 @@ namespace TheIdleScrolls_Core.Resources
                                 [Tags.AttackSpeed, Abilities.Axe],
                                 []),
                 ("BLN", 25) => new($"{id}{level}", "Stunning Blow",
-                                $"Gain {5} to base armor value for each defensive item while using {id.Localize()} after first strike",
+                                $"Gain {5} to local base armor value for every defensive item while using {id.Localize()} after first strike",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (_, e, w, c) =>
                                 {
@@ -792,13 +792,13 @@ namespace TheIdleScrolls_Core.Resources
                                 Stats.MasterPerkMultiplier,
                                 [Tags.Damage],
                                 []),
-                ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Light shields also grant evasion rating equal to {.3:0.#%} of their armor",
+                ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Light shields also grant evasion rating equal to {.5:0.#%} of their armor",
                                 [UpdateTrigger.EquipmentChanged],
                                 (_, e, w, c) =>
                                 {
                                     double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
-                                    return [ new("ShieldEvasion", ModifierType.AddBase, 0.3 * shieldArmor,
+                                    return [ new("ShieldEvasion", ModifierType.AddBase, 0.5 * shieldArmor,
                                         [ Tags.Shield,
                                           Tags.EvasionRating,
                                           Abilities.LightArmor ],
