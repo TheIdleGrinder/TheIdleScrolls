@@ -1494,6 +1494,51 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Conqueror ähnelt.
+        /// </summary>
+        internal static string Title_Conqueror {
+            get {
+                return ResourceManager.GetString("Title_Conqueror", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Exalted Conqueror ähnelt.
+        /// </summary>
+        internal static string Title_ConquerorHC {
+            get {
+                return ResourceManager.GetString("Title_ConquerorHC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die the Patient ähnelt.
+        /// </summary>
+        internal static string Title_Patient {
+            get {
+                return ResourceManager.GetString("Title_Patient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die the Prudent ähnelt.
+        /// </summary>
+        internal static string Title_Prudent {
+            get {
+                return ResourceManager.GetString("Title_Prudent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die the Swift ähnelt.
+        /// </summary>
+        internal static string Title_Swift {
+            get {
+                return ResourceManager.GetString("Title_Swift", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die using a two-handed weapon ähnelt.
         /// </summary>
         internal static string TwoHanded {

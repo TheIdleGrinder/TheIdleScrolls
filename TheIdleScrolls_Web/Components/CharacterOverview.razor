@@ -1,9 +1,10 @@
+@using TheIdleScrolls_Core
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
 
 <div class="charOuter">
-    <h3>@CoreWrapper.Character.Name</h3>
+    <h3>@CoreWrapper.PlayerCharacter?.GetTitledName(false, true)</h3>
 
     <p style="margin-bottom: 0.0rem">Level @CoreWrapper.Character.Level @CoreWrapper.Character.Class</p>
 
