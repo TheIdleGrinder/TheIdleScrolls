@@ -17,11 +17,11 @@ namespace TheIdleScrolls_Core.Resources
     {
         private static List<Title> _Titles =
             [
-                new("Title_Swift", 1, false),
-                new("Title_Prudent", 1, false),
-                new("Title_Patient", 1, false),
-                new("Title_Conqueror", 1, true),
-                new("Title_ConquerorHC", 2, true),
+                new(Definitions.Titles.Swift, 1, false),
+                new(Definitions.Titles.Prudent, 1, false),
+                new(Definitions.Titles.Patient, 1, false),
+                new(Definitions.Titles.Conqueror, 1, true),
+                new(Definitions.Titles.ConquerorHC, 2, true),
             ];
 
         public static Title? GetTitle(string id)

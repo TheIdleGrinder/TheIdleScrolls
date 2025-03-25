@@ -131,6 +131,26 @@ namespace TheIdleScrolls_Core.Systems
 					progComp.Data.BestG0Refine = quality;
 				}
 			}
+
+            // Set titles for special beta achievements (will be removed shortly)
+            var titleComp = m_player.GetComponent<TitleBearerComponent>();
+            if (titleComp != null && titleComp.Titles.Count == 0)
+            {
+                string name = m_player.GetName();
+                int level = m_player.GetLevel();
+                if (name == "Imajine" && level >= 194)
+                {
+                    titleComp.AddTitle(Titles.Swift);
+                }
+                else if (name == "sefie2" && level >= 181)
+                {
+                    titleComp.AddTitle(Titles.Prudent);
+                }
+                else if (name == "renke2" && level >= 280)
+                {
+                    titleComp.AddTitle(Titles.Patient);
+                }
+            }
         }
     }
 }
