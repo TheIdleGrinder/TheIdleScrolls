@@ -20,15 +20,23 @@ namespace TheIdleScrolls_Core.Components
         public string GetPrefixTitle()
         {
             return Titles
-                .OrderByDescending(t => TitleList.GetTitle(t)?.Priority)
-                .FirstOrDefault(t => TitleList.GetTitle(t)?.IsPrefix == true) ?? "";
+                .Select(TitleList.GetTitle)
+                .Where(t => t != null)
+                .OrderByDescending(t => t!.Priority)
+                .FirstOrDefault(t => t!.IsPrefix == true)
+                ?.Text
+                ?? "";
         }
 
         public string GetSuffixTitle()
         {
             return Titles
-                .OrderByDescending(t => TitleList.GetTitle(t)?.Priority)
-                .FirstOrDefault(t => TitleList.GetTitle(t)?.IsSuffix == true) ?? "";
+                .Select(TitleList.GetTitle)
+                .Where(t => t != null)
+                .OrderByDescending(t => t!.Priority)
+                .FirstOrDefault(t => t!.IsSuffix == true) 
+                ?.Text
+                ?? "";
         }
     }
 }

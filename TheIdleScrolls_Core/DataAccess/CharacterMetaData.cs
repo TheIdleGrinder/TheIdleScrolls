@@ -23,7 +23,7 @@ namespace TheIdleScrolls_Core.DataAccess
                 }
 
                 return new(
-                    entity.GetName(),
+                    entity.GetTitledName(false, true),
                     entity.GetComponent<LevelComponent>()?.Level ?? 0,
                     PlayerFactory.GetCharacterClass(entity).Localize()
                 );

@@ -59,7 +59,7 @@ namespace TheIdleScrolls_Core
 
         public static bool IsShield(this Entity entity)
         {
-            return entity.IsArmor() 
+            return entity.IsArmor()
                 && entity.GetRequiredSlots().Contains(EquipmentSlot.Hand);
         }
 
@@ -81,12 +81,39 @@ namespace TheIdleScrolls_Core
             return entity.GetComponent<TagsComponent>()?.ListTags() ?? new();
         }
 
-        public static double ApplyAllApplicableModifiers(this Entity entity, 
-                                                         double baseValue, 
+        public static double ApplyAllApplicableModifiers(this Entity entity,
+                                                         double baseValue,
                                                          IEnumerable<string> localTags,
                                                          IEnumerable<string> globalTags)
         {
             return entity.GetComponent<ModifierComponent>()?.ApplyApplicableModifiers(baseValue, localTags, globalTags) ?? baseValue;
+        }
+
+        public static string GetTitledName(this Entity entity, bool prefix = true, bool suffix = true)
+        {
+            string name = entity.GetName();
+            var titleComp = entity.GetComponent<TitleBearerComponent>();
+            if (titleComp == null)
+            {
+                return name;
+            }
+            if (prefix)
+            {
+                string prefixTitle = titleComp.GetPrefixTitle();
+                if (prefixTitle != String.Empty)
+                {
+                    name = $"{prefixTitle} {name}";
+                }
+            }
+            if (suffix)
+            {
+                string suffixTitle = titleComp.GetSuffixTitle();
+                if (suffixTitle != String.Empty)
+                {
+                    name = $"{name} {suffixTitle}";
+                }
+            }
+            return name;
         }
     }
 
