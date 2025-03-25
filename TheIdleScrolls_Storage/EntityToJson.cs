@@ -39,6 +39,7 @@ namespace TheIdleScrolls_Storage
                 typeof(PlayerProgressComponent),
                 typeof(ROMComponent),
                 typeof(QuestProgressComponent),
+                typeof(TitleBearerComponent),
                 typeof(TravellerComponent),
                 typeof(WeaponComponent),
                 typeof(XpGainerComponent),

@@ -16,7 +16,7 @@ namespace TheIdleScrolls_Core.Systems
     {
         readonly DataAccessHandler m_dataAccessHandler;
 
-        readonly Cooldown m_cooldown = new(10.0);
+        readonly Cooldown m_cooldown = new(30.0);
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {

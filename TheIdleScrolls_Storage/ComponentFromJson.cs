@@ -369,5 +369,20 @@ namespace TheIdleScrolls_JSON
                 return false;
             }
         }
+
+        public static bool SetFromJson(this TitleBearerComponent component, JsonNode json)
+        {
+            try
+            {
+                component.Titles = json["Titles"]!.AsArray()
+                    .Select(j => j!.GetValue<string>())
+                    .ToHashSet();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }
