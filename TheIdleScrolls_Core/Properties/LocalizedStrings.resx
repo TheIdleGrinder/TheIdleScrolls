@@ -596,6 +596,21 @@ Time to finish: {0}</value>
   <data name="TimeShield" xml:space="preserve">
     <value>Time Limit</value>
   </data>
+  <data name="Title_Conqueror" xml:space="preserve">
+    <value>Conqueror</value>
+  </data>
+  <data name="Title_ConquerorHC" xml:space="preserve">
+    <value>Exalted Conqueror</value>
+  </data>
+  <data name="Title_Patient" xml:space="preserve">
+    <value>the Patient</value>
+  </data>
+  <data name="Title_Prudent" xml:space="preserve">
+    <value>the Prudent</value>
+  </data>
+  <data name="Title_Swift" xml:space="preserve">
+    <value>the Swift</value>
+  </data>
   <data name="TwoHanded" xml:space="preserve">
     <value>using a two-handed weapon</value>
   </data>
