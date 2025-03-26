@@ -280,7 +280,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
         public void AddExpiringMessage(string message)
         {
-			ExpiringMessages.Add(new(message, 5.0));
+			ExpiringMessages.Add(new(message, 10.0));
 			ExpiringMessages = ExpiringMessages.Where(m => !m.Expired).ToList();
 		}
 

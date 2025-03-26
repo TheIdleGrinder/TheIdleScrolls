@@ -28,9 +28,16 @@ namespace TheIdleScrolls_Core
             public const double MaxResistanceFromArmor = 0.9;
             public const double MaxResistanceFromEvasion = 0.9;
 
+            public const double ItemBaseValue = 5.0;
+            public const double ItemValueQualityMultiplier = 1.35;
+
             public const double CraftingAbilityBonusPerLevel = 0.02;
-            public const double CraftingBaseDuration = 30.0;
+            public const double CraftingBaseDuration = 15.0;
             public const double CraftingDurationPerMaterialTier = 10.0;
+            public const double CraftingBaseCost = 12.0;
+            public const double CraftingCostWeaponMultiplier = 2.0;
+            public const double CraftingCostTierExponent = 0.7;
+            public const double CraftingCostMaterialExponent = 0.7;
 
             public const int    MobBaseHp = 20;
             public const double EarlyHpScaling = 1.056;
@@ -233,9 +240,11 @@ namespace TheIdleScrolls_Core
 
         public static double CalculateRefiningDuration(Entity item, Entity? crafter)
         {
-            var materialTier = item.GetComponent<ItemMaterialComponent>()?.Tier ?? 0;
-            double baseDuration = Stats.CraftingBaseDuration 
-                + Stats.CraftingDurationPerMaterialTier * materialTier;
+            double matMulti = Math.Pow(item.GetBlueprint()!.GetMaterial().PowerMultiplier, 0.2);
+            double tierMulti = Math.Pow(item.GetBlueprint()!.GetDropLevel() / 10, 0.2);
+            double typeMulti = item.IsWeapon() ? Stats.CraftingCostWeaponMultiplier : 1.0;
+
+            double baseDuration = Stats.CraftingBaseDuration * matMulti * tierMulti * typeMulti;
             double speed = crafter?.ApplyAllApplicableModifiers(1.0, 
                 [Tags.CraftingSpeed], 
                 crafter.GetTags()) ?? 1.0;
