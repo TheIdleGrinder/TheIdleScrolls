@@ -1,4 +1,5 @@
 ﻿using MiniECS;
+using System.Reflection.Emit;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
@@ -139,15 +140,29 @@ namespace TheIdleScrolls_Core.Resources
                 Conditions.DungeonAvailableCondition(DungeonIds.Void),
                 Conditions.DungeonCompletedCondition(DungeonIds.Void)));
             achievements.Add(new("DNG:VOID@100",
-                "Void Explorer",
+                "Void Traveller",
                 $"Complete {Properties.Places.Dungeon_Void} at area level 100",
                 Conditions.AchievementUnlockedCondition("DNG:VOID"),
                 Conditions.DungeonLevelCompletedCondition(DungeonIds.Void, 100)));
             achievements.Add(new("DNG:VOID@125",
-                "Void Conqueror",
+                "Void Explorer",
                 $"Complete {Properties.Places.Dungeon_Void} at area level 125",
                 Conditions.AchievementUnlockedCondition("DNG:VOID@100"),
                 Conditions.DungeonLevelCompletedCondition(DungeonIds.Void, 125)));
+            achievements.Add(new("DNG:ENDGAME",
+                "Void Conqueror",
+                $"Complete an endgame dungeon",
+                Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
+                (e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges) 
+                            || Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
+                            || Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid)));
+            achievements.Add(new("DNG:UBERENDGAME",
+                "Void Emperor",
+                $"Complete an endgame dungeon at area level {DungeonLevels.LevelUberEndgame}",
+                Conditions.DungeonLevelAvailableCondition(DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame),
+                (e, w) => Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame)
+                            || Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameMagic, DungeonLevels.LevelUberEndgame)
+                            || Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgamePyramid, DungeonLevels.LevelUberEndgame)));
 
             achievements.Add(new("DUNGEONGRIND12",
                 "Dungeon Delver's Dozen",
@@ -187,12 +202,20 @@ namespace TheIdleScrolls_Core.Resources
                 "Complete the Lighthouse without ever losing a fight",
                 ExpressionParser.ParseToFunction($"DNG:{DungeonIds.ReturnToLighthouse}"),
                 ExpressionParser.ParseToFunction($"dng:{DungeonIds.ReturnToLighthouse} > 0 && Losses == 0")));
-            achievements.Add(new($"HC:Pinnacle",
-                "Built different",
-                "Complete the Pinnacle dungeons without ever losing a fight",
+            achievements.Add(new($"HC:Endgame",
+                "Exalted Conqueror",
+                "Complete the endgame dungeons without ever losing a fight",
                 Conditions.AchievementUnlockedCondition($"HC:{DungeonIds.ReturnToLighthouse}"),
                 ExpressionParser.ParseToFunction($"dng:{DungeonIds.EndgameMagic} > 0 && dng:{DungeonIds.EndgamePyramid} " +
                     $"&& dng:{DungeonIds.EndgameAges} && Losses == 0")));
+            achievements.Add(new($"HC:UberEndgame",
+                "Exalted Emperor",
+                "Complete the endgame dungeons at area level 200 without ever losing a fight",
+                Conditions.AchievementUnlockedCondition($"HC:Endgame"),
+                (e, w) => Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame)
+                            && Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameMagic, DungeonLevels.LevelUberEndgame)
+                            && Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgamePyramid, DungeonLevels.LevelUberEndgame)
+                            && !Conditions.HasLostFights(e)));
 
             // Ability achievements
             (int Level, string Rank)[] ranks =
@@ -484,6 +507,31 @@ namespace TheIdleScrolls_Core.Resources
                 "Complete the Beacon before the Crypt",
                 tautology,
                 ExpressionParser.ParseToFunction("dng:CRYPT <= 0 && dng:LIGHTHOUSE > 0")));
+            achievements.Add(new(
+                "DifferentQualities",
+                "Happy Pride",
+                "Wear items with six different quality levels above 0 at the same time",
+                tautology,
+                (e, w) => (e.GetComponent<EquipmentComponent>()
+                            ?.GetItems()
+                            ?.Select(i => i.GetBlueprint()?.Quality ?? 0)
+                            ?.Distinct()
+                            ?.Count(i => i > 0) ?? 0) >= 6)
+                {
+                    Reward = new PerkReward(new Perk("WellDressed", "Well Dressed", 
+                        $"Gain {0.005:0.#%} increased damage and defense per level of quality on your gear", 
+                        [UpdateTrigger.EquipmentChanged],
+                        (_, e, w, c) =>
+                        {
+                            int total = e.GetComponent<EquipmentComponent>()?.GetItems()
+                                ?.Sum(i => i.GetBlueprint()?.Quality ?? 0)
+                                ?? 0;
+                            return [ 
+                                new($"WellDressed_dmg", ModifierType.Increase, 0.005 * total, [Tags.Damage],  []),
+                                new($"WellDressed_def", ModifierType.Increase, 0.005 * total, [Tags.Defense], [])
+                            ];
+                        }))
+                });
 
 
             // Unarmored/Unarmed achievements

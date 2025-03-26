@@ -81,7 +81,9 @@ namespace TheIdleScrolls_Core
 
         public static class DungeonLevels
         {
-            public const int LevelVoidMax = 125;
+            public const int LevelVoidMax       = 125;
+            public const int LevelEndgame       = 150;
+            public const int LevelUberEndgame   = 200;
         }
 
         public static class Tags
