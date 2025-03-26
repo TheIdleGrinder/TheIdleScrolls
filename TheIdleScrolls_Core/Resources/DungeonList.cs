@@ -43,7 +43,7 @@ namespace TheIdleScrolls_Core.Resources
                 return (e, w) => Utility.Conditions.HasCompletedDungeon(e, dungeonId) 
                                 && Utility.Conditions.HasClearedWildernessLevel(e, level) ? [level] : [];
             }
-
+            
             const int LevelDenOfRats = 12;
             const int LevelCrypt = 18;
             const int LevelLighthouse = 20;
@@ -56,11 +56,22 @@ namespace TheIdleScrolls_Core.Resources
             const int LevelVoid = 80;
             const int LevelVoidMax = 125;
             const int LevelEndgame = 150;
+            const int LevelUberEndgame = 200;
 
             static bool HasMaxedVoid(Entity e)
             {
                 return e.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeonLevels()
                     .Any(dl => dl.Dungeon == Definitions.DungeonIds.Void && dl.Level == LevelVoidMax) ?? false;
+            }
+            static int[] EndgameDungeonLevels(Entity e, World w)
+            {
+                if (!HasMaxedVoid(e))
+                    return [];
+                if (Utility.Conditions.HasCompletedDungeon(e, Definitions.DungeonIds.EndgameMagic)
+                    && Utility.Conditions.HasCompletedDungeon(e, Definitions.DungeonIds.EndgamePyramid)
+                    && Utility.Conditions.HasCompletedDungeon(e, Definitions.DungeonIds.EndgameAges))
+                    return [LevelEndgame, LevelUberEndgame];
+                return [LevelEndgame];
             }
 
             List<string> voidMobs = [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER",
@@ -328,7 +339,7 @@ namespace TheIdleScrolls_Core.Resources
                     Id = Definitions.DungeonIds.EndgameMagic,
                     Name = Places.Dungeon_EndgameMagic,
                     Rarity = 3,
-                    AvailableLevels = (e, w) => HasMaxedVoid(e) ? [ LevelEndgame ] : [],
+                    AvailableLevels = EndgameDungeonLevels,
                     Description = Places.Dungeon_EndgameMagic_Description,
                     Floors = new()
                     {
@@ -365,7 +376,7 @@ namespace TheIdleScrolls_Core.Resources
                     Id = Definitions.DungeonIds.EndgamePyramid,
                     Name = Places.Dungeon_EndgamePyramid,
                     Rarity = 3,
-                    AvailableLevels = (e, w) => HasMaxedVoid(e) ? [ LevelEndgame ] : [],
+                    AvailableLevels = EndgameDungeonLevels,
                     Description = Places.Dungeon_EndgamePyramid_Description,
                     Floors = new()
                     {
@@ -393,7 +404,7 @@ namespace TheIdleScrolls_Core.Resources
                     Id = Definitions.DungeonIds.EndgameAges,
                     Name = Places.Dungeon_EndgameAges,
                     Rarity = 3,
-                    AvailableLevels = (e, w) => HasMaxedVoid(e) ? [ LevelEndgame ] : [],
+                    AvailableLevels = EndgameDungeonLevels,
                     Description = Places.Dungeon_EndgameAges_Description,
                     Floors = new()
                     {
