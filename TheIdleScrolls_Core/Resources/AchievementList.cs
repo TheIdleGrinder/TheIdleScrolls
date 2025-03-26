@@ -792,13 +792,13 @@ namespace TheIdleScrolls_Core.Resources
                                 Stats.MasterPerkMultiplier,
                                 [Tags.Damage],
                                 []),
-                ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Light shields also grant evasion rating equal to {.5:0.#%} of their armor",
+                ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Light shields also grant evasion rating equal to {.4:0.#%} of their armor",
                                 [UpdateTrigger.EquipmentChanged],
                                 (_, e, w, c) =>
                                 {
                                     double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
-                                    return [ new("ShieldEvasion", ModifierType.AddBase, 0.5 * shieldArmor,
+                                    return [ new("ShieldEvasion", ModifierType.AddBase, 0.4 * shieldArmor,
                                         [ Tags.Shield,
                                           Tags.EvasionRating,
                                           Abilities.LightArmor ],
