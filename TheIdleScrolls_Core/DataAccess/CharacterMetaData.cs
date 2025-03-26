@@ -7,7 +7,7 @@ using TheIdleScrolls_Core.Components;
 
 namespace TheIdleScrolls_Core.DataAccess
 {
-    public record CharacterMetaData(string Name, int Level, string Class);
+    public record CharacterMetaData(string Name, string TitledName, int Level, string Class);
 
     public static class CharacterMetaDataReader
     {
@@ -23,6 +23,7 @@ namespace TheIdleScrolls_Core.DataAccess
                 }
 
                 return new(
+                    entity.GetName(),
                     entity.GetTitledName(false, true),
                     entity.GetComponent<LevelComponent>()?.Level ?? 0,
                     PlayerFactory.GetCharacterClass(entity).Localize()

@@ -1,7 +1,7 @@
 ﻿@using TheIdleScrolls_Core.DataAccess
 
 <div id="charTileFrame" @onclick="TileClicked">
-    <h5>@Character.Name</h5>
+    <h5>@Character.TitledName</h5>
     <div id="charTileLower">
         <h6>@Character.Class</h6>
         <h6>Level @Character.Level</h6>
@@ -33,7 +33,7 @@
 
 @code {
     [Parameter]
-    public CharacterMetaData Character { get; set; } = new("???", 0, "???");
+    public CharacterMetaData Character { get; set; } = new("???", "???", 0, "???");
 
     [Parameter]
     public EventCallback<string> OnClicked { get; set; }
