@@ -153,10 +153,24 @@ namespace TheIdleScrolls_Core
         // 4 Material tiers above training equipment, 1.5 multiplier per tier
         private static double MaterialBonusPerLevel => Math.Pow(1.5, 4.0 / Stats.ScalingSwitchLevel);
 
+        private static double QualityBonusAtLevel(int level)
+        {
+            // Linear to +4 at level 150, slightly exponential afterwards
+            if (level <= 150)
+            {
+                double perLevel = (Math.Pow(1.25, 4) - 1) / 150;
+                return 1.0 + level * perLevel;
+            }
+            else
+            {
+                double bonusBase = Math.Pow(1.25, 1.0 / 37.5);
+                return Math.Pow(bonusBase, level);
+            }
+        }
+
         public static double CalculateAssumedPlayerDamageMultiplier(int level)
         {
             var maxGearLevel = Stats.ScalingSwitchLevel;
-            var qualityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150; // Smooth transition to +4 at level 150
 
             // Assumption: Ability levels somewhat align with character level
             return (1.0 + CalculateAbilityAttackDamageBonus(level))                 // Ability damage bonus
@@ -164,18 +178,17 @@ namespace TheIdleScrolls_Core
                 * (1.0 + 2 * Stats.AttackBonusPerLevel * (level - 1))               // Level scaling (x2 for perks)
                 * Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
                 * (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of weapons
-                * (1.0 + level * qualityBonusPerLevel)                              // Smooth transition to +4 at level 150
+                * QualityBonusAtLevel(level)
                 ;
         }
 
         public static double CalculateAssumedPlayerDefenseMultiplier(int level)
         {
             var maxGearLevel = Stats.ScalingSwitchLevel;
-            var qualityBonusPerLevel = (Math.Pow(1.25, 4) - 1) / 150;               // Smooth transition to +4 at level 150
             return (1.0 + CalculateAbilityDefenseBonus(level))                      // Ability defense bonus
 				* Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
 				* (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of armor
-				* (1.0 + level * qualityBonusPerLevel)                              // Smooth transition to +4 at level 150
+				* QualityBonusAtLevel(level)
                 * (1.0 + 2 * (level - 1) * Stats.TimeShieldBonusPerLevel)           // Account for time shield bonus from levelling (x2 for perks)
                 ;
         }
