@@ -572,13 +572,14 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction("NOARMOR2"),
                 ExpressionParser.ParseToFunction($"dng:{DungeonIds.Lighthouse} > 0 && abl:LAR <= 1 && abl:HAR <= 1 && Losses == 0"))
                 {
-                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR",
+                    Reward = new PerkReward(PerkFactory.MakeAbilityLevelBasedPerk("HC:NOARMOR",
                         "Elusive",
-                        $"Gain +{noArmorBaseEvasion1:0.#} evasion rating for each level",
+                        $"Gain +{noArmorBaseEvasion1:0.#} evasion rating per level of the {Properties.LocalizedStrings.UNARMORED} ability",
+                        Abilities.Unarmored,
                         ModifierType.AddBase,
                         noArmorBaseEvasion1,
                         [Tags.EvasionRating, Tags.Global],
-                        [Tags.Unarmored]
+                        []
                     ))
                 }
             );
@@ -589,13 +590,14 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction("HC:NOARMOR"),
                 ExpressionParser.ParseToFunction("Level >= 50 && abl:LAR <= 1 && abl:HAR <= 1 && Losses == 0"))
                 {
-                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
+                    Reward = new PerkReward(PerkFactory.MakeAbilityLevelBasedPerk("HC:NOARMOR_50",
                         "Ethereal Form",
-                        $"Gain +{noArmorBaseEvasion2:0.#} base evasion rating for each level",
+                        $"Gain +{noArmorBaseEvasion2:0.#} base evasion rating per level of the {Properties.LocalizedStrings.UNARMORED} ability",
+                        Abilities.Unarmored,
                         ModifierType.AddBase,
                         noArmorBaseEvasion2,
                         [Tags.EvasionRating, Tags.Global],
-                        [Tags.Unarmored]
+                        []
                     ))
                 }
             );
@@ -641,13 +643,14 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"dng:{DungeonIds.Lighthouse} > 0 && abl:AXE <= 1 " +
                     $"&& abl:BLN <= 1 && abl:LBL <= 1 && abl:POL <= 1 && abl:SBL <= 1"))
                 {
-                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("NOWEAPON_DMG2",
+                    Reward = new PerkReward(PerkFactory.MakeAbilityLevelBasedPerk("NOWEAPON_DMG2",
                         "Iron Fists",
-                        $"Gain +{noWeaponLevelDamageBonus:0.#} unarmed damage for each level",
+                        $"Gain +{noWeaponLevelDamageBonus:0.#} unarmed damage per level of the {Properties.LocalizedStrings.UNARMED} ability",
+                        Abilities.Unarmed,
                         ModifierType.AddBase,
                         noWeaponLevelDamageBonus,
                         [Tags.Damage],
-                        [Tags.Unarmed]
+                        []
                     ))
                 }
             );
@@ -659,13 +662,14 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"Level >= {noWeaponMaxLevel} && abl:AXE <= 1 && abl:BLN <= 1 && abl:LBL <= 1 " +
                     "&& abl:POL <= 1 && abl:SBL <= 1 && Losses == 0"))
                 {
-                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
+                    Reward = new PerkReward(PerkFactory.MakeAbilityLevelBasedPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
                         "Force of Spirit",
-                        $"Gain {Stats.AttackBonusPerLevel:0.#%} increased unarmed damage per character level",
+                        $"Gain {Stats.AttackBonusPerLevel:0.#%} increased unarmed damage per level of the {Properties.LocalizedStrings.UNARMED} ability",
+                        Abilities.Unarmed,
                         ModifierType.Increase,
                         Stats.AttackBonusPerLevel,
                         [Tags.Damage],
-                        [Tags.Unarmed]
+                        []
                     ))
                 }
             );
