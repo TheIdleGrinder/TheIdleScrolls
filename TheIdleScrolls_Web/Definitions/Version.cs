@@ -4,7 +4,7 @@
     {
         const uint Major = 0;
         const uint Minor = 8;
-        const uint Patch = 0;
+        const uint Patch = 1;
 
         public static string GetCurrentVersionString()
         {
@@ -13,7 +13,7 @@
 
         public static string GetVersionString(uint major, uint minor, uint patch)
         {
-            return $"v.{major}.{minor}.{patch}";
+            return $"v{major}.{minor}.{patch}";
         }
 
         public static bool IsAtleast(uint major, uint minor, uint patch)

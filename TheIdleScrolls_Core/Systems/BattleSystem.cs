@@ -95,6 +95,8 @@ namespace TheIdleScrolls_Core.Systems
                         player.GetComponent<BattlerComponent>()!.DamageDealt += message.Damage;
                     }
                     player.GetComponent<BattlerComponent>()!.AttacksPerformed++;
+                    // Update time limit after each attack
+                    SetupPlayerTimeShield(player, player.GetComponent<LocationComponent>()!.GetCurrentZone(world.Map)!);
                 }
 
                 bool mobDefeated = mob.GetComponent<LifePoolComponent>()?.IsDead 

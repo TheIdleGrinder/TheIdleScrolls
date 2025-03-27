@@ -1,18 +1,16 @@
 ﻿@using TheIdleScrolls_Web.CoreWrapper
+@using TheIdleScrolls_Web.Definitions
 
 @inherits LayoutComponentBase
 
 @inject CoreWrapperModel CoreWrapper
 
 <div class="page">
-@*    <div class="sidebar">
-        <NavMenu />
-    </div>*@
-
     <main>
         <div class="top-row px-4 @BannerClass">
             <h1 class="banner-title" style="cursor: pointer" @onclick="Reset">The Idle Scrolls</h1>
-        </div>
+            <p style="position: absolute; top: 0.5rem; right: 1.0rem">@GameVersion.GetCurrentVersionString()</p>
+        </div>        
 
         <article class="content px-4">
             @Body

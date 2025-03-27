@@ -26,14 +26,6 @@
                 @(IsItemEquipped(HighlightedItem) ? "Unequip" : "Equip")
             </button>
         }
-        @if (SellButtonVisible)
-        {
-            <button id="btnSell" class="itemButton" 
-                disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="SellItem"
-            >
-                @SellText
-            </button>
-        }
         @if (CoreWrapper.IsFeatureAvailable(GameFeature.Crafting) && RefineButtonVisible)
         {
             @if (MaxQuality)
@@ -51,6 +43,13 @@
                     @RefineText
                 </button>
             }
+        }
+        @if (SellButtonVisible)
+        {
+            <button id="btnSell" class="itemButton"
+                    disabled="@(HighlightedItem == null || IsItemEquipped(HighlightedItem))" @onclick="SellItem">
+                @SellText
+            </button>
         }
     }
     else

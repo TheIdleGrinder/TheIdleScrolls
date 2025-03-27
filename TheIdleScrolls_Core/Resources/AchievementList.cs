@@ -1,4 +1,5 @@
 ﻿using MiniECS;
+using System.Reflection.Emit;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
@@ -139,15 +140,29 @@ namespace TheIdleScrolls_Core.Resources
                 Conditions.DungeonAvailableCondition(DungeonIds.Void),
                 Conditions.DungeonCompletedCondition(DungeonIds.Void)));
             achievements.Add(new("DNG:VOID@100",
-                "Void Explorer",
+                "Void Traveller",
                 $"Complete {Properties.Places.Dungeon_Void} at area level 100",
                 Conditions.AchievementUnlockedCondition("DNG:VOID"),
                 Conditions.DungeonLevelCompletedCondition(DungeonIds.Void, 100)));
             achievements.Add(new("DNG:VOID@125",
-                "Void Conqueror",
+                "Void Explorer",
                 $"Complete {Properties.Places.Dungeon_Void} at area level 125",
                 Conditions.AchievementUnlockedCondition("DNG:VOID@100"),
                 Conditions.DungeonLevelCompletedCondition(DungeonIds.Void, 125)));
+            achievements.Add(new("DNG:ENDGAME",
+                "Void Conqueror",
+                $"Complete an endgame dungeon",
+                Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
+                (e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges) 
+                            || Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
+                            || Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid)));
+            achievements.Add(new("DNG:UBERENDGAME",
+                "Void Emperor",
+                $"Complete an endgame dungeon at area level {DungeonLevels.LevelUberEndgame}",
+                Conditions.DungeonLevelAvailableCondition(DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame),
+                (e, w) => Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame)
+                            || Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameMagic, DungeonLevels.LevelUberEndgame)
+                            || Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgamePyramid, DungeonLevels.LevelUberEndgame)));
 
             achievements.Add(new("DUNGEONGRIND12",
                 "Dungeon Delver's Dozen",
@@ -187,6 +202,20 @@ namespace TheIdleScrolls_Core.Resources
                 "Complete the Lighthouse without ever losing a fight",
                 ExpressionParser.ParseToFunction($"DNG:{DungeonIds.ReturnToLighthouse}"),
                 ExpressionParser.ParseToFunction($"dng:{DungeonIds.ReturnToLighthouse} > 0 && Losses == 0")));
+            achievements.Add(new($"HC:Endgame",
+                "Exalted Conqueror",
+                "Complete the endgame dungeons without ever losing a fight",
+                Conditions.AchievementUnlockedCondition($"HC:{DungeonIds.ReturnToLighthouse}"),
+                ExpressionParser.ParseToFunction($"dng:{DungeonIds.EndgameMagic} > 0 && dng:{DungeonIds.EndgamePyramid} " +
+                    $"&& dng:{DungeonIds.EndgameAges} && Losses == 0")));
+            achievements.Add(new($"HC:UberEndgame",
+                "Exalted Emperor",
+                "Complete the endgame dungeons at area level 200 without ever losing a fight",
+                Conditions.AchievementUnlockedCondition($"HC:Endgame"),
+                (e, w) => Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame)
+                            && Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameMagic, DungeonLevels.LevelUberEndgame)
+                            && Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgamePyramid, DungeonLevels.LevelUberEndgame)
+                            && !Conditions.HasLostFights(e)));
 
             // Ability achievements
             (int Level, string Rank)[] ranks =
@@ -439,7 +468,7 @@ namespace TheIdleScrolls_Core.Resources
                     (i > 0) ? ExpressionParser.ParseToFunction($"TotalCoins{i - 1}") : tautology,
                     ExpressionParser.ParseToFunction($"TotalCoins >= {coins}"))
                 {
-                    Reward = GetPerkForLeveledAchievement("TotalCoins", coins)
+                    Reward = GetPerkForLeveledAchievement("TotalCoins", i + 1)
                 };
                 achievements.Add(achievement);
             }
@@ -460,7 +489,7 @@ namespace TheIdleScrolls_Core.Resources
                     (i > 0) ? ExpressionParser.ParseToFunction($"MaxCoins{i - 1}") : tautology,
                     ExpressionParser.ParseToFunction($"MaxCoins >= {coins}"))
                 {
-                    Reward = GetPerkForLeveledAchievement("MaxCoins", coins)
+                    Reward = GetPerkForLeveledAchievement("MaxCoins", i + 1)
                 };
                 achievements.Add(achievement);
             }
@@ -478,6 +507,31 @@ namespace TheIdleScrolls_Core.Resources
                 "Complete the Beacon before the Crypt",
                 tautology,
                 ExpressionParser.ParseToFunction("dng:CRYPT <= 0 && dng:LIGHTHOUSE > 0")));
+            achievements.Add(new(
+                "DifferentQualities",
+                "Happy Pride",
+                "Wear items with six different quality levels above 0 at the same time",
+                tautology,
+                (e, w) => (e.GetComponent<EquipmentComponent>()
+                            ?.GetItems()
+                            ?.Select(i => i.GetBlueprint()?.Quality ?? 0)
+                            ?.Distinct()
+                            ?.Count(i => i > 0) ?? 0) >= 6)
+                {
+                    Reward = new PerkReward(new Perk("WellDressed", "Well Dressed", 
+                        $"Gain {0.005:0.#%} increased damage and defense per level of quality on your gear", 
+                        [UpdateTrigger.EquipmentChanged],
+                        (_, e, w, c) =>
+                        {
+                            int total = e.GetComponent<EquipmentComponent>()?.GetItems()
+                                ?.Sum(i => i.GetBlueprint()?.Quality ?? 0)
+                                ?? 0;
+                            return [ 
+                                new($"WellDressed_dmg", ModifierType.Increase, 0.005 * total, [Tags.Damage],  []),
+                                new($"WellDressed_def", ModifierType.Increase, 0.005 * total, [Tags.Defense], [])
+                            ];
+                        }))
+                });
 
 
             // Unarmored/Unarmed achievements
@@ -518,13 +572,14 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction("NOARMOR2"),
                 ExpressionParser.ParseToFunction($"dng:{DungeonIds.Lighthouse} > 0 && abl:LAR <= 1 && abl:HAR <= 1 && Losses == 0"))
                 {
-                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR",
+                    Reward = new PerkReward(PerkFactory.MakeAbilityLevelBasedPerk("HC:NOARMOR",
                         "Elusive",
-                        $"Gain +{noArmorBaseEvasion1:0.#} evasion rating for each level",
+                        $"Gain +{noArmorBaseEvasion1:0.#} evasion rating per level of the {Properties.LocalizedStrings.UNARMORED} ability",
+                        Abilities.Unarmored,
                         ModifierType.AddBase,
                         noArmorBaseEvasion1,
                         [Tags.EvasionRating, Tags.Global],
-                        [Tags.Unarmored]
+                        []
                     ))
                 }
             );
@@ -535,13 +590,14 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction("HC:NOARMOR"),
                 ExpressionParser.ParseToFunction("Level >= 50 && abl:LAR <= 1 && abl:HAR <= 1 && Losses == 0"))
                 {
-                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("HC:NOARMOR_50",
+                    Reward = new PerkReward(PerkFactory.MakeAbilityLevelBasedPerk("HC:NOARMOR_50",
                         "Ethereal Form",
-                        $"Gain +{noArmorBaseEvasion2:0.#} base evasion rating for each level",
+                        $"Gain +{noArmorBaseEvasion2:0.#} base evasion rating per level of the {Properties.LocalizedStrings.UNARMORED} ability",
+                        Abilities.Unarmored,
                         ModifierType.AddBase,
                         noArmorBaseEvasion2,
                         [Tags.EvasionRating, Tags.Global],
-                        [Tags.Unarmored]
+                        []
                     ))
                 }
             );
@@ -587,13 +643,14 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"dng:{DungeonIds.Lighthouse} > 0 && abl:AXE <= 1 " +
                     $"&& abl:BLN <= 1 && abl:LBL <= 1 && abl:POL <= 1 && abl:SBL <= 1"))
                 {
-                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk("NOWEAPON_DMG2",
+                    Reward = new PerkReward(PerkFactory.MakeAbilityLevelBasedPerk("NOWEAPON_DMG2",
                         "Iron Fists",
-                        $"Gain +{noWeaponLevelDamageBonus:0.#} unarmed damage for each level",
+                        $"Gain +{noWeaponLevelDamageBonus:0.#} unarmed damage per level of the {Properties.LocalizedStrings.UNARMED} ability",
+                        Abilities.Unarmed,
                         ModifierType.AddBase,
                         noWeaponLevelDamageBonus,
                         [Tags.Damage],
-                        [Tags.Unarmed]
+                        []
                     ))
                 }
             );
@@ -605,13 +662,14 @@ namespace TheIdleScrolls_Core.Resources
                 ExpressionParser.ParseToFunction($"Level >= {noWeaponMaxLevel} && abl:AXE <= 1 && abl:BLN <= 1 && abl:LBL <= 1 " +
                     "&& abl:POL <= 1 && abl:SBL <= 1 && Losses == 0"))
                 {
-                    Reward = new PerkReward(PerkFactory.MakeCharacterLevelBasedPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
+                    Reward = new PerkReward(PerkFactory.MakeAbilityLevelBasedPerk($"HC:NOWEAPON_{noWeaponMaxLevel}",
                         "Force of Spirit",
-                        $"Gain {Stats.AttackBonusPerLevel:0.#%} increased unarmed damage per character level",
+                        $"Gain {Stats.AttackBonusPerLevel:0.#%} increased unarmed damage per level of the {Properties.LocalizedStrings.UNARMED} ability",
+                        Abilities.Unarmed,
                         ModifierType.Increase,
                         Stats.AttackBonusPerLevel,
                         [Tags.Damage],
-                        [Tags.Unarmed]
+                        []
                     ))
                 }
             );
@@ -619,10 +677,10 @@ namespace TheIdleScrolls_Core.Resources
             achievements.Add(new(
                 "HC:NOARMOR+NOWEAPON",
                 "One with Nothing",
-                "Defeat a level 75 enemy in the wilderness without raising any ability or losing a fight",
+                "Defeat a level 75 enemy in the wilderness without raising a weapon or armor ability or losing a fight",
                 ExpressionParser.ParseToFunction($"HC:NOWEAPON_{noWeaponMaxLevel}"),
-                ExpressionParser.ParseToFunction("Wilderness >= 75 && abl:AXE <= 10 && abl:BLN <= 10 && abl:LBL <= 10 && abl:POL <= 10 " +
-                    "&& abl:SBL <= 10 && abl:LAR <= 10 && abl:HAR <= 10 && Losses == 0"))
+                ExpressionParser.ParseToFunction("Wilderness >= 75 && abl:AXE <= 1 && abl:BLN <= 1 && abl:LBL <= 1 && abl:POL <= 1 " +
+                    "&& abl:SBL <= 1 && abl:LAR <= 1 && abl:HAR <= 1 && Losses == 0"))
                 {
                     Reward = new PerkReward(PerkFactory.MakeStaticMultiModPerk("HC:NOARMOR+NOWEAPON",
                         "Luminous Being",
@@ -663,7 +721,8 @@ namespace TheIdleScrolls_Core.Resources
                                 [Tags.AttackSpeed, Abilities.Axe],
                                 []),
                 ("BLN", 25) => new($"{id}{level}", "Stunning Blow",
-                                $"Gain {5} to base armor value for each defensive item while using {id.Localize()} after first strike",
+                                $"Gain +{1} global armor per level of the {Properties.LocalizedStrings.BLN} ability " +
+                                $"while using {id.Localize()} after first strike",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (_, e, w, c) =>
                                 {
@@ -671,31 +730,40 @@ namespace TheIdleScrolls_Core.Resources
                                     bool usingBlunt = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Any(i => i.GetComponent<ItemComponent>()!
                                         .Blueprint.GetRelatedAbilityId() == Abilities.Blunt) ?? false;
+                                    int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.Blunt)?.Level ?? 0;
                                     return [ new($"{id}{level}", ModifierType.AddBase,
-                                        (!firstStrike && usingBlunt) ? 5 : 0,
-                                        [Tags.ArmorRating],
+                                        (!firstStrike && usingBlunt) ? 1 * level : 0,
+                                        [Tags.ArmorRating, Tags.Global],
                                         []
                                         )
                                     ];
                                 }),
-                ("LBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Quick Slash",
-                                $"{1.0:0.#%} more attack speed during first attack with {id.Localize()}s",
-                                ModifierType.More,
-                                1.0,
-                                [Tags.AttackSpeed, Abilities.LongBlade],
-                                [Tags.FirstStrike]),
+                ("LBL", 25) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", "Quick Slash",
+                                $"{1.0:0.#%} more damage and attack speed during first attack with {id.Localize()}s",
+                                [ModifierType.More, ModifierType.More],
+                                [1.0, 1.0],
+                                [[Tags.Damage, Abilities.LongBlade], [Tags.AttackSpeed, Abilities.LongBlade]],
+                                [[Tags.FirstStrike], [Tags.FirstStrike]]),
                 ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
                                 $"{1.0:0.#%} more defenses during first attack with {id.Localize()}s",
                                 ModifierType.More,
                                 1.0,
                                 [Tags.Defense],
                                 [Tags.FirstStrike, Abilities.Polearm]),
-                ("SBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Sneak Attack",
-                                $"Deal double damage with short blades on your first attack every battle",
-                                ModifierType.More,
-                                1.0,
-                                [Tags.Damage, Abilities.ShortBlade],
-                                [Tags.FirstStrike]),
+                ("SBL", 25) => new($"{id}{level}", "Sneak Attack",
+                                $"Deal 100% more damage per 25 level of the {Properties.LocalizedStrings.SBL} ability with short blades on " +
+                                $"your first attack every battle",
+                                [UpdateTrigger.AbilityIncreased],
+                                (_, e, w, c) =>
+                                {
+                                    int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.ShortBlade)?.Level ?? 0;
+                                    return [ new($"{id}{level}", ModifierType.More,
+                                        Math.Max(level / 25, 1),
+                                        [Tags.Damage, Abilities.ShortBlade],
+                                        [Tags.FirstStrike]
+                                        )
+                                    ];
+                                }),
                 ("AXE", 75) => new($"{id}{level}", "Frenzy",
                                 $"Gain {0.02:0.#%}/{0.04:0.#%}/{0.06:0.#%} increased attack speed with {id.Localize()}s " +
                                     $"after every attack (up to {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%})",
@@ -781,18 +849,18 @@ namespace TheIdleScrolls_Core.Resources
                                 maxLevel: 3),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 100)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
-                                $"Gain a {Stats.MasterPerkMultiplier:0.#%} damage multiplier",
+                                $"Gain a {Stats.MasterPerkMultiplier:0.#%} multiplier to ALL damage",
                                 ModifierType.More,
                                 Stats.MasterPerkMultiplier,
                                 [Tags.Damage],
                                 []),
-                ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Light shields also grant evasion rating equal to {.3:0.#%} of their armor",
+                ("LAR", 50) => new($"{id}{level}", "Elegant Parry", $"Light shields also grant evasion rating equal to {.4:0.#%} of their armor",
                                 [UpdateTrigger.EquipmentChanged],
                                 (_, e, w, c) =>
                                 {
                                     double shieldArmor = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Where(i => i.IsShield())?.Sum(i => i.GetComponent<ArmorComponent>()?.Armor ?? 0.0) ?? 0.0;
-                                    return [ new("ShieldEvasion", ModifierType.AddBase, 0.3 * shieldArmor,
+                                    return [ new("ShieldEvasion", ModifierType.AddBase, 0.4 * shieldArmor,
                                         [ Tags.Shield,
                                           Tags.EvasionRating,
                                           Abilities.LightArmor ],
@@ -831,7 +899,7 @@ namespace TheIdleScrolls_Core.Resources
                                     [id]),
                 ("LAR" or "HAR", 100)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
-                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} defense multiplier",
+                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} multiplier to ALL defenses",
                                     ModifierType.More,
                                     Stats.MasterPerkMultiplier,
                                     [Tags.Defense],

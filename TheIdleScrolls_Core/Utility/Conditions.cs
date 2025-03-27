@@ -55,6 +55,11 @@ namespace TheIdleScrolls_Core.Utility
             return (e.GetComponent<PlayerProgressComponent>()?.Data.ConditionalKills.GetValueOrDefault(tag) ?? 0) >= count;
         }
 
+        public static bool HasLostFights(Entity e, int count = 1)
+        {
+            return e.GetComponent<PlayerProgressComponent>()?.Data.Losses >= count;
+        }
+
         public static int GetDungeonClearCount(Entity e)
         {
             return e.GetComponent<PlayerProgressComponent>()?.Data.DungeonCompletions.Sum(dc => dc.Value.Sum(kv => kv.Value)) ?? 0;

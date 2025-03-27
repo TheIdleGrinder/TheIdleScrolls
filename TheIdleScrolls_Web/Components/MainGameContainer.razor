@@ -66,7 +66,9 @@
                     </div>
                     <hr class="thick">
                     <div id="inventoryArea">
-                        <InventoryDisplay Title="Inventory" Items=@CoreWrapper.Inventory></InventoryDisplay>
+                        <InventoryDisplay Title="Inventory" Items=@CoreWrapper.Inventory 
+                            OnDblClickCallback=@(id => CoreWrapper.InputHandler.EquipItem(CoreWrapper.Character.Id, id))>
+                        </InventoryDisplay>
                         <HighlightedItemDisplay RefineButtonVisible="false"></HighlightedItemDisplay>
                     </div>
                 </div>

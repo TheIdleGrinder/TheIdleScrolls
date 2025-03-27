@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Systems;
 
@@ -12,7 +13,7 @@ namespace TheIdleScrolls_Core.Quests
 {
     internal class EndgameQuest : AbstractQuest
     {
-        enum States { NotStarted, Void, Pinnacle, Finished }
+        enum States { NotStarted, Void, Endgame, UberEndgame, Finished }
 
         bool FirstUpdate = true;
 
@@ -37,7 +38,7 @@ namespace TheIdleScrolls_Core.Quests
                 }
                 FirstUpdate = false;
                 var dungeons = entity.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeons() ?? [];
-                if (dungeons.Contains(Definitions.DungeonIds.Threshold))
+                if (dungeons.Contains(DungeonIds.Threshold))
                 {
                     questComp.SetQuestProgress(GetId(), (int)States.Void);
                     postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Void, 
@@ -56,28 +57,44 @@ namespace TheIdleScrolls_Core.Quests
             if (state == States.Void)
             {
                 var dungeons = entity.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeonLevels() ?? [];
-                if (dungeons.Contains((Definitions.DungeonIds.Void, Definitions.DungeonLevels.LevelVoidMax)))
+                if (dungeons.Contains((DungeonIds.Void, DungeonLevels.LevelVoidMax)))
                 {
-                    questComp.SetQuestProgress(GetId(), (int)States.Pinnacle);
-                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Pinnacle, 
+                    questComp.SetQuestProgress(GetId(), (int)States.Endgame);
+                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Endgame, 
                         Properties.Quests.Endgame_Pinnacle,
                         Properties.Quests.Endgame_Title));
                 }
             }
 
-            if (state == States.Pinnacle)
+            if (state == States.Endgame)
             {
-                string[] pinnacleIds = [Definitions.DungeonIds.EndgameAges, 
-                                        Definitions.DungeonIds.EndgameMagic, 
-                                        Definitions.DungeonIds.EndgamePyramid];
+                string[] pinnacleIds = [DungeonIds.EndgameAges, 
+                                        DungeonIds.EndgameMagic, 
+                                        DungeonIds.EndgamePyramid];
                 var dungeons = entity.GetComponent<PlayerProgressComponent>()?.Data.GetClearedDungeons() ?? [];
-                if (pinnacleIds.All(id => dungeons.Contains(id)))
+                if (pinnacleIds.All(dungeons.Contains))
                 {
-                    questComp.SetQuestProgress(GetId(), (int)States.Finished);
-                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Finished, 
+                    questComp.SetQuestProgress(GetId(), (int)States.UberEndgame);
+                    postMessageCallback(new QuestProgressMessage(GetId(), (int)States.UberEndgame, 
                         Properties.Quests.Endgame_Finished,
                         Properties.Quests.Endgame_Title));
+
+                    // Give reward title
+                    var titleComp = entity.GetComponent<TitleBearerComponent>();
+                    if (titleComp != null)
+                    {
+                        int deaths = entity.GetComponent<PlayerProgressComponent>()?.Data.Losses ?? 1;
+                        titleComp.AddTitle(deaths == 0 ? Titles.ConquerorHC : Titles.Conqueror);
+                    }
                 }
+            }
+
+            if (state == States.UberEndgame)
+            {
+                questComp.SetQuestProgress(GetId(), (int)States.Finished);
+                postMessageCallback(new QuestProgressMessage(GetId(), (int)States.Finished,
+                    Properties.Quests.Endgame_UberEndgame,
+                    "Just one more thing..."));
             }
         }
     }
