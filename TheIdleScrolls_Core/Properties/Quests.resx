@@ -194,4 +194,7 @@ For now, your story ends here. But who knows? In realms like these, endings ofte
   <data name="Story_Title" xml:space="preserve">
     <value>A Sinister Threat</value>
   </data>
+  <data name="Endgame_UberEndgame" xml:space="preserve">
+    <value>There is just one more little matter that you may want to turn your attention to: Having completed the  three final dungeons, earning the title of Void Conqueror, you will now be able to access even more dangerous versions of these mysterious fortresses.</value>
+  </data>
 </root>

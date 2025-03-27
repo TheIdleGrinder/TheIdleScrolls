@@ -101,6 +101,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die There is just one more little matter that you may want to turn your attention to: Having completed the  three final dungeons, earning the title of Void Conqueror, you will now be able to access even more dangerous versions of these mysterious fortresses. ähnelt.
+        /// </summary>
+        internal static string Endgame_UberEndgame {
+            get {
+                return ResourceManager.GetString("Endgame_UberEndgame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die The portal’s connection is severed but the rupture in reality persists. What once served as a bridge to another place now stands adrift, its energy still surging but its destination lost.
         ///Through the bluish glow, an unfamiliar realm comes into view. A web of twisting pathways stretches into the void, branching endlessly into a shadowed expanse. A landscape as intriguing as it is unsettling.
         ///The void beckons to the bold and the reckless, a realm of mysteries that promise both great reward and untold peril. ähnelt.
