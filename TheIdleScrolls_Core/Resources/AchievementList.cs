@@ -721,7 +721,8 @@ namespace TheIdleScrolls_Core.Resources
                                 [Tags.AttackSpeed, Abilities.Axe],
                                 []),
                 ("BLN", 25) => new($"{id}{level}", "Stunning Blow",
-                                $"Gain {5} to local base armor value for every defensive item while using {id.Localize()} after first strike",
+                                $"Gain +{1} global armor per level of the {Properties.LocalizedStrings.BLN} ability " +
+                                $"while using {id.Localize()} after first strike",
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (_, e, w, c) =>
                                 {
@@ -729,31 +730,40 @@ namespace TheIdleScrolls_Core.Resources
                                     bool usingBlunt = e.GetComponent<EquipmentComponent>()?.GetItems()
                                         ?.Any(i => i.GetComponent<ItemComponent>()!
                                         .Blueprint.GetRelatedAbilityId() == Abilities.Blunt) ?? false;
+                                    int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.Blunt)?.Level ?? 0;
                                     return [ new($"{id}{level}", ModifierType.AddBase,
-                                        (!firstStrike && usingBlunt) ? 5 : 0,
-                                        [Tags.ArmorRating],
+                                        (!firstStrike && usingBlunt) ? 1 * level : 0,
+                                        [Tags.ArmorRating, Tags.Global],
                                         []
                                         )
                                     ];
                                 }),
-                ("LBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Quick Slash",
-                                $"{1.0:0.#%} more attack speed during first attack with {id.Localize()}s",
-                                ModifierType.More,
-                                1.0,
-                                [Tags.AttackSpeed, Abilities.LongBlade],
-                                [Tags.FirstStrike]),
+                ("LBL", 25) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", "Quick Slash",
+                                $"{1.0:0.#%} more damage and attack speed during first attack with {id.Localize()}s",
+                                [ModifierType.More, ModifierType.More],
+                                [1.0, 1.0],
+                                [[Tags.Damage, Abilities.LongBlade], [Tags.AttackSpeed, Abilities.LongBlade]],
+                                [[Tags.FirstStrike], [Tags.FirstStrike]]),
                 ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
                                 $"{1.0:0.#%} more defenses during first attack with {id.Localize()}s",
                                 ModifierType.More,
                                 1.0,
                                 [Tags.Defense],
                                 [Tags.FirstStrike, Abilities.Polearm]),
-                ("SBL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Sneak Attack",
-                                $"Deal double damage with short blades on your first attack every battle",
-                                ModifierType.More,
-                                1.0,
-                                [Tags.Damage, Abilities.ShortBlade],
-                                [Tags.FirstStrike]),
+                ("SBL", 25) => new($"{id}{level}", "Sneak Attack",
+                                $"Deal 100% more damage per 25 level of the {Properties.LocalizedStrings.SBL} ability with short blades on " +
+                                $"your first attack every battle",
+                                [UpdateTrigger.AbilityIncreased],
+                                (_, e, w, c) =>
+                                {
+                                    int level = e.GetComponent<AbilitiesComponent>()?.GetAbility(Abilities.ShortBlade)?.Level ?? 0;
+                                    return [ new($"{id}{level}", ModifierType.More,
+                                        Math.Max(level / 25, 1),
+                                        [Tags.Damage, Abilities.ShortBlade],
+                                        [Tags.FirstStrike]
+                                        )
+                                    ];
+                                }),
                 ("AXE", 75) => new($"{id}{level}", "Frenzy",
                                 $"Gain {0.02:0.#%}/{0.04:0.#%}/{0.06:0.#%} increased attack speed with {id.Localize()}s " +
                                     $"after every attack (up to {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%})",

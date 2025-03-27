@@ -13,7 +13,7 @@
 
         public static string GetVersionString(uint major, uint minor, uint patch)
         {
-            return $"v.{major}.{minor}.{patch}";
+            return $"v{major}.{minor}.{patch}";
         }
 
         public static bool IsAtleast(uint major, uint minor, uint patch)
