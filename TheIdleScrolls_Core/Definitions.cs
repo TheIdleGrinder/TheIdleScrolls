@@ -29,7 +29,7 @@ namespace TheIdleScrolls_Core
             public const double MaxResistanceFromEvasion = 0.9;
 
             public const double ItemBaseValue = 5.0;
-            public const double ItemValueQualityMultiplier = 1.35;
+            public const double ItemValueQualityMultiplier = 1.25;
 
             public const double CraftingAbilityBonusPerLevel = 0.02;
             public const double CraftingBaseDuration = 15.0;
