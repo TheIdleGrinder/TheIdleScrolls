@@ -39,4 +39,10 @@ namespace TheIdleScrolls_Core.Components
                 ?? "";
         }
     }
+
+    public record TitleEarnedMessage(Entity Character, string Title) : IMessage
+    {
+        string IMessage.BuildMessage() => $"{Character.GetName()} earned the title of '{Title}'";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.VeryHigh;
+    }
 }
