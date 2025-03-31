@@ -1330,7 +1330,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Three Executors ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Executioner Trio ähnelt.
         /// </summary>
         internal static string MOB_TRIO {
             get {

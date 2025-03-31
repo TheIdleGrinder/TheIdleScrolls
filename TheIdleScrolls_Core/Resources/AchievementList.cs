@@ -751,7 +751,7 @@ namespace TheIdleScrolls_Core.Resources
                                 [Tags.Defense],
                                 [Tags.FirstStrike, Abilities.Polearm]),
                 ("SBL", 25) => new($"{id}{level}", "Sneak Attack",
-                                $"Deal 100% more damage per 25 level of the {Properties.LocalizedStrings.SBL} ability with short blades on " +
+                                $"Deal 100% more damage per 25 levels of the {Properties.LocalizedStrings.SBL} ability with short blades on " +
                                 $"your first attack every battle",
                                 [UpdateTrigger.AbilityIncreased],
                                 (_, e, w, c) =>
