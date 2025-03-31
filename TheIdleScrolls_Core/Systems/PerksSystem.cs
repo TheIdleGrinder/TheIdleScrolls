@@ -153,6 +153,12 @@ namespace TheIdleScrolls_Core.Systems
 
         static void AddBasicPerks(PerksComponent perksComponent)
         {
+            // Inherent bonus for dual wielding
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk("Ambidextrous", "Ambidextrous", "", 
+                ModifierType.More, 
+                Stats.DualWieldAttackSpeedMulti,
+                [Tags.AttackSpeed], [Tags.DualWield], true), 0);
+
             // Create perk that bundles the bonuses to ability experience gains
             perksComponent.AddPerk(new("NaturalAffinities", "Natural Affinity",
                 "Gain increased experience with for your abilities",

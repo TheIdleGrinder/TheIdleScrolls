@@ -291,7 +291,7 @@ namespace TheIdleScrolls_Core.Resources
             });
 
             // Fighting style level achievements
-            achievements.Add(new(Abilities.DualWield + "25", "Ambidextrous",
+            achievements.Add(new(Abilities.DualWield + "25", "Dual Weapon Apprentice",
                 $"Reach ability level {25} for the {AbilityList.GetAbility(Abilities.DualWield)!.Name} style",
                 Conditions.AchievementUnlockedCondition(Abilities.DualWield),
                 Conditions.HasLevelledAllAbilitiesCondition([Abilities.DualWield], 25))
@@ -953,12 +953,12 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.SavantXpMultiplier,
                                     [Tags.AbilityXpGain, id],
                                     [], true),
-                (Abilities.DualWield, 25) => PerkFactory.MakeStaticPerk($"{id}{level}", $"Ambidextrous",
-                                    $"{Stats.DualWieldAttackSpeedMulti:0.#%} more attack speed while dual wielding",
-                                    ModifierType.More,
-                                    Stats.DualWieldAttackSpeedMulti,
-                                    [Tags.AttackSpeed],
-                                    [Tags.DualWield]),
+                (Abilities.DualWield, 25) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", $"Versatile",
+                                    $"Gain {0.05:0.#%} more damage, attack speed and defense while using two weapons",
+                                    Enumerable.Repeat(ModifierType.More, 3).ToList(),
+                                    Enumerable.Repeat(0.05, 3).ToList(),
+                                    [[Tags.Damage], [Tags.AttackSpeed], [Tags.Defense]],
+                                    Enumerable.Repeat<IEnumerable<string>>([Tags.DualWield], 3).ToList()),
                 (Abilities.DualWield, 50) => new($"{id}{level}", "Reckless Assault",
                                     $"Sacrifice some defense to gain an exponentially increasing multiplier to attack speed",
                                     [],
