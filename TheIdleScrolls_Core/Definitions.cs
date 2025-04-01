@@ -255,11 +255,14 @@ namespace TheIdleScrolls_Core
 
         public static double CalculateRefiningDuration(Entity item, Entity? crafter)
         {
-            double matMulti = Math.Pow(item.GetBlueprint()!.GetMaterial().PowerMultiplier, 0.2);
-            double tierMulti = Math.Pow(item.GetBlueprint()!.GetDropLevel() / 10, 0.2);
-            double typeMulti = item.IsWeapon() ? Stats.CraftingCostWeaponMultiplier : 1.0;
-
-            double baseDuration = Stats.CraftingBaseDuration * matMulti * tierMulti * typeMulti;
+            double baseDuration = Stats.CraftingBaseDuration;
+            if (item.GetBlueprint()?.GetMaterial()?.Id != MaterialId.Simple)
+            {
+                double matMulti = Math.Pow(item.GetBlueprint()!.GetMaterial().PowerMultiplier, 0.2);
+                double tierMulti = Math.Pow(item.GetBlueprint()!.GetDropLevel() / 10, 0.2);
+                double typeMulti = item.IsWeapon() ? Stats.CraftingCostWeaponMultiplier : 1.0;
+                baseDuration *= matMulti * tierMulti * typeMulti;
+            }
             double speed = crafter?.ApplyAllApplicableModifiers(1.0, 
                 [Tags.CraftingSpeed], 
                 crafter.GetTags()) ?? 1.0;
