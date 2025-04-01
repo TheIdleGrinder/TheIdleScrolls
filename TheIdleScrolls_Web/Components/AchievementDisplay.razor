@@ -8,7 +8,7 @@
 <div class="ach-container">
 
     <div class="ach-list">
-        @foreach (var achievement in Achievements.Where(a => !HideEarned || !a.Earned))
+        @foreach (var achievement in Achievements.Where(IsVisible))
         {
             <div class="achievement @(GetAchievementClasses(achievement))">
                 <div class="ach-title">@achievement.Title</div>
@@ -24,7 +24,7 @@
     <div class="ach-header">
         <p style="margin-bottom: 0">Completed: @AchievementsEarned / @TotalAchievements</p>
         <div>
-            <label>Hide completed</label>
+            <label>Hide previously completed</label>
             <input type="checkbox" checked="@HideEarned" @onclick="(() => HideEarned = !HideEarned)" />
         </div>
     </div>
@@ -60,7 +60,7 @@
     .ach-list {
         display: flex;
         flex-direction: column;
-        flex: 1 1 auto;
+        flex: 1;
         max-height: 100%;
         overflow-y: auto;
         margin: 0;
@@ -133,6 +133,11 @@
 
     List<string> SeenEarnedAchievements {get; set;} = new List<string>();
     int NewAchievements => AchievementsEarned - SeenEarnedAchievements.Count;
+
+    bool IsVisible(AchievementRepresentation achievement)
+    {
+        return !HideEarned || !SeenEarnedAchievements.Contains(achievement.Title);
+    }
 
     AchievementsChangedHandler AchChangedHandler => (List<AchievementRepresentation> achievements, int count) =>
     {
