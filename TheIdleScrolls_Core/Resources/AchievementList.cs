@@ -964,8 +964,8 @@ namespace TheIdleScrolls_Core.Resources
                                     [],
                                     (l, e, w, c) =>
                                     [
-                                        new($"{id}{level}_as", ModifierType.More, Math.Pow(1.09, l) - 1.0, [ Tags.AttackSpeed ], []),
-                                        new($"{id}{level}_def", ModifierType.More, Math.Pow(0.95, l) - 1.0, [ Tags.Defense ], [])
+                                        new($"{id}{level}_as", ModifierType.More, Math.Pow(Stats.TradeoffPerkBonus, l) - 1.0, [ Tags.AttackSpeed ], []),
+                                        new($"{id}{level}_def", ModifierType.More, Math.Pow(Stats.TradeoffPerkMalus, l) - 1.0, [ Tags.Defense ], [])
                                     ])
                 {
                     MaxLevel = 5
@@ -996,8 +996,8 @@ namespace TheIdleScrolls_Core.Resources
                                     [],
                                     (l, e, w, c) =>
                                     [
-                                        new($"{id}{level}_def", ModifierType.More, Math.Pow(1.09, l) - 1.0, [ Tags.Defense ], []),
-                                        new($"{id}{level}_dmg", ModifierType.More, Math.Pow(0.95, l) - 1.0, [ Tags.Damage ], [])
+                                        new($"{id}{level}_def", ModifierType.More, Math.Pow(Stats.TradeoffPerkBonus, l) - 1.0, [ Tags.Defense ], []),
+                                        new($"{id}{level}_dmg", ModifierType.More, Math.Pow(Stats.TradeoffPerkMalus, l) - 1.0, [ Tags.Damage ], [])
                                     ])
                 {
                     MaxLevel = 5
@@ -1075,8 +1075,8 @@ namespace TheIdleScrolls_Core.Resources
                                     [],
                                     (l, e, w, c) =>
                                     [
-                                        new($"{id}{level}_dmg", ModifierType.More, Math.Pow(1.09, l) - 1.0, [ Tags.Damage ], []),
-                                        new($"{id}{level}_as", ModifierType.More, Math.Pow(0.95, l) - 1.0, [ Tags.AttackSpeed ], [])
+                                        new($"{id}{level}_dmg", ModifierType.More, Math.Pow(Stats.TradeoffPerkBonus, l) - 1.0, [ Tags.Damage ], []),
+                                        new($"{id}{level}_as", ModifierType.More, Math.Pow(Stats.TradeoffPerkMalus, l) - 1.0, [ Tags.AttackSpeed ], [])
                                     ])
                 {
                     MaxLevel = 5
