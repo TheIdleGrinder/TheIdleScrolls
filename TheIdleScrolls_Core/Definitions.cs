@@ -128,7 +128,7 @@ namespace TheIdleScrolls_Core
             public const string CraftingSlots = "CraftingSlot";
             public const string ActiveCrafts = "ActiveCraftingSlot";
             public const string CraftingSpeed = "CraftingSpeed";
-            public const string CraftingCost = "CraftingCost";
+            public const string CraftingCostEfficiency = "CraftingCostEfficiency";
         }
 
         public static class DropRestrictions
@@ -276,10 +276,10 @@ namespace TheIdleScrolls_Core
         public static int CalculateCraftingCost(Entity item, Entity? crafter)
         {
             int baseCost = item.GetComponent<ItemRefinableComponent>()?.Cost ?? 100;
-            double cost = crafter?.ApplyAllApplicableModifiers(baseCost, 
-                [Tags.CraftingCost],
-                crafter.GetTags()) ?? baseCost;
-            return (int)Math.Ceiling(Math.Max(cost, 1.0));
+            double efficiency = crafter?.ApplyAllApplicableModifiers(1.0, 
+                [Tags.CraftingCostEfficiency],
+                crafter.GetTags()) ?? 1.0;
+            return (int)Math.Ceiling(Math.Max(baseCost / ((efficiency == 0) ? 0.1 : efficiency), 1.0));
         }
     }
 }

@@ -291,8 +291,8 @@
   <data name="CLASS_X_X" xml:space="preserve">
     <value>Monk</value>
   </data>
-  <data name="CraftingCost" xml:space="preserve">
-    <value>Crafting Cost</value>
+  <data name="CraftingCostEfficiency" xml:space="preserve">
+    <value>Crafting cost efficiency</value>
   </data>
   <data name="CraftingSlot" xml:space="preserve">
     <value>Crafting Slot(s)</value>

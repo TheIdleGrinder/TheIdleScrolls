@@ -583,11 +583,11 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting Cost ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting cost efficiency ähnelt.
         /// </summary>
-        internal static string CraftingCost {
+        internal static string CraftingCostEfficiency {
             get {
-                return ResourceManager.GetString("CraftingCost", resourceCulture);
+                return ResourceManager.GetString("CraftingCostEfficiency", resourceCulture);
             }
         }
         
