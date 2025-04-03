@@ -58,8 +58,8 @@ namespace TheIdleScrolls_Core
             public const double BigPerkFactor               = 1.5;
             public const double MasterPerkMultiplier        = 0.1;
             public const double SavantXpMultiplier          = 0.3;
-            public const double TradeoffPerkBonus           = 1.09;    
-            public const double TradeoffPerkMalus           = 0.94;    
+            public const double TradeoffPerkBonus           = 1.05;    
+            public const double TradeoffPerkMalus           = 0.97;    
         }
 
         public static class DungeonIds
