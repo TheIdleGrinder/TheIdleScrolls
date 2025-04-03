@@ -456,7 +456,7 @@ namespace TheIdleScrolls_Core.Resources
                 (  5000, "Fence"),
                 ( 25000, "Merchant"),
                 (100000, "Wholesaler"),
-                (500000, "Patritian"),
+                (250000, "Patritian"),
             ];
             for (int i = 0; i < ranks.Length; i++)
             {
