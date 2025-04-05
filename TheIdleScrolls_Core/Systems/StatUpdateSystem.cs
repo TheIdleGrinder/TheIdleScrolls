@@ -63,6 +63,13 @@ namespace TheIdleScrolls_Core.Systems
                     encumbrance += item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
                     var localTags = item.GetTags();
 
+                    // Add situational local tags 
+                    var slots = item.GetRequiredSlots();
+                    if (slots.Count == 1 && slots[0] == EquipmentSlot.Hand)
+                    {
+                        localTags.Add((item.IsShield() || weaponCount > 0) ? Tags.OffHand : Tags.MainHand);
+                    }
+
                     if (itemComp != null && weaponComp != null)
                     {
                         double localDmg = weaponComp.Damage;

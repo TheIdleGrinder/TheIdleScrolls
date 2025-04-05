@@ -354,6 +354,9 @@
   <data name="Local" xml:space="preserve">
     <value>local</value>
   </data>
+  <data name="MainHand" xml:space="preserve">
+    <value>Main Hand</value>
+  </data>
   <data name="MOB_1-CAV" xml:space="preserve">
     <value>Goblin Knight</value>
   </data>
@@ -569,6 +572,9 @@
   </data>
   <data name="MOB_ZOMBIE" xml:space="preserve">
     <value>Zombie</value>
+  </data>
+  <data name="OffHand" xml:space="preserve">
+    <value>Offhand</value>
   </data>
   <data name="OGRE" xml:space="preserve">
     <value>Ogre</value>

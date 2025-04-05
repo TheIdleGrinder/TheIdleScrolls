@@ -107,6 +107,8 @@ namespace TheIdleScrolls_Core
             public const string Weapon = "Weapon";
             public const string Armor = "Armor";
             public const string Shield = "Shield";
+            public const string MainHand = "MainHand";
+            public const string OffHand = "OffHand";
             
             public const string Melee = "Melee";
             public const string Ranged = "Ranged";

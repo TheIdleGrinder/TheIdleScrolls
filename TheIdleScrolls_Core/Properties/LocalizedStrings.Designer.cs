@@ -772,6 +772,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Main Hand ähnelt.
+        /// </summary>
+        internal static string MainHand {
+            get {
+                return ResourceManager.GetString("MainHand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Goblin Knight ähnelt.
         /// </summary>
         internal static string MOB_1_CAV {
@@ -1416,6 +1425,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MOB_ZOMBIE {
             get {
                 return ResourceManager.GetString("MOB_ZOMBIE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Offhand ähnelt.
+        /// </summary>
+        internal static string OffHand {
+            get {
+                return ResourceManager.GetString("OffHand", resourceCulture);
             }
         }
         
