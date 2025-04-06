@@ -46,8 +46,7 @@ namespace TheIdleScrolls_Core.Systems
                 Entity item = coordinator.GetEntity(move.ItemId) ?? throw new Exception($"No item with id {move.ItemId}");
                 if (move.Equip)
                 {
-                    bool inInventory = inventoryComp.GetItems().Contains(item);
-                    if (inInventory)
+                    if (inventoryComp.GetItems().Contains(item))
                     {
                         var equippableComp = item.GetComponent<EquippableComponent>();
                         if (equippableComp == null)
@@ -144,6 +143,14 @@ namespace TheIdleScrolls_Core.Systems
         private static Entity? FindBlockingItem(EquipmentComponent equipment, List<EquipmentSlot> slots, bool takeSlotsBackwards)
         {
             List<Entity> items = equipment.GetItems();
+
+            // Manual handling of edge case: this can happen when trying to equip a shield while 
+            // the main hand is free and the off hand is occupied by another shield
+            if (slots.Count == 0)
+            {
+                return items.FirstOrDefault(e => e.IsShield());
+            }
+
             if (takeSlotsBackwards) // Shields go in the last slot first
                 items.Reverse();
             foreach (var item in items)

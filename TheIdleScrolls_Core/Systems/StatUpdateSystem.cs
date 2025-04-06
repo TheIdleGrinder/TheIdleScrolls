@@ -86,6 +86,7 @@ namespace TheIdleScrolls_Core.Systems
 
                         combinedDmg += localDmg;
                         combinedCD += localCD;
+                        //Console.WriteLine($"{item.GetName()}({weaponCount}): Dmg: {localDmg} -> {combinedDmg}; CD: {localCD} -> {combinedCD}");
                     }
 
                     if (itemComp != null && armorComp != null)
