@@ -261,6 +261,7 @@ namespace TheIdleScrolls_Core.Resources
                 }
             }
             int mobsForStyles = 200;
+            int mobsForAdvStyles = 1000;
             achievements.Add(new(Abilities.DualWield, "Dual Wielder", 
                 $"Defeat {mobsForStyles} enemies while using two weapons",
                 tautology,
@@ -268,12 +269,66 @@ namespace TheIdleScrolls_Core.Resources
                 { 
                     Reward = new AbilityReward(Abilities.DualWield)
                 });
+            achievements.Add(new("Adv" + Abilities.DualWield, "Advanced Dual Wielder",
+                $"Defeat {mobsForAdvStyles} enemies while using two weapons",
+                Conditions.AchievementUnlockedCondition(Abilities.DualWield),
+                Conditions.MobsDefeatedConditionallyCondition(Tags.DualWield, mobsForAdvStyles))
+            {
+                Reward = new PerkReward(new("Adv" + Abilities.DualWield, "Weapon Block", 
+                    $"Gain {3}/{6}/{10} global base evasion rating per level of the Two Weapons ability", 
+                    [UpdateTrigger.AbilityIncreased], 
+                    (l, e, w, c) => {
+                        int level = e.GetComponent<AbilitiesComponent>()?
+                                        .GetAbility(Abilities.DualWield)?.Level ?? 0;
+                        int bonus = l switch
+                        {
+                            1 => 3,
+                            2 => 6,
+                            3 => 10,
+                            _ => 0
+                        };
+                        return [
+                            new("AdvDW_ev", ModifierType.AddBase, level * bonus, [Tags.EvasionRating, Tags.Global], [Tags.DualWield])
+                        ];
+                    })
+                {
+                    MaxLevel = 3
+                })
+            });
             achievements.Add(new(Abilities.Shielded, "Shieldbearer",
-                $"Defeat {mobsForStyles} enemies while carrying a shield",
+                $"Defeat {mobsForStyles} enemies while using a shield",
                 tautology,
                 Conditions.MobsDefeatedConditionallyCondition(Tags.Shielded, mobsForStyles))
             {
                 Reward = new AbilityReward(Abilities.Shielded)
+            });
+            achievements.Add(new("Adv" + Abilities.Shielded, "Advanced Shieldbearer",
+                $"Defeat {mobsForAdvStyles} enemies while using a shield",
+                Conditions.AchievementUnlockedCondition(Abilities.Shielded),
+                Conditions.MobsDefeatedConditionallyCondition(Tags.Shielded, mobsForAdvStyles))
+            {
+                Reward = new PerkReward(new("Adv" + Abilities.Shielded, "Shield Bash", 
+                    $"Every third attack, gain {4}/{7}/{10} base damage + {1}/{2}/{4} per level of quality on your shield", 
+                    [UpdateTrigger.EquipmentChanged, UpdateTrigger.AttackPerformed],
+                    (l, e, w, c) => {
+                        int quality = e.GetComponent<EquipmentComponent>()
+                                        ?.GetItems()?.FirstOrDefault(i => i.IsShield())
+                                        ?.GetComponent<ItemQualityComponent>()?.Quality ?? 0;
+                        int bonus = l switch
+                        {
+                            1 => 2 * quality + 4,
+                            2 => 3 * quality + 7,
+                            3 => 4 * quality + 10,
+                            _ => 0
+                        };
+                        bool active = (e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0) % 3 == 0;
+                        return [
+                            new("AdvSh_dmg", ModifierType.AddBase, active ? bonus : 0, [Tags.Damage], [Tags.Shielded])
+                        ];
+                    })
+                { 
+                    MaxLevel = 3 
+                })
             });
             achievements.Add(new(Abilities.SingleHanded, "Fencer",
                 $"Defeat {mobsForStyles} enemies while wielding only one one-handed weapon",
@@ -282,12 +337,56 @@ namespace TheIdleScrolls_Core.Resources
             {
                 Reward = new AbilityReward(Abilities.SingleHanded)
             });
+            achievements.Add(new("Adv" + Abilities.SingleHanded, "Advanced Fencer",
+                $"Defeat {mobsForAdvStyles} enemies while wielding only one one-handed weapon",
+                Conditions.AchievementUnlockedCondition(Abilities.SingleHanded),
+                Conditions.MobsDefeatedConditionallyCondition(Tags.SingleHanded, mobsForAdvStyles))
+            {
+                Reward = new PerkReward(new("Adv" + Abilities.SingleHanded, "Seize the Moment",
+                    $"While fighting single-handedly, gain {0.07:0.#%}/{0.15:0.#%}/{0.25:0.#%} increased attack speed while evading", 
+                    [],
+                    (l, e, w, c) => [
+                        new("AdvSH_as", ModifierType.Increase,
+                        l switch { 1 => 0.07, 2 => 0.15, 3 => 0.25, _ => 0.0 },
+                        [Tags.AttackSpeed], [Tags.SingleHanded, Tags.Evading])    
+                    ])
+                {
+                    MaxLevel = 3
+                })
+            });
             achievements.Add(new(Abilities.TwoHanded, "Wide Swings",
                 $"Defeat {mobsForStyles} enemies while wielding a two-handed weapon",
                 tautology,
                 Conditions.MobsDefeatedConditionallyCondition(Tags.TwoHanded, mobsForStyles))
             {
                 Reward = new AbilityReward(Abilities.TwoHanded)
+            });
+            achievements.Add(new("Adv" + Abilities.TwoHanded, "Advanced Wide Swings",
+                $"Defeat {mobsForAdvStyles} enemies while wielding a two-handed weapon",
+                Conditions.AchievementUnlockedCondition(Abilities.TwoHanded),
+                Conditions.MobsDefeatedConditionallyCondition(Tags.TwoHanded, mobsForAdvStyles))
+            {
+                Reward = new PerkReward(new("Adv" + Abilities.TwoHanded, "Distance Control",
+                    $"Gain {0.3:0.#%}/{0.6:0.#%}/{1.0:0.#%} of your two-handed weapon's damage as global base armor rating", 
+                    [UpdateTrigger.EquipmentChanged],
+                    (l, e, w, c) => { 
+                        double dmg = e.GetComponent<EquipmentComponent>()
+                                    ?.GetItemInSlot(EquipmentSlot.Hand)
+                                    ?.GetComponent<WeaponComponent>()?.Damage ?? 0;
+                        double bonus = l switch
+                        {
+                            1 => 0.3,
+                            2 => 0.6,
+                            3 => 1.0,
+                            _ => 0.0
+                        };
+                        return [
+                            new("AdvTH_ar", ModifierType.AddBase, bonus * dmg, [Tags.ArmorRating, Tags.Global], [Tags.TwoHanded])
+                        ];
+                    })
+                {
+                    MaxLevel = 3
+                })
             });
 
             // Fighting style level achievements
