@@ -275,7 +275,7 @@ namespace TheIdleScrolls_Core.Resources
                 Conditions.MobsDefeatedConditionallyCondition(Tags.DualWield, mobsForAdvStyles))
             {
                 Reward = new PerkReward(new("Adv" + Abilities.DualWield, "Weapon Block", 
-                    $"Gain {3}/{6}/{10} global base evasion rating per level of the Two Weapons ability", 
+                    $"While using two weapons, gain {3}/{6}/{10} global base evasion rating per level of the Two Weapons ability", 
                     [UpdateTrigger.AbilityIncreased], 
                     (l, e, w, c) => {
                         int level = e.GetComponent<AbilitiesComponent>()?
