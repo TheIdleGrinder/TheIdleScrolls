@@ -1,5 +1,6 @@
 ﻿@using TheIdleScrolls_Core
 @using TheIdleScrolls_Core.Items
+@using TheIdleScrolls_Web.Components.Subcomponents
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
@@ -12,9 +13,69 @@
             <span id="crafted-line">Crafted</span>
         }
         <div id="description-lines">
-            @foreach (string line in ItemDescriptionLines)
+            <span>@HighlightedItem?.Type</span>
+            <span>Level @HighlightedItem?.DropLevel</span>
+            <span>Ability: @HighlightedItem?.RelatedAbility</span>
+            @if (HighlightedItem?.WeaponAspect != null)
             {
-                <span>@line</span>
+                <span style="margin-top: 0.5rem">
+                    Damage: @HighlightedItem?.WeaponAspect?.BaseDamage
+                    @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareDamage) ?? [])
+                    {
+                        <ItemStatComparison ComparisonResult=@comp></ItemStatComparison>
+                    }
+                </span>
+                <span>
+                    Attack Time: @(HighlightedItem?.WeaponAspect?.BaseCooldown) s
+                    @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareCooldown) ?? [])
+                    {
+                        <ItemStatComparison ComparisonResult=@comp Suffix=" s"></ItemStatComparison>
+                    }
+                </span>
+                <span>
+                    DPS: @($"{HighlightedItem?.WeaponAspect?.Dps ?? 0.0:0.##}")
+                    @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareDps) ?? [])
+                    {
+                        <ItemStatComparison ComparisonResult=@comp></ItemStatComparison>
+                    }
+                </span>
+            }
+            @if (HighlightedItem?.ArmorAspect != null)
+            {
+                if ((HighlightedItem?.ArmorAspect?.BaseArmor ?? 0.0) != 0.0)
+                {
+                    <span style="margin-top: 0.5rem">
+                        Armor: @HighlightedItem?.ArmorAspect?.BaseArmor
+                        @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareArmor) ?? [])
+                        {
+                            <ItemStatComparison ComparisonResult=@comp></ItemStatComparison>
+                        }
+                    </span>
+                }
+                if ((HighlightedItem?.ArmorAspect?.BaseEvasion ?? 0.0) != 0.0)
+                {
+                    <span>
+                        Evasion: @HighlightedItem?.ArmorAspect?.BaseEvasion
+                        @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareEvasion) ?? [])
+                        {
+                            <ItemStatComparison ComparisonResult=@comp></ItemStatComparison>
+                        }
+                    </span>
+                }
+            }
+            @if (HighlightedItem?.Encumbrance != null && HighlightedItem?.Encumbrance > 0)
+            {
+                <span>
+                    Encumbrance: @(HighlightedItem?.Encumbrance)%
+                    @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareEncumbrance) ?? [])
+                    {
+                        <ItemStatComparison ComparisonResult=@comp Suffix="%"></ItemStatComparison>
+                    }
+                </span>
+            }
+            @if (HighlightedItem?.Value > 0)
+            {
+                <span style="margin-top: 0.5rem">Value: @HighlightedItem?.Value c</span>
             }
         </div>
     </div>
@@ -106,6 +167,10 @@
         margin-top: 5px;
         display: inherit;
         flex-direction: inherit;
+    }
+
+    span.important {
+        font-weight: bold;
     }
 
     #coins {
@@ -212,7 +277,7 @@
         }
     }
 
-void CraftItem()
+    void CraftItem()
     {
         if (HighlightedItem != null)
         {

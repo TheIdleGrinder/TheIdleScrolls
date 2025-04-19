@@ -14,13 +14,33 @@ namespace TheIdleScrolls_Core.Items
     {
         public uint Id => Item.Id;
         public string Name => Item.GetName();
+        public string Type => Item.GetComponent<ItemComponent>()?.Blueprint.GetFamilyDescription().Name ?? "";
+        public string RelatedAbility => Item.GetComponent<ItemComponent>()?.Blueprint.GetFamilyDescription().RelatedAbilityId.Localize() ?? "";
         public string Description => GenerateDescription();
         public List<EquipmentSlot> Slots => Item.GetRequiredSlots();
+        public double Encumbrance => Item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
+        public int DropLevel => Item.GetLevel();
         public int Quality => Item.GetComponent<ItemQualityComponent>()?.Quality ?? 0;
         public int Value => Item.GetComponent<ItemValueComponent>()?.Value ?? 0;
         public (int Cost, double Duration) Refining => (Functions.CalculateCraftingCost(Item, Owner), 
                                                         Functions.CalculateRefiningDuration(Item, Owner));
         public bool Crafted => Item.GetComponent<ItemRefinableComponent>()?.Refined ?? false;
+        public WeaponGenus? WeaponAspect 
+        { 
+            get 
+            { 
+                var weaponComp = Item.GetComponent<WeaponComponent>();
+                return weaponComp != null ? new WeaponGenus(weaponComp.Damage, weaponComp.Cooldown) : null;
+            } 
+        }
+        public ArmorGenus? ArmorAspect
+        {
+            get
+            {
+                var armorComp = Item.GetComponent<ArmorComponent>();
+                return armorComp != null ? new ArmorGenus(armorComp.Armor, armorComp.Evasion) : null;
+            }
+        }
 
         public bool IsEquipped => Owner?.GetComponent<EquipmentComponent>()?.GetItems()?.Contains(Item) ?? false;
         
@@ -69,26 +89,11 @@ namespace TheIdleScrolls_Core.Items
         private string GenerateDescription()
         {
             var comparableItems = FindItemsToCompareTo();
-            string compToString(List<RelativeValue> results, bool higherIsBetter)
-            {
-                var relativeQualities = results.Select(r => r.ToRelativeQuality(higherIsBetter));
-                if (results.Count == 0)
-                {
-                    return "";
-                }
-                return " [" + String.Join("", relativeQualities.Select(cr => cr switch 
-                    { 
-                        RelativeQuality.Better => '+', 
-                        RelativeQuality.Worse => '-',
-                        _ => '='
-                    })) + "]";
-            }
 
             var itemComp = Item.GetComponent<ItemComponent>()!;
-            string description = $"Type: {itemComp.Blueprint.GetFamilyDescription().Name}";
+            string description = $"Type: {Type}";
 
-            var equipComp = Item.GetComponent<EquippableComponent>();
-            if (equipComp != null && equipComp.Slots.Count > 0)
+            if (Slots.Count > 0)
             {
                 List<string> slotStrings = new();
                 var slotTypes = (EquipmentSlot[])Enum.GetValues(typeof(EquipmentSlot));
@@ -104,42 +109,45 @@ namespace TheIdleScrolls_Core.Items
                 description += $"; Used Slot(s): {string.Join(", ", slotStrings)}";
             }
 
-            description += $"; Skill: {itemComp.Blueprint.GetFamilyDescription().RelatedAbilityId.Localize()}";
+            description += $"; Skill: {RelatedAbility}";
             
             var levelComp = Item.GetComponent<LevelComponent>();
             if (levelComp != null)
             {
-                description += $"; Drop Level: {levelComp.Level}";
+                description += $"; Drop Level: {DropLevel}";
             }
             description += "; ";
 
-            var weaponComp = Item.GetComponent<WeaponComponent>();
-            if (weaponComp != null)
+            if (WeaponAspect != null)
             {
-                description += $"; Damage: {weaponComp.Damage}{compToString(ItemComparator.CompareDamage(Item, comparableItems), true)}";
-                description += $"; Attack Time: {weaponComp.Cooldown} s{compToString(ItemComparator.CompareCooldown(Item, comparableItems), false)}";
-                description += $"; DPS: {(weaponComp.Damage / weaponComp.Cooldown):#.##}{compToString(ItemComparator.CompareDps(Item, comparableItems), true)}";
+                description += $"; Damage: {WeaponAspect.BaseDamage}";
+                description += $"; Attack Time: {WeaponAspect.BaseCooldown} s";
+                description += $"; DPS: {(WeaponAspect.BaseDamage / WeaponAspect.BaseCooldown):#.##}";
             }
 
-            var armorComp = Item.GetComponent<ArmorComponent>();
-            if (armorComp != null)
+            if (ArmorAspect != null)
             {
-                description += armorComp.Armor != 0.0 ? $"; Armor: {armorComp.Armor}{compToString(ItemComparator.CompareArmor(Item, comparableItems), true)}" : "";
-                description += armorComp.Evasion != 0.0 ? $"; Evasion: {armorComp.Evasion}" : "";
+                description += ArmorAspect.BaseArmor != 0.0 ? $"; Armor: {ArmorAspect.BaseArmor}" : "";
+                description += ArmorAspect.BaseEvasion != 0.0 ? $"; Evasion: {ArmorAspect.BaseEvasion}" : "";
             }
 
-            if (equipComp != null)
-            {
-                description += equipComp.Encumbrance != 0.0 ? $"; Encumbrance: {equipComp.Encumbrance}%{compToString(ItemComparator.CompareEncumbrance(Item, comparableItems), false)}" : "";
-            }
+            description += Encumbrance != 0.0 ? $"; Encumbrance: {Encumbrance}%" : "";
 
-            var valueComp = Item.GetComponent<ItemValueComponent>();
-            if (valueComp != null)
+            if (Item.GetComponent<ItemValueComponent>() != null)
             {
-                description += $"; ; Value: {valueComp.Value}c";
+                description += $"; ; Value: {Value}c";
             }
             return description;
         }
 
+        public List<ComparisonResult> CompareToEquipment(Func<Entity, Entity, ComparisonResult> comparator)
+        {
+            var items = FindItemsToCompareTo();
+            if (items.Count == 0)
+            {
+                return [];
+            }
+            return items.Select(item => comparator(Item, item)).ToList();
+        }
     }
 }

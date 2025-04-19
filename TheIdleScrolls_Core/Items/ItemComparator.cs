@@ -9,7 +9,9 @@ using TheIdleScrolls_Core.Components;
 namespace TheIdleScrolls_Core.Items
 {
     using ValueExtractor = Func<Entity, double>;
-    using CandidateComparator = Func<Entity, List<Entity>, List<RelativeValue>>;
+    using CandidateComparator = Func<Entity, Entity, ComparisonResult>;
+
+    public record ComparisonResult(RelativeQuality Quality, double Difference);
 
     public enum RelativeQuality
     {
@@ -18,31 +20,7 @@ namespace TheIdleScrolls_Core.Items
         Worse
     }
 
-    public enum RelativeValue
-    {
-        Higher,
-        Equal,
-        Lower
-    }
-
-    public static class Extensions
-    {
-        public static RelativeQuality ToRelativeQuality(this RelativeValue value, bool higherIsBetter = true)
-        {
-            if (value == RelativeValue.Equal)
-            {
-                return RelativeQuality.Equal;
-            }
-            else
-            {
-                return (higherIsBetter && value == RelativeValue.Higher) || (!higherIsBetter && value == RelativeValue.Lower) 
-                        ? RelativeQuality.Better 
-                        : RelativeQuality.Worse;
-            }
-        }
-    }
-
-        public static class ItemComparator
+    public static class ItemComparator
     {
         private static ValueExtractor GetDamage => item => item.GetComponent<WeaponComponent>()?.Damage ?? 0.0;
         private static ValueExtractor GetCooldown => item => item.GetComponent<WeaponComponent>()?.Cooldown ?? 0.0;
@@ -53,30 +31,25 @@ namespace TheIdleScrolls_Core.Items
         private static ValueExtractor GetEncumbrance => item => item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
 
         public static CandidateComparator CompareDamage      => (a, b) => Compare(a, b, GetDamage);
-        public static CandidateComparator CompareCooldown    => (a, b) => Compare(a, b, GetCooldown);
+        public static CandidateComparator CompareCooldown    => (a, b) => Compare(a, b, GetCooldown, false);
         public static CandidateComparator CompareDps         => (a, b) => Compare(a, b, GetDps);
         public static CandidateComparator CompareArmor       => (a, b) => Compare(a, b, GetArmor);
         public static CandidateComparator CompareEvasion     => (a, b) => Compare(a, b, GetEvasion);
-        public static CandidateComparator CompareEncumbrance => (a, b) => Compare(a, b, GetEncumbrance);
+        public static CandidateComparator CompareEncumbrance => (a, b) => Compare(a, b, GetEncumbrance, false);
 
-        private static RelativeValue Compare(Entity firstItem, Entity secondItem, ValueExtractor valueExtractor)
+        private static ComparisonResult Compare(Entity firstItem, Entity secondItem, ValueExtractor valueExtractor, bool higherIsBetter = true)
         {
-            return CompareValues(valueExtractor(firstItem), valueExtractor(secondItem));
+            return CompareValues(valueExtractor(firstItem), valueExtractor(secondItem), higherIsBetter);
         }
 
-        private static List<RelativeValue> Compare(Entity item, List<Entity> candidates, 
-                                                            ValueExtractor valueExtractor)
-        {
-            return candidates.Select(candidate => Compare(item, candidate, valueExtractor)).ToList();
-        }
-
-        private static RelativeValue CompareValues(double first, double second)
+        private static ComparisonResult CompareValues(double first, double second, bool higherIsBetter)
         {
             if (first == second)
             {
-                return RelativeValue.Equal;
+                return new(RelativeQuality.Equal, 0.0);
             }
-            return first > second ? RelativeValue.Higher : RelativeValue.Lower;
+            bool firstIsBetter = (higherIsBetter && first > second) || (!higherIsBetter && first < second);
+            return new(firstIsBetter ? RelativeQuality.Better : RelativeQuality.Worse, first - second);
         }
     }
 }
