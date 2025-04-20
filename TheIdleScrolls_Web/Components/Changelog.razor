@@ -5,39 +5,62 @@
 
 <h3>Recent Changes</h3>
 
-<div style="max-width: 1000px">
+<div style="max-width: 1000px" markdown="1">
     <h4>@GameVersion.GetVersionString(0, 8, 2)</h4>
-
-    <h5>Bugfixes</h5>
+    
+    <h5>Bug Fixes</h5>
     <ul>
+        <li>Refining of training items is no longer instantaneous</li>
+        <li>Replacing a worn shield with another shield was not possible while the character&#39;s main hand was empty</li>
     </ul>
 
     <h5>Balancing</h5>
-    
-    <h6>General</h6>
     <ul>
+        <li><strong>Ambidextrous</strong> is now permanent and grants 10% more attack speed (down from 20%)</li>
+        <li><strong>Assassin</strong>: Gain 0.2 base Damage per level of Two Weapons (up from 0.1)</li>
+        <li><strong>Basic Damage</strong>: Gain 12% increased damage per point invested (up from 10%)</li>
+        <li><strong>Basic Time Limit</strong>: Gain 12% increased time limit per point invested (up from 5%)</li>
+        <li><strong>Critical Strikes</strong>: Gain 100%/150%/200% damage instead of 150% at all levels</li>
+        <li><strong>Furious Swings</strong>: Gain 0.1 extra attacks per second (down from 0.2)</li>
+        <li><strong>Methodical</strong>, <strong>Precise Attacks</strong>, <strong>Reckless Assault</strong> now gain a 5% 
+            multiplier to one stat at the cost of 3% of another (down from 9% and 5% respectively)</li>
     </ul>
 
-    <h6>Perks</h6>
+    <h5>Achievements</h5>
     <ul>
+        <li>Added four new achievements that are unlocked by defeating 1000 enemies using one of the four fighting styles</li>
+        <li><strong>Patrician</strong> now requires gathering a total of 250000 coins (down from 500000)</li>
     </ul>
 
-    <h5>Quality of Life Improvements</h5>
+    <h5>Perks</h5>
     <ul>
-    </ul>
-
-    <h5>New Achievements</h5>
-    <ul>
-    </ul>
-
-    <h5>New Perks</h5>
-    <ul>
+        <li>
+            <strong>Versatile</strong>: 5% more damage, attack speed and defense while using two weapons
+            <ul>
+                <li>Replaces Ambidextrous as reward the <strong>Dual Weapon Apprentice</strong> achievement</li>
+            </ul>
+        </li>
+        <li><strong>Distance Control</strong>: Gain 30/60/100% of your two-handed weapon&#39;s damage as global base armor</li>
+        <li><strong>Seize the Moment</strong>: While fighting single-handedly, gain 7/15/25% increased attack speed while evading</li>
+        <li><strong>Shield Bash</strong>: Every third attack, gain 4/7/10 base damage + 1/2/4 per level of quality on your shield</li>
+        <li><strong>Weapon Block</strong>: While using two weapons, gain 3/6/10 global base evasion rating per level of the Two Weapons ability</li>
     </ul>
 
     <h5>Miscellaneous</h5>
     <ul>
+        <li>Stats of a selected item are now compared to those of the item(s) currently equipped in its required slot(s).</li>
+        <li>Frame time is now capped at 200ms to prevent issues caused by the browser throttling the game&#39;s tab.</li>
+        <li>Achievement list is now more compact</li>
+        <li>An info message is now shown upon earning a title</li>
+        <li>Info messages can now be hidden by clicking on them</li>
+        <li>Names of crafted items are no longer displayed in italic font</li>
+        <li>The <em>Hide completed</em> checkbox on the Achievements page no longer hides newly earned achievements</li>
+        <li>Replaced reductions to <em>Crafting Cost</em> with increases to <em>Crafting cost efficiency</em>. Cost is divided 
+            by cost efficiency, so an increase of 100% halves crafting cost.</li>
     </ul>
+
 </div>
+
 
 <div style="max-width: 1000px">
     <h4>@GameVersion.GetVersionString(0, 8, 1)</h4>
@@ -54,12 +77,12 @@
     </ul>
     <h6>Perks</h6>
     <ul>
-        <li><b>Elegant Parry</b> now gives 40% of your light shields base armor as evasion (up from 30%)</li>
-        <li><b>Quick Slash</b> now deals 100% more damage on top the 100% more attack speed. A truly masterful stroke!</li>
-        <li><b>Sneak Attack</b> now deals 100% more damage for every 25 levels of the Short Blade ability (up to 800% at level 200)</li>
-        <li><b>Stunning Blow</b> now adds +1 global base armor per level of the Blunt Weapon ability</li>
-        <li><b>Elusive</b> and <b>Ethereal Form</b> now scale with the level of the Unarmored ability instead of the character level</li>
-        <li><b>Iron Fists</b> and <b>Force of Spirit</b> now scale with the level of the Unarmed ability instead of the character level</li>
+        <li><strong>Elegant Parry</strong> now gives 40% of your light shields base armor as evasion (up from 30%)</li>
+        <li><strong>Quick Slash</strong> now deals 100% more damage on top the 100% more attack speed. A truly masterful stroke!</li>
+        <li><strong>Sneak Attack</strong> now deals 100% more damage for every 25 levels of the Short Blade ability (up to 800% at level 200)</li>
+        <li><strong>Stunning Blow</strong> now adds +1 global base armor per level of the Blunt Weapon ability</li>
+        <li><strong>Elusive</strong> and <strong>Ethereal Form</strong> now scale with the level of the Unarmored ability instead of the character level</li>
+        <li><strong>Iron Fists</strong> and <strong>Force of Spirit</strong> now scale with the level of the Unarmed ability instead of the character level</li>
     </ul>
 
     <h5>Rebalanced Crafting</h5>
@@ -96,16 +119,16 @@
 
     <h5>New Achievements</h5>
     <ul>
-        <li><b>Void Conqueror:</b> Complete an endgame dungeon</li>
-        <li><b>Void Emperor:</b> Complete an endgame dungeon at area level 200</li>
-        <li><b>Exalted Conqueror:</b> Complete the three endgame dungeons without losing a single fight</li>
-        <li><b>Exalted Emperor:</b> Complete the three endgame dungeons at area level 200 without losing a single fight</li>
-        <li><b>Happy Pride:</b> Wear items with six different quality levels above 0 at the same time</li>
+        <li><strong>Void Conqueror:</strong> Complete an endgame dungeon</li>
+        <li><strong>Void Emperor:</strong> Complete an endgame dungeon at area level 200</li>
+        <li><strong>Exalted Conqueror:</strong> Complete the three endgame dungeons without losing a single fight</li>
+        <li><strong>Exalted Emperor:</strong> Complete the three endgame dungeons at area level 200 without losing a single fight</li>
+        <li><strong>Happy Pride:</strong> Wear items with six different quality levels above 0 at the same time</li>
     </ul>
 
     <h5>New Perks</h5>
     <ul>
-        <li><b>Well Dressed:</b> 0.5% increased damage and defenses for each level of quality on your gear</li>
+        <li><strong>Well Dressed:</strong> 0.5% increased damage and defenses for each level of quality on your gear</li>
     </ul>
 
     <h5>Miscellaneous</h5>
