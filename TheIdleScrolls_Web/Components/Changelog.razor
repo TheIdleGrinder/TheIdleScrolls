@@ -5,7 +5,7 @@
 
 <h3>Recent Changes</h3>
 
-<div style="max-width: 1000px" markdown="1">
+<div class="version-block">
     <h4>@GameVersion.GetVersionString(0, 8, 2)</h4>
     
     <h5>Bug Fixes</h5>
@@ -58,11 +58,10 @@
         <li>Replaced reductions to <em>Crafting Cost</em> with increases to <em>Crafting cost efficiency</em>. Cost is divided 
             by cost efficiency, so an increase of 100% halves crafting cost.</li>
     </ul>
-
 </div>
 
 
-<div style="max-width: 1000px">
+<div class="version-block">
     <h4>@GameVersion.GetVersionString(0, 8, 1)</h4>
         
     <h5>Bugfixes</h5>
@@ -145,6 +144,14 @@
     </ul>
 </div>
 
+<style>
+    div.version-block {
+        max-width: 1000px;
+        padding-bottom: 1rem;
+        border-bottom: double 3px slategray;
+        margin-bottom: 2rem;
+    }
+</style>
 
 @code {
     
