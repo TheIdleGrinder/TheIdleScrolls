@@ -4,7 +4,7 @@
     {
         const uint Major = 0;
         const uint Minor = 8;
-        const uint Patch = 1;
+        const uint Patch = 2;
 
         public static string GetCurrentVersionString()
         {
