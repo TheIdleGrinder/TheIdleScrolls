@@ -583,11 +583,11 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting Cost ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting cost efficiency ähnelt.
         /// </summary>
-        internal static string CraftingCost {
+        internal static string CraftingCostEfficiency {
             get {
-                return ResourceManager.GetString("CraftingCost", resourceCulture);
+                return ResourceManager.GetString("CraftingCostEfficiency", resourceCulture);
             }
         }
         
@@ -768,6 +768,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string Local {
             get {
                 return ResourceManager.GetString("Local", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Main Hand ähnelt.
+        /// </summary>
+        internal static string MainHand {
+            get {
+                return ResourceManager.GetString("MainHand", resourceCulture);
             }
         }
         
@@ -1330,7 +1339,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Three Executors ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Executioner Trio ähnelt.
         /// </summary>
         internal static string MOB_TRIO {
             get {
@@ -1416,6 +1425,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MOB_ZOMBIE {
             get {
                 return ResourceManager.GetString("MOB_ZOMBIE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Offhand ähnelt.
+        /// </summary>
+        internal static string OffHand {
+            get {
+                return ResourceManager.GetString("OffHand", resourceCulture);
             }
         }
         

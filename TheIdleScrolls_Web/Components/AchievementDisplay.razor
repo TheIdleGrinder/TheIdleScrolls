@@ -5,18 +5,28 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div class="ach-container">
-
-    <div class="ach-list">
-        @foreach (var achievement in Achievements.Where(a => !HideEarned || !a.Earned))
+@if (SelectedAchievement != null)
+{
+    <div class="achievement @(GetAchievementClasses(SelectedAchievement))">
+        <div class="ach-title">@SelectedAchievement.Title</div>
+        <div class="ach-description">@SelectedAchievement.Description</div>
+        @if (SelectedAchievement.Reward != string.Empty)
         {
-            <div class="achievement @(GetAchievementClasses(achievement))">
+            <div class="ach-reward">➤ Reward: @SelectedAchievement.Reward</div>
+        }
+    </div>
+}
+
+<div class="ach-container">
+    
+    <div class="ach-list">
+        @foreach (var achievement in Achievements.Where(IsVisible))
+        {
+            <div class="achievement-mini @(GetAchievementClasses(achievement))"
+                @onmouseenter="(() => SelectedAchievement = achievement)"
+                @onmouseleave="(() => SelectedAchievement = null)"
+            >
                 <div class="ach-title">@achievement.Title</div>
-                <div class="ach-description">@achievement.Description</div>
-                @if (achievement.Reward != string.Empty)
-                {
-                    <div class="ach-reward">➤ Reward: @achievement.Reward</div>
-                }
             </div>
         }
     </div>
@@ -24,7 +34,7 @@
     <div class="ach-header">
         <p style="margin-bottom: 0">Completed: @AchievementsEarned / @TotalAchievements</p>
         <div>
-            <label>Hide completed</label>
+            <label>Hide previously completed</label>
             <input type="checkbox" checked="@HideEarned" @onclick="(() => HideEarned = !HideEarned)" />
         </div>
     </div>
@@ -44,6 +54,7 @@
         display: flex;
         flex-direction: column;
         overflow-y: auto;
+        position: relative;
     }
 
     .ach-header {
@@ -58,13 +69,15 @@
     }
 
     .ach-list {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         flex-direction: column;
-        flex: 1 1 auto;
+        flex: 1;
         max-height: 100%;
         overflow-y: auto;
         margin: 0;
         padding: 5px;
+        gap: 0.5rem;
     }
 
     .ach-new-indicator {
@@ -80,11 +93,30 @@
         text-align: center;
     }
 
-    .achievement {
-        margin: 5px;
+    .achievement-mini {
         padding: 5px;
-        /* width: 70%; */
         border: 1px solid var(--frame-color);
+        align-items: center;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    .achievement-mini:hover {
+        border-width: 2px;
+        margin: -1px;
+    }
+
+    .achievement {
+        padding: 0.5rem;
+        width: 50%;
+        min-height: 8rem;
+        border: 3px solid var(--frame-color);
+
+        position: absolute;
+        z-index: 3;
+        left: 50%;
+        bottom: 100%;
+        transform: translate(-50%, -0.5rem);
     }
 
     .ach-earned {
@@ -134,6 +166,13 @@
     List<string> SeenEarnedAchievements {get; set;} = new List<string>();
     int NewAchievements => AchievementsEarned - SeenEarnedAchievements.Count;
 
+    AchievementRepresentation? SelectedAchievement { get; set; } = null;
+
+    bool IsVisible(AchievementRepresentation achievement)
+    {
+        return !HideEarned || !SeenEarnedAchievements.Contains(achievement.Title);
+    }
+
     AchievementsChangedHandler AchChangedHandler => (List<AchievementRepresentation> achievements, int count) =>
     {
         CoreWrapper.SeenEarnedAchievements = achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
@@ -161,7 +200,7 @@
 
     private string GetAchievementClasses(AchievementRepresentation achievement)
     {
-        string classes = "achievement ";
+        string classes = "";
         classes += achievement.Earned ? "ach-earned" : "ach-unearned";
 
         if (achievement.Earned && !SeenEarnedAchievements.Contains(achievement.Title))

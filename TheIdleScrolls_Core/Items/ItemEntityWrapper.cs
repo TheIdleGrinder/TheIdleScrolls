@@ -14,20 +14,37 @@ namespace TheIdleScrolls_Core.Items
     {
         public uint Id => Item.Id;
         public string Name => Item.GetName();
-
+        public string Type => Item.GetComponent<ItemComponent>()?.Blueprint.GetFamilyDescription().Name ?? "";
+        public string RelatedAbility => Item.GetComponent<ItemComponent>()?.Blueprint.GetFamilyDescription().RelatedAbilityId.Localize() ?? "";
         public string Description => GenerateDescription();
-
         public List<EquipmentSlot> Slots => Item.GetRequiredSlots();
-
+        public double Encumbrance => Item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
+        public int DropLevel => Item.GetLevel();
         public int Quality => Item.GetComponent<ItemQualityComponent>()?.Quality ?? 0;
-
         public int Value => Item.GetComponent<ItemValueComponent>()?.Value ?? 0;
-
         public (int Cost, double Duration) Refining => (Functions.CalculateCraftingCost(Item, Owner), 
                                                         Functions.CalculateRefiningDuration(Item, Owner));
-
         public bool Crafted => Item.GetComponent<ItemRefinableComponent>()?.Refined ?? false;
+        public WeaponGenus? WeaponAspect 
+        { 
+            get 
+            { 
+                var weaponComp = Item.GetComponent<WeaponComponent>();
+                return weaponComp != null ? new WeaponGenus(weaponComp.Damage, weaponComp.Cooldown) : null;
+            } 
+        }
+        public ArmorGenus? ArmorAspect
+        {
+            get
+            {
+                var armorComp = Item.GetComponent<ArmorComponent>();
+                return armorComp != null ? new ArmorGenus(armorComp.Armor, armorComp.Evasion) : null;
+            }
+        }
 
+        public bool IsEquipped => Owner?.GetComponent<EquipmentComponent>()?.GetItems()?.Contains(Item) ?? false;
+        
+        
         private Entity Item { get; }
         private Entity? Owner { get; }
 
@@ -41,13 +58,42 @@ namespace TheIdleScrolls_Core.Items
             Owner = owner;
         }
 
+        private List<Entity> FindItemsToCompareTo()
+        {
+            if (IsEquipped)
+            {
+                return [];
+            }
+
+            bool IsComparable(Entity item)
+            {
+                if (item == Item)
+                {
+                    return false;
+                }
+                if (item.IsWeapon() != Item.IsWeapon()
+                    || item.IsArmor() != Item.IsArmor()
+                    || item.IsShield() != Item.IsShield())
+                {
+                    return false;
+                }
+                var itemSlots = item.GetRequiredSlots();
+                return itemSlots.All(Slots.Contains) || Slots.All(itemSlots.Contains);
+            }
+
+            var items = Owner?.GetComponent<EquipmentComponent>()?.GetItems() ?? [];
+            return items.Where(IsComparable)
+                        .ToList();
+        }
+
         private string GenerateDescription()
         {
-            var itemComp = Item.GetComponent<ItemComponent>()!;
-            string description = $"Type: {itemComp.Blueprint.GetFamilyDescription().Name}";
+            var comparableItems = FindItemsToCompareTo();
 
-            var equipComp = Item.GetComponent<EquippableComponent>();
-            if (equipComp != null && equipComp.Slots.Count > 0)
+            var itemComp = Item.GetComponent<ItemComponent>()!;
+            string description = $"Type: {Type}";
+
+            if (Slots.Count > 0)
             {
                 List<string> slotStrings = new();
                 var slotTypes = (EquipmentSlot[])Enum.GetValues(typeof(EquipmentSlot));
@@ -63,61 +109,45 @@ namespace TheIdleScrolls_Core.Items
                 description += $"; Used Slot(s): {string.Join(", ", slotStrings)}";
             }
 
-            description += $"; Skill: {itemComp.Blueprint.GetFamilyDescription().RelatedAbilityId.Localize()}";
+            description += $"; Skill: {RelatedAbility}";
             
             var levelComp = Item.GetComponent<LevelComponent>();
             if (levelComp != null)
             {
-                description += $"; Drop Level: {levelComp.Level}";
+                description += $"; Drop Level: {DropLevel}";
             }
             description += "; ";
 
-            var weaponComp = Item.GetComponent<WeaponComponent>();
-            if (weaponComp != null)
+            if (WeaponAspect != null)
             {
-                description += $"; Damage: {weaponComp.Damage} [{(weaponComp.Damage / weaponComp.Cooldown):#.##} DPS]; ";
-                description += $"Attack Time: {weaponComp.Cooldown} s";
+                description += $"; Damage: {WeaponAspect.BaseDamage}";
+                description += $"; Attack Time: {WeaponAspect.BaseCooldown} s";
+                description += $"; DPS: {(WeaponAspect.BaseDamage / WeaponAspect.BaseCooldown):#.##}";
             }
 
-            var armorComp = Item.GetComponent<ArmorComponent>();
-            if (armorComp != null)
+            if (ArmorAspect != null)
             {
-                description += armorComp.Armor != 0.0 ? $"; Armor: {armorComp.Armor}" : "";
-                description += armorComp.Evasion != 0.0 ? $"; Evasion: {armorComp.Evasion}" : "";
+                description += ArmorAspect.BaseArmor != 0.0 ? $"; Armor: {ArmorAspect.BaseArmor}" : "";
+                description += ArmorAspect.BaseEvasion != 0.0 ? $"; Evasion: {ArmorAspect.BaseEvasion}" : "";
             }
 
-            if (equipComp != null)
-            {
-                description += equipComp.Encumbrance != 0.0 ? $"; Encumbrance: {equipComp.Encumbrance}%" : "";
-            }
+            description += Encumbrance != 0.0 ? $"; Encumbrance: {Encumbrance}%" : "";
 
-            var valueComp = Item.GetComponent<ItemValueComponent>();
-            if (valueComp != null)
+            if (Item.GetComponent<ItemValueComponent>() != null)
             {
-                description += $"; ; Value: {valueComp.Value}c";
+                description += $"; ; Value: {Value}c";
             }
             return description;
         }
 
-        private string GetItemTypeName()
+        public List<ComparisonResult> CompareToEquipment(Func<Entity, Entity, ComparisonResult> comparator)
         {
-            if (Item.IsWeapon())
-                return LocalizedStrings.Equip_Weapon;
-            if (Item.IsShield())
-                return LocalizedStrings.Equip_Shield;
-            if (Slots.Count == 0 || !Item.IsArmor()) // Should not happen with the current item kingdom
-                return "??";
-
-            if (Slots.Count > 1)
-                return "Custom Gear"; // Does not currently exist
-            return Slots[0] switch
+            var items = FindItemsToCompareTo();
+            if (items.Count == 0)
             {
-                EquipmentSlot.Head => LocalizedStrings.Equip_HeadArmor,
-                EquipmentSlot.Chest => LocalizedStrings.Equip_ChestArmor,
-                EquipmentSlot.Arms => LocalizedStrings.Equip_ArmArmor,
-                EquipmentSlot.Legs => LocalizedStrings.Equip_LegArmor,
-                _ => "??",
-            };
+                return [];
+            }
+            return items.Select(item => comparator(Item, item)).ToList();
         }
     }
 }

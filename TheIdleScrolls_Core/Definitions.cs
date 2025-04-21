@@ -17,7 +17,7 @@ namespace TheIdleScrolls_Core
             public const double TimeShieldBonusPerLevel = 0.02;
             public const double AttackDamagePerAbilityLevel = 0.02;
             public const double AttackSpeedPerAbilityLevel = 0.005;
-            public const double DualWieldAttackSpeedMulti = 0.2;
+            public const double DualWieldAttackSpeedMulti = 0.1;
             public const double DefensePerAbilityLevel = 0.02;
             public const double MaxAttacksPerSecond = 10.0;
 
@@ -51,13 +51,15 @@ namespace TheIdleScrolls_Core
 
             public const int    LevelsPerPerkPoint          = 5;
             public const int    PerkPointLevelLimit         = 200;
-            public const double BasicDamageIncrease         = 0.10;
+            public const double BasicDamageIncrease         = 0.12;
             public const double BasicAttackSpeedIncrease    = 0.05;
             public const double BasicDefenseIncrease        = 0.08;
-            public const double BasicTimeIncrease           = 0.05;
+            public const double BasicTimeIncrease           = 0.12;
             public const double BigPerkFactor               = 1.5;
             public const double MasterPerkMultiplier        = 0.1;
             public const double SavantXpMultiplier          = 0.3;
+            public const double TradeoffPerkBonus           = 1.05;    
+            public const double TradeoffPerkMalus           = 0.97;    
         }
 
         public static class DungeonIds
@@ -105,6 +107,8 @@ namespace TheIdleScrolls_Core
             public const string Weapon = "Weapon";
             public const string Armor = "Armor";
             public const string Shield = "Shield";
+            public const string MainHand = "MainHand";
+            public const string OffHand = "OffHand";
             
             public const string Melee = "Melee";
             public const string Ranged = "Ranged";
@@ -126,7 +130,7 @@ namespace TheIdleScrolls_Core
             public const string CraftingSlots = "CraftingSlot";
             public const string ActiveCrafts = "ActiveCraftingSlot";
             public const string CraftingSpeed = "CraftingSpeed";
-            public const string CraftingCost = "CraftingCost";
+            public const string CraftingCostEfficiency = "CraftingCostEfficiency";
         }
 
         public static class DropRestrictions
@@ -255,11 +259,14 @@ namespace TheIdleScrolls_Core
 
         public static double CalculateRefiningDuration(Entity item, Entity? crafter)
         {
-            double matMulti = Math.Pow(item.GetBlueprint()!.GetMaterial().PowerMultiplier, 0.2);
-            double tierMulti = Math.Pow(item.GetBlueprint()!.GetDropLevel() / 10, 0.2);
-            double typeMulti = item.IsWeapon() ? Stats.CraftingCostWeaponMultiplier : 1.0;
-
-            double baseDuration = Stats.CraftingBaseDuration * matMulti * tierMulti * typeMulti;
+            double baseDuration = Stats.CraftingBaseDuration;
+            if (item.GetBlueprint()?.GetMaterial()?.Id != MaterialId.Simple)
+            {
+                double matMulti = Math.Pow(item.GetBlueprint()!.GetMaterial().PowerMultiplier, 0.2);
+                double tierMulti = Math.Pow(item.GetBlueprint()!.GetDropLevel() / 10, 0.2);
+                double typeMulti = item.IsWeapon() ? Stats.CraftingCostWeaponMultiplier : 1.0;
+                baseDuration *= matMulti * tierMulti * typeMulti;
+            }
             double speed = crafter?.ApplyAllApplicableModifiers(1.0, 
                 [Tags.CraftingSpeed], 
                 crafter.GetTags()) ?? 1.0;
@@ -271,10 +278,10 @@ namespace TheIdleScrolls_Core
         public static int CalculateCraftingCost(Entity item, Entity? crafter)
         {
             int baseCost = item.GetComponent<ItemRefinableComponent>()?.Cost ?? 100;
-            double cost = crafter?.ApplyAllApplicableModifiers(baseCost, 
-                [Tags.CraftingCost],
-                crafter.GetTags()) ?? baseCost;
-            return (int)Math.Ceiling(Math.Max(cost, 1.0));
+            double efficiency = crafter?.ApplyAllApplicableModifiers(1.0, 
+                [Tags.CraftingCostEfficiency],
+                crafter.GetTags()) ?? 1.0;
+            return (int)Math.Ceiling(Math.Max(baseCost / ((efficiency == 0) ? 0.1 : efficiency), 1.0));
         }
     }
 }

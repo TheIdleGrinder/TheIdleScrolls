@@ -5,17 +5,17 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div id="timedMessageArea">
+<div class="timedMessageArea">
 	@foreach (var message in CoreWrapper.ExpiringMessages.Where(m => !m.Expired))
 	{
-		<div class="timed-message">
+		<div class="timed-message" @onclick=@(() => message.SetExpired())>
 			@message.Message
 		</div>
 	}
 </div>
 
 <style>
-	#timedMessageArea {
+	.timedMessageArea {
 		position: absolute;
 		right: 0;
 		top: 0;
@@ -33,6 +33,7 @@
 		width: 100%;
 		padding: 5px;
 		overflow-x: hidden;
+		cursor: pointer;
 	}
 </style>
 

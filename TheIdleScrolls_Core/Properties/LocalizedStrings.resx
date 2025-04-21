@@ -291,8 +291,8 @@
   <data name="CLASS_X_X" xml:space="preserve">
     <value>Monk</value>
   </data>
-  <data name="CraftingCost" xml:space="preserve">
-    <value>Crafting Cost</value>
+  <data name="CraftingCostEfficiency" xml:space="preserve">
+    <value>Crafting cost efficiency</value>
   </data>
   <data name="CraftingSlot" xml:space="preserve">
     <value>Crafting Slot(s)</value>
@@ -353,6 +353,9 @@
   </data>
   <data name="Local" xml:space="preserve">
     <value>local</value>
+  </data>
+  <data name="MainHand" xml:space="preserve">
+    <value>Main Hand</value>
   </data>
   <data name="MOB_1-CAV" xml:space="preserve">
     <value>Goblin Knight</value>
@@ -541,7 +544,7 @@
     <value>Slithering Construct</value>
   </data>
   <data name="MOB_TRIO" xml:space="preserve">
-    <value>The Three Executors</value>
+    <value>Executioner Trio</value>
   </data>
   <data name="MOB_VENGEFULDUMMY" xml:space="preserve">
     <value>Vengeful Dummy</value>
@@ -569,6 +572,9 @@
   </data>
   <data name="MOB_ZOMBIE" xml:space="preserve">
     <value>Zombie</value>
+  </data>
+  <data name="OffHand" xml:space="preserve">
+    <value>Offhand</value>
   </data>
   <data name="OGRE" xml:space="preserve">
     <value>Ogre</value>

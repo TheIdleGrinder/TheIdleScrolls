@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.Systems;
 
 namespace TheIdleScrolls_Core.Quests
@@ -84,7 +85,9 @@ namespace TheIdleScrolls_Core.Quests
                     if (titleComp != null)
                     {
                         int deaths = entity.GetComponent<PlayerProgressComponent>()?.Data.Losses ?? 1;
-                        titleComp.AddTitle(deaths == 0 ? Titles.ConquerorHC : Titles.Conqueror);
+                        string titleId = deaths == 0 ? Titles.ConquerorHC : Titles.Conqueror;
+                        titleComp.AddTitle(titleId);
+                        postMessageCallback(new TitleEarnedMessage(entity, TitleList.GetTitle(titleId)?.Text ?? titleId));
                     }
                 }
             }

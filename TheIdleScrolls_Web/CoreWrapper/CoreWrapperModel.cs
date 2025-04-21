@@ -121,8 +121,9 @@ namespace TheIdleScrolls_Web.CoreWrapper
                     sw.Start();
 
                     var delay = Task.Delay(frameTime);
+                    int actualFrameTime = Math.Min(4 * frameTime, frameTime + (int)owedTime);
 
-                    gameRunner.ExecuteTick((frameTime + owedTime) / 1000.0);
+                    gameRunner.ExecuteTick(actualFrameTime / 1000.0);
                     StateChanged?.Invoke();
 					owedTime = 0;
 					await delay;
