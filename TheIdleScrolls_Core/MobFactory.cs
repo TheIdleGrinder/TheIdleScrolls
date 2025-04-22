@@ -5,24 +5,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core
 {
     public class MobDescription
     {
+        public string Id { get; set; } = "";
         public string Name { get; set; } = "";
-        public int MinLevel { get; set; } = 1;
-        public int MaxLevel { get; set; } = Int32.MaxValue;
         public double HP { get; set; } = 1.0;
         public double Damage { get; set; } = 1.0;
+        public Func<ZoneDescription, bool> CanSpawn { get; set; } = (zone) => true;
 
         public MobDescription() { }
 
-        public MobDescription(string name, int minLevel = 1, int maxLevel = Int32.MaxValue, double hP = 1.0, double damage = 1.0)
+        public MobDescription(string id, string name, Func<ZoneDescription, bool> spawnCondition, double hP = 1.0, double damage = 1.0)
         {
+            Id = id;
             Name = name;
-            MinLevel = minLevel;
-            MaxLevel = maxLevel;
+            HP = hP;
+            Damage = damage;
+            CanSpawn = spawnCondition;
+        }
+
+        public MobDescription(string id, string name, double hP = 1.0, double damage = 1.0)
+        {
+            Id = id;
+            Name = name;
             HP = hP;
             Damage = damage;
         }
@@ -32,11 +41,9 @@ namespace TheIdleScrolls_Core
     {
         public static Entity MakeMob(MobDescription description, int level)
         {
-            if (level < description.MinLevel || level > description.MaxLevel)
-                throw new Exception($"Invalid level for {description.Name.Localize()}: {level} (valid: {description.MinLevel} - {description.MaxLevel})");
             var mob = new Entity();
-            mob.AddComponent(new MobComponent(description.Name));
-            mob.AddComponent(new NameComponent(description.Name.Localize()));
+            mob.AddComponent(new MobComponent(description.Id));
+            mob.AddComponent(new NameComponent(description.Id.Localize()));
             mob.AddComponent(new LevelComponent { Level = level });
             mob.AddComponent(new LifePoolComponent(CalculateHP(description, level)));
             mob.AddComponent(new XpGiverComponent { Amount = CalculateXpValue(description, level) });

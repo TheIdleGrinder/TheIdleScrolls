@@ -97,9 +97,9 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_RAT", hP: 0.8, damage: 1.0),
-                        new("MOB_BIGRAT", hP: 1.5, damage: 0.8),
-                        new("BOSS_GIANTRAT", hP: 4.0, damage: 1.5),
+                        new("MOB_RAT",       LocalizedStrings.MOB_RAT,       hP: 0.8, damage: 1.0),
+                        new("MOB_BIGRAT",    LocalizedStrings.MOB_BIGRAT,    hP: 1.5, damage: 0.8),
+                        new("BOSS_GIANTRAT", LocalizedStrings.BOSS_GIANTRAT, hP: 4.0, damage: 1.5),
                     }
                 },
                 new()
@@ -119,10 +119,10 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_ZOMBIE", hP: 1.4, damage: 0.8),
-                        new("MOB_SKELETON", hP: 0.8, damage: 1.4),
-                        new("MOB_ABOMINATION", hP: 4.0, damage: 1.0),
-                        new("BOSS_NECROMANCER", hP: 3.5, damage: 1.5)
+                        new("MOB_ZOMBIE", LocalizedStrings.MOB_ZOMBIE, hP: 1.4, damage: 0.8),
+                        new("MOB_SKELETON", LocalizedStrings.MOB_SKELETON, hP: 0.8, damage: 1.4),
+                        new("MOB_ABOMINATION", LocalizedStrings.MOB_ABOMINATION, hP: 4.0, damage: 1.0),
+                        new("BOSS_NECROMANCER", LocalizedStrings.BOSS_NECROMANCER, hP: 3.5, damage: 1.5)
                     },
                     Rewards = new() { DropLevelRange = LevelCrypt - 12 } // Prevents weapons from dropping
                 },
@@ -142,9 +142,9 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_CULTIST", hP: 1.2, damage: 1.2),
-                        new("MOB_DEMONSCOUT", hP: 1.0, damage: 1.4),
-                        new("MOB_LESSERDEMON", hP: 6.0, damage: 1.1)
+                        new("MOB_CULTIST", LocalizedStrings.MOB_CULTIST, hP: 1.2, damage: 1.2),
+                        new("MOB_DEMONSCOUT", LocalizedStrings.MOB_DEMONSCOUT, hP: 1.0, damage: 1.4),
+                        new("MOB_LESSERDEMON", LocalizedStrings.MOB_LESSERDEMON, hP: 6.0, damage: 1.1)
                     },
                 },
                 new()
@@ -164,9 +164,9 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_CULTIST", hP: 1.2, damage: 1.2),
-                        new("MOB_WARLOCK", hP: 1.0, damage: 1.4),
-                        new("BOSS_VOIDPRIEST", hP: 1.5, damage: 1.3)
+                        new("MOB_CULTIST", LocalizedStrings.MOB_CULTIST, hP: 1.2, damage: 1.2),
+                        new("MOB_WARLOCK", LocalizedStrings.MOB_WARLOCK, hP: 1.0, damage: 1.4),
+                        new("BOSS_VOIDPRIEST", LocalizedStrings.BOSS_VOIDPRIEST, hP: 1.5, damage: 1.3)
                     },
                 },
                 new()
@@ -183,9 +183,9 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_MERCENARY", hP: 1.0, damage: 1.0),
-                        new("MOB_MERCENARY2", hP: 1.0, damage: 1.0),
-                        new("BOSS_MERCENARY", hP: 6.0, damage: 1.33)
+                        new("MOB_MERCENARY", LocalizedStrings.MOB_MERCENARY, hP: 1.0, damage: 1.0),
+                        new("MOB_MERCENARY2", LocalizedStrings.MOB_MERCENARY2, hP: 1.0, damage: 1.0),
+                        new("BOSS_MERCENARY", LocalizedStrings.BOSS_MERCENARY, hP: 6.0, damage: 1.33)
                     },
                 },
                 new()
@@ -204,9 +204,9 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_FANATIC", hP: 1.5, damage: 0.8),
-                        new("MOB_WARLOCK", hP: 0.8, damage: 1.5),
-                        new("MOB_CULTKNIGHT", hP: 5.0, damage: 1.0)
+                        new("MOB_FANATIC", LocalizedStrings.MOB_FANATIC, hP: 1.5, damage: 0.8),
+                        new("MOB_WARLOCK", LocalizedStrings.MOB_WARLOCK, hP: 0.8, damage: 1.5),
+                        new("MOB_CULTKNIGHT", LocalizedStrings.MOB_CULTKNIGHT, hP: 5.0, damage: 1.0)
                     },
                 },
                 new()
@@ -231,10 +231,10 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_IMP", hP: 1.15, damage: 1.6),
-                        new("MOB_LESSERDEMON", hP: 1.4, damage: 1.4), // Rescaled from JSON
-                        new("MOB_VOIDCULTIST", hP: 1.6, damage: 1.25),
-                        new("MOB_GREATERDEMON", hP: 6.0, damage: 1.5)
+                        new("MOB_IMP", LocalizedStrings.MOB_IMP, hP: 1.15, damage: 1.6),
+                        new("MOB_LESSERDEMON", LocalizedStrings.MOB_LESSERDEMON, hP: 1.4, damage: 1.4), // Rescaled from JSON
+                        new("MOB_VOIDCULTIST", LocalizedStrings.MOB_VOIDCULTIST, hP: 1.6, damage: 1.25),
+                        new("MOB_GREATERDEMON", LocalizedStrings.MOB_GREATERDEMON, hP: 6.0, damage: 1.5)
                     },
                 },
                 new()
@@ -253,9 +253,9 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_VOIDCULTIST", hP: 1.3, damage: 1.3),
-                        new("MOB_IMPWARLOCK", hP: 1.8, damage: 1.0), // bit more life to make up for damage scaling
-                        new("BOSS_CULTLEADER", hP: 6.0, damage: 2.0)
+                        new("MOB_VOIDCULTIST", LocalizedStrings.MOB_VOIDCULTIST, hP: 1.3, damage: 1.3),
+                        new("MOB_IMPWARLOCK", LocalizedStrings.MOB_IMPWARLOCK, hP: 1.8, damage: 1.0), // bit more life to make up for damage scaling
+                        new("BOSS_CULTLEADER", LocalizedStrings.BOSS_CULTLEADER, hP: 6.0, damage: 2.0)
                     },
                 },
                 new()
@@ -275,9 +275,9 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_IMPWARLOCK", hP: 1.0, damage: 1.2),
-                        new("MOB_WINGEDDEMON", hP: 1.2, damage: 1.0),
-                        new("MOB_BIGGERIMP", hP: 1.1, damage: 1.1),
+                        new("MOB_IMPWARLOCK", LocalizedStrings.MOB_IMPWARLOCK, hP: 1.0, damage: 1.2),
+                        new("MOB_WINGEDDEMON", LocalizedStrings.MOB_WINGEDDEMON, hP: 1.2, damage: 1.0),
+                        new("MOB_BIGGERIMP", LocalizedStrings.MOB_BIGGERIMP, hP: 1.1, damage: 1.1),
                     },
                 },
                 new()
@@ -308,29 +308,29 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_FLAMETHROWER",     hP: 1.3, damage: 1.4),
-                        new("MOB_HORNEDIMP",        hP: 1.5, damage: 1.3),
-                        new("MOB_SPIKEDDEMON",      hP: 1.7, damage: 1.2),
-                        new("MOB_VOIDCRAWLER",      hP: 1.5, damage: 1.3),
-                        new("MOB_JUGGERNAUT",       hP: 3.5, damage: 1.3),
-                        new("MOB_TAURUS",           hP: 3.5, damage: 1.3),
-                        new("MOB_ANGRYCHICKEN",     hP: 1.15, damage: 1.5),
-                        new("MOB_CONSUMINGOOZE",    hP: 1.5, damage: 1.3),
-                        new("MOB_GLIMPSEA",         hP: 1.5, damage: 1.3),
-                        new("MOB_GLIMPSEB",         hP: 1.5, damage: 1.3),
-                        new("MOB_GLIMPSEC",         hP: 1.5, damage: 1.3),
-                        new("MOB_GORGON",           hP: 1.5, damage: 1.3),
-                        new("MOB_HYDRAMARINE",      hP: 1.3, damage: 1.4),
-                        new("MOB_MARINE",           hP: 1.5, damage: 1.3),
-                        new("MOB_SERAPH",           hP: 1.5, damage: 1.3),
-                        new("MOB_SHADOWBULL",       hP: 1.5, damage: 1.3),
-                        new("MOB_WENDIGO",          hP: 1.5, damage: 1.3),
-                        new("MOB_VENGEFULDUMMY",    hP: 1.3, damage: 1.4),
-                        new("BOSS_GHOSTCULTLEADER", hP: 6.0, damage: 1.5),
-                        new("BOSS_GIANT",           hP: 6.0, damage: 1.5),
-                        new("BOSS_LEVIATHAN",       hP: 6.0, damage: 1.5),
-                        new("BOSS_MONSTROSITY",     hP: 6.0, damage: 1.5),
-                        new("BOSS_OBSERVER",        hP: 6.0, damage: 1.5)
+                        new("MOB_FLAMETHROWER", LocalizedStrings.MOB_FLAMETHROWER,     hP: 1.3, damage: 1.4),
+                        new("MOB_HORNEDIMP", LocalizedStrings.MOB_HORNEDIMP,        hP: 1.5, damage: 1.3),
+                        new("MOB_SPIKEDDEMON", LocalizedStrings.MOB_SPIKEDDEMON,      hP: 1.7, damage: 1.2),
+                        new("MOB_VOIDCRAWLER", LocalizedStrings.MOB_VOIDCRAWLER,      hP: 1.5, damage: 1.3),
+                        new("MOB_JUGGERNAUT", LocalizedStrings.MOB_JUGGERNAUT,       hP: 3.5, damage: 1.3),
+                        new("MOB_TAURUS", LocalizedStrings.MOB_TAURUS,           hP: 3.5, damage: 1.3),
+                        new("MOB_ANGRYCHICKEN", LocalizedStrings.MOB_ANGRYCHICKEN,     hP: 1.15, damage: 1.5),
+                        new("MOB_CONSUMINGOOZE", LocalizedStrings.MOB_CONSUMINGOOZE,    hP: 1.5, damage: 1.3),
+                        new("MOB_GLIMPSEA", LocalizedStrings.MOB_GLIMPSEA,         hP: 1.5, damage: 1.3),
+                        new("MOB_GLIMPSEB", LocalizedStrings.MOB_GLIMPSEB,         hP: 1.5, damage: 1.3),
+                        new("MOB_GLIMPSEC", LocalizedStrings.MOB_GLIMPSEC,         hP: 1.5, damage: 1.3),
+                        new("MOB_GORGON", LocalizedStrings.MOB_GORGON,           hP: 1.5, damage: 1.3),
+                        new("MOB_HYDRAMARINE", LocalizedStrings.MOB_HYDRAMARINE,      hP: 1.3, damage: 1.4),
+                        new("MOB_MARINE", LocalizedStrings.MOB_MARINE,           hP: 1.5, damage: 1.3),
+                        new("MOB_SERAPH", LocalizedStrings.MOB_SERAPH,           hP: 1.5, damage: 1.3),
+                        new("MOB_SHADOWBULL", LocalizedStrings.MOB_SHADOWBULL,       hP: 1.5, damage: 1.3),
+                        new("MOB_WENDIGO", LocalizedStrings.MOB_WENDIGO,          hP: 1.5, damage: 1.3),
+                        new("MOB_VENGEFULDUMMY", LocalizedStrings.MOB_VENGEFULDUMMY,    hP: 1.3, damage: 1.4),
+                        new("BOSS_GHOSTCULTLEADER", LocalizedStrings.BOSS_GHOSTCULTLEADER, hP: 6.0, damage: 1.5),
+                        new("BOSS_GIANT", LocalizedStrings.BOSS_GIANT,           hP: 6.0, damage: 1.5),
+                        new("BOSS_LEVIATHAN", LocalizedStrings.BOSS_LEVIATHAN,       hP: 6.0, damage: 1.5),
+                        new("BOSS_MONSTROSITY", LocalizedStrings.BOSS_MONSTROSITY,     hP: 6.0, damage: 1.5),
+                        new("BOSS_OBSERVER", LocalizedStrings.BOSS_OBSERVER,        hP: 6.0, damage: 1.5)
                     },
                     Rewards = new() { SpecialRewards = [ Definitions.DropRestrictions.MaterialT4 ] }
                 },
@@ -355,18 +355,18 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_SPIDER", hP: 1.5, damage: 1.5),
-                        new("MOB_SPIDER2", hP: 1.5, damage: 1.5),
-                        new("MOB_WILLOW", hP: 3.5, damage: 1.5),
-                        new("MOB_SECRETGATE", hP: 1.5, damage: 0.0),
-                        new("MOB_POISONGHOST", hP: 1.7, damage: 1.5),
-                        new("MOB_SEWERSNAKE", hP: 1.7, damage: 1.5),
-                        new("MOB_THREEHEADEDDOG", hP: 1.7, damage: 1.5),
-                        new("MOB_HUFFLE", hP: 1.5, damage: 1.5),
-                        new("MOB_RAVEN", hP: 2.3, damage: 1.5),
-                        new("MOB_SNAKE", hP: 2.5, damage: 1.5),
-                        new("MOB_GRYPHON", hP: 3.5, damage: 1.5),
-                        new("BOSS_SOREN", hP: 10.0, damage: 2.0)
+                        new("MOB_SPIDER", LocalizedStrings.MOB_SPIDER, hP: 1.5, damage: 1.5),
+                        new("MOB_SPIDER2", LocalizedStrings.MOB_SPIDER2, hP: 1.5, damage: 1.5),
+                        new("MOB_WILLOW", LocalizedStrings.MOB_WILLOW, hP: 3.5, damage: 1.5),
+                        new("MOB_SECRETGATE", LocalizedStrings.MOB_SECRETGATE, hP: 1.5, damage: 0.0),
+                        new("MOB_POISONGHOST", LocalizedStrings.MOB_POISONGHOST, hP: 1.7, damage: 1.5),
+                        new("MOB_SEWERSNAKE", LocalizedStrings.MOB_SEWERSNAKE, hP: 1.7, damage: 1.5),
+                        new("MOB_THREEHEADEDDOG", LocalizedStrings.MOB_THREEHEADEDDOG, hP: 1.7, damage: 1.5),
+                        new("MOB_HUFFLE", LocalizedStrings.MOB_HUFFLE, hP: 1.5, damage: 1.5),
+                        new("MOB_RAVEN", LocalizedStrings.MOB_RAVEN, hP: 2.3, damage: 1.5),
+                        new("MOB_SNAKE", LocalizedStrings.MOB_SNAKE, hP: 2.5, damage: 1.5),
+                        new("MOB_GRYPHON", LocalizedStrings.MOB_GRYPHON, hP: 3.5, damage: 1.5),
+                        new("BOSS_SOREN", LocalizedStrings.BOSS_SOREN, hP: 10.0, damage: 2.0)
                     },
                     Rewards = new() { DropLevelRange = Definitions.Stats.DefaultDropLevelRange, 
                                       SpecialRewards = [ Definitions.DropRestrictions.MaterialT4 ] }
@@ -389,12 +389,12 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_TRASH1", hP: 1.0, damage: 1.5),
-                        new("MOB_TRASH2", hP: 1.0, damage: 1.5),
-                        new("MOB_TRASH3", hP: 1.0, damage: 1.5),
-                        new("MOB_OVERSOUL", hP: 5.5, damage: 1.5),
-                        new("MOB_TRIO", hP: 4.0, damage: 1.5),
-                        new("BOSS_RENKE", hP: 10.0, damage: 2.0)
+                        new("MOB_TRASH1", LocalizedStrings.MOB_TRASH1, hP: 1.0, damage: 1.5),
+                        new("MOB_TRASH2", LocalizedStrings.MOB_TRASH2, hP: 1.0, damage: 1.5),
+                        new("MOB_TRASH3", LocalizedStrings.MOB_TRASH3, hP: 1.0, damage: 1.5),
+                        new("MOB_OVERSOUL", LocalizedStrings.MOB_OVERSOUL, hP: 5.5, damage: 1.5),
+                        new("MOB_TRIO", LocalizedStrings.MOB_TRIO, hP: 4.0, damage: 1.5),
+                        new("BOSS_RENKE", LocalizedStrings.BOSS_RENKE, hP: 10.0, damage: 2.0)
                     },
                     Rewards = new() { DropLevelRange = Definitions.Stats.DefaultDropLevelRange,
                                       SpecialRewards = [ Definitions.DropRestrictions.MaterialT4 ] }
@@ -416,17 +416,17 @@ namespace TheIdleScrolls_Core.Resources
                     },
                     LocalMobs = new()
                     {
-                        new("MOB_A-INF", hP: 1.5, damage: 1.5),
-                        new("MOB_1-INF", hP: 1.9, damage: 1.5),
-                        new("MOB_1-CAV", hP: 1.9, damage: 1.5),
-                        new("MOB_2-INF", hP: 2.3, damage: 1.5),
-                        new("MOB_2-CAV", hP: 2.3, damage: 1.5),
-                        new("MOB_2-ART", hP: 2.3, damage: 1.5),
-                        new("MOB_3-INF", hP: 3.2, damage: 1.5),
-                        new("MOB_3-CAV", hP: 3.2, damage: 1.5),
-                        new("MOB_3-ART", hP: 3.2, damage: 1.5),
-                        new("MOB_3-AIR", hP: 3.2, damage: 1.5),
-                        new("BOSS_HEINRICH", hP: 10.0, damage: 2.0)
+                        new("MOB_A-INF", LocalizedStrings.MOB_A_INF, hP: 1.5, damage: 1.5),
+                        new("MOB_1-INF", LocalizedStrings.MOB_1_INF, hP: 1.9, damage: 1.5),
+                        new("MOB_1-CAV", LocalizedStrings.MOB_1_CAV, hP: 1.9, damage: 1.5),
+                        new("MOB_2-INF", LocalizedStrings.MOB_2_INF, hP: 2.3, damage: 1.5),
+                        new("MOB_2-CAV", LocalizedStrings.MOB_2_CAV, hP: 2.3, damage: 1.5),
+                        new("MOB_2-ART", LocalizedStrings.MOB_2_ART, hP: 2.3, damage: 1.5),
+                        new("MOB_3-INF", LocalizedStrings.MOB_3_INF, hP: 3.2, damage: 1.5),
+                        new("MOB_3-CAV", LocalizedStrings.MOB_3_CAV, hP: 3.2, damage: 1.5),
+                        new("MOB_3-ART", LocalizedStrings.MOB_3_ART, hP: 3.2, damage: 1.5),
+                        new("MOB_3-AIR", LocalizedStrings.MOB_3_AIR, hP: 3.2, damage: 1.5),
+                        new("BOSS_HEINRICH", LocalizedStrings.BOSS_HEINRICH, hP: 10.0, damage: 2.0)
                     },
                     Rewards = new() { DropLevelRange = Definitions.Stats.DefaultDropLevelRange,
                                       SpecialRewards = [ Definitions.DropRestrictions.MaterialT4 ] }
