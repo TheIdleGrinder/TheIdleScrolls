@@ -43,7 +43,7 @@ namespace TheIdleScrolls_Core
         {
             var mob = new Entity();
             mob.AddComponent(new MobComponent(description.Id));
-            mob.AddComponent(new NameComponent(description.Id.Localize()));
+            mob.AddComponent(new NameComponent(description.Name));
             mob.AddComponent(new LevelComponent { Level = level });
             mob.AddComponent(new LifePoolComponent(CalculateHP(description, level)));
             mob.AddComponent(new XpGiverComponent { Amount = CalculateXpValue(description, level) });
