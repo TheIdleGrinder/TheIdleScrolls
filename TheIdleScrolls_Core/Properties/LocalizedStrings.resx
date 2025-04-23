@@ -183,48 +183,6 @@
   <data name="BLN" xml:space="preserve">
     <value>Blunt Weapon</value>
   </data>
-  <data name="BOSS_CULTLEADER" xml:space="preserve">
-    <value>Grand Wizard of the Order</value>
-  </data>
-  <data name="BOSS_FINAL_DEMON" xml:space="preserve">
-    <value>Demonic Avatar</value>
-  </data>
-  <data name="BOSS_GHOSTCULTLEADER" xml:space="preserve">
-    <value>Ghostly Cultleader</value>
-  </data>
-  <data name="BOSS_GIANT" xml:space="preserve">
-    <value>Cloud Giant</value>
-  </data>
-  <data name="BOSS_GIANTRAT" xml:space="preserve">
-    <value>Giant Rat</value>
-  </data>
-  <data name="BOSS_HEINRICH" xml:space="preserve">
-    <value>The Mover of Pieces</value>
-  </data>
-  <data name="BOSS_LEVIATHAN" xml:space="preserve">
-    <value>Crushing Leviathan</value>
-  </data>
-  <data name="BOSS_MERCENARY" xml:space="preserve">
-    <value>Mercenary Centurion</value>
-  </data>
-  <data name="BOSS_MONSTROSITY" xml:space="preserve">
-    <value>Grotesque Monstrosity</value>
-  </data>
-  <data name="BOSS_NECROMANCER" xml:space="preserve">
-    <value>The Necromancer</value>
-  </data>
-  <data name="BOSS_OBSERVER" xml:space="preserve">
-    <value>Ancient Observer</value>
-  </data>
-  <data name="BOSS_RENKE" xml:space="preserve">
-    <value>The Uber Hunter</value>
-  </data>
-  <data name="BOSS_SOREN" xml:space="preserve">
-    <value>The Archmagister</value>
-  </data>
-  <data name="BOSS_VOIDPRIEST" xml:space="preserve">
-    <value>Priest of the Void</value>
-  </data>
   <data name="CharacterXpGain" xml:space="preserve">
     <value>experience gain</value>
   </data>
@@ -392,7 +350,7 @@ Time to finish: {0}</value>
   <data name="BIOME_GRAVEYARD" xml:space="preserve">
     <value>Graveyard</value>
   </data>
-  <data name="MOB_ZOMBIE" xml:space="preserve">
-    <value>Zombie</value>
+  <data name="BIOME_COAST" xml:space="preserve">
+    <value>Coast</value>
   </data>
 </root>

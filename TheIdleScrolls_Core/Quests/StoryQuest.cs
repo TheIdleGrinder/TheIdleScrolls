@@ -133,7 +133,7 @@ namespace TheIdleScrolls_Core.Quests
                     var mob = coordinator.GetEntities<MobComponent>().FirstOrDefault() 
                         ?? throw new Exception("Final mob was not found");
                     mob.GetComponent<MobComponent>()!.Id = EndbossId;
-                    mob.AddComponent(new NameComponent(Properties.LocalizedStrings.BOSS_FINAL_DEMON));
+                    mob.AddComponent(new NameComponent(Properties.Mobs.BOSS_FINAL_DEMON));
 
                     coordinator.GetEntities<PlayerComponent>().FirstOrDefault()?.GetComponent<TimeShieldComponent>()?.Refill();
 

@@ -20,7 +20,7 @@
 
 <style>
     :root {
-        --color-biome-dungeon: slategray;
+        --color-biome-dungeon: darkgray;
         --color-biome-grassland: lawngreen;
         --color-biome-forest: green;
         --color-biome-rainforest: darkgreen;
@@ -31,7 +31,9 @@
         --color-biome-tundra: teal;
         --color-biome-icydesert: lightblue;
         --color-biome-wasteland: gray;
-        --color-biome-none: black;
+        --color-biome-graveyard: slategray;
+        --color-biome-coast: cyan;
+        --color-biome-none: white;
     }
 
     #worldMapFrame {
@@ -110,6 +112,8 @@
             Biome.Tundra => "tundra",
             Biome.IcyDesert => "icydesert",
             Biome.Wasteland => "wasteland",
+            Biome.Graveyard => "graveyard",
+            Biome.Coast => "coast",
             _ => "none"
         };
         return $"background-color: var(--color-biome-{biomeName})";

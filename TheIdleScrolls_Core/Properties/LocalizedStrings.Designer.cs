@@ -151,6 +151,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Coast ähnelt.
+        /// </summary>
+        internal static string BIOME_COAST {
+            get {
+                return ResourceManager.GetString("BIOME_COAST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Desert ähnelt.
         /// </summary>
         internal static string BIOME_DESERT {
@@ -264,132 +273,6 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string BLN {
             get {
                 return ResourceManager.GetString("BLN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Grand Wizard of the Order ähnelt.
-        /// </summary>
-        internal static string BOSS_CULTLEADER {
-            get {
-                return ResourceManager.GetString("BOSS_CULTLEADER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Demonic Avatar ähnelt.
-        /// </summary>
-        internal static string BOSS_FINAL_DEMON {
-            get {
-                return ResourceManager.GetString("BOSS_FINAL_DEMON", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Ghostly Cultleader ähnelt.
-        /// </summary>
-        internal static string BOSS_GHOSTCULTLEADER {
-            get {
-                return ResourceManager.GetString("BOSS_GHOSTCULTLEADER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Cloud Giant ähnelt.
-        /// </summary>
-        internal static string BOSS_GIANT {
-            get {
-                return ResourceManager.GetString("BOSS_GIANT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Giant Rat ähnelt.
-        /// </summary>
-        internal static string BOSS_GIANTRAT {
-            get {
-                return ResourceManager.GetString("BOSS_GIANTRAT", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Mover of Pieces ähnelt.
-        /// </summary>
-        internal static string BOSS_HEINRICH {
-            get {
-                return ResourceManager.GetString("BOSS_HEINRICH", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Crushing Leviathan ähnelt.
-        /// </summary>
-        internal static string BOSS_LEVIATHAN {
-            get {
-                return ResourceManager.GetString("BOSS_LEVIATHAN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Mercenary Centurion ähnelt.
-        /// </summary>
-        internal static string BOSS_MERCENARY {
-            get {
-                return ResourceManager.GetString("BOSS_MERCENARY", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Grotesque Monstrosity ähnelt.
-        /// </summary>
-        internal static string BOSS_MONSTROSITY {
-            get {
-                return ResourceManager.GetString("BOSS_MONSTROSITY", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Necromancer ähnelt.
-        /// </summary>
-        internal static string BOSS_NECROMANCER {
-            get {
-                return ResourceManager.GetString("BOSS_NECROMANCER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Ancient Observer ähnelt.
-        /// </summary>
-        internal static string BOSS_OBSERVER {
-            get {
-                return ResourceManager.GetString("BOSS_OBSERVER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Uber Hunter ähnelt.
-        /// </summary>
-        internal static string BOSS_RENKE {
-            get {
-                return ResourceManager.GetString("BOSS_RENKE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The Archmagister ähnelt.
-        /// </summary>
-        internal static string BOSS_SOREN {
-            get {
-                return ResourceManager.GetString("BOSS_SOREN", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Priest of the Void ähnelt.
-        /// </summary>
-        internal static string BOSS_VOIDPRIEST {
-            get {
-                return ResourceManager.GetString("BOSS_VOIDPRIEST", resourceCulture);
             }
         }
         
@@ -732,15 +615,6 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string MainHand {
             get {
                 return ResourceManager.GetString("MainHand", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Zombie ähnelt.
-        /// </summary>
-        internal static string MOB_ZOMBIE {
-            get {
-                return ResourceManager.GetString("MOB_ZOMBIE", resourceCulture);
             }
         }
         
