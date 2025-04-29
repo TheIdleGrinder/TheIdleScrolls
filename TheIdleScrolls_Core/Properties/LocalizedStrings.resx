@@ -353,4 +353,13 @@ Time to finish: {0}</value>
   <data name="BIOME_COAST" xml:space="preserve">
     <value>Coast</value>
   </data>
+  <data name="BIOME_FOOTHILLS" xml:space="preserve">
+    <value>Foothills</value>
+  </data>
+  <data name="BIOME_MOUNTAINS" xml:space="preserve">
+    <value>Mountains</value>
+  </data>
+  <data name="BIOME_SUMMIT" xml:space="preserve">
+    <value>Summit</value>
+  </data>
 </root>

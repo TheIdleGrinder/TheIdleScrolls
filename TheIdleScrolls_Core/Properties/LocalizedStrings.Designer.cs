@@ -178,6 +178,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Foothills ähnelt.
+        /// </summary>
+        internal static string BIOME_FOOTHILLS {
+            get {
+                return ResourceManager.GetString("BIOME_FOOTHILLS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Forest ähnelt.
         /// </summary>
         internal static string BIOME_FOREST {
@@ -214,6 +223,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Mountains ähnelt.
+        /// </summary>
+        internal static string BIOME_MOUNTAINS {
+            get {
+                return ResourceManager.GetString("BIOME_MOUNTAINS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Oasis ähnelt.
         /// </summary>
         internal static string BIOME_OASIS {
@@ -237,6 +255,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string BIOME_SAVANNAH {
             get {
                 return ResourceManager.GetString("BIOME_SAVANNAH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Summit ähnelt.
+        /// </summary>
+        internal static string BIOME_SUMMIT {
+            get {
+                return ResourceManager.GetString("BIOME_SUMMIT", resourceCulture);
             }
         }
         

@@ -1,21 +1,43 @@
 ﻿@page "/map"
 @using TheIdleScrolls_Core.GameWorld
+@using TheIdleScrolls_Core.Resources
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
 
 <h3>World Map Display</h3>
 
+<div id="worldMapOuterFrame">
 <div id="worldMapFrame">
     @for (int y = 0; y < Cells.GetLength(0); y++)
     {
         <div class="worldMapRow">
             @for (int x = 0; x < Cells.GetLength(1); x++)
             {
-                <div class="worldMapCell" style=@GetCellStyle(Cells[y, x])>@(Cells[y, x]?.Level ?? 0)</div>
+                int cellX = x;
+                int cellY = y;
+                <div class=@GetCellClasses(Cells[y, x]) style=@GetCellStyle(Cells[y, x]) @onclick=@(() => SwitchLocation(cellX, cellY))>
+                    @(Cells[y, x]?.Level ?? 0)
+                </div>
             }            
         </div>
     }
+</div>
+
+@if (CurrentLocation is not null)
+{
+    <div style="padding-top: 1rem">
+        <h5>Zone Level: @CurrentLocation.Level</h5>
+        <h5>Biome: @CurrentLocation.Biome.ToLocalizedString()</h5>
+        <h5>Mobs:</h5>
+        <ul>
+            @foreach (var mob in GetLocalMobs(CurrentLocation))
+            {
+                <li>@mob</li>
+            }
+        </ul>
+    </div>
+}
 </div>
 
 <style>
@@ -24,16 +46,22 @@
         --color-biome-grassland: lawngreen;
         --color-biome-forest: green;
         --color-biome-rainforest: darkgreen;
-        --color-biome-swamp: olive;
+        --color-biome-swamp: teal;
         --color-biome-savannah: goldenrod;
         --color-biome-desert: yellow;
         --color-biome-oasis: limegreen;
-        --color-biome-tundra: teal;
-        --color-biome-icydesert: lightblue;
+        --color-biome-tundra: lightblue;
+        --color-biome-icydesert: lightcyan;
         --color-biome-wasteland: gray;
         --color-biome-graveyard: slategray;
         --color-biome-coast: cyan;
         --color-biome-none: white;
+    }
+
+    #worldMapOuterFrame {
+        display: flex;
+        flex-direction: row;
+        gap: 2rem;
     }
 
     #worldMapFrame {
@@ -63,11 +91,26 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
+    }
+
+    .underpopulated {
+        border: 1px solid orange;
+    }
+
+    .empty {
+        border: 2px solid red;
+    }
+
+    .selected {
+        font-weight: bold;
+        border: 2px solid lightblue;
     }
 </style>
 
 @code {
     ZoneDescription?[,] Cells = { };
+    ZoneDescription? CurrentLocation = null;
 
     protected override void OnInitialized()
     {
@@ -98,6 +141,27 @@
         base.OnInitialized();
     }
 
+    string GetCellClasses(ZoneDescription? zone)
+    {
+        if (zone is null)
+            return "";
+        string additional = "";
+        int mobs = GetLocalMobs(zone).Count;
+        if (mobs < 2 && zone.Level >= 10)
+        {
+            additional += "underpopulated ";
+        }
+        if (mobs == 0)
+        {
+            additional += "empty ";
+        }
+        if (zone == CurrentLocation)
+        {
+            additional += "selected ";
+        }
+        return $"worldMapCell {additional}";
+    }
+
     string GetCellStyle(ZoneDescription? zone)
     {
         string biomeName = (zone?.Biome) switch {
@@ -117,5 +181,18 @@
             _ => "none"
         };
         return $"background-color: var(--color-biome-{biomeName})";
+    }
+
+    void SwitchLocation(int x, int y)
+    {
+        CurrentLocation = Cells[y, x];
+        StateHasChanged();
+    }
+
+    List<string> GetLocalMobs(ZoneDescription? zone)
+    {
+        if (zone is null)
+            return [];
+        return MobList.Mobs.Where(m => m.CanSpawn(zone)).Select(m => m.Name).ToList();
     }
 }

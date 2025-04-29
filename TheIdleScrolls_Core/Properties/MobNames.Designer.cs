@@ -22,14 +22,14 @@ namespace TheIdleScrolls_Core.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Mobs {
+    internal class MobNames {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Mobs() {
+        internal MobNames() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace TheIdleScrolls_Core.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheIdleScrolls_Core.Properties.Mobs", typeof(Mobs).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TheIdleScrolls_Core.Properties.MobNames", typeof(MobNames).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,56 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Air Elemental ähnelt.
+        /// </summary>
+        internal static string AirElemental {
+            get {
+                return ResourceManager.GetString("AirElemental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Aggressive Ape ähnelt.
+        /// </summary>
+        internal static string Ape {
+            get {
+                return ResourceManager.GetString("Ape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ash Elemental ähnelt.
+        /// </summary>
+        internal static string AshElemental {
+            get {
+                return ResourceManager.GetString("AshElemental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Huge Bat ähnelt.
+        /// </summary>
+        internal static string Bat {
+            get {
+                return ResourceManager.GetString("Bat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bear ähnelt.
         /// </summary>
         internal static string BEAR {
             get {
                 return ResourceManager.GetString("BEAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Anathema ähnelt.
+        /// </summary>
+        internal static string BlueSlaad {
+            get {
+                return ResourceManager.GetString("BlueSlaad", resourceCulture);
             }
         }
         
@@ -205,6 +250,51 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Buffalo ähnelt.
+        /// </summary>
+        internal static string Buffalo {
+            get {
+                return ResourceManager.GetString("Buffalo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cockatrice ähnelt.
+        /// </summary>
+        internal static string Cockatrice {
+            get {
+                return ResourceManager.GetString("Cockatrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Giant Crab ähnelt.
+        /// </summary>
+        internal static string Crab {
+            get {
+                return ResourceManager.GetString("Crab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Direwolf ähnelt.
+        /// </summary>
+        internal static string Direwolf {
+            get {
+                return ResourceManager.GetString("Direwolf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Djinn ähnelt.
+        /// </summary>
+        internal static string Djinn {
+            get {
+                return ResourceManager.GetString("Djinn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Dragon ähnelt.
         /// </summary>
         internal static string DRAGON {
@@ -237,6 +327,114 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string DUMMY {
             get {
                 return ResourceManager.GetString("DUMMY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Earth Elemental ähnelt.
+        /// </summary>
+        internal static string EarthElemental {
+            get {
+                return ResourceManager.GetString("EarthElemental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Elephant ähnelt.
+        /// </summary>
+        internal static string Elephant {
+            get {
+                return ResourceManager.GetString("Elephant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fire Elemental ähnelt.
+        /// </summary>
+        internal static string FireElemental {
+            get {
+                return ResourceManager.GetString("FireElemental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Forest Troll ähnelt.
+        /// </summary>
+        internal static string ForestTroll {
+            get {
+                return ResourceManager.GetString("ForestTroll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gargantuan ähnelt.
+        /// </summary>
+        internal static string Gargantuan {
+            get {
+                return ResourceManager.GetString("Gargantuan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gravecrawler ähnelt.
+        /// </summary>
+        internal static string Gravecrawler {
+            get {
+                return ResourceManager.GetString("Gravecrawler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Harpy ähnelt.
+        /// </summary>
+        internal static string Harpy {
+            get {
+                return ResourceManager.GetString("Harpy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hill Giant ähnelt.
+        /// </summary>
+        internal static string HillGiant {
+            get {
+                return ResourceManager.GetString("HillGiant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hyena ähnelt.
+        /// </summary>
+        internal static string Hyena {
+            get {
+                return ResourceManager.GetString("Hyena", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ice Elemental ähnelt.
+        /// </summary>
+        internal static string IceElemental {
+            get {
+                return ResourceManager.GetString("IceElemental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Iron Elemental ähnelt.
+        /// </summary>
+        internal static string IronElemental {
+            get {
+                return ResourceManager.GetString("IronElemental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Manticore ähnelt.
+        /// </summary>
+        internal static string Manticore {
+            get {
+                return ResourceManager.GetString("Manticore", resourceCulture);
             }
         }
         
@@ -898,6 +1096,105 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Polarbear ähnelt.
+        /// </summary>
+        internal static string Polarbear {
+            get {
+                return ResourceManager.GetString("Polarbear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Porcupine ähnelt.
+        /// </summary>
+        internal static string Porcupine {
+            get {
+                return ResourceManager.GetString("Porcupine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Giant Scorpion ähnelt.
+        /// </summary>
+        internal static string Scorpion {
+            get {
+                return ResourceManager.GetString("Scorpion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shadow Giant ähnelt.
+        /// </summary>
+        internal static string ShadowGiant {
+            get {
+                return ResourceManager.GetString("ShadowGiant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sphinx Hound ähnelt.
+        /// </summary>
+        internal static string SphinxHound {
+            get {
+                return ResourceManager.GetString("SphinxHound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Swamp Troll ähnelt.
+        /// </summary>
+        internal static string SwampTroll {
+            get {
+                return ResourceManager.GetString("SwampTroll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Treant ähnelt.
+        /// </summary>
+        internal static string Treant {
+            get {
+                return ResourceManager.GetString("Treant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Umber Hulk ähnelt.
+        /// </summary>
+        internal static string UmberHulk {
+            get {
+                return ResourceManager.GetString("UmberHulk", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Water Elemental ähnelt.
+        /// </summary>
+        internal static string WaterElemental {
+            get {
+                return ResourceManager.GetString("WaterElemental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Werebull ähnelt.
+        /// </summary>
+        internal static string Werebull {
+            get {
+                return ResourceManager.GetString("Werebull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Child of Ornlu ähnelt.
+        /// </summary>
+        internal static string Werewolf {
+            get {
+                return ResourceManager.GetString("Werewolf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Wolf ähnelt.
         /// </summary>
         internal static string WOLF {
@@ -907,11 +1204,29 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wood Elemental ähnelt.
+        /// </summary>
+        internal static string WoodElemental {
+            get {
+                return ResourceManager.GetString("WoodElemental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Wyvern ähnelt.
         /// </summary>
         internal static string WYVERN {
             get {
                 return ResourceManager.GetString("WYVERN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Yeti ähnelt.
+        /// </summary>
+        internal static string Yeti {
+            get {
+                return ResourceManager.GetString("Yeti", resourceCulture);
             }
         }
     }

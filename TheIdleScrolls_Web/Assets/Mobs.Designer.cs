@@ -73,9 +73,59 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] airelemental {
+            get {
+                object obj = ResourceManager.GetObject("airelemental", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] ape {
+            get {
+                object obj = ResourceManager.GetObject("ape", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] ashelemental {
+            get {
+                object obj = ResourceManager.GetObject("ashelemental", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] bat {
+            get {
+                object obj = ResourceManager.GetObject("bat", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] bear {
             get {
                 object obj = ResourceManager.GetObject("bear", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] blueslaad {
+            get {
+                object obj = ResourceManager.GetObject("blueslaad", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -233,6 +283,56 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] buffalo {
+            get {
+                object obj = ResourceManager.GetObject("buffalo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] cockatrice {
+            get {
+                object obj = ResourceManager.GetObject("cockatrice", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] crab {
+            get {
+                object obj = ResourceManager.GetObject("crab", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] direwolf {
+            get {
+                object obj = ResourceManager.GetObject("direwolf", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] djinn {
+            get {
+                object obj = ResourceManager.GetObject("djinn", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] dragon {
             get {
                 object obj = ResourceManager.GetObject("dragon", resourceCulture);
@@ -266,6 +366,126 @@ namespace TheIdleScrolls_Web.Assets {
         internal static byte[] dummy {
             get {
                 object obj = ResourceManager.GetObject("dummy", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] earthelemental {
+            get {
+                object obj = ResourceManager.GetObject("earthelemental", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] elephant {
+            get {
+                object obj = ResourceManager.GetObject("elephant", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] fireelemental {
+            get {
+                object obj = ResourceManager.GetObject("fireelemental", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] foresttroll {
+            get {
+                object obj = ResourceManager.GetObject("foresttroll", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] gargantuan {
+            get {
+                object obj = ResourceManager.GetObject("gargantuan", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] gravecrawler {
+            get {
+                object obj = ResourceManager.GetObject("gravecrawler", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] harpy {
+            get {
+                object obj = ResourceManager.GetObject("harpy", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] hillgiant {
+            get {
+                object obj = ResourceManager.GetObject("hillgiant", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] hyena {
+            get {
+                object obj = ResourceManager.GetObject("hyena", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] iceelemental {
+            get {
+                object obj = ResourceManager.GetObject("iceelemental", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] ironelemental {
+            get {
+                object obj = ResourceManager.GetObject("ironelemental", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] manticore {
+            get {
+                object obj = ResourceManager.GetObject("manticore", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -913,6 +1133,116 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] polarbear {
+            get {
+                object obj = ResourceManager.GetObject("polarbear", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] porcupine {
+            get {
+                object obj = ResourceManager.GetObject("porcupine", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] scorpion {
+            get {
+                object obj = ResourceManager.GetObject("scorpion", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] shadowgiant {
+            get {
+                object obj = ResourceManager.GetObject("shadowgiant", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] sphinxhound {
+            get {
+                object obj = ResourceManager.GetObject("sphinxhound", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] swamptroll {
+            get {
+                object obj = ResourceManager.GetObject("swamptroll", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] treant {
+            get {
+                object obj = ResourceManager.GetObject("treant", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] umberhulk {
+            get {
+                object obj = ResourceManager.GetObject("umberhulk", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] waterelemental {
+            get {
+                object obj = ResourceManager.GetObject("waterelemental", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] werebull {
+            get {
+                object obj = ResourceManager.GetObject("werebull", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] werewolf {
+            get {
+                object obj = ResourceManager.GetObject("werewolf", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] wolf {
             get {
                 object obj = ResourceManager.GetObject("wolf", resourceCulture);
@@ -923,9 +1253,29 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] woodelemental {
+            get {
+                object obj = ResourceManager.GetObject("woodelemental", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] wyvern {
             get {
                 object obj = ResourceManager.GetObject("wyvern", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] yeti {
+            get {
+                object obj = ResourceManager.GetObject("yeti", resourceCulture);
                 return ((byte[])(obj));
             }
         }

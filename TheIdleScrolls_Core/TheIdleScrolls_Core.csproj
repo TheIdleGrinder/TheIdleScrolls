@@ -57,10 +57,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Quests.resx</DependentUpon>
     </Compile>
-    <Compile Update="Properties\Mobs.Designer.cs">
+    <Compile Update="Properties\MobNames.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Mobs.resx</DependentUpon>
+      <DependentUpon>MobNames.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Images.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -94,9 +94,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Quests.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Properties\Mobs.resx">
+    <EmbeddedResource Update="Properties\MobNames.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Mobs.Designer.cs</LastGenOutput>
+      <LastGenOutput>MobNames.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Images.resx">
       <Generator>ResXFileCodeGenerator</Generator>

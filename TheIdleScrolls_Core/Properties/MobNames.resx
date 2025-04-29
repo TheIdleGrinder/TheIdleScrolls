@@ -402,4 +402,109 @@
   <data name="BOSS_VOIDPRIEST" xml:space="preserve">
     <value>Priest of the Void</value>
   </data>
+  <data name="Bat" xml:space="preserve">
+    <value>Huge Bat</value>
+  </data>
+  <data name="Gravecrawler" xml:space="preserve">
+    <value>Gravecrawler</value>
+  </data>
+  <data name="ForestTroll" xml:space="preserve">
+    <value>Forest Troll</value>
+  </data>
+  <data name="Buffalo" xml:space="preserve">
+    <value>Buffalo</value>
+  </data>
+  <data name="Hyena" xml:space="preserve">
+    <value>Hyena</value>
+  </data>
+  <data name="Elephant" xml:space="preserve">
+    <value>Elephant</value>
+  </data>
+  <data name="Scorpion" xml:space="preserve">
+    <value>Giant Scorpion</value>
+  </data>
+  <data name="SphinxHound" xml:space="preserve">
+    <value>Sphinx Hound</value>
+  </data>
+  <data name="Manticore" xml:space="preserve">
+    <value>Manticore</value>
+  </data>
+  <data name="Djinn" xml:space="preserve">
+    <value>Djinn</value>
+  </data>
+  <data name="Harpy" xml:space="preserve">
+    <value>Harpy</value>
+  </data>
+  <data name="Direwolf" xml:space="preserve">
+    <value>Direwolf</value>
+  </data>
+  <data name="Polarbear" xml:space="preserve">
+    <value>Polarbear</value>
+  </data>
+  <data name="Yeti" xml:space="preserve">
+    <value>Yeti</value>
+  </data>
+  <data name="UmberHulk" xml:space="preserve">
+    <value>Umber Hulk</value>
+  </data>
+  <data name="SwampTroll" xml:space="preserve">
+    <value>Swamp Troll</value>
+  </data>
+  <data name="Ape" xml:space="preserve">
+    <value>Aggressive Ape</value>
+  </data>
+  <data name="BlueSlaad" xml:space="preserve">
+    <value>Anathema</value>
+  </data>
+  <data name="ShadowGiant" xml:space="preserve">
+    <value>Shadow Giant</value>
+  </data>
+  <data name="Cockatrice" xml:space="preserve">
+    <value>Cockatrice</value>
+  </data>
+  <data name="Treant" xml:space="preserve">
+    <value>Treant</value>
+  </data>
+  <data name="Gargantuan" xml:space="preserve">
+    <value>Gargantuan</value>
+  </data>
+  <data name="Crab" xml:space="preserve">
+    <value>Giant Crab</value>
+  </data>
+  <data name="Porcupine" xml:space="preserve">
+    <value>Porcupine</value>
+  </data>
+  <data name="HillGiant" xml:space="preserve">
+    <value>Hill Giant</value>
+  </data>
+  <data name="Werebull" xml:space="preserve">
+    <value>Werebull</value>
+  </data>
+  <data name="AirElemental" xml:space="preserve">
+    <value>Air Elemental</value>
+  </data>
+  <data name="AshElemental" xml:space="preserve">
+    <value>Ash Elemental</value>
+  </data>
+  <data name="EarthElemental" xml:space="preserve">
+    <value>Earth Elemental</value>
+  </data>
+  <data name="IronElemental" xml:space="preserve">
+    <value>Iron Elemental</value>
+  </data>
+  <data name="FireElemental" xml:space="preserve">
+    <value>Fire Elemental</value>
+  </data>
+  <data name="WaterElemental" xml:space="preserve">
+    <value>Water Elemental</value>
+  </data>
+  <data name="WoodElemental" xml:space="preserve">
+    <value>Wood Elemental</value>
+  </data>
+  <data name="IceElemental" xml:space="preserve">
+    <value>Ice Elemental</value>
+  </data>
+  <data name="Werewolf" xml:space="preserve">
+    <value>Child of Ornlu</value>
+  </data>
 </root>
