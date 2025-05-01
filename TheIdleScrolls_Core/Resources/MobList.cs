@@ -14,7 +14,10 @@ namespace TheIdleScrolls_Core.Resources
 
         public static readonly List<MobDescription> Mobs =
         [
-            new("DUMMY",        MobNames.DUMMY,     LevelCondition(1, 5)),
+            new("DUMMY",        MobNames.DUMMY,     LevelCondition(1, 5))
+            {
+                Damage = 0.0
+            },
             new("BOAR",         MobNames.BOAR,      BiomeLevelCondition(LushBiomes,  6, 19)),
             new("PORCUPINE",    MobNames.Porcupine, BiomeLevelCondition(LushBiomes,  9, 34)),
             new("WOLF",         MobNames.WOLF,      BiomeLevelCondition(LushBiomes, 18, 47)),
