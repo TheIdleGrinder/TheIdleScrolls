@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="BEAR" xml:space="preserve">
+    <value>Bear</value>
+  </data>
+  <data name="BOAR" xml:space="preserve">
+    <value>Wild Boar</value>
+  </data>
+  <data name="DRAGON" xml:space="preserve">
+    <value>Dragon</value>
+  </data>
+  <data name="DRAGON2" xml:space="preserve">
+    <value>Big Dragon</value>
+  </data>
+  <data name="DRAGON3" xml:space="preserve">
+    <value>Bigger Dragon</value>
+  </data>
+  <data name="DUMMY" xml:space="preserve">
+    <value>Training Dummy</value>
+  </data>
+  <data name="OGRE" xml:space="preserve">
+    <value>Ogre</value>
+  </data>
+  <data name="WOLF" xml:space="preserve">
+    <value>Wolf</value>
+  </data>
+  <data name="WYVERN" xml:space="preserve">
+    <value>Wyvern</value>
+  </data>
+  <data name="MOB_1-CAV" xml:space="preserve">
+    <value>Goblin Knight</value>
+  </data>
+  <data name="MOB_1-INF" xml:space="preserve">
+    <value>Lizard Swordman</value>
+  </data>
+  <data name="MOB_2-ART" xml:space="preserve">
+    <value>Inventive' Cannoneer</value>
+  </data>
+  <data name="MOB_2-CAV" xml:space="preserve">
+    <value>Blessed Cavalryman</value>
+  </data>
+  <data name="MOB_2-INF" xml:space="preserve">
+    <value>Feline Rifleman</value>
+  </data>
+  <data name="MOB_3-AIR" xml:space="preserve">
+    <value>Flying Illusionist</value>
+  </data>
+  <data name="MOB_3-ART" xml:space="preserve">
+    <value>Omari Rocket</value>
+  </data>
+  <data name="MOB_3-CAV" xml:space="preserve">
+    <value>Psychic Tank</value>
+  </data>
+  <data name="MOB_3-INF" xml:space="preserve">
+    <value>Modern Infantry Monk</value>
+  </data>
+  <data name="MOB_A-INF" xml:space="preserve">
+    <value>Mole Warrior</value>
+  </data>
+  <data name="MOB_ABOMINATION" xml:space="preserve">
+    <value>Abomination</value>
+  </data>
+  <data name="MOB_ANCIENTMACHINE" xml:space="preserve">
+    <value>Ancient Machine</value>
+  </data>
+  <data name="MOB_ANGRYCHICKEN" xml:space="preserve">
+    <value>Angry Chicken</value>
+  </data>
+  <data name="MOB_ASSASSIN" xml:space="preserve">
+    <value>Assassin</value>
+  </data>
+  <data name="MOB_BIGGERIMP" xml:space="preserve">
+    <value>Bigger Imp</value>
+  </data>
+  <data name="MOB_BIGRAT" xml:space="preserve">
+    <value>Big Rat</value>
+  </data>
+  <data name="MOB_CONSUMINGOOZE" xml:space="preserve">
+    <value>Consuming Ooze</value>
+  </data>
+  <data name="MOB_CULTIST" xml:space="preserve">
+    <value>Cultist</value>
+  </data>
+  <data name="MOB_CULTKNIGHT" xml:space="preserve">
+    <value>Knight of the Order</value>
+  </data>
+  <data name="MOB_DEEPONE" xml:space="preserve">
+    <value>Deep One</value>
+  </data>
+  <data name="MOB_DEEPONE2" xml:space="preserve">
+    <value>Ancient Deep One</value>
+  </data>
+  <data name="MOB_DEMONSCOUT" xml:space="preserve">
+    <value>Scout from Beyond</value>
+  </data>
+  <data name="MOB_FANATIC" xml:space="preserve">
+    <value>Fanatic</value>
+  </data>
+  <data name="MOB_FLAMETHROWER" xml:space="preserve">
+    <value>Deep Void Flamethrower</value>
+  </data>
+  <data name="MOB_GLIMPSEA" xml:space="preserve">
+    <value>Glimpse of Foes Ahead</value>
+  </data>
+  <data name="MOB_GLIMPSEB" xml:space="preserve">
+    <value>Glimpse of Foes Ahead</value>
+  </data>
+  <data name="MOB_GLIMPSEC" xml:space="preserve">
+    <value>Glimpse of Foes Ahead</value>
+  </data>
+  <data name="MOB_GORGON" xml:space="preserve">
+    <value>Pale Gorgon</value>
+  </data>
+  <data name="MOB_GREATERDEMON" xml:space="preserve">
+    <value>Greater Demon of the Void</value>
+  </data>
+  <data name="MOB_GRYPHON" xml:space="preserve">
+    <value>Majestic Lion</value>
+  </data>
+  <data name="MOB_HORNEDIMP" xml:space="preserve">
+    <value>Deep Void Imp</value>
+  </data>
+  <data name="MOB_HUFFLE" xml:space="preserve">
+    <value>Angry Badger</value>
+  </data>
+  <data name="MOB_HYDRAMARINE" xml:space="preserve">
+    <value>Hydramarine</value>
+  </data>
+  <data name="MOB_IMP" xml:space="preserve">
+    <value>Imp</value>
+  </data>
+  <data name="MOB_IMPWARLOCK" xml:space="preserve">
+    <value>Imp Warlock</value>
+  </data>
+  <data name="MOB_JUGGERNAUT" xml:space="preserve">
+    <value>Spikeback Juggernaut</value>
+  </data>
+  <data name="MOB_LESSERDEMON" xml:space="preserve">
+    <value>Lesser Demon of the Void</value>
+  </data>
+  <data name="MOB_MARINE" xml:space="preserve">
+    <value>Space Warrior</value>
+  </data>
+  <data name="MOB_MARTIALARTIST" xml:space="preserve">
+    <value>Martial Artist</value>
+  </data>
+  <data name="MOB_MERCENARY" xml:space="preserve">
+    <value>Mercenary Legionnaire</value>
+  </data>
+  <data name="MOB_MERCENARY2" xml:space="preserve">
+    <value>Mercenary Legionnaire</value>
+  </data>
+  <data name="MOB_OVERSOUL" xml:space="preserve">
+    <value>Automaton Guardian</value>
+  </data>
+  <data name="MOB_POISONGHOST" xml:space="preserve">
+    <value>Sewerghost</value>
+  </data>
+  <data name="MOB_RAT" xml:space="preserve">
+    <value>Rat</value>
+  </data>
+  <data name="MOB_RAVEN" xml:space="preserve">
+    <value>Spooky Raven</value>
+  </data>
+  <data name="MOB_SECRETGATE" xml:space="preserve">
+    <value>Secret Entrance</value>
+  </data>
+  <data name="MOB_SERAPH" xml:space="preserve">
+    <value>Fallen Seraph</value>
+  </data>
+  <data name="MOB_SEWERSNAKE" xml:space="preserve">
+    <value>Basilisk</value>
+  </data>
+  <data name="MOB_SHADOWBULL" xml:space="preserve">
+    <value>Shadowbull</value>
+  </data>
+  <data name="MOB_SHARK" xml:space="preserve">
+    <value>Shark</value>
+  </data>
+  <data name="MOB_SKELETON" xml:space="preserve">
+    <value>Skeleton</value>
+  </data>
+  <data name="MOB_SNAKE" xml:space="preserve">
+    <value>Imposing Serpent</value>
+  </data>
+  <data name="MOB_SPIDER" xml:space="preserve">
+    <value>Forest Widow</value>
+  </data>
+  <data name="MOB_SPIDER2" xml:space="preserve">
+    <value>Forest Tarantula</value>
+  </data>
+  <data name="MOB_SPIKEDDEMON" xml:space="preserve">
+    <value>Spikeback Marauder</value>
+  </data>
+  <data name="MOB_TAURUS" xml:space="preserve">
+    <value>Deep Void Ram</value>
+  </data>
+  <data name="MOB_TERRACOTTA" xml:space="preserve">
+    <value>Terracotta Guard</value>
+  </data>
+  <data name="MOB_TERRACOTTA2" xml:space="preserve">
+    <value>Terracotta General</value>
+  </data>
+  <data name="MOB_THREEHEADEDDOG" xml:space="preserve">
+    <value>Three Headed Watchdog</value>
+  </data>
+  <data name="MOB_TRASH1" xml:space="preserve">
+    <value>Lumbering Construct</value>
+  </data>
+  <data name="MOB_TRASH2" xml:space="preserve">
+    <value>Slinging Construct</value>
+  </data>
+  <data name="MOB_TRASH3" xml:space="preserve">
+    <value>Slithering Construct</value>
+  </data>
+  <data name="MOB_TRIO" xml:space="preserve">
+    <value>Executioner Trio</value>
+  </data>
+  <data name="MOB_VENGEFULDUMMY" xml:space="preserve">
+    <value>Vengeful Dummy</value>
+  </data>
+  <data name="MOB_VOIDCRAWLER" xml:space="preserve">
+    <value>Spikeback Crawler</value>
+  </data>
+  <data name="MOB_VOIDCULTIST" xml:space="preserve">
+    <value>Void Infused Cultist</value>
+  </data>
+  <data name="MOB_VOIDFIEND" xml:space="preserve">
+    <value>Void Fiend</value>
+  </data>
+  <data name="MOB_WARLOCK" xml:space="preserve">
+    <value>Warlock</value>
+  </data>
+  <data name="MOB_WENDIGO" xml:space="preserve">
+    <value>Wendigo</value>
+  </data>
+  <data name="MOB_WILLOW" xml:space="preserve">
+    <value>Aggressive Tree</value>
+  </data>
+  <data name="MOB_WINGEDDEMON" xml:space="preserve">
+    <value>Winged Demon</value>
+  </data>
+  <data name="MOB_ZOMBIE" xml:space="preserve">
+    <value>Zombie</value>
+  </data>
+  <data name="BOSS_CULTLEADER" xml:space="preserve">
+    <value>Grand Wizard of the Order</value>
+  </data>
+  <data name="BOSS_FINAL_DEMON" xml:space="preserve">
+    <value>Demonic Avatar</value>
+  </data>
+  <data name="BOSS_GHOSTCULTLEADER" xml:space="preserve">
+    <value>Ghostly Cultleader</value>
+  </data>
+  <data name="BOSS_GIANT" xml:space="preserve">
+    <value>Cloud Giant</value>
+  </data>
+  <data name="BOSS_GIANTRAT" xml:space="preserve">
+    <value>Giant Rat</value>
+  </data>
+  <data name="BOSS_HEINRICH" xml:space="preserve">
+    <value>The Mover of Pieces</value>
+  </data>
+  <data name="BOSS_LEVIATHAN" xml:space="preserve">
+    <value>Crushing Leviathan</value>
+  </data>
+  <data name="BOSS_MERCENARY" xml:space="preserve">
+    <value>Mercenary Centurion</value>
+  </data>
+  <data name="BOSS_MONSTROSITY" xml:space="preserve">
+    <value>Grotesque Monstrosity</value>
+  </data>
+  <data name="BOSS_NECROMANCER" xml:space="preserve">
+    <value>The Necromancer</value>
+  </data>
+  <data name="BOSS_OBSERVER" xml:space="preserve">
+    <value>Ancient Observer</value>
+  </data>
+  <data name="BOSS_RENKE" xml:space="preserve">
+    <value>The Uber Hunter</value>
+  </data>
+  <data name="BOSS_SOREN" xml:space="preserve">
+    <value>The Archmagister</value>
+  </data>
+  <data name="BOSS_VOIDPRIEST" xml:space="preserve">
+    <value>Priest of the Void</value>
+  </data>
+  <data name="Bat" xml:space="preserve">
+    <value>Huge Bat</value>
+  </data>
+  <data name="Gravecrawler" xml:space="preserve">
+    <value>Gravecrawler</value>
+  </data>
+  <data name="ForestTroll" xml:space="preserve">
+    <value>Forest Troll</value>
+  </data>
+  <data name="Buffalo" xml:space="preserve">
+    <value>Buffalo</value>
+  </data>
+  <data name="Hyena" xml:space="preserve">
+    <value>Hyena</value>
+  </data>
+  <data name="Elephant" xml:space="preserve">
+    <value>Elephant</value>
+  </data>
+  <data name="Scorpion" xml:space="preserve">
+    <value>Giant Scorpion</value>
+  </data>
+  <data name="SphinxHound" xml:space="preserve">
+    <value>Sphinx Hound</value>
+  </data>
+  <data name="Manticore" xml:space="preserve">
+    <value>Manticore</value>
+  </data>
+  <data name="Djinn" xml:space="preserve">
+    <value>Djinn</value>
+  </data>
+  <data name="Harpy" xml:space="preserve">
+    <value>Harpy</value>
+  </data>
+  <data name="Direwolf" xml:space="preserve">
+    <value>Direwolf</value>
+  </data>
+  <data name="Polarbear" xml:space="preserve">
+    <value>Polarbear</value>
+  </data>
+  <data name="Yeti" xml:space="preserve">
+    <value>Yeti</value>
+  </data>
+  <data name="UmberHulk" xml:space="preserve">
+    <value>Umber Hulk</value>
+  </data>
+  <data name="SwampTroll" xml:space="preserve">
+    <value>Swamp Troll</value>
+  </data>
+  <data name="Ape" xml:space="preserve">
+    <value>Aggressive Ape</value>
+  </data>
+  <data name="BlueSlaad" xml:space="preserve">
+    <value>Anathema</value>
+  </data>
+  <data name="ShadowGiant" xml:space="preserve">
+    <value>Shadow Giant</value>
+  </data>
+  <data name="Cockatrice" xml:space="preserve">
+    <value>Cockatrice</value>
+  </data>
+  <data name="Treant" xml:space="preserve">
+    <value>Treant</value>
+  </data>
+  <data name="Gargantuan" xml:space="preserve">
+    <value>Gargantuan Brute</value>
+  </data>
+  <data name="Crab" xml:space="preserve">
+    <value>Giant Crab</value>
+  </data>
+  <data name="Porcupine" xml:space="preserve">
+    <value>Porcupine</value>
+  </data>
+  <data name="HillGiant" xml:space="preserve">
+    <value>Hill Giant</value>
+  </data>
+  <data name="Werebull" xml:space="preserve">
+    <value>Werebull</value>
+  </data>
+  <data name="AirElemental" xml:space="preserve">
+    <value>Air Elemental</value>
+  </data>
+  <data name="AshElemental" xml:space="preserve">
+    <value>Ash Elemental</value>
+  </data>
+  <data name="EarthElemental" xml:space="preserve">
+    <value>Earth Elemental</value>
+  </data>
+  <data name="IronElemental" xml:space="preserve">
+    <value>Iron Elemental</value>
+  </data>
+  <data name="FireElemental" xml:space="preserve">
+    <value>Fire Elemental</value>
+  </data>
+  <data name="WaterElemental" xml:space="preserve">
+    <value>Water Elemental</value>
+  </data>
+  <data name="WoodElemental" xml:space="preserve">
+    <value>Wood Elemental</value>
+  </data>
+  <data name="IceElemental" xml:space="preserve">
+    <value>Ice Elemental</value>
+  </data>
+  <data name="Werewolf" xml:space="preserve">
+    <value>Child of Ornlu</value>
+  </data>
+</root>

@@ -90,12 +90,51 @@ namespace TheIdleScrolls_Core.GameWorld
 
         private static Biome CalculateBiome(int areaLevel)
         {
-            if (areaLevel <= 5)
+            return areaLevel switch
             {
-                return Biome.Dungeon;
-            }
-            int biomeCount = Enum.GetValues(typeof(Biome)).Length - 1; // -1 for dungeon
-            return Enum.GetValues<Biome>()[((areaLevel - 5) / 10) % biomeCount + 1];
+                <= 5 => Biome.Dungeon,
+                <= 14 => Biome.Grassland,
+                <= 18 => Biome.Graveyard,
+                <= 24 => Biome.Grassland,
+                <= 34 => Biome.Forest,
+                <= 38 => Biome.Grassland,
+                <= 44 => Biome.Savannah,
+                <= 53 => Biome.Desert,
+                <= 60 => Biome.Savannah,
+                <= 67 => Biome.Grassland,
+                <= 74 => Biome.Coast,
+                <= 81 => Biome.Grassland,
+                <= 87 => Biome.Tundra,
+                <= 94 => Biome.IcyDesert,
+                <= 99 => Biome.Tundra,
+                <= 106 => Biome.Grassland,
+                <= 114 => Biome.Swamp,
+                <= 119 => Biome.Grassland,
+                <= 124 => Biome.Forest,
+                <= 131 => Biome.Rainforest,
+                <= 138 => Biome.Forest,
+                <= 143 => Biome.Savannah,
+                <= 149 => Biome.Desert,
+                <= 156 => Biome.Oasis,
+                <= 164 => Biome.Desert,
+                <= 174 => Biome.Savannah,
+                <= 189 => Biome.Wasteland,
+                <= 197 => Biome.Tundra,
+                <= 211 => Biome.IcyDesert,
+                <= 219 => Biome.Tundra,
+                <= 239 => Biome.Wasteland,
+                <= 249 => Biome.Swamp,
+                <= 259 => Biome.Grassland,
+                <= 269 => Biome.Forest,
+                <= 279 => Biome.Rainforest,
+                <= 289 => Biome.Forest,
+                <= 299 => Biome.Savannah,
+                <= 309 => Biome.Desert,
+                <= 319 => Biome.Oasis,
+                <= 329 => Biome.Desert,
+                <= 339 => Biome.Savannah,
+                _ => Biome.Wasteland
+            };
         }
     }
 }
