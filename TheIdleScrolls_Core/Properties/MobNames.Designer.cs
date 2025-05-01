@@ -367,7 +367,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Gargantuan ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gargantuan Brute ähnelt.
         /// </summary>
         internal static string Gargantuan {
             get {
