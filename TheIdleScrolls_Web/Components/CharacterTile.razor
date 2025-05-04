@@ -26,7 +26,7 @@
         cursor: pointer;
     }
     .charTileFrame:hover {
-        background-color: var(--back-color-special);
+        background-color: @(DeleteMode ? "orangered" : "var(--back-color-special)");
     }
     .charTileLower {
         display: flex;
@@ -41,6 +41,9 @@
 
     [Parameter]
     public EventCallback<string> OnClicked { get; set; }
+
+    [Parameter]
+    public bool DeleteMode { get; set; } = false;
 
     private async Task TileClicked()
     {

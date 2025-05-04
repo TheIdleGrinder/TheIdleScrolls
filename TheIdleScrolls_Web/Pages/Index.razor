@@ -21,19 +21,28 @@
 
 	@if (CoreWrapper.StoredCharacters != null && CoreWrapper.StoredCharacters.Count > 0)
 	{
-		<p style="margin-top: 20px">Or select an existing one</p>
+		@if (DeleteMode)
+		{
+			<p style="margin-top: 20px; color: red; font-weight: bold">Click on character to delete it. THIS CANNOT BE UNDONE!</p>
+		}
+		else
+		{
+			<p style="margin-top: 20px">Or select an existing one</p>
+		}
 		<div id="storedCharsFrame">
 			@foreach (var metaData in Characters)
 			{
 				if (metaData != null)
 				{
-					<CharacterTile Character=@metaData OnClicked="StartGame"/> 
+					<CharacterTile Character=@metaData OnClicked="CharacterTileClicked" DeleteMode=@DeleteMode/> 
 				}
 			}
 		</div>
 	}
 
 	<button id="settingsButton" @onclick=@(() => ShowSettings = true)>Settings</button>
+	<button id="deleteCharButton" @onclick=@(() => DeleteMode = !DeleteMode)>Delete Character</button>
+
 	@if (ShowSettings)
     {
 		<MainOptionSettings OnClicked=@(() => ShowSettings = false) OnDataChanged="ReadCharacters" />
@@ -58,6 +67,13 @@ else
 	#settingsButton {
         margin-top: 20px;
 	}
+
+	#deleteCharButton {
+        margin-top: 20px;
+		margin-left: 2rem;
+		background-color: @(DeleteMode ? "orangered" : "inherit");
+    }
+
 </style>
 
 @code
@@ -67,6 +83,8 @@ else
 	List<CharacterMetaData> Characters { get; set; } = new();
 
 	bool ShowSettings { get; set; } = false;
+
+	bool DeleteMode { get; set; } = false;
 
 	protected override void OnInitialized()
 	{
@@ -101,10 +119,29 @@ else
 		StateHasChanged();
 	}
 
+	async Task CharacterTileClicked(string characterName)
+	{
+		if (DeleteMode)
+		{
+			await DeleteCharacter(characterName);
+			DeleteMode = false;
+		}
+		else
+		{
+			await StartGame(characterName);
+		}
+	}
+
 	async Task StartGame(string characterName)
 	{
 		CoreWrapper.Reset();
 		await CoreWrapper.LoadCharacter(characterName);
 		_ = CoreWrapper.StartGameLoop();
+	}
+
+	async Task DeleteCharacter(string characterName)
+	{
+		await CoreWrapper.DeleteCharacter(characterName);
+		await ReadCharacters();
 	}
 }
