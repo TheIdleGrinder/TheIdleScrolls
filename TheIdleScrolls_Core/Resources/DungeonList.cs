@@ -133,7 +133,10 @@ namespace TheIdleScrolls_Core.Resources
                         new("BOSS_NECROMANCER", MobNames.BOSS_NECROMANCER, hP: 3.5, damage: 1.5) { CanSpawn = (zone) => zone.Level < LevelUberCrypt },
                         new("BOSS_UBERNECRO", MobNames.BOSS_UBERNECRO, hP: 5.0, damage: 2.0) { CanSpawn = (zone) => zone.Level >= LevelUberCrypt }
                     },
-                    Rewards = new() { DropLevelRange = LevelCrypt - 12 } // Prevents weapons from dropping
+                    Rewards = new() { 
+                        DropLevelRange = LevelCrypt - 12, // Prevents weapons from dropping at level 18
+                        SpecialRewards = [ Definitions.DropRestrictions.MaterialT4 ] // T4 can drop from uber crypt
+                    } 
                 },
                 new()
                 {
