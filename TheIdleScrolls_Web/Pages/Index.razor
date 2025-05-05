@@ -41,11 +41,21 @@
 	}
 
 	<button id="settingsButton" @onclick=@(() => ShowSettings = true)>Settings</button>
+	<button id="changelogButton" @onclick=@(() => ShowChangelog = true)>Recent Changes</button>
 	<button id="deleteCharButton" @onclick=@(() => DeleteMode = !DeleteMode)>Delete Character</button>
 
 	@if (ShowSettings)
     {
 		<MainOptionSettings OnClicked=@(() => ShowSettings = false) OnDataChanged="ReadCharacters" />
+	}
+
+	@if (ShowChangelog)
+	{
+		<div id="changelogBackground" @onclick=@(() => ShowChangelog = false)>
+			<div id="changelogContainer">
+				<Changelog/>
+			</div>
+		</div>
 	}
 }
 else
@@ -54,6 +64,7 @@ else
 }
 <ExpiringMessagesDisplay/>
 </div>
+
 <style>
 	#storedCharsFrame {
 		display: flex;
@@ -68,11 +79,38 @@ else
         margin-top: 20px;
 	}
 
+	#changelogButton {
+		margin-left: 1rem;
+	}
+
 	#deleteCharButton {
         margin-top: 20px;
-		margin-left: 2rem;
+		margin-left: 1rem;
 		background-color: @(DeleteMode ? "orangered" : "inherit");
     }
+
+	#changelogBackground {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+
+	#changelogContainer {
+		padding: 1rem;
+		overflow-y: auto;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		max-height: 80%;
+		width: 80%;
+		max-width: 1000px;
+		border: solid 3px black;
+		background-color: var(--back-color);
+	}
 
 </style>
 
@@ -83,6 +121,7 @@ else
 	List<CharacterMetaData> Characters { get; set; } = new();
 
 	bool ShowSettings { get; set; } = false;
+	bool ShowChangelog { get; set; } = false;
 
 	bool DeleteMode { get; set; } = false;
 
