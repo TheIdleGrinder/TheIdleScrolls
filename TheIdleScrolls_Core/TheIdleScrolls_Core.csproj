@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Mobs.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MiniECS\MiniECS.csproj" />
   </ItemGroup>
 

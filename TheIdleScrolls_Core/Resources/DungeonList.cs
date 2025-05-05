@@ -13,7 +13,22 @@ namespace TheIdleScrolls_Core.Resources
 {
     internal static class DungeonList
     {
-        public static readonly List<string> VoidBosses = [ "BOSS_GHOSTCULTLEADER", 
+		public const int LevelDenOfRats = 12;
+		public const int LevelCrypt = 18;
+		public const int LevelLighthouse = 20;
+		public const int LevelTemple = 30;
+		public const int LevelMercCamp = 40;
+		public const int LevelCultistCastle = 50;
+		public const int LevelLabyrinth = 60;
+		public const int LevelReturnToLighthouse = 70;
+		public const int LevelThreshold = 75;
+		public const int LevelVoid = 80;
+		public const int LevelVoidMax = 125;
+		public const int LevelEndgame = 150;
+		public const int LevelUberEndgame = 200;
+		public const int LevelUberCrypt = 225;
+
+		public static readonly List<string> VoidBosses = [ "BOSS_GHOSTCULTLEADER", 
                                                            "BOSS_GIANT", 
                                                            "BOSS_LEVIATHAN", 
                                                            "BOSS_MONSTROSITY", 
@@ -34,6 +49,11 @@ namespace TheIdleScrolls_Core.Resources
             {
                 return (e, w) => Utility.Conditions.HasClearedWildernessLevel(e, level) ? [level] : [];
             }
+            static Func<Entity, World, int[]> UnlockedForEachWildernessLevel(int[] levels)
+            {
+                return (e, w) => levels.Where(l => Utility.Conditions.HasClearedWildernessLevel(e, l))
+									   .ToArray();
+			}
             static Func<Entity, World, int[]> UnlockedAfterDungeon(string dungeonId, int level)
             {
                 return (e, w) => Utility.Conditions.HasCompletedDungeon(e, dungeonId) ? [level] : [];
@@ -44,19 +64,7 @@ namespace TheIdleScrolls_Core.Resources
                                 && Utility.Conditions.HasClearedWildernessLevel(e, level) ? [level] : [];
             }
             
-            const int LevelDenOfRats = 12;
-            const int LevelCrypt = 18;
-            const int LevelLighthouse = 20;
-            const int LevelTemple = 30;
-            const int LevelMercCamp = 40;
-            const int LevelCultistCastle = 50;
-            const int LevelLabyrinth = 60;
-            const int LevelReturnToLighthouse = 70;
-            const int LevelThreshold = 75;
-            const int LevelVoid = 80;
-            const int LevelVoidMax = 125;
-            const int LevelEndgame = 150;
-            const int LevelUberEndgame = 200;
+            
 
             static bool HasMaxedVoid(Entity e)
             {
@@ -107,7 +115,7 @@ namespace TheIdleScrolls_Core.Resources
                     Id = Definitions.DungeonIds.Crypt,
                     Name = Places.Dungeon_Crypt,
                     Rarity = 0,
-                    AvailableLevels = UnlockedAtEqualWilderness(LevelCrypt),
+                    AvailableLevels = UnlockedForEachWildernessLevel([LevelCrypt, LevelUberCrypt]),
                     Description = Places.Dungeon_Crypt_Description,
                     Floors = new()
                     {
@@ -115,14 +123,15 @@ namespace TheIdleScrolls_Core.Resources
                         new(2, 2.0, [ "MOB_SKELETON" ]),
                         new(3, 2.6, [ "MOB_ZOMBIE", "MOB_SKELETON" ]),
                         new(2, 5.1, [ "MOB_ABOMINATION" ]),
-                        new(1, 3.1, [ "BOSS_NECROMANCER" ])
+                        new(1, 3.1, [ "BOSS_NECROMANCER", "BOSS_UBERNECRO" ])
                     },
                     LocalMobs = new()
                     {
                         new("MOB_ZOMBIE", MobNames.MOB_ZOMBIE, hP: 1.4, damage: 0.8),
                         new("MOB_SKELETON", MobNames.MOB_SKELETON, hP: 0.8, damage: 1.4),
                         new("MOB_ABOMINATION", MobNames.MOB_ABOMINATION, hP: 4.0, damage: 1.0),
-                        new("BOSS_NECROMANCER", MobNames.BOSS_NECROMANCER, hP: 3.5, damage: 1.5)
+                        new("BOSS_NECROMANCER", MobNames.BOSS_NECROMANCER, hP: 3.5, damage: 1.5) { CanSpawn = (zone) => zone.Level < LevelUberCrypt },
+                        new("BOSS_UBERNECRO", MobNames.BOSS_UBERNECRO, hP: 5.0, damage: 2.0) { CanSpawn = (zone) => zone.Level >= LevelUberCrypt }
                     },
                     Rewards = new() { DropLevelRange = LevelCrypt - 12 } // Prevents weapons from dropping
                 },

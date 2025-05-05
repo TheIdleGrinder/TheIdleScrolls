@@ -241,6 +241,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lich Lord ähnelt.
+        /// </summary>
+        internal static string BOSS_UBERNECRO {
+            get {
+                return ResourceManager.GetString("BOSS_UBERNECRO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Priest of the Void ähnelt.
         /// </summary>
         internal static string BOSS_VOIDPRIEST {
@@ -381,6 +390,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string Gravecrawler {
             get {
                 return ResourceManager.GetString("Gravecrawler", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Corpse Hound ähnelt.
+        /// </summary>
+        internal static string GraveHound {
+            get {
+                return ResourceManager.GetString("GraveHound", resourceCulture);
             }
         }
         

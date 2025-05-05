@@ -273,6 +273,16 @@ namespace TheIdleScrolls_Web.Assets {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        internal static byte[] boss_ubernecro {
+            get {
+                object obj = ResourceManager.GetObject("boss_ubernecro", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         internal static byte[] boss_voidpriest {
             get {
                 object obj = ResourceManager.GetObject("boss_voidpriest", resourceCulture);
@@ -426,6 +436,16 @@ namespace TheIdleScrolls_Web.Assets {
         internal static byte[] gravecrawler {
             get {
                 object obj = ResourceManager.GetObject("gravecrawler", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        internal static byte[] gravehound {
+            get {
+                object obj = ResourceManager.GetObject("gravehound", resourceCulture);
                 return ((byte[])(obj));
             }
         }

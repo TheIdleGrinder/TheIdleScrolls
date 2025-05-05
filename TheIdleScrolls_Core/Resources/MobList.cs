@@ -30,7 +30,8 @@ namespace TheIdleScrolls_Core.Resources
             //new("DRAGON3", MobNames.DRAGON3, LevelCondition(230)),
 
             new("BAT", MobNames.Bat, BiomeCondition([Biome.Graveyard])),
-            new("GRAVECRAWLER", MobNames.Gravecrawler, BiomeCondition([Biome.Graveyard])),
+            new("GRAVECRAWLER", MobNames.Gravecrawler, BiomeLevelCondition([Biome.Graveyard], maxLevel: 100)),
+            new("GRAVEHOUND", MobNames.GraveHound, BiomeLevelCondition([Biome.Graveyard], 101)),
 
             new("FORESTTROLL", MobNames.ForestTroll, BiomeLevelCondition([Biome.Forest], 50, 200)),
             new("TREANT", MobNames.Treant, BiomeLevelCondition([Biome.Forest], 125)),

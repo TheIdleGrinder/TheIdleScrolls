@@ -484,4 +484,10 @@
   <data name="yeti" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\wwwroot\images\mobs\yeti.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="boss_ubernecro" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\boss_ubernecro.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="gravehound" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\wwwroot\images\mobs\gravehound.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>

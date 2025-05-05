@@ -606,7 +606,13 @@ namespace TheIdleScrolls_Core.Resources
                 "Complete the Beacon before the Crypt",
                 tautology,
                 ExpressionParser.ParseToFunction("dng:CRYPT <= 0 && dng:LIGHTHOUSE > 0")));
-            achievements.Add(new(
+			achievements.Add(new(
+				"FOUNDUBERCRYPT",
+				"Archaeologist",
+				$"Discover the {DungeonList.GetDungeon(DungeonIds.Crypt)!.Name}'s high level version",
+				Conditions.DungeonLevelAvailableCondition(DungeonIds.Crypt, DungeonList.LevelUberCrypt),
+				Conditions.DungeonLevelAvailableCondition(DungeonIds.Crypt, DungeonList.LevelUberCrypt)));
+			achievements.Add(new(
                 "DifferentQualities",
                 "Happy Pride",
                 "Wear items with six different quality levels above 0 at the same time",

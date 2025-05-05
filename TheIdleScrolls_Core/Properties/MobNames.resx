@@ -507,4 +507,10 @@
   <data name="Werewolf" xml:space="preserve">
     <value>Child of Ornlu</value>
   </data>
+  <data name="BOSS_UBERNECRO" xml:space="preserve">
+    <value>Lich Lord</value>
+  </data>
+  <data name="GraveHound" xml:space="preserve">
+    <value>Corpse Hound</value>
+  </data>
 </root>
