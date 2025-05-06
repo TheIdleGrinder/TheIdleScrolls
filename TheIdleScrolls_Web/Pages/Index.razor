@@ -40,10 +40,13 @@
 		</div>
 	}
 
-	<button id="settingsButton" @onclick=@(() => ShowSettings = true)>Settings</button>
-	<button id="changelogButton" @onclick=@(() => ShowChangelog = true)>Recent Changes</button>
-	<button id="deleteCharButton" @onclick=@(() => DeleteMode = !DeleteMode)>Delete Character</button>
+	<div class="mainMenuButtonRow">
+		<button id="deleteCharButton" @onclick=@(() => DeleteMode = !DeleteMode)>Delete Character</button>
 
+		<button id="settingsButton" @onclick=@(() => ShowSettings = true)>Settings</button>
+		<button id="changelogButton" @onclick=@(() => ShowChangelog = true)>Recent Changes</button>
+	</div>
+	
 	@if (ShowSettings)
     {
 		<MainOptionSettings OnClicked=@(() => ShowSettings = false) OnDataChanged="ReadCharacters" />
@@ -72,20 +75,24 @@ else
 		flex-wrap: wrap;
 		margin: 10px;
 		gap: 10px;
-		width: 600px;
+		width: 900px;
+	}
+
+	.mainMenuButtonRow {
+	    display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 2rem;
+        margin-top: 20px;
 	}
 
 	#settingsButton {
-        margin-top: 20px;
 	}
 
 	#changelogButton {
-		margin-left: 1rem;
 	}
 
 	#deleteCharButton {
-        margin-top: 20px;
-		margin-left: 1rem;
 		background-color: @(DeleteMode ? "orangered" : "inherit");
     }
 
