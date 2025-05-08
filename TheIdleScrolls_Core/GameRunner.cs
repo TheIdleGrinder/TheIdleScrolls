@@ -8,6 +8,7 @@ using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Utility;
 using TheIdleScrollsApp;
 using TheIdleScrolls_Core.Resources;
+using TheIdleScrolls_Core.ContentPacks;
 
 namespace TheIdleScrolls_Core
 {
@@ -89,6 +90,8 @@ namespace TheIdleScrolls_Core
             Logger.LogMessage($"Player '{player.GetName()}' (Level {player.GetComponent<LevelComponent>()?.Level ?? 0}) spawned (#{player.Id})");
             
             GetSystem<MobSpawnerSystem>()?.SetMobList(MobList.Mobs);
+
+            IContentPack.Activate(new SpeedrunAchievementPack());
         }
 
         public IUserInputHandler GetUserInputHandler()

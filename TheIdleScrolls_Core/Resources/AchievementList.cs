@@ -798,23 +798,6 @@ namespace TheIdleScrolls_Core.Resources
                 }
             );
 
-            // Speedrunning achievements
-            Achievement MakeSpeedrunAchievement(int index, string name, string dungeonId, double target)
-            {
-                return new($"speed_{dungeonId}_{index}", name,
-                    $"Complete the {DungeonList.GetDungeon(dungeonId)?.Name ?? "???"} in under {target:0.#} minutes",
-                    index > 1
-                        ? ExpressionParser.ParseToFunction($"speed_{dungeonId}_{index - 1}")
-                        : Conditions.DungeonAvailableCondition(dungeonId),
-                    ExpressionParser.ParseToFunction($"dng:{dungeonId} < {target * 60} && dng:{dungeonId} > 0"));
-            }
-            achievements.Add(MakeSpeedrunAchievement(1, "Rat Racer", DungeonIds.DenOfRats, 4.0));
-            achievements.Add(MakeSpeedrunAchievement(1, "Fast Castle", DungeonIds.CultistCastle, 15.0));
-            achievements.Add(MakeSpeedrunAchievement(1, "Speedrun", DungeonIds.Threshold, 45.0));
-            achievements.Add(MakeSpeedrunAchievement(2, "Speedier Run", DungeonIds.Threshold, 35.0));
-            achievements.Add(MakeSpeedrunAchievement(3, "Gold Medal", DungeonIds.Threshold, 25.0));
-            achievements.Add(MakeSpeedrunAchievement(4, "Author Medal", DungeonIds.Threshold, 20.0));
-
             return achievements;
         }
 
