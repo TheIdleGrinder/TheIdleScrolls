@@ -21,22 +21,44 @@
 
 	@if (CoreWrapper.StoredCharacters != null && CoreWrapper.StoredCharacters.Count > 0)
 	{
-		<p style="margin-top: 20px">Or select an existing one</p>
+		@if (DeleteMode)
+		{
+			<p style="margin-top: 2rem; color: red; font-weight: bold">Click on a character to delete it. THIS CANNOT BE UNDONE!</p>
+		}
+		else
+		{
+			<p style="margin-top: 2rem">Or select an existing one</p>
+		}
 		<div id="storedCharsFrame">
 			@foreach (var metaData in Characters)
 			{
 				if (metaData != null)
 				{
-					<CharacterTile Character=@metaData OnClicked="StartGame"/> 
+					<CharacterTile Character=@metaData OnClicked="CharacterTileClicked" DeleteMode=@DeleteMode/> 
 				}
 			}
 		</div>
 	}
 
-	<button id="settingsButton" @onclick=@(() => ShowSettings = true)>Settings</button>
+	<div class="mainMenuButtonRow">
+		<button id="deleteCharButton" @onclick=@(() => DeleteMode = !DeleteMode)>Delete Character</button>
+
+		<button id="settingsButton" @onclick=@(() => ShowSettings = true)>Settings</button>
+		<button id="changelogButton" @onclick=@(() => ShowChangelog = true)>Recent Changes</button>
+	</div>
+	
 	@if (ShowSettings)
     {
 		<MainOptionSettings OnClicked=@(() => ShowSettings = false) OnDataChanged="ReadCharacters" />
+	}
+
+	@if (ShowChangelog)
+	{
+		<div id="changelogBackground" @onclick=@(() => ShowChangelog = false)>
+			<div id="changelogContainer">
+				<Changelog/>
+			</div>
+		</div>
 	}
 }
 else
@@ -45,6 +67,7 @@ else
 }
 <ExpiringMessagesDisplay/>
 </div>
+
 <style>
 	#storedCharsFrame {
 		display: flex;
@@ -52,12 +75,54 @@ else
 		flex-wrap: wrap;
 		margin: 10px;
 		gap: 10px;
-		width: 600px;
+		width: 900px;
+	}
+
+	.mainMenuButtonRow {
+	    display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 2rem;
+        margin-top: 20px;
 	}
 
 	#settingsButton {
-        margin-top: 20px;
 	}
+
+	#changelogButton {
+	}
+
+	#deleteCharButton {
+		background-color: @(DeleteMode ? "orangered" : "ghostwhite");
+    }
+
+	#deleteCharButton:hover {
+		background-color: @(DeleteMode ? "red" : "gainsboro");
+	}
+
+	#changelogBackground {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+
+	#changelogContainer {
+		padding: 1rem;
+		overflow-y: auto;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		max-height: 80%;
+		width: 80%;
+		max-width: 1000px;
+		border: solid 3px black;
+		background-color: var(--back-color);
+	}
+
 </style>
 
 @code
@@ -67,6 +132,9 @@ else
 	List<CharacterMetaData> Characters { get; set; } = new();
 
 	bool ShowSettings { get; set; } = false;
+	bool ShowChangelog { get; set; } = false;
+
+	bool DeleteMode { get; set; } = false;
 
 	protected override void OnInitialized()
 	{
@@ -101,10 +169,29 @@ else
 		StateHasChanged();
 	}
 
+	async Task CharacterTileClicked(string characterName)
+	{
+		if (DeleteMode)
+		{
+			await DeleteCharacter(characterName);
+			DeleteMode = false;
+		}
+		else
+		{
+			await StartGame(characterName);
+		}
+	}
+
 	async Task StartGame(string characterName)
 	{
 		CoreWrapper.Reset();
 		await CoreWrapper.LoadCharacter(characterName);
 		_ = CoreWrapper.StartGameLoop();
+	}
+
+	async Task DeleteCharacter(string characterName)
+	{
+		await CoreWrapper.DeleteCharacter(characterName);
+		await ReadCharacters();
 	}
 }

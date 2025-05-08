@@ -7,6 +7,7 @@ using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Utility;
 using TheIdleScrollsApp;
+using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core
 {
@@ -86,16 +87,8 @@ namespace TheIdleScrolls_Core
             AddPlayerToCoordinator(player);
 
             Logger.LogMessage($"Player '{player.GetName()}' (Level {player.GetComponent<LevelComponent>()?.Level ?? 0}) spawned (#{player.Id})");
-
-            try
-            {
-                var mobs = ReadResourceFile<List<MobDescription>>("Mobs.json");
-                GetSystem<MobSpawnerSystem>()?.SetMobList(mobs);           
-            }
-            catch (Exception e)
-            {
-                Logger.LogMessage(e.Message);
-            }
+            
+            GetSystem<MobSpawnerSystem>()?.SetMobList(MobList.Mobs);
         }
 
         public IUserInputHandler GetUserInputHandler()

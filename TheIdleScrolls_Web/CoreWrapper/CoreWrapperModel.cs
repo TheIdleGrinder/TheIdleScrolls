@@ -106,6 +106,12 @@ namespace TheIdleScrolls_Web.CoreWrapper
             return await dataHandler.GetCharacterMetaData(name);
         }
 
+        public async Task DeleteCharacter(string name)
+        {
+            await dataHandler.DeleteStoredEntity(name);
+            await UpdateSavedCharacters();
+        }
+
         public async Task StartGameLoop()
         {
             const int frameTime = 50;

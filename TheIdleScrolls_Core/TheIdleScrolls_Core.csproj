@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Mobs.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MiniECS\MiniECS.csproj" />
   </ItemGroup>
 
@@ -57,6 +53,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Quests.resx</DependentUpon>
     </Compile>
+    <Compile Update="Properties\MobNames.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MobNames.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Images.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -88,6 +89,10 @@
     <EmbeddedResource Update="Properties\Quests.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Quests.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\MobNames.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MobNames.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Images.resx">
       <Generator>ResXFileCodeGenerator</Generator>
