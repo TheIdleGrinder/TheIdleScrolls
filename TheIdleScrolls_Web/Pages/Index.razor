@@ -23,11 +23,11 @@
 	{
 		@if (DeleteMode)
 		{
-			<p style="margin-top: 20px; color: red; font-weight: bold">Click on a character to delete it. THIS CANNOT BE UNDONE!</p>
+			<p style="margin-top: 2rem; color: red; font-weight: bold">Click on a character to delete it. THIS CANNOT BE UNDONE!</p>
 		}
 		else
 		{
-			<p style="margin-top: 20px">Or select an existing one</p>
+			<p style="margin-top: 2rem">Or select an existing one</p>
 		}
 		<div id="storedCharsFrame">
 			@foreach (var metaData in Characters)
@@ -93,8 +93,12 @@ else
 	}
 
 	#deleteCharButton {
-		background-color: @(DeleteMode ? "orangered" : "inherit");
+		background-color: @(DeleteMode ? "orangered" : "ghostwhite");
     }
+
+	#deleteCharButton:hover {
+		background-color: @(DeleteMode ? "red" : "gainsboro");
+	}
 
 	#changelogBackground {
 		position: fixed;
