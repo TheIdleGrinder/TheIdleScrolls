@@ -134,7 +134,21 @@ namespace TheIdleScrolls_Core.Resources
             }
             return s_Abilities.GetValueOrDefault(key);
         }
-    }
+
+        public static bool Add(AbilityDefinition ability)
+        {
+            if (s_Abilities.Count == 0)
+			{
+				GenerateAbilities();
+			}
+            return s_Abilities.TryAdd(ability.Key, ability);
+		}
+
+        public static void Remove(string key)
+        {
+            s_Abilities.Remove(key);
+		}
+	}
 
     public class AbilityDefinition(string key)
     {

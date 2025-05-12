@@ -16,26 +16,20 @@ namespace TheIdleScrolls_Core.ContentPacks
 		public string Name { get; }
 		public string Description { get; }
 		
-		public List<AbstractQuest> Quests { get; }
-		public List<ItemFamilyDescription> ItemFamilies { get; }
-		public List<Achievement> Achievements { get; }
+		public List<IContentPiece> ContentPieces { get; }
 
 		public static void Activate(IContentPack pack)
 		{
-			foreach (ItemFamilyDescription family in pack.ItemFamilies)
+			foreach (var content in pack.ContentPieces)
 			{
-				if (ItemList.ItemFamilies.Any(f => f.Id == family.Id))
-					throw new Exception($"Duplicate item family: {family.Id}");
+				if (!content.CanActivate())
+					throw new Exception($"Failed to activate content pack '{pack.Name}' (Can't activeate '{content.Id}')");
 			}
 
-			foreach (Achievement achievement in pack.Achievements)
+			foreach (var content in pack.ContentPieces)
 			{
-				if (AchievementList.GetAllAchievements().Any(a => a.Id == achievement.Id))
-					throw new Exception($"Duplicate achievement: {achievement.Id}");
+				content.Activate();
 			}
-
-			ItemList.ItemFamilies.AddRange(pack.ItemFamilies);
-			AchievementList.GetAllAchievements().AddRange(pack.Achievements);
 		}
 
 

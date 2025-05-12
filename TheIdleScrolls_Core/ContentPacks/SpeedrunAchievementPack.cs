@@ -15,25 +15,18 @@ namespace TheIdleScrolls_Core.ContentPacks
 	internal class SpeedrunAchievementPack : IContentPack
 	{
 		public string Id => "CP_SpeedrunAchievements";
-
 		public string Name => "Speedruns";
-
 		public string Description => "This pack contains achievements for completing several dungeons from the main story quickly";
-
-		public List<AbstractQuest> Quests => [];
-
-		public List<ItemFamilyDescription> ItemFamilies => [];
-
-		public List<Achievement> Achievements => [
-			MakeSpeedrunAchievement(1, "Rat Racer", DungeonIds.DenOfRats, 4.0),
-			MakeSpeedrunAchievement(1, "Fast Castle", DungeonIds.CultistCastle, 15.0),
-			MakeSpeedrunAchievement(1, "Speedrun", DungeonIds.Threshold, 45.0),
-			MakeSpeedrunAchievement(2, "Speedier Run", DungeonIds.Threshold, 35.0),
-			MakeSpeedrunAchievement(3, "Gold Medal", DungeonIds.Threshold, 25.0),
-			MakeSpeedrunAchievement(4, "Author Medal", DungeonIds.Threshold, 20.0)
+		public List<IContentPiece> ContentPieces => [
+			new AchievementContent(MakeSpeedrunAch(1, "Rat Racer", DungeonIds.DenOfRats, 4.0)),
+			new AchievementContent(MakeSpeedrunAch(1, "Fast Castle", DungeonIds.CultistCastle, 15.0)),
+			new AchievementContent(MakeSpeedrunAch(1, "Speedrun", DungeonIds.Threshold, 45.0)),
+			new AchievementContent(MakeSpeedrunAch(2, "Speedier Run", DungeonIds.Threshold, 35.0)),
+			new AchievementContent(MakeSpeedrunAch(3, "Gold Medal", DungeonIds.Threshold, 25.0)),
+			new AchievementContent(MakeSpeedrunAch(4, "Author Medal", DungeonIds.Threshold, 20.0))
 		];
 
-		private Achievement MakeSpeedrunAchievement(int index, string name, string dungeonId, double target)
+		private Achievement MakeSpeedrunAch(int index, string name, string dungeonId, double target)
 		{
 			return new($"speed_{dungeonId}_{index}", name,
 				$"Complete the {DungeonList.GetDungeon(dungeonId)?.Name ?? "???"} in under {target:0.#} minutes",
