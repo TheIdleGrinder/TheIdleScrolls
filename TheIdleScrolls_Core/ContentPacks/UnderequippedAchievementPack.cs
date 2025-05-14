@@ -17,7 +17,7 @@ namespace TheIdleScrolls_Core.ContentPacks
 		const double NoArmorBaseEvasion1 = 1.0;
 		const double NoArmorBaseEvasion2 = 2.0;
 
-		const int noWeaponLevel = 5;
+		const int NoWeaponLevel = 5;
 		const double NoWeaponBaseDamageBonus = 3.0;
 		const double NoWeaponLevelDamageBonus = 0.1;
 		const double NoWeaponMaxLevel = 50;
@@ -93,9 +93,9 @@ namespace TheIdleScrolls_Core.ContentPacks
 			new AchievementContent(new(
 				"NOWEAPON",
 				"Boxer",
-				$"Reach level {noWeaponLevel} without ever raising a weapon ability",
+				$"Reach level {NoWeaponLevel} without ever raising a weapon ability",
 				(e, w) => true,
-				ExpressionParser.ParseToFunction($"Level >= {noWeaponLevel} && abl:AXE <= 1 && abl:BLN <= 1 " +
+				ExpressionParser.ParseToFunction($"Level >= {NoWeaponLevel} && abl:AXE <= 1 && abl:BLN <= 1 " +
 					$"&& abl:LBL <= 1 && abl:POL <= 1 && abl:SBL <= 1"))
 				{
 					Reward = new PerkReward(PerkFactory.MakeStaticPerk("NOWEAPON",

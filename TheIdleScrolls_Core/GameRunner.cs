@@ -20,7 +20,9 @@ namespace TheIdleScrolls_Core
 
         readonly Coordinator m_coordinator = new();
 
-        readonly List<AbstractSystem> m_systems = new();
+        readonly List<AbstractSystem> m_systems = [];
+
+        public List<string> ActiveContentPacks = [];
 
         readonly DataAccessHandler m_dataHandler;
 
@@ -91,8 +93,8 @@ namespace TheIdleScrolls_Core
             
             GetSystem<MobSpawnerSystem>()?.SetMobList(MobList.Mobs);
 
-			IContentPack.Activate(new UnderequippedAchievementPack());
-			IContentPack.Activate(new SpeedrunAchievementPack());
+			ActivateContentPack(new UnderequippedAchievementPack());
+			ActivateContentPack(new SpeedrunAchievementPack());
 		}
 
         public IUserInputHandler GetUserInputHandler()
@@ -186,7 +188,16 @@ namespace TheIdleScrolls_Core
             return null;
         }
 
-        static T ReadResourceFile<T>(string file)
+        private void ActivateContentPack(IContentPack contentPack)
+		{
+			if (ActiveContentPacks.Contains(contentPack.Id))
+				return;
+
+			IContentPack.Activate(contentPack);
+			ActiveContentPacks.Add(contentPack.Id);
+		}
+
+		static T ReadResourceFile<T>(string file)
         {
             return ResourceAccess.ParseResourceFile<T>("TheIdleScrolls_Core", file);
         }
