@@ -65,7 +65,7 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new PlayerProgressSystem());
             m_systems.Add(new SaveSystem(dataHandler));
             m_systems.Add(m_appUpdateSystem);
-        }
+		}
 
         public async Task Initialize(string playerName = "Leeroy")
         {
@@ -91,8 +91,9 @@ namespace TheIdleScrolls_Core
             
             GetSystem<MobSpawnerSystem>()?.SetMobList(MobList.Mobs);
 
-            IContentPack.Activate(new SpeedrunAchievementPack());
-        }
+			IContentPack.Activate(new UnderequippedAchievementPack());
+			IContentPack.Activate(new SpeedrunAchievementPack());
+		}
 
         public IUserInputHandler GetUserInputHandler()
         {
