@@ -593,51 +593,6 @@ namespace TheIdleScrolls_Core.Resources
                 achievements.Add(achievement);
             }
 
-            // Miscellaneous achievements
-            achievements.Add(new(
-                "Instructions Unclear",
-                "Instructions Unclear",
-                "Lose a fight before reaching level 12",
-                tautology,
-                ExpressionParser.ParseToFunction("Losses > 0 && Level < 12")));
-            achievements.Add(new(
-                "NOCRYPT",
-                "Untainted",
-                "Complete the Beacon before the Crypt",
-                tautology,
-                ExpressionParser.ParseToFunction("dng:CRYPT <= 0 && dng:LIGHTHOUSE > 0")));
-			achievements.Add(new(
-				"FOUNDUBERCRYPT",
-				"Archaeologist",
-				$"Discover the {DungeonList.GetDungeon(DungeonIds.Crypt)!.Name}'s high level version",
-				Conditions.DungeonLevelAvailableCondition(DungeonIds.Crypt, DungeonList.LevelUberCrypt),
-				Conditions.DungeonLevelAvailableCondition(DungeonIds.Crypt, DungeonList.LevelUberCrypt)));
-			achievements.Add(new(
-                "DifferentQualities",
-                "Happy Pride",
-                "Wear items with six different quality levels above 0 at the same time",
-                tautology,
-                (e, w) => (e.GetComponent<EquipmentComponent>()
-                            ?.GetItems()
-                            ?.Select(i => i.GetBlueprint()?.Quality ?? 0)
-                            ?.Distinct()
-                            ?.Count(i => i > 0) ?? 0) >= 6)
-                {
-                    Reward = new PerkReward(new Perk("WellDressed", "Well Dressed", 
-                        $"Gain {0.005:0.#%} increased damage and defense per level of quality on your gear", 
-                        [UpdateTrigger.EquipmentChanged],
-                        (_, e, w, c) =>
-                        {
-                            int total = e.GetComponent<EquipmentComponent>()?.GetItems()
-                                ?.Sum(i => i.GetBlueprint()?.Quality ?? 0)
-                                ?? 0;
-                            return [ 
-                                new($"WellDressed_dmg", ModifierType.Increase, 0.005 * total, [Tags.Damage],  []),
-                                new($"WellDressed_def", ModifierType.Increase, 0.005 * total, [Tags.Defense], [])
-                            ];
-                        }))
-                });
-
             return achievements;
         }
 

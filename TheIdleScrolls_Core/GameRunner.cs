@@ -93,6 +93,8 @@ namespace TheIdleScrolls_Core
             
             GetSystem<MobSpawnerSystem>()?.SetMobList(MobList.Mobs);
 
+            ActivateContentPack(new AdditionalAchievementPack());
+            ActivateContentPack(new EquipmentAchievementPack());
 			ActivateContentPack(new UnderequippedAchievementPack());
 			ActivateContentPack(new SpeedrunAchievementPack());
 		}
