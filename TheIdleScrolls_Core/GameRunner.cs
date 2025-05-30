@@ -93,8 +93,11 @@ namespace TheIdleScrolls_Core
             
             GetSystem<MobSpawnerSystem>()?.SetMobList(MobList.Mobs);
 
-            ActivateContentPack(new FightingStylesContentPack());
-            ActivateContentPack(new CraftingContentPack());
+			ActivateContentPack(new FightingStylesContentPack());
+			ActivateContentPack(new CraftingContentPack());
+			ActivateContentPack(new WarriorGettingStartedContentPack());
+			ActivateContentPack(new WarriorCampaignContentPack());
+			ActivateContentPack(new WarriorEndgameContentPack());
             ActivateContentPack(new CoinAchievementPack());
             ActivateContentPack(new AdditionalAchievementPack());
             ActivateContentPack(new EquipmentAchievementPack());

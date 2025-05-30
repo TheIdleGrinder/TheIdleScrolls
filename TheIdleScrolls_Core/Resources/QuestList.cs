@@ -11,9 +11,7 @@ namespace TheIdleScrolls_Core.Resources
 	{
 		readonly static List<AbstractQuest> s_Quests = 
 			[
-				new GettingStartedQuest(),
-				new StoryQuest(),
-				new EndgameQuest()
+				new GettingStartedQuest()
 			];
 
 		public static List<AbstractQuest> GetAllQuests() => s_Quests;

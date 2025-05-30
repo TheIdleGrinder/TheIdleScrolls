@@ -94,90 +94,15 @@ namespace TheIdleScrolls_Core.Resources
                 };
                 achievements.Add(achievement);
             }
-
-            // Dungeon achievements
-            (string Id, string Name, string Title, int PerkPoints)[] dungeons =
-            [
-                (DungeonIds.Crypt, Properties.Places.Dungeon_Crypt, "Cryptkeeper", 0),
-                (DungeonIds.MercenaryCamp, Properties.Places.Dungeon_MercenaryCamp, "Sellsword Slayer", 0),
-                (DungeonIds.Lighthouse, Properties.Places.Dungeon_Lighthouse, "I Shall Be Light", 1),
-                (DungeonIds.Temple, Properties.Places.Dungeon_Temple, "I Shall Keep Faith", 1),
-                (DungeonIds.CultistCastle, Properties.Places.Dungeon_CultistCastle, "I Shall Hone My Craft", 1),
-                (DungeonIds.Labyrinth, Properties.Places.Dungeon_Labyrinth, "I Shall Have No Mercy", 1),
-                (DungeonIds.ReturnToLighthouse, Properties.Places.Dungeon_ReturnToLighthouse, "I Shall Have No Fear", 1),
-                (DungeonIds.Threshold, Properties.Places.Dungeon_Threshold, "I Shall Have No Remorse", 2),
-            ];
-            foreach (var (id, name, title, points) in dungeons)
-            {
-                var achievement = new Achievement()
-                {
-                    Id = $"DNG:{id}",
-                    Title = title,
-                    Description = $"Complete the {name}",
-                    Prerequisite = ExpressionParser.ParseToFunction($"dng_open:{id}"),
-                    Condition = ExpressionParser.ParseToFunction($"dng:{id} > 0"),
-                    Hidden = false
-                };
-                if (id == DungeonIds.Threshold)
-                {
-                    achievement.Description = $"Hold off the demonic invasion at {name}";
-                }
-                if (points > 0)
-                {
-                    HashSet<string> pointIds = [];
-                    for (int i = 0; i < points; i++)
-                    {
-                        pointIds.Add($"{achievement.Id}.{i}");
-                    }
-                    achievement.Reward = new PerkPointReward(pointIds);
-                }
-                achievements.Add(achievement);
-            }
-            // Void dungeon achievements
-            achievements.Add(new("DNG:VOID",
-                "Void Scout",
-                $"Complete your first excursion to {Properties.Places.Dungeon_Void}",
-                Conditions.DungeonAvailableCondition(DungeonIds.Void),
-                Conditions.DungeonCompletedCondition(DungeonIds.Void)));
-            achievements.Add(new("DNG:VOID@100",
-                "Void Traveller",
-                $"Complete {Properties.Places.Dungeon_Void} at area level 100",
-                Conditions.AchievementUnlockedCondition("DNG:VOID"),
-                Conditions.DungeonLevelCompletedCondition(DungeonIds.Void, 100)));
-            achievements.Add(new("DNG:VOID@125",
-                "Void Explorer",
-                $"Complete {Properties.Places.Dungeon_Void} at area level 125",
-                Conditions.AchievementUnlockedCondition("DNG:VOID@100"),
-                Conditions.DungeonLevelCompletedCondition(DungeonIds.Void, 125)));
-            achievements.Add(new("DNG:ENDGAME",
-                "Void Conqueror",
-                $"Complete an endgame dungeon",
-                Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
-                (e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges) 
-                            || Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
-                            || Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid)));
-            achievements.Add(new("DNG:UBERENDGAME",
-                "Void Emperor",
-                $"Complete an endgame dungeon at area level {DungeonLevels.LevelUberEndgame}",
-                Conditions.DungeonLevelAvailableCondition(DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame),
-                (e, w) => Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame)
-                            || Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameMagic, DungeonLevels.LevelUberEndgame)
-                            || Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgamePyramid, DungeonLevels.LevelUberEndgame)));
-
-            achievements.Add(new("DUNGEONGRIND12",
-                "Dungeon Delver's Dozen",
-                $"Complete dungeons 12 times",
-                Conditions.DungeonAvailableCondition(DungeonIds.DenOfRats),
-                Conditions.DungeonClearCountCondition(12)
+			achievements.Add(new("DUNGEONGRIND12",
+	            "Dungeon Delver's Dozen",
+	            $"Complete dungeons 12 times",
+	            Conditions.DungeonAvailableCondition(DungeonIds.DenOfRats),
+	            Conditions.DungeonClearCountCondition(12)
             )
-            {
-                Reward = new FeatureReward(GameFeature.DungeonGrinding, "Auto-grind dungeons")
-            });
-            achievements.Add(new("VOIDBOSSES",
-                "Void Duelist",
-                $"Defeat all different bosses in {Properties.Places.Dungeon_Void}",
-                Conditions.AchievementUnlockedCondition("DNG:VOID"),
-                Conditions.MobsDefeatedCondition(DungeonList.VoidBosses)));
+			{
+				Reward = new FeatureReward(GameFeature.DungeonGrinding, "Auto-grind dungeons")
+			});
 
             // Hardcore achievements
             int hcWildLevel = 75;
@@ -186,36 +111,6 @@ namespace TheIdleScrolls_Core.Resources
                 $"Defeat a level {hcWildLevel} enemy in the wilderness without ever losing a fight",
                 ExpressionParser.ParseToFunction("WILD50"),
                 ExpressionParser.ParseToFunction($"Wilderness >= {hcWildLevel} && Losses == 0")));
-
-            achievements.Add(new($"HC:{DungeonIds.Crypt}",
-                "Attentive Dungeoneer",
-                $"Complete the Crypt without ever losing a fight",
-                ExpressionParser.ParseToFunction($"DNG:{DungeonIds.Crypt}"),
-                ExpressionParser.ParseToFunction($"dng:{DungeonIds.Crypt} > 0 && Losses == 0")));
-            achievements.Add(new($"HC:{DungeonIds.Lighthouse}",
-                "So that All May Find You",
-                "Complete the Beacon without ever losing a fight",
-                ExpressionParser.ParseToFunction($"DNG:{DungeonIds.Lighthouse}"),
-                ExpressionParser.ParseToFunction($"dng:{DungeonIds.Lighthouse} > 0 && Losses == 0")));
-            achievements.Add(new($"HC:{DungeonIds.ReturnToLighthouse}",
-                "Hardcore",
-                "Complete the Lighthouse without ever losing a fight",
-                ExpressionParser.ParseToFunction($"DNG:{DungeonIds.ReturnToLighthouse}"),
-                ExpressionParser.ParseToFunction($"dng:{DungeonIds.ReturnToLighthouse} > 0 && Losses == 0")));
-            achievements.Add(new($"HC:Endgame",
-                "Exalted Conqueror",
-                "Complete the endgame dungeons without ever losing a fight",
-                Conditions.AchievementUnlockedCondition($"HC:{DungeonIds.ReturnToLighthouse}"),
-                ExpressionParser.ParseToFunction($"dng:{DungeonIds.EndgameMagic} > 0 && dng:{DungeonIds.EndgamePyramid} " +
-                    $"&& dng:{DungeonIds.EndgameAges} && Losses == 0")));
-            achievements.Add(new($"HC:UberEndgame",
-                "Exalted Emperor",
-                "Complete the endgame dungeons at area level 200 without ever losing a fight",
-                Conditions.AchievementUnlockedCondition($"HC:Endgame"),
-                (e, w) => Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame)
-                            && Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameMagic, DungeonLevels.LevelUberEndgame)
-                            && Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgamePyramid, DungeonLevels.LevelUberEndgame)
-                            && !Conditions.HasLostFights(e)));
 
             // Ability achievements
             (int Level, string Rank)[] ranks =
