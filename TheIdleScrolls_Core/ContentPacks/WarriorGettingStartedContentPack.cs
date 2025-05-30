@@ -91,6 +91,13 @@ namespace TheIdleScrolls_Core.ContentPacks
 				Conditions.DungeonAvailableCondition(DungeonIds.Crypt),
 				Conditions.DungeonCompletedCondition(DungeonIds.Crypt)
 				),
+			new(
+				"FOUNDUBERCRYPT",
+				"Archaeologist",
+				$"Discover the {Places.Dungeon_Crypt}'s high level version",
+				Conditions.DungeonLevelAvailableCondition(DungeonIds.Crypt, LevelUberCrypt),
+				Conditions.DungeonLevelAvailableCondition(DungeonIds.Crypt, LevelUberCrypt)
+				),
 			new($"HC:{DungeonIds.Crypt}",
 				"Attentive Dungeoneer",
 				$"Complete the {Places.Dungeon_Crypt} without ever losing a fight",

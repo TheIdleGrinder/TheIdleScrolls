@@ -37,13 +37,6 @@ namespace TheIdleScrolls_Core.ContentPacks
                             ExpressionParser.ParseToFunction("dng:CRYPT <= 0 && dng:LIGHTHOUSE > 0")
                         )));
                     }
-                    contentPieces.Add(new AchievementContent(new(
-                        "FOUNDUBERCRYPT",
-                        "Archaeologist",
-                        $"Discover the {DungeonList.GetDungeon(DungeonIds.Crypt)!.Name}'s high level version",
-                        Conditions.DungeonLevelAvailableCondition(DungeonIds.Crypt, DungeonList.LevelUberCrypt),
-                        Conditions.DungeonLevelAvailableCondition(DungeonIds.Crypt, DungeonList.LevelUberCrypt)
-                    )));
                 }
 
                 return contentPieces;

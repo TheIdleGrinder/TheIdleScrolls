@@ -93,6 +93,7 @@ namespace TheIdleScrolls_Core
             
             GetSystem<MobSpawnerSystem>()?.SetMobList(MobList.Mobs);
 
+            ResetContent();
 			ActivateContentPack(new FightingStylesContentPack());
 			ActivateContentPack(new CraftingContentPack());
 			ActivateContentPack(new WarriorGettingStartedContentPack());
@@ -205,10 +206,14 @@ namespace TheIdleScrolls_Core
 			ActiveContentPacks.Add(contentPack.Id);
 		}
 
-		static T ReadResourceFile<T>(string file)
-        {
-            return ResourceAccess.ParseResourceFile<T>("TheIdleScrolls_Core", file);
-        }
+		void ResetContent()
+		{
+			ActiveContentPacks = [];
+			AbilityList.Reset();
+			AchievementList.Reset();
+			DungeonList.Reset();
+			QuestList.Reset();
+		}
 
         public bool IsGameOver()
         {

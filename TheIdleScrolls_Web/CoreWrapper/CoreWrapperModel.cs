@@ -262,9 +262,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                         new XORDataEncryptor(Encoding.UTF8.GetBytes("Don't cheat plox"))
                     )
                 ));
-            var activePacks = gameRunner?.ActiveContentPacks ?? [];
             gameRunner = new GameRunner(dataHandler);
-            gameRunner.ActiveContentPacks = activePacks;
             gameRunner.SetAppInterface(this);
             ConnectEvents();
         }

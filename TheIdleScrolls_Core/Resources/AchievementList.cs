@@ -17,11 +17,16 @@ namespace TheIdleScrolls_Core.Resources
             return s_achievements.Where(a => a.Id == id).FirstOrDefault();
         }
 
-        static readonly List<Achievement> s_achievements = GenerateAchievements();
+        static List<Achievement> s_achievements = GenerateAchievements();
 
         public static List<Achievement> GetAllAchievements() => s_achievements;
 
-        static List<Achievement> GenerateAchievements()
+        public static void Reset()
+		{
+			s_achievements = GenerateAchievements();
+		}
+
+		static List<Achievement> GenerateAchievements()
         {
             static bool tautology(Entity e, World w) => true;
             var achievements = new List<Achievement>();

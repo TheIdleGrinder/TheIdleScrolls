@@ -39,7 +39,7 @@ namespace TheIdleScrolls_Core.ContentPacks
 		{
 			if (!CanActivate())
 				return false;
-			DungeonList.GetAllDungeons().Add(Dungeon);
+			DungeonList.AddDungeon(Dungeon);
 			return true;
 		}
 		public bool Deactivate()

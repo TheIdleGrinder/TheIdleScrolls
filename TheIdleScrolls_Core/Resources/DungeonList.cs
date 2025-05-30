@@ -44,5 +44,17 @@ namespace TheIdleScrolls_Core.Resources
         {
             return [];
         }
+
+		public static void AddDungeon(DungeonDescription dungeon)
+		{
+			if (s_dungeonDescriptions.Any(d => d.Id == dungeon.Id))
+				throw new InvalidOperationException($"Dungeon with ID {dungeon.Id} already exists.");
+			s_dungeonDescriptions.Add(dungeon);
+		}
+
+		public static void Reset()
+		{
+			s_dungeonDescriptions = GenerateDungeons();
+		}
     }
 }

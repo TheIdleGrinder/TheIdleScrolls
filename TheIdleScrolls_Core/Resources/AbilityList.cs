@@ -146,7 +146,17 @@ namespace TheIdleScrolls_Core.Resources
 
         public static void Remove(string key)
         {
-            s_Abilities.Remove(key);
+			if (s_Abilities.Count == 0)
+			{
+				GenerateAbilities();
+			}
+			s_Abilities.Remove(key);
+		}
+
+        public static void Reset()
+        {
+            s_Abilities = [];
+			GenerateAbilities();
 		}
 	}
 
