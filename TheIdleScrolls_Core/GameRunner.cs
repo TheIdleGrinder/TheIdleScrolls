@@ -22,8 +22,6 @@ namespace TheIdleScrolls_Core
 
         readonly List<AbstractSystem> m_systems = [];
 
-        public List<string> ActiveContentPacks = [];
-
         readonly DataAccessHandler m_dataHandler;
 
         readonly IUserInputHandler m_userInputHandler;
@@ -93,17 +91,7 @@ namespace TheIdleScrolls_Core
             
             GetSystem<MobSpawnerSystem>()?.SetMobList(MobList.Mobs);
 
-            ResetContent();
-			ActivateContentPack(new FightingStylesContentPack());
-			ActivateContentPack(new CraftingContentPack());
-			ActivateContentPack(new WarriorGettingStartedContentPack());
-			ActivateContentPack(new WarriorCampaignContentPack());
-			ActivateContentPack(new WarriorEndgameContentPack());
-            ActivateContentPack(new CoinAchievementPack());
-            ActivateContentPack(new AdditionalAchievementPack());
-            ActivateContentPack(new EquipmentAchievementPack());
-			ActivateContentPack(new UnderequippedAchievementPack());
-			ActivateContentPack(new SpeedrunAchievementPack());
+            AdventureList.WarriorAdventure.Activate();
 		}
 
         public IUserInputHandler GetUserInputHandler()
@@ -196,24 +184,6 @@ namespace TheIdleScrolls_Core
             }
             return null;
         }
-
-        private void ActivateContentPack(IContentPack contentPack)
-		{
-			if (ActiveContentPacks.Contains(contentPack.Id))
-				return;
-
-			IContentPack.Activate(contentPack);
-			ActiveContentPacks.Add(contentPack.Id);
-		}
-
-		void ResetContent()
-		{
-			ActiveContentPacks = [];
-			AbilityList.Reset();
-			AchievementList.Reset();
-			DungeonList.Reset();
-			QuestList.Reset();
-		}
 
         public bool IsGameOver()
         {
