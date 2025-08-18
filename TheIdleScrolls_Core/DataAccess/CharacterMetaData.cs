@@ -15,20 +15,41 @@ namespace TheIdleScrolls_Core.DataAccess
         {
             try
             {
-                var entity = await accessHandler.LoadEntity(characterId);
-                if (entity == null)
-                {
-                    Console.WriteLine($"Failed to load {characterId}");
-                    return null;
-                }
+                var encrypted = await accessHandler.StorageHandler.LoadData(characterId);
+                var decrypted = accessHandler.Decrypt(encrypted);
 
-                return new(
-                    entity.GetName(),
-                    entity.GetTitledName(false, true),
-                    entity.GetComponent<TitleBearerComponent>()?.GetPrefixTitle() ?? String.Empty,
-                    entity.GetComponent<LevelComponent>()?.Level ?? 0,
-                    PlayerFactory.GetCharacterClass(entity).Localize()
-                );
+                var metaDataComp = accessHandler.EntityConverter
+                                    .DeserializeComponentFromSerializedEntity<MetaDataComponent>(decrypted);
+
+                if (metaDataComp is not null)
+                {
+                    return new(
+                        metaDataComp.Name,
+                        metaDataComp.NameWithSuffixTitle,
+                        metaDataComp.PrefixTitle,
+                        metaDataComp.Level,
+                        metaDataComp.DisplayClass.Localize()
+                    );
+                }
+                else
+                {
+                    var entity = accessHandler.EntityConverter.DeserializeEntity(decrypted);
+                    if (entity is not null)
+                    {
+                        return new(
+                            entity.GetName(),
+                            entity.GetTitledName(false, true),
+                            entity.GetComponent<TitleBearerComponent>()?.GetPrefixTitle() ?? "",
+                            entity.GetLevel(),
+                            PlayerFactory.GetCharacterClass(entity).Localize()
+						);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Failed to load {characterId}");
+                        return null;
+                    }
+                }
             }
             catch (Exception e)
             {

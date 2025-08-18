@@ -9,7 +9,7 @@ namespace TheIdleScrolls_Core.Resources
 {
 	public class AdventureList
 	{
-		public static readonly string DefaultAdventureId = "warrior_adventure";
+		public const string DefaultAdventureId = "warrior_adventure";
 
 		private static List<Adventure> s_Adventures = [
 			WarriorAdventure

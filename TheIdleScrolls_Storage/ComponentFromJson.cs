@@ -384,5 +384,24 @@ namespace TheIdleScrolls_JSON
                 return false;
             }
         }
-    }
+
+        public static bool SetFromJson(this MetaDataComponent component, JsonNode json)
+		{
+			try
+			{
+				var metaComp = JsonSerializer.Deserialize<MetaDataComponent>(json)!;
+                component.Name = metaComp.Name;
+				component.NameWithSuffixTitle = metaComp.NameWithSuffixTitle;
+				component.PrefixTitle = metaComp.PrefixTitle;
+				component.Level = metaComp.Level;
+				component.DisplayClass = metaComp.DisplayClass;
+				component.AdventureId = metaComp.AdventureId;
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
+	}
 }

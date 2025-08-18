@@ -32,7 +32,9 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         return;
                     }
-                    m_dataAccessHandler.StoreEntity(player);
+                    var metaComp = player.GetComponent<MetaDataComponent>();
+                    metaComp?.UpdateFromEntity(player);
+					m_dataAccessHandler.StoreEntity(player);
                     coordinator.PostMessage(this, new TextMessage("Game saved"));
                     m_cooldown.Reset();
                 }

@@ -21,7 +21,20 @@ namespace TheIdleScrolls_Storage
             InnerConverter = innerConverter;
         }
 
-        public Entity? DeserializeEntity(string serialized)
+		public T? DeserializeComponentFromSerializedEntity<T>(string serialized) where T : IComponent
+		{
+			string decodedString = serialized;
+			// If the string contains { or }, it's not base64 encoded, so probably from an older savegame
+			if (!serialized.Contains('{') && !serialized.Contains('}'))
+			{
+				// Assume it's base64 encoded
+				var decoded = Convert.FromBase64String(serialized);
+				decodedString = Encoding.UTF8.GetString(decoded);
+			}
+			return InnerConverter.DeserializeComponentFromSerializedEntity<T>(decodedString);
+		}
+
+		public Entity? DeserializeEntity(string serialized)
         {
             string decodedString = serialized;
             // If the string contains { or }, it's not base64 encoded, so probably from an older savegame
