@@ -1,0 +1,82 @@
+﻿@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div id="battleDataFrame">
+    <p>Duration: @($"{Duration:0.#} s")</p>
+    <p>EDPS: @($"{EDps:0.#}")</p>
+    <p>Time to Kill: @($"{TtK:0.#} s")</p>
+    <p>Time to Die: @($"{TtD:0.#} s")</p>
+    <p>Potential: @($"{Potential:0.#} ({PotentialPct:0.#%})")</p>
+    <button @onclick=@(() => ToggleFreeze())>Freeze</button>
+</div>
+
+<style>
+    #battleDataFrame {
+        position: relative;
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid var(--frame-color);
+        background-color: var(--back-color);
+    }
+
+    #battleDataFrame p {
+        margin: 2px;
+        font-size: small;
+    }
+</style>
+
+@code {
+    PeriodicTimer periodicTimer = new(TimeSpan.FromMilliseconds(333));
+
+    BattleData? Data = null;
+    double Duration => Data?.Duration ?? 0.0;
+    double EDps => Data?.EDPS ?? 0.0;
+    double TtK => Data?.TimeToKill ?? 0.0;
+    double TtD => Data?.TimeToDie ?? 0.0;
+    double Potential => Data?.DamagePotential ?? 0.0;
+    double PotentialPct => TtK > 0.0 ? TtD / TtK : 0.0;
+
+    bool Frozen = false;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UpdateLoop();
+    }
+
+    public void Dispose()
+    {
+        periodicTimer.Dispose();
+    }
+
+    public void ToggleFreeze()
+    {
+        Frozen = !Frozen;
+        if (Frozen)
+            CoreWrapper.GameRunner.Pause();
+        else
+            CoreWrapper.GameRunner.Unpause();
+    }
+
+    async void UpdateLoop()
+    {
+        while (await periodicTimer.WaitForNextTickAsync())
+        {
+            UpdateData();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    void UpdateData()
+    {
+        if (Frozen)
+            return;
+        Battle? battle = CoreWrapper.PlayerCharacter?.GetComponent<BattlerComponent>()?.Battle;
+        if (battle == null)
+            return;
+
+        Data = BattleData.FromBattle(battle);
+    }
+}

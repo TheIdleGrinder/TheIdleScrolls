@@ -59,10 +59,10 @@ namespace TheIdleScrolls_Core.Systems
         {
             int level = zone.Level;
             var allMobs = m_descriptions.Concat(additionalMobs);
-            var validMobs = allMobs.Where(m => m.MinLevel <= level && m.MaxLevel >= level);
-            if (zone.MobTypes.Any())
+            var validMobs = allMobs.Where(m => m.CanSpawn(zone));
+            if (zone.MobTypes.Count > 0)
             {
-                validMobs = validMobs.Where(m => zone.MobTypes.Contains(m.Name));
+                validMobs = validMobs.Where(m => zone.MobTypes.Contains(m.Id));
             }
             if (validMobs == null || !validMobs.Any())
                 throw new Exception($"No valid mobs for area level {level}");

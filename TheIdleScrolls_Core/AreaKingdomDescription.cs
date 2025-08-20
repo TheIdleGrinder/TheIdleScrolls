@@ -11,7 +11,7 @@ namespace TheIdleScrolls_Core
 {
     public class AreaKingdomDescription
     {
-        public List<DungeonDescription> Dungeons { get; set; } = DungeonList.GetAllDungeons();
+        public List<DungeonDescription> Dungeons => DungeonList.GetAllDungeons();
 
         public List<MobDescription> GetLocalEnemies(string areaId)
         {

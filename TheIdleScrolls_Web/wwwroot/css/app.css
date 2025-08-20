@@ -1,7 +1,7 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Candara, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 h1:focus {
@@ -110,6 +110,7 @@ input:not(:placeholder-shown):invalid {
 
 div.progressFrame {
     display: flex;
+    position: relative;
     flex-direction: row;
     width: 70%;
     background: slategray;
@@ -120,6 +121,37 @@ div.progressFrame {
 div.progressFill {
     height: 30px;
     border-style: none;
+}
+
+.withTooltip {
+    position: relative;
+}
+
+.barTooltip {
+    visibility: hidden;
+}
+
+.withTooltip .barTooltip {
+    visibility: hidden;
+    
+    background-color: var(--back-color-special);
+    color: var(--text-color);
+    border: 2px solid var(--frame-color);
+    text-align: center;
+    padding: 0.25rem 0.5rem;
+    position: absolute;
+    width: max-content;
+    z-index: 1;
+    left: 50%;
+    bottom: 100%;
+    margin: initial;
+    transform: translate(-50%, -0.5rem);
+    font-size: medium;
+    font-weight: initial;
+}
+
+.withTooltip:hover .barTooltip {
+    visibility: visible;
 }
 
 .rarity-none {
@@ -154,7 +186,7 @@ div.progressFill {
     font-weight: bold;
 }
 .crafted-item {
-    font-style: italic;
+    
 }
 
 hr.thick {
@@ -233,6 +265,10 @@ button.pressed:hover {
     background-color: #ccc;
 }
 
+.tabs button.new-stuff {
+    font-weight: bold;
+}
+
 div.scrolling-table {
     width: 100%;
     overflow: hidden;
@@ -247,16 +283,15 @@ div.scrolling-table table {
     position: relative;
     border-collapse: collapse;
     width: 100%;
-    /*border: 1px solid gray;*/
     flex: inherit;
 }
 
 div.scrolling-table table thead tr th {
     background-color: lightblue;
-    border-left: 1px solid gray;
-    border-right: 1px solid gray;
+/*    border: 1px solid gray;*/
     position: sticky;
     top: 0;
+    padding-left: 0.25rem;
 }
 
 div.scrolling-table table tbody tr {
@@ -265,8 +300,7 @@ div.scrolling-table table tbody tr {
 }
 
 div.scrolling-table table tbody tr td {
-    border-left: 1px solid gray;
-    border-right: 1px solid gray;
+    padding-left: 0.25rem;
 }
 
 div.scrolling-table table tbody tr td.selectable {

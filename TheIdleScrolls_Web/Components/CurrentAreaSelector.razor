@@ -4,9 +4,9 @@
 
 <div class="outer">
     <div id="area-and-arrows">
-        <button id="btnPrevArea" class="@(GetArrowClass())" disabled=@IsAtMin @onclick="MoveDown">⮜</button>
+        <button id="btnPrevArea" class="arrow-btn @(GetArrowClass())" disabled=@IsAtMin @onclick="MoveDown">b</button>
         <h4>@CoreWrapper.Area.Name</h4>
-        <button id="btnNextArea" class="@(GetArrowClass())" disabled=@IsAtMax @onclick="MoveUp">⮞</button>
+        <button id="btnNextArea" class="arrow-btn @(GetArrowClass())" disabled=@IsAtMax @onclick="MoveUp">a</button>
     </div>
     
     <div id="dungeon-button">
@@ -15,9 +15,16 @@
 
     @if (CanTravel && !InDungeon)
     {
-        <div id="proceed-button">
+        <div id="proceed-button" class="grind-proceed-button">
             <label>Proceed when possible</label>
             <input type="checkbox" checked="@CoreWrapper.AutoProceedActive" @onclick="ToggleAutoProceed"/>        
+        </div>
+    }
+    @if (CanTravel && InDungeon && CoreWrapper.AvailableFeatures.Contains(TheIdleScrolls_Core.GameFeature.DungeonGrinding))
+    {
+        <div id="grind-button" class="grind-proceed-button">
+            <label>Repeat on finish</label>
+            <input type="checkbox" checked="@CoreWrapper.AutoGrindActive" @onclick="ToggleAutoGrind" />
         </div>
     }
 </div>
@@ -40,7 +47,7 @@
         
     }
 
-    #proceed-button {
+    .grind-proceed-button {
         position: absolute;
         display: flex;
         flex-direction: row;
@@ -82,6 +89,12 @@
         max-width: 200px;
     }
 
+    .arrow-btn {
+        font-family: 'Arrows';
+        font-size: larger;
+        padding-bottom: 2px;
+    }
+
 </style>
 
 @code {
@@ -111,6 +124,11 @@
     private void ToggleAutoProceed()
     {
         CoreWrapper.InputHandler.SetAutoProceed(!CoreWrapper.AutoProceedActive);
+    }
+
+    private void ToggleAutoGrind()
+    {
+        CoreWrapper.InputHandler.SetGrindDungeon(!CoreWrapper.AutoGrindActive);
     }
 
     private string GetArrowClass()

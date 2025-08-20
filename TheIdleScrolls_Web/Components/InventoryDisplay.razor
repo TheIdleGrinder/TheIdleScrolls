@@ -17,7 +17,7 @@
                 <tr>
                     <td class="selectable @(GetSelectionClass(item)) @(CssUtilities.GetClassesForItem(item))" 
                     @onclick=@(() => SelectItem(item.Id))
-                    @ondblclick=@(() => EquipItem(item.Id))
+                    @ondblclick=@(() => OnDblClickCallback(item.Id))
                     @onkeypress="HandleKeyPress">
                         @item.Name
                     </td>
@@ -40,6 +40,9 @@
 
     [Parameter]
     public string Title { get; set; } = "Items";
+
+    [Parameter]
+    public Action<uint> OnDblClickCallback { get; set; } = (id) => { };
 
     int selectedIndex = -1;
 

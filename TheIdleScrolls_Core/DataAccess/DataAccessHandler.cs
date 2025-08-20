@@ -30,7 +30,12 @@ namespace TheIdleScrolls_Core.DataAccess
             DataEncryptor = dataEncryptor;
         }
 
-        public IStorageHandler<string> StorageHandler
+        public IEntityConverter EntityConverter
+		{
+			get { return Converter; }
+		}
+
+		public IStorageHandler<string> StorageHandler
         {
             get { return Storage; }
         }

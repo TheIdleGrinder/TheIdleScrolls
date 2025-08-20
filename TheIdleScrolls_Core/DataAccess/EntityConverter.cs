@@ -13,6 +13,8 @@ namespace TheIdleScrolls_Core.DataAccess
 
         public Entity? DeserializeEntity(string serialized);
 
-        public bool DeserializeEntity(string serialized, out Entity entity);
+        public T? DeserializeComponentFromSerializedEntity<T>(string serialized) where T : IComponent;
+
+		public bool DeserializeEntity(string serialized, out Entity entity);
     }
 }

@@ -63,6 +63,13 @@ namespace TheIdleScrolls_Core.Systems
                     encumbrance += item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
                     var localTags = item.GetTags();
 
+                    // Add situational local tags 
+                    var slots = item.GetRequiredSlots();
+                    if (slots.Count == 1 && slots[0] == EquipmentSlot.Hand)
+                    {
+                        localTags.Add((item.IsShield() || weaponCount > 0) ? Tags.OffHand : Tags.MainHand);
+                    }
+
                     if (itemComp != null && weaponComp != null)
                     {
                         double localDmg = weaponComp.Damage;
@@ -79,6 +86,7 @@ namespace TheIdleScrolls_Core.Systems
 
                         combinedDmg += localDmg;
                         combinedCD += localCD;
+                        //Console.WriteLine($"{item.GetName()}({weaponCount}): Dmg: {localDmg} -> {combinedDmg}; CD: {localCD} -> {combinedCD}");
                     }
 
                     if (itemComp != null && armorComp != null)
@@ -117,26 +125,24 @@ namespace TheIdleScrolls_Core.Systems
                     [Tags.AttackSpeed, Abilities.Unarmed], globalTags) ?? cooldown;
             }
 
-            if (armorCount == 0)
-            {
-                var tags = globalTags.Concat([Tags.Defense, Abilities.Unarmored]);
-                armor = modComp?.ApplyApplicableModifiers(armor, tags.Append(Tags.ArmorRating), globalTags) ?? armor;
-                evasion = modComp?.ApplyApplicableModifiers(evasion, tags.Append(Tags.EvasionRating), globalTags) ?? evasion;
-            }
-
             // Handle global armor and evasion bonuses
-            armor   += modComp?.ApplyApplicableModifiers(0.0, [Tags.ArmorRating,   Tags.Defense, Tags.Global], globalTags) ?? 0.0;
-            evasion += modComp?.ApplyApplicableModifiers(0.0, [Tags.EvasionRating, Tags.Defense, Tags.Global], globalTags) ?? 0.0;
+            List<string> globalDefTags = [Tags.Global, Tags.Defense];
+            if (player.HasTag(Tags.Unarmored))
+            {
+                globalDefTags.Add(Abilities.Unarmored); // Bonuses from unarmored ability apply here if unarmored
+            }
+            armor   += modComp?.ApplyApplicableModifiers(0.0, globalDefTags.Append(Tags.ArmorRating),   globalTags) ?? 0.0;
+            evasion += modComp?.ApplyApplicableModifiers(0.0, globalDefTags.Append(Tags.EvasionRating), globalTags) ?? 0.0;
+
+            double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
 
             var attackComp = player.GetComponent<AttackComponent>();
             if (attackComp != null)
             {
-                cooldown *= 1.0 + encumbrance / 100.0; // Encumbrance slows attack speed multiplicatively
-                
                 attackComp.RawDamage = Math.Round(rawDamage);
-                // CornerCut(?): This makes the cooldown not reset in case of a weapon swap.
-                // Theoretically exploitable by switching between fast and slow weapons
-                // Potential TODO: Detect weapon swap
+
+                cooldown *= encumbranceSlowdown; // Encumbrance slows attack speed multiplicatively
+                cooldown = Math.Max(cooldown, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
                 if (cooldown != attackComp.Cooldown.Duration)
                     attackComp.Cooldown.ChangeDuration(cooldown, true);
             }
@@ -144,7 +150,7 @@ namespace TheIdleScrolls_Core.Systems
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null)
             {
-                defenseComp.Evasion = evasion; 
+                defenseComp.Evasion = evasion / encumbranceSlowdown; 
                 defenseComp.Armor = armor;
             }
             

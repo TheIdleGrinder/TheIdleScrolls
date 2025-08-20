@@ -33,6 +33,8 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new ModifierComponent());
             player.AddComponent(new PerksComponent());
             player.AddComponent(new RewardCollectorComponent());
+            player.AddComponent(new TitleBearerComponent());
+            player.AddComponent(new MetaDataComponent());
 
             return player;
         }
@@ -61,13 +63,9 @@ namespace TheIdleScrolls_Core
         {
             int level = character.GetComponent<LevelComponent>()?.Level ?? 0;
             var abiComp = character.GetComponent<AbilitiesComponent>();
-            if (level == 0 || abiComp == null)
+            if (level < 20 || abiComp == null)
             {
-                return String.Empty;
-            }
-            if (level < 20)
-            {
-                return "CLASS_DEFAULT".Localize();
+                return "CLASS_DEFAULT";
             }
 
             string BestAbility(IEnumerable<string> keys)

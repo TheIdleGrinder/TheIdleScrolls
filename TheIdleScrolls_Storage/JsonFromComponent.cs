@@ -243,7 +243,25 @@ namespace TheIdleScrolls_Storage
             };
         }
 
-        public static JsonObject JsonFromSth<T>(T thing)
+        public static JsonObject? ToJson(this TitleBearerComponent component)
+        {
+            JsonArray titles = [];
+            foreach (var title in component.Titles)
+            {
+                titles.Add(title);
+            }
+            return new JsonObject()
+            {
+                { "Titles", titles }
+            };
+        }
+
+        public static JsonObject? ToJson(this MetaDataComponent component)
+		{
+			return JsonFromSth(component);
+		}
+
+		public static JsonObject JsonFromSth<T>(T thing)
         {
             return (JsonObject)JsonObject.Parse(JsonSerializer.Serialize(thing))!;
         }

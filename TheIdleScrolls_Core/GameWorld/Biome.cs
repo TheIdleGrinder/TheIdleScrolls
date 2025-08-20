@@ -18,7 +18,12 @@ namespace TheIdleScrolls_Core.GameWorld
         Oasis,
         Tundra,
         IcyDesert,
-        Wasteland
+        Wasteland,
+        Graveyard,
+        Coast,
+        Foothills,
+        Mountains,
+        Summit
     }
 
     public static class BiomeExtensions
@@ -38,6 +43,11 @@ namespace TheIdleScrolls_Core.GameWorld
                 Biome.Tundra => Properties.LocalizedStrings.BIOME_TUNDRA,
                 Biome.IcyDesert => Properties.LocalizedStrings.BIOME_ICE,
                 Biome.Wasteland => Properties.LocalizedStrings.BIOME_WASTELAND,
+                Biome.Graveyard => Properties.LocalizedStrings.BIOME_GRAVEYARD,
+                Biome.Coast => Properties.LocalizedStrings.BIOME_COAST,
+                Biome.Foothills => Properties.LocalizedStrings.BIOME_FOOTHILLS,
+                Biome.Mountains => Properties.LocalizedStrings.BIOME_MOUNTAINS,
+                Biome.Summit => Properties.LocalizedStrings.BIOME_SUMMIT,
                 _ => "??"
             };
         }

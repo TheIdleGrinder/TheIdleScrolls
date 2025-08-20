@@ -23,5 +23,10 @@
         {
             _expired = true;
         }
+
+        public void SetExpired()
+        {
+            _expired = true;
+        }
     }
 }

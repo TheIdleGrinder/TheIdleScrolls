@@ -21,7 +21,15 @@ namespace TheIdleScrolls_Storage
 
         public EntityJsonConverter() { }
 
-        public Entity? DeserializeEntity(string serialized)
+		public T? DeserializeComponentFromSerializedEntity<T>(string serialized) where T : IComponent
+		{
+			JsonObject? json = JsonNode.Parse(serialized)?.AsObject();
+			if (json == null)
+				return default;
+            return EntityJsonConversion.GetComponentFromJson<T>(json);
+		}
+
+		public Entity? DeserializeEntity(string serialized)
         {
             JsonObject? json = JsonNode.Parse(serialized)?.AsObject();
             if (json == null)

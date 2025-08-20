@@ -71,6 +71,18 @@
         background-color: white;
     }
 
+    .perk-new {
+        border-width: 3px;
+    }
+
+    .perk-new.perk-active {
+        border-color: mediumseagreen;
+    }
+
+    .perk-new.perk-inactive {
+        border-color: limegreen;
+    }
+
     .perk-always-active {
         border: solid 2px var(--frame-color);
     }
@@ -105,8 +117,16 @@
         background-color: greenyellow;
     }
 
+    button.perk-button-activate:hover {
+        background-color: lawngreen;
+    }
+
     button.perk-button-deactivate {
         background-color: coral;
+    }
+
+    button.perk-button-deactivate:hover {
+        background-color: lightcoral;
     }
 </style>
 
@@ -115,6 +135,8 @@
     public string PerkId { get; set; } = "";
     [Parameter]
     public PerksComponent? PerksComp { get; set; } = null;
+    [Parameter]
+    public bool IsNew { get; set; } = false;
 
     protected override void OnInitialized()
     {
@@ -151,6 +173,8 @@
         string classes = IsActive ? "perk-active" : "perk-inactive";
         if (Perk.Permanent)
             classes += " perk-always-active";
+        if (IsNew)
+            classes += " perk-new";
         return classes;
     }
 

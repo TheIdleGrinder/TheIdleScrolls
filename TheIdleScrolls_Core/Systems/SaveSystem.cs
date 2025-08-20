@@ -16,11 +16,13 @@ namespace TheIdleScrolls_Core.Systems
     {
         readonly DataAccessHandler m_dataAccessHandler;
 
-        readonly Cooldown m_cooldown = new(10.0);
+        readonly Cooldown m_cooldown = new(30.0);
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            bool trigger = m_cooldown.Update(dt) > 0 || coordinator.MessageTypeIsOnBoard<ManualSaveRequest>();
+            bool trigger = m_cooldown.Update(dt) > 0 
+                || coordinator.MessageTypeIsOnBoard<ManualSaveRequest>()
+                || coordinator.FetchMessagesByType<BattleStateChangedMessage>().Any(bm => bm.Battle.IsFinished);
             if (trigger)
             {
                 Entity? player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault();
@@ -30,7 +32,9 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         return;
                     }
-                    m_dataAccessHandler.StoreEntity(player);
+                    var metaComp = player.GetComponent<MetaDataComponent>();
+                    metaComp?.UpdateFromEntity(player);
+					m_dataAccessHandler.StoreEntity(player);
                     coordinator.PostMessage(this, new TextMessage("Game saved"));
                     m_cooldown.Reset();
                 }
@@ -42,6 +46,10 @@ namespace TheIdleScrolls_Core.Systems
                 Entity? globalEntity = coordinator.GetEntities<AchievementsComponent>().FirstOrDefault();
                 if (globalEntity != null)
                 {
+                    if (globalEntity.HasComponent<ROMComponent>())
+                    {
+                        return;
+                    }
                     m_dataAccessHandler.StoreEntity(globalEntity);
                 }
             }

@@ -23,8 +23,8 @@
         </p>
 
         <h4>Weapons</h4>
-        <p>Weapons are occupy either one or both hand slots.</p> 
-        <p>You are allowed to wield two one-handed weapons at the same time. Your attack damage while dual wielding is the average of the
+        <p>Weapons occupy either one or both hand slots.</p> 
+        <p>You can also use two one-handed weapons at the same time. Your attack damage while dual wielding is the average of the
             weapons' damage values and you receive a multiplicative @($"{Stats.DualWieldAttackSpeedMulti:0.#%}") boost to your attack speed.
         </p>
     }
@@ -72,7 +72,7 @@
             others are unlocked by earning achievements. You can view your unlocked perks in the perks screen.
         </p>
         <p>Perks can be activated at any time by assigning a perk point to them. Your character will gain an additional perk point 
-            every @(Stats.LevelsPerPerkPoint) levels.</p>
+            every @(Stats.LevelsPerPerkPoint) levels up until level @(Stats.PerkPointLevelLimit).</p>
         <p>Some perks are permanent, so you can always enjoy all of their bonuses without having to invest a perk point into them.</p>
     }
 
@@ -99,8 +99,9 @@
             defences as you progress through the game.</p>
 
         <h4>Encumbrance</h4>
-        <p>Armor items will protect and you in battle but most of them also encumber you. Encumbrance multiplicatively increases attack cooldown 
-            by 1% per point. So an encumbrance 100% halves the speed at which you attack.
+        <p>Armor items will protect and you in battle but most of them also encumber you. Encumbrance lowers attack speed and evasion rating. 
+            The effective value for these two stats is equal to their original value divided by 1 + encumbrance. So an encumbrance of 100% would 
+            halve the rate at which you attack and evade.
         </p>
     }
 
@@ -124,7 +125,8 @@
             time. The length is based on the material of the target item.
         </p>
         <p>Crafting new items is simple enough: In exchange for a certain amount of coins, you can create an item from among your unlocked blueprints. More items become available
-            as you clear higher level dungeons. Creating new items take some time, but it never fails.
+            as you clear higher level dungeons. Creating new items take some time, but it never fails. Items that are made from very high level materials cannot
+            be crafted, they can only be obtained from enemies in specific areas.
         </p>
         <p>The best way to obtain high-quality items for your character to use, is to take an item that has a desirable base type and refine it. 
             If the refining fails, the item's quality will be reduced by one level.

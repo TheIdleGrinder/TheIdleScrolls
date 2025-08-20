@@ -16,7 +16,7 @@ namespace TheIdleScrolls_Core.Resources
         {
             List<AbilityDefinition> abilities = [];
             static int regularXpCurve(int x) => 60 * (int)Math.Pow(x, 1.5);
-            static int slowXpCurve(int x)    => 90 * (int)Math.Pow(2 * x, 1.5); // slower but uses lower cap
+            static int slowXpCurve(int x)    => 60 * (int)Math.Pow(2 * x, 1.5); // slower but uses lower cap
             int regularMaxLevel              = 200;
             int slowMaxLevel                 = 100;
 
@@ -88,25 +88,25 @@ namespace TheIdleScrolls_Core.Resources
             // Fighting Styles
             abilities.Add(new AbilityDefinition(Abilities.DualWield)
             {
-                Name = Properties.LocalizedStrings.ABL_DualWield,
+                Name = Properties.LocalizedStrings.ABL_DUALWIELD,
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve
             });
             abilities.Add(new AbilityDefinition(Abilities.Shielded)
             {
-                Name = Properties.LocalizedStrings.ABL_Shielded,
+                Name = Properties.LocalizedStrings.ABL_SHIELDED,
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve
             });
             abilities.Add(new AbilityDefinition(Abilities.SingleHanded)
             {
-                Name = Properties.LocalizedStrings.ABL_SingleHanded,
+                Name = Properties.LocalizedStrings.ABL_SINGLEHANDED,
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve
             });
             abilities.Add(new AbilityDefinition(Abilities.TwoHanded)
             {
-                Name = Properties.LocalizedStrings.ABL_TwoHanded,
+                Name = Properties.LocalizedStrings.ABL_TWOHANDED,
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve
             });
@@ -134,7 +134,31 @@ namespace TheIdleScrolls_Core.Resources
             }
             return s_Abilities.GetValueOrDefault(key);
         }
-    }
+
+        public static bool Add(AbilityDefinition ability)
+        {
+            if (s_Abilities.Count == 0)
+			{
+				GenerateAbilities();
+			}
+            return s_Abilities.TryAdd(ability.Key, ability);
+		}
+
+        public static void Remove(string key)
+        {
+			if (s_Abilities.Count == 0)
+			{
+				GenerateAbilities();
+			}
+			s_Abilities.Remove(key);
+		}
+
+        public static void Reset()
+        {
+            s_Abilities = [];
+			GenerateAbilities();
+		}
+	}
 
     public class AbilityDefinition(string key)
     {

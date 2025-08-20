@@ -1,27 +1,50 @@
 ﻿@using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Core
 
+@implements IDisposable
+
 @inject CoreWrapperModel CoreWrapper
 
-<div class="ach-container">
-
-    <div class="ach-list">
-        @foreach (var achievement in Achievements)
+@if (SelectedAchievement != null)
+{
+    <div class="achievement @(GetAchievementClasses(SelectedAchievement))">
+        <div class="ach-title">@SelectedAchievement.Title</div>
+        <div class="ach-description">@SelectedAchievement.Description</div>
+        @if (SelectedAchievement.Reward != string.Empty)
         {
-            <div class="achievement @(achievement.Earned ? "ach-earned" : "ach-unearned")">
+            <div class="ach-reward">➤ Reward: @SelectedAchievement.Reward</div>
+        }
+    </div>
+}
+
+<div class="ach-container">
+    
+    <div class="ach-list">
+        @foreach (var achievement in Achievements.Where(IsVisible))
+        {
+            <div class="achievement-mini @(GetAchievementClasses(achievement))"
+                @onmouseenter="(() => SelectedAchievement = achievement)"
+                @onmouseleave="(() => SelectedAchievement = null)"
+            >
                 <div class="ach-title">@achievement.Title</div>
-                <div class="ach-description">@achievement.Description</div>
-                @if (achievement.Reward != string.Empty)
-                {
-                    <div class="ach-reward">➤ Reward: @achievement.Reward</div>
-                }
             </div>
         }
     </div>
 
     <div class="ach-header">
         <p style="margin-bottom: 0">Completed: @AchievementsEarned / @TotalAchievements</p>
+        <div>
+            <label>Hide previously completed</label>
+            <input type="checkbox" checked="@HideEarned" @onclick="(() => HideEarned = !HideEarned)" />
+        </div>
     </div>
+
+    @if (NewAchievements > 0)
+    {
+        <div class="ach-new-indicator">
+            @NewAchievements newly earned!
+        </div>
+    }
 </div>
 
 <style>
@@ -31,6 +54,7 @@
         display: flex;
         flex-direction: column;
         overflow-y: auto;
+        position: relative;
     }
 
     .ach-header {
@@ -41,23 +65,58 @@
         margin: 0;
         padding: 1rem;
         border-top: 2px solid var(--frame-color);
+        justify-content: space-between;
     }
 
     .ach-list {
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         flex-direction: column;
-        flex: 1 1 auto;
+        flex: 1;
         max-height: 100%;
         overflow-y: auto;
         margin: 0;
         padding: 5px;
+        gap: 0.5rem;
+    }
+
+    .ach-new-indicator {
+        position: absolute;
+        top: 1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 5px;
+        background-color: palegreen;
+        border: 2px solid mediumseagreen;
+        color: black;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .achievement-mini {
+        padding: 5px;
+        border: 1px solid var(--frame-color);
+        align-items: center;
+        position: relative;
+        box-sizing: border-box;
+    }
+
+    .achievement-mini:hover {
+        border-width: 2px;
+        margin: -1px;
     }
 
     .achievement {
-        margin: 5px;
-        padding: 5px;
-        /* width: 70%; */
-        border: 1px solid var(--frame-color);
+        padding: 0.5rem;
+        width: 50%;
+        min-height: 8rem;
+        border: 3px solid var(--frame-color);
+
+        position: absolute;
+        z-index: 3;
+        left: 50%;
+        bottom: 100%;
+        transform: translate(-50%, -0.5rem);
     }
 
     .ach-earned {
@@ -69,6 +128,18 @@
         color: gray;
         font-style: italic;
         background-color: white;
+    }
+
+    .ach-new {
+        border-width: 3px;
+    }
+
+    .ach-new.ach-earned {
+        border-color: mediumseagreen;
+    }
+
+    .ach-new.ach-unearned {
+        border-color: limegreen;
     }
 
     .ach-title {
@@ -90,10 +161,53 @@
     List<AchievementRepresentation> Achievements => CoreWrapper.Achievements;
     int TotalAchievements => CoreWrapper.AchievementCount;
     int AchievementsEarned => Achievements.Count(a => a.Earned);
+    bool HideEarned { get; set; } = false;
+
+    List<string> SeenEarnedAchievements {get; set;} = new List<string>();
+    int NewAchievements => AchievementsEarned - SeenEarnedAchievements.Count;
+
+    AchievementRepresentation? SelectedAchievement { get; set; } = null;
+
+    bool IsVisible(AchievementRepresentation achievement)
+    {
+        return !HideEarned || !SeenEarnedAchievements.Contains(achievement.Title);
+    }
+
+    AchievementsChangedHandler AchChangedHandler => (List<AchievementRepresentation> achievements, int count) =>
+    {
+        CoreWrapper.SeenEarnedAchievements = achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
+        StateHasChanged();
+        Console.WriteLine($"Update: {SeenEarnedAchievements.Count}/{CoreWrapper.SeenEarnedAchievements.Count}");
+    };
 
     protected override void OnInitialized()
     {
+        CoreWrapper.GameRunner.GetEventEmitter().AchievementsChanged += AchChangedHandler;
+
         CoreWrapper.StateChanged += StateHasChanged;
         base.OnInitialized();
+
+        SeenEarnedAchievements = new List<string>(CoreWrapper.SeenEarnedAchievements);
+        CoreWrapper.SeenEarnedAchievements = Achievements.Where(a => a.Earned).Select(a => a.Title).ToList();
+        Console.WriteLine($"Init: {SeenEarnedAchievements.Count}/{CoreWrapper.SeenEarnedAchievements.Count}");
+    }
+
+    void IDisposable.Dispose()
+    {
+        Console.WriteLine("Dispose");
+        CoreWrapper.GameRunner.GetEventEmitter().AchievementsChanged -= AchChangedHandler;
+    }
+
+    private string GetAchievementClasses(AchievementRepresentation achievement)
+    {
+        string classes = "";
+        classes += achievement.Earned ? "ach-earned" : "ach-unearned";
+
+        if (achievement.Earned && !SeenEarnedAchievements.Contains(achievement.Title))
+        {
+            classes += " ach-new";
+        }
+
+        return classes;
     }
 }

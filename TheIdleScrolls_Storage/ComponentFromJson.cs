@@ -115,7 +115,8 @@ namespace TheIdleScrolls_JSON
                     int level = Int32.Parse(fields[1]);
                     int xp = Int32.Parse(fields[2]);
 
-                    var abilityDef = AbilityList.GetAbility(key);
+                    var abilityDef = AbilityList.GetAbility(key) 
+                                    ?? AbilityList.GetAbility("ABL_" + key); // Backwards compatibility
                     if (abilityDef == null)
                     {
                         Console.WriteLine($"Ability {key} not found in AbilityList");
@@ -368,5 +369,39 @@ namespace TheIdleScrolls_JSON
                 return false;
             }
         }
-    }
+
+        public static bool SetFromJson(this TitleBearerComponent component, JsonNode json)
+        {
+            try
+            {
+                component.Titles = json["Titles"]!.AsArray()
+                    .Select(j => j!.GetValue<string>())
+                    .ToHashSet();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public static bool SetFromJson(this MetaDataComponent component, JsonNode json)
+		{
+			try
+			{
+				var metaComp = JsonSerializer.Deserialize<MetaDataComponent>(json)!;
+                component.Name = metaComp.Name;
+				component.NameWithSuffixTitle = metaComp.NameWithSuffixTitle;
+				component.PrefixTitle = metaComp.PrefixTitle;
+				component.Level = metaComp.Level;
+				component.DisplayClass = metaComp.DisplayClass;
+				component.AdventureId = metaComp.AdventureId;
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
+	}
 }

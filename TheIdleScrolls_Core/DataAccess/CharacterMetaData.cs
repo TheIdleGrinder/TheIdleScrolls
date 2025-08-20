@@ -7,7 +7,7 @@ using TheIdleScrolls_Core.Components;
 
 namespace TheIdleScrolls_Core.DataAccess
 {
-    public record CharacterMetaData(string Name, int Level, string Class);
+    public record CharacterMetaData(string Name, string TitledName, string TitlePrefix, int Level, string Class);
 
     public static class CharacterMetaDataReader
     {
@@ -15,18 +15,41 @@ namespace TheIdleScrolls_Core.DataAccess
         {
             try
             {
-                var entity = await accessHandler.LoadEntity(characterId);
-                if (entity == null)
-                {
-                    Console.WriteLine($"Failed to load {characterId}");
-                    return null;
-                }
+                var encrypted = await accessHandler.StorageHandler.LoadData(characterId);
+                var decrypted = accessHandler.Decrypt(encrypted);
 
-                return new(
-                    entity.GetName(),
-                    entity.GetComponent<LevelComponent>()?.Level ?? 0,
-                    PlayerFactory.GetCharacterClass(entity).Localize()
-                );
+                var metaDataComp = accessHandler.EntityConverter
+                                    .DeserializeComponentFromSerializedEntity<MetaDataComponent>(decrypted);
+
+                if (metaDataComp is not null)
+                {
+                    return new(
+                        metaDataComp.Name,
+                        metaDataComp.NameWithSuffixTitle,
+                        metaDataComp.PrefixTitle,
+                        metaDataComp.Level,
+                        metaDataComp.DisplayClass.Localize()
+                    );
+                }
+                else
+                {
+                    var entity = accessHandler.EntityConverter.DeserializeEntity(decrypted);
+                    if (entity is not null)
+                    {
+                        return new(
+                            entity.GetName(),
+                            entity.GetTitledName(false, true),
+                            entity.GetComponent<TitleBearerComponent>()?.GetPrefixTitle() ?? "",
+                            entity.GetLevel(),
+                            PlayerFactory.GetCharacterClass(entity).Localize()
+						);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Failed to load {characterId}");
+                        return null;
+                    }
+                }
             }
             catch (Exception e)
             {

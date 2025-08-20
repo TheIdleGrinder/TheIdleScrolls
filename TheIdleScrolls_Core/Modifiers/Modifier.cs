@@ -88,7 +88,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 Tags.CraftingSlots,
                 Tags.ActiveCrafts,
                 Tags.CraftingSpeed,
-                Tags.CraftingCost,
+                Tags.CraftingCostEfficiency,
                 Tags.TimeShield
             ];
             targetTags = targetTags.Where(t => allTags.Contains(t)).ToList();

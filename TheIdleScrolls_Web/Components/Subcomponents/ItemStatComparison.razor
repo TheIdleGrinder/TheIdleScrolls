@@ -1,0 +1,61 @@
+﻿@using TheIdleScrolls_Core.Items
+
+<span class="itemcomparison-container @GetQualityClass()">
+    <span class="itemcomparison-symbol">@GetSymbol()</span>
+    <span class="itemcomparison-value">@GetValueText()</span>
+</span>
+
+<style>
+    .itemcomparison-container {
+        margin-left: 1rem;
+    }
+
+    .itemcomparison-container.item-equal {
+        color: gray;
+    }
+
+    .itemcomparison-container.item-better {
+        color: green;
+        font-weight: bold;
+    }
+
+    .itemcomparison-container.item-worse {
+        color: red;
+        font-weight: bold;
+    }
+
+    .itemcomparison-symbol {
+        font-family: 'Arrows';
+    }
+
+</style>
+
+@code {
+    [Parameter]
+    public ComparisonResult ComparisonResult { get; set; } = new(RelativeQuality.Equal, 0.0);
+    [Parameter]
+    public string Suffix { get; set; } = "";
+
+    string GetSymbol()
+    {
+        return (ComparisonResult.Difference == 0.0)
+            ? "KL"
+            : (ComparisonResult.Difference > 0.0)
+                ? "C"
+                : "D";
+    }
+
+    string GetValueText()
+    {
+        return $"{Math.Abs(ComparisonResult.Difference):0.##}{Suffix}";
+    }
+
+    string GetQualityClass()
+    {
+        return (ComparisonResult.Quality == RelativeQuality.Equal)
+            ? "item-equal"
+            : (ComparisonResult.Quality == RelativeQuality.Better)
+                ? "item-better"
+                : "item-worse";
+    }
+}

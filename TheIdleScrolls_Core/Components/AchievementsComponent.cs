@@ -31,5 +31,10 @@ namespace TheIdleScrolls_Core.Components
 
             Achievements.Add(achievement);
         }
+
+        public bool IsAchievementUnlocked(string id)
+        {
+            return (Achievements.FirstOrDefault(a => a.Id == id)?.Status ?? AchievementStatus.Unavailable) == AchievementStatus.Awarded;
+        }
     }
 }

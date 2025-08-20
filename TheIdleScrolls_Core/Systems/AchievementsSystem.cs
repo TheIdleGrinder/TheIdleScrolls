@@ -110,14 +110,18 @@ namespace TheIdleScrolls_Core.Systems
     {
         public Achievement Achievement { get; set; }
 
+        // Store status because it may change before the message is processed
+        public AchievementStatus Status { get; set; }
+
         public AchievementStatusMessage(Achievement achievement)
         {
             Achievement = achievement;
+            Status = achievement.Status;
         }
 
         string IMessage.BuildMessage()
         {
-            return Achievement.Status switch
+            return Status switch
             {
                 AchievementStatus.Unavailable => $"Achievement '{Achievement.Title}' has become unavailable",
                 AchievementStatus.Available => $"Achievement '{Achievement.Title}' has become available",
@@ -128,7 +132,9 @@ namespace TheIdleScrolls_Core.Systems
 
         IMessage.PriorityLevel IMessage.GetPriority()
         {
-            return (Achievement.Status == AchievementStatus.Awarded) ? IMessage.PriorityLevel.VeryHigh : IMessage.PriorityLevel.Debug;
+            return (Status == AchievementStatus.Awarded) 
+                    ? IMessage.PriorityLevel.VeryHigh 
+                    : IMessage.PriorityLevel.Debug;
         }
     }
 }

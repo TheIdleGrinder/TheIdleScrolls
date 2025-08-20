@@ -118,8 +118,8 @@ namespace TheIdleScrolls_Core.Components
 
         public bool UnequipItem(Entity item, bool moveItemsUp = true)
         {
-            bool removed = Items.Remove(item.Id);
-            if (removed)
+            bool removable = Items.ContainsKey(item.Id);
+            if (removable)
             {
                 foreach (var slot in item.GetRequiredSlots())
                 {
@@ -146,8 +146,9 @@ namespace TheIdleScrolls_Core.Components
                     }
                 }
             }
+            Items.Remove(item.Id);
             UpdateEncumbrance();
-            return removed;
+            return removable;
         }
 
         public List<EquipmentSlot> GetMissingEquipmentSlotsForItem(Entity item)
@@ -235,7 +236,7 @@ namespace TheIdleScrolls_Core.Components
                 .Sum();
         }
 
-        bool TakesSlotsBackwards(Entity item)
+        static bool TakesSlotsBackwards(Entity item)
         {
             return item.IsShield(); // Shields occupy the last available slot first
         }

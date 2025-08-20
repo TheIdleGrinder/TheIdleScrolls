@@ -2,7 +2,9 @@
 using MiniECS;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection.Metadata;
+using System.Text;
 using TheIdleScrolls_Core;
+using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
@@ -48,15 +50,18 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public AccessibleAreas Accessible { get; } = new();
         public List<IItemEntity> CraftingRecipes { get; private set; } = new();
         public CraftingBenchRepresentation CraftingBench { get; private set; } = new(0, 0, 0, new());
-        public bool AutoProceedActive { get; private set; } = false;
+        public bool AutoProceedActive => PlayerCharacter?.GetComponent<TravellerComponent>()?.AutoProceed ?? false;
+        public bool AutoGrindActive => PlayerCharacter?.GetComponent<TravellerComponent>()?.AutoGrindDungeons ?? false;
         public HashSet<GameFeature> AvailableFeatures { get; } = new();
         public List<IItemEntity> Inventory { get; private set; } = new();
         public List<IItemEntity> Equipment { get; private set; } = new();
         public int Coins { get; private set; } = 0;
         public CharacterStats CharacterStats { get; private set; } = new();
-        public List<AchievementRepresentation> Achievements { get; private set; } = new();
+        public List<AchievementRepresentation> Achievements { get; private set; } = [];
+        public List<string> SeenEarnedAchievements { get; set; } = [""]; // Dummy value to identify initial state
         public List<AbilityRepresentation> Abilities { get; private set; } = new();
         public List<PerkRepresentation> Perks { get; private set; } = new();
+        public List<string> SeenPerks { get; set; } = [];
         public int AchievementCount { get; private set; } = 0;
         public string StatisticsReport { get; private set; } = String.Empty;
         public BountyStateRepresentation BountyState { get; private set; } = new(0, 0, 0, 0, 0, 0);
@@ -101,6 +106,12 @@ namespace TheIdleScrolls_Web.CoreWrapper
             return await dataHandler.GetCharacterMetaData(name);
         }
 
+        public async Task DeleteCharacter(string name)
+        {
+            await dataHandler.DeleteStoredEntity(name);
+            await UpdateSavedCharacters();
+        }
+
         public async Task StartGameLoop()
         {
             const int frameTime = 50;
@@ -116,8 +127,9 @@ namespace TheIdleScrolls_Web.CoreWrapper
                     sw.Start();
 
                     var delay = Task.Delay(frameTime);
+                    int actualFrameTime = Math.Min(4 * frameTime, frameTime + (int)owedTime);
 
-                    gameRunner.ExecuteTick((frameTime + owedTime) / 1000.0);
+                    gameRunner.ExecuteTick(actualFrameTime / 1000.0);
                     StateChanged?.Invoke();
 					owedTime = 0;
 					await delay;
@@ -136,6 +148,8 @@ namespace TheIdleScrolls_Web.CoreWrapper
                     StopGameLoop();
                 }
             }
+            DialogueMessages.Clear();
+            ExpiringMessages.Clear();
         }
 
         public void StopGameLoop()
@@ -176,7 +190,6 @@ namespace TheIdleScrolls_Web.CoreWrapper
             };
             emitter.AvailableCraftingRecipesChanged += (List<IItemEntity> recipes) => CraftingRecipes = recipes;
             emitter.CraftingBenchChanged += (CraftingBenchRepresentation bench) => CraftingBench = bench;
-            emitter.PlayerAutoProceedStateChanged += (bool active) => AutoProceedActive = active;
             emitter.FeatureAvailabilityChanged += (GameFeature feature, bool available) =>
             {
                 if (available)
@@ -204,9 +217,21 @@ namespace TheIdleScrolls_Web.CoreWrapper
             {
                 Achievements = achievements;
                 AchievementCount = count;
+                if (SeenEarnedAchievements.Count == 1 && SeenEarnedAchievements[0] == "")
+                {
+                    SeenEarnedAchievements = achievements
+                                                .Where(a => a.Earned)
+                                                .Select(a => a.Title).ToList();
+                }
             };
             emitter.PlayerAbilitiesChanged += (List<AbilityRepresentation> abilities) => Abilities = abilities;
-            emitter.PlayerPerksChanged += (List<PerkRepresentation> perks) => Perks = perks;
+            emitter.PlayerPerksChanged += (List<PerkRepresentation> perks) =>
+            {
+                if (SeenPerks.Count == 0)
+                {
+                    SeenPerks = PlayerCharacter?.GetComponent<PerksComponent>()?.GetPerks()?.Select(p => p.Id).ToList() ?? [];
+                }
+            };
             emitter.StatReportChanged += (string report) => StatisticsReport = report;
             emitter.BountyStateChanged += (BountyStateRepresentation bounty) => BountyState = bounty;
             emitter.DisplayMessageReceived += (string title, string message) =>
@@ -234,7 +259,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 new LocalBrowserStorageHandler(jSRuntime),
                 new Base64ConversionDecorator<string>(
                     new InputToByteArrayConversionDecorator<byte[]>(
-                        new NopDataEncryptor<byte[]>()
+                        new XORDataEncryptor(Encoding.UTF8.GetBytes("Don't cheat plox"))
                     )
                 ));
             gameRunner = new GameRunner(dataHandler);
@@ -262,7 +287,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
         public void AddExpiringMessage(string message)
         {
-			ExpiringMessages.Add(new(message, 5.0));
+			ExpiringMessages.Add(new(message, 10.0));
 			ExpiringMessages = ExpiringMessages.Where(m => !m.Expired).ToList();
 		}
 

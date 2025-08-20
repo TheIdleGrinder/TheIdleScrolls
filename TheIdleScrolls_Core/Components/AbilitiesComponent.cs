@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Core.Components
 
         public List<Ability> GetAbilities()
         {
-            return m_abilities.Values.ToList();
+            return m_abilities.Values.OrderBy(a => AbilityList.GetAbilities().FindIndex(ad => ad.Key == a.Key)).ToList();
         }
 
         public bool UpdateAbility(string key, int level, int xp)

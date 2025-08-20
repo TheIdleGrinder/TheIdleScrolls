@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Quests;
@@ -90,7 +91,7 @@ namespace TheIdleScrolls_Core.Systems
                     if ((progress & GettingStartedQuest.StateFlags.Travel) != 0)
                     {
                         addTutorialProgress(TutorialStep.Travel, "Freedom of Movement",
-                            "Click the arrow buttons to move between zones. Higher level areas become accessible after defeating" +
+                            "Click the arrow buttons to move between zones. Higher level areas become accessible after defeating " +
                             "a mob in the previous zone." +
                             "\nUpon losing a fight, your character will automatically move down one area.",
                             message);
@@ -138,20 +139,12 @@ namespace TheIdleScrolls_Core.Systems
                 globalProgress.Data.TutorialProgress.Add(TutorialStep.Evasion);
                 coordinator.PostMessage(this,
                     new TutorialMessage(TutorialStep.Evasion, "Travelling Light",
-                    $"You have proven your prowess in unarmored combat. While fighting without armor, you will now be able to " +
-                    $"use your evasiness to gain additional time to defeat your enemies." +
-                    $"\n  - Evasion periodically stops the fight timer"));
+                    $"Armor is not the only way to protect yourself: By evading, you will occasionally be able to completely " +
+                    $"stop the fight timer. The higher your evasion rating, the faster the evasion bar charges and the longer " +
+                    $"the effect remains active." +
+                    $"\n  - Evasion periodically stops the fight timer" +
+                    $"\n  - Being encumbered by your equipment lowers evasion rating"));
             }
-            //if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Unarmed)
-            //    && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey) 
-            //        && a.Status == Achievements.AchievementStatus.Awarded) > 0))
-            //{
-            //    globalProgress.Data.TutorialProgress.Add(TutorialStep.Unarmed);
-            //    coordinator.PostMessage(this,
-            //        new TutorialMessage(TutorialStep.Unarmed, "Iron Fists",
-            //        $"You have proven your prowess in unarmed combat. Fighting without a weapon now grants 0.05 " +
-            //        $"base damage per level for each owned achievement from the 'unarmed' line."));
-            //}
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.FlatCircle)
                 && (achievementComp?.Achievements.Count(a => a.Id.Contains(UnarmedKey)
                     && a.Id.Contains(UnarmoredKey)
@@ -166,7 +159,7 @@ namespace TheIdleScrolls_Core.Systems
                 && coordinator.MessageTypeIsOnBoard<ItemReceivedMessage>())
             {
                 if (coordinator.FetchMessagesByType<ItemReceivedMessage>()
-                    .Any(m => (m.Item.GetBlueprint()?.GenusIndex ?? 0) > 0))
+                    .Any(m => (m.Item.GetBlueprint()?.MaterialId ?? MaterialId.Simple) != MaterialId.Simple))
                 {
                     globalProgress.Data.TutorialProgress.Add(TutorialStep.ItemFound);
                     coordinator.PostMessage(this,
@@ -212,6 +205,18 @@ namespace TheIdleScrolls_Core.Systems
                     $"an enemy at a higher level than you had before in the wilderness. You will also be awarded a bounty every " +
                     $"time you defeat {BountySystem.EnemiesPerHunt} enemies in the wilderness. The value of bounties " +
                     $"depends on the level of the defeated enemies."));
+            }
+
+            if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.FightingStyles)
+                && coordinator.FetchMessagesByType<AbilityAddedMessage>().Any(am => Definitions.Abilities.Styles.Contains(am.AbilityId)))
+            {
+                globalProgress.Data.TutorialProgress.Add(TutorialStep.FightingStyles);
+                coordinator.PostMessage(this,
+                    new TutorialMessage(TutorialStep.FightingStyles, "Fighting Styles",
+                    $"You have unlocked your first fighting style. Fighting styles are abilities that give you a bonus when fighting with one " +
+                    $"of the four basic weapon setups ({String.Join(", ", 
+                        Definitions.Abilities.Styles.Select(a => AbilityList.GetAbility(a)!.Name))}). As you level up these abilities, you will " +
+                    $"obtain more perks to strenghten your specialization."));
             }
         }
     }

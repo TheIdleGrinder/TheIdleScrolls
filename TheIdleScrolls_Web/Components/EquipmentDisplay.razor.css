@@ -19,6 +19,7 @@ p.equipSlot {
     cursor: pointer;
     white-space: nowrap;
     text-overflow: ellipsis;
+    padding-left: 0.25rem;
 }
 
 p.hiddenSlot {

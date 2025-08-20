@@ -7,6 +7,8 @@ using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Utility;
 using TheIdleScrollsApp;
+using TheIdleScrolls_Core.Resources;
+using TheIdleScrolls_Core.ContentPacks;
 
 namespace TheIdleScrolls_Core
 {
@@ -18,7 +20,7 @@ namespace TheIdleScrolls_Core
 
         readonly Coordinator m_coordinator = new();
 
-        readonly List<AbstractSystem> m_systems = new();
+        readonly List<AbstractSystem> m_systems = [];
 
         readonly DataAccessHandler m_dataHandler;
 
@@ -63,7 +65,7 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new PlayerProgressSystem());
             m_systems.Add(new SaveSystem(dataHandler));
             m_systems.Add(m_appUpdateSystem);
-        }
+		}
 
         public async Task Initialize(string playerName = "Leeroy")
         {
@@ -86,17 +88,11 @@ namespace TheIdleScrolls_Core
             AddPlayerToCoordinator(player);
 
             Logger.LogMessage($"Player '{player.GetName()}' (Level {player.GetComponent<LevelComponent>()?.Level ?? 0}) spawned (#{player.Id})");
+            
+            GetSystem<MobSpawnerSystem>()?.SetMobList(MobList.Mobs);
 
-            try
-            {
-                var mobs = ReadResourceFile<List<MobDescription>>("Mobs.json");
-                GetSystem<MobSpawnerSystem>()?.SetMobList(mobs);           
-            }
-            catch (Exception e)
-            {
-                Logger.LogMessage(e.Message);
-            }
-        }
+            AdventureList.WarriorAdventure.Activate();
+		}
 
         public IUserInputHandler GetUserInputHandler()
         {
@@ -187,11 +183,6 @@ namespace TheIdleScrolls_Core
                     return (T)system;
             }
             return null;
-        }
-
-        static T ReadResourceFile<T>(string file)
-        {
-            return ResourceAccess.ParseResourceFile<T>("TheIdleScrolls_Core", file);
         }
 
         public bool IsGameOver()

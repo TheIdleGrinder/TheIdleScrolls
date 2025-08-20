@@ -199,9 +199,12 @@
     <value />
   </data>
   <data name="Genus_HeavyBoots0" xml:space="preserve">
-    <value>Chain Boots</value>
+    <value />
   </data>
   <data name="Genus_HeavyBoots1" xml:space="preserve">
+    <value>Chain Boots</value>
+  </data>
+  <data name="Genus_HeavyBoots2" xml:space="preserve">
     <value>Greaves</value>
   </data>
   <data name="Genus_HeavyChest0" xml:space="preserve">
@@ -214,27 +217,39 @@
     <value>Breast Plate</value>
   </data>
   <data name="Genus_HeavyGloves0" xml:space="preserve">
-    <value>Chain Gloves</value>
+    <value />
   </data>
   <data name="Genus_HeavyGloves1" xml:space="preserve">
+    <value>Chain Gloves</value>
+  </data>
+  <data name="Genus_HeavyGloves2" xml:space="preserve">
     <value>Gauntlets</value>
   </data>
   <data name="Genus_HeavyHelmet0" xml:space="preserve">
-    <value>Helmet</value>
+    <value />
   </data>
   <data name="Genus_HeavyHelmet1" xml:space="preserve">
+    <value>Helmet</value>
+  </data>
+  <data name="Genus_HeavyHelmet2" xml:space="preserve">
     <value>Full Helmet</value>
   </data>
   <data name="Genus_HeavyShield0" xml:space="preserve">
-    <value>Kite Shield</value>
+    <value>Heavy Shield</value>
   </data>
   <data name="Genus_HeavyShield1" xml:space="preserve">
+    <value>Kite Shield</value>
+  </data>
+  <data name="Genus_HeavyShield2" xml:space="preserve">
     <value>Tower Shield</value>
   </data>
   <data name="Genus_LightBoots0" xml:space="preserve">
-    <value>Shoes</value>
+    <value />
   </data>
   <data name="Genus_LightBoots1" xml:space="preserve">
+    <value>Shoes</value>
+  </data>
+  <data name="Genus_LightBoots2" xml:space="preserve">
     <value>Boots</value>
   </data>
   <data name="Genus_LightChest0" xml:space="preserve">
@@ -247,21 +262,30 @@
     <value>Cuirass</value>
   </data>
   <data name="Genus_LightGloves0" xml:space="preserve">
-    <value>Gloves</value>
+    <value />
   </data>
   <data name="Genus_LightGloves1" xml:space="preserve">
+    <value>Gloves</value>
+  </data>
+  <data name="Genus_LightGloves2" xml:space="preserve">
     <value>Mitts</value>
   </data>
   <data name="Genus_LightHelmet0" xml:space="preserve">
-    <value>Cap</value>
+    <value />
   </data>
   <data name="Genus_LightHelmet1" xml:space="preserve">
+    <value>Cap</value>
+  </data>
+  <data name="Genus_LightHelmet2" xml:space="preserve">
     <value>Hood</value>
   </data>
   <data name="Genus_LightShield0" xml:space="preserve">
+    <value>Light Shield</value>
+  </data>
+  <data name="Genus_LightShield1" xml:space="preserve">
     <value>Buckler</value>
   </data>
-  <data name="Genus_LIghtShield1" xml:space="preserve">
+  <data name="Genus_LightShield2" xml:space="preserve">
     <value>Round Shield</value>
   </data>
   <data name="Genus_LongSword0" xml:space="preserve">
