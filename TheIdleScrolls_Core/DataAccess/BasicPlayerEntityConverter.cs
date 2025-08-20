@@ -13,7 +13,12 @@ namespace TheIdleScrolls_Core.DataAccess
     [ObsoleteAttribute("This converter is obsolete and does not convert the entire entity", true)]
     public class BasicPlayerEntityConverter : IEntityConverter
     {
-        public Entity? DeserializeEntity(string serialized)
+		public T? DeserializeComponentFromSerializedEntity<T>(string serialized) where T : IComponent
+		{
+			throw new NotImplementedException();
+		}
+
+		public Entity? DeserializeEntity(string serialized)
         {
             var success = DeserializeEntity(serialized, out Entity result);
             return success ? result : null;

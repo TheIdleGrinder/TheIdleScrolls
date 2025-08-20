@@ -27,7 +27,7 @@ namespace TheIdleScrolls_Core.GameWorld
 
         public World()
         {
-            Map.Dungeons = AreaKingdom.Dungeons;
+            
         }
 
         public ZoneDescription? GetZone(Location location)

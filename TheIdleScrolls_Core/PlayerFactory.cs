@@ -34,6 +34,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new PerksComponent());
             player.AddComponent(new RewardCollectorComponent());
             player.AddComponent(new TitleBearerComponent());
+            player.AddComponent(new MetaDataComponent());
 
             return player;
         }

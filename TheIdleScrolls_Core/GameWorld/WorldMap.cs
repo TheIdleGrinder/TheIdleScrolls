@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Resources;
 
 namespace TheIdleScrolls_Core.GameWorld
 {
@@ -13,7 +14,7 @@ namespace TheIdleScrolls_Core.GameWorld
 
         private IMapProgressPath _progressPath = new SpiralMapPath(MinLevel);
 
-        public List<DungeonDescription> Dungeons { get; set; } = [];
+        public static List<DungeonDescription> Dungeons => DungeonList.GetAllDungeons();
 
         public List<DungeonDescription> GetDungeons()
         {
