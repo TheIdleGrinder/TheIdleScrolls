@@ -43,7 +43,7 @@ namespace TheIdleScrolls_Core.ContentPacks
 			return [LevelEndgame];
 		}
 
-		readonly List<string> VoidMobs = [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER",
+		static readonly List<string> VoidMobs = [ "MOB_FLAMETHROWER", "MOB_HORNEDIMP", "MOB_SPIKEDDEMON", "MOB_VOIDCRAWLER",
 										   "MOB_ANGRYCHICKEN", "MOB_CONSUMINGOOZE", "MOB_GLIMPSEA", "MOB_GLIMPSEB", "MOB_GLIMPSEC",
 										   "MOB_GORGON", "MOB_MARINE", "MOB_SERAPH", "MOB_SHADOWBULL",
 										   "MOB_WENDIGO", "MOB_VENGEFULDUMMY" ];

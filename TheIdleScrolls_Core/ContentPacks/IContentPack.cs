@@ -23,7 +23,7 @@ namespace TheIdleScrolls_Core.ContentPacks
 			foreach (var content in pack.ContentPieces)
 			{
 				if (!content.CanActivate())
-					throw new Exception($"Failed to activate content pack '{pack.Name}' (Can't activeate '{content.Id}')");
+					throw new Exception($"Failed to activate content pack '{pack.Name}' (Can't activate '{content.Id}')");
 			}
 
 			foreach (var content in pack.ContentPieces)
