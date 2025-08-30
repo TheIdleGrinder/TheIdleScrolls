@@ -4,6 +4,8 @@ using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 
 using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Utility;
+using TheIdleScrolls_Core.Skills.SkillEffects;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -43,8 +45,8 @@ namespace TheIdleScrolls_Core.Systems
             double encumbrance = 0.0;
             int armorCount = 0;
 
-            double rawDamage = 2.0;
-            double cooldown = 1.0;
+            //double rawDamage = 2.0;
+            //double cooldown = 1.0;
             int weaponCount = 0;
 
             var globalTags = player.GetTags();
@@ -52,8 +54,8 @@ namespace TheIdleScrolls_Core.Systems
 
             if (equipComp != null)
             {
-                double combinedDmg = 0.0;
-                double combinedCD = 0.0;
+                //double combinedDmg = 0.0;
+                //double combinedCD = 0.0;
 
                 foreach (var item in equipComp.GetItems())
                 {
@@ -72,21 +74,21 @@ namespace TheIdleScrolls_Core.Systems
 
                     if (itemComp != null && weaponComp != null)
                     {
-                        double localDmg = weaponComp.Damage;
-                        double localCD = weaponComp.Cooldown;
-                        weaponCount++;
+                        //    double localDmg = weaponComp.Damage;
+                        //    double localCD = weaponComp.Cooldown;
+                            weaponCount++;
 
-                        if (modComp != null)
-                        {
-                            localDmg = modComp.ApplyApplicableModifiers(localDmg, localTags.Append(Tags.Damage), globalTags);
-                            localCD = 1.0 / modComp.ApplyApplicableModifiers(1.0 / localCD, 
-                                localTags.Append(Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
-                                globalTags);
-                        }
+                        //    if (modComp != null)
+                        //    {
+                        //        localDmg = modComp.ApplyApplicableModifiers(localDmg, localTags.Append(Tags.Damage), globalTags);
+                        //        localCD = 1.0 / modComp.ApplyApplicableModifiers(1.0 / localCD, 
+                        //            localTags.Append(Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
+                        //            globalTags);
+                        //    }
 
-                        combinedDmg += localDmg;
-                        combinedCD += localCD;
-                        //Console.WriteLine($"{item.GetName()}({weaponCount}): Dmg: {localDmg} -> {combinedDmg}; CD: {localCD} -> {combinedCD}");
+                        //    combinedDmg += localDmg;
+                        //    combinedCD += localCD;
+                        //    //Console.WriteLine($"{item.GetName()}({weaponCount}): Dmg: {localDmg} -> {combinedDmg}; CD: {localCD} -> {combinedCD}");
                     }
 
                     if (itemComp != null && armorComp != null)
@@ -109,21 +111,21 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
 
-                if (weaponCount > 0)
-                {
-                    rawDamage = (combinedDmg / weaponCount);
-                    cooldown = (combinedCD / weaponCount);
-                }                
+                //if (weaponCount > 0)
+                //{
+                //    rawDamage = (combinedDmg / weaponCount);
+                //    cooldown = (combinedCD / weaponCount);
+                //}                
             }
 
-            if (weaponCount == 0)
-            {
-                rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, 
-                    [Tags.Damage, Abilities.Unarmed], globalTags) ?? rawDamage;
-                // invert attack speed due to speed/cooldown mismatch
-                cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
-                    [Tags.AttackSpeed, Abilities.Unarmed], globalTags) ?? cooldown;
-            }
+            //if (weaponCount == 0)
+            //{
+            //    rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, 
+            //        [Tags.Damage, Abilities.Unarmed], globalTags) ?? rawDamage;
+            //    // invert attack speed due to speed/cooldown mismatch
+            //    cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
+            //        [Tags.AttackSpeed, Abilities.Unarmed], globalTags) ?? cooldown;
+            //}
 
             // Handle global armor and evasion bonuses
             List<string> globalDefTags = [Tags.Global, Tags.Defense];
@@ -136,25 +138,35 @@ namespace TheIdleScrolls_Core.Systems
 
             double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
 
-            var attackComp = player.GetComponent<AttackComponent>();
-            if (attackComp != null)
-            {
-                attackComp.RawDamage = Math.Round(rawDamage);
-
-                cooldown *= encumbranceSlowdown; // Encumbrance slows attack speed multiplicatively
-                cooldown = Math.Max(cooldown, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
-                if (cooldown != attackComp.Cooldown.Duration)
-                    attackComp.Cooldown.ChangeDuration(cooldown, true);
-            }
-
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null)
             {
                 defenseComp.Evasion = evasion / encumbranceSlowdown; 
                 defenseComp.Armor = armor;
             }
-            
-            coordinator.PostMessage(this, new StatsUpdatedMessage());
+
+            var skillComp = player.GetComponent<ActiveSkillComponent>();
+            if (skillComp != null)
+            {
+                foreach (var skill in skillComp.Skills)
+                {
+                    skill.SetupForUser(player);
+                }
+
+                // Set attackComp for display
+                var attackComp = player.GetComponent<AttackComponent>();
+			    if (attackComp != null && skillComp.CurrentSkill is not null)
+			    {
+					double dmg = skillComp.CurrentSkill?.Effects?.Sum(e => e is DamageSkillEffect ? ((DamageSkillEffect)e).Damage : 0.0) ?? 0.0;
+				    attackComp.RawDamage = dmg;
+                    double duration = skillComp.CurrentSkill?.Timer.ChargingDuration ?? 1.0;
+                    double remaining = skillComp.CurrentSkill?.Timer.Remaining ?? 1.0;
+                    attackComp.Cooldown.Reset(duration);
+				    attackComp.Cooldown.Update(duration - remaining);
+			    }
+            }
+
+			coordinator.PostMessage(this, new StatsUpdatedMessage());
             if (m_initialFullUpdates > 0)
                 m_initialFullUpdates--;
         }

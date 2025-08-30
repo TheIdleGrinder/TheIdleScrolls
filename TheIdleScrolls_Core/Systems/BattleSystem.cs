@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Skills;
+using TheIdleScrolls_Core.Skills.SkillEffects;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -82,21 +85,53 @@ namespace TheIdleScrolls_Core.Systems
                 battle.Duration += dt;
                 Entity mob = battle.Mob!; // has to be present if battle is in progress
 
-                // Process player attacks
-                var attackComp = player.GetComponent<AttackComponent>() 
-                    ?? throw new Exception("Player lacks attack component");
-                int attacks = attackComp.Cooldown.Update(dt);
-                for (int i = 0; i < attacks; i++)
+                // Process player skills
+                var skillComp = player.GetComponent<ActiveSkillComponent>();
+                if (skillComp is not null)
                 {
-                    var message = ApplyAttack(player, mob);
-                    if (message != null)
+                    if (skillComp.CurrentSkill is not null 
+                        && skillComp.CurrentSkill.CurrentState == SkillTimer.State.NotStarted)
                     {
-                        coordinator.PostMessage(this, message);
-                        player.GetComponent<BattlerComponent>()!.DamageDealt += message.Damage;
+                        skillComp.CurrentSkill.Timer.Start();
                     }
-                    player.GetComponent<BattlerComponent>()!.AttacksPerformed++;
-                    // Update time limit after each attack
-                    SetupPlayerTimeShield(player, player.GetComponent<LocationComponent>()!.GetCurrentZone(world.Map)!);
+                    double remaining = skillComp.CurrentSkill?.UpdateTimer(dt) ?? 0.0;
+                    while (remaining > 0.0) // Means that the skill has finished charging
+                    {
+                        double damage = 0;
+                        foreach (var effect in skillComp.CurrentSkill!.Effects)
+                        {
+                            effect.ApplyToTarget(mob);
+                            if (effect is DamageSkillEffect dmgEffect)
+                            {
+                                 damage += dmgEffect.Damage;
+                            }
+                        }
+                        coordinator.PostMessage(this, new DamageDoneMessage(player, mob, (int)damage));
+                        player.GetComponent<BattlerComponent>()!.DamageDealt += (int)damage;
+						player.GetComponent<BattlerComponent>()!.AttacksPerformed++;
+                        skillComp.SwitchToNext();
+                        skillComp.CurrentSkill.Timer.Start();
+                        remaining = skillComp.CurrentSkill.UpdateTimer(remaining);
+					}
+                }
+                else
+                {
+                    // Process player attacks
+                    var attackComp = player.GetComponent<AttackComponent>()
+                        ?? throw new Exception("Player lacks attack component");
+                    int attacks = attackComp.Cooldown.Update(dt);
+                    for (int i = 0; i < attacks; i++)
+                    {
+                        var message = ApplyAttack(player, mob);
+                        if (message != null)
+                        {
+                            coordinator.PostMessage(this, message);
+                            player.GetComponent<BattlerComponent>()!.DamageDealt += message.Damage;
+                        }
+                        player.GetComponent<BattlerComponent>()!.AttacksPerformed++;
+                        // Update time limit after each attack
+                        SetupPlayerTimeShield(player, player.GetComponent<LocationComponent>()!.GetCurrentZone(world.Map)!);
+                    }
                 }
 
                 bool mobDefeated = mob.GetComponent<LifePoolComponent>()?.IsDead 
@@ -165,6 +200,7 @@ namespace TheIdleScrolls_Core.Systems
                 SetupPlayerTimeShield(player, zone);
                 player.GetComponent<TimeShieldComponent>()?.Refill();
                 player.GetComponent<AttackComponent>()?.Cooldown?.Reset();
+                player.GetComponent<ActiveSkillComponent>()?.ResetSkills();
             }
         }
 
