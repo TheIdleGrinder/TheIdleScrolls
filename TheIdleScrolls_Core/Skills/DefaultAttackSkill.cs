@@ -14,12 +14,13 @@ namespace TheIdleScrolls_Core.Skills
 	{
 		public static readonly ActiveSkillDefinition Skill = new(
 			"DfltAttack", 
-			"Default Attack", 
-			ActiveSkillDefinition.TargetingMode.SingleEnemy,
+			"Default Attack",
 			UpdateFunction);
 
 		public static void UpdateFunction(Entity user, ActiveSkill skill)
 		{
+			List<string> AdditionalTags = ["Attack"];
+
 			var equipComp = user.GetComponent<EquipmentComponent>();
 			var modComp = user.GetComponent<ModifierComponent>();
 
@@ -39,7 +40,7 @@ namespace TheIdleScrolls_Core.Skills
 				{
 					var itemComp = item.GetComponent<ItemComponent>();
 					var weaponComp = item.GetComponent<WeaponComponent>();
-					var localTags = item.GetTags();
+					var localTags = (List<string>)item.GetTags().Concat(AdditionalTags);
 					encumbrance += item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
 
 					// Add situational local tags 
@@ -79,15 +80,15 @@ namespace TheIdleScrolls_Core.Skills
 			if (weaponCount == 0)
 			{
 				rawDamage = modComp?.ApplyApplicableModifiers(rawDamage,
-					[Tags.Damage, Abilities.Unarmed], globalTags) ?? rawDamage;
+					[Tags.Damage, Abilities.Unarmed, ..AdditionalTags], globalTags) ?? rawDamage;
 				// invert attack speed due to speed/cooldown mismatch
 				cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
-					[Tags.AttackSpeed, Abilities.Unarmed], globalTags) ?? cooldown;
+					[Tags.AttackSpeed, Abilities.Unarmed, ..AdditionalTags], globalTags) ?? cooldown;
 			}
 
 			double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
 
-			DamageSkillEffect dmgEffect = new(Math.Round(rawDamage), ["Attack"]);
+			DamageSkillEffect dmgEffect = new(Math.Round(rawDamage), ISkillEffect.TargetingMode.SingleEnemy, [..AdditionalTags]);
 			skill.Effects = [dmgEffect];
 
 			cooldown *= encumbranceSlowdown; // Encumbrance slows attack speed multiplicatively

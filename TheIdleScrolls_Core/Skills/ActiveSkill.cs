@@ -25,7 +25,6 @@ namespace TheIdleScrolls_Core.Skills
 
 		public string Id => Definition.Id;
 		public string Name => Definition.Name;
-		public ActiveSkillDefinition.TargetingMode Target => Definition.TargetMode;
 
 		public void SetupForUser(Entity user)
 		{

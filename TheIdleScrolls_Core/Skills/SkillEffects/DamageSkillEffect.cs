@@ -5,15 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using static TheIdleScrolls_Core.Skills.ISkillEffect;
 
 namespace TheIdleScrolls_Core.Skills.SkillEffects
 {
-	public class DamageSkillEffect(double damage, HashSet<string> tags) : ISkillEffect
+	public class DamageSkillEffect(double damage, TargetingMode target, HashSet<string> tags) : ISkillEffect
 	{
 		public double Damage = damage;
 		public HashSet<string> Tags = tags;
 
 		public string Description => $"{Damage} damage";
+
+		public TargetingMode Target => target;
 
 		public void ApplyToTarget(Entity target)
 		{

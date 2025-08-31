@@ -100,38 +100,26 @@ namespace TheIdleScrolls_Core.Systems
                         double damage = 0;
                         foreach (var effect in skillComp.CurrentSkill!.Effects)
                         {
-                            effect.ApplyToTarget(mob);
-                            if (effect is DamageSkillEffect dmgEffect)
+                            if (effect.Target == ISkillEffect.TargetingMode.SingleEnemy)
                             {
-                                 damage += dmgEffect.Damage;
+                                effect.ApplyToTarget(mob);
+								if (effect is DamageSkillEffect dmgEffect)
+								{
+									damage += dmgEffect.Damage;
+									coordinator.PostMessage(this, new DamageDoneMessage(player, mob, (int)damage));
+								}
+							}
+                            else
+                            {
+                                effect.ApplyToTarget(player);
                             }
                         }
-                        coordinator.PostMessage(this, new DamageDoneMessage(player, mob, (int)damage));
                         player.GetComponent<BattlerComponent>()!.DamageDealt += (int)damage;
 						player.GetComponent<BattlerComponent>()!.AttacksPerformed++;
                         skillComp.SwitchToNext();
                         skillComp.CurrentSkill.Timer.Start();
                         remaining = skillComp.CurrentSkill.UpdateTimer(remaining);
 					}
-                }
-                else
-                {
-                    // Process player attacks
-                    var attackComp = player.GetComponent<AttackComponent>()
-                        ?? throw new Exception("Player lacks attack component");
-                    int attacks = attackComp.Cooldown.Update(dt);
-                    for (int i = 0; i < attacks; i++)
-                    {
-                        var message = ApplyAttack(player, mob);
-                        if (message != null)
-                        {
-                            coordinator.PostMessage(this, message);
-                            player.GetComponent<BattlerComponent>()!.DamageDealt += message.Damage;
-                        }
-                        player.GetComponent<BattlerComponent>()!.AttacksPerformed++;
-                        // Update time limit after each attack
-                        SetupPlayerTimeShield(player, player.GetComponent<LocationComponent>()!.GetCurrentZone(world.Map)!);
-                    }
                 }
 
                 bool mobDefeated = mob.GetComponent<LifePoolComponent>()?.IsDead 
