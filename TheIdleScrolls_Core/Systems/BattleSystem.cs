@@ -95,6 +95,14 @@ namespace TheIdleScrolls_Core.Systems
                         skillComp.CurrentSkill.Timer.Start();
                     }
                     double remaining = skillComp.CurrentSkill?.UpdateTimer(dt) ?? 0.0;
+                    // Also update timer for all other skills
+                    // CornerCut: This leads to skills charging a little bit to quickly, if they finish cooldown on this very frame
+                    // and are immediately selected as next skill. Due to limited maximum frame times, this should not be noticeable.
+                    foreach (var skill in skillComp.Skills)
+                    {
+                        if (skill != skillComp.CurrentSkill)
+                            skill.UpdateTimer(dt);
+                    }
                     while (remaining > 0.0) // Means that the skill has finished charging
                     {
                         double damage = 0;
