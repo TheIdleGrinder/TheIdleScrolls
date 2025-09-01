@@ -89,45 +89,51 @@ namespace TheIdleScrolls_Core.Systems
                 var skillComp = player.GetComponent<ActiveSkillComponent>();
                 if (skillComp is not null)
                 {
-                    if (skillComp.CurrentSkill is not null 
-                        && skillComp.CurrentSkill.CurrentState == SkillTimer.State.NotStarted)
+                    double totalElapsed = 0.0;
+                    while (totalElapsed < dt)
                     {
-                        skillComp.CurrentSkill.Timer.Start();
-                    }
-                    double remaining = skillComp.CurrentSkill?.UpdateTimer(dt) ?? 0.0;
-                    // Also update timer for all other skills
-                    // CornerCut: This leads to skills charging a little bit to quickly, if they finish cooldown on this very frame
-                    // and are immediately selected as next skill. Due to limited maximum frame times, this should not be noticeable.
-                    foreach (var skill in skillComp.Skills)
-                    {
-                        if (skill != skillComp.CurrentSkill)
-                            skill.UpdateTimer(dt);
-                    }
-                    while (remaining > 0.0) // Means that the skill has finished charging
-                    {
-                        double damage = 0;
-                        foreach (var effect in skillComp.CurrentSkill!.Effects)
+                        double previouslyRemaining = dt - totalElapsed;
+                        if (skillComp.CurrentSkill is not null
+                            && skillComp.CurrentSkill.CurrentState == SkillTimer.State.NotStarted)
                         {
-                            if (effect.Target == ISkillEffect.TargetingMode.SingleEnemy)
-                            {
-                                effect.ApplyToTarget(mob);
-								if (effect is DamageSkillEffect dmgEffect)
-								{
-									damage += dmgEffect.Damage;
-									coordinator.PostMessage(this, new DamageDoneMessage(player, mob, (int)damage));
-								}
-							}
-                            else
-                            {
-                                effect.ApplyToTarget(player);
-                            }
+                            skillComp.CurrentSkill.Timer.Start();
                         }
-                        player.GetComponent<BattlerComponent>()!.DamageDealt += (int)damage;
-						player.GetComponent<BattlerComponent>()!.AttacksPerformed++;
-                        skillComp.SwitchToNext();
-                        skillComp.CurrentSkill.Timer.Start();
-                        remaining = skillComp.CurrentSkill.UpdateTimer(remaining);
-					}
+                        double remaining = skillComp.CurrentSkill?.UpdateTimer(previouslyRemaining) ?? 0.0;
+                        double elapsed = previouslyRemaining - remaining;
+                        totalElapsed += elapsed;
+                        // Also update timer for all other skills
+                        // CornerCut: This leads to skills charging a little bit to quickly, if they finish cooldown on this very frame
+                        // and are immediately selected as next skill. Due to limited maximum frame times, this should not be noticeable.
+                        foreach (var skill in skillComp.Skills)
+                        {
+                            if (skill != skillComp.CurrentSkill)
+                                skill.UpdateTimer(elapsed);
+                        }
+                        if (remaining > 0.0) // Means that the skill has finished charging
+                        {
+                            double damage = 0;
+                            foreach (var effect in skillComp.CurrentSkill!.Effects)
+                            {
+                                if (effect.Target == ISkillEffect.TargetingMode.SingleEnemy)
+                                {
+                                    effect.ApplyToTarget(mob);
+                                    if (effect is DamageSkillEffect dmgEffect)
+                                    {
+                                        damage += dmgEffect.Damage;
+                                        coordinator.PostMessage(this, new DamageDoneMessage(player, mob, (int)damage));
+                                    }
+                                }
+                                else
+                                {
+                                    effect.ApplyToTarget(player);
+                                }
+                            }
+                            player.GetComponent<BattlerComponent>()!.DamageDealt += (int)damage;
+                            player.GetComponent<BattlerComponent>()!.AttacksPerformed++;
+                            skillComp.SwitchToNext();
+                            skillComp.CurrentSkill.Timer.Start();
+                        }
+                    }
                 }
 
                 bool mobDefeated = mob.GetComponent<LifePoolComponent>()?.IsDead 

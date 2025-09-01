@@ -40,7 +40,7 @@ namespace TheIdleScrolls_Core.Skills
 				{
 					var itemComp = item.GetComponent<ItemComponent>();
 					var weaponComp = item.GetComponent<WeaponComponent>();
-					var localTags = (List<string>)item.GetTags().Concat(AdditionalTags);
+					var localTags = item.GetTags().Concat(AdditionalTags).ToList();
 					encumbrance += item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
 
 					// Add situational local tags 
