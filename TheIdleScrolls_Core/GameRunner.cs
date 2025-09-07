@@ -47,6 +47,7 @@ namespace TheIdleScrolls_Core
             m_systems.Add(m_userInputHandler as dynamic);
             m_systems.Add(new AchievementsSystem());
             m_systems.Add(new TravelSystem());
+            m_systems.Add(new StatusEffectSystem());
             m_systems.Add(new BattleSystem());
             m_systems.Add(new MobSpawnerSystem());
             m_systems.Add(new BountySystem());

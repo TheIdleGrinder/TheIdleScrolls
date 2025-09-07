@@ -93,6 +93,9 @@ namespace TheIdleScrolls_Core
             public const string Local = "Local";
             public const string Global = "Global";
 
+            public const string Attack = "Attack";
+            public const string Speed = "Speed";
+
             public const string Damage = "Damage";
             public const string AttackSpeed = "AttackSpeed";
             public const string Defense = "Defense";

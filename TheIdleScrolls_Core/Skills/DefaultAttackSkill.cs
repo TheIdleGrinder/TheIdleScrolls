@@ -19,7 +19,7 @@ namespace TheIdleScrolls_Core.Skills
 
 		public static void UpdateFunction(Entity user, ActiveSkill skill)
 		{
-			List<string> AdditionalTags = ["Attack"];
+			List<string> AdditionalTags = [Tags.Attack];
 
 			var equipComp = user.GetComponent<EquipmentComponent>();
 			var modComp = user.GetComponent<ModifierComponent>();
