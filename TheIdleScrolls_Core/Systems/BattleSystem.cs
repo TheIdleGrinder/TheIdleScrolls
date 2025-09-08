@@ -85,55 +85,13 @@ namespace TheIdleScrolls_Core.Systems
                 battle.Duration += dt;
                 Entity mob = battle.Mob!; // has to be present if battle is in progress
 
-                // Process player skills
-                var skillComp = player.GetComponent<ActiveSkillComponent>();
-                if (skillComp is not null)
+                // Player may have been defeated through a status effect (e.g. poison). In that case, don't process skills, but
+                // let the player win the fight if the mob was defeated during the same frame (also from a status effect).
+                bool playerDefeated = player.GetComponent<TimeShieldComponent>()?.IsDepleted ?? false;
+
+                if (!playerDefeated)
                 {
-                    double totalElapsed = 0.0;
-                    while (totalElapsed < dt)
-                    {
-                        double previouslyRemaining = dt - totalElapsed;
-                        if (skillComp.CurrentSkill is not null
-                            && skillComp.CurrentSkill.CurrentState == SkillTimer.State.NotStarted)
-                        {
-                            skillComp.CurrentSkill.Timer.Start();
-                        }
-                        double remaining = skillComp.CurrentSkill?.UpdateTimer(previouslyRemaining) ?? 0.0;
-                        double elapsed = previouslyRemaining - remaining;
-                        totalElapsed += elapsed;
-                        // Also update timer for all other skills
-                        // CornerCut: This leads to skills charging a little bit to quickly, if they finish cooldown on this very frame
-                        // and are immediately selected as next skill. Due to limited maximum frame times, this should not be noticeable.
-                        foreach (var skill in skillComp.Skills)
-                        {
-                            if (skill != skillComp.CurrentSkill)
-                                skill.UpdateTimer(elapsed);
-                        }
-                        if (remaining > 0.0) // Means that the skill has finished charging
-                        {
-                            double damage = 0;
-                            foreach (var effect in skillComp.CurrentSkill!.Effects)
-                            {
-                                if (effect.Target == ISkillEffect.TargetingMode.SingleEnemy)
-                                {
-                                    effect.ApplyToTarget(mob);
-                                    if (effect is DamageSkillEffect dmgEffect)
-                                    {
-                                        damage += dmgEffect.Damage;
-                                        coordinator.PostMessage(this, new DamageDoneMessage(player, mob, (int)damage));
-                                    }
-                                }
-                                else
-                                {
-                                    effect.ApplyToTarget(player);
-                                }
-                            }
-                            player.GetComponent<BattlerComponent>()!.DamageDealt += (int)damage;
-                            player.GetComponent<BattlerComponent>()!.AttacksPerformed++;
-                            skillComp.SwitchToNext();
-                            skillComp.CurrentSkill.Timer.Start();
-                        }
-                    }
+                    ProcessSkills(player, mob, dt, coordinator);
                 }
 
                 bool mobDefeated = mob.GetComponent<LifePoolComponent>()?.IsDead 
@@ -145,10 +103,12 @@ namespace TheIdleScrolls_Core.Systems
                     mob.AddComponent(new KilledComponent { Killer = player.Id });
                 }
 
-                bool playerDefeated = false;
-                // Process time loss if mob has not been defeated
+                // Process mob skills and time loss if mob has not been defeated
                 if (!mobDefeated)
                 {
+                    ProcessSkills(mob, player, dt, coordinator);
+
+                    // Apply time loss
                     double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
                     double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
                     double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, mob.GetLevel(), damage);
@@ -228,6 +188,58 @@ namespace TheIdleScrolls_Core.Systems
             hpComp.ApplyDamage(damage);
             return new DamageDoneMessage(attacker, target, damage);
         }
+
+        void ProcessSkills(Entity entity, Entity opponent, double dt, Coordinator coordinator)
+        {
+			// Process player skills
+			var skillComp = entity.GetComponent<ActiveSkillComponent>();
+			if (skillComp is null)
+                return;
+
+			double totalElapsed = 0.0;
+			while (totalElapsed < dt)
+			{
+				double previouslyRemaining = dt - totalElapsed;
+				if (skillComp.CurrentSkill is not null
+					&& skillComp.CurrentSkill.CurrentState == SkillTimer.State.NotStarted)
+				{
+					skillComp.CurrentSkill.Timer.Start();
+				}
+				double remaining = skillComp.CurrentSkill?.UpdateTimer(previouslyRemaining) ?? 0.0;
+				double elapsed = previouslyRemaining - remaining;
+				totalElapsed += elapsed;
+				// Also update timer for all other skills
+				foreach (var skill in skillComp.Skills)
+				{
+					if (skill != skillComp.CurrentSkill)
+						skill.UpdateTimer(elapsed);
+				}
+				if (remaining > 0.0) // Means that the skill has finished charging
+				{
+					double damage = 0;
+					foreach (var effect in skillComp.CurrentSkill!.Effects)
+					{
+						if (effect.Target == ISkillEffect.TargetingMode.SingleEnemy)
+						{
+							effect.ApplyToTarget(opponent);
+							if (effect is DamageSkillEffect dmgEffect)
+							{
+								damage += dmgEffect.Damage;
+								coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage));
+							}
+						}
+						else
+						{
+							effect.ApplyToTarget(entity);
+						}
+					}
+					entity.GetComponent<BattlerComponent>()!.DamageDealt += (int)damage;
+					entity.GetComponent<BattlerComponent>()!.AttacksPerformed++;
+					skillComp.SwitchToNext();
+					skillComp.CurrentSkill.Timer.Start();
+				}
+			}
+		}
     }
 
     public record BattleStateChangedMessage(Battle Battle) : IMessage
