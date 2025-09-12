@@ -1,0 +1,45 @@
+﻿@using TheIdleScrolls_Core.Skills
+
+
+<div class="skill-progress-bar-container" style="margin-top: 0.5rem;">
+    @Skill.Name
+    <div id="skill-bar-frame" class="progressFrame" style="justify-content: start">
+        <div id="skill-bar-fill" class="progressFill" style="width: @($"{CalculateProgress():0%}");"></div>
+    </div>
+</div>
+
+<style>
+    .skill-progress-bar-container {
+        display: inline-flex;
+        gap: 0.5rem;
+        font-size: 1.25rem;
+        width: 100%;
+    }
+
+    #skill-bar-frame {
+        width: 100%;
+        border: 1px solid var(--frame-color);
+        background: inherit;
+        height: fit-content;
+        align-self: center;
+    }
+
+    #skill-bar-fill {
+        background-color: var(--color-attack-progress);
+        height: 12px;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public ActiveSkill Skill { get; set; } = new(DefaultAttack.Skill);
+
+    public double CalculateProgress()
+    {
+        return Skill.CurrentState switch
+        {
+            SkillTimer.State.Charging => 1.0 - (Skill.Timer.Remaining / (Skill.Timer.ChargingDuration > 0.0 ? Skill.Timer.ChargingDuration : 1.0)),
+            _ => 0.0
+        };
+    }
+}

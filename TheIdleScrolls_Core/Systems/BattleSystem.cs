@@ -112,7 +112,9 @@ namespace TheIdleScrolls_Core.Systems
                     double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
                     double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
                     double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, mob.GetLevel(), damage);
-                    double timeLoss = dt * damage / armorBonus;
+                    // Scale mob damage with attack speed (mostly to allow for stuns)
+                    double speed = mob.ApplyAllApplicableModifiers(1.0, [Tags.AttackSpeed], mob.GetTags());
+                    double timeLoss = dt * speed * damage / armorBonus;
 
                     timeLoss = player.GetComponent<ModifierComponent>()
                         ?.ApplyApplicableModifiers(timeLoss, [Tags.TimeLoss], player.GetTags())

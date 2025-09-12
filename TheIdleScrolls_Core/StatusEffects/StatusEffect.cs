@@ -11,7 +11,7 @@ namespace TheIdleScrolls_Core.StatusEffects
 {
 	public abstract class StatusEffect
 	{
-		Cooldown? Timer = null;
+		public Cooldown? Timer = null;
 		protected Entity? Target = null;
 
 		public string Name { get; init; }

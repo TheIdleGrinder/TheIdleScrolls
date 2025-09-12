@@ -14,7 +14,7 @@ namespace TheIdleScrolls_Core.Skills
 	{
 		public static readonly ActiveSkillDefinition Skill = new(
 			"DfltAttack", 
-			"Default Attack",
+			"Atk",
 			UpdateFunction);
 
 		public static void UpdateFunction(Entity user, ActiveSkill skill)

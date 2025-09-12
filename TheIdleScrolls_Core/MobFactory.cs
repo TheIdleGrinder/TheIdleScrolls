@@ -53,6 +53,8 @@ namespace TheIdleScrolls_Core
             if (damage > 0.0)
                 mob.AddComponent(new MobDamageComponent(damage));
 
+            
+
             return mob;
         }
 

@@ -1,4 +1,8 @@
-﻿@using TheIdleScrolls_Core.Components
+﻿@using MiniECS
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Skills
+@using TheIdleScrolls_Core.StatusEffects
+@using TheIdleScrolls_Web.Components.Subcomponents
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
@@ -20,6 +24,16 @@
             </div>
             <p class="healthText">HP: @Hp.ToBigIntString() / @HpMax.ToBigIntString()</p>
         </div>
+
+        @foreach (var skill in (MobSkills ?? []))
+        {
+            <SkillDisplayComponent Skill=@skill></SkillDisplayComponent>
+        }
+
+        @foreach (var effect in (MobEffects ?? []))
+        {
+            <StatusEffectDisplayComponent Effect=@effect></StatusEffectDisplayComponent>
+        }
     }
     
     @if (TimeActive)
@@ -33,12 +47,10 @@
         </div>
     }
 
-    <div class="progress-bar-container" style="margin-top: 1rem;">
-        Atk
-        <div id="attack-bar-frame" class="progressFrame" style="justify-content: start">
-            <div id="attack-bar-fill" class="progressFill" style="width: @($"{AttackPct:0%}");"></div>
-        </div>
-    </div>
+    @foreach (var skill in (PlayerSkills ?? []))
+    {
+        <SkillDisplayComponent Skill=@skill></SkillDisplayComponent>
+    }
 
     @if (Evasion)
     {
@@ -49,7 +61,12 @@
                 <span class="barTooltip">Evade for @($"{Evader?.EvasionDuration:0.##}") sec. after charging for @($"{Evader?.ChargeDuration:0.##}") sec.</span>
             </div>
         </div>
-    }    
+    }
+
+    @foreach (var effect in (PlayerEffects ?? []))
+    {
+        <StatusEffectDisplayComponent Effect=@effect></StatusEffectDisplayComponent>
+    }
 </div>
 
 <style>
@@ -107,19 +124,6 @@
         background-color: var(--color-inactive);
     }
 
-    #attack-bar-frame {
-        width: 100%;
-        border: 1px solid var(--frame-color);
-        background: inherit;
-        height: fit-content;
-        align-self: center;
-    }
-
-    #attack-bar-fill {
-        background-color: var(--color-attack-progress);
-        height: 12px;
-    }
-
     #evasion-bar-frame {
         width: 100%;
         border: 1px solid var(--frame-color);
@@ -140,10 +144,17 @@
     bool BigImage => CurrentMobImage.Length > 1000;
     int ImageSize => BigImage ? 256 : 128;
 
-    int Hp => CoreWrapper.Mob.HP;
-    int HpMax => CoreWrapper.Mob.HpMax;
+    Entity? Mob => CoreWrapper.PlayerCharacter?.GetComponent<BattlerComponent>()?.Battle?.Mob;
+    int Hp => Mob?.GetComponent<LifePoolComponent>()?.Current ?? 0;
+    int HpMax => Mob?.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
+    List<ActiveSkill>? MobSkills => Mob?.GetComponent<ActiveSkillComponent>()?.Skills;
+    List<StatusEffect>? MobEffects => Mob?.GetComponent<StatusEffectComponent>()?.StatusEffects;
+
     double Time => CoreWrapper.TimeLimit.Remaining;
     double TimeMax => CoreWrapper.TimeLimit.Maximum;
+
+    List<ActiveSkill>? PlayerSkills => CoreWrapper.PlayerCharacter?.GetComponent<ActiveSkillComponent>()?.Skills;
+    List<StatusEffect>? PlayerEffects => CoreWrapper.PlayerCharacter?.GetComponent<StatusEffectComponent>()?.StatusEffects;
 
     EvaderComponent? Evader => CoreWrapper.PlayerCharacter?.GetComponent<EvaderComponent>();
     bool Evasion => Evader != null;

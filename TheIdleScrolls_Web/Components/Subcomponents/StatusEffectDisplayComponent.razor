@@ -1,0 +1,48 @@
+﻿@using TheIdleScrolls_Core.StatusEffects
+
+
+<div class="effect-progress-bar-container" style="margin-top: 0.5rem;">
+    @Effect.Name
+    <div id="effect-bar-frame" class="progressFrame" style="justify-content: start">
+        <div id="effect-bar-fill" class="progressFill" style="width: @($"{CalculateProgress():0%}");"></div>
+    </div>
+</div>
+
+<style>
+    .effect-progress-bar-container {
+        display: inline-flex;
+        gap: 0.5rem;
+        font-size: 1.25rem;
+        width: 100%;
+    }
+
+    #effect-bar-frame {
+        width: 100%;
+        border: 1px solid var(--frame-color);
+        background: inherit;
+        height: fit-content;
+        align-self: center;
+    }
+
+    #effect-bar-fill {
+        background-color: var(--color-attack-progress);
+        height: 12px;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public StatusEffect Effect { get; set; }
+
+    public double CalculateProgress()
+    {
+        if (Effect.Timer is null)
+        {
+            return 1.0;
+        }
+        else
+        {
+            return (Effect.Timer.Duration > 0) ? Effect.Timer.Remaining / Effect.Timer.Duration : 0.0;
+        }
+    }
+}
