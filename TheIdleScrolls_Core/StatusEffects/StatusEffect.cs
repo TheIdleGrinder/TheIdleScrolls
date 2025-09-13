@@ -15,10 +15,12 @@ namespace TheIdleScrolls_Core.StatusEffects
 		protected Entity? Target = null;
 
 		public string Name { get; init; }
-		abstract protected void ActivateEffect(Entity target);
+        abstract public string Description { get; }
+        abstract protected void ActivateEffect(Entity target);
 		abstract protected void DeactivateEffect(Entity target);
+		
 
-		public bool IsExpired => Timer?.HasFinished ?? false;
+        public bool IsExpired => Timer?.HasFinished ?? false;
 
 		public StatusEffect(string name, double duration = 0.0)
 		{

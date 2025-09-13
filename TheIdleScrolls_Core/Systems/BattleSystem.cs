@@ -74,6 +74,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     battle.State = Battle.BattleState.InProgress;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
+                    battle.Mob.GetComponent<ActiveSkillComponent>()?.Skills.ForEach(s => s.SetupForUser(battle.Mob));
                 }
                 
                 // All battles that exist at this point should be in progress
@@ -193,8 +194,9 @@ namespace TheIdleScrolls_Core.Systems
 
         void ProcessSkills(Entity entity, Entity opponent, double dt, Coordinator coordinator)
         {
-			// Process player skills
-			var skillComp = entity.GetComponent<ActiveSkillComponent>();
+            dt = entity.ApplyAllApplicableModifiers(dt, [Tags.ChargeSpeed], entity.GetTags());
+            // Process player skills
+            var skillComp = entity.GetComponent<ActiveSkillComponent>();
 			if (skillComp is null)
                 return;
 

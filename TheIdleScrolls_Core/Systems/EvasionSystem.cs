@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Systems
@@ -79,7 +80,6 @@ namespace TheIdleScrolls_Core.Systems
                 evaderComponent.Duration.Update(dt - remaining); // CornerCut: Evasion duration should better not be less than 1 frame...
                 double ratio = remaining / dt; // evasion toggled, so dt has to be greater than remaining
                 evaderComponent.Prevention = evaderComponent.Active ? 1 - ratio : ratio;
-                //Console.WriteLine($"Evasion toggled: {evaderComponent.Active}, prevention: {evaderComponent.Prevention}");
                 return true;
             }
             return false;
@@ -109,8 +109,8 @@ namespace TheIdleScrolls_Core.Systems
             }
             else
             {
-                double effectDuration = Math.Min(bonus * Definitions.Stats.MaxEvasionChargeDuration, Definitions.Stats.MaxEvasionEffectDuration);
-                double chargeDuration = Math.Min(effectDuration / bonus, Definitions.Stats.MaxEvasionChargeDuration);
+                double effectDuration = Math.Min(bonus * Stats.MaxEvasionChargeDuration, Stats.MaxEvasionEffectDuration);
+                double chargeDuration = Math.Min(effectDuration / bonus, Stats.MaxEvasionChargeDuration);
                 evadeComp.EvasionDuration = effectDuration;
                 evadeComp.ChargeDuration = chargeDuration;
             }
@@ -137,7 +137,8 @@ namespace TheIdleScrolls_Core.Systems
                 modComp = new();
                 entity.AddComponent(modComp);
             }
-            modComp.AddModifier(new(ModifierId, Modifiers.ModifierType.More, -prevention, [Definitions.Tags.TimeLoss], []));
+            modComp.AddModifier(new(ModifierId, Modifiers.ModifierType.More, -prevention, [Tags.TimeLoss], []));
+            modComp.AddModifier(new(ModifierId + "-Status", Modifiers.ModifierType.AddFlat, 100.0 * prevention, [Tags.Status, Tags.Resistance], []));
         }
 
         private static void RemoveEvasionModifier(Entity entity)

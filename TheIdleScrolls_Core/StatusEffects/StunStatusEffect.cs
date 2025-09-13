@@ -14,9 +14,11 @@ namespace TheIdleScrolls_Core.StatusEffects
 	{
 		List<Modifier> _Modifiers = [];
 
-		public override double ScaleDurationForTarget(Entity target, double duration)
+        public override string Description => $"Stun with {duration:0.##} sec. duration";
+
+        public override double ScaleDurationForTarget(Entity target, double duration)
 		{
-			double resist = target.ApplyAllApplicableModifiers(0.0, [Tags.Stun, Tags.Resistance], target.GetTags());
+			double resist = target.ApplyAllApplicableModifiers(0.0, [Tags.Stun, Tags.Status, Tags.Resistance], target.GetTags());
 			resist = Math.Min(resist, 1.0);
 			return duration * (1.0 - resist);
 		}
@@ -24,7 +26,7 @@ namespace TheIdleScrolls_Core.StatusEffects
 		protected override void ActivateEffect(Entity target)
 		{
 			string guid = Guid.NewGuid().ToString();
-			var asMod = new Modifier($"stun-{guid}", ModifierType.More, -1.0, [Tags.AttackSpeed], []);
+			var asMod = new Modifier($"stun-{guid}", ModifierType.More, -1.0, [Tags.ChargeSpeed], []);
 			target.GetComponent<ModifierComponent>()?.AddModifier(asMod);
 
 			_Modifiers = [asMod];

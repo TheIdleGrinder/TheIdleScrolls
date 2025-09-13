@@ -95,6 +95,7 @@ namespace TheIdleScrolls_Core
 
             public const string Attack = "Attack";
             public const string Speed = "Speed";
+            public const string ChargeSpeed = "ChargeSpeed";
 
             public const string Damage = "Damage";
             public const string AttackSpeed = "AttackSpeed";
@@ -106,7 +107,9 @@ namespace TheIdleScrolls_Core
             public const string TimeShield = "TimeShield";
 
             public const string TimeLoss = "TimeLoss";
+            public const string Status = "Status";
             public const string Stun = "Stun";
+
 
             public const string QualityPrefix = "+";
             public const string HandSuffix = "H";
