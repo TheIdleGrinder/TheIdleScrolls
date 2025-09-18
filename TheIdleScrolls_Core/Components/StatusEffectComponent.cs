@@ -23,5 +23,16 @@ namespace TheIdleScrolls_Core.Components
 		{
 			_StatusEffects.Remove(effect);
 		}
-	}
+
+		public void DeactivateAll()
+        {
+            // CornerCut: There is a weird chain of "knowing who is owned by whom" going on here. Status effect removes itselt from the component
+            // and might remove the component from the entity if it was the last one. The component on the other hand does not even know that 
+            // it is owned by an entity. So we just deactivate all effects here, which will remove themselves from the component.
+            foreach (var effect in StatusEffects)
+            {
+                effect.Deactivate();
+            }
+        }
+    }
 }
