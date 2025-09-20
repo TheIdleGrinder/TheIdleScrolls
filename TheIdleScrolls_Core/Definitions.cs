@@ -103,6 +103,7 @@ namespace TheIdleScrolls_Core
             public const string ArmorRating = "ArmorRating";
             public const string EvasionRating = "EvasionRating";
             public const string Resistance = "Resistance";
+            public const string Evasion = "Evasion";
 
             public const string TimeShield = "TimeShield";
 

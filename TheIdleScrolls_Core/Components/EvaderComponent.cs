@@ -14,6 +14,8 @@ namespace TheIdleScrolls_Core.Components
         public double ChargeDuration { get; set; } = Definitions.Stats.MaxEvasionChargeDuration;
         public double EvasionDuration { get; set; } = 0.0;
         public Cooldown Duration { get; set; } = new Cooldown(Definitions.Stats.MaxEvasionChargeDuration);
+        public double ChargeMultiplier { get; set; } = 1.0;
+        public double DepletionMultiplier { get; set; } = 1.0;
 
         // Usually, evasion prevents 100% of damage, but on the first and last frame of the evasion,
         // it only prevents a fraction of the damage. This reduces variance due to different frame durations.
@@ -22,6 +24,35 @@ namespace TheIdleScrolls_Core.Components
         public EvaderComponent()
         {
             Duration.SingleShot = true;
+        }
+
+        public double UpdateTimer(double dt)
+        {
+            if (dt == 0.0)
+            {
+                return Active ? 1.0 : 0.0;
+            }
+            double activeTime = 0.0;
+            double remaining = dt;
+            while (Active && remaining * DepletionMultiplier > Duration.Remaining
+                || !Active && remaining * ChargeMultiplier > Duration.Remaining)
+            {
+                if (Active)
+                    activeTime += Duration.Remaining;
+                remaining -= Duration.Remaining / (Active ? DepletionMultiplier : ChargeMultiplier);
+                Duration.Reset(Active ? ChargeDuration : EvasionDuration);
+                Active = !Active;
+            }
+            int triggers = Duration.Update(remaining * (Active ? DepletionMultiplier : ChargeMultiplier));
+            if (Active)
+                activeTime += remaining;
+
+            if (triggers > 0) // Edge case: exact depletion of the timer
+            {
+                Duration.Reset(Active ? ChargeDuration : EvasionDuration);
+                Active = !Active;
+            }
+            return activeTime / dt;
         }
     }
 }

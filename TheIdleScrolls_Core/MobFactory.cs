@@ -56,7 +56,7 @@ namespace TheIdleScrolls_Core
 
             var skillComp = new ActiveSkillComponent();
             skillComp.Add(new(new("Stun", "Stunning Blow",
-                SkillFactory.GetGenericUpdater(2.0, 5.0, [
+                SkillFactory.GetGenericUpdater(1.0, 5.0, [
                     SkillFactory.GetStunScaler(1.0)
                 ]))));
             mob.AddComponent(skillComp);
