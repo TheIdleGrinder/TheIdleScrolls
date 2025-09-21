@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Skills;
+using TheIdleScrolls_Core.StatusEffects;
 
 namespace TheIdleScrolls_Core
 {
@@ -17,6 +18,8 @@ namespace TheIdleScrolls_Core
         public double HP { get; set; } = 1.0;
         public double Damage { get; set; } = 1.0;
         public Func<ZoneDescription, bool> CanSpawn { get; set; } = (zone) => true;
+        public List<ActiveSkillDefinition> ActiveSkills { get; set; } = [];
+        public List<StatusEffect> StatusEffects { get; set; } = [];
 
         public MobDescription() { }
 
@@ -54,12 +57,22 @@ namespace TheIdleScrolls_Core
             if (damage > 0.0)
                 mob.AddComponent(new MobDamageComponent(damage));
 
-            var skillComp = new ActiveSkillComponent();
-            skillComp.Add(new(new("Stun", "Stunning Blow",
-                SkillFactory.GetGenericUpdater(1.0, 5.0, [
-                    SkillFactory.GetStunScaler(1.0)
-                ]))));
-            mob.AddComponent(skillComp);
+            if (description.ActiveSkills.Count > 0)
+            {
+                var skillComp = new ActiveSkillComponent();
+                foreach (var skill in description.ActiveSkills)
+                {
+                    skillComp.Add(new(skill));
+                }
+                mob.AddComponent(skillComp);
+            }
+                
+
+            
+            //skillComp.Add(new(new("Stun", "Stunning Blow",
+            //    SkillFactory.GetGenericUpdater(1.0, 5.0, [
+            //        SkillFactory.GetStunScaler(1.0)
+            //    ]))));
 
             return mob;
         }

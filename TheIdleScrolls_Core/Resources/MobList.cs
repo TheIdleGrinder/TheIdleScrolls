@@ -5,12 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Properties;
+using TheIdleScrolls_Core.Skills;
 
 namespace TheIdleScrolls_Core.Resources
 {
     public static class MobList
     {
         private static Biome[] LushBiomes = [Biome.Grassland, Biome.Forest, Biome.Coast];
+
+        private static ActiveSkillDefinition Skill_StunningBlow 
+            = new ("Stun", "Stunning Blow",
+                SkillFactory.GetGenericUpdater(1.0, 5.0, [
+                    SkillFactory.GetStunScaler(1.0)
+                ]));
 
         public static readonly List<MobDescription> Mobs =
         [
@@ -22,7 +29,10 @@ namespace TheIdleScrolls_Core.Resources
             new("PORCUPINE",    MobNames.Porcupine, BiomeLevelCondition(LushBiomes,  9, 34)),
             new("WOLF",         MobNames.WOLF,      BiomeLevelCondition(LushBiomes, 18, 47)),
             new("OGRE",         MobNames.OGRE,      BiomeLevelCondition([Biome.Grassland, Biome.Coast], 35,  70)),
-            new("BEAR",         MobNames.BEAR,      BiomeLevelCondition([Biome.Grassland, Biome.Forest], 60, 130)),
+            new("BEAR",         MobNames.BEAR,      BiomeLevelCondition([Biome.Grassland, Biome.Forest], 60, 130))
+            {
+                ActiveSkills = [ Skill_StunningBlow ]
+            },
             new("HILLGIANT",    MobNames.HillGiant, BiomeLevelCondition([Biome.Grassland], 130,  199)),
             new("WYVERN",       MobNames.WYVERN,    BiomeLevelCondition([Biome.Grassland, Biome.Coast], 149)),
             //new("DRAGON",  MobNames.DRAGON,  LevelCondition(100, 169)),
