@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Properties;
 using TheIdleScrolls_Core.Skills;
+using TheIdleScrolls_Core.StatusEffects;
 
 namespace TheIdleScrolls_Core.Resources
 {
@@ -13,11 +14,13 @@ namespace TheIdleScrolls_Core.Resources
     {
         private static Biome[] LushBiomes = [Biome.Grassland, Biome.Forest, Biome.Coast];
 
-        private static ActiveSkillDefinition Skill_StunningBlow 
+        private readonly static ActiveSkillDefinition Skill_StunningBlow 
             = new ("Stun", "Stunning Blow",
-                SkillFactory.GetGenericUpdater(1.0, 5.0, [
+                SkillFactory.GetGenericUpdater(2.0, 5.0, [
                     SkillFactory.GetStunScaler(1.0)
                 ]));
+
+        private readonly static StatusEffect Effect_Regeneration = null;
 
         public static readonly List<MobDescription> Mobs =
         [

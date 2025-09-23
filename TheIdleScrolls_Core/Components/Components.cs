@@ -12,24 +12,39 @@ namespace TheIdleScrolls_Core.Components
 {
     public class LifePoolComponent : IComponent
     {
-        public int Current = 1;
-        public int Maximum = 1;
+        private double _Current = 1.0;
+        private double _Maximum = 1.0;
 
-        public bool IsAlive => Current > 0;
-        public bool IsDead => Current <= 0;
+        public int Current
+        {
+            get => (int)Math.Ceiling(_Current);
+            set => _Current = value;
+        }
+        public int Maximum
+        {
+            get => (int) Math.Ceiling(_Maximum);
+            set => _Maximum = value;
+        }
+
+        public bool IsAlive => _Current > 0.0;
+        public bool IsDead => _Current <= 0.0;
 
         public LifePoolComponent(int maximum = 1)
         {
-            Current = maximum;
-            Maximum = maximum;
+            _Current = maximum;
+            _Maximum = maximum;
         }
 
-        public void AddPoints(int points)
+        public void AddPoints(int points) => AddPoints((double)points);
+
+        public void AddPoints(double points)
         {
-            Current = Math.Clamp(Current + points, 0, Maximum);
+            _Current = Math.Clamp(_Current + points, 0, _Maximum);
         }
 
-        public void ApplyDamage(int points)
+        public void ApplyDamage(int points) => AddPoints(-points);
+
+        public void ApplyDamage(double points)
         {
             AddPoints(-points);
         }

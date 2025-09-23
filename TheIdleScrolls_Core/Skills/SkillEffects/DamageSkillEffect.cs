@@ -14,7 +14,7 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 		public double Damage = damage;
 		public HashSet<string> Tags = tags;
 
-		public string Description => $"{Damage} damage";
+		public string Description => $"{Damage:0.##} damage";
 
 		public TargetingMode Target => target;
 
@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 				tmpDamage = modComp.ApplyApplicableModifiers(tmpDamage, ["DamageTaken", ..Tags], target.GetTags());
 			}
 
-			hpComp.ApplyDamage((int)Math.Round(tmpDamage, 0));
+			hpComp.ApplyDamage(tmpDamage);
 		}
 	}
 }

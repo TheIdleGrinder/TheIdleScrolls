@@ -180,19 +180,6 @@ namespace TheIdleScrolls_Core.Systems
             player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 
-        static DamageDoneMessage? ApplyAttack(Entity attacker, Entity target)
-        {
-            var attackComp = attacker.GetComponent<AttackComponent>() ?? throw new Exception("Missing attack component");
-            LifePoolComponent? hpComp = target.GetComponent<LifePoolComponent>();
-            if (hpComp == null)
-                return null;
-            if (hpComp.Current == 0)
-                return null; // Skip damage if target is already dead
-            int damage = (int)Math.Round(attackComp.RawDamage, 0);
-            hpComp.ApplyDamage(damage);
-            return new DamageDoneMessage(attacker, target, damage);
-        }
-
         void ProcessSkills(Entity entity, Entity opponent, double dt, Coordinator coordinator)
         {
             dt = entity.ApplyAllApplicableModifiers(dt, [Tags.ChargeSpeed], entity.GetTags());

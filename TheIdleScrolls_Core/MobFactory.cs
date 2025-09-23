@@ -66,13 +66,16 @@ namespace TheIdleScrolls_Core
                 }
                 mob.AddComponent(skillComp);
             }
-                
 
-            
-            //skillComp.Add(new(new("Stun", "Stunning Blow",
-            //    SkillFactory.GetGenericUpdater(1.0, 5.0, [
-            //        SkillFactory.GetStunScaler(1.0)
-            //    ]))));
+            if (description.StatusEffects.Count > 0)
+            {
+                var effectComp = new StatusEffectComponent();
+                foreach (var effect in description.StatusEffects)
+                {
+                    effectComp.Add(effect);
+                }
+                mob.AddComponent(effectComp);
+            }
 
             return mob;
         }
