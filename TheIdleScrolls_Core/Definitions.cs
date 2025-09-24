@@ -110,6 +110,7 @@ namespace TheIdleScrolls_Core
             public const string TimeLoss = "TimeLoss";
             public const string Status = "Status";
             public const string Stun = "Stun";
+            public const string LifeRegeneration = "LifeRegeneration";
 
 
             public const string QualityPrefix = "+";

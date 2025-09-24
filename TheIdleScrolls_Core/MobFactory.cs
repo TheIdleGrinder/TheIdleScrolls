@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Skills;
 using TheIdleScrolls_Core.StatusEffects;
 
@@ -19,7 +20,7 @@ namespace TheIdleScrolls_Core
         public double Damage { get; set; } = 1.0;
         public Func<ZoneDescription, bool> CanSpawn { get; set; } = (zone) => true;
         public List<ActiveSkillDefinition> ActiveSkills { get; set; } = [];
-        public List<StatusEffect> StatusEffects { get; set; } = [];
+        public List<Perk> Perks { get; set; } = [];
 
         public MobDescription() { }
 
@@ -67,14 +68,15 @@ namespace TheIdleScrolls_Core
                 mob.AddComponent(skillComp);
             }
 
-            if (description.StatusEffects.Count > 0)
+            if (description.Perks.Count > 0)
             {
-                var effectComp = new StatusEffectComponent();
-                foreach (var effect in description.StatusEffects)
+                var perkComp = new PerksComponent();
+                foreach (var effect in description.Perks)
                 {
-                    effectComp.Add(effect);
+                    perkComp.AddPerk(effect);
                 }
-                mob.AddComponent(effectComp);
+                mob.AddComponent(perkComp);
+                mob.AddComponent(new ModifierComponent());
             }
 
             return mob;

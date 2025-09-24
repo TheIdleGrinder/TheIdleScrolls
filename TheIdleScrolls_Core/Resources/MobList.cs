@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Properties;
 using TheIdleScrolls_Core.Skills;
 using TheIdleScrolls_Core.StatusEffects;
@@ -19,8 +20,6 @@ namespace TheIdleScrolls_Core.Resources
                 SkillFactory.GetGenericUpdater(2.0, 5.0, [
                     SkillFactory.GetStunScaler(1.0)
                 ]));
-
-        private readonly static StatusEffect Effect_Regeneration = null;
 
         public static readonly List<MobDescription> Mobs =
         [
@@ -46,7 +45,10 @@ namespace TheIdleScrolls_Core.Resources
             new("GRAVECRAWLER", MobNames.Gravecrawler, BiomeLevelCondition([Biome.Graveyard], maxLevel: 100)),
             new("GRAVEHOUND", MobNames.GraveHound, BiomeLevelCondition([Biome.Graveyard], 101)),
 
-            new("FORESTTROLL", MobNames.ForestTroll, BiomeLevelCondition([Biome.Forest], 50, 200)),
+            new("FORESTTROLL", MobNames.ForestTroll, BiomeLevelCondition([Biome.Forest], 50, 200))
+            {
+                Perks = [PerkFactory.MakePercentLifeRegPerks("trollReg", "Troll Blood", 0.05)]
+            },
             new("TREANT", MobNames.Treant, BiomeLevelCondition([Biome.Forest], 125)),
 
             new("HYENA", MobNames.Hyena, BiomeLevelCondition([Biome.Savannah], maxLevel: 100)),

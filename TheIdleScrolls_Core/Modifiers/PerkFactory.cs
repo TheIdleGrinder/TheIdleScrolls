@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Modifiers
@@ -159,6 +160,25 @@ namespace TheIdleScrolls_Core.Modifiers
             {
                 Permanent = alwaysActive,
                 MaxLevel = maxLevel
+            };
+        }
+
+        public static Perk MakePercentLifeRegPerks(string id, string name, double percentage)
+        {
+            return new(
+                id,
+                name,
+                $"Regenerate {percentage}% of max life per second",
+                [],
+                delegate (int level, Entity entity, World world, Coordinator coordinator)
+                {
+                    double lifePool = entity.GetComponent<LifePoolComponent>()?.Maximum ?? 1.0;
+                    double regenAmount = percentage * lifePool;
+                    return [ new($"{id}_regen", ModifierType.AddBase, regenAmount, [Tags.LifeRegeneration], []) ];
+                }
+            )
+            {
+                Permanent = true
             };
         }
     }

@@ -22,6 +22,6 @@ namespace TheIdleScrolls_Core.Skills
         public static Func<Entity, ISkillEffect> GetStunScaler(double baseDuration)
             => (user) => new SkillEffects.StatusSkillEffect(
                 ISkillEffect.TargetingMode.SingleEnemy,
-                new StatusEffects.StunStatusEffect(user.ApplyAllApplicableModifiers(baseDuration, ["Stun", "Duratin"], user.GetTags())));
+                new StatusEffects.StunStatusEffect(user.ApplyAllApplicableModifiers(baseDuration, ["Stun", "Duration"], user.GetTags())));
     }
 }
