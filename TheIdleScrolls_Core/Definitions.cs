@@ -107,10 +107,13 @@ namespace TheIdleScrolls_Core
 
             public const string TimeShield = "TimeShield";
 
+            public const string DamageTaken = "DamageTaken";
             public const string TimeLoss = "TimeLoss";
             public const string Status = "Status";
             public const string Stun = "Stun";
             public const string LifeRegeneration = "LifeRegeneration";
+            public const string DamageReduction = "DamageReduction";
+            public const string DefenseLayers = "DefenseLayers";
 
 
             public const string QualityPrefix = "+";

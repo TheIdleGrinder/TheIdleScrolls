@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using static TheIdleScrolls_Core.Skills.ISkillEffect;
+using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core.Skills.SkillEffects
 {
@@ -30,10 +31,19 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 			double tmpDamage = Damage;
 			if (modComp is not null)
 			{
-				tmpDamage = modComp.ApplyApplicableModifiers(tmpDamage, ["DamageTaken", ..Tags], target.GetTags());
+				tmpDamage = modComp.ApplyApplicableModifiers(tmpDamage, [Definitions.Tags.DamageTaken, ..Tags], target.GetTags());
 			}
 
-			hpComp.ApplyDamage(tmpDamage);
+            // Apply damage reduction
+            double damageReduction = target.ApplyAllApplicableModifiers(0.0, [Definitions.Tags.DamageReduction], target.GetTags());
+			tmpDamage = Math.Max(0.0, tmpDamage - damageReduction);
+
+            // Apply damage ceiling from defense layers
+			double defLayers = target.ApplyAllApplicableModifiers(0.0, [Definitions.Tags.DefenseLayers], target.GetTags());
+			double maxDamage = hpComp.Maximum / (defLayers + 1.0);
+            tmpDamage = Math.Min(tmpDamage, maxDamage);
+
+            hpComp.ApplyDamage(tmpDamage);
 		}
 	}
 }

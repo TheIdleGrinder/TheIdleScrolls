@@ -52,7 +52,10 @@ namespace TheIdleScrolls_Core.Resources
             new("TREANT", MobNames.Treant, BiomeLevelCondition([Biome.Forest], 125)),
 
             new("HYENA", MobNames.Hyena, BiomeLevelCondition([Biome.Savannah], maxLevel: 100)),
-            new("BUFFALO", MobNames.Buffalo, BiomeLevelCondition([Biome.Savannah], maxLevel: 200)),
+            new("BUFFALO", MobNames.Buffalo, BiomeLevelCondition([Biome.Savannah], maxLevel: 200))
+            {
+                Perks = [PerkFactory.MakeFlatDamageReductionPerk("buffaloHide", "Thick Hide", 0.05)]
+            },
             new("ELEPHANT", MobNames.Elephant, BiomeLevelCondition([Biome.Savannah], 100)),
 
             new("SCORPION", MobNames.Scorpion, BiomeLevelCondition([Biome.Desert], maxLevel: 100)),
@@ -61,7 +64,10 @@ namespace TheIdleScrolls_Core.Resources
 
             new("DJINN", MobNames.Djinn, BiomeCondition([Biome.Oasis])),
 
-            new("HARPY", MobNames.Harpy, BiomeLevelCondition([Biome.Coast, Biome.Grassland], 65, 100)),
+            new("HARPY", MobNames.Harpy, BiomeLevelCondition([Biome.Coast, Biome.Grassland], 65, 100))
+            {
+                Perks = [PerkFactory.MakeDefenseLayerPerk("harpyFeathers", "Evasive", 4.0)]
+            },
             new("CRAB", MobNames.Crab, BiomeLevelCondition([Biome.Coast], maxLevel: 100)),
 
             new("DIREWOLF", MobNames.Direwolf, BiomeLevelCondition([Biome.Tundra], maxLevel: 150)),
