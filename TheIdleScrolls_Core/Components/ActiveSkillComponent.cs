@@ -28,11 +28,14 @@ namespace TheIdleScrolls_Core.Components
 			if (Skills.Count == 0)
 				return -1;
 
-			var skill = CurrentSkill;
-			skill?.Timer.Stop();
+			CurrentSkill?.Timer.Stop();
 
-			Index = (Index + 1) % Skills.Count;
-			return Index;
+			int originalIndex = Index;
+            do
+			{
+				Index = (Index + 1) % Skills.Count;
+			} while (CurrentSkill?.CurrentState == SkillTimer.State.Cooldown && Index != originalIndex);
+            return Index;
 		}
 
 		public void ResetSkills()

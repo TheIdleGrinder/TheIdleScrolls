@@ -10,7 +10,15 @@ namespace TheIdleScrolls_Core.Skills
 {
 	public class ActiveSkill(ActiveSkillDefinition definition)
 	{
-		public enum State { Disabled, NotUsable, Ready, Charging, CoolingDown }
+		public enum State 
+		{ 
+			Unavailable,
+			Disabled, 
+			NotUsable, 
+			Ready, 
+			Charging, 
+			CoolingDown 
+		}
 
 		readonly ActiveSkillDefinition Definition = definition;
 

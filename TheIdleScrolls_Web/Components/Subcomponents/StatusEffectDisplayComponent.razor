@@ -3,17 +3,25 @@
 
 <div class="effect-progress-bar-container" style="margin-top: 0.5rem;">
     @Effect.Name
-    <div id="effect-bar-frame" class="progressFrame" style="justify-content: start">
+    <div id="effect-bar-frame" class="progressFrame withTooltip" style="justify-content: start">
         <div id="effect-bar-fill" class="progressFill" style="width: @($"{CalculateProgress():0%}");"></div>
+        <span class="barTooltip">
+            @foreach (var line in Effect.Description.Split('\n'))
+            {
+                @line<br />
+            }
+        </span>
     </div>
 </div>
 
 <style>
     .effect-progress-bar-container {
         display: inline-flex;
-        gap: 0.5rem;
-        font-size: 1.25rem;
-        width: 100%;
+        gap: 0.1rem;
+        font-size: 0.75rem;
+        width: 90%;
+        align-self: center;
+        flex-direction: column;
     }
 
     #effect-bar-frame {
@@ -25,7 +33,7 @@
     }
 
     #effect-bar-fill {
-        background-color: var(--color-attack-progress);
+        background-color: cornflowerblue;
         height: 12px;
     }
 </style>

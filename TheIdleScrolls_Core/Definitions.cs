@@ -94,6 +94,7 @@ namespace TheIdleScrolls_Core
             public const string Global = "Global";
 
             public const string Attack = "Attack";
+            public const string Spell = "Spell";
             public const string Speed = "Speed";
             public const string ChargeSpeed = "ChargeSpeed";
 
@@ -113,7 +114,7 @@ namespace TheIdleScrolls_Core
             public const string Stun = "Stun";
             public const string LifeRegeneration = "LifeRegeneration";
             public const string DamageReduction = "DamageReduction";
-            public const string DefenseLayers = "DefenseLayers";
+            public const string DefensiveLayers = "DefensiveLayers";
 
 
             public const string QualityPrefix = "+";

@@ -209,6 +209,7 @@ namespace TheIdleScrolls_Core.Systems
 				if (remaining > 0.0) // Means that the skill has finished charging
 				{
 					double damage = 0;
+                    double damagePrevented = 0;
 					foreach (var effect in skillComp.CurrentSkill!.Effects)
 					{
 						if (effect.Target == ISkillEffect.TargetingMode.SingleEnemy)
@@ -216,8 +217,9 @@ namespace TheIdleScrolls_Core.Systems
 							effect.ApplyToTarget(opponent);
 							if (effect is DamageSkillEffect dmgEffect)
 							{
-								damage += dmgEffect.Damage;
-								coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage));
+								damage += dmgEffect.DamageDone;
+                                damagePrevented += dmgEffect.Damage - dmgEffect.DamageDone;
+                                coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
 							}
 						}
 						else
@@ -240,7 +242,7 @@ namespace TheIdleScrolls_Core.Systems
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
 
-    public record DamageDoneMessage(Entity Attacker, Entity Target, int Damage) : IMessage
+    public record DamageDoneMessage(Entity Attacker, Entity Target, int Damage, int DamagePrevented = 0) : IMessage
     {
         string IMessage.BuildMessage()
         {

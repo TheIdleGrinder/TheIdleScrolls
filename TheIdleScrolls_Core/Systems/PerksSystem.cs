@@ -25,7 +25,7 @@ namespace TheIdleScrolls_Core.Systems
                 void UpdatePerk(Perk perk)
                 {
                     bool isActive = perksComp.IsPerkActive(perk.Id);
-                    if (isActive && modsComp != null)
+                    if (isActive && perk.ApplyModifiersToOwner && modsComp != null)
                     {
                         perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
                     }
@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Core.Systems
                     // Minimum level is 1, so that the modifiers are not 0
                     // CornerCut: this line makes me anxious, it's a future problem waiting to happen
                     perk.UpdateModifiers(Math.Max(perksComp.GetPerkLevel(perk.Id), 1), entity, world, coordinator); 
-                    if (isActive && modsComp != null)
+                    if (isActive && perk.ApplyModifiersToOwner && modsComp != null)
                     {
                         perk.Modifiers.ForEach(m => modsComp.AddModifier(m));
                     }

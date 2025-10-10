@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Skills;
 using TheIdleScrolls_Core.Storage;
 
 namespace TheIdleScrolls_Core
@@ -35,7 +36,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new RewardCollectorComponent());
             player.AddComponent(new TitleBearerComponent());
             player.AddComponent(new MetaDataComponent());
-            player.AddComponent(new ActiveSkillComponent() { Skills = [new(Skills.DefaultAttack.Skill)] });
+            player.AddComponent(new ActiveSkillComponent() { Skills = [new(DefaultAttack.Skill), new(ExposeWeaknessSkill.Skill)] });
 
             return player;
         }

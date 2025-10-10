@@ -47,14 +47,14 @@ namespace TheIdleScrolls_Core.Resources
 
             new("FORESTTROLL", MobNames.ForestTroll, BiomeLevelCondition([Biome.Forest], 50, 200))
             {
-                Perks = [PerkFactory.MakePercentLifeRegPerks("trollReg", "Troll Blood", 0.05)]
+                Perks = [RegenerationPerk("Troll Blood", 0.05)]
             },
             new("TREANT", MobNames.Treant, BiomeLevelCondition([Biome.Forest], 125)),
 
             new("HYENA", MobNames.Hyena, BiomeLevelCondition([Biome.Savannah], maxLevel: 100)),
             new("BUFFALO", MobNames.Buffalo, BiomeLevelCondition([Biome.Savannah], maxLevel: 200))
             {
-                Perks = [PerkFactory.MakeFlatDamageReductionPerk("buffaloHide", "Thick Hide", 0.05)]
+                Perks = [DamageReductionPerk("Thick Hide", 0.05)]
             },
             new("ELEPHANT", MobNames.Elephant, BiomeLevelCondition([Biome.Savannah], 100)),
 
@@ -66,7 +66,7 @@ namespace TheIdleScrolls_Core.Resources
 
             new("HARPY", MobNames.Harpy, BiomeLevelCondition([Biome.Coast, Biome.Grassland], 65, 100))
             {
-                Perks = [PerkFactory.MakeDefenseLayerPerk("harpyFeathers", "Evasive", 4.0)]
+                Perks = [DefensiveLayersPerk("Evasive", 4.0)]
             },
             new("CRAB", MobNames.Crab, BiomeLevelCondition([Biome.Coast], maxLevel: 100)),
 
@@ -110,5 +110,12 @@ namespace TheIdleScrolls_Core.Resources
         {
             return (zone) => biomes.Contains(zone.Biome) && zone.Level >= minLevel && zone.Level <= maxLevel;
         }
+
+        static Perk RegenerationPerk(string name, double percentPerSecond) =>
+            PerkFactory.MakePercentLifeRegPerks("regeneration", name, percentPerSecond);
+        static Perk DamageReductionPerk(string name, double percentOfMax) =>
+            PerkFactory.MakeFlatDamageReductionPerk("damagereduction", name, percentOfMax);
+        static Perk DefensiveLayersPerk(string name, double layers) =>
+            PerkFactory.MakeDefenseLayerPerk("defensivelayers", name, layers);
     }
 }

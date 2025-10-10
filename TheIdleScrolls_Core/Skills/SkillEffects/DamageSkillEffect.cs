@@ -15,7 +15,9 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 		public double Damage = damage;
 		public HashSet<string> Tags = tags;
 
-		public string Description => $"{Damage:0.##} damage";
+		public double DamageDone { get; private set; } = 0.0;
+
+        public string Description => $"{Damage:0.##} damage";
 
 		public TargetingMode Target => target;
 
@@ -39,11 +41,12 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 			tmpDamage = Math.Max(0.0, tmpDamage - damageReduction);
 
             // Apply damage ceiling from defense layers
-			double defLayers = target.ApplyAllApplicableModifiers(0.0, [Definitions.Tags.DefenseLayers], target.GetTags());
+			double defLayers = target.ApplyAllApplicableModifiers(0.0, [Definitions.Tags.DefensiveLayers], target.GetTags());
 			double maxDamage = hpComp.Maximum / (defLayers + 1.0);
             tmpDamage = Math.Min(tmpDamage, maxDamage);
 
             hpComp.ApplyDamage(tmpDamage);
-		}
+            DamageDone = tmpDamage;
+        }
 	}
 }

@@ -36,6 +36,8 @@ namespace TheIdleScrolls_Core.Modifiers
         public HashSet<UpdateTrigger> UpdateTriggers { get; init; } = [];
         public bool Permanent { get; init; } = false;
         public int MaxLevel { get; init; } = 1;
+        // Disable usage of modifiers for owner for perks that grant or modify active skills
+        public bool ApplyModifiersToOwner { get; init; } = true;
 
         // Corner cut: should this be part of the perk? Also, this is always at least 1, so that the modifiers are not 0
         public int CurrentLevel { get; private set; } = 1; 

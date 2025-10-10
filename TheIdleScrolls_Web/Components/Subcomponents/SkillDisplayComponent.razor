@@ -3,8 +3,17 @@
 
 <div class="skill-progress-bar-container" style="margin-top: 0.5rem;">
     @Skill.Name
-    <div id="skill-bar-frame" class="progressFrame" style="justify-content: start">
+    <div id="skill-bar-frame" class="progressFrame withTooltip" style="justify-content: start">
         <div id="skill-bar-fill" class="progressFill" style="width: @($"{CalculateProgress():0%}");"></div>
+        <span class="barTooltip">
+            @foreach (var effect in Skill.Effects)
+            {
+                @foreach (var line in effect.Description.Split('\n'))
+                {
+                    @line<br />
+                }
+            }
+        </span>
     </div>
 </div>
 
@@ -12,8 +21,10 @@
     .skill-progress-bar-container {
         display: inline-flex;
         gap: 0.5rem;
-        font-size: 1.25rem;
-        width: 100%;
+        font-size: 0.75rem;
+        width: 90%;
+        flex-direction: column;
+        align-self: center;
     }
 
     #skill-bar-frame {
@@ -25,7 +36,7 @@
     }
 
     #skill-bar-fill {
-        background-color: var(--color-attack-progress);
+        background-color: @BarColor;
         height: 12px;
     }
 </style>
@@ -36,12 +47,20 @@
 
     public double CalculateProgress()
     {
+        double percentage = Skill.Timer.Remaining / (Skill.Timer.CooldownDuration > 0.0 ? Skill.Timer.CooldownDuration : 1.0);
         return Skill.CurrentState switch
         {
-            SkillTimer.State.Charging => 1.0 - (Skill.Timer.Remaining / (Skill.Timer.ChargingDuration > 0.0 ? Skill.Timer.ChargingDuration : 1.0)),
-            SkillTimer.State.Cooldown => Skill.Timer.Remaining / (Skill.Timer.CooldownDuration > 0.0 ? Skill.Timer.CooldownDuration : 1.0),
+            SkillTimer.State.Charging => 1.0 - percentage,
+            SkillTimer.State.Cooldown => percentage,
             _ => 0.0
         };
     }
+
+    string BarColor => Skill.CurrentState switch
+    {
+        SkillTimer.State.Charging => "var(--color-attack-progress)",
+        SkillTimer.State.Active => "var(--color-active)",
+        _ => "var(--color-inactive)"
+    };
 
 }

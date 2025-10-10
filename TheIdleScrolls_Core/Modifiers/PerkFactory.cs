@@ -210,7 +210,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 [],
                 delegate (int level, Entity entity, World world, Coordinator coordinator)
                 {
-                    return [new($"{id}_layers", ModifierType.AddFlat, layers, [Tags.DefenseLayers], [])];
+                    return [new($"{id}_layers", ModifierType.AddFlat, layers, [Tags.DefensiveLayers], [])];
                 }
             )
             {
