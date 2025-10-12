@@ -4,7 +4,7 @@
 <div class="skill-progress-bar-container" style="margin-top: 0.5rem;">
     @Skill.Name
     <div id="skill-bar-frame" class="progressFrame withTooltip" style="justify-content: start">
-        <div id="skill-bar-fill" class="progressFill" style="width: @($"{CalculateProgress():0%}");"></div>
+        <div id="skill-bar-fill" class="progressFill @BarColorClass()" style="width: @($"{CalculateProgress():0%}");"></div>
         <span class="barTooltip">
             @foreach (var effect in Skill.Effects)
             {
@@ -36,8 +36,17 @@
     }
 
     #skill-bar-fill {
-        background-color: @BarColor;
         height: 12px;
+    }
+
+    .skill-bar-fill-charging {
+        background-color: var(--color-attack-progress);
+    }
+    .skill-bar-fill-active {
+        background-color: var(--color-active);
+    }
+    .skill-bar-fill-cooldown {
+        background-color: var(--color-inactive);
     }
 </style>
 
@@ -50,17 +59,17 @@
         double percentage = Skill.Timer.Remaining / (Skill.Timer.CooldownDuration > 0.0 ? Skill.Timer.CooldownDuration : 1.0);
         return Skill.CurrentState switch
         {
-            SkillTimer.State.Charging => 1.0 - percentage,
-            SkillTimer.State.Cooldown => percentage,
+            SkillTimer.State.Charging => 1.0 - (Skill.Timer.Remaining / (Skill.Timer.ChargingDuration > 0.0 ? Skill.Timer.ChargingDuration : 1.0)),
+            SkillTimer.State.Cooldown => Skill.Timer.Remaining / (Skill.Timer.CooldownDuration > 0.0 ? Skill.Timer.CooldownDuration : 1.0),
             _ => 0.0
         };
     }
 
-    string BarColor => Skill.CurrentState switch
+    string BarColorClass() => Skill.CurrentState switch
     {
-        SkillTimer.State.Charging => "var(--color-attack-progress)",
-        SkillTimer.State.Active => "var(--color-active)",
-        _ => "var(--color-inactive)"
+        SkillTimer.State.Charging => "skill-bar-fill-charging",
+        SkillTimer.State.Active => "skill-bar-fill-active",
+        _ => "skill-bar-fill-cooldown"
     };
 
 }

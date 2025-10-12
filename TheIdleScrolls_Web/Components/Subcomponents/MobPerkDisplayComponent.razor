@@ -1,0 +1,33 @@
+@using TheIdleScrolls_Core.Modifiers
+
+
+<div class="mobPerkBox withTooltip">
+    @Perk.Name
+    <span class="barTooltip">
+        @foreach (var line in Perk.Description.Split('\n'))
+        {
+            @line<br />
+        }
+        @* @foreach (var modifier in Perk.Modifiers)
+        {
+            @modifier.ToPrettyString()<br />
+        } *@
+    </span>
+</div>
+
+<style>
+    .mobPerkBox {
+        margin: 5px;
+        padding: 2px;
+        border: 1px solid var(--frame-color);
+        font-size: 0.75rem;
+        position: relative;
+        background-color: gold;
+        width: fit-content;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public Perk Perk { get; set; }
+}
