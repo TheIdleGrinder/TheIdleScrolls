@@ -31,10 +31,13 @@ namespace TheIdleScrolls_Core.Components
 			CurrentSkill?.Timer.Stop();
 
 			int originalIndex = Index;
-            do
+			do
 			{
 				Index = (Index + 1) % Skills.Count;
-			} while (CurrentSkill?.CurrentState == SkillTimer.State.Cooldown && Index != originalIndex);
+			} while (
+				CurrentSkill?.GetState() != ActiveSkill.State.Ready
+				&& CurrentSkill?.GetState() != ActiveSkill.State.Charging
+				&& Index != originalIndex);
             return Index;
 		}
 

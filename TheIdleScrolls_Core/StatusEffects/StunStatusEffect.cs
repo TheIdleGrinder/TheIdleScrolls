@@ -14,7 +14,7 @@ namespace TheIdleScrolls_Core.StatusEffects
 	{
 		List<Modifier> _Modifiers = [];
 
-        public override string Description => $"Stun with {duration:0.##} sec. duration";
+        public override string Description => $"Stun with {Timer?.Duration ?? double.PositiveInfinity:0.##} sec. duration";
 
         public override double ScaleDurationForTarget(Entity target, double duration)
 		{

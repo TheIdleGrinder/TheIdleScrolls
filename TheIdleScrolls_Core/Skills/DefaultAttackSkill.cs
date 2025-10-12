@@ -10,14 +10,17 @@ using TheIdleScrolls_Core.Skills.SkillEffects;
 
 namespace TheIdleScrolls_Core.Skills
 {
-	public static class DefaultAttack
+	public class DefaultAttack : ActiveSkillDefinition
 	{
-		public static readonly ActiveSkillDefinition Skill = new(
-			"DfltAttack", 
-			"Default Attack",
-			UpdateFunction);
+		public static DefaultAttack Skill { get; } = new();
 
-		public static void UpdateFunction(Entity user, ActiveSkill skill)
+		private DefaultAttack() { }
+
+        public override string Id => "DfltAttack";
+
+        public override string Name => "Default Attack";
+
+		protected override void SetupStats(Entity user, ActiveSkill skill)
 		{
 			List<string> AdditionalTags = [Tags.Attack, skill.Id];
 
@@ -80,20 +83,30 @@ namespace TheIdleScrolls_Core.Skills
 			if (weaponCount == 0)
 			{
 				rawDamage = modComp?.ApplyApplicableModifiers(rawDamage,
-					[Tags.Damage, Abilities.Unarmed, ..AdditionalTags], globalTags) ?? rawDamage;
+					[Tags.Damage, Abilities.Unarmed, .. AdditionalTags], globalTags) ?? rawDamage;
 				// invert attack speed due to speed/cooldown mismatch
 				cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
-					[Tags.AttackSpeed, Abilities.Unarmed, ..AdditionalTags], globalTags) ?? cooldown;
+					[Tags.AttackSpeed, Abilities.Unarmed, .. AdditionalTags], globalTags) ?? cooldown;
 			}
 
 			double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
 
-			DamageSkillEffect dmgEffect = new(Math.Round(rawDamage), ISkillEffect.TargetingMode.SingleEnemy, [..AdditionalTags]);
+			DamageSkillEffect dmgEffect = new(Math.Round(rawDamage), ISkillEffect.TargetingMode.SingleEnemy, [.. AdditionalTags]);
 			skill.Effects = [dmgEffect];
 
 			cooldown *= encumbranceSlowdown; // Encumbrance slows attack speed multiplicatively
 			cooldown = Math.Max(cooldown, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
 			skill.ChargingTime = cooldown;
 		}
-	}
+
+        public override bool IsAvailableTo(Entity user)
+        {
+            return user.IsPlayer();
+        }
+
+        public override (bool available, string reason) IsUsableBy(Entity user)
+        {
+            return (IsAvailableTo(user), string.Empty);
+        }
+    }
 }

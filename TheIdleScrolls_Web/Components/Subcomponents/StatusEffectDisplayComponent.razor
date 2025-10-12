@@ -17,7 +17,6 @@
 <style>
     .effect-progress-bar-container {
         display: inline-flex;
-        gap: 0.1rem;
         font-size: 0.75rem;
         width: 90%;
         align-self: center;
@@ -40,6 +39,7 @@
 
 @code {
     [Parameter]
+    [EditorRequired]
     public StatusEffect Effect { get; set; }
 
     public double CalculateProgress()

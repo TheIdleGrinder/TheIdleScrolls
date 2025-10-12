@@ -15,7 +15,7 @@ namespace TheIdleScrolls_Core.Resources
     {
         private static Biome[] LushBiomes = [Biome.Grassland, Biome.Forest, Biome.Coast];
 
-        private readonly static ActiveSkillDefinition Skill_StunningBlow 
+        private readonly static GenericSkillDefinition Skill_StunningBlow 
             = new ("Stun", "Stunning Blow",
                 SkillFactory.GetGenericUpdater(2.0, 5.0, [
                     SkillFactory.GetStunScaler(1.0)

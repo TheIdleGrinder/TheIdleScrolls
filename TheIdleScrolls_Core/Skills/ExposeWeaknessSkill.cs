@@ -13,15 +13,31 @@ using TheIdleScrolls_Core.StatusEffects;
 
 namespace TheIdleScrolls_Core.Skills
 {
-    public static class ExposeWeaknessSkill
+    public class ExposeWeaknessSkill : ActiveSkillDefinition
     {
-        public static readonly ActiveSkillDefinition Skill = new(
-            "ExposeWeakness",
-            "Expose Weakness",
-            UpdateFunction
-        );
+        public static ExposeWeaknessSkill Skill { get; } = new();
 
-        public static void UpdateFunction(Entity user, ActiveSkill skill)
+        private ExposeWeaknessSkill() { }
+
+        public override string Id => "ExposeWeakness";
+
+        public override string Name => "Expose Weakness";
+
+        public override bool IsAvailableTo(Entity user)
+        {
+            var perksComp = user.GetComponent<PerksComponent>();
+            if (perksComp is null)
+                return false;
+
+            return perksComp.IsPerkActive(Perks.ExposeWeaknessPerks.BasePerkId);
+        }
+
+        public override (bool available, string reason) IsUsableBy(Entity user)
+        {
+            return (IsAvailableTo(user), string.Empty);
+        }
+
+        protected override void SetupStats(Entity user, ActiveSkill skill)
         {
             List<string> AdditionalTags = [Tags.Spell, skill.Id];
 
