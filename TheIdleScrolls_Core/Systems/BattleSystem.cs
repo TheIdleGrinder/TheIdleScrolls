@@ -197,15 +197,25 @@ namespace TheIdleScrolls_Core.Systems
 				{
 					skillComp.CurrentSkill.Timer.Start();
 				}
-				double remaining = skillComp.CurrentSkill?.UpdateTimer(previouslyRemaining) ?? 0.0;
+                SkillTimer.TimerUpdateResult updateResult = skillComp.CurrentSkill?.UpdateTimer(previouslyRemaining) 
+                                                                ?? new(0.0, false, false, false);
+                double remaining = updateResult.RemainingTime;
 				double elapsed = previouslyRemaining - remaining;
 				totalElapsed += elapsed;
 				// Also update timer for all other skills
 				foreach (var skill in skillComp.Skills)
 				{
-					if (skill != skillComp.CurrentSkill)
-						skill.UpdateTimer(elapsed);
-				}
+                    SkillTimer.TimerUpdateResult passiveUpdateResult = new(0.0, false, false, false);
+                    if (skill != skillComp.CurrentSkill)
+                    {
+                        passiveUpdateResult = skill.UpdateTimer(elapsed);
+                    }
+                    if (skillComp.CurrentSkill is null && passiveUpdateResult.CooldownComplete)
+                    {
+                        // switch to a skill that finished cooldown if no skill is currently selected
+                        skillComp.SwitchToNext();
+                    }
+                }
 				if (remaining > 0.0) // Means that the skill has finished charging
 				{
 					double damage = 0;
@@ -230,7 +240,7 @@ namespace TheIdleScrolls_Core.Systems
 					entity.GetComponent<BattlerComponent>()!.DamageDealt += (int)damage;
 					entity.GetComponent<BattlerComponent>()!.AttacksPerformed++;
 					skillComp.SwitchToNext();
-					skillComp.CurrentSkill.Timer.Start();
+					skillComp.CurrentSkill?.Timer?.Start();
 				}
 			}
 		}

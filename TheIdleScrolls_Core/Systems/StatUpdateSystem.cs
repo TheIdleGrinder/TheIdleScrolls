@@ -19,6 +19,26 @@ namespace TheIdleScrolls_Core.Systems
             if (m_player == 0)
                 m_player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault()?.Id ?? 0;
 
+            // Handle changes in skill order here for now
+            foreach (var message in coordinator.FetchMessagesByType<SkillOrderChangeRequest>())
+            {
+                var comp = coordinator.GetEntity(message.EntityId)?.GetComponent<ActiveSkillComponent>();
+                var skill = comp?.Skills?.FirstOrDefault(s => s.Id == message.SkillId);
+                if (skill is not null)
+                {
+                    if (message.MoveUp)
+                        comp?.MoveSkillUp(skill);
+                    else
+                        comp?.MoveSkillDown(skill);
+                }
+            }
+
+            foreach (var message in coordinator.FetchMessagesByType<SetSkillEnabledRequest>())
+            {
+                var comp = coordinator.GetEntity(message.EntityId)?.GetComponent<ActiveSkillComponent>();
+                comp?.SetSkillEnabled(message.SkillId, message.Enabled);
+            }
+
             bool doUpdate = m_initialFullUpdates > 0
                 || coordinator.MessageTypeIsOnBoard<LevelUpSystem.LevelUpMessage>()
                 || coordinator.MessageTypeIsOnBoard<ItemMovedMessage>()
@@ -205,15 +225,19 @@ namespace TheIdleScrolls_Core.Systems
 
     public class StatsUpdatedMessage : IMessage
     {
-        string IMessage.BuildMessage()
-        {
-            return $"Player stats updated";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.Debug;
-        }
+        string IMessage.BuildMessage() => $"Player stats updated";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 
+    record SkillOrderChangeRequest(uint EntityId, string SkillId, bool MoveUp) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Request to move skill {SkillId} {(MoveUp ? "up" : "down")} in entity {EntityId}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
+
+    record SetSkillEnabledRequest(uint EntityId, string SkillId, bool Enabled) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Request to {(Enabled ? "en" : "dis")}able skill {SkillId} in entity {EntityId}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
 }

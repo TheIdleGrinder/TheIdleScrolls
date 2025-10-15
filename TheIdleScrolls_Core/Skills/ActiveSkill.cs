@@ -73,7 +73,7 @@ namespace TheIdleScrolls_Core.Skills
 		/// <summary>
 		/// Updates the internal timer of the skill. Returns the time that remained after fully charging.
 		/// </summary>
-		public double UpdateTimer(double dt)
+		public SkillTimer.TimerUpdateResult UpdateTimer(double dt)
 		{
 			return Timer.Update(dt);
 		}

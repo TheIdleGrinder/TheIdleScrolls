@@ -107,5 +107,15 @@ namespace TheIdleScrollsApp
             }
             processed.ForEach(m => m_requests.Remove(m)); // Don't use Clear to prevent (unlikely) timing issues
         }
+
+        public void SetSkillEnabled(uint playerId, string skillId, bool enabled)
+        {
+            m_requests.Add(new SetSkillEnabledRequest(playerId, skillId, enabled));
+        }
+
+        public void ChangeSkillOrder(uint playerId, string skillId, bool moveUp)
+        {
+            m_requests.Add(new SkillOrderChangeRequest(playerId, skillId, moveUp));
+        }
     }
 }

@@ -10,7 +10,9 @@ namespace TheIdleScrolls_Core.Skills
 	{
 		public enum State { NotStarted, Charging, Active, Cooldown }
 
-		State _CurrentState = State.NotStarted;
+        public record TimerUpdateResult(double RemainingTime, bool ChargingComplete, bool ActivityComplete, bool CooldownComplete);
+
+        State _CurrentState = State.NotStarted;
 		double _Charge = chargeDuration;
 		double _Active = activeDuration;
 		double _Cooldown = cooldownDuration;
@@ -87,30 +89,36 @@ namespace TheIdleScrolls_Core.Skills
 		/// </summary>
 		/// <param name="dt"></param>
 		/// <returns>Remainder of dt after charging completes</returns>
-		public double Update(double dt)
+		public TimerUpdateResult Update(double dt)
 		{
 			if (_CurrentState == State.NotStarted || dt <= 0.0)
-				return 0.0;
+				return new(0.0, false, false, false);
 			double remaining = 0.0;
-			_Remaining -= dt;
+			bool chargingComplete = false;
+            bool activityComplete = false;
+            bool cooldownComplete = false;
+            _Remaining -= dt;
 			if (_Remaining < 0 && _CurrentState == State.Charging)
 			{
 				remaining = -_Remaining;
 				_CurrentState = State.Active;
 				_Remaining += _Active;
-			}
+                chargingComplete = true;
+            }
 			if (_Remaining < 0 && _CurrentState == State.Active)
 			{
 				_CurrentState = State.Cooldown;
 				_Remaining += _Cooldown;
-			}
+                activityComplete = true;
+            }
 			if (_Remaining < 0 && _CurrentState == State.Cooldown)
 			{
 				// Reset the timer to initial state, the cycle has finished
 				_CurrentState = State.NotStarted;
 				_Remaining = _Charge;
-			}
-			return remaining;
+                cooldownComplete = true;
+            }
+			return new(remaining, chargingComplete, activityComplete, cooldownComplete);
 		}
 	}
 }
