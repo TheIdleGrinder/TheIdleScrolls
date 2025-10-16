@@ -313,6 +313,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Charge Speed ähnelt.
+        /// </summary>
+        internal static string ChargeSpeed {
+            get {
+                return ResourceManager.GetString("ChargeSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Viking ähnelt.
         /// </summary>
         internal static string CLASS_AXE_HAR {
@@ -507,6 +516,24 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string CraftingSpeed {
             get {
                 return ResourceManager.GetString("CraftingSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Damage Taken ähnelt.
+        /// </summary>
+        internal static string DamageTaken {
+            get {
+                return ResourceManager.GetString("DamageTaken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Defensive Layers ähnelt.
+        /// </summary>
+        internal static string DefensiveLayers {
+            get {
+                return ResourceManager.GetString("DefensiveLayers", resourceCulture);
             }
         }
         

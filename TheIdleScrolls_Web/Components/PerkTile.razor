@@ -15,7 +15,7 @@
     <div class="perk-modifiers">
         @foreach (var modifier in Perk?.Modifiers ?? [])
         {
-            <div class="perk-modifier">➤ @modifier.ToPrettyString()</div>
+            <div class="perk-modifier">➤ @ModifierPreface()@modifier.ToPrettyString()</div>
         }
     </div>
     <div class="perk-buttons-area">
@@ -183,5 +183,10 @@
         if (CoreWrapper.PlayerCharacter == null)
             return;
         CoreWrapper.InputHandler.SetPerkLevel(CoreWrapper.PlayerCharacter.Id, PerkId, level);
+    }
+
+    string ModifierPreface()
+    {
+        return (Perk?.ApplyModifiersToOwner ?? true) ? "" : "Enemy gets ";
     }
 }
