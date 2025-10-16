@@ -115,11 +115,12 @@ namespace TheIdleScrolls_Core.Systems
                 if (modsComp == null)
                     continue;
 
-                perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
-                if (setLevelRequest.Level > 0)
+                // Remove modifiers if the perk is deactivated, because UpdatePerk is not called in this case
+                if (setLevelRequest.Level <= 0 && perk.ApplyModifiersToOwner)
                 {
-                    perk.Modifiers.ForEach(modsComp.AddModifier);
+                    perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
                 }
+
                 coordinator.PostMessage(this, new PerkLevelChangedMessage(owner, perk, setLevelRequest.Level));
             }
 
@@ -304,6 +305,9 @@ namespace TheIdleScrolls_Core.Systems
             perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Time", $"Basic Time Limit", "",
                 ModifierType.Increase, Stats.BasicTimeIncrease,
                 [Tags.TimeShield], [], maxLevel: 10), index + 3);
+
+            perksComponent.AddPerk(Perks.ExposeWeaknessPerks.BasePerk);
+            perksComponent.AddPerk(Perks.ExposeWeaknessPerks.DamageTaken);
         }
     }
 

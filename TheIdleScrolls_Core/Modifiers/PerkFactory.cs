@@ -193,7 +193,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 {
                     double lifePool = entity.GetComponent<LifePoolComponent>()?.Maximum ?? 1.0;
                     double prevention = percentage * lifePool;
-                    return [new($"{id}_prevention", ModifierType.AddFlat, prevention, [Tags.DamageReduction], [])];
+                    return [new($"{id}_prevention", ModifierType.AddBase, prevention, [Tags.DamageReduction], [])];
                 }
             )
             {
@@ -210,7 +210,7 @@ namespace TheIdleScrolls_Core.Modifiers
                 [],
                 delegate (int level, Entity entity, World world, Coordinator coordinator)
                 {
-                    return [new($"{id}_layers", ModifierType.AddFlat, layers, [Tags.DefensiveLayers], [])];
+                    return [new($"{id}_layers", ModifierType.AddBase, layers, [Tags.DefensiveLayers], [])];
                 }
             )
             {

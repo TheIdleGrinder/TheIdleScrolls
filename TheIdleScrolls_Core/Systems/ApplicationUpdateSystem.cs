@@ -128,8 +128,7 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
                 double chargeTime = skillComp.CurrentSkill?.ChargingTime ?? 0.0;
-                double remaining = skillComp.CurrentSkill?.Timer.Remaining ?? 0.0;
-				PlayerOffenseChanged?.Invoke((int)Math.Round(damage), chargeTime, remaining);
+				PlayerOffenseChanged?.Invoke((int)Math.Round(damage), chargeTime);
                 //Console.WriteLine($"Attack charge: {remaining} / {chargeTime}");
 			}
 

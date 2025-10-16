@@ -40,6 +40,10 @@ namespace TheIdleScrolls_Core.Components
         public void AddPoints(double points)
         {
             _Current = Math.Clamp(_Current + points, 0, _Maximum);
+            if (_Current < 0.0001)
+            {
+                _Current = 0;
+            }
         }
 
         public void ApplyDamage(int points) => AddPoints(-points);

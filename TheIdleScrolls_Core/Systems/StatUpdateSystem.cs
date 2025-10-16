@@ -142,16 +142,16 @@ namespace TheIdleScrolls_Core.Systems
 
                 // Set attackComp for display
                 var attackComp = player.GetComponent<AttackComponent>();
-			    if (attackComp != null && skillComp.CurrentSkill is not null)
-			    {
-					double dmg = skillComp.CurrentSkill?.Effects?
-                        .Sum(e => e is DamageSkillEffect dmgEffect ? dmgEffect.Damage : 0.0) ?? 0.0;
-				    attackComp.RawDamage = dmg;
-                    double duration = skillComp.CurrentSkill?.Timer.ChargingDuration ?? 1.0;
-                    double remaining = skillComp.CurrentSkill?.Timer.Remaining ?? 1.0;
-                    attackComp.Cooldown.Reset(duration);
-				    attackComp.Cooldown.Update(duration - remaining);
-			    }
+                if (attackComp != null && skillComp.CurrentSkill is not null)
+                {
+                    double dmg = skillComp.CurrentSkill?.Effects?
+                                       .Sum(e => e is DamageSkillEffect dmgEffect ? dmgEffect.Damage : 0.0) ?? 0.0;
+                    attackComp.RawDamage = dmg;
+                    //               double duration = skillComp.CurrentSkill?.Timer.ChargingDuration ?? 1.0;
+                    //               double remaining = skillComp.CurrentSkill?.Timer.Remaining ?? 1.0;
+                    //               attackComp.Cooldown.Reset(duration);
+                    //   attackComp.Cooldown.Update(duration - remaining);
+                }
             }
 
 			coordinator.PostMessage(this, new StatsUpdatedMessage());

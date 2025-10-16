@@ -169,8 +169,6 @@
     double EvasionPct => Evader != null ? (1.0 - Evader.Duration.Remaining / Evader.Duration.Duration) : 0.0;
     string EvasionClass => "progressFill " + (EvasionActive ? "evasion-bar-active" : "evasion-bar-inactive");
 
-    double AttackPct => 1.0 - 1.0 * CoreWrapper.CharacterStats.CooldownRemaining / CoreWrapper.CharacterStats.Cooldown;
-
     string CurrentMobId = "";
     string CurrentMobImage = "";
 
