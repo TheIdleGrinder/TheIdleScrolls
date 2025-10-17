@@ -36,7 +36,9 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new RewardCollectorComponent());
             player.AddComponent(new TitleBearerComponent());
             player.AddComponent(new MetaDataComponent());
-            player.AddComponent(new ActiveSkillComponent() { Skills = [new(DefaultAttack.Skill), new(ExposeWeaknessSkill.Skill)] });
+            player.AddComponent(new ActiveSkillComponent() { Skills = [new(DefaultAttack.Skill)] });
+
+            player.GetComponent<ActiveSkillComponent>()?.Add(new(ExposeWeaknessSkill.Skill));
 
             return player;
         }

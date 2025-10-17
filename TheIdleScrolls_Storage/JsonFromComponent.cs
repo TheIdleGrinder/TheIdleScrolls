@@ -261,6 +261,19 @@ namespace TheIdleScrolls_Storage
 			return JsonFromSth(component);
 		}
 
+        public static JsonObject? ToJson(this ActiveSkillComponent component)
+        {
+            JsonArray skills = [];
+            foreach (var skill in component.Skills)
+            {
+                skills.Add($"{skill.Id}:{skill.Enabled}");
+            }
+            return new JsonObject()
+            {
+                { "Skills", skills }
+            };
+        }
+
 		public static JsonObject JsonFromSth<T>(T thing)
         {
             return (JsonObject)JsonObject.Parse(JsonSerializer.Serialize(thing))!;

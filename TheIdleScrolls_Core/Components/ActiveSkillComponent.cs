@@ -13,7 +13,20 @@ namespace TheIdleScrolls_Core.Components
 		public List<ActiveSkill> Skills = [];
 		int Index = 0;
 
-		public ActiveSkill? CurrentSkill
+		// List of ids used for storing skill order and enabled/disabled state
+		public List<(string, bool)> StoredSkills { get; private set; } = [];
+
+		public void SetStoredSkills(List<(string, bool)> skills)
+		{
+			//Rebuild skill list based on stored skills
+			StoredSkills = skills;
+			var tempSkills = Skills.ToList();
+			Skills.Clear();
+			foreach (var skill in tempSkills)
+				Add(skill);
+		}
+
+        public ActiveSkill? CurrentSkill
 		{
 			get
 			{
@@ -60,10 +73,26 @@ namespace TheIdleScrolls_Core.Components
 
 		public void Add(ActiveSkill skill)
 		{
-			if (!Skills.Any(s => s.Id == skill.Id))
+			if (Skills.Any(s => s.Id == skill.Id))
 			{
-				Skills.Add(skill);
+				return;
 			}
+			if (StoredSkills.FindIndex(s => s.Item1 == skill.Id) >= 0)
+			{
+				int idx = 0;
+				foreach (var (s, on) in StoredSkills)
+				{
+					if (s == skill.Id)
+					{
+						skill.Enabled = on;
+                        Skills.Insert(idx, skill);
+						return;
+                    }
+					if (Skills.Any(sk => sk.Id == s))
+                        idx++;
+                }
+			}
+			Skills.Add(skill);
 		}
 
 		public void SetSkillEnabled(string skillId, bool enabled)
