@@ -60,8 +60,8 @@
 
     @if (Evasion)
     {
-        <div class="progress-bar-container" style="margin-top: 1rem;">
-            Ev
+        <div id="evasion-progress-frame" style="margin-top: 1rem;">
+            Evasion
             <div id="evasion-bar-frame" class="progressFrame withTooltip" style="justify-content: start">
                 <div id="evasion-bar-fill" class=@(EvasionClass) style="width: @($"{GetEvasionPct():0%}");"></div>
                 <span class="barTooltip">Evade for @($"{Evader?.EvasionDuration:0.##}") sec. after charging for @($"{Evader?.ChargeDuration:0.##}") sec.</span>
@@ -116,18 +116,20 @@
         margin-bottom: 0px;
     }
 
-    .progress-bar-container {
-        display: inline-flex;
-        gap: 0.5rem;
-        font-size: 1.25rem;
-    }
-
     .evasion-bar-active {
         background-color: var(--color-active);
     }
 
     .evasion-bar-inactive {
         background-color: var(--color-inactive);
+    }
+
+    #evasion-progress-frame {
+        display: inline-flex;
+        font-size: 0.75rem;
+        width: 90%;
+        flex-direction: column;
+        align-self: center;
     }
 
     #evasion-bar-frame {
