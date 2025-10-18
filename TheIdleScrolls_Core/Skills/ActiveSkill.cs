@@ -36,6 +36,7 @@ namespace TheIdleScrolls_Core.Skills
 
 		public string Id => Definition.Id;
 		public string Name => Definition.Name;
+		public List<string> Tags { get; set; } = [];
 
 		public void SetupForUser(Entity user)
 		{

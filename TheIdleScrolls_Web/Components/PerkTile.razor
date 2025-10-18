@@ -1,6 +1,8 @@
 ﻿@using TheIdleScrolls_Core
 @using TheIdleScrolls_Core.Components
 @using TheIdleScrolls_Core.Modifiers
+@using TheIdleScrolls_Core.Skills
+@using TheIdleScrolls_Web.Components.Subcomponents
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
@@ -12,12 +14,20 @@
         <div class="perk-always-active-indicator">Permanent</div>
     }
     <div class="perk-description">@Perk?.Description</div>
+
     <div class="perk-modifiers">
         @foreach (var modifier in Perk?.Modifiers ?? [])
         {
             <div class="perk-modifier">➤ @ModifierPreface()@modifier.ToPrettyString()</div>
         }
     </div>
+
+    @if (GetPerkSkill() is not null)
+    {
+        <span>Grants Skill:</span>
+        <SkillDisplayTile Skill=@GetPerkSkill()></SkillDisplayTile>
+    }
+
     <div class="perk-buttons-area">
         @if (!Perk?.Permanent ?? false)
         {
@@ -144,6 +154,16 @@
             if (id == PerkId)
                 StateHasChanged();
         };
+
+        if (Perk?.Skill is not null)
+        {
+            // CornerCut: Use PlayerDefenseChanged as a proxy for stat changes
+            CoreWrapper.GameRunner.GetEventEmitter().PlayerDefenseChanged += (_, _, _) =>
+            {
+                StateHasChanged();
+            };
+        }
+
         base.OnInitialized();
     }
 
@@ -187,6 +207,14 @@
 
     string ModifierPreface()
     {
-        return (Perk?.ApplyModifiersToOwner ?? true) ? "" : "Enemy gets ";
+        return (Perk?.ApplyModifiersToOwner ?? true) ? "" : "Target receives: ";
+    }
+
+    ActiveSkill? GetPerkSkill()
+    {
+        if (Perk?.Skill is null || CoreWrapper.PlayerCharacter is null)
+            return null;
+        var skillComp = CoreWrapper.PlayerCharacter.GetComponent<ActiveSkillComponent>();
+        return skillComp?.Skills.FirstOrDefault(s => s.Id == Perk.Skill.Id);
     }
 }

@@ -26,7 +26,8 @@ namespace TheIdleScrolls_Core.Perks
         )
         {
             MaxLevel = 4,
-            ApplyModifiersToOwner = false
+            ApplyModifiersToOwner = false,
+            Skill = Skills.ExposeWeaknessSkill.Skill
         };
 
         public static readonly Perk DamageTaken = new(

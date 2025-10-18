@@ -81,7 +81,7 @@ namespace TheIdleScrolls_Core.ContentPacks
                                 3 => 4 * quality + 10,
                                 _ => 0
                             };
-                            bool active = (e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0) % 3 == 0;
+                            bool active = (e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0) % 3 == 0;
                             return [
                                 new("AdvSh_dmg", ModifierType.AddBase, active ? bonus : 0, [Tags.Damage], [Tags.Shielded])
                             ];

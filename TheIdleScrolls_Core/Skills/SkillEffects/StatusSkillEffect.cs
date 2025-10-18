@@ -11,7 +11,18 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 {
     public class StatusSkillEffect(TargetingMode targetingMode, StatusEffect effect) : ISkillEffect
     {
-        public string Description => $"Apply '{effect.Description}' to {(targetingMode == TargetingMode.Self ? "self" : "target")}";
+        public string Description
+        {
+            get
+            {
+                string result = $"Apply to {(targetingMode == TargetingMode.Self ? "self" : "target")}:";
+                foreach (string line in effect.Description.Split('\n'))
+                {
+                    result += $"\n\t{line}";
+                }
+                return result;
+            }
+        }
 
         public TargetingMode Target => targetingMode;
 

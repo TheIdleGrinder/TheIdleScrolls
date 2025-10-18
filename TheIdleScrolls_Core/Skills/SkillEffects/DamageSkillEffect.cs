@@ -17,7 +17,7 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 
 		public double DamageDone { get; private set; } = 0.0;
 
-        public string Description => $"{Damage:0.##} damage";
+        public string Description => $"{Damage:0.##} damage to {(Target == TargetingMode.Self ? "self" : "target")}";
 
 		public TargetingMode Target => target;
 

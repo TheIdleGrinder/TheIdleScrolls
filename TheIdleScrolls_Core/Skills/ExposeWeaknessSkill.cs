@@ -39,21 +39,27 @@ namespace TheIdleScrolls_Core.Skills
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
         {
-            List<string> AdditionalTags = [Tags.Spell, skill.Id];
+            skill.Tags = [Tags.Insight];
 
             double cooldown = 10.0;
             double chargeTime = 2.0;
-            chargeTime = user.ApplyAllApplicableModifiers(chargeTime, [Tags.ChargeSpeed, ..AdditionalTags], user.GetTags());
+            chargeTime = user.ApplyAllApplicableModifiers(chargeTime, [Tags.ChargeSpeed, Id, ..skill.Tags], user.GetTags());
 
             var perksComp = user.GetComponent<PerksComponent>();
             if (perksComp is null)
                 return;
 
-            List<string> perks = [Perks.ExposeWeaknessPerks.BasePerkId, Perks.ExposeWeaknessPerks.DmgTakenPerkId];
-            var mods = perks
-                .Where(perksComp.IsPerkActive)
-                .SelectMany(id => perksComp.GetPerks().FirstOrDefault(p => p.Id == id)?.Modifiers ?? [])
-                .ToList();
+            List<Modifier> mods = perksComp.GetPerk(Perks.ExposeWeaknessPerks.BasePerkId)?.Modifiers.ToList() ?? [];
+            if (perksComp.IsPerkActive(Perks.ExposeWeaknessPerks.DmgTakenPerkId))
+            {
+                mods.AddRange(perksComp.GetPerk(Perks.ExposeWeaknessPerks.DmgTakenPerkId)?.Modifiers.ToList() ?? []);
+            }
+
+            //List<string> perks = [Perks.ExposeWeaknessPerks.DmgTakenPerkId];
+            //mods.AddRange(perks
+            //    .Where(perksComp.IsPerkActive)
+            //    .SelectMany(id => perksComp.GetPerks().FirstOrDefault(p => p.Id == id)?.Modifiers ?? [])
+            //    .ToList());
 
             GenericModifierStatusEffect effect = new("Exposed", 12.0, mods, []);
             

@@ -10,10 +10,10 @@ namespace TheIdleScrolls_Core.Components
     public class BattlerComponent(Battle battle) : IComponent
     {
         public Battle Battle { get; set; } = battle;
-        public int AttacksPerformed { get; set; } = 0;
+        public int SkillsUsed { get; set; } = 0;
         public double DamageDealt { get; set; } = 0.0;
 
-        public bool FirstStrike => AttacksPerformed == 0;
+        public bool FirstStrike => SkillsUsed == 0;
     }
 
     public class Battle(Entity player, int mobs)

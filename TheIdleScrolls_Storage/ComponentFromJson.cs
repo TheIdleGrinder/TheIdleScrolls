@@ -426,10 +426,6 @@ namespace TheIdleScrolls_JSON
                 if (component.StoredSkills.Any(s => s.Item1 == DefaultAttack.Skill.Id))
                     component.Add(new(DefaultAttack.Skill));
 
-                // REMOVE ONCE SKILLS ARE ADDED AT GAME TIME
-                if (component.StoredSkills.Any(s => s.Item1 == ExposeWeaknessSkill.Skill.Id))
-                    component.Add(new(ExposeWeaknessSkill.Skill));
-
                 return true;
             }
             catch (Exception)

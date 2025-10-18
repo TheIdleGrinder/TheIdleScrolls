@@ -137,7 +137,7 @@ namespace TheIdleScrolls_Core.Systems
                         ? Battle.BattleState.PlayerWon 
                         : Battle.BattleState.BetweenFights;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
-                    player.GetComponent<BattlerComponent>()!.AttacksPerformed = 0; // Reset attack counter to enable FirstStrike for next mob
+                    player.GetComponent<BattlerComponent>()!.SkillsUsed = 0; // Reset attack counter to enable FirstStrike for next mob
                 }
                 else if (playerDefeated)
                 {
@@ -199,18 +199,26 @@ namespace TheIdleScrolls_Core.Systems
 				}
                 SkillTimer.TimerUpdateResult updateResult = skillComp.CurrentSkill?.UpdateTimer(previouslyRemaining) 
                                                                 ?? new(0.0, false, false, false);
+                if (updateResult.ChargingComplete || updateResult.ActivityComplete || updateResult.CooldownComplete)
+                {
+                    coordinator.PostMessage(this, new SkillStateChanged(entity, skillComp.CurrentSkill!, updateResult));
+                }
                 double remaining = updateResult.RemainingTime;
 				double elapsed = previouslyRemaining - remaining;
 				totalElapsed += elapsed;
 				// Also update timer for all other skills
 				foreach (var skill in skillComp.Skills)
 				{
-                    SkillTimer.TimerUpdateResult passiveUpdateResult = new(0.0, false, false, false);
+                    SkillTimer.TimerUpdateResult result = new(0.0, false, false, false);
                     if (skill != skillComp.CurrentSkill)
                     {
-                        passiveUpdateResult = skill.UpdateTimer(elapsed);
+                        result = skill.UpdateTimer(elapsed);
+                        if (result.ChargingComplete || result.ActivityComplete || result.CooldownComplete)
+                        {
+                            coordinator.PostMessage(this, new SkillStateChanged(entity, skill, result));
+                        }
                     }
-                    if (skillComp.CurrentSkill is null && passiveUpdateResult.CooldownComplete)
+                    if (skillComp.CurrentSkill is null && result.CooldownComplete)
                     {
                         // switch to a skill that finished cooldown if no skill is currently selected
                         skillComp.SwitchToNext();
@@ -238,7 +246,7 @@ namespace TheIdleScrolls_Core.Systems
 						}
 					}
 					entity.GetComponent<BattlerComponent>()!.DamageDealt += (int)damage;
-					entity.GetComponent<BattlerComponent>()!.AttacksPerformed++;
+					entity.GetComponent<BattlerComponent>()!.SkillsUsed++;
 					skillComp.SwitchToNext();
 					skillComp.CurrentSkill?.Timer?.Start();
 				}
@@ -250,6 +258,12 @@ namespace TheIdleScrolls_Core.Systems
     {
         string IMessage.BuildMessage() => $"State changed for battle of {Battle.Player.GetName()}";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
+    }
+
+    public record SkillStateChanged(Entity User, ActiveSkill Skill, SkillTimer.TimerUpdateResult Changes) : IMessage
+    {
+        string IMessage.BuildMessage() => $"{User.GetName()}'s skill {Skill.Name} changed state to {Skill.GetState()}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Low;
     }
 
     public record DamageDoneMessage(Entity Attacker, Entity Target, int Damage, int DamagePrevented = 0) : IMessage

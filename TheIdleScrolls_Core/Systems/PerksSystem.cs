@@ -45,6 +45,19 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     AddBasicPerks(perksComp);
                     perksComp.GetPerks().ForEach(m => UpdatePerk(m));
+
+                    // Add active skills from basic perks
+                    var skillComp = entity.GetComponent<ActiveSkillComponent>();
+                    if (skillComp is not null)
+                    {
+                        foreach (var perk in perksComp.GetPerks())
+                        {
+                            if (perk.Skill is not null)
+                            {
+                                skillComp.Add(new(perk.Skill));
+                            }
+                        }
+                    }
                 }
 
                 // Update number of available perk points
@@ -310,6 +323,7 @@ namespace TheIdleScrolls_Core.Systems
             perksComponent.AddPerk(Perks.ExposeWeaknessPerks.DamageTaken);
         }
     }
+
 
     public record PerkAddedMessage(Entity Owner, Perk Perk) : IMessage
     {

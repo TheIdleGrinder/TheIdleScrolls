@@ -1,0 +1,99 @@
+﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Modifiers
+@using TheIdleScrolls_Core.Skills
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="skill-display-frame">
+    <span class="skill-display-name">@Skill.Name</span>
+    <span class="skill-display-tags">@(String.Join(", ", Skill.Tags))</span>
+    <div class="skill-display-main">
+        @if (Skill.ChargingTime > 0)
+        {
+            <span>Charging Time: <em>@Skill.ChargingTime.ToString("0.##") seconds</em></span>
+        }
+        @if (Skill.Timer.ActiveDuration > 0)
+        {
+            <span>Active Duration: <em>@Skill.Timer.ActiveDuration.ToString("0.##") seconds</em></span>
+        }
+        @if (Skill.Timer.CooldownDuration > 0)
+        {
+            <span>Cooldown Duration: <em>@Skill.Timer.CooldownDuration.ToString("0.##") seconds</em></span>
+        }
+
+        @foreach(var effect in Skill.Effects)
+        {
+            <div class="skill-display-effect">
+                @foreach (var line in effect.Description.Split('\n'))
+                {
+                    <span style="padding-left:@(10 * TabsAtStart(line))px;">
+                        @(TabsAtStart(line) > 0 ? "➤ " : "")
+                        @line
+                    </span>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .skill-display-frame {
+        border: 1px solid var(--frame-color);
+        padding: 5px;
+        margin-bottom: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: fit-content;
+        background-color: var(--background-secondary);
+    }
+
+    .skill-display-name {
+        font-weight: bold;
+        font-size: 1rem;
+    }
+
+    .skill-display-tags {
+        font-size: 0.75rem;
+        font-style: italic;
+        color: gray;
+    }
+
+    .skill-display-main {
+        display: flex;
+        flex-direction: column;
+        align-content: start;
+    }
+
+    .skill-display-effect {
+        display: flex;
+        flex-direction: column;
+        font-size: 0.9rem;
+    }
+
+</style>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public ActiveSkill Skill { get; set; }
+
+    int TabsAtStart(string line)
+    {
+        int count = 0;
+        foreach (char c in line)
+        {
+            if (c == '\t')
+            {
+                count++;
+            }
+            else
+            {
+                break;
+            }
+        }
+        return count;
+    }
+}

@@ -242,7 +242,7 @@ namespace TheIdleScrolls_Core.Resources
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (l, e, w, c) =>
                                 {
-                                    int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
+                                    int attacks = e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0;
                                     return [ new($"{id}{level}", ModifierType.Increase, Math.Min(attacks * l * 0.02, 0.2 * l),
                                         [ Tags.AttackSpeed, Abilities.Axe ],
                                         [])
@@ -255,7 +255,7 @@ namespace TheIdleScrolls_Core.Resources
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (l, e, w, c) =>
                                 {
-                                    int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
+                                    int attacks = e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0;
                                     return [ new($"{id}{level}", ModifierType.Increase, Math.Min(attacks * l * 0.05, 0.25 * l),
                                         [ Tags.Damage, Abilities.Blunt ],
                                         [])
@@ -268,7 +268,7 @@ namespace TheIdleScrolls_Core.Resources
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (l, e, w, c) =>
                                 {
-                                    int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
+                                    int attacks = e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0;
                                     bool damage = (attacks % 2) == 0;
                                     return
                                     [
@@ -287,7 +287,7 @@ namespace TheIdleScrolls_Core.Resources
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (l, e, w, c) =>
                                 {
-                                    int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
+                                    int attacks = e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0;
                                     return [ new($"{id}{level}",
                                              ModifierType.Increase,
                                              0.02 * l * Math.Max(10 - attacks, 1),
@@ -301,7 +301,7 @@ namespace TheIdleScrolls_Core.Resources
                                 [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
                                 (l, e, w, c) =>
                                 {
-                                    int attacks = e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0;
+                                    int attacks = e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0;
                                     bool bonus = (attacks % (6 - l)) == (5 - l);
                                     return [ new($"{id}{level}",
                                              ModifierType.Increase,

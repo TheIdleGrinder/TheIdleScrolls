@@ -216,7 +216,8 @@ namespace TheIdleScrolls_Core.Systems
                 comp.AddTag(Tags.Unarmored);
             }
 
-            AddOrRemoveTag(Tags.FirstStrike, player.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
+            AddOrRemoveTag(Tags.FirstStrike, 
+                player.GetComponent<BattlerComponent>()?.Battle?.Mob?.GetComponent<LifePoolComponent>()?.IsFull ?? false);
             AddOrRemoveTag(Tags.Evading, player.GetComponent<EvaderComponent>()?.Active ?? false);
         }
     }

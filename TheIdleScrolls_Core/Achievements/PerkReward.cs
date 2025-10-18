@@ -28,6 +28,10 @@ namespace TheIdleScrolls_Core.Achievements
                 {
                     postMessageCallback(new PerkAddedMessage(entity, Perk));
                 }
+                if (Perk.Skill is not null)
+                {
+                    entity.GetComponent<ActiveSkillComponent>()?.Add(new(Perk.Skill));
+                }
             }
             return true;
         }

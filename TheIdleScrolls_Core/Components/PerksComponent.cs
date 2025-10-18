@@ -127,6 +127,11 @@ namespace TheIdleScrolls_Core.Components
             return Perks.Any(p => p.Id == id);
         }
 
+        public Perk? GetPerk(string Id)
+        {
+            return Perks.FirstOrDefault(p => p.Id == Id);
+        }
+
         public int GetPerkLevel(string id)
         {
             return PerkLevels.TryGetValue(id, out int value) ? value : 0;

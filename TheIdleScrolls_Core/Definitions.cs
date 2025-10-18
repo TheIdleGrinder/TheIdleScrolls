@@ -95,6 +95,8 @@ namespace TheIdleScrolls_Core
 
             public const string Attack = "Attack";
             public const string Spell = "Spell";
+            public const string Insight = "Insight";
+
             public const string Speed = "Speed";
             public const string ChargeSpeed = "ChargeSpeed";
 

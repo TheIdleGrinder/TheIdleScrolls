@@ -1,11 +1,13 @@
-﻿@using TheIdleScrolls_Core.Components
+﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Definitions
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
 
 <div id="battleDataFrame">
     <p>Duration: @($"{Duration:0.#} s")</p>
-    <p>EDPS: @($"{EDps:0.#}")</p>
+    <p>EDPS: @($"{EDps:0.#}") @((CoreWrapper.PlayerCharacter?.HasTag(Tags.FirstStrike) ?? false) ? "!!" : "")</p>
     <p>Time to Kill: @($"{TtK:0.#} s")</p>
     <p>Time to Die: @($"{TtD:0.#} s")</p>
     <p>Potential: @($"{Potential:0.#} ({PotentialPct:0.#%})")</p>
