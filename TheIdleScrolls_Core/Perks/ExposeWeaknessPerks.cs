@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Modifiers;
-using TheIdleScrolls_Core.Skills;
+using TheIdleScrolls_Core.Skills.Skills;
 
 namespace TheIdleScrolls_Core.Perks
 {

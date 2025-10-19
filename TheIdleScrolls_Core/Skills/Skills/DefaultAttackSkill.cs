@@ -8,7 +8,7 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Skills.SkillEffects;
 
-namespace TheIdleScrolls_Core.Skills
+namespace TheIdleScrolls_Core.Skills.Skills
 {
     public class DefaultAttack : ActiveSkillDefinition
     {

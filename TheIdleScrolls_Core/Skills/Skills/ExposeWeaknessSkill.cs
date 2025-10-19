@@ -11,7 +11,7 @@ using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Skills.SkillEffects;
 using TheIdleScrolls_Core.StatusEffects;
 
-namespace TheIdleScrolls_Core.Skills
+namespace TheIdleScrolls_Core.Skills.Skills
 {
     public class ExposeWeaknessSkill : ActiveSkillDefinition
     {

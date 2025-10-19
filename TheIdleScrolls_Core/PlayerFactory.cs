@@ -10,7 +10,7 @@ using System.Xml.Linq;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.DataAccess;
 using TheIdleScrolls_Core.Items;
-using TheIdleScrolls_Core.Skills;
+using TheIdleScrolls_Core.Skills.Skills;
 using TheIdleScrolls_Core.Storage;
 
 namespace TheIdleScrolls_Core

@@ -15,7 +15,7 @@ using TheIdleScrolls_Core.Crafting;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Resources;
-using TheIdleScrolls_Core.Skills;
+using TheIdleScrolls_Core.Skills.Skills;
 using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Storage;
 
