@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Modifiers;
+using TheIdleScrolls_Core.Skills;
 
 namespace TheIdleScrolls_Core.Perks
 {
@@ -27,7 +28,7 @@ namespace TheIdleScrolls_Core.Perks
         {
             MaxLevel = 4,
             ApplyModifiersToOwner = false,
-            Skill = Skills.ExposeWeaknessSkill.Skill
+            Skill = ExposeWeaknessSkill.Skill
         };
 
         public static readonly Perk DamageTaken = new(

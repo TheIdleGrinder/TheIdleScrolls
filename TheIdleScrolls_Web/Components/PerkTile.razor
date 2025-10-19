@@ -25,7 +25,9 @@
     @if (GetPerkSkill() is not null)
     {
         <span>Grants Skill:</span>
-        <SkillDisplayTile Skill=@GetPerkSkill()></SkillDisplayTile>
+        <div class="perk-skill-frame">
+            <SkillDisplayTile Skill=@GetPerkSkill()></SkillDisplayTile>
+        </div>
     }
 
     <div class="perk-buttons-area">
@@ -104,6 +106,12 @@
         font-style: italic;
         font-size: smaller;
         color: var(--frame-color);
+    }
+
+    .perk-skill-frame {
+        margin: 0.5rem;
+        width: fit-content;
+        border: 1px solid var(--frame-color);
     }
 
     .perk-buttons-area {

@@ -11,13 +11,7 @@
     </div>
     
     <span class="barTooltip">
-        @foreach (var effect in Skill.Effects)
-        {
-            @foreach (var line in effect.Description.Split('\n'))
-            {
-                @line<br />
-            }
-        }
+        <SkillDisplayTile Skill="@Skill"></SkillDisplayTile>
     </span>
 
     <div class="skill-buttons">

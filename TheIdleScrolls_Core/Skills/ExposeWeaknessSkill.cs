@@ -43,7 +43,7 @@ namespace TheIdleScrolls_Core.Skills
 
             double cooldown = 10.0;
             double chargeTime = 2.0;
-            chargeTime = user.ApplyAllApplicableModifiers(chargeTime, [Tags.ChargeSpeed, Id, ..skill.Tags], user.GetTags());
+            chargeTime = user.ApplyAllApplicableModifiers(chargeTime, [Tags.ChargeSpeed, Id, .. skill.Tags], user.GetTags());
 
             var perksComp = user.GetComponent<PerksComponent>();
             if (perksComp is null)
@@ -62,10 +62,10 @@ namespace TheIdleScrolls_Core.Skills
             //    .ToList());
 
             GenericModifierStatusEffect effect = new("Exposed", 12.0, mods, []);
-            
+
             skill.Timer.ChargingDuration = chargeTime;
             skill.Timer.CooldownDuration = cooldown;
-            skill.Effects = [new StatusSkillEffect(ISkillEffect.TargetingMode.SingleEnemy, effect)];
+            skill.ActivationEffects = [new StatusSkillEffect(ISkillEffect.TargetingMode.SingleEnemy, effect)];
         }
     }
 }

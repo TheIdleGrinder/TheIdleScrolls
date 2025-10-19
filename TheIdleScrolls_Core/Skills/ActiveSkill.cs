@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.StatusEffects;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills
@@ -25,7 +26,9 @@ namespace TheIdleScrolls_Core.Skills
 		Entity? User = null;
 
 		public readonly SkillTimer Timer = new(1.0, 0.0, 0.0);
-		public List<ISkillEffect> Effects = [];
+		public List<ISkillEffect> ActivationEffects { get; set; } = [];
+		public StatusEffect? ActiveStatusEffect { get; set; } = null;
+        public List<ISkillEffect> ActivityEndEffect { get; set; } = [];
 		public SkillTimer.State CurrentState => Timer.CurrentState;
 		public double ChargingTime
 		{
