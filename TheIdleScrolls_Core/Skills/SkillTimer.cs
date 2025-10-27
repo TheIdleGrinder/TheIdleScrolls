@@ -10,7 +10,16 @@ namespace TheIdleScrolls_Core.Skills
 	{
 		public enum State { NotStarted, Charging, Active, Cooldown }
 
-        public record TimerUpdateResult(double RemainingTime, bool ChargingComplete, bool ActivityComplete, bool CooldownComplete);
+        public class TimerUpdateResult
+		{
+			public double RemainingTime { get; set; } = 0.0;
+            public bool ChargingComplete { get; set; } = false;
+            public bool ActivityComplete { get; set; } = false;
+            public bool CooldownComplete { get; set; } = false;
+            public double SpentCharging { get; set; } = 0.0;
+            public double SpentActive { get; set; } = 0.0;
+            public double SpentCooldown { get; set; } = 0.0;
+        };
 
         State _CurrentState = State.NotStarted;
 		double _Charge = chargeDuration;
@@ -91,34 +100,59 @@ namespace TheIdleScrolls_Core.Skills
 		/// <returns>Remainder of dt after charging completes</returns>
 		public TimerUpdateResult Update(double dt)
 		{
-			if (_CurrentState == State.NotStarted || dt <= 0.0)
-				return new(0.0, false, false, false);
-			double remaining = 0.0;
-			bool chargingComplete = false;
-            bool activityComplete = false;
-            bool cooldownComplete = false;
-            _Remaining -= dt;
-			if (_Remaining < 0 && _CurrentState == State.Charging)
+            TimerUpdateResult result = new();
+            if (_CurrentState == State.NotStarted || dt <= 0.0)
+				return result;
+			double leftToSpend = dt;
+
+			if (_CurrentState == State.Charging)
 			{
-				remaining = -_Remaining;
-				_CurrentState = State.Active;
-				_Remaining += _Active;
-                chargingComplete = true;
+				result.SpentCharging = Math.Min(_Remaining, leftToSpend);
+                leftToSpend -= result.SpentCharging;
+                if (leftToSpend > 0.0)
+				{
+					result.RemainingTime = leftToSpend;
+                    result.ChargingComplete = true;
+                    _CurrentState = State.Active;
+                    _Remaining = _Active;
+                }
+				else
+				{
+                    _Remaining -= result.SpentCharging;
+                }
+			}
+            if (_CurrentState == State.Active && leftToSpend > 0.0)
+            {
+                result.SpentActive = Math.Min(_Remaining, leftToSpend);
+                leftToSpend -= result.SpentActive;
+                if (leftToSpend > 0.0)
+                {
+                    result.ActivityComplete = true;
+                    _CurrentState = State.Cooldown;
+                    _Remaining = _Cooldown;
+                }
+                else
+                {
+                    _Remaining -= result.SpentActive;
+                }
             }
-			if (_Remaining < 0 && _CurrentState == State.Active)
-			{
-				_CurrentState = State.Cooldown;
-				_Remaining += _Cooldown;
-                activityComplete = true;
+            if (_CurrentState == State.Cooldown && leftToSpend > 0.0)
+            {
+                result.SpentCooldown = Math.Min(_Remaining, leftToSpend);
+                leftToSpend -= result.SpentCooldown;
+                if (leftToSpend > 0.0)
+                {
+                    result.CooldownComplete = true;
+                    // Reset the timer to initial state, the cycle has finished
+                    _CurrentState = State.NotStarted;
+                    _Remaining = _Charge;
+                }
+                else
+                {
+                    _Remaining -= result.SpentCooldown;
+                }
             }
-			if (_Remaining < 0 && _CurrentState == State.Cooldown)
-			{
-				// Reset the timer to initial state, the cycle has finished
-				_CurrentState = State.NotStarted;
-				_Remaining = _Charge;
-                cooldownComplete = true;
-            }
-			return new(remaining, chargingComplete, activityComplete, cooldownComplete);
+			return result;
 		}
 	}
 }

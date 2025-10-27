@@ -144,7 +144,7 @@ namespace TheIdleScrolls_Core.Systems
                 var attackComp = player.GetComponent<AttackComponent>();
                 if (attackComp != null && skillComp.CurrentSkill is not null)
                 {
-                    double dmg = skillComp.CurrentSkill?.ActivationEffects?
+                    double dmg = skillComp.CurrentSkill?.ActiveEffects?.OnEnter?
                                        .Sum(e => e is DamageSkillEffect dmgEffect ? dmgEffect.Damage : 0.0) ?? 0.0;
                     attackComp.RawDamage = dmg;
                     //               double duration = skillComp.CurrentSkill?.Timer.ChargingDuration ?? 1.0;

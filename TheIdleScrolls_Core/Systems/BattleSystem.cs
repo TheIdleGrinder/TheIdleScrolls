@@ -213,6 +213,7 @@ namespace TheIdleScrolls_Core.Systems
                 return;
 
 			double totalElapsed = 0.0;
+            List<ISkillEffect> collectedSkillEffects = [];
 			while (totalElapsed < dt)
 			{
 				double previouslyRemaining = dt - totalElapsed;
@@ -221,8 +222,9 @@ namespace TheIdleScrolls_Core.Systems
 				{
 					skillComp.CurrentSkill.Timer.Start();
 				}
-                SkillTimer.TimerUpdateResult updateResult = skillComp.CurrentSkill?.UpdateTimer(previouslyRemaining) 
-                                                                ?? new(0.0, false, false, false);
+                (SkillTimer.TimerUpdateResult updateResult, List<ISkillEffect> effects) 
+                    = skillComp.CurrentSkill?.Update(previouslyRemaining) ?? new();
+                collectedSkillEffects.AddRange(effects);
                 if (updateResult.ChargingComplete || updateResult.ActivityComplete || updateResult.CooldownComplete)
                 {
                     coordinator.PostMessage(this, new SkillStateChanged(entity, skillComp.CurrentSkill!, updateResult));
@@ -233,37 +235,34 @@ namespace TheIdleScrolls_Core.Systems
 				// Also update timer for all other skills
 				foreach (var skill in skillComp.Skills)
 				{
-                    SkillTimer.TimerUpdateResult result = new(0.0, false, false, false);
+                    SkillTimer.TimerUpdateResult result = new();
                     if (skill != skillComp.CurrentSkill)
                     {
-                        result = skill.UpdateTimer(elapsed);
+                        (result, effects) = skill.Update(elapsed);
+                        collectedSkillEffects.AddRange(effects);
                         if (result.ChargingComplete || result.ActivityComplete || result.CooldownComplete)
                         {
                             coordinator.PostMessage(this, new SkillStateChanged(entity, skill, result));
-                        }
-                        if (result.ActivityComplete)
-                        {
-                            skill.ActiveStatusEffect?.Deactivate();
-                            ProcessSkillEffects(entity, opponent, skill.ActivityEndEffect, coordinator);
                         }
                     }
                     if (skillComp.CurrentSkill is null && result.CooldownComplete)
                     {
                         // switch to a skill that finished cooldown if no skill is currently selected
                         skillComp.SwitchToNext();
+                        if (skillComp.CurrentSkill is not null)
+                            collectedSkillEffects.AddRange(skillComp.CurrentSkill.StartCharging());
                     }
                 }
 				if (remaining > 0.0) // Means that the skill has finished charging
 				{
-                    ProcessSkillEffects(entity, opponent, skillComp.CurrentSkill!.ActivationEffects, coordinator);
-                    skillComp.CurrentSkill!.ActiveStatusEffect?.ActivateOnEntity(entity);
-
                     entity.GetComponent<BattlerComponent>()!.SkillsUsed++;
 					skillComp.SwitchToNext();
-					skillComp.CurrentSkill?.Timer?.Start();
-				}
+					if (skillComp.CurrentSkill is not null)
+                        collectedSkillEffects.AddRange(skillComp.CurrentSkill.StartCharging());
+                }
 			}
-		}
+            ProcessSkillEffects(entity, opponent, collectedSkillEffects, coordinator);
+        }
     }
 
     public record BattleStateChangedMessage(Battle Battle) : IMessage

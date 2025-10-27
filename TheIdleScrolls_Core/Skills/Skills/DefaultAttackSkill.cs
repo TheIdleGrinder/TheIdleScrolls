@@ -92,7 +92,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
 
             DamageSkillEffect dmgEffect = new(Math.Round(rawDamage), ISkillEffect.TargetingMode.SingleEnemy, [.. AdditionalTags]);
-            skill.ActivationEffects = [dmgEffect];
+            skill.ActiveEffects.OnEnter = [dmgEffect];
 
             cooldown *= encumbranceSlowdown; // Encumbrance slows attack speed multiplicatively
             cooldown = Math.Max(cooldown, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed

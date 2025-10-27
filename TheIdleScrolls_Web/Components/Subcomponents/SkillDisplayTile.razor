@@ -23,7 +23,7 @@
             <span>Cooldown Duration: <em>@Skill.Timer.CooldownDuration.ToString("0.##") seconds</em></span>
         }
 
-        @foreach(var effect in Skill.ActivationEffects)
+        @foreach(var effect in Skill.ActiveEffects.OnEnter)
         {
             <div class="skill-display-effect">
                 @foreach (var line in effect.Description.Split('\n'))

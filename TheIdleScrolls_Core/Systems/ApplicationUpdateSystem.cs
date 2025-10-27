@@ -120,7 +120,7 @@ namespace TheIdleScrolls_Core.Systems
             if (skillComp is not null && skillComp.CurrentSkill is not null)
             {
                 double damage = 0;
-                foreach (var effect in skillComp.CurrentSkill.ActivationEffects)
+                foreach (var effect in skillComp.CurrentSkill.ActiveEffects.OnEnter)
                 {
                     if (effect is DamageSkillEffect dmgEffect)
                     {
