@@ -321,6 +321,10 @@ namespace TheIdleScrolls_Core.Systems
 
             perksComponent.AddPerk(Perks.ExposeWeaknessPerks.BasePerk);
             perksComponent.AddPerk(Perks.ExposeWeaknessPerks.DamageTaken);
+
+            perksComponent.AddPerk(Perks.SmokeBombPerks.BasePerk);
+            perksComponent.AddPerk(Perks.SmokeBombPerks.DamageWhileActive);
+            perksComponent.AddPerk(Perks.SmokeBombPerks.DamageOnActivityEnd);
         }
     }
 

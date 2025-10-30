@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.StatusEffects;
 using TheIdleScrolls_Core.Utility;
 
@@ -39,9 +40,6 @@ namespace TheIdleScrolls_Core.Skills
 		public EffectsForState ChargingEffects { get; set; } = new();
         public EffectsForState ActiveEffects { get; set; } = new();
 		public EffectsForState CooldownEffects { get; set; } = new();
-  //      public List<ISkillEffect> ActivationEffects { get; set; } = [];
-		//public StatusEffect? ActiveStatusEffect { get; set; } = null;
-  //      public List<ISkillEffect> ActivityEndEffect { get; set; } = [];
 		public SkillTimer.State CurrentState => Timer.CurrentState;
 		public double ChargingTime
 		{
@@ -52,7 +50,7 @@ namespace TheIdleScrolls_Core.Skills
 
 		public string Id => Definition.Id;
 		public string Name => Definition.Name;
-		public List<string> Tags { get; set; } = [];
+		public HashSet<string> Tags { get; set; } = [];
 
 		public void SetupForUser(Entity user)
 		{
@@ -148,5 +146,21 @@ namespace TheIdleScrolls_Core.Skills
 
             return (timerResult, effects);
 		}
-	}
+
+		// Utility functions, might move somehwere else later
+		public double ScaleValue(double baseValue, List<string> situationalTags)
+		{
+			return User!.ApplyAllApplicableModifiers(baseValue, [Id, .. Tags, ..situationalTags], User!.GetTags());
+        }
+
+		public Perk? GetPerk(string perkId)
+        {
+            return User?.GetComponent<PerksComponent>()?.GetPerk(perkId);
+        }
+
+        public int GetPerkLevel(string perkId)
+		{
+			return User?.GetComponent<PerksComponent>()?.GetPerkLevel(perkId) ?? 0;
+        }
+    }
 }

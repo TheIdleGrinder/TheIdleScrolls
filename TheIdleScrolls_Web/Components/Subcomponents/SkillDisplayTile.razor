@@ -23,18 +23,67 @@
             <span>Cooldown Duration: <em>@Skill.Timer.CooldownDuration.ToString("0.##") seconds</em></span>
         }
 
-        @foreach(var effect in Skill.ActiveEffects.OnEnter)
+        @if (Skill.ActiveEffects.OnEnter.Count > 0)
         {
-            <div class="skill-display-effect">
-                @foreach (var line in effect.Description.Split('\n'))
-                {
-                    <span style="padding-left:@(10 * TabsAtStart(line))px;">
-                        @(TabsAtStart(line) > 0 ? "➤ " : "")
-                        @line
-                    </span>
-                }
-            </div>
+            <em><u>On Activation:</u></em>
+            @foreach(var effect in Skill.ActiveEffects.OnEnter)
+            {
+                <div class="skill-display-effect">
+                    @foreach (var line in effect.Description.Split('\n'))
+                    {
+                        <span style="padding-left:@(10 * TabsAtStart(line))px;">
+                            @(TabsAtStart(line) > 0 ? "➤ " : "")
+                            @line
+                        </span>
+                    }
+                </div>
+            }
         }
+        @if (Skill.ActiveEffects.WhileIn.Count > 0 || Skill.ActiveEffects.RepeatedWhileIn is not null)
+        {
+            <em><u>While Active:</u></em>
+            @foreach (var effect in Skill.ActiveEffects.WhileIn)
+            {
+                <div class="skill-display-effect">
+                    @foreach (var line in effect.Description.Split('\n'))
+                    {
+                        <span style="padding-left:@(10 * TabsAtStart(line))px;">
+                            @(TabsAtStart(line) > 0 ? "➤ " : "")
+                            @line
+                        </span>
+                    }
+                </div>
+            }
+            @if (Skill.ActiveEffects.RepeatedWhileIn is not null)
+            {
+                <div class="skill-display-effect">
+                    @foreach (var line in Skill.ActiveEffects.RepeatedWhileIn.Description.Split('\n'))
+                    {
+                        <span style="padding-left:@(10 * TabsAtStart(line))px;">
+                            @(TabsAtStart(line) > 0 ? "➤ " : "")
+                            @line
+                        </span>
+                    }
+                </div>
+            }
+        }
+        @if (Skill.CooldownEffects.OnEnter.Count > 0)
+        {
+            <em><u>On End of Duration:</u></em>
+            @foreach (var effect in Skill.CooldownEffects.OnEnter)
+            {
+                <div class="skill-display-effect">
+                    @foreach (var line in effect.Description.Split('\n'))
+                    {
+                        <span style="padding-left:@(10 * TabsAtStart(line))px;">
+                            @(TabsAtStart(line) > 0 ? "➤ " : "")
+                            @line
+                        </span>
+                    }
+                </div>
+            }
+        }
+
     </div>
 </div>
 

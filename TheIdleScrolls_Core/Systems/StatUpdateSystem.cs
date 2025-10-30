@@ -46,7 +46,7 @@ namespace TheIdleScrolls_Core.Systems
                 || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>()
                 || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
                 || coordinator.MessageTypeIsOnBoard<TextMessage>() // CornerCut: This is a hack to force an update at the start of a battle
-                || coordinator.MessageTypeIsOnBoard<DamageDoneMessage>()
+                || coordinator.MessageTypeIsOnBoard<SkillStateChangedMessage>()
                 || coordinator.MessageTypeIsOnBoard<StatusEffectExpiredMessage>()
                 || coordinator.MessageTypeIsOnBoard<PerkLevelChangedMessage>();
 

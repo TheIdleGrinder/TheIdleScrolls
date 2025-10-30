@@ -223,11 +223,11 @@ namespace TheIdleScrolls_Core.Systems
 					skillComp.CurrentSkill.Timer.Start();
 				}
                 (SkillTimer.TimerUpdateResult updateResult, List<ISkillEffect> effects) 
-                    = skillComp.CurrentSkill?.Update(previouslyRemaining) ?? new();
+                    = skillComp.CurrentSkill?.Update(previouslyRemaining) ?? (new(), []);
                 collectedSkillEffects.AddRange(effects);
                 if (updateResult.ChargingComplete || updateResult.ActivityComplete || updateResult.CooldownComplete)
                 {
-                    coordinator.PostMessage(this, new SkillStateChanged(entity, skillComp.CurrentSkill!, updateResult));
+                    coordinator.PostMessage(this, new SkillStateChangedMessage(entity, skillComp.CurrentSkill!, updateResult));
                 }
                 double remaining = updateResult.RemainingTime;
 				double elapsed = previouslyRemaining - remaining;
@@ -242,7 +242,7 @@ namespace TheIdleScrolls_Core.Systems
                         collectedSkillEffects.AddRange(effects);
                         if (result.ChargingComplete || result.ActivityComplete || result.CooldownComplete)
                         {
-                            coordinator.PostMessage(this, new SkillStateChanged(entity, skill, result));
+                            coordinator.PostMessage(this, new SkillStateChangedMessage(entity, skill, result));
                         }
                     }
                     if (skillComp.CurrentSkill is null && result.CooldownComplete)
@@ -271,7 +271,7 @@ namespace TheIdleScrolls_Core.Systems
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
 
-    public record SkillStateChanged(Entity User, ActiveSkill Skill, SkillTimer.TimerUpdateResult Changes) : IMessage
+    public record SkillStateChangedMessage(Entity User, ActiveSkill Skill, SkillTimer.TimerUpdateResult Changes) : IMessage
     {
         string IMessage.BuildMessage() => $"{User.GetName()}'s skill {Skill.Name} changed state to {Skill.GetState()}";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Low;

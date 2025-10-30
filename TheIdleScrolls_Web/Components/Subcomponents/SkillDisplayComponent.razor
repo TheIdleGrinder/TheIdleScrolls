@@ -111,6 +111,7 @@
         return Skill.CurrentState switch
         {
             SkillTimer.State.Charging => 1.0 - (Skill.Timer.Remaining / (Skill.Timer.ChargingDuration > 0.0 ? Skill.Timer.ChargingDuration : 1.0)),
+            SkillTimer.State.Active => Skill.Timer.Remaining / (Skill.Timer.ActiveDuration > 0.0 ? Skill.Timer.ActiveDuration : 1.0),
             SkillTimer.State.Cooldown => Skill.Timer.Remaining / (Skill.Timer.CooldownDuration > 0.0 ? Skill.Timer.CooldownDuration : 1.0),
             _ => 0.0
         };

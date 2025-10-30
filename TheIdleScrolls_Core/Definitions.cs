@@ -90,34 +90,47 @@ namespace TheIdleScrolls_Core
 
         public static class Tags
         {
+            // Scaling targets
+            public const string Speed = "Speed";
+            public const string ChargeSpeed = "ChargeSpeed";
+            public const string Damage = "Damage";
+            public const string DamageOverTime = "DoT";
+            public const string AttackSpeed = "AttackSpeed";
+            public const string Defense = "Defense";
+            public const string ArmorRating = "ArmorRating";
+            public const string EvasionRating = "EvasionRating";
+            public const string DamageTaken = "DamageTaken";
+            public const string TimeLoss = "TimeLoss";
+            public const string LifeRegeneration = "LifeRegeneration";
+            public const string DamageReduction = "DamageReduction";
+            public const string DefensiveLayers = "DefensiveLayers";
+            public const string TimeShield = "TimeShield";
+
+            public const string CharacterXpGain = "CharacterXpGain";
+            public const string AbilityXpGain = "AbilityXpGain";
+
+            public const string CraftingSlots = "CraftingSlot";
+            public const string ActiveCrafts = "ActiveCraftingSlot";
+            public const string CraftingSpeed = "CraftingSpeed";
+            public const string CraftingCostEfficiency = "CraftingCostEfficiency";
+
+            // Skill Attributes
+            public const string Duration = "Duration";
+
+            // Situational modifiers
             public const string Local = "Local";
             public const string Global = "Global";
 
             public const string Attack = "Attack";
             public const string Spell = "Spell";
             public const string Insight = "Insight";
+            public const string Trick = "Trick";
 
-            public const string Speed = "Speed";
-            public const string ChargeSpeed = "ChargeSpeed";
-
-            public const string Damage = "Damage";
-            public const string AttackSpeed = "AttackSpeed";
-            public const string Defense = "Defense";
-            public const string ArmorRating = "ArmorRating";
-            public const string EvasionRating = "EvasionRating";
             public const string Resistance = "Resistance";
             public const string Evasion = "Evasion";
-
-            public const string TimeShield = "TimeShield";
-
-            public const string DamageTaken = "DamageTaken";
-            public const string TimeLoss = "TimeLoss";
+                                    
             public const string Status = "Status";
             public const string Stun = "Stun";
-            public const string LifeRegeneration = "LifeRegeneration";
-            public const string DamageReduction = "DamageReduction";
-            public const string DefensiveLayers = "DefensiveLayers";
-
 
             public const string QualityPrefix = "+";
             public const string HandSuffix = "H";
@@ -140,14 +153,6 @@ namespace TheIdleScrolls_Core
             public const string MixedArmor = "MixedArmor";
             public const string FirstStrike = "FirstStrike";
             public const string Evading = "Evading";
-
-            public const string CharacterXpGain = "CharacterXpGain";
-            public const string AbilityXpGain = "AbilityXpGain";
-
-            public const string CraftingSlots = "CraftingSlot";
-            public const string ActiveCrafts = "ActiveCraftingSlot";
-            public const string CraftingSpeed = "CraftingSpeed";
-            public const string CraftingCostEfficiency = "CraftingCostEfficiency";
         }
 
         public static class DropRestrictions

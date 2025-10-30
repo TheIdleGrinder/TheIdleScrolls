@@ -8,7 +8,8 @@ namespace TheIdleScrolls_Core.Skills
 {
     public interface ISkillEffectGenerator
     {
-        void Reset();
-        List<ISkillEffect> Update(double dt);
+        public string Description { get; }
+        public void Reset();
+        public List<ISkillEffect> Update(double dt);
     }
 }

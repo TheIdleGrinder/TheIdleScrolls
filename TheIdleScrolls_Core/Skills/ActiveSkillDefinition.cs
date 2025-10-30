@@ -20,6 +20,5 @@ namespace TheIdleScrolls_Core.Skills
 		{
 			SetupStats(user, concrete);
 		}
-
-	}
+    }
 }
