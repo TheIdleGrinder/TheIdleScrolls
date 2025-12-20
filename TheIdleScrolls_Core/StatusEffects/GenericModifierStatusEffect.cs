@@ -21,7 +21,7 @@ namespace TheIdleScrolls_Core.StatusEffects
                 string mods = String.Join("",Modifiers.Select(m => "\n\t" + m.ToPrettyString()));
                 if (Timer is not null)
                 {
-                    return $"'{Name}' for {Timer.Duration:0.##} seconds: ({Modifiers.Count} mods)" + mods;
+                    return $"'{Name}' for {Timer.Duration:0.##} seconds:" + mods;
                 }
                 else
                 {

@@ -1,25 +1,7 @@
-div.charOuter {
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 auto;
-    box-sizing: border-box;
-    padding: 0.4rem;
-    padding-left: 0.5rem;
-    width: 100%;
-}
+
 
 progress {
     width: 70%;
-}
-
-tr:first-child  th {
-    width:25%;
-    padding-top: 0.5rem;
-}
-
-tr:first-child td {
-    width: 25%;
-    padding-top: 0.5rem;
 }
 
 tr {
@@ -28,6 +10,13 @@ tr {
 
 th, td {
     font-size: inherit;
+    width: max-content;
+    padding-right: 0.5rem;
+    white-space: nowrap;
+}
+
+td {
+    padding-right: 1.5rem;
 }
 
 tr:last-child {
@@ -36,6 +25,7 @@ tr:last-child {
 
 td:last-child {
     border-right: none;
+    padding-right: 0.5rem;
 }
 
 hr {

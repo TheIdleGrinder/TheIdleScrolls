@@ -1,0 +1,42 @@
+﻿@using TheIdleScrolls_Core.StatusEffects
+
+
+<div class="compact-bar-container withTooltip">
+    <div class="compact-bar-frame">
+        <center>@Effect.Name</center>
+        <div class="compact-bar-fill compact-effect-bar-fill" style="width: @($"{CalculateProgress():0%}");"></div>
+    </div>
+
+    <span class="barTooltip">
+        @foreach (var line in Effect.Description.Split('\n'))
+        {
+            @line
+
+            <br />
+        }
+    </span>
+</div>
+
+<style>
+    .compact-effect-bar-fill {
+        background-color: aquamarine;
+    }
+</style>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public StatusEffect Effect { get; set; }
+
+    public double CalculateProgress()
+    {
+        if (Effect.Timer is null)
+        {
+            return 1.0;
+        }
+        else
+        {
+            return (Effect.Timer.Duration > 0) ? Effect.Timer.Remaining / Effect.Timer.Duration : 0.0;
+        }
+    }
+}

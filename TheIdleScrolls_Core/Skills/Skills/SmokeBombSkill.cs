@@ -59,7 +59,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             if (level > 0)
             {
                 Perk explosionPerk = skill.GetPerk(Perks.SmokeBombPerks.DamageOnActivityEndId)!; // level > 0 => must not be null
-                double dmg = explosionPerk.Modifiers[0].Value;
+                double dmg = explosionPerk.Modifiers[0].Value; // CornerCut: Assume that that perk only has one modifier
                 dmg = skill.ScaleValue(dmg, [Tags.Damage]);
                 ISkillEffect dmgEffect = new DamageSkillEffect(dmg, ISkillEffect.TargetingMode.SingleEnemy, [Tags.Damage]);
                 skill.CooldownEffects.OnEnter = [dmgEffect];

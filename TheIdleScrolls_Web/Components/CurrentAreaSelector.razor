@@ -5,7 +5,7 @@
 <div class="outer">
     <div id="area-and-arrows">
         <button id="btnPrevArea" class="arrow-btn @(GetArrowClass())" disabled=@IsAtMin @onclick="MoveDown">b</button>
-        <h4>@CoreWrapper.Area.Name</h4>
+        <span class="area-name">@CoreWrapper.Area.Name</span>
         <button id="btnNextArea" class="arrow-btn @(GetArrowClass())" disabled=@IsAtMax @onclick="MoveUp">a</button>
     </div>
     
@@ -35,8 +35,13 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        padding: 0.5rem;
+        padding: 0.25rem;
         flex: 0 0 auto;
+        font-size: 0.8rem;
+    }
+
+    .area-name {
+        font-size: x-large;
     }
 
     #btnPrevArea {
@@ -85,7 +90,7 @@
     }
 
     #btnLeave {
-        padding: 5px 10% 5px 10%;
+        padding: 0px 10% 0px 10%;
         max-width: 200px;
     }
 

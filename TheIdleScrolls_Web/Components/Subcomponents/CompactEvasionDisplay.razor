@@ -1,0 +1,42 @@
+﻿@using MiniECS
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Modifiers
+@using TheIdleScrolls_Web.CoreWrapper
+
+@if (Evasion)
+{
+    <div class="compact-bar-container withTooltip">
+        <div class="compact-bar-frame">
+            <center>Evasion</center>
+            <div class="compact-bar-fill @(EvasionClass)" style="width: @($"{GetEvasionPct():0%}");"></div>
+        </div>
+        <span class="barTooltip">
+            Evade for @($"{Evader?.EvasionDuration:0.##}") sec. after charging for @($"{Evader?.ChargeDuration:0.##}") sec.
+        </span>
+    </div>
+}
+
+
+<style>
+
+</style>
+
+@code {
+    [Parameter]
+    public Entity? Entity { get; set; }
+
+    EvaderComponent? Evader => Entity?.GetComponent<EvaderComponent>();
+    bool Evasion => Evader != null;
+    bool EvasionActive => Evader?.Active ?? false;
+    double EvasionPct => Evader != null ? (1.0 - Evader.Duration.Remaining / Evader.Duration.Duration) : 0.0;
+    string EvasionClass => EvasionActive ? "evasion-bar-active" : "evasion-bar-inactive";
+
+    double GetEvasionPct()
+    {
+        if (Evader == null)
+            return 0.0;
+        return !EvasionActive
+            ? (1.0 - Evader.Duration.Remaining / Evader.Duration.Duration)
+            : Evader.Duration.Remaining / Evader.Duration.Duration;
+    }
+}

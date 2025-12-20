@@ -4,7 +4,7 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="skill-progress-bar-container withTooltip" style="margin-top: 0.5rem;">
-    <span class=@SkillNameClass()>@Skill.Name</span>
+    <span class="skill-name @SkillNameClass()">@Skill.Name</span>
 
     <div id="skill-bar-frame" class="progressFrame withTooltip" style="justify-content: start">
         <div id="skill-bar-fill" class="progressFill @BarColorClass()" style="width: @($"{CalculateProgress():0%}");"></div>
@@ -43,14 +43,12 @@
     }
 
     .skill-name-unusable {
-        font-size: 0.75rem;
         font-style: italic;
         color: gray;        
         text-decoration: line-through;
     }
 
     .skill-name-disabled {
-        font-size: 0.75rem;
         font-style: italic;
         color: darkgray;
     }
@@ -129,7 +127,7 @@
         ActiveSkill.State.Unavailable => "skill-name-unusable",
         ActiveSkill.State.Disabled => "skill-name-disabled",
         ActiveSkill.State.NotUsable => "skill-name-unusable",
-        _ => "skill-name"
+        _ => ""
     };
 
     void Move(bool up)

@@ -5,8 +5,10 @@
 }
 
 span.progress-value {
-    width: 40px;
-    text-align: left;
+    width: 2rem;
+    margin-left: 0.5rem;
+    font-size: small;
+    text-align: right;
     flex: 0 0 auto;
 }
 

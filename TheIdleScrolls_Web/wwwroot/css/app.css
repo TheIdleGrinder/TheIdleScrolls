@@ -73,9 +73,9 @@ a, .btn-link {
 
     --color-xp-progress: royalblue;
     --color-crafting-progress: lightseagreen;
-    --color-attack-progress: lightseagreen;
+    --color-attack-progress: deepskyblue;
     --color-inactive: lightgray;
-    --color-active: green;
+    --color-active: chartreuse;
     --color-hp: red;
     --color-time: limegreen;
 }
@@ -141,6 +141,7 @@ div.progressFill {
     padding: 0.25rem 0.5rem;
     position: absolute;
     width: max-content;
+    max-width: 220px;
     z-index: 1;
     left: 50%;
     bottom: 100%;

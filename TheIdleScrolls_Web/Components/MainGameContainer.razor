@@ -1,4 +1,5 @@
 ﻿@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Web.Components.Subcomponents
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
@@ -9,6 +10,8 @@
         <hr class="thick" style="margin: 0.1rem 0.5rem;">
         <FightStateIndicator></FightStateIndicator>
         <BattleDataDisplay />
+
+        @* <CompactSkillAndStatusDisplay Entity="@CoreWrapper.PlayerCharacter" /> *@
     </div>
     <div class="right-frame">
         <div id="charOverview" class="play-area-frame">
