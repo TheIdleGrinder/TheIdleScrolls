@@ -1,0 +1,72 @@
+﻿@using MiniECS
+@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Modifiers
+@using TheIdleScrolls_Web.Components.Subcomponents
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="mob-overview-outer">
+    <div class="mob-base-stats">
+        <span class="mob-name">@Name</span>
+        <span class="mob-level">Level @Level</span>
+    </div>
+
+    <div class="mob-perks">
+        @foreach (var perk in (MobPerks ?? []))
+        {
+            <MobPerkDisplayComponent Perk=@perk></MobPerkDisplayComponent>
+        }
+    </div>
+
+    <CompactSkillAndStatusDisplay Entity="@Mob" />
+</div>
+
+<style>
+    .mob-overview-outer {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 auto;
+        box-sizing: border-box;
+        padding: 0.25rem;
+        padding-left: 0.5rem;
+        width: 100%;
+    }
+
+    .mob-base-stats {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .mob-name {
+        font-size: x-large;
+    }
+
+    .mob-level {
+        font-size: large;
+    }
+
+    .mob-perks {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+</style>
+
+
+@code {
+    [Parameter]
+    public Entity? Mob { get; set; }
+
+    string Name => Mob?.GetComponent<NameComponent>()?.Name ?? "???";
+    int Level => Mob?.GetComponent<LevelComponent>()?.Level ?? 0;
+    List<Perk> MobPerks => Mob?.GetComponent<PerksComponent>()?.GetPerks() ?? [];
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+}
