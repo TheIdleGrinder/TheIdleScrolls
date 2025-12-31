@@ -5,44 +5,43 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="charOuter">
-    <div class="char-stats">
-        <div class="char-base-stats">
-        <span id="character-name">@CoreWrapper.PlayerCharacter?.GetTitledName(false, true)</span>
-
-        <p style="margin-bottom: 0.0rem">Level @CoreWrapper.Character.Level @CoreWrapper.Character.Class</p>
+    <div class="char-base-stats">
+        <div class="char-name-line">
+            <span id="character-name">@CoreWrapper.PlayerCharacter?.GetTitledName(false, true)</span>
+            <span id="character-level">Level @CoreWrapper.Character.Level @CoreWrapper.Character.Class</span>
+        </div>
 
         <div id="character-xp-bar-frame" class="progressFrame withTooltip" style="justify-content: start">
             <div id="character-xp-bar-fill" class="progressFill" style="width: @($"{xpPct:0%}");"></div>
             <span class="barTooltip">Experience progress: @CoreWrapper.XpCurrent.ToBigIntString() / @CoreWrapper.XpTarget.ToBigIntString()</span>
         </div>
-        </div>
-
-        <div style="display:flex; flex-direction:row">
-            <table id="character-stat-table">
-                <tr class="normal-font">
-                    <th title="Damage per second">DPS</th>
-                    <td>@(FormatValue(Stats.Damage / Stats.Cooldown))</td>
-                    <th class="withTooltip">Resistance
-                        <span class="barTooltip">Against a standard level @CoreWrapper.Character.Level enemy</span>
-                    </th>
-                    <td class="withTooltip">@($"{Stats.DefenseRating:0.#%}")</td>
-                </tr>
-                <tr class="small-font">
-                    <th>Damage</th>
-                    <td>@FormatValue(Stats.Damage)</td>
-                    <th>Armor</th>
-                    <td>@FormatValue(Stats.Armor)</td>
-                </tr>
-                <tr class="small-font">
-                    <th>Attack Time</th>
-                    <td>@FormatValue(Stats.Cooldown) s</td>
-                    <th>Evasion</th>
-                    <td>@(FormatValue(Stats.Evasion))</td>
-                </tr>
-            </table>
-        </div>
     </div>
-    <CompactSkillAndStatusDisplay Entity="@CoreWrapper.PlayerCharacter" />
+
+    <div class="char-stats">
+        <table id="character-stat-table">
+            <tr class="normal-font">
+                <th title="Damage per second">DPS</th>
+                <td>@(FormatValue(Stats.Damage / Stats.Cooldown))</td>
+                <th class="withTooltip">Resistance
+                    <span class="barTooltip">Against a standard level @CoreWrapper.Character.Level enemy</span>
+                </th>
+                <td class="withTooltip">@($"{Stats.DefenseRating:0.#%}")</td>
+            </tr>
+            <tr class="small-font">
+                <th>Damage</th>
+                <td>@FormatValue(Stats.Damage)</td>
+                <th>Armor</th>
+                <td>@FormatValue(Stats.Armor)</td>
+            </tr>
+            <tr class="small-font">
+                <th>Attack Time</th>
+                <td>@FormatValue(Stats.Cooldown) s</td>
+                <th>Evasion</th>
+                <td>@(FormatValue(Stats.Evasion))</td>
+            </tr>
+        </table>
+        <CompactSkillAndStatusDisplay Entity="@CoreWrapper.PlayerCharacter" />
+    </div>    
 </div>
 
 <style>
@@ -51,17 +50,16 @@
         flex-direction: column;
         flex: 0 0 auto;
         box-sizing: border-box;
-        padding: 0.25rem;
-        padding-left: 0.5rem;
         width: 100%;
+        gap: 1rem;
     }
 
     .char-stats {
         display: flex;
         flex-direction: row;
         flex: 1;
-        width: 100%;
-        gap: 0.5rem;
+        gap: 1rem;
+        min-height: 5rem;
     }
 
     .char-base-stats {
@@ -70,17 +68,29 @@
         flex: 1;
     }
 
+    .char-name-line {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: end;
+        gap: 1rem;
+    }
+
     #character-name {
-        font-size: x-large;
+        font-size: 1.3rem;
+    }
+
+    #character-level {
+        font-size: medium;
     }
 
     #character-stat-table {
-        /* min-width: 400px; */
+        min-width: 20rem;
     }
 
     #character-xp-bar-frame {
         width: 100%;
-        margin-bottom: 0.5rem;
+        max-width: 20rem;
         border: 1px solid var(--frame-color);
         background: inherit;
     }

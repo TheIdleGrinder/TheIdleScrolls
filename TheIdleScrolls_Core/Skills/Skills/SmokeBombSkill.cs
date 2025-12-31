@@ -75,7 +75,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             {
                 Perk damagePerk = skill.GetPerk(Perks.SmokeBombPerks.DamageWhileActiveId)!;
                 double dmg = damagePerk.Modifiers[0].Value;
-                dmg = skill.ScaleValue(dmg, [Tags.DamageOverTime]);
+                dmg = skill.ScaleValue(dmg, [Tags.Damage, Tags.DamageOverTime]);
                 if (skill.ActiveEffects.RepeatedWhileIn is null)
                 {
                     skill.ActiveEffects.RepeatedWhileIn = new DoTSkillEffectGenerator(dmg);

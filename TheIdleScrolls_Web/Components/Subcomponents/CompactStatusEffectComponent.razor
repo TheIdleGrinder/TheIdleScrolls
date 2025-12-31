@@ -2,7 +2,7 @@
 
 
 <div class="compact-bar-container withTooltip">
-    <div class="compact-bar-frame">
+    <div class="compact-bar-frame compact-status-frame">
         <center>@Effect.Name</center>
         <div class="compact-bar-fill compact-effect-bar-fill" style="width: @($"{CalculateProgress():0%}");"></div>
     </div>
@@ -18,6 +18,10 @@
 </div>
 
 <style>
+    .compact-status-frame {
+        
+    }
+
     .compact-effect-bar-fill {
         background-color: aquamarine;
     }

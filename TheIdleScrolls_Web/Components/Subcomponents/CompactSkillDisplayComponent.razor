@@ -4,7 +4,7 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="compact-bar-container withTooltip">
-    <div class="compact-bar-frame">
+    <div class="compact-bar-frame compact-skill-frame">
         <center class="compact-skill-name @SkillNameClass()">@Skill.Name</center>
         <div class="compact-bar-fill @BarColorClass()" style="width: @($"{CalculateProgress():0%}");"></div>
     </div>
@@ -15,6 +15,9 @@
 
 
 <style>
+    .compact-skill-frame {
+        border-radius: 0.5rem;
+    }
 
     .compact-skill-name {
         font-size: 0.6rem;
@@ -30,6 +33,19 @@
         font-style: italic;
         color: darkgray;
     }
+
+    .skill-bar-fill-charging {
+        background-color: var(--color-attack-progress);
+    }
+
+    .skill-bar-fill-active {
+        background-color: var(--color-active);
+    }
+
+    .skill-bar-fill-cooldown {
+        background-color: var(--color-inactive);
+    }
+
 </style>
 
 @code {

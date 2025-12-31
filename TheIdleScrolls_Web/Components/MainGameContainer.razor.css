@@ -16,7 +16,7 @@ div.framed {
 .main-frame {
     color: var(--text-color);
     max-width: 1500px;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 4.5rem - 6px);
     box-sizing: border-box;
     margin: auto;
     gap: 20px;
@@ -39,6 +39,8 @@ div.framed {
 }
 
 .right-frame {
+/*    display: flex;
+    position: relative;*/
     box-sizing: border-box;
     height: 100%;
     width: 100%;
@@ -52,9 +54,8 @@ div.framed {
     bottom: 0;
     
     display: grid;
-    grid-template-rows: min-content min-content auto;
+    grid-template-rows: min-content auto;
     grid-template-areas:
-        "character"
         "tab-buttons"
         "tabbed-area";
 }

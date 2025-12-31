@@ -10,8 +10,13 @@
             <CompactSkillDisplayComponent Skill="@skill"></CompactSkillDisplayComponent>
         }
     </div>
+    @if (HasEvasion)
+    {
+        <div class="compact-partial-container">
+            <CompactEvasionDisplay Entity="@Entity"></CompactEvasionDisplay>
+        </div>
+    }
     <div class="compact-partial-container">
-        <CompactEvasionDisplay Entity="@Entity"></CompactEvasionDisplay>
         @foreach (var status in Status)
         {
             <CompactStatusEffectComponent Effect="@status"></CompactStatusEffectComponent>
@@ -32,6 +37,7 @@
         flex: 1;
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         align-items: center;
         justify-content: start;
         box-sizing: border-box;
@@ -42,7 +48,7 @@
     .compact-bar-container {
         position: relative;
         display: inline-flex;
-        width: 10rem;
+        width: 9rem;
         align-self: center;
     }
 
@@ -56,7 +62,6 @@
         background: white;
         justify-content: start;
         padding: 0px;
-        border-radius: 0.5rem;
         overflow: hidden;
     }
 
@@ -79,6 +84,7 @@
     [Parameter]
     public Entity? Entity { get; set; }
 
+    bool HasEvasion => Entity?.GetComponent<EvaderComponent>() != null;
     List<ActiveSkill> Skills => Entity?.GetComponent<ActiveSkillComponent>()?.Skills ?? [];
     List<StatusEffect> Status => Entity?.GetComponent<StatusEffectComponent>()?.StatusEffects ?? [];
 }

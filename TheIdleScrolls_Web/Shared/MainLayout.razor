@@ -8,8 +8,8 @@
 <div class="page">
     <main>
         <div class="top-row px-4 @BannerClass">
-            <h1 class="banner-title" style="cursor: pointer" @onclick="Reset">The Idle Scrolls</h1>
-            <p style="position: absolute; top: 0.5rem; right: 1.0rem">@GameVersion.GetCurrentVersionString()</p>
+            <h1 class="banner-title" @onclick="Reset">The Idle Scrolls</h1>
+            <p class="banner-version">@GameVersion.GetCurrentVersionString()</p>
         </div>        
 
         <article class="content px-4">
@@ -19,6 +19,17 @@
 </div>
 
 <style>
+    .banner-title {
+        cursor: pointer;
+        font-size: 2.5rem;
+    }
+
+    .banner-version {
+        position: absolute;
+        top: 0.5rem;
+        right: 1.0rem;
+    }
+
     .fading-out {
         animation: fade-out 5s forwards;
     }
