@@ -3,22 +3,18 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div class="skill-progress-bar-container withTooltip" style="margin-top: 0.5rem;">
+<div class="skill-container withTooltip">
     <span class="skill-name @SkillNameClass()">@Skill.Name</span>
 
-    <div id="skill-bar-frame" class="progressFrame withTooltip" style="justify-content: start">
-        <div id="skill-bar-fill" class="progressFill @BarColorClass()" style="width: @($"{CalculateProgress():0%}");"></div>
-    </div>
-    
     <span class="barTooltip">
         <SkillDisplayTile Skill="@Skill"></SkillDisplayTile>
     </span>
 
     <div class="skill-buttons">
-        <button class="small-button" @onclick="@(() => Move(true))">&#x21E7;</button>
-        <button class="small-button" @onclick="@(() => Move(false))">&#x21E9;</button>
         @if (Skill.Enabled && Skill.GetState() != ActiveSkill.State.Unavailable)
         {
+            <button class="small-button" @onclick="@(() => Move(true))">&#x21E7;</button>
+            <button class="small-button" @onclick="@(() => Move(false))">&#x21E9;</button>
             <button class="small-button" @onclick="@(() => SetEnabled(false))">&#x2715;</button>
         }
         else
@@ -29,17 +25,19 @@
 </div>
 
 <style>
-    .skill-progress-bar-container {
+    .skill-container {
         position: relative;
         display: inline-flex;
         font-size: 0.75rem;
-        width: 90%;
-        flex-direction: column;
+        width: 100%;
+        flex-direction: row;
         align-self: center;
+        justify-content: space-between;
+        align-items: center;
     }
 
     .skill-name {
-        font-size: 0.75rem;
+        font-size: medium;
     }
 
     .skill-name-unusable {
@@ -54,10 +52,9 @@
     }
 
     .skill-buttons {
-        display: none;
-        position: absolute;
+/*         position: absolute;
         right: 0.5rem;
-        bottom: 0.1rem;
+        bottom: 0.1rem; */
         gap: 0.25rem;
         flex-direction: row;
     }
@@ -70,10 +67,6 @@
         min-width: 0px;
         min-height: 0px;
         align-content: center;
-    }
-
-    .skill-progress-bar-container:hover .skill-buttons {
-        display: flex;
     }
 
     #skill-bar-frame {

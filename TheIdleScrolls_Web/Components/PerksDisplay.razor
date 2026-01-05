@@ -2,6 +2,7 @@
 @using TheIdleScrolls_Core.Components
 @using TheIdleScrolls_Core.Modifiers
 @using TheIdleScrolls_Web.CoreWrapper
+@using TheIdleScrolls_Web.Components.Subcomponents
 
 @implements IDisposable
 
@@ -17,11 +18,24 @@
     </div>
 
     <div id="perks-header">
+        @if ((SkillsComponent?.Skills?.Count ?? 0) > 1)
+        {
+            <button @onclick="@(() => ShowSkills = !ShowSkills)">@(ShowSkills ? ">>" : "<<") Skills</button>
+        }
         <p style="margin-bottom: 0">Points Spent: @PerksUsed / @PerksLimit</p>
         @if (FreePerkPoints > 0)
         {   
             <p id="perks-available-points">@FreePerkPoints Point@(FreePerkPoints == 1 ? "" : "s") Available</p>
         }
+
+        @if (ShowSkills)
+        {
+            <div class="play-area-frame perks-skill-list-container">
+                <div style="font-size:x-large">Skills</div>
+                <SkillManagementDisplay Entity="@CoreWrapper.PlayerCharacter"></SkillManagementDisplay>
+            </div>
+        }
+
     </div>
 
     @if (NewPerks > 0)
@@ -75,6 +89,20 @@
         max-height: 100%;
         overflow-y: auto;
     }
+
+    .play-area-frame.perks-skill-list-container {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        bottom: 2rem;
+        right: 100%;
+        height: 100%;
+        width: 20rem;
+        background-color: var(--back-color);
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
 </style>
 
 @code {
@@ -92,6 +120,7 @@
         CoreWrapper.GameRunner.GetEventEmitter().AvailablePerkPointsChanged += (_) => StateHasChanged();
         base.OnInitialized();
         PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
+        SkillsComponent = CoreWrapper.PlayerCharacter?.GetComponent<ActiveSkillComponent>();
 
         // Save previously seen perks but update the list of seen perks in the CoreWrapper
         SeenPerks = new List<string>(CoreWrapper.SeenPerks);
@@ -104,6 +133,7 @@
     }
 
     PerksComponent? PerksComponent = null;
+    ActiveSkillComponent? SkillsComponent = null;
     List<Perk> Perks => PerksComponent?.GetPerks() ?? [];
     int PerksUsed => PerksComponent?.GetUsedPerkPoints() ?? 0;
     int PerksLimit => PerksComponent?.PerkPointLimit ?? 0;
@@ -111,4 +141,6 @@
 
     List<string> SeenPerks = [];
     int NewPerks => Perks.Count - SeenPerks.Count;
+
+    bool ShowSkills = false;
 }

@@ -8,7 +8,7 @@
         <center class="compact-skill-name @SkillNameClass()">@Skill.Name</center>
         <div class="compact-bar-fill @BarColorClass()" style="width: @($"{CalculateProgress():0%}");"></div>
     </div>
-    <span class="barTooltip">
+    <span class="barTooltip bottomTooltip">
         <SkillDisplayTile Skill="@Skill"></SkillDisplayTile>
     </span>
 </div>

@@ -193,7 +193,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         damage += dmgEffect.DamageDone;
                         damagePrevented += dmgEffect.Damage - dmgEffect.DamageDone;
-                        // Prevent "On Hit"-effects from triggering for damage over time
+
                         if (!dmgEffect.Tags.Contains(Tags.DamageOverTime))
                             coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
                     }

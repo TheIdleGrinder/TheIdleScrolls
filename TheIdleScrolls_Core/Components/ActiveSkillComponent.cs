@@ -118,7 +118,8 @@ namespace TheIdleScrolls_Core.Components
         public void MoveSkillUp(ActiveSkill skill)
 		{
 			int idx = Skills.IndexOf(skill);
-			if (idx > 0)
+			bool keepGoing = true;
+			while (keepGoing && idx > 0)
 			{
 				Skills.RemoveAt(idx);
 				Skills.Insert(idx - 1, skill);
@@ -127,13 +128,19 @@ namespace TheIdleScrolls_Core.Components
                     Index--;
                 if (idx - 1 == Index && Index + 1 < Skills.Count)
                     Index++;
+
+                // Unavailable and Disabled skills are not shown in the GUI, so we keep swapping to make sure
+				// that this function has a visible effect.
+                keepGoing = Skills[idx].HasState([ActiveSkill.State.Unavailable, ActiveSkill.State.Disabled]);
+                idx--;
             }
         }
 
 		public void MoveSkillDown(ActiveSkill skill)
 		{
 			int idx = Skills.IndexOf(skill);
-			if (idx >= 0 && idx < Skills.Count - 1)
+			bool keepGoing = true;
+			while (keepGoing && idx >= 0 && idx < Skills.Count - 1)
 			{
 				Skills.RemoveAt(idx);
 				Skills.Insert(idx + 1, skill);
@@ -142,6 +149,9 @@ namespace TheIdleScrolls_Core.Components
                     Index++;
                 if (idx + 1 == Index && Index > 0)
                     Index--;
+				
+                keepGoing = Skills[idx].HasState([ActiveSkill.State.Unavailable, ActiveSkill.State.Disabled]);
+                idx++;
             }
 		}
 	}

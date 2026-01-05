@@ -319,12 +319,12 @@ namespace TheIdleScrolls_Core.Systems
                 ModifierType.Increase, Stats.BasicTimeIncrease,
                 [Tags.TimeShield], [], maxLevel: 10), index + 3);
 
-            perksComponent.AddPerk(Perks.ExposeWeaknessPerks.BasePerk);
-            perksComponent.AddPerk(Perks.ExposeWeaknessPerks.DamageTaken);
+            //perksComponent.AddPerk(Perks.ExposeWeaknessPerks.BasePerk);
+            //perksComponent.AddPerk(Perks.ExposeWeaknessPerks.DamageTaken);
 
-            perksComponent.AddPerk(Perks.SmokeBombPerks.BasePerk);
-            perksComponent.AddPerk(Perks.SmokeBombPerks.DamageWhileActive);
-            perksComponent.AddPerk(Perks.SmokeBombPerks.DamageOnActivityEnd);
+            //perksComponent.AddPerk(Perks.SmokeBombPerks.BasePerk);
+            //perksComponent.AddPerk(Perks.SmokeBombPerks.DamageWhileActive);
+            //perksComponent.AddPerk(Perks.SmokeBombPerks.DamageOnActivityEnd);
         }
     }
 

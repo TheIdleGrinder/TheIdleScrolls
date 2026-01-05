@@ -60,9 +60,13 @@ namespace TheIdleScrolls_Core.Skills
 
 		public bool IsInUse()
 		{
-			var state = GetState();
-			return state != State.Unavailable && state != State.Disabled && state != State.NotUsable;
+			return !HasState([State.Unavailable, State.Disabled, State.NotUsable]);
 		}
+
+		public bool HasState(HashSet<State> states)
+		{
+			return states.Contains(GetState());
+        }
 
 		public State GetState()
 		{

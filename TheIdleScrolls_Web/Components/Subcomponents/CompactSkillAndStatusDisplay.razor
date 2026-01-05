@@ -85,6 +85,6 @@
     public Entity? Entity { get; set; }
 
     bool HasEvasion => Entity?.GetComponent<EvaderComponent>() != null;
-    List<ActiveSkill> Skills => Entity?.GetComponent<ActiveSkillComponent>()?.Skills ?? [];
+    List<ActiveSkill> Skills => Entity?.GetComponent<ActiveSkillComponent>()?.Skills.Where(s => s.IsInUse()).ToList() ?? [];
     List<StatusEffect> Status => Entity?.GetComponent<StatusEffectComponent>()?.StatusEffects ?? [];
 }

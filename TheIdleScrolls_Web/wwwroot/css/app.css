@@ -141,7 +141,7 @@ div.progressFill {
     padding: 0.25rem 0.5rem;
     position: absolute;
     width: max-content;
-    max-width: 220px;
+    max-width: 20rem;
     z-index: 1;
     left: 50%;
     bottom: 100%;
@@ -149,6 +149,12 @@ div.progressFill {
     transform: translate(-50%, -0.5rem);
     font-size: medium;
     font-weight: initial;
+}
+
+.withTooltip .barTooltip.bottomTooltip {
+    top: 100%;
+    bottom: initial;
+    transform: translate(-50%, 0.5rem);
 }
 
 .withTooltip:hover .barTooltip {
