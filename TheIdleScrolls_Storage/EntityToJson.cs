@@ -18,7 +18,6 @@ namespace TheIdleScrolls_Storage
 			typeof(AbilitiesComponent),
 			typeof(AchievementsComponent),
             typeof(ActiveSkillComponent),
-			typeof(AttackComponent),
 			typeof(BountyHunterComponent),
 			typeof(CoinPurseComponent),
 			typeof(CraftingBenchComponent),

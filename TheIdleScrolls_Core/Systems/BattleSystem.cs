@@ -164,7 +164,6 @@ namespace TheIdleScrolls_Core.Systems
 
                 SetupPlayerTimeShield(player, zone);
                 player.GetComponent<TimeShieldComponent>()?.Refill();
-                player.GetComponent<AttackComponent>()?.Cooldown?.Reset();
                 player.GetComponent<ActiveSkillComponent>()?.ResetSkills();
                 player.GetComponent<StatusEffectComponent>()?.DeactivateAll();
             }

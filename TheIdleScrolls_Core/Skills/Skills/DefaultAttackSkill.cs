@@ -20,9 +20,13 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         public override string Name => "Default Attack";
 
-        protected override void SetupStats(Entity user, ActiveSkill skill)
+        public static void SetupPlayerAttackComponent(Entity user)
         {
-            List<string> AdditionalTags = [Tags.Attack, skill.Id];
+            var attackComp = user.GetComponent<AttackComponent>();
+            if (attackComp == null)
+                return;
+
+            List<string> AdditionalTags = [Tags.Attack, Skill.Id];
 
             var equipComp = user.GetComponent<EquipmentComponent>();
             var modComp = user.GetComponent<ModifierComponent>();
@@ -33,12 +37,10 @@ namespace TheIdleScrolls_Core.Skills.Skills
             double encumbrance = 0.0;
 
             var globalTags = user.GetTags();
+            attackComp.Reset();
 
             if (equipComp != null)
             {
-                double combinedDmg = 0.0;
-                double combinedCD = 0.0;
-
                 foreach (var item in equipComp.GetItems())
                 {
                     var itemComp = item.GetComponent<ItemComponent>();
@@ -67,16 +69,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
                                 globalTags);
                         }
 
-                        combinedDmg += localDmg;
-                        combinedCD += localCD;
-                        //Console.WriteLine($"{item.GetName()}({weaponCount}): Dmg: {localDmg} -> {combinedDmg}; CD: {localCD} -> {combinedCD}");
+                        attackComp.AddAttackVector(localDmg, localCD);
                     }
-                }
-
-                if (weaponCount > 0)
-                {
-                    rawDamage = combinedDmg / weaponCount;
-                    cooldown = combinedCD / weaponCount;
                 }
             }
 
@@ -87,16 +81,31 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 // invert attack speed due to speed/cooldown mismatch
                 cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
                     [Tags.AttackSpeed, Abilities.Unarmed, .. AdditionalTags], globalTags) ?? cooldown;
+                attackComp.AddAttackVector(rawDamage, cooldown);
             }
 
             double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
+            foreach (var vector in attackComp.AttackVectors)
+            {
+                vector.Cooldown *= encumbranceSlowdown;
+                vector.Cooldown = Math.Max(vector.Cooldown, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
+            }
+        }
 
-            DamageSkillEffect dmgEffect = new(Math.Round(rawDamage), ISkillEffect.TargetingMode.SingleEnemy, [.. AdditionalTags]);
+        protected override void SetupStats(Entity user, ActiveSkill skill)
+        {
+            var attackComp = user.GetComponent<AttackComponent>();
+            if (attackComp == null)
+            {
+                attackComp = new();
+                user.AddComponent(attackComp);
+                SetupPlayerAttackComponent(user);
+            }
+
+            List<string> AdditionalTags = [Tags.Attack, Skill.Id];
+            DamageSkillEffect dmgEffect = new(Math.Round(attackComp.AverageDamage), ISkillEffect.TargetingMode.SingleEnemy, [.. AdditionalTags]);
             skill.ActiveEffects.OnEnter = [dmgEffect];
-
-            cooldown *= encumbranceSlowdown; // Encumbrance slows attack speed multiplicatively
-            cooldown = Math.Max(cooldown, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
-            skill.ChargingTime = cooldown;
+            skill.ChargingTime = attackComp.AverageCooldown;
         }
 
         public override bool IsAvailableTo(Entity user)

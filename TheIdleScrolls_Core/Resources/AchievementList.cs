@@ -555,7 +555,7 @@ namespace TheIdleScrolls_Core.Resources
                                         UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
                                     (_, e, w, c) =>
                                     {
-                                        double cooldown = e.GetComponent<AttackComponent>()?.Cooldown.Duration ?? 0.0;
+                                        double cooldown = e.GetComponent<AttackComponent>()?.AverageCooldown ?? 0.0;
                                         int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
                                         return
                                         [
@@ -597,7 +597,7 @@ namespace TheIdleScrolls_Core.Resources
                                         UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
                                     (_, e, w, c) =>
                                     {
-                                        double cooldown = e.GetComponent<AttackComponent>()?.Cooldown.Duration ?? 0.0;
+                                        double cooldown = e.GetComponent<AttackComponent>()?.AverageCooldown ?? 0.0;
                                         double armor = e.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
                                         var abilitiesComp = e.GetComponent<AbilitiesComponent>();
                                         int lvlDW = abilitiesComp?.GetAbility(Abilities.DualWield)?.Level ?? 0;

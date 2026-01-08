@@ -6,6 +6,7 @@ using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Utility;
 using TheIdleScrolls_Core.Skills.SkillEffects;
+using TheIdleScrolls_Core.Skills.Skills;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -135,22 +136,11 @@ namespace TheIdleScrolls_Core.Systems
             var skillComp = player.GetComponent<ActiveSkillComponent>();
             if (skillComp != null)
             {
+                DefaultAttack.SetupPlayerAttackComponent(player);
+
                 foreach (var skill in skillComp.Skills)
                 {
                     skill.SetupForUser(player);
-                }
-
-                // Set attackComp for display
-                var attackComp = player.GetComponent<AttackComponent>();
-                if (attackComp != null && skillComp.CurrentSkill is not null)
-                {
-                    double dmg = skillComp.CurrentSkill?.ActiveEffects?.OnEnter?
-                                       .Sum(e => e is DamageSkillEffect dmgEffect ? dmgEffect.Damage : 0.0) ?? 0.0;
-                    attackComp.RawDamage = dmg;
-                    //               double duration = skillComp.CurrentSkill?.Timer.ChargingDuration ?? 1.0;
-                    //               double remaining = skillComp.CurrentSkill?.Timer.Remaining ?? 1.0;
-                    //               attackComp.Cooldown.Reset(duration);
-                    //   attackComp.Cooldown.Update(duration - remaining);
                 }
             }
 

@@ -119,17 +119,8 @@ namespace TheIdleScrolls_Core.Systems
             var skillComp = player.GetComponent<ActiveSkillComponent>();
             if (skillComp is not null && skillComp.CurrentSkill is not null)
             {
-                double damage = 0;
-                foreach (var effect in skillComp.CurrentSkill.ActiveEffects.OnEnter)
-                {
-                    if (effect is DamageSkillEffect dmgEffect)
-                    {
-                        damage += dmgEffect.Damage;
-                    }
-                }
-                double chargeTime = skillComp.CurrentSkill?.ChargingTime ?? 0.0;
-				PlayerOffenseChanged?.Invoke((int)Math.Round(damage), chargeTime);
-                //Console.WriteLine($"Attack charge: {remaining} / {chargeTime}");
+                var attackComp = player.GetComponent<AttackComponent>();
+                PlayerOffenseChanged?.Invoke((int)Math.Round(attackComp?.AverageDamage ?? 0.0), attackComp?.AverageCooldown ?? 0.0);
 			}
 
             // Update defenses
