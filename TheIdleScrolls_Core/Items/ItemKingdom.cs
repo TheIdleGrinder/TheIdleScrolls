@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Resources;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Items
 {
     public record EquippableDescription(List<EquipmentSlot> Slots, double Encumbrance);
 
-    public record WeaponGenus(double BaseDamage, double BaseCooldown)
+    public record WeaponGenus(DamageCluster BaseDamage, double BaseCooldown)
     {
-        public double Dps => (BaseCooldown != 0.0) ? BaseDamage / BaseCooldown : 0.0;
+        public double Dps => (BaseCooldown != 0.0) ? BaseDamage.TotalDamage / BaseCooldown : 0.0;
     }
 
     public record ArmorGenus(double BaseArmor, double BaseEvasion);

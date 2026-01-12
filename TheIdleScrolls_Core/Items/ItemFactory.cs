@@ -236,7 +236,12 @@ namespace TheIdleScrolls_Core.Items
 
             if (description.Weapon != null)
             {
-                double dmg = Math.Round(description.Weapon.BaseDamage * Math.Pow(Stats.QualityMultiplier, qualityLevel) * materialMulti, 1);
+
+                DamageCluster dmg = description.Weapon.BaseDamage.Multiply(Math.Pow(Stats.QualityMultiplier, qualityLevel) * materialMulti);
+                foreach (var type in dmg.Types)
+                {
+                    dmg.SetDamage(type, Math.Round(dmg.DamageOfType(type), 1));
+                }
                 item.AddComponent(new WeaponComponent(dmg, description.Weapon.BaseCooldown));
             }
 

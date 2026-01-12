@@ -316,7 +316,7 @@ namespace TheIdleScrolls_Core.Resources
                                 $"Gain {Stats.BigPerkFactor * Stats.BasicDamageIncrease:0.#%} increased damage with {id.Localize()}s",
                                 ModifierType.Increase,
                                 Stats.BigPerkFactor * Stats.BasicDamageIncrease,
-                                [Tags.Damage, id],
+                                [Tags.Damage, id, DamageType.Physical.ToTag()],
                                 [],
                                 maxLevel: 3),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 100)

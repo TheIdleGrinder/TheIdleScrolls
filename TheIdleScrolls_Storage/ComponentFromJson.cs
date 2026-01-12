@@ -222,20 +222,6 @@ namespace TheIdleScrolls_JSON
             }
         }
 
-        public static bool SetFromJson(this WeaponComponent component, JsonNode json)
-        {
-            try
-            {
-                component.Damage = json["Damage"]!.GetValue<double>();
-                component.Cooldown = json["Cooldown"]!.GetValue<double>();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
         public static bool SetFromJson(this XpGainerComponent component, JsonNode json)
         {
             try

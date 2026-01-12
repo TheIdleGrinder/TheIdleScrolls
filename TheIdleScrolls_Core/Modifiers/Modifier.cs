@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Definitions;
@@ -94,8 +95,11 @@ namespace TheIdleScrolls_Core.Modifiers
             whileTags = whileTags.Where(t => allTags.Contains(t)).ToList();
 
             List<string> localGlobal = allTags.Where(t => t == Tags.Local || t == Tags.Global).ToList();
+            List<string> damageTypes = allTags.Where(DamageTypeTags.Types.Contains).ToList();
 
-            List<string> targetTags = allTags.Except(withTags).Except(whileTags).Except(localGlobal).ToList();
+            List<string> targetTags = allTags.Except(withTags).Except(whileTags).Except(localGlobal).Except(damageTypes).ToList();
+
+            
 
             double absValue = Math.Abs(modifier.Value);
             string valueString = (modifier.Type, modifier.Value >= 0) switch
@@ -118,11 +122,15 @@ namespace TheIdleScrolls_Core.Modifiers
             if (localGlobalString.Length > 0)
                 localGlobalString += " ";
 
+            string damageTypeString = String.Join(", ", damageTypes.Select(s => s.Localize()));
+            if (damageTypeString.Length > 0)
+                damageTypeString += " ";
+
             string whileString = String.Join(" and ", whileTags.Select(s => s.Localize()));
             string withString = String.Join(", ", withTags
                 .Select(s => s.Localize() + (Abilities.Weapons.Contains(s) ? "s" : "")));
 
-            return $"{idString}{valueString} {localGlobalString}{target}" +
+            return $"{idString}{valueString} {localGlobalString}{damageTypeString}{target}" +
                 $"{((withString.Length > 0) ? " with " : "")}{withString}" +
                 $"{((whileString.Length > 0) ? " while " : "")}{whileString}";
         }

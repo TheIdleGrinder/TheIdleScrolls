@@ -105,9 +105,9 @@ namespace TheIdleScrolls_Core.Components
 
     public class AttackComponent : IComponent
     {
-        public class AttackVector(double dmg, double cd)
+        public class AttackVector(DamageCluster dmg, double cd)
         {
-            public double RawDamage = dmg;
+            public DamageCluster RawDamage = dmg;
             public double Cooldown = cd;
         }
 
@@ -118,12 +118,12 @@ namespace TheIdleScrolls_Core.Components
             AttackVectors.Clear();
         }
 
-        public void AddAttackVector(double rawDamage, double cooldown)
+        public void AddAttackVector(DamageCluster rawDamage, double cooldown)
         {
             AttackVectors.Add(new AttackVector(rawDamage, cooldown));
         }
 
-        public double AverageDamage => AttackVectors.Average(av => av.RawDamage);
+        public double AverageDamage => AttackVectors.Average(av => av.RawDamage.TotalDamage);
         public double AverageCooldown => AttackVectors.Average(av => av.Cooldown);
         public double AverageDps => (AverageCooldown != 0) ? AverageDamage / AverageCooldown : 0.0;
 
@@ -211,7 +211,7 @@ namespace TheIdleScrolls_Core.Components
     {
         //public string Family = "";
         //public string Genus = "";
-        public double Damage = 1.0;
+        public DamageCluster Damage = new();
         public double Cooldown = 1.0;
 
         public WeaponComponent()
@@ -219,7 +219,7 @@ namespace TheIdleScrolls_Core.Components
 
         }
 
-        public WeaponComponent(double baseDamage, double baseCooldown)
+        public WeaponComponent(DamageCluster baseDamage, double baseCooldown)
         {
             Damage = baseDamage;
             Cooldown = baseCooldown;

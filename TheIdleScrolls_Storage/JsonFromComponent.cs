@@ -139,16 +139,6 @@ namespace TheIdleScrolls_Storage
             return json;
         }
 
-        public static JsonObject? ToJson(this WeaponComponent component)
-        {
-            JsonObject json = new()
-            {
-                { "Damage", component.Damage },
-                { "Cooldown", component.Cooldown }
-            };
-            return json;
-        }
-
         public static JsonObject? ToJson(this XpGainerComponent component)
         {
             JsonObject json = new()

@@ -126,6 +126,8 @@ namespace TheIdleScrolls_Core
             public const string Insight = "Insight";
             public const string Trick = "Trick";
 
+            public const string Hit = "Hit";
+
             public const string Resistance = "Resistance";
             public const string Evasion = "Evasion";
                                     
@@ -155,9 +157,39 @@ namespace TheIdleScrolls_Core
             public const string Evading = "Evading";
         }
 
+        public static class DamageTypeTags
+        {
+            public const string Physical = "Physical";
+            public const string Fire = "Fire";
+            public const string Poison = "Poison";
+
+            public static List<string> Types => [Physical, Fire, Poison];
+        }
+
         public static class DropRestrictions
         {
             public const string MaterialT4 = "MaterialT4";
+        }
+
+        public enum DamageType
+        {
+            Physical,
+            Fire,
+            Poison
+        }
+
+        public static class DamageTypeMethods
+        {
+            public static string ToTag(this DamageType type)
+            {
+                return type switch
+                {
+                    DamageType.Physical => DamageTypeTags.Physical,
+                    DamageType.Fire => DamageTypeTags.Fire,
+                    DamageType.Poison => DamageTypeTags.Poison,
+                    _ => DamageTypeTags.Physical,
+                };
+            }
         }
     }
 

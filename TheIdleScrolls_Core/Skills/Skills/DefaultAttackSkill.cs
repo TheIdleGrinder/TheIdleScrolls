@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Skills.SkillEffects;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
@@ -31,7 +32,6 @@ namespace TheIdleScrolls_Core.Skills.Skills
             var equipComp = user.GetComponent<EquipmentComponent>();
             var modComp = user.GetComponent<ModifierComponent>();
 
-            double rawDamage = 2.0;
             double cooldown = 1.0;
             int weaponCount = 0;
             double encumbrance = 0.0;
@@ -57,13 +57,15 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
                     if (itemComp != null && weaponComp != null)
                     {
-                        double localDmg = weaponComp.Damage;
+                        DamageCluster localDmg = weaponComp.Damage;
                         double localCD = weaponComp.Cooldown;
                         weaponCount++;
 
                         if (modComp != null)
                         {
-                            localDmg = modComp.ApplyApplicableModifiers(localDmg, localTags.Append(Tags.Damage), globalTags);
+                            localDmg = weaponComp.Damage.ScaleWithModifiers(
+                                modComp.GetModifiers(),
+                                localTags, globalTags);
                             localCD = 1.0 / modComp.ApplyApplicableModifiers(1.0 / localCD,
                                 localTags.Append(Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
                                 globalTags);
@@ -76,12 +78,16 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
             if (weaponCount == 0)
             {
-                rawDamage = modComp?.ApplyApplicableModifiers(rawDamage,
-                    [Tags.Damage, Abilities.Unarmed, .. AdditionalTags], globalTags) ?? rawDamage;
+                DamageCluster damage = new();
+                damage.AddDamage(DamageType.Physical, 2.0); // Base unarmed damage
+                damage = damage.ScaleWithModifiers(
+                    modComp?.GetModifiers() ?? [],
+                    [Abilities.Unarmed, .. AdditionalTags],
+                    globalTags);
                 // invert attack speed due to speed/cooldown mismatch
                 cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
                     [Tags.AttackSpeed, Abilities.Unarmed, .. AdditionalTags], globalTags) ?? cooldown;
-                attackComp.AddAttackVector(rawDamage, cooldown);
+                attackComp.AddAttackVector(damage, cooldown);
             }
 
             double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;

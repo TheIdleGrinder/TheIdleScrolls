@@ -132,7 +132,7 @@ namespace TheIdleScrolls_Core.ContentPacks
                         (l, e, w, c) => { 
                             double dmg = e.GetComponent<EquipmentComponent>()
                                         ?.GetItemInSlot(EquipmentSlot.Hand)
-                                        ?.GetComponent<WeaponComponent>()?.Damage ?? 0;
+                                        ?.GetComponent<WeaponComponent>()?.Damage.TotalDamage ?? 0;
                             double bonus = l switch
                             {
                                 1 => 0.3,
