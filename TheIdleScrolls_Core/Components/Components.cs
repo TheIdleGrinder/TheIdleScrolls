@@ -123,12 +123,9 @@ namespace TheIdleScrolls_Core.Components
             AttackVectors.Add(new AttackVector(rawDamage, cooldown));
         }
 
-        public double AverageDamage => AttackVectors.Average(av => av.RawDamage.TotalDamage);
+        public DamageCluster AverageDamage => AttackVectors.Average();
         public double AverageCooldown => AttackVectors.Average(av => av.Cooldown);
-        public double AverageDps => (AverageCooldown != 0) ? AverageDamage / AverageCooldown : 0.0;
-
-        //public double RawDamage = 1;
-        //public Cooldown Cooldown = new(1.0);      
+        public double AverageDps => (AverageCooldown != 0) ? AverageDamage.TotalDamage / AverageCooldown : 0.0;
     }
 
     public class DefenseComponent : IComponent

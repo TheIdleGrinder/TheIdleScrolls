@@ -8,6 +8,7 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Skills.SkillEffects;
 using TheIdleScrolls_Core.Utility;
+using static TheIdleScrolls_Core.Skills.ISkillEffect;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
@@ -98,6 +99,19 @@ namespace TheIdleScrolls_Core.Skills.Skills
             }
         }
 
+        public static List<ISkillEffect> CreateDefaultSkillEffectsForDamage(DamageCluster damages, HashSet<string> tags) 
+        {
+            List<ISkillEffect> effects = [];
+            foreach (var type in damages.Types)
+            {
+                double damage = damages.DamageOfType(type);
+                if (damage <= 0.0)
+                    continue;
+                effects.Add(new DamageSkillEffect(type, damage, TargetingMode.SingleEnemy, [Tags.Damage, .. tags]));
+            }
+            return effects;
+        }
+
         protected override void SetupStats(Entity user, ActiveSkill skill)
         {
             var attackComp = user.GetComponent<AttackComponent>();
@@ -109,8 +123,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             }
 
             List<string> AdditionalTags = [Tags.Attack, Skill.Id];
-            DamageSkillEffect dmgEffect = new(Math.Round(attackComp.AverageDamage), ISkillEffect.TargetingMode.SingleEnemy, [.. AdditionalTags]);
-            skill.ActiveEffects.OnEnter = [dmgEffect];
+            skill.ActiveEffects.OnEnter = CreateDefaultSkillEffectsForDamage(attackComp.AverageDamage, [.. AdditionalTags]);
             skill.ChargingTime = attackComp.AverageCooldown;
         }
 

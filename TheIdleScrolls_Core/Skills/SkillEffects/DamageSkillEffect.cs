@@ -10,14 +10,15 @@ using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core.Skills.SkillEffects
 {
-	public class DamageSkillEffect(double damage, TargetingMode target, HashSet<string> tags) : ISkillEffect
+	public class DamageSkillEffect(DamageType damageType, double damage, TargetingMode target, HashSet<string> tags) : ISkillEffect
 	{
-		public double Damage = damage;
+		public DamageType DamageType = damageType;
+        public double Damage = damage;
 		public HashSet<string> Tags = tags;
 
 		public double DamageDone { get; private set; } = 0.0;
 
-        public string Description => $"{Damage:0.##} damage to {(Target == TargetingMode.Self ? "self" : "target")}";
+        public string Description => $"{Damage:0.##} {DamageType.ToTag()} damage to {(Target == TargetingMode.Self ? "self" : "target")}";
 
 		public TargetingMode Target => target;
 

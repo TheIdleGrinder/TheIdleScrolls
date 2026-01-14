@@ -8,8 +8,9 @@ using TheIdleScrolls_Core.Skills.SkillEffects;
 
 namespace TheIdleScrolls_Core.Skills.SkillEffectGenerators
 {
-    public class DoTSkillEffectGenerator(double dps) : ISkillEffectGenerator
+    public class DoTSkillEffectGenerator(DamageType damageType, double dps) : ISkillEffectGenerator
     {
+        public DamageType DamageType = damageType;
         public double DPS { get; set; } = dps;
         public string Description => $"Deal {DPS:0.##} damage per second";
 
@@ -20,7 +21,7 @@ namespace TheIdleScrolls_Core.Skills.SkillEffectGenerators
 
         public List<ISkillEffect> Update(double dt)
         {
-            return [new DamageSkillEffect(dt * DPS, ISkillEffect.TargetingMode.SingleEnemy, [Tags.DamageOverTime])];
+            return [new DamageSkillEffect(DamageType, dt * DPS, ISkillEffect.TargetingMode.SingleEnemy, [Tags.DamageOverTime])];
         }
     }
 }
