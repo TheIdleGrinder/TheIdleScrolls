@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using static TheIdleScrolls_Core.Skills.ISkillEffect;
 
@@ -16,14 +17,21 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
         public double TotalDamage { get; } = damage;
         public double Duration { get; } = duration;
         public HashSet<string> Tags { get; } = tags;
+        public TargetingMode Target { get; } = targetingMode;
         public string Description => $"{TotalDamage:0.#} {DamageType.ToTag()} damage over " +
             $"{Duration:0.#}s to {(Target == TargetingMode.Self ? "self" : "target")}";
 
-        public TargetingMode Target => targetingMode;
-
         public void ApplyToTarget(Entity target)
         {
-            throw new NotImplementedException();
+            if (Duration == 0.0)
+                return;
+            var dotComp = target.GetComponent<DoTComponent>();
+            if (dotComp is null)
+            {
+                dotComp = new();
+                target.AddComponent(dotComp);
+            }
+            dotComp.Add(new(DamageType, TotalDamage / Duration, Duration));
         }
     }
 }

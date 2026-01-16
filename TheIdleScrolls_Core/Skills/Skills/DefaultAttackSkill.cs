@@ -107,7 +107,19 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 double damage = damages.DamageOfType(type);
                 if (damage <= 0.0)
                     continue;
-                effects.Add(new DamageSkillEffect(type, damage, TargetingMode.SingleEnemy, [Tags.Damage, .. tags]));
+
+                double duration = type switch
+                {
+                    DamageType.Fire => 1.0,
+                    DamageType.Poison => 5.0,
+                    _ => 0.0
+                };
+
+                ISkillEffect effect = (duration > 0.0)
+                    ? new DoTSkillEffect(type, damage, duration, TargetingMode.SingleEnemy, [Tags.DamageOverTime, .. tags])
+                    : new DamageSkillEffect(type, damage, TargetingMode.SingleEnemy, [Tags.Damage, .. tags]);
+                
+                effects.Add(effect);
             }
             return effects;
         }

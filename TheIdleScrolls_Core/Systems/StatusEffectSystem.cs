@@ -42,6 +42,29 @@ namespace TheIdleScrolls_Core.Systems
 					Console.WriteLine($"{entity.GetName()} regenerated {lifeReg * dt:0.##} HP ({lifeReg:0.##}/s)");
 				}
 			}
+
+			foreach (var entity in coordinator.GetEntities<DoTComponent>())
+			{
+				var dotComp = entity.GetComponent<DoTComponent>()!;
+                double damage = dotComp.Update(dt);
+				if (dotComp.TotalDps == 0.0)
+				{
+					entity.RemoveComponent<DoTComponent>();
+				}
+
+                var lifeComp = entity.GetComponent<LifePoolComponent>();
+				if (lifeComp is not null && !lifeComp.IsDead)
+				{
+					lifeComp.ApplyDamage(damage);
+					continue;
+				}
+
+				var shieldComp = entity.GetComponent<TimeShieldComponent>();
+                if (shieldComp is not null && !shieldComp.IsDepleted)
+				{
+					shieldComp.Drain(damage);
+				}
+			}
 		}
 	}
 
