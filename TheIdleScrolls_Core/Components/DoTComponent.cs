@@ -51,6 +51,13 @@ namespace TheIdleScrolls_Core.Components
             return totalDamage;
         }
 
+        public List<DamageType> ActiveTypes => [.. DoTs.Keys];
+
+        public List<DoT> EffectsOfType(DamageType type)
+        {
+            return DoTs.GetValueOrDefault(type) ?? [];
+        }
+
         public int EffectCountForType(DamageType type)
         {
             return DoTs.GetValueOrDefault(type)?.Count ?? 0;

@@ -78,6 +78,14 @@ a, .btn-link {
     --color-active: chartreuse;
     --color-hp: red;
     --color-time: limegreen;
+
+    --color-physical: lightgray;
+    --color-fire: orangered;
+    --color-cold: lightskyblue;
+    --color-electric: yellow;
+    --color-blast: sandybrown;
+    --color-poison: limegreen;
+
 }
 
 h1.banner-title {

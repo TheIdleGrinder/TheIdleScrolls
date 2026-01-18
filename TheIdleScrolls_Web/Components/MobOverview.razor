@@ -39,6 +39,10 @@
                 }
             </div>
             <div class="mob-status">
+                @foreach (var dotType in DoTs?.ActiveTypes ?? [])
+                {
+                    <CompactDoTEffectComponent Victim="@Mob" DamageType="@dotType"></CompactDoTEffectComponent>
+                }
                 @foreach (var status in (StatusEffects ?? []))
                 {
                     <CompactStatusEffectComponent Effect="@status"></CompactStatusEffectComponent>
@@ -158,6 +162,7 @@
     List<Perk> MobPerks => Mob?.GetComponent<PerksComponent>()?.GetPerks() ?? [];
     List<ActiveSkill> Skills => Mob?.GetComponent<ActiveSkillComponent>()?.Skills ?? [];
     List<StatusEffect> StatusEffects => Mob?.GetComponent<StatusEffectComponent>()?.StatusEffects ?? [];
+    DoTComponent? DoTs => Mob?.GetComponent<DoTComponent>();
 
     string CurrentMobId = "";
     string CurrentMobImage = "";
