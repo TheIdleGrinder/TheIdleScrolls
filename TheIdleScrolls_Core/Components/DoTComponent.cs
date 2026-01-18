@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Definitions;
@@ -16,7 +17,7 @@ namespace TheIdleScrolls_Core.Components
         public int DamageTypeCount => DoTs.Count;
         public double TotalDps => DoTs.Values.Select(d => d.Sum(dot => dot.Dps)).Sum();
 
-        public void Add(DoT dot)
+        public void Add(DoT dot, int stackLimit = int.MaxValue)
         {
             if (!DoTs.TryGetValue(dot.DamageType, out List<DoT>? value))
             {
@@ -25,6 +26,10 @@ namespace TheIdleScrolls_Core.Components
             else
             {
                 value.Add(dot);
+                if (value.Count > stackLimit)
+                {
+                    DoTs[dot.DamageType] = value.OrderByDescending(dot => dot.RemainingDamage).Take(stackLimit).ToList();
+                }
             }
         }
 

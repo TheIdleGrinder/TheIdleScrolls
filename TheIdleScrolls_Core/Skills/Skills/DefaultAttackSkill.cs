@@ -115,8 +115,15 @@ namespace TheIdleScrolls_Core.Skills.Skills
                     _ => 0.0
                 };
 
+                int stackLimit = type switch
+                {
+                    DamageType.Fire => 1,
+                    _ => int.MaxValue
+                };
+
+
                 ISkillEffect effect = (duration > 0.0)
-                    ? new DoTSkillEffect(type, damage, duration, TargetingMode.SingleEnemy, [Tags.DamageOverTime, .. tags])
+                    ? new DoTSkillEffect(type, damage, duration, TargetingMode.SingleEnemy, [Tags.DamageOverTime, .. tags]) { StackLimit = stackLimit }
                     : new DamageSkillEffect(type, damage, TargetingMode.SingleEnemy, [Tags.Damage, .. tags]);
                 
                 effects.Add(effect);

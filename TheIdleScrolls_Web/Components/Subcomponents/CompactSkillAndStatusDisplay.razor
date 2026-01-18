@@ -10,10 +10,17 @@
             <CompactSkillDisplayComponent Skill="@skill"></CompactSkillDisplayComponent>
         }
     </div>
-    @if (HasEvasion)
+    @if (HasEvasion || (DoTs?.ActiveTypes ?? []).Count > 0)
     {
         <div class="compact-partial-container">
-            <CompactEvasionDisplay Entity="@Entity"></CompactEvasionDisplay>
+            @if (HasEvasion)
+            {
+                <CompactEvasionDisplay Entity="@Entity"></CompactEvasionDisplay>
+            }
+            @foreach (var dotType in DoTs?.ActiveTypes ?? [])
+            {
+                <CompactDoTEffectComponent Victim="@Entity" DamageType="@dotType"></CompactDoTEffectComponent>
+            }
         </div>
     }
     <div class="compact-partial-container">
@@ -87,4 +94,5 @@
     bool HasEvasion => Entity?.GetComponent<EvaderComponent>() != null;
     List<ActiveSkill> Skills => Entity?.GetComponent<ActiveSkillComponent>()?.Skills.Where(s => s.IsInUse()).ToList() ?? [];
     List<StatusEffect> Status => Entity?.GetComponent<StatusEffectComponent>()?.StatusEffects ?? [];
+    DoTComponent? DoTs => Entity?.GetComponent<DoTComponent>();
 }

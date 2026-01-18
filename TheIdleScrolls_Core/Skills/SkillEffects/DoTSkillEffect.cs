@@ -18,6 +18,7 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
         public double Duration { get; } = duration;
         public HashSet<string> Tags { get; } = tags;
         public TargetingMode Target { get; } = targetingMode;
+        public int StackLimit { get; set; } = int.MaxValue;
         public string Description => $"{TotalDamage:0.#} {DamageType.ToTag()} damage over " +
             $"{Duration:0.#}s to {(Target == TargetingMode.Self ? "self" : "target")}";
 
@@ -31,7 +32,7 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
                 dotComp = new();
                 target.AddComponent(dotComp);
             }
-            dotComp.Add(new(DamageType, TotalDamage / Duration, Duration));
+            dotComp.Add(new(DamageType, TotalDamage / Duration, Duration), StackLimit);
         }
     }
 }
