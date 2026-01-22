@@ -35,14 +35,20 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 			if (modComp is not null)
 			{
 				tmpDamage = modComp.ApplyApplicableModifiers(tmpDamage, [Definitions.Tags.DamageTaken, ..Tags], target.GetTags());
-			}
+                double resistance = modComp.ApplyApplicableModifiers(0.0,
+					[Definitions.Tags.Resistance, .. DamageType.GetMatchingTags(), .. Tags], target.GetTags());
+                resistance = Math.Min(resistance, Stats.MaxResistances);
+                tmpDamage *= (1.0 - resistance / 100.0);
+            }
 
             // Apply damage reduction
             double damageReduction = target.ApplyAllApplicableModifiers(0.0, [Definitions.Tags.DamageReduction], target.GetTags());
 			tmpDamage = Math.Max(0.0, tmpDamage - damageReduction);
 
+            
+
             // Apply damage ceiling from defense layers
-			double defLayers = target.ApplyAllApplicableModifiers(0.0, [Definitions.Tags.DefensiveLayers], target.GetTags());
+            double defLayers = target.ApplyAllApplicableModifiers(0.0, [Definitions.Tags.DefensiveLayers], target.GetTags());
 			double maxDamage = hpComp.Maximum / (defLayers + 1.0);
             tmpDamage = Math.Min(tmpDamage, maxDamage);
 

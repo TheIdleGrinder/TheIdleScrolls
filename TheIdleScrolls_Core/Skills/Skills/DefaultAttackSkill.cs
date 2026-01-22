@@ -110,7 +110,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
                 double duration = type switch
                 {
-                    DamageType.Fire => 1.0,
+                    DamageType.Fire => 2.0,
                     DamageType.Poison => 5.0,
                     _ => 0.0
                 };

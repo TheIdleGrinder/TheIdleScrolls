@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Definitions;
 using static TheIdleScrolls_Core.Skills.ISkillEffect;
 
 namespace TheIdleScrolls_Core.Skills.SkillEffects
@@ -26,13 +27,19 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
         {
             if (Duration == 0.0)
                 return;
+
+            double resistance = target.GetComponent<ModifierComponent>()
+                ?.ApplyApplicableModifiers(0.0, [Definitions.Tags.Resistance, .. DamageType.GetMatchingTags(), .. Tags], target.GetTags()) ?? 0.0;
+            resistance = Math.Min(resistance, Stats.MaxResistances);
+            double damage = TotalDamage * (1.0 - resistance / 100.0);
+
             var dotComp = target.GetComponent<DoTComponent>();
             if (dotComp is null)
             {
                 dotComp = new();
                 target.AddComponent(dotComp);
             }
-            dotComp.Add(new(DamageType, TotalDamage / Duration, Duration), StackLimit);
+            dotComp.Add(new(DamageType, damage / Duration, Duration), StackLimit);
         }
     }
 }

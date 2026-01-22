@@ -69,7 +69,7 @@ namespace TheIdleScrolls_Core.Utility
             foreach (var type in Enum.GetValues<DamageType>().Cast<DamageType>())
             {
                 double value = modifiers.ApplyAllApplicable(DamageOfType(type),
-                    localTags.Concat([Tags.Damage, type.ToTag()]),
+                    localTags.Concat(type.GetMatchingTags()),
                     globalTags);
                 if (value > 0.0)
                 {

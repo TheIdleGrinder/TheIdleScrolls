@@ -4,8 +4,6 @@ using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 
 using TheIdleScrolls_Core.Definitions;
-using TheIdleScrolls_Core.Utility;
-using TheIdleScrolls_Core.Skills.SkillEffects;
 using TheIdleScrolls_Core.Skills.Skills;
 
 namespace TheIdleScrolls_Core.Systems

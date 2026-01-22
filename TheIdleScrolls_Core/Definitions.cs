@@ -27,6 +27,7 @@ namespace TheIdleScrolls_Core
             public const double MaxEvasionEffectDuration = 1.0;
             public const double MaxResistanceFromArmor = 0.9;
             public const double MaxResistanceFromEvasion = 0.9;
+            public const double MaxResistances = 80.0; // multiplied by 100 to make stuff like "+5 base fire resistance" more readable
 
             public const double ItemBaseValue = 5.0;
             public const double ItemValueQualityMultiplier = 1.25;
@@ -130,7 +131,8 @@ namespace TheIdleScrolls_Core
 
             public const string Resistance = "Resistance";
             public const string Evasion = "Evasion";
-                                    
+
+            public const string Elemental = "Elemental";
             public const string Status = "Status";
             public const string Stun = "Stun";
 
@@ -189,6 +191,22 @@ namespace TheIdleScrolls_Core
                     DamageType.Poison => DamageTypeTags.Poison,
                     _ => DamageTypeTags.Physical,
                 };
+            }
+
+            public static HashSet<string> GetMatchingTags(this DamageType type)
+            {
+                HashSet<string> tags = [Tags.Damage, type.ToTag()];
+                if (type == DamageType.Fire)
+                {
+                    tags.Add(Tags.Elemental);
+                }
+                // Hit vs. DoT
+                tags.Add(type switch
+                {
+                    DamageType.Physical => Tags.Hit,
+                    _ => Tags.DamageOverTime
+                });
+                return tags;
             }
         }
     }
