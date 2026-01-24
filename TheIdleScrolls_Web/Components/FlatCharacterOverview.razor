@@ -1,0 +1,132 @@
+﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Web.Components.Subcomponents
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="char-footer-outer">
+
+    <div class="char-footer-xp progressFrame withTooltip" style="justify-content: start">
+        <div id="character-xp-bar-fill" class="progressFill" style="width: @($"{xpPct:0%}");"></div>
+        <span class="barTooltip">Experience progress: @CoreWrapper.XpCurrent.ToBigIntString() / @CoreWrapper.XpTarget.ToBigIntString()</span>
+    </div>
+
+    <div class="char-stats">
+        <div class="char-base-stats">
+            <span id="character-name">@CoreWrapper.PlayerCharacter?.GetTitledName(false, true)</span>
+            <span>Level @CoreWrapper.Character.Level @CoreWrapper.Character.Class</span>
+        </div>
+
+        <CompactSkillAndStatusDisplay Entity="@CoreWrapper.PlayerCharacter" />
+
+        <div style="display:flex; flex-direction:row">
+            <table id="character-stat-table">
+                <tr class="normal-font">
+                    <th title="Damage per second">DPS</th>
+                    <td>@(FormatValue(Stats.Damage / Stats.Cooldown))</td>
+                    <th class="withTooltip">Resistance
+                        <span class="barTooltip">Against a standard level @CoreWrapper.Character.Level enemy</span>
+                    </th>
+                    <td class="withTooltip">@($"{Stats.DefenseRating:0.#%}")</td>
+                </tr>
+                <tr class="small-font">
+                    <th>Damage</th>
+                    <td>@FormatValue(Stats.Damage)</td>
+                    <th>Armor</th>
+                    <td>@FormatValue(Stats.Armor)</td>
+                </tr>
+                <tr class="small-font">
+                    <th>Attack Time</th>
+                    <td>@FormatValue(Stats.Cooldown) s</td>
+                    <th>Evasion</th>
+                    <td>@(FormatValue(Stats.Evasion))</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+</div>
+
+<style>
+    .char-footer-outer {
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 auto;
+        
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+    }
+
+    .char-footer-xp {
+        position: absolute;
+        bottom: 3px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+    }
+
+    .char-footer-time-limit {
+        position: absolute;
+        bottom: 8rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .char-stats {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+    .char-base-stats {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    #character-name {
+        font-size: x-large;
+    }
+
+    #character-stat-table {
+        /* min-width: 400px; */
+    }
+
+    #character-xp-bar-frame {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        border: 1px solid var(--frame-color);
+        background: inherit;
+    }
+
+    #character-xp-bar-fill {
+        background-color: var(--color-xp-progress);
+        height: 8px;
+    }
+
+</style>
+
+
+@code {
+    CharacterStats Stats => CoreWrapper.CharacterStats;
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+
+    double xpPct => 1.0 * CoreWrapper.XpCurrent / CoreWrapper.XpTarget;
+
+    int AttackCooldown => CooldownToInt(Stats.Cooldown);
+    int AttackProgress => CooldownToInt(Stats.Cooldown) - CooldownToInt(Stats.CooldownRemaining);
+
+    string FormatValue(double value) => value.ToBigIntString();
+    int CooldownToInt(double time) => (int)(time * 1000);    
+    string FormatTime(double time) => $"{time:0.##} s";
+}

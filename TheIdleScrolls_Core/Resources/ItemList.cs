@@ -196,12 +196,12 @@ namespace TheIdleScrolls_Core.Resources
         private static ItemGenusDescription MakeWeapon(string name, int level, bool twohanded, double damage, double cooldown, List<MaterialId> materials)
         {
             List<EquipmentSlot> slots = Enumerable.Repeat(EquipmentSlot.Hand, twohanded ? 2 : 1).ToList();
-            return MakeItemDescription(name, level, slots, new(damage, cooldown), null, 0.0, materials);
+            return MakeItemDescription(name, level, slots, new(new(DamageType.Physical, damage), cooldown), null, 0.0, materials);
         }
 
         private static ItemGenusDescription MakeArmor(string name, int level, EquipmentSlot slot, double armor, double encumbrance, List<MaterialId> materials)
         {
-            return MakeItemDescription(name, level, new() { slot }, null, new(armor, 0.0), encumbrance, materials);
+            return MakeItemDescription(name, level, [slot], null, new(armor, 0.0), encumbrance, materials);
         }
     }
 }

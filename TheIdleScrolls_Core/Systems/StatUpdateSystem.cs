@@ -4,6 +4,7 @@ using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 
 using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Skills.Skills;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -17,6 +18,26 @@ namespace TheIdleScrolls_Core.Systems
             if (m_player == 0)
                 m_player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault()?.Id ?? 0;
 
+            // Handle changes in skill order here for now
+            foreach (var message in coordinator.FetchMessagesByType<SkillOrderChangeRequest>())
+            {
+                var comp = coordinator.GetEntity(message.EntityId)?.GetComponent<ActiveSkillComponent>();
+                var skill = comp?.Skills?.FirstOrDefault(s => s.Id == message.SkillId);
+                if (skill is not null)
+                {
+                    if (message.MoveUp)
+                        comp?.MoveSkillUp(skill);
+                    else
+                        comp?.MoveSkillDown(skill);
+                }
+            }
+
+            foreach (var message in coordinator.FetchMessagesByType<SetSkillEnabledRequest>())
+            {
+                var comp = coordinator.GetEntity(message.EntityId)?.GetComponent<ActiveSkillComponent>();
+                comp?.SetSkillEnabled(message.SkillId, message.Enabled);
+            }
+
             bool doUpdate = m_initialFullUpdates > 0
                 || coordinator.MessageTypeIsOnBoard<LevelUpSystem.LevelUpMessage>()
                 || coordinator.MessageTypeIsOnBoard<ItemMovedMessage>()
@@ -24,7 +45,8 @@ namespace TheIdleScrolls_Core.Systems
                 || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>()
                 || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
                 || coordinator.MessageTypeIsOnBoard<TextMessage>() // CornerCut: This is a hack to force an update at the start of a battle
-                || coordinator.MessageTypeIsOnBoard<DamageDoneMessage>()
+                || coordinator.MessageTypeIsOnBoard<SkillStateChangedMessage>()
+                || coordinator.MessageTypeIsOnBoard<StatusEffectExpiredMessage>()
                 || coordinator.MessageTypeIsOnBoard<PerkLevelChangedMessage>();
 
             if (!doUpdate)
@@ -43,8 +65,6 @@ namespace TheIdleScrolls_Core.Systems
             double encumbrance = 0.0;
             int armorCount = 0;
 
-            double rawDamage = 2.0;
-            double cooldown = 1.0;
             int weaponCount = 0;
 
             var globalTags = player.GetTags();
@@ -52,9 +72,6 @@ namespace TheIdleScrolls_Core.Systems
 
             if (equipComp != null)
             {
-                double combinedDmg = 0.0;
-                double combinedCD = 0.0;
-
                 foreach (var item in equipComp.GetItems())
                 {
                     var itemComp = item.GetComponent<ItemComponent>();
@@ -72,21 +89,7 @@ namespace TheIdleScrolls_Core.Systems
 
                     if (itemComp != null && weaponComp != null)
                     {
-                        double localDmg = weaponComp.Damage;
-                        double localCD = weaponComp.Cooldown;
                         weaponCount++;
-
-                        if (modComp != null)
-                        {
-                            localDmg = modComp.ApplyApplicableModifiers(localDmg, localTags.Append(Tags.Damage), globalTags);
-                            localCD = 1.0 / modComp.ApplyApplicableModifiers(1.0 / localCD, 
-                                localTags.Append(Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
-                                globalTags);
-                        }
-
-                        combinedDmg += localDmg;
-                        combinedCD += localCD;
-                        //Console.WriteLine($"{item.GetName()}({weaponCount}): Dmg: {localDmg} -> {combinedDmg}; CD: {localCD} -> {combinedCD}");
                     }
 
                     if (itemComp != null && armorComp != null)
@@ -107,22 +110,7 @@ namespace TheIdleScrolls_Core.Systems
                         armor += localArmor;
                         evasion += localEvasion;
                     }
-                }
-
-                if (weaponCount > 0)
-                {
-                    rawDamage = (combinedDmg / weaponCount);
-                    cooldown = (combinedCD / weaponCount);
-                }                
-            }
-
-            if (weaponCount == 0)
-            {
-                rawDamage = modComp?.ApplyApplicableModifiers(rawDamage, 
-                    [Tags.Damage, Abilities.Unarmed], globalTags) ?? rawDamage;
-                // invert attack speed due to speed/cooldown mismatch
-                cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
-                    [Tags.AttackSpeed, Abilities.Unarmed], globalTags) ?? cooldown;
+                }          
             }
 
             // Handle global armor and evasion bonuses
@@ -136,25 +124,25 @@ namespace TheIdleScrolls_Core.Systems
 
             double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
 
-            var attackComp = player.GetComponent<AttackComponent>();
-            if (attackComp != null)
-            {
-                attackComp.RawDamage = Math.Round(rawDamage);
-
-                cooldown *= encumbranceSlowdown; // Encumbrance slows attack speed multiplicatively
-                cooldown = Math.Max(cooldown, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
-                if (cooldown != attackComp.Cooldown.Duration)
-                    attackComp.Cooldown.ChangeDuration(cooldown, true);
-            }
-
             var defenseComp = player.GetComponent<DefenseComponent>();
             if (defenseComp != null)
             {
                 defenseComp.Evasion = evasion / encumbranceSlowdown; 
                 defenseComp.Armor = armor;
             }
-            
-            coordinator.PostMessage(this, new StatsUpdatedMessage());
+
+            var skillComp = player.GetComponent<ActiveSkillComponent>();
+            if (skillComp != null)
+            {
+                DefaultAttack.SetupPlayerAttackComponent(player);
+
+                foreach (var skill in skillComp.Skills)
+                {
+                    skill.SetupForUser(player);
+                }
+            }
+
+			coordinator.PostMessage(this, new StatsUpdatedMessage());
             if (m_initialFullUpdates > 0)
                 m_initialFullUpdates--;
         }
@@ -207,8 +195,8 @@ namespace TheIdleScrolls_Core.Systems
                 bool usingShield = comp.HasTag(Tags.Shield);
                 AddOrRemoveTag(Tags.Shielded, usingShield);
                 AddOrRemoveTag(Tags.SingleHanded, weapons.Count == 1 
-                                                                && weapons[0].GetUsedSlots().Count == 1
-                                                                && !usingShield);
+                                                  && weapons[0].GetUsedSlots().Count == 1
+                                                  && !usingShield);
             }
             else // No equipment => unarmed, unarmored
             {
@@ -216,7 +204,8 @@ namespace TheIdleScrolls_Core.Systems
                 comp.AddTag(Tags.Unarmored);
             }
 
-            AddOrRemoveTag(Tags.FirstStrike, player.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
+            AddOrRemoveTag(Tags.FirstStrike, 
+                player.GetComponent<BattlerComponent>()?.Battle?.Mob?.GetComponent<LifePoolComponent>()?.IsFull ?? false);
             AddOrRemoveTag(Tags.Evading, player.GetComponent<EvaderComponent>()?.Active ?? false);
         }
     }
@@ -225,15 +214,19 @@ namespace TheIdleScrolls_Core.Systems
 
     public class StatsUpdatedMessage : IMessage
     {
-        string IMessage.BuildMessage()
-        {
-            return $"Player stats updated";
-        }
-
-        IMessage.PriorityLevel IMessage.GetPriority()
-        {
-            return IMessage.PriorityLevel.Debug;
-        }
+        string IMessage.BuildMessage() => $"Player stats updated";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 
+    record SkillOrderChangeRequest(uint EntityId, string SkillId, bool MoveUp) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Request to move skill {SkillId} {(MoveUp ? "up" : "down")} in entity {EntityId}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
+
+    record SetSkillEnabledRequest(uint EntityId, string SkillId, bool Enabled) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Request to {(Enabled ? "en" : "dis")}able skill {SkillId} in entity {EntityId}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
 }

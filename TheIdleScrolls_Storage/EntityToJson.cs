@@ -17,7 +17,7 @@ namespace TheIdleScrolls_Storage
         readonly static List<Type> ComponentTypes = [
 			typeof(AbilitiesComponent),
 			typeof(AchievementsComponent),
-			typeof(AttackComponent),
+            typeof(ActiveSkillComponent),
 			typeof(BountyHunterComponent),
 			typeof(CoinPurseComponent),
 			typeof(CraftingBenchComponent),

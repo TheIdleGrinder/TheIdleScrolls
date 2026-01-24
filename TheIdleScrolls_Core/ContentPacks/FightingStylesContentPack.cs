@@ -81,7 +81,7 @@ namespace TheIdleScrolls_Core.ContentPacks
                                 3 => 4 * quality + 10,
                                 _ => 0
                             };
-                            bool active = (e.GetComponent<BattlerComponent>()?.AttacksPerformed ?? 0) % 3 == 0;
+                            bool active = (e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0) % 3 == 0;
                             return [
                                 new("AdvSh_dmg", ModifierType.AddBase, active ? bonus : 0, [Tags.Damage], [Tags.Shielded])
                             ];
@@ -132,7 +132,7 @@ namespace TheIdleScrolls_Core.ContentPacks
                         (l, e, w, c) => { 
                             double dmg = e.GetComponent<EquipmentComponent>()
                                         ?.GetItemInSlot(EquipmentSlot.Hand)
-                                        ?.GetComponent<WeaponComponent>()?.Damage ?? 0;
+                                        ?.GetComponent<WeaponComponent>()?.Damage.TotalDamage ?? 0;
                             double bonus = l switch
                             {
                                 1 => 0.3,

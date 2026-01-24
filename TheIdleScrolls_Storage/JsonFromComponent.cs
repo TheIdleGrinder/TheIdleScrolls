@@ -139,16 +139,6 @@ namespace TheIdleScrolls_Storage
             return json;
         }
 
-        public static JsonObject? ToJson(this WeaponComponent component)
-        {
-            JsonObject json = new()
-            {
-                { "Damage", component.Damage },
-                { "Cooldown", component.Cooldown }
-            };
-            return json;
-        }
-
         public static JsonObject? ToJson(this XpGainerComponent component)
         {
             JsonObject json = new()
@@ -260,6 +250,19 @@ namespace TheIdleScrolls_Storage
 		{
 			return JsonFromSth(component);
 		}
+
+        public static JsonObject? ToJson(this ActiveSkillComponent component)
+        {
+            JsonArray skills = [];
+            foreach (var skill in component.Skills)
+            {
+                skills.Add($"{skill.Id}:{skill.Enabled}");
+            }
+            return new JsonObject()
+            {
+                { "Skills", skills }
+            };
+        }
 
 		public static JsonObject JsonFromSth<T>(T thing)
         {

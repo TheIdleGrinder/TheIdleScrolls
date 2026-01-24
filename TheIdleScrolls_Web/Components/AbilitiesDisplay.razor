@@ -20,13 +20,13 @@
                     <td>@ability.Name</td>
                     <td>@ability.Level</td>
                     <td class="ability-progress">
-                        <span class="progress-value">@(ProgressString(ability))</span>
                         <div id="ability-xp-bar-frame" class="progressFrame" style="justify-content: start">
                             <div id="ability-xp-bar-fill" 
                                 class="progressFill @(ProgressClass(ability))" 
                                 style="width: @($"{ProgressValue(ability):0%}");">
                             </div>
                         </div>
+                        <span class="progress-value">@(ProgressString(ability))</span>
                     </td>
                 </tr>
             }
@@ -64,7 +64,7 @@
 </style>
 
 @code {
-    AbilitiesComponent? AbilityComp => CoreWrapper.PlayerCharacter.GetComponent<AbilitiesComponent>();
+    AbilitiesComponent? AbilityComp => CoreWrapper.PlayerCharacter?.GetComponent<AbilitiesComponent>();
     List<Ability> Abilities => AbilityComp?.GetAbilities() ?? [];
 
     double ProgressValue(Ability ability) => ability.Level < ability.MaxLevel ? ability.XP * 1.0 / ability.TargetXP : 1.0;

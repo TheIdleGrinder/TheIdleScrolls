@@ -1,19 +1,27 @@
-﻿@using TheIdleScrolls_Core.Components
+﻿@using MiniECS
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Web.Components.Subcomponents
 @using TheIdleScrolls_Web.CoreWrapper
 
 @inject CoreWrapperModel CoreWrapper
 
-<div class="main-frame @GameEndAnimationClass">
-    <div class="left-frame play-area-frame" >
-        <CurrentAreaSelector></CurrentAreaSelector>
-        <hr class="thick" style="margin: 0.1rem 0.5rem;">
-        <FightStateIndicator></FightStateIndicator>
-        @* <BattleDataDisplay /> *@
+<div class="main-outer-container @GameEndAnimationClass">
+    <div class="main-container-column main-left-column">
+        <div class="play-area-frame main-fight-status">
+            <CurrentAreaSelector></CurrentAreaSelector>
+            <hr class="thick" style="margin: 0.1rem 0.5rem;">
+            <MobOverview Mob="@Mob"></MobOverview>
+            
+        </div>
+        
+        <BattleDataDisplay></BattleDataDisplay>
     </div>
-    <div class="right-frame">
-        <div id="charOverview" class="play-area-frame">
+
+    <div class="main-container-column main-right-column">
+    <div class="play-area-frame">
             <CharacterOverview></CharacterOverview>
         </div>
+    <div class="main-bottom-container">
         <div class="play-area-frame-top tabs">
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Travel))
             {
@@ -43,18 +51,6 @@
             @if (m_activeTab == Tab.Travel)
             {
                 <div id="travelPage">
-                    <div style="display: flex; flex-direction: column; max-height: 100%; overflow-y: auto">
-@*                        @for (int i = 5; i < CoreWrapper.Accessible.MaxWilderness; i += 5)
-                        {
-                            int level = i;
-                            <button @onclick=@(() => CoreWrapper.InputHandler.TravelIntoWilderness(level))>
-                                Wilderness @i
-                            </button>
-                        }
-                        <button @onclick=@(() => CoreWrapper.InputHandler.TravelIntoWilderness(CoreWrapper.Accessible.MaxWilderness))>
-                            Wilderness @CoreWrapper.Accessible.MaxWilderness
-                        </button>*@
-                    </div>
                     <DungeonSelector></DungeonSelector>
                 </div>
             }
@@ -66,7 +62,7 @@
                     </div>
                     <hr class="thick">
                     <div id="inventoryArea">
-                        <InventoryDisplay Title="Inventory" Items=@CoreWrapper.Inventory 
+                        <InventoryDisplay Title="Inventory" Items=@CoreWrapper.Inventory
                             OnDblClickCallback=@(id => CoreWrapper.InputHandler.EquipItem(CoreWrapper.Character.Id, id))>
                         </InventoryDisplay>
                         <HighlightedItemDisplay RefineButtonVisible="false"></HighlightedItemDisplay>
@@ -101,6 +97,7 @@
             }
         </div>
     </div>
+    </div>
 
     <div id="gameEndCover"></div>
 </div>
@@ -112,6 +109,64 @@
 }
 
 <style>
+    .main-outer-container {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        height: calc(100vh - 4.5rem);
+        max-width: 1500px;
+        gap: 0.5rem;
+    }
+
+    .main-top-container {
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        gap: 0.5rem;
+    }
+
+    .main-container-column {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 0.5rem;
+    }
+
+    .main-left-column {
+        flex: 0 1 0%;
+        width: 24rem;
+    }
+
+    .main-right-column {
+        flex: 1 1 100%;
+    }
+
+    .main-fight-status {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        width: 24rem;
+    }
+
+    .main-bottom-container {
+        flex: 1;
+        box-sizing: border-box;
+        height: 100%;
+        width: 100%;
+        background-color: var(--back-color);
+        grid-area: right;
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: grid;
+        grid-template-rows: min-content auto;
+        grid-template-areas:
+            "tab-buttons"
+            "tabbed-area";
+    }
+
     #tabbedContainer {
         max-height: 100%;
         width: 100%;
@@ -125,14 +180,10 @@
 
     #travelPage {
         display: grid;
-        grid-template-columns: 1fr 2fr;
         position: absolute;
         width: 100%;
         max-height: 100%;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+        padding: 0.5rem;
     }
 
     #inventoryPage {
@@ -241,6 +292,7 @@
 
     string GameEndAnimation => CoreWrapper.GameWorld.GameEndAnimation ? "inherit" : "none";
     string GameEndAnimationClass => CoreWrapper.GameWorld.GameEndAnimation ? "spinning" : "";
+    Entity? Mob => CoreWrapper.PlayerCharacter?.GetComponent<BattlerComponent>()?.Battle?.Mob;
 
     string PerkTabTitle()
     {

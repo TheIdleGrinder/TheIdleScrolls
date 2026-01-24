@@ -19,7 +19,7 @@ a, .btn-link {
 }
 
 .content {
-    padding-top: 1.1rem;
+    padding: 0.5rem !important;
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -73,11 +73,19 @@ a, .btn-link {
 
     --color-xp-progress: royalblue;
     --color-crafting-progress: lightseagreen;
-    --color-attack-progress: lightseagreen;
+    --color-attack-progress: deepskyblue;
     --color-inactive: lightgray;
-    --color-active: green;
+    --color-active: chartreuse;
     --color-hp: red;
     --color-time: limegreen;
+
+    --color-physical: lightgray;
+    --color-fire: orangered;
+    --color-cold: lightskyblue;
+    --color-electric: yellow;
+    --color-blast: sandybrown;
+    --color-poison: limegreen;
+
 }
 
 h1.banner-title {
@@ -141,6 +149,7 @@ div.progressFill {
     padding: 0.25rem 0.5rem;
     position: absolute;
     width: max-content;
+    max-width: 20rem;
     z-index: 1;
     left: 50%;
     bottom: 100%;
@@ -148,6 +157,12 @@ div.progressFill {
     transform: translate(-50%, -0.5rem);
     font-size: medium;
     font-weight: initial;
+}
+
+.withTooltip .barTooltip.bottomTooltip {
+    top: 100%;
+    bottom: initial;
+    transform: translate(-50%, 0.5rem);
 }
 
 .withTooltip:hover .barTooltip {
@@ -202,6 +217,9 @@ hr.thick {
 div.play-area-frame {
     border: 2px solid var(--frame-color);
     border-radius: var(--border-radius) var(--border-radius);
+    padding: 0.5rem;
+    gap: 0.5rem;
+    height: fit-content;
 }
 
 div.play-area-frame-top {

@@ -2,24 +2,28 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div class="outer">
-    <div id="area-and-arrows">
-        <button id="btnPrevArea" class="arrow-btn @(GetArrowClass())" disabled=@IsAtMin @onclick="MoveDown">b</button>
-        <h4>@CoreWrapper.Area.Name</h4>
-        <button id="btnNextArea" class="arrow-btn @(GetArrowClass())" disabled=@IsAtMax @onclick="MoveUp">a</button>
-    </div>
+<div class="area-outer">
     
-    <div id="dungeon-button">
-        <button id="btnLeave" class="@(GetLeaveButtonClass())" @onclick=@(() => CoreWrapper.InputHandler.LeaveDungeon())>Leave</button>
-    </div>
-
+    
     @if (CanTravel && !InDungeon)
     {
+        <div id="area-and-arrows">
+            <button id="btnPrevArea" class="arrow-btn @(GetArrowClass())" disabled=@IsAtMin @onclick="MoveDown">b</button>
+            <span class="area-name">@CoreWrapper.Area.Name</span>
+            <button id="btnNextArea" class="arrow-btn @(GetArrowClass())" disabled=@IsAtMax @onclick="MoveUp">a</button>
+        </div>
+
         <div id="proceed-button" class="grind-proceed-button">
             <label>Proceed when possible</label>
             <input type="checkbox" checked="@CoreWrapper.AutoProceedActive" @onclick="ToggleAutoProceed"/>        
         </div>
     }
+    else
+    {
+        <span class="area-name">@CoreWrapper.Area.Name</span>
+    }
+
+
     @if (CanTravel && InDungeon && CoreWrapper.AvailableFeatures.Contains(TheIdleScrolls_Core.GameFeature.DungeonGrinding))
     {
         <div id="grind-button" class="grind-proceed-button">
@@ -27,16 +31,39 @@
             <input type="checkbox" checked="@CoreWrapper.AutoGrindActive" @onclick="ToggleAutoGrind" />
         </div>
     }
+
+    <div id="dungeon-button">
+        <button id="btnLeave" class="@(GetLeaveButtonClass())" @onclick=@(() => CoreWrapper.InputHandler.LeaveDungeon())>Leave</button>
+    </div>
+
+    @if (TimeActive)
+    {
+        <div class="fightInner">
+            <p class="timeText">Time Limit</p>
+            <div class="fight-bar-frame">
+                <div class="fight-bar-fill timeBar" style="width: @(PctString(Time, TimeMax));"></div>
+            </div>
+            <p class="timeText">@(GetTimeString(Time)) / @(GetTimeString(TimeMax))</p>
+        </div>
+    }
+
 </div>
 
 <style>
-    div.outer {
+    .area-outer {
         position: relative;
-        width: 100%;
         display: flex;
         flex-direction: column;
-        padding: 0.5rem;
-        flex: 0 0 auto;
+        font-size: 0.8rem;
+        align-items: center;
+        width: 100%;
+    }
+
+    .area-name {
+        font-size: 1.3rem;
+        white-space: nowrap;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     #btnPrevArea {
@@ -48,12 +75,12 @@
     }
 
     .grind-proceed-button {
-        position: absolute;
+        position: relative;
         display: flex;
         flex-direction: row;
-        bottom: 10px;
-        right: 10px;
+        justify-content: center;
         gap: 10px;
+        font-size: 0.8rem;
     }
 
     #area-and-arrows {
@@ -85,7 +112,7 @@
     }
 
     #btnLeave {
-        padding: 5px 10% 5px 10%;
+        padding: 0px 10% 0px 10%;
         max-width: 200px;
     }
 
@@ -93,6 +120,16 @@
         font-family: 'Arrows';
         font-size: larger;
         padding-bottom: 2px;
+    }
+
+    .timeBar {
+        background-color: var(--color-time);
+    }
+
+    .timeText {
+        color: var(--color-time);
+        margin-bottom: 0px;
+        font-size: medium;
     }
 
 </style>
@@ -104,6 +141,10 @@
 
     bool IsAtMin => AreaLevel == 1;
     bool IsAtMax => AreaLevel >= CoreWrapper.Accessible.MaxWilderness;
+
+    bool TimeActive => CoreWrapper.TimeLimit.Maximum > 0 && CoreWrapper.Mob.Damage > 0.0;
+    double Time => CoreWrapper.TimeLimit.Remaining;
+    double TimeMax => CoreWrapper.TimeLimit.Maximum;
 
     protected override void OnInitialized()
     {
@@ -147,5 +188,15 @@
             return "hidden";
         }
         return string.Empty;
+    }
+
+    string PctString(double current, double max)
+    {
+        return $"{current / max:0%}";
+    }
+
+    string GetTimeString(double time)
+    {
+        return $"{time:0.##} s";
     }
 }

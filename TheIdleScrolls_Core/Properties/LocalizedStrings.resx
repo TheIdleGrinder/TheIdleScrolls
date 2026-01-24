@@ -362,4 +362,13 @@ Time to finish: {0}</value>
   <data name="BIOME_SUMMIT" xml:space="preserve">
     <value>Summit</value>
   </data>
+  <data name="ChargeSpeed" xml:space="preserve">
+    <value>Charge Speed</value>
+  </data>
+  <data name="DefensiveLayers" xml:space="preserve">
+    <value>Defensive Layers</value>
+  </data>
+  <data name="DamageTaken" xml:space="preserve">
+    <value>Damage Taken</value>
+  </data>
 </root>

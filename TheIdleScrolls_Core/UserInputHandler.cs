@@ -41,6 +41,10 @@ namespace TheIdleScrolls_Core
         public void SendDialogueResponse(string id, string response);
 
         public void SetPerkLevel(uint playerId, string perkId, int level);
+
+        public void SetSkillEnabled(uint playerId, string skillId, bool enabled);
+
+        public void ChangeSkillOrder(uint playerId, string skillId, bool moveUp);
     }
 
 }

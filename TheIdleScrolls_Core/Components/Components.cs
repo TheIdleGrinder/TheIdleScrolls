@@ -12,24 +12,44 @@ namespace TheIdleScrolls_Core.Components
 {
     public class LifePoolComponent : IComponent
     {
-        public int Current = 1;
-        public int Maximum = 1;
+        private double _Current = 1.0;
+        private double _Maximum = 1.0;
 
-        public bool IsAlive => Current > 0;
-        public bool IsDead => Current <= 0;
+        public int Current
+        {
+            get => (int)Math.Ceiling(_Current);
+            set => _Current = value;
+        }
+        public int Maximum
+        {
+            get => (int) Math.Ceiling(_Maximum);
+            set => _Maximum = value;
+        }
+
+        public bool IsAlive => _Current > 0.0;
+        public bool IsDead => _Current <= 0.0;
+        public bool IsFull => Math.Abs(_Current - _Maximum) < 0.0001;
 
         public LifePoolComponent(int maximum = 1)
         {
-            Current = maximum;
-            Maximum = maximum;
+            _Current = maximum;
+            _Maximum = maximum;
         }
 
-        public void AddPoints(int points)
+        public void AddPoints(int points) => AddPoints((double)points);
+
+        public void AddPoints(double points)
         {
-            Current = Math.Clamp(Current + points, 0, Maximum);
+            _Current = Math.Clamp(_Current + points, 0, _Maximum);
+            if (_Current < 0.0001)
+            {
+                _Current = 0;
+            }
         }
 
-        public void ApplyDamage(int points)
+        public void ApplyDamage(int points) => AddPoints(-points);
+
+        public void ApplyDamage(double points)
         {
             AddPoints(-points);
         }
@@ -85,8 +105,27 @@ namespace TheIdleScrolls_Core.Components
 
     public class AttackComponent : IComponent
     {
-        public double RawDamage = 1;
-        public Cooldown Cooldown = new(1.0);      
+        public class AttackVector(DamageCluster dmg, double cd)
+        {
+            public DamageCluster RawDamage = dmg;
+            public double Cooldown = cd;
+        }
+
+        public List<AttackVector> AttackVectors = [];
+
+        public void Reset()
+        {
+            AttackVectors.Clear();
+        }
+
+        public void AddAttackVector(DamageCluster rawDamage, double cooldown)
+        {
+            AttackVectors.Add(new AttackVector(rawDamage, cooldown));
+        }
+
+        public DamageCluster AverageDamage => AttackVectors.Average();
+        public double AverageCooldown => AttackVectors.Average(av => av.Cooldown);
+        public double AverageDps => (AverageCooldown != 0) ? AverageDamage.TotalDamage / AverageCooldown : 0.0;
     }
 
     public class DefenseComponent : IComponent
@@ -169,7 +208,7 @@ namespace TheIdleScrolls_Core.Components
     {
         //public string Family = "";
         //public string Genus = "";
-        public double Damage = 1.0;
+        public DamageCluster Damage = new();
         public double Cooldown = 1.0;
 
         public WeaponComponent()
@@ -177,7 +216,7 @@ namespace TheIdleScrolls_Core.Components
 
         }
 
-        public WeaponComponent(double baseDamage, double baseCooldown)
+        public WeaponComponent(DamageCluster baseDamage, double baseCooldown)
         {
             Damage = baseDamage;
             Cooldown = baseCooldown;

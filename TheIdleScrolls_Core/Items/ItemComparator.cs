@@ -22,9 +22,9 @@ namespace TheIdleScrolls_Core.Items
 
     public static class ItemComparator
     {
-        private static ValueExtractor GetDamage => item => item.GetComponent<WeaponComponent>()?.Damage ?? 0.0;
+        private static ValueExtractor GetDamage => item => item.GetComponent<WeaponComponent>()?.Damage.TotalDamage ?? 0.0;
         private static ValueExtractor GetCooldown => item => item.GetComponent<WeaponComponent>()?.Cooldown ?? 0.0;
-        private static ValueExtractor GetDps => item => (item.GetComponent<WeaponComponent>()?.Damage ?? 0.0) /
+        private static ValueExtractor GetDps => item => (item.GetComponent<WeaponComponent>()?.Damage.TotalDamage ?? 0.0) /
                                                         (item.GetComponent<WeaponComponent>()?.Cooldown ?? 1.0);
         private static ValueExtractor GetArmor => item => item.GetComponent<ArmorComponent>()?.Armor ?? 0.0;
         private static ValueExtractor GetEvasion => item => item.GetComponent<ArmorComponent>()?.Evasion ?? 0.0;

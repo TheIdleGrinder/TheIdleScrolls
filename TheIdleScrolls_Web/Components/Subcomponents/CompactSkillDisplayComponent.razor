@@ -1,0 +1,81 @@
+﻿@using TheIdleScrolls_Core.Skills
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="compact-bar-container withTooltip">
+    <div class="compact-bar-frame compact-skill-frame">
+        <center class="compact-skill-name @SkillNameClass()">@Skill.Name</center>
+        <div class="compact-bar-fill @BarColorClass()" style="width: @($"{CalculateProgress():0%}");"></div>
+    </div>
+    <span class="barTooltip bottomTooltip">
+        <SkillDisplayTile Skill="@Skill"></SkillDisplayTile>
+    </span>
+</div>
+
+
+<style>
+    .compact-skill-frame {
+        border-radius: 0.5rem;
+    }
+
+    .compact-skill-name {
+        font-size: 0.6rem;
+    }
+
+    .compact-skill-name-unusable {
+        font-style: italic;
+        color: gray;
+        text-decoration: line-through;
+    }
+
+    .skill-name-disabled {
+        font-style: italic;
+        color: darkgray;
+    }
+
+    .skill-bar-fill-charging {
+        background-color: var(--color-attack-progress);
+    }
+
+    .skill-bar-fill-active {
+        background-color: var(--color-active);
+    }
+
+    .skill-bar-fill-cooldown {
+        background-color: var(--color-inactive);
+    }
+
+</style>
+
+@code {
+    [Parameter]
+    public ActiveSkill Skill { get; set; }
+
+    public double CalculateProgress()
+    {
+        double percentage = Skill.Timer.Remaining / (Skill.Timer.CooldownDuration > 0.0 ? Skill.Timer.CooldownDuration : 1.0);
+        return Skill.CurrentState switch
+        {
+            SkillTimer.State.Charging => 1.0 - (Skill.Timer.Remaining / (Skill.Timer.ChargingDuration > 0.0 ? Skill.Timer.ChargingDuration : 1.0)),
+            SkillTimer.State.Active => Skill.Timer.Remaining / (Skill.Timer.ActiveDuration > 0.0 ? Skill.Timer.ActiveDuration : 1.0),
+            SkillTimer.State.Cooldown => Skill.Timer.Remaining / (Skill.Timer.CooldownDuration > 0.0 ? Skill.Timer.CooldownDuration : 1.0),
+            _ => 0.0
+        };
+    }
+
+    string BarColorClass() => Skill.CurrentState switch
+    {
+        SkillTimer.State.Charging => "skill-bar-fill-charging",
+        SkillTimer.State.Active => "skill-bar-fill-active",
+        _ => "skill-bar-fill-cooldown"
+    };
+
+    string SkillNameClass() => Skill.GetState() switch
+    {
+        ActiveSkill.State.Unavailable => "skill-name-unusable",
+        ActiveSkill.State.Disabled => "skill-name-disabled",
+        ActiveSkill.State.NotUsable => "skill-name-unusable",
+        _ => ""
+    };
+}

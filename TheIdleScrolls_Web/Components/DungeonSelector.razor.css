@@ -1,6 +1,7 @@
 div.outer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     height: 100%;
     overflow-y: hidden;
 }
@@ -8,11 +9,11 @@ div.outer {
 #dungeonButtonsArea {
     display: flex;
     flex-direction: column;
-/*    justify-content: flex-start;*/
-    gap: 10px;
-    align-items: flex-start;
+    /*    justify-content: flex-start;*/
+    gap: 0.5rem;
+    align-items: center;
     overflow-y: auto;
-    width: 100%;
+    width: 15rem;
     height: 100%;
     min-height: 0px;
 }
@@ -38,10 +39,11 @@ div.outer {
 #dungeonDescription {
     border: solid 1px var(--frame-color);
     padding: 5px;
-    flex: 1 0 auto;
+    /* flex: 1 0 auto; */
     display: flex;
     min-height: 250px;
     flex-direction: column;
+    width: 20rem;
 }
 
 button.dungeon {
@@ -50,13 +52,14 @@ button.dungeon {
     height: max-content;
     width: calc(100% - 10px);
     flex-shrink: 0;
+    white-space: nowrap;
 }
 
 button.enter {
     padding: 5px 1rem 5px 1rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    width: 35%;
+    width: fit-content;
     flex: 0 1 auto;
     align-self: center;
     height: fit-content;

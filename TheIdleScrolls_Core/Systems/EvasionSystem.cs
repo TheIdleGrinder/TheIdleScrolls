@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Systems
@@ -48,15 +49,10 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     else if (battlerComp.Battle.State == Battle.BattleState.InProgress)
                     {
-                        // If evasion toggled on previous frame, "fix" the damage prevention fraction now 
-                        if (evaderComponent.Prevention > 0.0 && evaderComponent.Prevention < 1.0)
-                        {
-                            evaderComponent.Prevention = evaderComponent.Active ? 1.0 : 0.0;
-                            SetEvasionModifier(entity, evaderComponent.Prevention);
-                        }
                         SetupPlayerEvaderComponent(battlerComp.Battle);
-                        bool toggled = UpdateEvaderComponent(evaderComponent, dt);
-                        if (toggled)
+                        double prevention = evaderComponent.Prevention;
+                        UpdateEvaderComponent(entity, dt);
+                        if (evaderComponent.Prevention != prevention)
                         {
                             SetEvasionModifier(entity, evaderComponent.Prevention);
                         }
@@ -65,24 +61,18 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        private static bool UpdateEvaderComponent(EvaderComponent evaderComponent, double dt)
+        private static void UpdateEvaderComponent(Entity entity, double dt)
         {
-            double remaining = evaderComponent.Duration.Remaining;
-            evaderComponent.Duration.Update(dt);
-            if (evaderComponent.Duration.HasFinished)
-            {
-                evaderComponent.Active = !evaderComponent.Active;
-                evaderComponent.Duration.ChangeDuration(evaderComponent.Active 
-                                                        ? evaderComponent.EvasionDuration 
-                                                        : evaderComponent.ChargeDuration);
-                evaderComponent.Duration.Reset();
-                evaderComponent.Duration.Update(dt - remaining); // CornerCut: Evasion duration should better not be less than 1 frame...
-                double ratio = remaining / dt; // evasion toggled, so dt has to be greater than remaining
-                evaderComponent.Prevention = evaderComponent.Active ? 1 - ratio : ratio;
-                //Console.WriteLine($"Evasion toggled: {evaderComponent.Active}, prevention: {evaderComponent.Prevention}");
-                return true;
-            }
-            return false;
+            var evaderComponent = entity.GetComponent<EvaderComponent>();
+            if (evaderComponent is null)
+                return;
+            var modComp = entity.GetComponent<ModifierComponent>();
+            evaderComponent.ChargeMultiplier = modComp?.ApplyApplicableModifiers(1.0, [Tags.Evasion, Tags.ChargeSpeed], entity.GetTags()) ?? 1.0;
+            // depletion rate is immutable for now
+            evaderComponent.DepletionMultiplier = 1.0;
+            evaderComponent.Prevention = evaderComponent.UpdateTimer(dt);
+            //Console.WriteLine($"Active: {evaderComponent.Active}, dt: {dt:0.####}, prev: {evaderComponent.Prevention}, " +
+            //    $"timer: {evaderComponent.Duration.Remaining:0.####}/{evaderComponent.Duration.Duration:0.####}");
         }
 
         private static void ResetEvaderComponent(EvaderComponent evaderComponent)
@@ -109,8 +99,8 @@ namespace TheIdleScrolls_Core.Systems
             }
             else
             {
-                double effectDuration = Math.Min(bonus * Definitions.Stats.MaxEvasionChargeDuration, Definitions.Stats.MaxEvasionEffectDuration);
-                double chargeDuration = Math.Min(effectDuration / bonus, Definitions.Stats.MaxEvasionChargeDuration);
+                double effectDuration = Math.Min(bonus * Stats.MaxEvasionChargeDuration, Stats.MaxEvasionEffectDuration);
+                double chargeDuration = Math.Min(effectDuration / bonus, Stats.MaxEvasionChargeDuration);
                 evadeComp.EvasionDuration = effectDuration;
                 evadeComp.ChargeDuration = chargeDuration;
             }
@@ -137,12 +127,14 @@ namespace TheIdleScrolls_Core.Systems
                 modComp = new();
                 entity.AddComponent(modComp);
             }
-            modComp.AddModifier(new(ModifierId, Modifiers.ModifierType.More, -prevention, [Definitions.Tags.TimeLoss], []));
+            modComp.AddModifier(new(ModifierId, Modifiers.ModifierType.More, -prevention, [Tags.TimeLoss], []));
+            modComp.AddModifier(new(ModifierId + "-Status", Modifiers.ModifierType.AddFlat, 100.0 * prevention, [Tags.Status, Tags.Resistance], []));
         }
 
         private static void RemoveEvasionModifier(Entity entity)
         {
             entity.GetComponent<ModifierComponent>()?.RemoveModifier(ModifierId);
+            entity.GetComponent<ModifierComponent>()?.RemoveModifier(ModifierId + "-Status");
         }
     }
 }

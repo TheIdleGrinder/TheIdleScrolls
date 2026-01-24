@@ -4,13 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Properties;
+using TheIdleScrolls_Core.Skills;
+using TheIdleScrolls_Core.StatusEffects;
 
 namespace TheIdleScrolls_Core.Resources
 {
     public static class MobList
     {
         private static Biome[] LushBiomes = [Biome.Grassland, Biome.Forest, Biome.Coast];
+
+        private readonly static GenericSkillDefinition Skill_StunningBlow 
+            = new ("Stun", "Stunning Blow",
+                SkillFactory.GetGenericUpdater(2.0, 5.0, [
+                    SkillFactory.GetStunScaler(1.0)
+                ]));
 
         public static readonly List<MobDescription> Mobs =
         [
@@ -22,7 +31,10 @@ namespace TheIdleScrolls_Core.Resources
             new("PORCUPINE",    MobNames.Porcupine, BiomeLevelCondition(LushBiomes,  9, 34)),
             new("WOLF",         MobNames.WOLF,      BiomeLevelCondition(LushBiomes, 18, 47)),
             new("OGRE",         MobNames.OGRE,      BiomeLevelCondition([Biome.Grassland, Biome.Coast], 35,  70)),
-            new("BEAR",         MobNames.BEAR,      BiomeLevelCondition([Biome.Grassland, Biome.Forest], 60, 130)),
+            new("BEAR",         MobNames.BEAR,      BiomeLevelCondition([Biome.Grassland, Biome.Forest], 60, 130))
+            {
+                ActiveSkills = [ Skill_StunningBlow ]
+            },
             new("HILLGIANT",    MobNames.HillGiant, BiomeLevelCondition([Biome.Grassland], 130,  199)),
             new("WYVERN",       MobNames.WYVERN,    BiomeLevelCondition([Biome.Grassland, Biome.Coast], 149)),
             //new("DRAGON",  MobNames.DRAGON,  LevelCondition(100, 169)),
@@ -33,11 +45,17 @@ namespace TheIdleScrolls_Core.Resources
             new("GRAVECRAWLER", MobNames.Gravecrawler, BiomeLevelCondition([Biome.Graveyard], maxLevel: 100)),
             new("GRAVEHOUND", MobNames.GraveHound, BiomeLevelCondition([Biome.Graveyard], 101)),
 
-            new("FORESTTROLL", MobNames.ForestTroll, BiomeLevelCondition([Biome.Forest], 50, 200)),
+            new("FORESTTROLL", MobNames.ForestTroll, BiomeLevelCondition([Biome.Forest], 50, 200))
+            {
+                Perks = [RegenerationPerk("Troll Blood", 0.05)]
+            },
             new("TREANT", MobNames.Treant, BiomeLevelCondition([Biome.Forest], 125)),
 
             new("HYENA", MobNames.Hyena, BiomeLevelCondition([Biome.Savannah], maxLevel: 100)),
-            new("BUFFALO", MobNames.Buffalo, BiomeLevelCondition([Biome.Savannah], maxLevel: 200)),
+            new("BUFFALO", MobNames.Buffalo, BiomeLevelCondition([Biome.Savannah], maxLevel: 200))
+            {
+                Perks = [DamageReductionPerk("Thick Hide", 0.05)]
+            },
             new("ELEPHANT", MobNames.Elephant, BiomeLevelCondition([Biome.Savannah], 100)),
 
             new("SCORPION", MobNames.Scorpion, BiomeLevelCondition([Biome.Desert], maxLevel: 100)),
@@ -46,7 +64,10 @@ namespace TheIdleScrolls_Core.Resources
 
             new("DJINN", MobNames.Djinn, BiomeCondition([Biome.Oasis])),
 
-            new("HARPY", MobNames.Harpy, BiomeLevelCondition([Biome.Coast, Biome.Grassland], 65, 100)),
+            new("HARPY", MobNames.Harpy, BiomeLevelCondition([Biome.Coast, Biome.Grassland], 65, 100))
+            {
+                Perks = [DefensiveLayersPerk("Evasive", 4.0)]
+            },
             new("CRAB", MobNames.Crab, BiomeLevelCondition([Biome.Coast], maxLevel: 100)),
 
             new("DIREWOLF", MobNames.Direwolf, BiomeLevelCondition([Biome.Tundra], maxLevel: 150)),
@@ -89,5 +110,12 @@ namespace TheIdleScrolls_Core.Resources
         {
             return (zone) => biomes.Contains(zone.Biome) && zone.Level >= minLevel && zone.Level <= maxLevel;
         }
+
+        static Perk RegenerationPerk(string name, double percentPerSecond) =>
+            PerkFactory.MakePercentLifeRegPerks("regeneration", name, percentPerSecond);
+        static Perk DamageReductionPerk(string name, double percentOfMax) =>
+            PerkFactory.MakeFlatDamageReductionPerk("damagereduction", name, percentOfMax);
+        static Perk DefensiveLayersPerk(string name, double layers) =>
+            PerkFactory.MakeDefenseLayerPerk("defensivelayers", name, layers);
     }
 }

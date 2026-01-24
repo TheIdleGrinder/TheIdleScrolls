@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
+using static TheIdleScrolls_Core.Components.AttackComponent;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core
 {
@@ -122,6 +124,24 @@ namespace TheIdleScrolls_Core
         public static string Localize(this string key)
         {
             return Properties.LocalizedStrings.ResourceManager.GetString(key) ?? key;
+        }
+    }
+
+    public static class AttackVectorExtensions
+    {
+        public static DamageCluster Average(this IEnumerable<AttackVector> attackVectors)
+        {
+            DamageCluster damageCluster = new();
+            foreach (var av in attackVectors)
+            {
+                damageCluster.Add(av.RawDamage);
+            }
+            int count = attackVectors.Count();
+            if (count > 0)
+            {
+                damageCluster.Multiply(1.0 / count);
+            }
+            return damageCluster;
         }
     }
 }

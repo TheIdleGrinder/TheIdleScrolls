@@ -1,0 +1,87 @@
+﻿@using MiniECS
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Skills
+@using TheIdleScrolls_Web.CoreWrapper
+@using TheIdleScrolls_Web.Components.Subcomponents
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="skill-manager-container">
+    <div id="skill-manager-active" class="skill-manager-area">
+        <div class="skill-manager-headline">Active</div>
+        @foreach (var skill in ActiveSkills)
+        {
+            <div class="skill-manager-skill">
+                <SkillDisplayComponent Skill="@skill"></SkillDisplayComponent>
+            </div>
+        }
+    </div>
+    @if (DisabledSkills.Count > 0)
+    {
+        <div id="skill-manager-disabled" class="skill-manager-area">
+            <div class="skill-manager-headline">Disabled</div>
+            @foreach (var skill in DisabledSkills)
+            {
+                <div class="skill-manager-skill">
+                    <SkillDisplayComponent Skill="@skill"></SkillDisplayComponent>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .skill-manager-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex: 1;
+        gap: 1rem;
+    }
+
+    .skill-manager-area {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .skill-manager-skill {
+        margin-left: 1rem;
+        padding: 0.25rem;
+        border: 1px solid var(--frame-color);
+    }
+
+    .skill-manager-headline {
+        font-size: large;
+        border-bottom: 1px solid var(--frame-color);
+    }
+</style>
+
+@code {
+
+    [Parameter]
+    public Entity? Entity { get; set; }
+
+    List<ActiveSkill> Skills => Entity?.GetComponent<ActiveSkillComponent>()?.Skills ?? [];
+    List<ActiveSkill> ActiveSkills => Skills.Where(SkillIsActive).ToList();
+    List<ActiveSkill> DisabledSkills => Skills.Where(SkillIsDisabled).ToList();
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.StateChanged += StateHasChanged;
+        base.OnInitialized();
+    }
+
+    bool SkillIsActive(ActiveSkill skill)
+    {
+        var state = skill.GetState();
+        return state != ActiveSkill.State.Unavailable 
+            && state != ActiveSkill.State.Disabled;
+    }
+
+    bool SkillIsDisabled(ActiveSkill skill)
+    {
+        var state = skill.GetState();
+        return state == ActiveSkill.State.Disabled;
+    }
+}

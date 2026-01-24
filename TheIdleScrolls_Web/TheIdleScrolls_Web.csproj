@@ -73,6 +73,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Components\Subcomponents\CompactDoTEffectComponent.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Assets\Mobs.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Mobs.Designer.cs</LastGenOutput>

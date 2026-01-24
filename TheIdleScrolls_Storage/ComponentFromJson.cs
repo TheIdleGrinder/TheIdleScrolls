@@ -15,6 +15,7 @@ using TheIdleScrolls_Core.Crafting;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Resources;
+using TheIdleScrolls_Core.Skills.Skills;
 using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Storage;
 
@@ -221,20 +222,6 @@ namespace TheIdleScrolls_JSON
             }
         }
 
-        public static bool SetFromJson(this WeaponComponent component, JsonNode json)
-        {
-            try
-            {
-                component.Damage = json["Damage"]!.GetValue<double>();
-                component.Cooldown = json["Cooldown"]!.GetValue<double>();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
         public static bool SetFromJson(this XpGainerComponent component, JsonNode json)
         {
             try
@@ -403,5 +390,34 @@ namespace TheIdleScrolls_JSON
 				return false;
 			}
 		}
-	}
+
+        public static bool SetFromJson(this ActiveSkillComponent component, JsonNode json)
+        {
+            try
+            {
+                var jsonSkills = json["Skills"]!.AsArray();
+                List<(string, bool)> skills = new();
+                foreach (var jsonSkill in jsonSkills)
+                {
+                    string line = jsonSkill!.GetValue<string>();
+                    int splitAt = line.LastIndexOf(':');
+                    if (splitAt == -1)
+                        throw new Exception($"Invalid skill line: {line}");
+                    string id = line[..splitAt];
+                    bool enabled = Boolean.Parse(line[(splitAt + 1)..]);
+                    skills.Add((id, enabled));
+                }
+                component.SetStoredSkills(skills);
+                // CornerCut: Add default attack to ensure it's always present
+                if (component.StoredSkills.Any(s => s.Item1 == DefaultAttack.Skill.Id))
+                    component.Add(new(DefaultAttack.Skill));
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+    }
 }

@@ -200,11 +200,10 @@ namespace TheIdleScrolls_Web.CoreWrapper
             emitter.PlayerEquipmentChanged += (List<IItemEntity> items) => Equipment = items;
             emitter.PlayerInventoryChanged += (List<IItemEntity> items) => Inventory = items;
             emitter.PlayerCoinsChanged += (int coins) => Coins = coins;
-            emitter.PlayerOffenseChanged += (double dmg, double cdMax, double cd) =>
+            emitter.PlayerOffenseChanged += (double dmg, double cdMax) =>
             {
                 CharacterStats.Damage = dmg;
                 CharacterStats.Cooldown = cdMax;
-                CharacterStats.CooldownRemaining = cd;
             };
             emitter.PlayerDefenseChanged += (double armor, double evasion, double defenseRating) =>
             {

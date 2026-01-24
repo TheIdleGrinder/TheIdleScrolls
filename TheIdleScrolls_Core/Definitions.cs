@@ -27,6 +27,7 @@ namespace TheIdleScrolls_Core
             public const double MaxEvasionEffectDuration = 1.0;
             public const double MaxResistanceFromArmor = 0.9;
             public const double MaxResistanceFromEvasion = 0.9;
+            public const double MaxResistances = 80.0; // multiplied by 100 to make stuff like "+5 base fire resistance" more readable
 
             public const double ItemBaseValue = 5.0;
             public const double ItemValueQualityMultiplier = 1.25;
@@ -90,17 +91,50 @@ namespace TheIdleScrolls_Core
 
         public static class Tags
         {
-            public const string Local = "Local";
-            public const string Global = "Global";
-
+            // Scaling targets
+            public const string Speed = "Speed";
+            public const string ChargeSpeed = "ChargeSpeed";
             public const string Damage = "Damage";
+            public const string DamageOverTime = "DoT";
             public const string AttackSpeed = "AttackSpeed";
             public const string Defense = "Defense";
             public const string ArmorRating = "ArmorRating";
             public const string EvasionRating = "EvasionRating";
+            public const string DamageTaken = "DamageTaken";
+            public const string TimeLoss = "TimeLoss";
+            public const string LifeRegeneration = "LifeRegeneration";
+            public const string DamageReduction = "DamageReduction";
+            public const string DefensiveLayers = "DefensiveLayers";
             public const string TimeShield = "TimeShield";
 
-            public const string TimeLoss = "TimeLoss";
+            public const string CharacterXpGain = "CharacterXpGain";
+            public const string AbilityXpGain = "AbilityXpGain";
+
+            public const string CraftingSlots = "CraftingSlot";
+            public const string ActiveCrafts = "ActiveCraftingSlot";
+            public const string CraftingSpeed = "CraftingSpeed";
+            public const string CraftingCostEfficiency = "CraftingCostEfficiency";
+
+            // Skill Attributes
+            public const string Duration = "Duration";
+
+            // Situational modifiers
+            public const string Local = "Local";
+            public const string Global = "Global";
+
+            public const string Attack = "Attack";
+            public const string Spell = "Spell";
+            public const string Insight = "Insight";
+            public const string Trick = "Trick";
+
+            public const string Hit = "Hit";
+
+            public const string Resistance = "Resistance";
+            public const string Evasion = "Evasion";
+
+            public const string Elemental = "Elemental";
+            public const string Status = "Status";
+            public const string Stun = "Stun";
 
             public const string QualityPrefix = "+";
             public const string HandSuffix = "H";
@@ -123,19 +157,57 @@ namespace TheIdleScrolls_Core
             public const string MixedArmor = "MixedArmor";
             public const string FirstStrike = "FirstStrike";
             public const string Evading = "Evading";
+        }
 
-            public const string CharacterXpGain = "CharacterXpGain";
-            public const string AbilityXpGain = "AbilityXpGain";
+        public static class DamageTypeTags
+        {
+            public const string Physical = "Physical";
+            public const string Fire = "Fire";
+            public const string Poison = "Poison";
 
-            public const string CraftingSlots = "CraftingSlot";
-            public const string ActiveCrafts = "ActiveCraftingSlot";
-            public const string CraftingSpeed = "CraftingSpeed";
-            public const string CraftingCostEfficiency = "CraftingCostEfficiency";
+            public static List<string> Types => [Physical, Fire, Poison];
         }
 
         public static class DropRestrictions
         {
             public const string MaterialT4 = "MaterialT4";
+        }
+
+        public enum DamageType
+        {
+            Physical,
+            Fire,
+            Poison
+        }
+
+        public static class DamageTypeMethods
+        {
+            public static string ToTag(this DamageType type)
+            {
+                return type switch
+                {
+                    DamageType.Physical => DamageTypeTags.Physical,
+                    DamageType.Fire => DamageTypeTags.Fire,
+                    DamageType.Poison => DamageTypeTags.Poison,
+                    _ => DamageTypeTags.Physical,
+                };
+            }
+
+            public static HashSet<string> GetMatchingTags(this DamageType type)
+            {
+                HashSet<string> tags = [Tags.Damage, type.ToTag()];
+                if (type == DamageType.Fire)
+                {
+                    tags.Add(Tags.Elemental);
+                }
+                // Hit vs. DoT
+                tags.Add(type switch
+                {
+                    DamageType.Physical => Tags.Hit,
+                    _ => Tags.DamageOverTime
+                });
+                return tags;
+            }
         }
     }
 

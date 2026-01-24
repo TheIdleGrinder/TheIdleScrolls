@@ -1,0 +1,98 @@
+﻿@using MiniECS
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Skills
+@using TheIdleScrolls_Core.StatusEffects
+
+<div class="compact-skill-and-status-container">
+    <div class="compact-partial-container">
+        @foreach (var skill in Skills)
+        {
+            <CompactSkillDisplayComponent Skill="@skill"></CompactSkillDisplayComponent>
+        }
+    </div>
+    @if (HasEvasion || (DoTs?.ActiveTypes ?? []).Count > 0)
+    {
+        <div class="compact-partial-container">
+            @if (HasEvasion)
+            {
+                <CompactEvasionDisplay Entity="@Entity"></CompactEvasionDisplay>
+            }
+            @foreach (var dotType in DoTs?.ActiveTypes ?? [])
+            {
+                <CompactDoTEffectComponent Victim="@Entity" DamageType="@dotType"></CompactDoTEffectComponent>
+            }
+        </div>
+    }
+    <div class="compact-partial-container">
+        @foreach (var status in Status)
+        {
+            <CompactStatusEffectComponent Effect="@status"></CompactStatusEffectComponent>
+        }
+    </div>
+</div>
+
+<style>
+    .compact-skill-and-status-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        gap: 0.5rem;
+    }
+
+    .compact-partial-container {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: start;
+        box-sizing: border-box;
+        max-height: 7.5rem;
+        gap: 0.4rem;
+    }
+
+    .compact-bar-container {
+        position: relative;
+        display: inline-flex;
+        width: 9rem;
+        align-self: center;
+    }
+
+    .compact-bar-frame {
+        display: flex;
+        overflow-y: auto;
+        position: relative;
+        flex-direction: row;
+        width: 100%;
+        border: 1px solid var(--frame-color);
+        background: white;
+        justify-content: start;
+        padding: 0px;
+        overflow: hidden;
+    }
+
+    .compact-bar-frame center {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        white-space: nowrap;
+        font-size: 0.8rem;
+    }
+
+    .compact-bar-fill {
+        height: 1.1rem;
+        border-style: none;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public Entity? Entity { get; set; }
+
+    bool HasEvasion => Entity?.GetComponent<EvaderComponent>() != null;
+    List<ActiveSkill> Skills => Entity?.GetComponent<ActiveSkillComponent>()?.Skills.Where(s => s.IsInUse()).ToList() ?? [];
+    List<StatusEffect> Status => Entity?.GetComponent<StatusEffectComponent>()?.StatusEffects ?? [];
+    DoTComponent? DoTs => Entity?.GetComponent<DoTComponent>();
+}

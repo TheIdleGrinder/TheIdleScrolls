@@ -25,7 +25,7 @@ namespace TheIdleScrolls_Core.Systems
                 void UpdatePerk(Perk perk)
                 {
                     bool isActive = perksComp.IsPerkActive(perk.Id);
-                    if (isActive && modsComp != null)
+                    if (isActive && perk.ApplyModifiersToOwner && modsComp != null)
                     {
                         perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
                     }
@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Core.Systems
                     // Minimum level is 1, so that the modifiers are not 0
                     // CornerCut: this line makes me anxious, it's a future problem waiting to happen
                     perk.UpdateModifiers(Math.Max(perksComp.GetPerkLevel(perk.Id), 1), entity, world, coordinator); 
-                    if (isActive && modsComp != null)
+                    if (isActive && perk.ApplyModifiersToOwner && modsComp != null)
                     {
                         perk.Modifiers.ForEach(m => modsComp.AddModifier(m));
                     }
@@ -45,6 +45,19 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     AddBasicPerks(perksComp);
                     perksComp.GetPerks().ForEach(m => UpdatePerk(m));
+
+                    // Add active skills from basic perks
+                    var skillComp = entity.GetComponent<ActiveSkillComponent>();
+                    if (skillComp is not null)
+                    {
+                        foreach (var perk in perksComp.GetPerks())
+                        {
+                            if (perk.Skill is not null)
+                            {
+                                skillComp.Add(new(perk.Skill));
+                            }
+                        }
+                    }
                 }
 
                 // Update number of available perk points
@@ -115,11 +128,12 @@ namespace TheIdleScrolls_Core.Systems
                 if (modsComp == null)
                     continue;
 
-                perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
-                if (setLevelRequest.Level > 0)
+                // Remove modifiers if the perk is deactivated, because UpdatePerk is not called in this case
+                if (setLevelRequest.Level <= 0 && perk.ApplyModifiersToOwner)
                 {
-                    perk.Modifiers.ForEach(modsComp.AddModifier);
+                    perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
                 }
+
                 coordinator.PostMessage(this, new PerkLevelChangedMessage(owner, perk, setLevelRequest.Level));
             }
 
@@ -304,8 +318,16 @@ namespace TheIdleScrolls_Core.Systems
             perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Time", $"Basic Time Limit", "",
                 ModifierType.Increase, Stats.BasicTimeIncrease,
                 [Tags.TimeShield], [], maxLevel: 10), index + 3);
+
+            //perksComponent.AddPerk(Perks.ExposeWeaknessPerks.BasePerk);
+            //perksComponent.AddPerk(Perks.ExposeWeaknessPerks.DamageTaken);
+
+            //perksComponent.AddPerk(Perks.SmokeBombPerks.BasePerk);
+            //perksComponent.AddPerk(Perks.SmokeBombPerks.DamageWhileActive);
+            //perksComponent.AddPerk(Perks.SmokeBombPerks.DamageOnActivityEnd);
         }
     }
+
 
     public record PerkAddedMessage(Entity Owner, Perk Perk) : IMessage
     {

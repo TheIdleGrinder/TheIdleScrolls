@@ -206,7 +206,7 @@ namespace TheIdleScrolls_Core.Quests
             {
                 var hpComp = mob.GetComponent<LifePoolComponent>() ?? new LifePoolComponent();
                 double remaining = 1.0 * hpComp.Current / hpComp.Maximum;
-                double dps = attackComp.RawDamage / attackComp.Cooldown.Duration;
+                double dps = attackComp.AverageDps;
                 hpComp.Maximum = (int)(baseMultiplier * dps * assumedDpsBonus * SlopeDuration);
                 hpComp.Current = (int)(remaining * hpComp.Maximum);
                 mob.AddComponent(hpComp);

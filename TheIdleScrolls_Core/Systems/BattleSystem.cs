@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Skills;
+using TheIdleScrolls_Core.Skills.SkillEffects;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -71,6 +74,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     battle.State = Battle.BattleState.InProgress;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
+                    battle.Mob.GetComponent<ActiveSkillComponent>()?.Skills.ForEach(s => s.SetupForUser(battle.Mob));
                 }
                 
                 // All battles that exist at this point should be in progress
@@ -82,21 +86,13 @@ namespace TheIdleScrolls_Core.Systems
                 battle.Duration += dt;
                 Entity mob = battle.Mob!; // has to be present if battle is in progress
 
-                // Process player attacks
-                var attackComp = player.GetComponent<AttackComponent>() 
-                    ?? throw new Exception("Player lacks attack component");
-                int attacks = attackComp.Cooldown.Update(dt);
-                for (int i = 0; i < attacks; i++)
+                // Player may have been defeated through a status effect (e.g. poison). In that case, don't process skills, but
+                // let the player win the fight if the mob was defeated during the same frame (also from a status effect).
+                bool playerDefeated = player.GetComponent<TimeShieldComponent>()?.IsDepleted ?? false;
+
+                if (!playerDefeated)
                 {
-                    var message = ApplyAttack(player, mob);
-                    if (message != null)
-                    {
-                        coordinator.PostMessage(this, message);
-                        player.GetComponent<BattlerComponent>()!.DamageDealt += message.Damage;
-                    }
-                    player.GetComponent<BattlerComponent>()!.AttacksPerformed++;
-                    // Update time limit after each attack
-                    SetupPlayerTimeShield(player, player.GetComponent<LocationComponent>()!.GetCurrentZone(world.Map)!);
+                    ProcessSkills(player, mob, dt, coordinator);
                 }
 
                 bool mobDefeated = mob.GetComponent<LifePoolComponent>()?.IsDead 
@@ -108,14 +104,18 @@ namespace TheIdleScrolls_Core.Systems
                     mob.AddComponent(new KilledComponent { Killer = player.Id });
                 }
 
-                bool playerDefeated = false;
-                // Process time loss if mob has not been defeated
+                // Process mob skills and time loss if mob has not been defeated
                 if (!mobDefeated)
                 {
+                    ProcessSkills(mob, player, dt, coordinator);
+
+                    // Apply time loss
                     double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
                     double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
                     double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, mob.GetLevel(), damage);
-                    double timeLoss = dt * damage / armorBonus;
+                    // Scale mob damage with charge speed (mostly to allow for stuns)
+                    double speed = mob.ApplyAllApplicableModifiers(1.0, [Tags.ChargeSpeed], mob.GetTags());
+                    double timeLoss = dt * speed * damage / armorBonus;
 
                     timeLoss = player.GetComponent<ModifierComponent>()
                         ?.ApplyApplicableModifiers(timeLoss, [Tags.TimeLoss], player.GetTags())
@@ -137,7 +137,7 @@ namespace TheIdleScrolls_Core.Systems
                         ? Battle.BattleState.PlayerWon 
                         : Battle.BattleState.BetweenFights;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
-                    player.GetComponent<BattlerComponent>()!.AttacksPerformed = 0; // Reset attack counter to enable FirstStrike for next mob
+                    player.GetComponent<BattlerComponent>()!.SkillsUsed = 0; // Reset attack counter to enable FirstStrike for next mob
                 }
                 else if (playerDefeated)
                 {
@@ -164,7 +164,8 @@ namespace TheIdleScrolls_Core.Systems
 
                 SetupPlayerTimeShield(player, zone);
                 player.GetComponent<TimeShieldComponent>()?.Refill();
-                player.GetComponent<AttackComponent>()?.Cooldown?.Reset();
+                player.GetComponent<ActiveSkillComponent>()?.ResetSkills();
+                player.GetComponent<StatusEffectComponent>()?.DeactivateAll();
             }
         }
 
@@ -178,17 +179,90 @@ namespace TheIdleScrolls_Core.Systems
             player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 
-        static DamageDoneMessage? ApplyAttack(Entity attacker, Entity target)
+        void ProcessSkillEffects(Entity entity, Entity opponent, List<ISkillEffect> effects, Coordinator coordinator)
         {
-            var attackComp = attacker.GetComponent<AttackComponent>() ?? throw new Exception("Missing attack component");
-            LifePoolComponent? hpComp = target.GetComponent<LifePoolComponent>();
-            if (hpComp == null)
-                return null;
-            if (hpComp.Current == 0)
-                return null; // Skip damage if target is already dead
-            int damage = (int)Math.Round(attackComp.RawDamage, 0);
-            hpComp.ApplyDamage(damage);
-            return new DamageDoneMessage(attacker, target, damage);
+            double damage = 0;
+            double damagePrevented = 0;
+            foreach (var effect in effects)
+            {
+                if (effect.Target == ISkillEffect.TargetingMode.SingleEnemy)
+                {
+                    effect.ApplyToTarget(opponent);
+                    if (effect is DamageSkillEffect dmgEffect)
+                    {
+                        damage += dmgEffect.DamageDone;
+                        damagePrevented += dmgEffect.Damage - dmgEffect.DamageDone;
+
+                        if (!dmgEffect.Tags.Contains(Tags.DamageOverTime))
+                            coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
+                    }
+                }
+                else
+                {
+                    effect.ApplyToTarget(entity);
+                }
+            }
+            entity.GetComponent<BattlerComponent>()!.DamageDealt += (int)damage;
+        }
+
+        void ProcessSkills(Entity entity, Entity opponent, double dt, Coordinator coordinator)
+        {
+            dt = entity.ApplyAllApplicableModifiers(dt, [Tags.ChargeSpeed], entity.GetTags());
+            // Process player skills
+            var skillComp = entity.GetComponent<ActiveSkillComponent>();
+			if (skillComp is null)
+                return;
+
+			double totalElapsed = 0.0;
+            List<ISkillEffect> collectedSkillEffects = [];
+			while (totalElapsed < dt)
+			{
+				double previouslyRemaining = dt - totalElapsed;
+				if (skillComp.CurrentSkill is not null
+					&& skillComp.CurrentSkill.CurrentState == SkillTimer.State.NotStarted)
+				{
+					skillComp.CurrentSkill.Timer.Start();
+				}
+                (SkillTimer.TimerUpdateResult updateResult, List<ISkillEffect> effects) 
+                    = skillComp.CurrentSkill?.Update(previouslyRemaining) ?? (new(), []);
+                collectedSkillEffects.AddRange(effects);
+                if (updateResult.ChargingComplete || updateResult.ActivityComplete || updateResult.CooldownComplete)
+                {
+                    coordinator.PostMessage(this, new SkillStateChangedMessage(entity, skillComp.CurrentSkill!, updateResult));
+                }
+                double remaining = updateResult.RemainingTime;
+				double elapsed = previouslyRemaining - remaining;
+				totalElapsed += elapsed;
+				// Also update timer for all other skills
+				foreach (var skill in skillComp.Skills)
+				{
+                    SkillTimer.TimerUpdateResult result = new();
+                    if (skill != skillComp.CurrentSkill)
+                    {
+                        (result, effects) = skill.Update(elapsed);
+                        collectedSkillEffects.AddRange(effects);
+                        if (result.ChargingComplete || result.ActivityComplete || result.CooldownComplete)
+                        {
+                            coordinator.PostMessage(this, new SkillStateChangedMessage(entity, skill, result));
+                        }
+                    }
+                    if (skillComp.CurrentSkill is null && result.CooldownComplete)
+                    {
+                        // switch to a skill that finished cooldown if no skill is currently selected
+                        skillComp.SwitchToNext();
+                        if (skillComp.CurrentSkill is not null)
+                            collectedSkillEffects.AddRange(skillComp.CurrentSkill.StartCharging());
+                    }
+                }
+				if (remaining > 0.0) // Means that the skill has finished charging
+				{
+                    entity.GetComponent<BattlerComponent>()!.SkillsUsed++;
+					skillComp.SwitchToNext();
+					if (skillComp.CurrentSkill is not null)
+                        collectedSkillEffects.AddRange(skillComp.CurrentSkill.StartCharging());
+                }
+			}
+            ProcessSkillEffects(entity, opponent, collectedSkillEffects, coordinator);
         }
     }
 
@@ -198,7 +272,13 @@ namespace TheIdleScrolls_Core.Systems
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Medium;
     }
 
-    public record DamageDoneMessage(Entity Attacker, Entity Target, int Damage) : IMessage
+    public record SkillStateChangedMessage(Entity User, ActiveSkill Skill, SkillTimer.TimerUpdateResult Changes) : IMessage
+    {
+        string IMessage.BuildMessage() => $"{User.GetName()}'s skill {Skill.Name} changed state to {Skill.GetState()}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Low;
+    }
+
+    public record DamageDoneMessage(Entity Attacker, Entity Target, int Damage, int DamagePrevented = 0) : IMessage
     {
         string IMessage.BuildMessage()
         {

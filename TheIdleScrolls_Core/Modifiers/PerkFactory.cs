@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Modifiers
@@ -159,6 +160,61 @@ namespace TheIdleScrolls_Core.Modifiers
             {
                 Permanent = alwaysActive,
                 MaxLevel = maxLevel
+            };
+        }
+
+        public static Perk MakePercentLifeRegPerks(string id, string name, double percentage)
+        {
+            return new(
+                id,
+                name,
+                $"Regenerate {percentage:0.##%} of max life per second",
+                [],
+                delegate (int level, Entity entity, World world, Coordinator coordinator)
+                {
+                    double lifePool = entity.GetComponent<LifePoolComponent>()?.Maximum ?? 1.0;
+                    double regenAmount = percentage * lifePool;
+                    return [ new($"{id}_regen", ModifierType.AddBase, regenAmount, [Tags.LifeRegeneration], []) ];
+                }
+            )
+            {
+                Permanent = true
+            };
+        }
+
+        public static Perk MakeFlatDamageReductionPerk(string id, string name, double percentage)
+        {
+            return new(
+                id,
+                name,
+                $"Incoming damage is reduced by {percentage:0.##%} of maximum life",
+                [],
+                delegate (int level, Entity entity, World world, Coordinator coordinator)
+                {
+                    double lifePool = entity.GetComponent<LifePoolComponent>()?.Maximum ?? 1.0;
+                    double prevention = percentage * lifePool;
+                    return [new($"{id}_prevention", ModifierType.AddBase, prevention, [Tags.DamageReduction], [])];
+                }
+            )
+            {
+                Permanent = true
+            };
+        }
+
+        public static Perk MakeDefenseLayerPerk(string id, string name, double layers)
+        {
+            return new(
+                id,
+                name,
+                $"Can lose at most {1 / (layers + 1):0.##%} of maximum life per incoming hit",
+                [],
+                delegate (int level, Entity entity, World world, Coordinator coordinator)
+                {
+                    return [new($"{id}_layers", ModifierType.AddBase, layers, [Tags.DefensiveLayers], [])];
+                }
+            )
+            {
+                Permanent = true
             };
         }
     }

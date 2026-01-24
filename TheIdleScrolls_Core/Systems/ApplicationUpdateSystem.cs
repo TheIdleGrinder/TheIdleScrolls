@@ -7,6 +7,7 @@ using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Messages;
 using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Properties;
+using TheIdleScrolls_Core.Skills.SkillEffects;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Systems
@@ -114,12 +115,13 @@ namespace TheIdleScrolls_Core.Systems
                 PlayerCoinsChanged?.Invoke(player.GetComponent<CoinPurseComponent>()?.Coins ?? 0);
             }
 
-            // Update attack
-            var attackComp = player.GetComponent<AttackComponent>();
-            if (attackComp != null)
+            // Update current skill
+            var skillComp = player.GetComponent<ActiveSkillComponent>();
+            if (skillComp is not null && skillComp.CurrentSkill is not null)
             {
-                PlayerOffenseChanged?.Invoke(attackComp.RawDamage, attackComp.Cooldown.Duration, attackComp.Cooldown.Remaining);
-            }
+                var attackComp = player.GetComponent<AttackComponent>();
+                PlayerOffenseChanged?.Invoke((int)Math.Round(attackComp?.AverageDamage.TotalDamage ?? 0.0), attackComp?.AverageCooldown ?? 0.0);
+			}
 
             // Update defenses
             var defenseComp = player.GetComponent<DefenseComponent>();

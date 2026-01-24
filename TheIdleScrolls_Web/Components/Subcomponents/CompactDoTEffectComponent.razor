@@ -1,0 +1,60 @@
+﻿@using MiniECS
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Definitions
+@using TheIdleScrolls_Core.StatusEffects
+
+
+<div class="compact-bar-container withTooltip">
+    <div class="compact-bar-frame compact-status-frame">
+        <center>@BuildText()</center>
+        <div class="compact-bar-fill compact-effect-bar-fill" 
+            style="width: @($"{CalculateProgress():0%}; background-color:var(--color-{DamageType.ToTag().ToLower()})");"></div>
+    </div>
+
+    <span class="barTooltip">
+        Damage per Second: @($"{(DoTComponent?.DpsForType(DamageType) ?? 0.0):0.#}")
+    </span>
+</div>
+
+<style>
+    .compact-status-frame {
+        
+    }
+
+    .compact-effect-bar-fill {
+        background-color: var(--color-physical);
+    }
+
+</style>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public Entity? Victim { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public DamageType DamageType { get; set; }
+
+    public DoTComponent? DoTComponent => Victim?.GetComponent<DoTComponent>();
+    public List<DoT> Effects => DoTComponent?.EffectsOfType(DamageType) ?? [];
+
+    public string BuildText()
+    {
+        string result = DamageType.ToTag();
+        if (Effects.Count > 1)
+        {
+            result += $" x{Effects.Count}";
+        }
+        return result;
+    }
+
+    public double CalculateProgress()
+    {
+        if (Effects.Count == 0)
+            return 0.0;
+        double totalRemaining = Effects.Aggregate(0.0, (agg, dot) => agg + dot.Timer.Remaining);
+        double total = Effects.Aggregate(0.0, (agg, dot) => agg + dot.Timer.Duration);
+        return (total != 0.0) ? totalRemaining / total : 1.0;
+    }
+}
