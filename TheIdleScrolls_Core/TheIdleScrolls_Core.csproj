@@ -58,6 +58,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>MobNames.resx</DependentUpon>
     </Compile>
+    <Compile Update="Properties\Skills.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Skills.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Images.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -93,6 +98,10 @@
     <EmbeddedResource Update="Properties\MobNames.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MobNames.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Skills.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Skills.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Images.resx">
       <Generator>ResXFileCodeGenerator</Generator>
