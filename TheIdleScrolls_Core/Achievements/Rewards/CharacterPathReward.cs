@@ -8,7 +8,7 @@ using TheIdleScrolls_Core.CharacterPaths;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 
-namespace TheIdleScrolls_Core.Achievements
+namespace TheIdleScrolls_Core.Achievements.Rewards
 {
     public class CharacterPathReward(CharacterPath Path) : IAchievementReward
     {

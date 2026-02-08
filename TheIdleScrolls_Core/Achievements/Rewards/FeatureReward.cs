@@ -8,7 +8,7 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Systems;
 
-namespace TheIdleScrolls_Core.Achievements
+namespace TheIdleScrolls_Core.Achievements.Rewards
 {
     internal record FeatureReward(GameFeature Feature, string FeatureDescription) : IAchievementReward
     {

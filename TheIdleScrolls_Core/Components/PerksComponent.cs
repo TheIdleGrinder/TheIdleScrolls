@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TheIdleScrolls_Core.Achievements;
+using TheIdleScrolls_Core.Achievements.Rewards;
 using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Resources;
 

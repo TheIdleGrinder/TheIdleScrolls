@@ -9,7 +9,7 @@ using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Systems;
 
-namespace TheIdleScrolls_Core.Achievements
+namespace TheIdleScrolls_Core.Achievements.Rewards
 {
     public record PerkReward(Perk Perk) : IAchievementReward
     {

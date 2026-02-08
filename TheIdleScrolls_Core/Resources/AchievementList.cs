@@ -1,6 +1,7 @@
 ﻿using MiniECS;
 using System.Reflection.Emit;
 using TheIdleScrolls_Core.Achievements;
+using TheIdleScrolls_Core.Achievements.Rewards;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;

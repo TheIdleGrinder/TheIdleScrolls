@@ -257,7 +257,7 @@ namespace TheIdleScrolls_Core.Items
         {
             var itemComp = item.GetComponent<ItemComponent>() ?? throw new Exception($"Entity {item.GetName()} is not an item");
             var blueprint = itemComp.Blueprint;
-            var name = $"{blueprint.GetMaterial().Name} {blueprint.GetGenusDescription().Name}{(blueprint.Quality > 0 ? $" + {blueprint.Quality}" : "")}";
+            var name = blueprint.GetItemName();
 
             item.AddComponent(new NameComponent(name));
         }

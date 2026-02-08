@@ -44,6 +44,21 @@ namespace TheIdleScrolls_Core.Items
             return ItemKingdom.GetGenusDescription(this) ?? throw new Exception($"No item genus for [{ToString()}]");
         }
 
+        public string GetItemName()
+        {
+            return $"{GetMaterial().Name} {GetGenusDescription().Name}{(Quality > 0 ? $" + {Quality}" : "")}";
+        }
+
+        public bool IsValid()
+        {
+            if (ItemKingdom.GetFamilyDescription(this) is null)
+                return false;
+            var genus = ItemKingdom.GetGenusDescription(this);
+            if (genus is null || !genus.ValidMaterials.Contains(MaterialId))
+                return false;
+            return true;
+        }
+
         public ItemMaterial GetMaterial()
         {
             return ItemKingdom.GetMaterial(MaterialId) ?? throw new Exception($"No item material for [{ToString()}]");
