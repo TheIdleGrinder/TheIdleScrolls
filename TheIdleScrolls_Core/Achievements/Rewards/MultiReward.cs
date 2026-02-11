@@ -8,11 +8,13 @@ using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Achievements.Rewards
 {
-    public class MultiReward(List<IAchievementReward> rewards) : IAchievementReward
+    public class MultiReward(List<IAchievementReward> rewards, string customDescription = "") : IAchievementReward
     {
         public List<(IAchievementReward, bool)> Rewards { get; } = [.. rewards.Select(r => (r, false))];
 
-        public string Description => String.Join('\n', Rewards.Select(r => r.Item1.Description));
+        public string Description => (customDescription.Length > 0) 
+            ? customDescription 
+            : String.Join('\n', Rewards.Select(r => r.Item1.Description));
 
         public bool GiveReward(Entity entity, World world, Action<IMessage> postMessageCallback)
         {

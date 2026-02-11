@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Achievements.Rewards;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
@@ -26,22 +27,22 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             Permanent = true
         };
 
-        static List<ItemReward> StarterItems()
+        static MultiReward StarterItems()
         {
-            List<ItemReward> weapons = ItemFamilies.Weapons
+            List<IAchievementReward> items = ItemFamilies.Weapons
                 .Concat(ItemFamilies.Armors)
                 .Select(w => new ItemBlueprint(w, 0, MaterialId.Simple))
                 .Where(b => b.IsValid())
-                .Select(b => new ItemReward(b))
+                .Select(b => new ItemReward(b) as IAchievementReward)
                 .ToList();
-            return weapons;
+            return new MultiReward(items, "Fighter training items");
         }
 
         static FighterPath()
         {
             Path.AddStep(new CharacterPathStep(RootId, Properties.Skills.PathFighterRoot, "")
             {
-                Reward = new MultiReward([new PerkReward(RootPerk), ..StarterItems()]),
+                Reward = new MultiReward([new PerkReward(RootPerk), StarterItems()]),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 0)
             });
         }

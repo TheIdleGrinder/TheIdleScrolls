@@ -9,6 +9,7 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Messages;
 using TheIdleScrolls_Core.Systems;
+using static TheIdleScrolls_Core.Systems.CharacterPathSystem;
 
 namespace TheIdleScrollsApp
 {
@@ -116,6 +117,11 @@ namespace TheIdleScrollsApp
         public void ChangeSkillOrder(uint playerId, string skillId, bool moveUp)
         {
             m_requests.Add(new SkillOrderChangeRequest(playerId, skillId, moveUp));
+        }
+
+        public void TakeCharacterPathStep(uint playerId, string pathId, string stepId)
+        {
+            m_requests.Add(new TakeCharacterPathStepRequest(playerId, pathId, stepId));
         }
     }
 }

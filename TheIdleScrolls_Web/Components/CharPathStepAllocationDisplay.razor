@@ -1,0 +1,120 @@
+﻿@using MiniECS
+@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.CharacterPaths
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Web.Components.Subcomponents
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="path-step-allocator-container">
+    @if (SelectedPath is null)
+    {
+        <div class="path-step-allocator-headline">
+            Choose your path
+        </div>
+        <div class="path-step-allocator-items-container">
+            @foreach (var path in PathComp?.CharacterPaths ?? [])
+            {
+                <div class="path-step-allocator-item withTooltip" @onclick="@(() => SelectedPath = path)">
+                    <span class="path-step-allocator-title">@path.Name</span>
+                    <span>Steps taken: @(PathComp?.StepsTakenOnPath(path.Id))</span>
+                    <div class="barTooltip path-step-allocator-tooltip">
+                        <span class="path-step-allocator-headline">@path.Name</span>
+                        <span>@path.Description</span>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="path-step-allocator-headline" @onclick="@(() => SelectedPath = null)">
+            @SelectedPath.Name
+        </div>
+        <div class="path-step-allocator-items-container">
+            @foreach (var step in (PathComp?.AvailableSteps(SelectedPath.Id) ?? []))
+            {
+                <div class="path-step-allocator-item withTooltip" @onclick="@(() => TakeStep(SelectedPath.Id, step.Id))">
+                    <span class="path-step-allocator-title">@step.Name</span>
+                    <div class="barTooltip path-step-allocator-tooltip">
+                        <span class="path-step-allocator-headline">@step.Name</span>
+                        <span>@step.Description</span>
+                        @foreach (string rewardLine in step.Reward.Description.Split('\n'))
+                        {
+                            <span>- @rewardLine</span>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .path-step-allocator-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+
+    .path-step-allocator-items-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .path-step-allocator-headline {
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    .path-step-allocator-title {
+        font-size: 1.0rem;
+        font-weight: bold;
+    }
+
+    .path-step-allocator-item {
+        padding: 0.25rem;
+        border: 2px solid black;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        user-select: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 8rem;
+        width: 8rem;
+    }
+
+    .path-step-allocator-item:hover {
+        background-color: var(--back-color-special);
+    }
+
+    .path-step-allocator-tooltip {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public Entity? Entity { get; set; } = null;
+
+    CharacterPath? SelectedPath = null;
+
+    CharacterPathComponent? PathComp => Entity?.GetComponent<CharacterPathComponent>();
+
+    void TakeStep(string pathId, string stepId)
+    {
+        if (Entity is null)
+            return;
+        CoreWrapper.InputHandler.TakeCharacterPathStep(Entity.Id, pathId, stepId);
+        SelectedPath = null;
+    }
+}

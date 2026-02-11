@@ -23,5 +23,12 @@ namespace TheIdleScrolls_Core.CharacterPaths
             _Steps[step.Id] = step;
             return true;
         }
+
+        public CharacterPathStep? GetStep(string id)
+        {
+            if (_Steps.TryGetValue(id, out var step))
+                return step;
+            return null;
+        }
     }
 }

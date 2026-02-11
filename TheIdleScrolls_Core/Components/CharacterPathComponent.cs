@@ -11,11 +11,28 @@ namespace TheIdleScrolls_Core.Components
     public class CharacterPathComponent : IComponent
     {
         public List<CharacterPath> CharacterPaths { get; } = [];
-        Dictionary<string, List<CharacterPathStep>> _TakenSteps = [];
+        public List<(string StepId, string PathId)> _TakenSteps = [];
+
+        public int StepPoints { get; set; } = 0;
+        public int StepsTaken => _TakenSteps.Count;
+        public int RemainingStepPoints => StepPoints - StepsTaken;
+
 
         public List<CharacterPathStep> StepsTakenOnPath(string pathId)
         {
-            return _TakenSteps.TryGetValue(pathId, out List<CharacterPathStep>? steps) ? steps! : [];
+            return [.. _TakenSteps
+                .Where(s => s.PathId == pathId)
+                .Select(s => GetStep(s.PathId, s.StepId))
+                .Where(s => s != null)
+            ];
+        }
+
+        public CharacterPathStep? GetStep(string pathId, string stepId)
+        {
+            CharacterPath? path = CharacterPaths.FirstOrDefault(p => p.Id == pathId);
+            if (path == null)
+                return null;
+            return path.GetStep(stepId);
         }
 
         public void AddPath(CharacterPath path)
@@ -32,9 +49,9 @@ namespace TheIdleScrolls_Core.Components
                 return false;
 
             CharacterPathStep? step = path.Steps.FirstOrDefault(s => s.Id == id);
-            if (step == null || !step.CanBeTaken(_TakenSteps[pathId]))
+            if (step == null || !step.CanBeTaken(StepsTakenOnPath(pathId)))
                 return false;
-            _TakenSteps[pathId].Add(step);
+            _TakenSteps.Add((step.Id, pathId));
             return true;
         }
 
@@ -44,7 +61,7 @@ namespace TheIdleScrolls_Core.Components
             var paths = CharacterPaths.Where(p => pathId.Length == 0 || p.Id == pathId);
             foreach (var path in paths)
             {
-                result.AddRange(path.Steps.Where(s => s.CanBeTaken(_TakenSteps[path.Id])));
+                result.AddRange(path.Steps.Where(s => s.CanBeTaken(StepsTakenOnPath(pathId))));
             }
             return result;
         }

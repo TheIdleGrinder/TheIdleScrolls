@@ -38,7 +38,9 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new MetaDataComponent());
             player.AddComponent(new ActiveSkillComponent() { Skills = [new(DefaultAttack.Skill)] });
 
-            player.GetComponent<ActiveSkillComponent>()?.Add(new(ExposeWeaknessSkill.Skill));
+            CharacterPathComponent pathComp = new();
+            pathComp.AddPath(CharacterPaths.Paths.FighterPath.Path);
+            player.AddComponent(pathComp);
 
             return player;
         }
