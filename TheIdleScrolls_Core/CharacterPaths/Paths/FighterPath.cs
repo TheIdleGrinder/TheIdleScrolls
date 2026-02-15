@@ -29,13 +29,18 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
 
         static MultiReward StarterItems()
         {
-            List<IAchievementReward> items = ItemFamilies.Weapons
+            List<ItemReward> items = ItemFamilies.Weapons
                 .Concat(ItemFamilies.Armors)
                 .Select(w => new ItemBlueprint(w, 0, MaterialId.Simple))
                 .Where(b => b.IsValid())
-                .Select(b => new ItemReward(b) as IAchievementReward)
+                .Select(b => new ItemReward(b))
                 .ToList();
-            return new MultiReward(items, "Fighter training items");
+            List<IAchievementReward> rewards = [];
+            foreach (var item in items)
+            {
+                rewards.Add(item);
+            }
+            return new MultiReward(rewards, "Fighter training items");
         }
 
         static FighterPath()

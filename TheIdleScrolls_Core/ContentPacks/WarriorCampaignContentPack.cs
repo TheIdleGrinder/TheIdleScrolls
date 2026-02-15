@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Achievements.Rewards;
+using TheIdleScrolls_Core.CharacterPaths.Paths;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Properties;
@@ -232,6 +233,13 @@ namespace TheIdleScrolls_Core.ContentPacks
 							pointIds.Add($"{achievement.Id}.{i}");
 						}
 						achievement.Reward = new PerkPointReward(pointIds);
+					}
+					if (id == DungeonIds.Threshold)
+					{
+						string description = achievement.Reward!.Description;
+						CharacterPathReward second = new(FighterPath.Path);
+						description = second.Description + ", " + description;
+						achievement.Reward = new MultiReward([achievement.Reward, second], description);
 					}
 					achievements.Add(achievement);
 				}

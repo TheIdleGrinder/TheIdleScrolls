@@ -419,5 +419,36 @@ namespace TheIdleScrolls_JSON
                 return false;
             }
         }
+
+        public static bool SetFromJson(this CharacterPathComponent component, JsonNode json)
+        {
+            try
+            {
+                var jsonPaths = json["Paths"]?.AsArray();
+                var jsonSteps = json["Steps"]!.AsArray();
+
+                if (jsonPaths is not null)
+                {
+                    component.KnownPaths.Clear();
+                    foreach (var jsonPath in jsonPaths)
+                    {
+                        component.KnownPaths.Add(jsonPath!.GetValue<string>());
+                    }
+                }
+                
+                component.TakenSteps.Clear();
+                foreach (var jsonStep in jsonSteps)
+                {
+                    string line = jsonStep!.GetValue<string>();
+                    string[] parts = line.Split(':');
+                    component.TakenSteps.Add((parts[0], parts[1]));
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false; 
+            }
+        }
     }
 }

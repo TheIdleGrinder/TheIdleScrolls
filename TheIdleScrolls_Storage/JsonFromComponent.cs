@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Net.NetworkInformation;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
@@ -261,6 +262,26 @@ namespace TheIdleScrolls_Storage
             return new JsonObject()
             {
                 { "Skills", skills }
+            };
+        }
+
+        public static JsonObject? ToJson(this CharacterPathComponent component)
+        {
+            JsonArray paths = [];
+            JsonArray steps = [];
+            foreach (var path in component.KnownPaths)
+            {
+                paths.Add(path);
+            }
+            foreach (var step in component.TakenSteps)
+            {
+                steps.Add($"{step.PathId}:{step.StepId}");
+            }
+            
+            return new JsonObject()
+            {
+                { "Paths", paths },
+                { "Steps", steps }
             };
         }
 

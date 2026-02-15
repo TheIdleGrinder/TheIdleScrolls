@@ -89,10 +89,6 @@ namespace TheIdleScrolls_Core.Systems
                 return;
             var rewardComp = player.GetComponent<RewardCollectorComponent>()!;
 
-            var perksComp = player.GetComponent<PerksComponent>();
-            if (perksComp == null)
-                return;
-
             foreach (var achievement in achievements)
             {
                 if (achievement.Status == AchievementStatus.Awarded

@@ -17,6 +17,13 @@ namespace TheIdleScrolls_Core.Achievements.Rewards
 
         public bool GiveReward(Entity entity, World world, Action<IMessage> postMessageCallback)
         {
+            // If this is executed before the world is active, i.e. when loading the character, the rewards has already been
+            // given during a previous session.
+            // CornerCut: This can become problematic as soon as item rewards are given for achievements instead of path steps
+            if (!world.Active)
+            {
+                return true;
+            }
             var itemComp = entity.GetComponent<InventoryComponent>();
             if (itemComp is null)
                 return false;

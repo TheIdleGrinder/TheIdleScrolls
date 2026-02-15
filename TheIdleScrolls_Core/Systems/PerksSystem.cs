@@ -44,7 +44,8 @@ namespace TheIdleScrolls_Core.Systems
                 if (FirstUpdate)
                 {
                     AddBasicPerks(perksComp);
-                    perksComp.GetPerks().ForEach(m => UpdatePerk(m));
+                    foreach (var perk in perksComp.GetPerks())
+                        UpdatePerk(perk);
 
                     // Add active skills from basic perks
                     var skillComp = entity.GetComponent<ActiveSkillComponent>();

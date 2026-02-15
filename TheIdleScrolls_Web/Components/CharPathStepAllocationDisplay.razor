@@ -18,7 +18,7 @@
             {
                 <div class="path-step-allocator-item withTooltip" @onclick="@(() => SelectedPath = path)">
                     <span class="path-step-allocator-title">@path.Name</span>
-                    <span>Steps taken: @(PathComp?.StepsTakenOnPath(path.Id))</span>
+                    <span>Steps taken: @(PathComp?.StepsTakenOnPath(path.Id).Count)</span>
                     <div class="barTooltip path-step-allocator-tooltip">
                         <span class="path-step-allocator-headline">@path.Name</span>
                         <span>@path.Description</span>

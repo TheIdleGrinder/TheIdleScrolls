@@ -71,6 +71,9 @@ namespace TheIdleScrolls_Core
 
         public async Task Initialize(string playerName = "Leeroy")
         {
+            // Deactivate World. This makes it so that certain achievment and character path rewards are not
+            // given (e.g. items which have been given before) during the first frame.
+            GameWorld.Active = false;
             const string globalEntityName = "_perpetual";
             Entity? globalEntity = await m_dataHandler.LoadEntity(globalEntityName);
             if (globalEntity == null)
@@ -152,6 +155,8 @@ namespace TheIdleScrolls_Core
             //    Console.WriteLine($"Tick duration: {tickDuration.TotalMilliseconds}");
             //else
             //    Console.WriteLine("Tick duration ok");
+
+            GameWorld.Active = true;
         }
 
         public void AddSystem(AbstractSystem system)

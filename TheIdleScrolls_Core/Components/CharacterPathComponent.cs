@@ -11,16 +11,17 @@ namespace TheIdleScrolls_Core.Components
     public class CharacterPathComponent : IComponent
     {
         public List<CharacterPath> CharacterPaths { get; } = [];
-        public List<(string StepId, string PathId)> _TakenSteps = [];
+        public HashSet<string> KnownPaths { get; } = [];
+        public List<(string PathId, string StepId)> TakenSteps { get; } = [];
 
         public int StepPoints { get; set; } = 0;
-        public int StepsTaken => _TakenSteps.Count;
-        public int RemainingStepPoints => StepPoints - StepsTaken;
+        public int TakenStepsCount => TakenSteps.Count;
+        public int RemainingStepPoints => StepPoints - TakenStepsCount;
 
 
         public List<CharacterPathStep> StepsTakenOnPath(string pathId)
         {
-            return [.. _TakenSteps
+            return [.. TakenSteps
                 .Where(s => s.PathId == pathId)
                 .Select(s => GetStep(s.PathId, s.StepId))
                 .Where(s => s != null)
@@ -40,6 +41,7 @@ namespace TheIdleScrolls_Core.Components
             if (CharacterPaths.Contains(path)) 
                 return;
             CharacterPaths.Add(path);
+            KnownPaths.Add(path.Id);
         }
 
         public bool TakeStep(string pathId, string id)
@@ -51,7 +53,7 @@ namespace TheIdleScrolls_Core.Components
             CharacterPathStep? step = path.Steps.FirstOrDefault(s => s.Id == id);
             if (step == null || !step.CanBeTaken(StepsTakenOnPath(pathId)))
                 return false;
-            _TakenSteps.Add((step.Id, pathId));
+            TakenSteps.Add((pathId, step.Id));
             return true;
         }
 

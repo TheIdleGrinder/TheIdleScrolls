@@ -124,7 +124,7 @@ namespace TheIdleScrolls_Core.Components
         }
 
         public DamageCluster AverageDamage => AttackVectors.Average();
-        public double AverageCooldown => AttackVectors.Average(av => av.Cooldown);
+        public double AverageCooldown => (AttackVectors.Count > 0) ? AttackVectors.Average(av => av.Cooldown) : 0.0;
         public double AverageDps => (AverageCooldown != 0) ? AverageDamage.TotalDamage / AverageCooldown : 0.0;
     }
 

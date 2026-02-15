@@ -8,24 +8,33 @@ using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Achievements.Rewards
 {
-    public class MultiReward(List<IAchievementReward> rewards, string customDescription = "") : IAchievementReward
+    public class MultiReward : IAchievementReward
     {
-        public List<(IAchievementReward, bool)> Rewards { get; } = [.. rewards.Select(r => (r, false))];
+        public List<IAchievementReward> Rewards { get; }
+        bool[] Given = [];
+        string CustomDescription;
 
-        public string Description => (customDescription.Length > 0) 
-            ? customDescription 
-            : String.Join('\n', Rewards.Select(r => r.Item1.Description));
+        public MultiReward(List<IAchievementReward> rewards, string customDescription = "")
+        {
+            Rewards = rewards;
+            Given = new bool[rewards.Count];
+            CustomDescription = customDescription;            
+        }
+
+        public string Description => (CustomDescription.Length > 0) 
+            ? CustomDescription
+            : String.Join('\n', Rewards.Select(r => r.Description));
 
         public bool GiveReward(Entity entity, World world, Action<IMessage> postMessageCallback)
         {
-            foreach (var (reward, given) in Rewards)
+            for (int i = 0; i < Rewards.Count; i++)
             {
-                if (!given && reward.GiveReward(entity, world, postMessageCallback))
+                if (!Given[i])
                 {
-                    Rewards[Rewards.IndexOf((reward, given))] = (reward, true);
+                    Given[i] = (Rewards[i] as dynamic).GiveReward(entity, world, postMessageCallback);
                 }
             }
-            return Rewards.All(r => r.Item2);
+            return Given.All(b => b);
         }
     }
 }

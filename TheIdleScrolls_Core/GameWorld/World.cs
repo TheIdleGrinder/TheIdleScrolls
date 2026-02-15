@@ -11,6 +11,7 @@ namespace TheIdleScrolls_Core.GameWorld
 {
     public class World
     {
+        public bool Active { get; set; } = false;
         public bool GameOver { get; set; } = false; // Corner cut: should this be part of the world?
         public bool GameEndAnimation { get; set; } = false; // Corner cut: should this be part of the world?
 
