@@ -11,10 +11,10 @@
     @if (SelectedPath is null)
     {
         <div class="path-step-allocator-headline">
-            Choose your path
+            Choose a path
         </div>
         <div class="path-step-allocator-items-container">
-            @foreach (var path in PathComp?.CharacterPaths ?? [])
+            @foreach (var path in PathsWithAvailableSteps(PathComp?.CharacterPaths ?? []))
             {
                 <div class="path-step-allocator-item withTooltip" @onclick="@(() => SelectedPath = path)">
                     <span class="path-step-allocator-title">@path.Name</span>
@@ -109,6 +109,11 @@
     CharacterPath? SelectedPath = null;
 
     CharacterPathComponent? PathComp => Entity?.GetComponent<CharacterPathComponent>();
+
+    List<CharacterPath> PathsWithAvailableSteps(List<CharacterPath> paths)
+    {
+        return paths.Where(p => (PathComp?.AvailableSteps(p.Id)?.Count ?? 0) > 0).ToList();
+    }
 
     void TakeStep(string pathId, string stepId)
     {

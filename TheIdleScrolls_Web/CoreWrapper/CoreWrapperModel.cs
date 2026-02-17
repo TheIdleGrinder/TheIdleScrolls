@@ -28,6 +28,10 @@ namespace TheIdleScrolls_Web.CoreWrapper
         GameRunner gameRunner;
 
         bool gameLoopRunning = false;
+        
+        // Store visibility state of character path display here
+        // Should probably not be part of a core wrapper, but this is a convenient pseudo-global data structure
+        public bool ShowCharacterPathDisplay = false;
 
         public event CharacterListChangeHandler? CharacterListChanged;
         public event CharacterLoadedHandler? CharacterLoaded;
@@ -67,6 +71,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public BountyStateRepresentation BountyState { get; private set; } = new(0, 0, 0, 0, 0, 0);
         public List<DialogueMessage> DialogueMessages { get; private set; } = new();
         public List<ExpiringMessage> ExpiringMessages { get; private set; } = new();
+        public int AvailableCharacterPathStepsPoints => PlayerCharacter?.GetComponent<CharacterPathComponent>()?.RemainingStepPoints ?? 0;
 
 
         public DataAccessHandler DataAccessHandler => dataHandler;

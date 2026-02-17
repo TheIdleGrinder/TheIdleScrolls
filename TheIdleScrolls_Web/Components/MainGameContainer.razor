@@ -27,6 +27,10 @@
             {
                 <button class="tablinks @AddTabClass(Tab.Travel)" @onclick="@(() => SetTab(Tab.Travel))">Travel</button>
             }
+            @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Abilities))
+            {
+                <button class="tablinks @AddTabClass(Tab.Abilities)" @onclick="@(() => SetTab(Tab.Abilities))">Character</button>
+            }
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Inventory))
             {
                 <button class="tablinks @AddTabClass(Tab.Inventory)" @onclick="@(() => SetTab(Tab.Inventory))">Inventory</button>
@@ -34,11 +38,7 @@
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Crafting))
             {
                 <button class="tablinks @AddTabClass(Tab.Crafting)" @onclick="@(() => SetTab(Tab.Crafting))">Crafting</button>
-            }
-            @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Abilities))
-            {
-                <button class="tablinks @AddTabClass(Tab.Abilities)" @onclick="@(() => SetTab(Tab.Abilities))">Abilities</button>
-            }
+            }            
             @if (CoreWrapper.IsFeatureAvailable(TheIdleScrolls_Core.GameFeature.Perks))
             {
                 <button class="tablinks @AddTabClass(Tab.Perks)" @onclick="@(() => SetTab(Tab.Perks))">@PerkTabTitle()</button>
@@ -77,8 +77,16 @@
             }
             @if (m_activeTab == Tab.Abilities)
             {
-                <CharPathStepAllocationDisplay Entity="@CoreWrapper.PlayerCharacter"></CharPathStepAllocationDisplay>
-                <AbilitiesDisplay></AbilitiesDisplay>
+                <div id="characterPage" style="display:flex; flex-direction:column; font-size:large">
+                    @if (CoreWrapper.AvailableCharacterPathStepsPoints > 0)
+                    {
+                        <button style="align-self:center; margin:1rem"
+                            @onclick="(() => CoreWrapper.ShowCharacterPathDisplay = true)">Take step on character path</button>
+                    }
+                    <div id="characterPage-inner" class="inner">
+                        <AbilitiesDisplay/>
+                    </div>
+                </div>
             }
             @if (m_activeTab == Tab.Perks)
             {
@@ -107,6 +115,15 @@
 @if (CoreWrapper.DialogueMessages.Count > 0)
 {
     <DialogueDisplay></DialogueDisplay>
+}
+
+@if (CoreWrapper.ShowCharacterPathDisplay)
+{
+    <div class="bigShadowBackground" @onclick="(() => CoreWrapper.ShowCharacterPathDisplay = false)">
+        <div class="path-allocation-container">
+            <CharPathStepAllocationDisplay Entity="@CoreWrapper.PlayerCharacter"></CharPathStepAllocationDisplay>
+        </div>
+    </div>
 }
 
 <style>
@@ -223,6 +240,21 @@
         grid-template-columns: 1fr 1fr;
     }
 
+    .path-allocation-container {
+        padding: 1rem;
+        overflow-y: auto;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;
+        max-height: 50%;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid var(--frame-color);
+        background-color: var(--back-color);
+    }
+
     .tabPage {
         width: 100%;
         max-height: 100%;
@@ -319,7 +351,8 @@
     {
         string classString = (m_activeTab == tab) ? "active" : "";
         if (tab == Tab.Perks && CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>()?.GetPerks()?.Count > CoreWrapper.SeenPerks.Count
-            || tab == Tab.Achievements && CoreWrapper.Achievements.Where(a => a.Earned).Count() > CoreWrapper.SeenEarnedAchievements.Count)
+            || tab == Tab.Achievements && CoreWrapper.Achievements.Where(a => a.Earned).Count() > CoreWrapper.SeenEarnedAchievements.Count
+            || tab == Tab.Abilities && CoreWrapper.AvailableCharacterPathStepsPoints > 0)
         {
             classString += " new-stuff";
         }
