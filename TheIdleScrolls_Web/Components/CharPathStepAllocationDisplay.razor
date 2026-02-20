@@ -7,7 +7,7 @@
 
 @inject CoreWrapperModel CoreWrapper
 
-<div class="path-step-allocator-container">
+<div class="path-step-allocator-container" onclick="(() => { })">
     @if (SelectedPath is null)
     {
         <div class="path-step-allocator-headline">
@@ -49,16 +49,30 @@
             }
         </div>
     }
+
+    <button id="path-step-allocator-close-button" @onclick="@(() => { CoreWrapper.ShowCharacterPathDisplay = false; })">
+        x
+    </button>
 </div>
 
 <style>
     .path-step-allocator-container {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
         gap: 1rem;
         padding: 0.5rem;
+        overflow-y: visible;
+    }
+
+    #path-step-allocator-close-button {
+        position: absolute;
+        top: 0.25rem;
+        right: 0.25rem;
+        width: 2rem;
+        height: 2rem;
     }
 
     .path-step-allocator-items-container {
@@ -121,5 +135,6 @@
             return;
         CoreWrapper.InputHandler.TakeCharacterPathStep(Entity.Id, pathId, stepId);
         SelectedPath = null;
+        CoreWrapper.ShowCharacterPathDisplay = false;
     }
 }

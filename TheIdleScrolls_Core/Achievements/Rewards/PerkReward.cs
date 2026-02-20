@@ -13,7 +13,7 @@ namespace TheIdleScrolls_Core.Achievements.Rewards
 {
     public record PerkReward(Perk Perk) : IAchievementReward
     {
-        public string Description => $"'{Perk.Name}' Perk";
+        public string Description => $"'{Perk.Name}' {(Perk.Skill is null ? "Perk" : "Skill")}";
 
         public bool GiveReward(Entity entity, World world, Action<IMessage> postMessageCallback)
         {

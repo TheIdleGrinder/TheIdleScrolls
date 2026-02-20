@@ -25,11 +25,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         public override bool IsAvailableTo(Entity user)
         {
-            var perksComp = user.GetComponent<PerksComponent>();
-            if (perksComp is null)
-                return false;
-
-            return perksComp.IsPerkActive(Perks.ExposeWeaknessPerks.BasePerkId);
+            return HasPerkActive(user, Perks.ExposeWeaknessPerks.BasePerkId);
         }
 
         public override (bool available, string reason) IsUsableBy(Entity user)

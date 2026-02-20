@@ -215,6 +215,10 @@
 
     string ModifierPreface()
     {
+        if (Perk?.Skill is not null)
+        {
+            return Perk.Skill.Name + ": ";
+        }
         return (Perk?.ApplyModifiersToOwner ?? true) ? "" : "Target receives: ";
     }
 

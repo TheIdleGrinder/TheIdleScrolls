@@ -8,13 +8,21 @@ using TheIdleScrolls_Core.Achievements.Rewards;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Modifiers;
+using TheIdleScrolls_Core.Perks;
 
 namespace TheIdleScrolls_Core.CharacterPaths.Paths
 {
     public static class FighterPath
     {
-        const string PathId = "fighter";
-        const string RootId = "fighter_root";
+        const string PathId         = "fighter";
+        const string RootId         = "fighter_root";
+        const string DualWield1Id   = "dualwield1";
+        const string DualWield2Id   = "dualwield2";
+        const string DualWield3Id   = "dualwield3";
+        const string DualWield4Id   = "dualwield4";
+        const string Shield1Id      = "shielded1";
+        const string Single1Id      = "singlehanded1";
+        const string TwoHand1Id     = "twohanded1";
 
         public static CharacterPath Path { get; } = new CharacterPath(PathId, Properties.Skills.PathFighter, Properties.Skills.PathFighter);
     
@@ -47,8 +55,28 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
         {
             Path.AddStep(new CharacterPathStep(RootId, Properties.Skills.PathFighterRoot, "")
             {
-                Reward = new MultiReward([new PerkReward(RootPerk), StarterItems()]),
+                Reward = new MultiReward([new PerkReward(RootPerk), new PerkReward(HeavyAttackPerks.BasePerk), StarterItems()]),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 0)
+            });
+            Path.AddStep(new CharacterPathStep(DualWield1Id, Properties.Skills.DualWield1, "")
+            {
+                Reward = new AbilityReward(Abilities.DualWield),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 1)
+            });
+            Path.AddStep(new CharacterPathStep(Shield1Id, Properties.Skills.Shield1, "")
+            {
+                Reward = new AbilityReward(Abilities.Shielded),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 1)
+            });
+            Path.AddStep(new CharacterPathStep(Single1Id, Properties.Skills.SingleHanded1, "")
+            {
+                Reward = new AbilityReward(Abilities.SingleHanded),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 1)
+            });
+            Path.AddStep(new CharacterPathStep(TwoHand1Id, Properties.Skills.TwoHanded1, "")
+            {
+                Reward = new AbilityReward(Abilities.TwoHanded),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 1)
             });
         }
     }

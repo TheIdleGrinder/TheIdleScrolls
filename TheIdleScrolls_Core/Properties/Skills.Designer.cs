@@ -61,6 +61,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dual Wielding ähnelt.
+        /// </summary>
+        internal static string DualWield1 {
+            get {
+                return ResourceManager.GetString("DualWield1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Path of the Fighter ähnelt.
         /// </summary>
         internal static string PathFighter {
@@ -75,6 +84,33 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string PathFighterRoot {
             get {
                 return ResourceManager.GetString("PathFighterRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shieldbearer ähnelt.
+        /// </summary>
+        internal static string Shield1 {
+            get {
+                return ResourceManager.GetString("Shield1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fencer ähnelt.
+        /// </summary>
+        internal static string SingleHanded1 {
+            get {
+                return ResourceManager.GetString("SingleHanded1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wide Swings ähnelt.
+        /// </summary>
+        internal static string TwoHanded1 {
+            get {
+                return ResourceManager.GetString("TwoHanded1", resourceCulture);
             }
         }
     }

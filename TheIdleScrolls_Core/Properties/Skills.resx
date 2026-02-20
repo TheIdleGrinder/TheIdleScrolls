@@ -117,10 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DualWield1" xml:space="preserve">
+    <value>Dual Wielding</value>
+  </data>
   <data name="PathFighter" xml:space="preserve">
     <value>Path of the Fighter</value>
   </data>
   <data name="PathFighterRoot" xml:space="preserve">
     <value>Fighter</value>
+  </data>
+  <data name="Shield1" xml:space="preserve">
+    <value>Shieldbearer</value>
+  </data>
+  <data name="SingleHanded1" xml:space="preserve">
+    <value>Fencer</value>
+  </data>
+  <data name="TwoHanded1" xml:space="preserve">
+    <value>Wide Swings</value>
   </data>
 </root>

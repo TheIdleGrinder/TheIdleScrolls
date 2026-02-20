@@ -119,9 +119,9 @@
 
 @if (CoreWrapper.ShowCharacterPathDisplay)
 {
-    <div class="bigShadowBackground" @onclick="(() => CoreWrapper.ShowCharacterPathDisplay = false)">
+    <div class="bigShadowBackground">
         <div class="path-allocation-container">
-            <CharPathStepAllocationDisplay Entity="@CoreWrapper.PlayerCharacter"></CharPathStepAllocationDisplay>
+            <CharPathStepAllocationDisplay Entity="@CoreWrapper.PlayerCharacter"/>
         </div>
     </div>
 }
@@ -241,7 +241,7 @@
     }
 
     .path-allocation-container {
-        padding: 1rem;
+        padding: 0.25rem;
         overflow-y: auto;
         position: absolute;
         top: 50%;
@@ -251,8 +251,10 @@
         max-height: 50%;
         justify-content: center;
         align-items: center;
-        border: 2px solid var(--frame-color);
+        border: 3px solid var(--frame-color);
+        border-radius: var(--border-radius);
         background-color: var(--back-color);
+        overflow-y: visible;
     }
 
     .tabPage {
