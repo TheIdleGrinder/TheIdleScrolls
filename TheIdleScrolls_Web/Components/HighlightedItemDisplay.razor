@@ -19,7 +19,7 @@
             @if (HighlightedItem?.WeaponAspect != null)
             {
                 <span style="margin-top: 0.5rem">
-                    Damage: @HighlightedItem?.WeaponAspect?.BaseDamage
+                    Damage: @HighlightedItem?.WeaponAspect?.BaseDamage?.TotalDamage
                     @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareDamage) ?? [])
                     {
                         <ItemStatComparison ComparisonResult=@comp></ItemStatComparison>

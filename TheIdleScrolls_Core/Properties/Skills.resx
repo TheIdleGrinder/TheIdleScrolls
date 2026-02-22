@@ -117,8 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BlazingWeaponSupport_Description" xml:space="preserve">
+    <value>Increase the effect duration of Blazing Weapon</value>
+  </data>
+  <data name="BlazingWeaponSupport_Name" xml:space="preserve">
+    <value>Lasting Flame</value>
+  </data>
+  <data name="BlazingWeapon_Description" xml:space="preserve">
+    <value>Imbue your weapon with the fiery energy. Grants a percentage of the weapons damage as extra base fire damage.</value>
+  </data>
+  <data name="BlazingWeapon_Name" xml:space="preserve">
+    <value>Blazing Weapon</value>
+  </data>
   <data name="DualWield1" xml:space="preserve">
     <value>Dual Wielding</value>
+  </data>
+  <data name="EnvWeaponSupport_Description" xml:space="preserve">
+    <value>Increase execution speed and cooldown recovery of the Envenom Weapon Skill</value>
+  </data>
+  <data name="EnvWeaponSupport_Name" xml:space="preserve">
+    <value>Efficient Application</value>
+  </data>
+  <data name="EnvWeapon_Description" xml:space="preserve">
+    <value>Coat your weapon in a powerful toxin to deal additional base damage as poison with every hit</value>
+  </data>
+  <data name="EnvWeapon_Name" xml:space="preserve">
+    <value>Envenom Weapon</value>
   </data>
   <data name="PathFighter" xml:space="preserve">
     <value>Path of the Fighter</value>

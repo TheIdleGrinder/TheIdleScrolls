@@ -152,9 +152,18 @@ namespace TheIdleScrolls_Core.Skills
 		}
 
 		// Utility functions, might move somehwere else later
-		public double ScaleValue(double baseValue, List<string> situationalTags)
+		public double ScaleValue(double baseValue, List<string> situationalTags, List<Modifier>? exclusiveMods = null)
 		{
-			return User!.ApplyAllApplicableModifiers(baseValue, [Id, .. Tags, ..situationalTags], User!.GetTags());
+			if (exclusiveMods is null || exclusiveMods.Count == 0)
+			{
+				return User!.ApplyAllApplicableModifiers(baseValue, [Id, .. Tags, .. situationalTags], User!.GetTags());
+			}
+			else
+			{
+				List<Modifier> mods = User!.GetComponent<ModifierComponent>()?.GetModifiers()?.Concat(exclusiveMods)?.ToList() 
+										?? exclusiveMods;
+				return mods.ApplyAllApplicable(baseValue, [Id, .. Tags, .. situationalTags], User!.GetTags());
+			}
         }
 
 		public Perk? GetPerk(string perkId)

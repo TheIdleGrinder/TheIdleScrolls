@@ -120,7 +120,7 @@ namespace TheIdleScrolls_Core.Items
 
             if (WeaponAspect != null)
             {
-                description += $"; Damage: {WeaponAspect.BaseDamage}";
+                description += $"; Damage: {WeaponAspect.BaseDamage.TotalDamage:0.#}";
                 description += $"; Attack Time: {WeaponAspect.BaseCooldown} s";
                 description += $"; DPS: {(WeaponAspect.BaseDamage.TotalDamage / WeaponAspect.BaseCooldown):#.##}";
             }

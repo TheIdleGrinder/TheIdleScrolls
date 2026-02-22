@@ -78,6 +78,26 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 Reward = new AbilityReward(Abilities.TwoHanded),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 1)
             });
+            Path.AddStep(new CharacterPathStep(EnvenomWeapon.BasePerkId, EnvenomWeapon.BasePerk.Name, EnvenomWeapon.BasePerk.Description)
+            {
+                Reward = new PerkReward(EnvenomWeapon.BasePerk),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 2)
+            }); 
+            Path.AddStep(new CharacterPathStep(EnvenomWeapon.DurationPerkId, EnvenomWeapon.SupportPerk.Name, EnvenomWeapon.SupportPerk.Description)
+            {
+                Reward = new PerkReward(EnvenomWeapon.SupportPerk),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements(EnvenomWeapon.BasePerkId, 3)
+            }); 
+            Path.AddStep(new CharacterPathStep(BlazingWeapon.BasePerkId, BlazingWeapon.BasePerk.Name, BlazingWeapon.BasePerk.Description)
+            {
+                Reward = new PerkReward(BlazingWeapon.BasePerk),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 2)
+            });
+            Path.AddStep(new CharacterPathStep(BlazingWeapon.SupportPerkId, BlazingWeapon.SupportPerk.Name, BlazingWeapon.SupportPerk.Description)
+            {
+                Reward = new PerkReward(BlazingWeapon.SupportPerk),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements(BlazingWeapon.BasePerkId, 3)
+            });
         }
     }
 }

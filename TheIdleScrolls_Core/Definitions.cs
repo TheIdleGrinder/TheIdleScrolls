@@ -107,6 +107,8 @@ namespace TheIdleScrolls_Core
             public const string DefensiveLayers = "DefensiveLayers";
             public const string TimeShield = "TimeShield";
 
+            public const string CooldownRecovery = "CooldownRecovery";
+
             public const string CharacterXpGain = "CharacterXpGain";
             public const string AbilityXpGain = "AbilityXpGain";
 
@@ -126,6 +128,9 @@ namespace TheIdleScrolls_Core
             public const string Spell = "Spell";
             public const string Insight = "Insight";
             public const string Trick = "Trick";
+
+            public const string Buff = "Buff";
+            public const string Debuff = "Debuff";
 
             public const string Hit = "Hit";
 

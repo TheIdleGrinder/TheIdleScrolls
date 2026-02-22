@@ -61,11 +61,83 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Imbue your weapon with the fiery energy. Grants a percentage of the weapons damage as extra base fire damage. ähnelt.
+        /// </summary>
+        internal static string BlazingWeapon_Description {
+            get {
+                return ResourceManager.GetString("BlazingWeapon_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Blazing Weapon ähnelt.
+        /// </summary>
+        internal static string BlazingWeapon_Name {
+            get {
+                return ResourceManager.GetString("BlazingWeapon_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Increase the effect duration of Blazing Weapon ähnelt.
+        /// </summary>
+        internal static string BlazingWeaponSupport_Description {
+            get {
+                return ResourceManager.GetString("BlazingWeaponSupport_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lasting Flame ähnelt.
+        /// </summary>
+        internal static string BlazingWeaponSupport_Name {
+            get {
+                return ResourceManager.GetString("BlazingWeaponSupport_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Dual Wielding ähnelt.
         /// </summary>
         internal static string DualWield1 {
             get {
                 return ResourceManager.GetString("DualWield1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Coat your weapon in a powerful toxin to deal additional base damage as poison with every hit ähnelt.
+        /// </summary>
+        internal static string EnvWeapon_Description {
+            get {
+                return ResourceManager.GetString("EnvWeapon_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Envenom Weapon ähnelt.
+        /// </summary>
+        internal static string EnvWeapon_Name {
+            get {
+                return ResourceManager.GetString("EnvWeapon_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Increase execution speed and cooldown recovery of the Envenom Weapon Skill ähnelt.
+        /// </summary>
+        internal static string EnvWeaponSupport_Description {
+            get {
+                return ResourceManager.GetString("EnvWeaponSupport_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Efficient Application ähnelt.
+        /// </summary>
+        internal static string EnvWeaponSupport_Name {
+            get {
+                return ResourceManager.GetString("EnvWeaponSupport_Name", resourceCulture);
             }
         }
         
