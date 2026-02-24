@@ -31,6 +31,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
         {
+            skill.Tags = [Tags.AttackSkill];
+
             var attackComp = user.GetComponent<AttackComponent>();
             var perk = user.GetComponent<PerksComponent>()?.GetPerk(HeavyAttackPerks.BasePerkId);
             if (attackComp is null || perk is null)

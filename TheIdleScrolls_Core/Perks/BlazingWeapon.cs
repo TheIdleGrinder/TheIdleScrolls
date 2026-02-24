@@ -31,8 +31,10 @@ namespace TheIdleScrolls_Core.Perks
                 for (int i = 0; i < weapons.Count; i++)
                 {
                     double fireDmg = percentage * weapons[i].GetComponent<WeaponComponent>()!.Damage.DamageOfType(DamageType.Physical);
-                    string tag = i == 0 ? Tags.MainHand : Tags.OffHand;
-                    result.Add(new(BasePerkId + $"_{i}", ModifierType.AddBase, fireDmg, [Tags.Damage, DamageType.Fire.ToTag(), tag], []));
+                    HashSet<string> tags = [Tags.Damage, DamageType.Fire.ToTag()];
+                    if (weapons.Count > 1)
+                        tags.Add(i == 0 ? Tags.MainHand : Tags.OffHand);
+                    result.Add(new(BasePerkId + $"_{i}", ModifierType.AddBase, fireDmg, tags, []));
                 }
                 return result;
             }
@@ -52,7 +54,7 @@ namespace TheIdleScrolls_Core.Perks
             {
                 double bonus = 0.2 * l;
                 return [
-                    new(SupportPerkId + "_duration", ModifierType.Increase, bonus, [Tags.Buff, Tags.Duration], [])
+                    new(SupportPerkId + "_duration", ModifierType.Increase, bonus, [Tags.Duration], [])
                 ];
             }
         )

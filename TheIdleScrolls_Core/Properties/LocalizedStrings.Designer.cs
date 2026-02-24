@@ -718,6 +718,96 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alchemy ähnelt.
+        /// </summary>
+        internal static string Skill_Alchemy {
+            get {
+                return ResourceManager.GetString("Skill_Alchemy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Attack ähnelt.
+        /// </summary>
+        internal static string Skill_Attack {
+            get {
+                return ResourceManager.GetString("Skill_Attack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Buff ähnelt.
+        /// </summary>
+        internal static string Skill_Buff {
+            get {
+                return ResourceManager.GetString("Skill_Buff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Damage ähnelt.
+        /// </summary>
+        internal static string Skill_Damage {
+            get {
+                return ResourceManager.GetString("Skill_Damage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Debuff ähnelt.
+        /// </summary>
+        internal static string Skill_Debuff {
+            get {
+                return ResourceManager.GetString("Skill_Debuff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die DoT ähnelt.
+        /// </summary>
+        internal static string Skill_DoT {
+            get {
+                return ResourceManager.GetString("Skill_DoT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Duration ähnelt.
+        /// </summary>
+        internal static string Skill_Duration {
+            get {
+                return ResourceManager.GetString("Skill_Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Insight ähnelt.
+        /// </summary>
+        internal static string Skill_Insight {
+            get {
+                return ResourceManager.GetString("Skill_Insight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Spell ähnelt.
+        /// </summary>
+        internal static string Skill_Spell {
+            get {
+                return ResourceManager.GetString("Skill_Spell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Trick ähnelt.
+        /// </summary>
+        internal static string Skill_Trick {
+            get {
+                return ResourceManager.GetString("Skill_Trick", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die At the threshold between worlds you encounter the demonic champion. As you clash, time and space appear to to twist around you until everything just... stops.
         ///
         ///Time to finish: {0} ähnelt.

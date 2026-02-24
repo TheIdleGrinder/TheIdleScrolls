@@ -98,6 +98,21 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 Reward = new PerkReward(BlazingWeapon.SupportPerk),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(BlazingWeapon.BasePerkId, 3)
             });
+            Path.AddStep(new CharacterPathStep(BattleCry.BasePerkId, BattleCry.BasePerk.Name, BattleCry.BasePerk.Description)
+            {
+                Reward = new PerkReward(BattleCry.BasePerk),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 3)
+            });
+            Path.AddStep(new CharacterPathStep(BattleCry.BuffPerkId, BattleCry.BuffPerk.Name, BattleCry.BuffPerk.Description)
+            {
+                Reward = new PerkReward(BattleCry.BuffPerk),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements(BattleCry.BasePerkId, 4)
+            });
+            Path.AddStep(new CharacterPathStep(BattleCry.DebuffPerkId, BattleCry.DebuffPerk.Name, BattleCry.DebuffPerk.Description)
+            {
+                Reward = new PerkReward(BattleCry.DebuffPerk),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements(BattleCry.BasePerkId, 5)
+            });
         }
     }
 }

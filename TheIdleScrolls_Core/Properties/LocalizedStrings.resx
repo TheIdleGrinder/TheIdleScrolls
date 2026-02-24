@@ -371,4 +371,34 @@ Time to finish: {0}</value>
   <data name="DamageTaken" xml:space="preserve">
     <value>Damage Taken</value>
   </data>
+  <data name="Skill_Alchemy" xml:space="preserve">
+    <value>Alchemy</value>
+  </data>
+  <data name="Skill_Attack" xml:space="preserve">
+    <value>Attack</value>
+  </data>
+  <data name="Skill_Buff" xml:space="preserve">
+    <value>Buff</value>
+  </data>
+  <data name="Skill_Damage" xml:space="preserve">
+    <value>Damage</value>
+  </data>
+  <data name="Skill_Debuff" xml:space="preserve">
+    <value>Debuff</value>
+  </data>
+  <data name="Skill_DoT" xml:space="preserve">
+    <value>DoT</value>
+  </data>
+  <data name="Skill_Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="Skill_Insight" xml:space="preserve">
+    <value>Insight</value>
+  </data>
+  <data name="Skill_Spell" xml:space="preserve">
+    <value>Spell</value>
+  </data>
+  <data name="Skill_Trick" xml:space="preserve">
+    <value>Trick</value>
+  </data>
 </root>

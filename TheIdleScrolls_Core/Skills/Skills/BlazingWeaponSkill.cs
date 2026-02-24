@@ -37,7 +37,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
         {
-            skill.Tags = [Tags.Buff, Tags.Duration, DamageType.Fire.ToTag()];
+            skill.Tags = [Tags.BuffSkill, Tags.DurationSkill, DamageType.Fire.ToTag()];
 
             Perk basePerk = skill.GetPerk(BlazingWeapon.BasePerkId)!;
             Perk? supportPerk = skill.GetPerk(BlazingWeapon.SupportPerkId);

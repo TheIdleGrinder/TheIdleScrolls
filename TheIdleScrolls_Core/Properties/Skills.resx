@@ -117,8 +117,26 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BattleCryBuff_Description" xml:space="preserve">
+    <value>The inspiration from your Battle Cry makes you nearly unstoppable: Battle Cry also grants increased defense and stun resistance</value>
+  </data>
+  <data name="BattleCryBuff_Name" xml:space="preserve">
+    <value>Inspiring Cry</value>
+  </data>
+  <data name="BattleCryDebuff_Description" xml:space="preserve">
+    <value>Your intimidating Battle Cry applies a debuff to your opponents, hindering their ability to use skills and mitigate damage.</value>
+  </data>
+  <data name="BattleCryDebuff_Name" xml:space="preserve">
+    <value>Fearsome Cry</value>
+  </data>
+  <data name="BattleCry_Description" xml:space="preserve">
+    <value>Higher levels have biffer effect and longer duration</value>
+  </data>
+  <data name="BattleCry_Name" xml:space="preserve">
+    <value>Battle Cry</value>
+  </data>
   <data name="BlazingWeaponSupport_Description" xml:space="preserve">
-    <value>Increase the effect duration of Blazing Weapon</value>
+    <value>Increase the effect duration of the Blazing Weapon skill</value>
   </data>
   <data name="BlazingWeaponSupport_Name" xml:space="preserve">
     <value>Lasting Flame</value>
@@ -133,7 +151,7 @@
     <value>Dual Wielding</value>
   </data>
   <data name="EnvWeaponSupport_Description" xml:space="preserve">
-    <value>Increase execution speed and cooldown recovery of the Envenom Weapon Skill</value>
+    <value>Increase execution speed and cooldown recovery of the Envenom Weapon skill</value>
   </data>
   <data name="EnvWeaponSupport_Name" xml:space="preserve">
     <value>Efficient Application</value>

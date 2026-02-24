@@ -133,6 +133,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
         {
+            skill.Tags = [Tags.AttackSkill];
+
             var attackComp = user.GetComponent<AttackComponent>();
             if (attackComp == null)
             {

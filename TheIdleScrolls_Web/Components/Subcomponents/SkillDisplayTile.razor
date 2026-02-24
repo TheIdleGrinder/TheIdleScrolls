@@ -8,7 +8,7 @@
 
 <div class="skill-display-frame">
     <span class="skill-display-name">@Skill.Name</span>
-    <span class="skill-display-tags">@(String.Join(", ", Skill.Tags))</span>
+    <span class="skill-display-tags">@(String.Join(", ", Skill.Tags.Select(t => t.Localize())))</span>
     <div class="skill-display-main">
         @if (Skill.ChargingTime > 0)
         {

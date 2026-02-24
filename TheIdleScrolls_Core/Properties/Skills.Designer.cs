@@ -61,6 +61,60 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Higher levels have biffer effect and longer duration ähnelt.
+        /// </summary>
+        internal static string BattleCry_Description {
+            get {
+                return ResourceManager.GetString("BattleCry_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Battle Cry ähnelt.
+        /// </summary>
+        internal static string BattleCry_Name {
+            get {
+                return ResourceManager.GetString("BattleCry_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The inspiration from your Battle Cry makes you nearly unstoppable: Battle Cry also grants increased defense and stun resistance ähnelt.
+        /// </summary>
+        internal static string BattleCryBuff_Description {
+            get {
+                return ResourceManager.GetString("BattleCryBuff_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Inspiring Cry ähnelt.
+        /// </summary>
+        internal static string BattleCryBuff_Name {
+            get {
+                return ResourceManager.GetString("BattleCryBuff_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Your intimidating Battle Cry applies a debuff to your opponents, hindering their ability to use skills and mitigate damage. ähnelt.
+        /// </summary>
+        internal static string BattleCryDebuff_Description {
+            get {
+                return ResourceManager.GetString("BattleCryDebuff_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fearsome Cry ähnelt.
+        /// </summary>
+        internal static string BattleCryDebuff_Name {
+            get {
+                return ResourceManager.GetString("BattleCryDebuff_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Imbue your weapon with the fiery energy. Grants a percentage of the weapons damage as extra base fire damage. ähnelt.
         /// </summary>
         internal static string BlazingWeapon_Description {
@@ -79,7 +133,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Increase the effect duration of Blazing Weapon ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Increase the effect duration of the Blazing Weapon skill ähnelt.
         /// </summary>
         internal static string BlazingWeaponSupport_Description {
             get {
@@ -124,7 +178,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Increase execution speed and cooldown recovery of the Envenom Weapon Skill ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Increase execution speed and cooldown recovery of the Envenom Weapon skill ähnelt.
         /// </summary>
         internal static string EnvWeaponSupport_Description {
             get {

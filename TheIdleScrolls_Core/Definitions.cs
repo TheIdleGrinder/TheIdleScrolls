@@ -117,6 +117,18 @@ namespace TheIdleScrolls_Core
             public const string CraftingSpeed = "CraftingSpeed";
             public const string CraftingCostEfficiency = "CraftingCostEfficiency";
 
+            // Skill Types
+            public const string AlchemySkill = "Skill_Alchemy";
+            public const string AttackSkill = "Skill_Attack";
+            public const string BuffSkill = "Skill_Buff";
+            public const string DamageSkill = "Skill_Damage";
+            public const string DabuffSkill = "Skill_Debuff";
+            public const string DoTSkill = "Skill_DoT";
+            public const string DurationSkill = "Skill_Duration";
+            public const string InsightSkill = "Skill_Insight";
+            public const string SpellSkill = "Skill_Spell";
+            public const string TrickSkill = "Skill_Trick";
+
             // Skill Attributes
             public const string Duration = "Duration";
 
