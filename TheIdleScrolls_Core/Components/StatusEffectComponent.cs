@@ -21,7 +21,7 @@ namespace TheIdleScrolls_Core.Components
 
 		public void Remove(StatusEffect effect)
 		{
-			_StatusEffects.Remove(effect);
+            _StatusEffects.Remove(effect);
 		}
 
 		public void DeactivateAll()

@@ -7,14 +7,16 @@
         <div class="compact-bar-fill compact-effect-bar-fill" style="width: @($"{CalculateProgress():0%}");"></div>
     </div>
 
-    <span class="barTooltip">
-        @foreach (var line in Effect.Description.Split('\n'))
-        {
-            @line
-
-            <br />
-        }
-    </span>
+    <div class="barTooltip">
+        <div style="font-weight:bold;">@Effect.Name</div>
+        <div class="skill-display-effect status-effect-list">
+            @foreach (var line in Effect.Description.Split('\n'))
+            {
+                @("  ➤") @line
+                <br />
+            }
+        </div>
+    </div>
 </div>
 
 <style>
@@ -24,6 +26,10 @@
 
     .compact-effect-bar-fill {
         background-color: aquamarine;
+    }
+
+    .status-effect-list {
+        text-align: start;
     }
 </style>
 

@@ -45,7 +45,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             double spd = perk.Modifiers.FirstOrDefault(p => p.Id == HeavyAttackPerks.BasePerkSpdModId)?.Value ?? 0.0;
                         
             DamageCluster damage = attackComp.AverageDamage.Multiply(1.0 + dmg);
-            skill.ActiveEffects.OnEnter = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. AdditionalTags]);
+            skill.ActivityStartEffects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. AdditionalTags]);
             skill.ChargingTime = (spd != 0.0) ? attackComp.AverageCooldown / (1.0 + spd) : double.PositiveInfinity;
             skill.Timer.CooldownDuration = 5.0;
         }

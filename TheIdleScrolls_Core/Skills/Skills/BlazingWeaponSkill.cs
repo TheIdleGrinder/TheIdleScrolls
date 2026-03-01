@@ -54,7 +54,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             skill.Timer.CooldownDuration = 3.0 / (recovery != 0.0 ? recovery : 1.0);
 
             StatusEffect fireDamage = new GenericModifierStatusEffect("Blazing Weapon", 0.0, basePerk.Modifiers, []);
-            skill.ActiveEffects.WhileIn = [fireDamage];
+            skill.ActivityWhileInEffects = [fireDamage];
         }
     }
 }

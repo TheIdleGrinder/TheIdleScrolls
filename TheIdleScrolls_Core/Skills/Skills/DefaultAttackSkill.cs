@@ -80,10 +80,10 @@ namespace TheIdleScrolls_Core.Skills.Skills
             if (weaponCount == 0)
             {
                 DamageCluster damage = new();
-                damage.AddDamage(DamageType.Physical, 2.0); // Base unarmed damage
+                damage.AddDamage(DamageType.Physical, Stats.UnarmedBaseDamage); // Base unarmed damage
                 damage = damage.ScaleWithModifiers(
                     modComp?.GetModifiers() ?? [],
-                    [Abilities.Unarmed, .. AdditionalTags],
+                    [Abilities.Unarmed, Tags.Melee, .. AdditionalTags],
                     globalTags);
                 // invert attack speed due to speed/cooldown mismatch
                 cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
@@ -144,7 +144,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             }
 
             List<string> AdditionalTags = [Tags.Attack, Skill.Id];
-            skill.ActiveEffects.OnEnter = CreateDefaultSkillEffectsForDamage(attackComp.AverageDamage, [.. AdditionalTags]);
+            skill.ActivityStartEffects = CreateDefaultSkillEffectsForDamage(attackComp.AverageDamage, [.. AdditionalTags]);
             skill.ChargingTime = attackComp.AverageCooldown;
         }
 

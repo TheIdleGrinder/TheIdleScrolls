@@ -13,6 +13,7 @@ namespace TheIdleScrolls_Core
     {
         public static class Stats
         {
+            public const double UnarmedBaseDamage = 2.0;
             public const double AttackBonusPerLevel = 0.02;
             public const double TimeShieldBonusPerLevel = 0.02;
             public const double AttackDamagePerAbilityLevel = 0.02;
@@ -152,9 +153,13 @@ namespace TheIdleScrolls_Core
             public const string Elemental = "Elemental";
             public const string Status = "Status";
             public const string Stun = "Stun";
+            public const string Slow = "Slow";
+            public const string Intimidate = "Intimidate";
 
             public const string QualityPrefix = "+";
             public const string HandSuffix = "H";
+            public const string OneHandedWeapon = $"1{HandSuffix}";
+            public const string TwoHandedWeapon = $"2{HandSuffix}";
             public const string Weapon = "Weapon";
             public const string Armor = "Armor";
             public const string Shield = "Shield";

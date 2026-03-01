@@ -12,7 +12,7 @@
     </div>
 
     <span class="barTooltip">
-        Damage per Second: @($"{(DoTComponent?.DpsForType(DamageType) ?? 0.0):0.#}")
+        @(DamageType.ToString()) Damage per Second: @($"{(DoTComponent?.DpsForType(DamageType) ?? 0.0):0.#}")
     </span>
 </div>
 

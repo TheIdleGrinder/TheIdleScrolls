@@ -13,7 +13,7 @@ namespace TheIdleScrolls_Core.Skills
         {
             return (user, skill) =>
             {
-                skill.ActiveEffects.OnEnter = scalers.Select(s => s(user)).ToList();
+                skill.ActivityStartEffects = scalers.Select(s => s(user)).ToList();
                 skill.Timer.ChargingDuration = chargeTime;
                 skill.Timer.CooldownDuration = cooldown;
             };

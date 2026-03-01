@@ -162,7 +162,10 @@ namespace TheIdleScrolls_Core.Items
                 }
                 else // Weapon
                 {
-                    tagsComp.AddTag($"{hands}{Tags.HandSuffix}");
+                    if (hands == 1)
+                        tagsComp.AddTag(Tags.OneHandedWeapon);
+                    else if (hands == 2)
+                        tagsComp.AddTag(Tags.TwoHandedWeapon);
                 }
                 
             }

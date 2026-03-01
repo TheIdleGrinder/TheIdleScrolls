@@ -18,14 +18,14 @@ namespace TheIdleScrolls_Core.StatusEffects
         public override string Description { 
             get 
             {
-                string mods = String.Join("",Modifiers.Select(m => "\n\t" + m.ToPrettyString()));
+                string mods = String.Join("\n", Modifiers.Select(m => "\t" + m.ToPrettyString()));
                 if (Timer is not null)
                 {
-                    return $"'{Name}' for {Timer.Duration:0.##} seconds:" + mods;
+                    return $"For {Timer.Duration:0.##} seconds:" + mods;
                 }
                 else
                 {
-                    return $"'{Name}':" + mods;
+                    return mods;
                 }
             } 
         }

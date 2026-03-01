@@ -44,11 +44,11 @@ namespace TheIdleScrolls_Core.Modifiers
         public ActiveSkillDefinition? Skill { get; init; } = null;
 
         // Corner cut: should this be part of the perk? Also, this is always at least 1, so that the modifiers are not 0
-        public int CurrentLevel { get; private set; } = 1; 
-        public ModifierGenerator ModifiersFunc { get; private set; } 
+        public int CurrentLevel { get; private set; } = 1;
+        public ModifierGenerator ModifiersFunc { get; private set; }
             = (int lvl, Entity e, World w, Coordinator c) => { return []; };
 
-        public Perk(string id, string name, string description, 
+        public Perk(string id, string name, string description,
             HashSet<UpdateTrigger> updateTriggers,
             ModifierGenerator modifiersFunc)
         {
@@ -63,6 +63,11 @@ namespace TheIdleScrolls_Core.Modifiers
         {
             CurrentLevel = level;
             Modifiers = ModifiersFunc(level, owner, world, coordinator);
+        }
+
+        public Modifier? GetModifier(string modifierId)
+        {
+            return Modifiers.FirstOrDefault(m => m.Id == modifierId);
         }
     }
 }

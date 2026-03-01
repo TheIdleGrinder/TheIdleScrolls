@@ -221,7 +221,7 @@ namespace TheIdleScrolls_Core.Systems
 				if (skillComp.CurrentSkill is not null
 					&& skillComp.CurrentSkill.CurrentState == SkillTimer.State.NotStarted)
 				{
-					skillComp.CurrentSkill.Timer.Start();
+					skillComp.CurrentSkill.StartCharging();
 				}
                 (SkillTimer.TimerUpdateResult updateResult, List<ISkillEffect> effects) 
                     = skillComp.CurrentSkill?.Update(previouslyRemaining) ?? (new(), []);

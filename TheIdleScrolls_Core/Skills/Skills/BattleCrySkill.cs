@@ -52,13 +52,13 @@ namespace TheIdleScrolls_Core.Skills.Skills
             if (skill.GetPerkLevel(BattleCry.BuffPerkId) > 0)
                 buffEffectMods.AddRange(buffPerk!.Modifiers);
             StatusEffect buff = new GenericModifierStatusEffect(Properties.Skills.BattleCry_Name, 0.0, buffEffectMods, []);
-            skill.ActiveEffects.WhileIn = [buff];
+            skill.ActivityWhileInEffects = [buff];
 
             if (skill.GetPerkLevel(BattleCry.DebuffPerkId) > 0)
             {
                 Perk debuffPerk = skill.GetPerk(BattleCry.DebuffPerkId)!;
-                GenericModifierStatusEffect debuff = new("Confused", skill.Timer.ActiveDuration, debuffPerk.Modifiers, [Tags.Debuff]);
-                skill.ActiveEffects.OnEnter = [new StatusSkillEffect(ISkillEffect.TargetingMode.SingleEnemy, debuff)];
+                SlowStatusEffect debuff = new(skill.Timer.ActiveDuration, debuffPerk.Modifiers[0].Value);
+                skill.ActivityStartEffects = [new StatusSkillEffect(ISkillEffect.TargetingMode.SingleEnemy, debuff)];
             }
         }
     }

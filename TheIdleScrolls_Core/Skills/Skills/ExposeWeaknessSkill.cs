@@ -61,7 +61,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
             skill.Timer.ChargingDuration = chargeTime;
             skill.Timer.CooldownDuration = cooldown;
-            skill.ActiveEffects.OnEnter = [new StatusSkillEffect(ISkillEffect.TargetingMode.SingleEnemy, effect)];
+            skill.ActivityStartEffects = [new StatusSkillEffect(ISkillEffect.TargetingMode.SingleEnemy, effect)];
         }
     }
 }

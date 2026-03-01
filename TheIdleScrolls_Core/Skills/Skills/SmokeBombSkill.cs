@@ -49,10 +49,10 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
             skill.ChargingTime = 1.0;
             skill.Timer.ActiveDuration = 3.0 + 1.0 * skill.GetPerkLevel(Perks.SmokeBombPerks.BasePerkId);
-            if (skill.ActiveEffects.WhileIn.Count == 0)
+            if (skill.ActivityWhileInEffects.Count == 0)
             {
                 StatusEffect smokeEffect = new GenericModifierStatusEffect("Shrouded in Smoke", 0.0, basePerk.Modifiers, []);
-                skill.ActiveEffects.WhileIn = [smokeEffect];
+                skill.ActivityWhileInEffects = [smokeEffect];
             }
 
             int level = skill.GetPerkLevel(Perks.SmokeBombPerks.DamageOnActivityEndId);
@@ -62,12 +62,12 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 double dmg = explosionPerk.Modifiers[0].Value; // CornerCut: Assume that that perk only has one modifier
                 dmg = skill.ScaleValue(dmg, [Tags.Damage]);
                 ISkillEffect dmgEffect = new DamageSkillEffect(DamageType.Fire, dmg, ISkillEffect.TargetingMode.SingleEnemy, [Tags.Damage]);
-                skill.CooldownEffects.OnEnter = [dmgEffect];
+                skill.CooldownStartEffects = [dmgEffect];
                 skill.Tags.Add(Tags.Damage);
             }
             else
             {
-                skill.CooldownEffects.OnEnter = [];
+                skill.CooldownStartEffects = [];
             }
 
             level = skill.GetPerkLevel(Perks.SmokeBombPerks.DamageWhileActiveId);
@@ -76,16 +76,16 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 Perk damagePerk = skill.GetPerk(Perks.SmokeBombPerks.DamageWhileActiveId)!;
                 double dmg = damagePerk.Modifiers[0].Value;
                 dmg = skill.ScaleValue(dmg, [Tags.Damage, Tags.DamageOverTime]);
-                if (skill.ActiveEffects.RepeatedWhileIn is null)
+                if (skill.ActivityRepeatedEffect is null)
                 {
-                    skill.ActiveEffects.RepeatedWhileIn = new DoTSkillEffectGenerator(DamageType.Poison, dmg);
+                    skill.ActivityRepeatedEffect = new DoTSkillEffectGenerator(DamageType.Poison, dmg);
                 }
-                (skill.ActiveEffects.RepeatedWhileIn! as DoTSkillEffectGenerator)!.DPS = dmg;
+                (skill.ActivityRepeatedEffect! as DoTSkillEffectGenerator)!.DPS = dmg;
                 skill.Tags.Add(Tags.DamageOverTime);
             }
             else
             {
-                skill.ActiveEffects.RepeatedWhileIn = null;
+                skill.ActivityRepeatedEffect = null;
             }
         }
     }

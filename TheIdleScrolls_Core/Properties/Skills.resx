@@ -148,7 +148,13 @@
     <value>Blazing Weapon</value>
   </data>
   <data name="DualWield1" xml:space="preserve">
-    <value>Dual Wielding</value>
+    <value>Two Weapons I</value>
+  </data>
+  <data name="DualWield2" xml:space="preserve">
+    <value>Two Weapons II</value>
+  </data>
+  <data name="DualWield3" xml:space="preserve">
+    <value>Two Weapons III</value>
   </data>
   <data name="EnvWeaponSupport_Description" xml:space="preserve">
     <value>Increase execution speed and cooldown recovery of the Envenom Weapon skill</value>
@@ -162,6 +168,12 @@
   <data name="EnvWeapon_Name" xml:space="preserve">
     <value>Envenom Weapon</value>
   </data>
+  <data name="MeleeAttackSpeed" xml:space="preserve">
+    <value>Melee Attack Speed</value>
+  </data>
+  <data name="OneHandMeleeDamage" xml:space="preserve">
+    <value>One-Handed Melee Damage</value>
+  </data>
   <data name="PathFighter" xml:space="preserve">
     <value>Path of the Fighter</value>
   </data>
@@ -169,12 +181,43 @@
     <value>Fighter</value>
   </data>
   <data name="Shield1" xml:space="preserve">
-    <value>Shieldbearer</value>
+    <value>Shieldbearer I</value>
+  </data>
+  <data name="Shield2" xml:space="preserve">
+    <value>Shieldbearer II</value>
+  </data>
+  <data name="Shield3" xml:space="preserve">
+    <value>Shieldbearer III</value>
+  </data>
+  <data name="ShieldCharge_Description" xml:space="preserve">
+    <value>A powerful attack that gains a percentage of your shield's armor rating as additional base damage. Your shield also grants significantly more armour while this skill charges.</value>
+    <comment> </comment>
+  </data>
+  <data name="ShieldCharge_Name" xml:space="preserve">
+    <value>Shield Charge</value>
+  </data>
+  <data name="ShieldDefense" xml:space="preserve">
+    <value>Shield Defense</value>
   </data>
   <data name="SingleHanded1" xml:space="preserve">
-    <value>Fencer</value>
+    <value>Single-Handed I</value>
+  </data>
+  <data name="SingleHanded2" xml:space="preserve">
+    <value>Single-Handed II</value>
+  </data>
+  <data name="SingleHanded3" xml:space="preserve">
+    <value>Single-Handed III</value>
   </data>
   <data name="TwoHanded1" xml:space="preserve">
-    <value>Wide Swings</value>
+    <value>Two-Handed I</value>
+  </data>
+  <data name="TwoHanded2" xml:space="preserve">
+    <value>Two-Handed II</value>
+  </data>
+  <data name="TwoHanded3" xml:space="preserve">
+    <value>Two-Handed III</value>
+  </data>
+  <data name="TwoHandMeleeDamage" xml:space="preserve">
+    <value>Two-Handed Melee Damage</value>
   </data>
 </root>

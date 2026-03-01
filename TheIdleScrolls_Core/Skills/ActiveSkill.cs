@@ -37,11 +37,95 @@ namespace TheIdleScrolls_Core.Skills
 
 		public readonly SkillTimer Timer = new(1.0, 0.0, 0.0);
 
-		public EffectsForState ChargingEffects { get; set; } = new();
-        public EffectsForState ActiveEffects { get; set; } = new();
-		public EffectsForState CooldownEffects { get; set; } = new();
+		EffectsForState ChargingEffects { get; set; } = new();
+        EffectsForState ActiveEffects { get; set; } = new();
+		EffectsForState CooldownEffects { get; set; } = new();
 		public SkillTimer.State CurrentState => Timer.CurrentState;
-		public double ChargingTime
+
+		public List<ISkillEffect> ChargingStartEffects
+		{
+			get => ChargingEffects.OnEnter;
+			set
+			{
+				if (CurrentState != SkillTimer.State.Charging)
+					ChargingEffects.OnEnter = value;
+            }
+        }
+		public ISkillEffectGenerator? ChargingRepeatedEffect
+		{
+			get => ChargingEffects.RepeatedWhileIn;
+			set
+			{
+				if (CurrentState != SkillTimer.State.Charging)
+					ChargingEffects.RepeatedWhileIn = value;
+			}
+        }
+		public List<StatusEffect> ChargingWhileInEffects
+		{
+			get => ChargingEffects.WhileIn;
+			set
+			{
+				if (CurrentState != SkillTimer.State.Charging)
+					ChargingEffects.WhileIn = value;
+            }
+        }
+        public List<ISkillEffect> ActivityStartEffects
+        {
+            get => ActiveEffects.OnEnter;
+            set
+            {
+                if (CurrentState != SkillTimer.State.Active)
+                    ActiveEffects.OnEnter = value;
+            }
+        }
+        public ISkillEffectGenerator? ActivityRepeatedEffect
+        {
+            get => ActiveEffects.RepeatedWhileIn;
+            set
+            {
+                if (CurrentState != SkillTimer.State.Active)
+                    ActiveEffects.RepeatedWhileIn = value;
+            }
+        }
+        public List<StatusEffect> ActivityWhileInEffects
+        {
+            get => ActiveEffects.WhileIn;
+            set
+            {
+                if (CurrentState != SkillTimer.State.Active)
+                    ActiveEffects.WhileIn = value;
+            }
+        }
+        public List<ISkillEffect> CooldownStartEffects
+        {
+            get => CooldownEffects.OnEnter;
+            set
+            {
+                if (CurrentState != SkillTimer.State.Cooldown)
+                    CooldownEffects.OnEnter = value;
+            }
+        }
+        public ISkillEffectGenerator? CooldownRepeatedEffect
+        {
+            get => CooldownEffects.RepeatedWhileIn;
+            set
+            {
+                if (CurrentState != SkillTimer.State.Cooldown)
+                    CooldownEffects.RepeatedWhileIn = value;
+            }
+        }
+        public List<StatusEffect> CooldownWhileInEffects
+        {
+            get => CooldownEffects.WhileIn;
+            set
+            {
+                if (CurrentState != SkillTimer.State.Cooldown)
+                    CooldownEffects.WhileIn = value;
+            }
+        }
+
+
+        public double ChargingTime
 		{
 			get => Timer.ChargingDuration;
 			set => Timer.ChargingDuration = value;
@@ -166,7 +250,17 @@ namespace TheIdleScrolls_Core.Skills
 			}
         }
 
-		public Perk? GetPerk(string perkId)
+		public DamageCluster ScaleDamage(DamageCluster baseDamage, HashSet<string> situationalTags, List<Modifier>? exclusiveMods = null)
+		{
+			List<Modifier> mods = User?.GetComponent<ModifierComponent>()?.GetModifiers() ?? [];
+			if (exclusiveMods is not null && exclusiveMods.Count > 0)
+			{
+				mods.AddRange(exclusiveMods);
+			}
+            return baseDamage.ScaleWithModifiers(mods, [Id, .. Tags, .. situationalTags], User!.GetTags());
+        }
+
+        public Perk? GetPerk(string perkId)
         {
             return User?.GetComponent<PerksComponent>()?.GetPerk(perkId);
         }

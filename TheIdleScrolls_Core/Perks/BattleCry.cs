@@ -63,7 +63,9 @@ namespace TheIdleScrolls_Core.Perks
             [],
             (l, e, w, c) =>
             {
-                return [];
+                return [
+                    new(DebuffPerkId + "_slow", ModifierType.AddBase, (l + 1) * 0.1, [Tags.Slow], []),
+                ];
             }
         )
         {

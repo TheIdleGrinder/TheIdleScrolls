@@ -151,11 +151,29 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Dual Wielding ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Two Weapons I ähnelt.
         /// </summary>
         internal static string DualWield1 {
             get {
                 return ResourceManager.GetString("DualWield1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Two Weapons II ähnelt.
+        /// </summary>
+        internal static string DualWield2 {
+            get {
+                return ResourceManager.GetString("DualWield2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Two Weapons III ähnelt.
+        /// </summary>
+        internal static string DualWield3 {
+            get {
+                return ResourceManager.GetString("DualWield3", resourceCulture);
             }
         }
         
@@ -196,6 +214,24 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Melee Attack Speed ähnelt.
+        /// </summary>
+        internal static string MeleeAttackSpeed {
+            get {
+                return ResourceManager.GetString("MeleeAttackSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die One-Handed Melee Damage ähnelt.
+        /// </summary>
+        internal static string OneHandMeleeDamage {
+            get {
+                return ResourceManager.GetString("OneHandMeleeDamage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Path of the Fighter ähnelt.
         /// </summary>
         internal static string PathFighter {
@@ -214,7 +250,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Shieldbearer ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shieldbearer I ähnelt.
         /// </summary>
         internal static string Shield1 {
             get {
@@ -223,7 +259,52 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Fencer ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shieldbearer II ähnelt.
+        /// </summary>
+        internal static string Shield2 {
+            get {
+                return ResourceManager.GetString("Shield2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shieldbearer III ähnelt.
+        /// </summary>
+        internal static string Shield3 {
+            get {
+                return ResourceManager.GetString("Shield3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die A powerful attack that gains a percentage of your shield&apos;s armor rating as additional base damage. Your shield also grants significantly more armour while this skill charges. ähnelt.
+        /// </summary>
+        internal static string ShieldCharge_Description {
+            get {
+                return ResourceManager.GetString("ShieldCharge_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shield Charge ähnelt.
+        /// </summary>
+        internal static string ShieldCharge_Name {
+            get {
+                return ResourceManager.GetString("ShieldCharge_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shield Defense ähnelt.
+        /// </summary>
+        internal static string ShieldDefense {
+            get {
+                return ResourceManager.GetString("ShieldDefense", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Single-Handed I ähnelt.
         /// </summary>
         internal static string SingleHanded1 {
             get {
@@ -232,11 +313,56 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Wide Swings ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Single-Handed II ähnelt.
+        /// </summary>
+        internal static string SingleHanded2 {
+            get {
+                return ResourceManager.GetString("SingleHanded2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Single-Handed III ähnelt.
+        /// </summary>
+        internal static string SingleHanded3 {
+            get {
+                return ResourceManager.GetString("SingleHanded3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Two-Handed I ähnelt.
         /// </summary>
         internal static string TwoHanded1 {
             get {
                 return ResourceManager.GetString("TwoHanded1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Two-Handed II ähnelt.
+        /// </summary>
+        internal static string TwoHanded2 {
+            get {
+                return ResourceManager.GetString("TwoHanded2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Two-Handed III ähnelt.
+        /// </summary>
+        internal static string TwoHanded3 {
+            get {
+                return ResourceManager.GetString("TwoHanded3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Two-Handed Melee Damage ähnelt.
+        /// </summary>
+        internal static string TwoHandMeleeDamage {
+            get {
+                return ResourceManager.GetString("TwoHandMeleeDamage", resourceCulture);
             }
         }
     }
