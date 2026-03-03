@@ -367,24 +367,6 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string SingleHandedAttack_Description {
-            get {
-                return ResourceManager.GetString("SingleHandedAttack_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
-        /// </summary>
-        internal static string SingleHandedAttack_Name {
-            get {
-                return ResourceManager.GetString("SingleHandedAttack_Name", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Two-Handed I ähnelt.
         /// </summary>
         internal static string TwoHanded1 {
@@ -417,6 +399,24 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string TwoHandMeleeDamage {
             get {
                 return ResourceManager.GetString("TwoHandMeleeDamage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string VitalStrike_Description {
+            get {
+                return ResourceManager.GetString("VitalStrike_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vital Strike ähnelt.
+        /// </summary>
+        internal static string VitalStrike_Name {
+            get {
+                return ResourceManager.GetString("VitalStrike_Name", resourceCulture);
             }
         }
     }

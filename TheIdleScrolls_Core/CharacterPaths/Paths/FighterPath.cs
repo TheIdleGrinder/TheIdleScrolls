@@ -148,6 +148,11 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 Reward = new PerkReward(AttackSpeedPerk),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(Single1Id, 1)
             });
+            Path.AddStep(new CharacterPathStep(Single3Id, Properties.Skills.SingleHanded3, "")
+            {
+                Reward = new PerkReward(VitalStrike.BasePerk),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements(Single2Id, 1)
+            });
 
             Path.AddStep(new CharacterPathStep(TwoHand1Id, Properties.Skills.TwoHanded1, "")
             {

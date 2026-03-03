@@ -32,8 +32,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
         {
             if (!IsAvailableTo(user))
                 return (false, "");
-            var twoWeapons = (user.GetComponent<EquipmentComponent>()?.GetItems()
-                ?.Count(i => i.IsWeapon()) ?? 0) > 1;
+            var twoWeapons = user.HasTag(Tags.DualWield);
             return (twoWeapons, twoWeapons ? "" : "Requires two weapons");
         }
 

@@ -61,7 +61,9 @@ namespace TheIdleScrolls_Core
             public const double MasterPerkMultiplier        = 0.1;
             public const double SavantXpMultiplier          = 0.3;
             public const double TradeoffPerkBonus           = 1.05;    
-            public const double TradeoffPerkMalus           = 0.97;    
+            public const double TradeoffPerkMalus           = 0.97;
+
+            public const double PruningBaseEffect           = 0.1;
         }
 
         public static class DungeonIds
@@ -155,6 +157,7 @@ namespace TheIdleScrolls_Core
             public const string Stun = "Stun";
             public const string Slow = "Slow";
             public const string Intimidate = "Intimidate";
+            public const string Prune = "Prune";
 
             public const string QualityPrefix = "+";
             public const string HandSuffix = "H";

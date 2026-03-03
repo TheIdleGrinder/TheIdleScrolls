@@ -45,8 +45,6 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
             double damageReduction = target.ApplyAllApplicableModifiers(0.0, [Definitions.Tags.DamageReduction], target.GetTags());
 			tmpDamage = Math.Max(0.0, tmpDamage - damageReduction);
 
-            
-
             // Apply damage ceiling from defense layers
             double defLayers = target.ApplyAllApplicableModifiers(0.0, [Definitions.Tags.DefensiveLayers], target.GetTags());
 			double maxDamage = hpComp.Maximum / (defLayers + 1.0);

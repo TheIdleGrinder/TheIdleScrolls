@@ -33,9 +33,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
         {
             if (!IsAvailableTo(user))
                 return (false, "");
-            var weapon2H = user.GetComponent<EquipmentComponent>()?.GetItems()
-                ?.FirstOrDefault(i => i.IsWeapon())
-                ?.HasTag(Tags.TwoHandedWeapon) ?? false;
+            var weapon2H = user.HasTag(Tags.TwoHanded);
             return (weapon2H, weapon2H ? "" : "Requires two-handed weapon");
         }
 

@@ -203,7 +203,6 @@
   </data>
   <data name="ShieldCharge_Description" xml:space="preserve">
     <value>A powerful attack that gains a percentage of your shield's armor rating as additional base damage. Your shield also grants significantly more armour while this skill charges.</value>
-    <comment> </comment>
   </data>
   <data name="ShieldCharge_Name" xml:space="preserve">
     <value>Shield Charge</value>
@@ -220,12 +219,6 @@
   <data name="SingleHanded3" xml:space="preserve">
     <value>Single-Handed III</value>
   </data>
-  <data name="SingleHandedAttack_Description" xml:space="preserve">
-    <value />
-  </data>
-  <data name="SingleHandedAttack_Name" xml:space="preserve">
-    <value />
-  </data>
   <data name="TwoHanded1" xml:space="preserve">
     <value>Two-Handed I</value>
   </data>
@@ -237,5 +230,11 @@
   </data>
   <data name="TwoHandMeleeDamage" xml:space="preserve">
     <value>Two-Handed Melee Damage</value>
+  </data>
+  <data name="VitalStrike_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="VitalStrike_Name" xml:space="preserve">
+    <value>Vital Strike</value>
   </data>
 </root>

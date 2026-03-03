@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 return (false, string.Empty);
             }
 
-            bool hasShield = user.GetComponent<EquipmentComponent>()?.GetItems()?.Any(i => i.IsShield()) ?? false;
+            bool hasShield = user.HasTag(Tags.Shielded);
 
             return (hasShield, hasShield ? "" : "Requires Shield");
         }
