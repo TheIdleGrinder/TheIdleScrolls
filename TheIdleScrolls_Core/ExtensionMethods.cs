@@ -139,7 +139,7 @@ namespace TheIdleScrolls_Core
             int count = attackVectors.Count();
             if (count > 0)
             {
-                damageCluster.Multiply(1.0 / count);
+                damageCluster *= 1.0 / count;
             }
             return damageCluster;
         }

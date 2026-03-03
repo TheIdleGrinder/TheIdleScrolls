@@ -53,6 +53,23 @@ namespace TheIdleScrolls_Core.Utility
             }
         }
 
+        public static DamageCluster operator +(DamageCluster a, DamageCluster b)
+        {
+            DamageCluster result = new(a.DamageComponents);
+            result.Add(b);
+            return result;
+        }
+
+        public static DamageCluster operator *(DamageCluster cluster, double factor)
+        {
+            return cluster.Multiply(factor);
+        }
+
+        public static DamageCluster operator *(double factor, DamageCluster cluster)
+        {
+            return cluster.Multiply(factor);
+        }
+
         public DamageCluster Multiply(double factor)
         {
             DamageCluster result = new();

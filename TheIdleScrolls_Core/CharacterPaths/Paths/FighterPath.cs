@@ -116,6 +116,11 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 Reward = new PerkReward(OneHandDamagePerk),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(DualWield1Id, 1)
             });
+            Path.AddStep(new CharacterPathStep(DualWield3Id, Properties.Skills.DualWield3, "")
+            {
+                Reward = new PerkReward(DoubleStrike.BasePerk),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements(DualWield2Id, 1)
+            });
 
             Path.AddStep(new CharacterPathStep(Shield1Id, Properties.Skills.Shield1, "")
             {
@@ -153,6 +158,11 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             {
                 Reward = new PerkReward(TwoHandDamagePerk),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(TwoHand1Id, 1)
+            });
+            Path.AddStep(new CharacterPathStep(TwoHand3Id, Properties.Skills.TwoHanded3, "")
+            {
+                Reward = new PerkReward(CrushingBlow.BasePerk),
+                SpecificAccess = CharacterPathStep.MakeStandardRequirements(TwoHand2Id, 1)
             });
 
             Path.AddStep(new CharacterPathStep(EnvenomWeapon.BasePerkId, EnvenomWeapon.BasePerk.Name, EnvenomWeapon.BasePerk.Description)

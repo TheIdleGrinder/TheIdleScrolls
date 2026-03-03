@@ -151,6 +151,42 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string CrushingBlow_Description {
+            get {
+                return ResourceManager.GetString("CrushingBlow_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crushing Blow ähnelt.
+        /// </summary>
+        internal static string CrushingBlow_Name {
+            get {
+                return ResourceManager.GetString("CrushingBlow_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string DoubleStrike_Description {
+            get {
+                return ResourceManager.GetString("DoubleStrike_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Double Strike ähnelt.
+        /// </summary>
+        internal static string DoubleStrike_Name {
+            get {
+                return ResourceManager.GetString("DoubleStrike_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Two Weapons I ähnelt.
         /// </summary>
         internal static string DualWield1 {
@@ -327,6 +363,24 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string SingleHanded3 {
             get {
                 return ResourceManager.GetString("SingleHanded3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string SingleHandedAttack_Description {
+            get {
+                return ResourceManager.GetString("SingleHandedAttack_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string SingleHandedAttack_Name {
+            get {
+                return ResourceManager.GetString("SingleHandedAttack_Name", resourceCulture);
             }
         }
         

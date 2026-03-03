@@ -147,6 +147,18 @@
   <data name="BlazingWeapon_Name" xml:space="preserve">
     <value>Blazing Weapon</value>
   </data>
+  <data name="CrushingBlow_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="CrushingBlow_Name" xml:space="preserve">
+    <value>Crushing Blow</value>
+  </data>
+  <data name="DoubleStrike_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="DoubleStrike_Name" xml:space="preserve">
+    <value>Double Strike</value>
+  </data>
   <data name="DualWield1" xml:space="preserve">
     <value>Two Weapons I</value>
   </data>
@@ -207,6 +219,12 @@
   </data>
   <data name="SingleHanded3" xml:space="preserve">
     <value>Single-Handed III</value>
+  </data>
+  <data name="SingleHandedAttack_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SingleHandedAttack_Name" xml:space="preserve">
+    <value />
   </data>
   <data name="TwoHanded1" xml:space="preserve">
     <value>Two-Handed I</value>

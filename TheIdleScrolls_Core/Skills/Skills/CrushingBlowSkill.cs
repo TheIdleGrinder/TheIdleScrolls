@@ -14,28 +14,29 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
-    public class ShieldChargeSkill : ActiveSkillDefinition
+    public class CrushingBlowSkill : ActiveSkillDefinition
     {
-        public static ShieldChargeSkill Skill { get; } = new();
-        public override string Id => ShieldCharge.BasePerkId;
+        const double BaseCooldown = 5.0;
+        const double DebuffDuration = 5.0;
 
-        public override string Name => Properties.Skills.ShieldCharge_Name;
+        public static CrushingBlowSkill Skill { get; } = new();
+        public override string Id => CrushingBlow.BasePerkId;
+
+        public override string Name => Properties.Skills.CrushingBlow_Name;
 
         public override bool IsAvailableTo(Entity user)
         {
-            return HasPerkActive(user, ShieldCharge.BasePerkId);
+            return HasPerkActive(user, CrushingBlow.BasePerkId);
         }
 
         public override (bool available, string reason) IsUsableBy(Entity user)
         {
             if (!IsAvailableTo(user))
-            {
-                return (false, string.Empty);
-            }
-
-            bool hasShield = user.GetComponent<EquipmentComponent>()?.GetItems()?.Any(i => i.IsShield()) ?? false;
-
-            return (hasShield, hasShield ? "" : "Requires Shield");
+                return (false, "");
+            var weapon2H = user.GetComponent<EquipmentComponent>()?.GetItems()
+                ?.FirstOrDefault(i => i.IsWeapon())
+                ?.HasTag(Tags.TwoHandedWeapon) ?? false;
+            return (weapon2H, weapon2H ? "" : "Requires two-handed weapon");
         }
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
@@ -56,7 +57,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             }
 
             var attackComp = user.GetComponent<AttackComponent>();
-            var perk = user.GetComponent<PerksComponent>()?.GetPerk(ShieldCharge.BasePerkId);
+            var perk = user.GetComponent<PerksComponent>()?.GetPerk(CrushingBlow.BasePerkId);
             if (attackComp is null || attackComp.AttackVectors.Count == 0 || perk is null)
             {
                 return;
@@ -64,16 +65,18 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
             DamageCluster damage = skill.ScaleDamage(baseDamage, tags, perk?.Modifiers);
 
+            var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. skill.Tags]);
+            GenericModifierStatusEffect crushedEffect = new("Crushed", DebuffDuration, 
+                [perk!.GetModifier(CrushingBlow.BasePerkAntiDefenseModId)!], [Tags.Debuff]);
+            effects.Add(new SkillEffects.StatusSkillEffect(ISkillEffect.TargetingMode.SingleEnemy, crushedEffect));
+
             double cooldownRecovery = skill.ScaleValue(1.0, [Tags.CooldownRecovery]);
             if (cooldownRecovery == 0.0)
                 cooldownRecovery = 1.0;
 
-            skill.ActivityStartEffects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. skill.Tags]);
+            skill.ActivityStartEffects = effects;
             skill.ChargingTime = attackComp.AttackVectors[0].Cooldown;
-            skill.Timer.CooldownDuration = 5.0 / cooldownRecovery;
-
-            Modifier defMod = perk?.GetModifier(ShieldCharge.BasePerkArmorModId)!;
-            skill.ChargingWhileInEffects = [new GenericModifierStatusEffect("Raised Shield", 0.0, [defMod], [])];
+            skill.Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
         }
     }
 }

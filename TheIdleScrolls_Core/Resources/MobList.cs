@@ -41,7 +41,10 @@ namespace TheIdleScrolls_Core.Resources
             //new("DRAGON2", MobNames.DRAGON2, LevelCondition(170, 229)),
             //new("DRAGON3", MobNames.DRAGON3, LevelCondition(230)),
 
-            new("BAT", MobNames.Bat, BiomeCondition([Biome.Graveyard])),
+            new("BAT", MobNames.Bat, BiomeCondition([Biome.Graveyard]))
+            {
+                Perks = [DefensiveLayersPerk("Evasive", 4.0)]
+            },
             new("GRAVECRAWLER", MobNames.Gravecrawler, BiomeLevelCondition([Biome.Graveyard], maxLevel: 100)),
             new("GRAVEHOUND", MobNames.GraveHound, BiomeLevelCondition([Biome.Graveyard], 101)),
 
