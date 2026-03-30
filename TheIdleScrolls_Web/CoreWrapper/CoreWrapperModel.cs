@@ -10,6 +10,7 @@ using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Messages;
 using TheIdleScrolls_Core.Storage;
+using TheIdleScrolls_Core.Utility;
 using TheIdleScrolls_Storage;
 
 namespace TheIdleScrolls_Web.CoreWrapper
@@ -205,7 +206,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             emitter.PlayerEquipmentChanged += (List<IItemEntity> items) => Equipment = items;
             emitter.PlayerInventoryChanged += (List<IItemEntity> items) => Inventory = items;
             emitter.PlayerCoinsChanged += (int coins) => Coins = coins;
-            emitter.PlayerOffenseChanged += (double dmg, double cdMax) =>
+            emitter.PlayerOffenseChanged += (DamageCluster dmg, double cdMax) =>
             {
                 CharacterStats.Damage = dmg;
                 CharacterStats.Cooldown = cdMax;

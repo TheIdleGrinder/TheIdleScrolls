@@ -20,7 +20,7 @@ namespace TheIdleScrolls_Core.Perks
             BasePerkId,
             Properties.Skills.CrushingBlow_Name,
             Properties.Skills.CrushingBlow_Description,
-            [UpdateTrigger.EquipmentChanged, UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed, 
+            [UpdateTrigger.EquipmentChanged, UpdateTrigger.BattleStarted, UpdateTrigger.SkillStateChanged, 
                 UpdateTrigger.AbilityIncreased],
             (l, e, w, c) =>
             {

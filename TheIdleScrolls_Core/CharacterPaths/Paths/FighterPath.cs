@@ -102,7 +102,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
         {
             Path.AddStep(new CharacterPathStep(RootId, Properties.Skills.PathFighterRoot, "")
             {
-                Reward = new MultiReward([new PerkReward(RootPerk), new PerkReward(HeavyAttackPerks.BasePerk), StarterItems()]),
+                Reward = new MultiReward([new PerkReward(RootPerk), new PerkReward(HeavyAttack.BasePerk), StarterItems()]),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 0)
             });
 

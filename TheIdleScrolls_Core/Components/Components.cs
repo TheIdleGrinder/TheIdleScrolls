@@ -29,6 +29,7 @@ namespace TheIdleScrolls_Core.Components
         public bool IsAlive => _Current > 0.0;
         public bool IsDead => _Current <= 0.0;
         public bool IsFull => Math.Abs(_Current - _Maximum) < 0.0001;
+        public double Percentage => (_Maximum > 0) ? _Current / _Maximum : 0.0;
 
         public LifePoolComponent(int maximum = 1)
         {

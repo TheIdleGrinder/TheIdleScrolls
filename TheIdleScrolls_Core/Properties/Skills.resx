@@ -180,6 +180,36 @@
   <data name="EnvWeapon_Name" xml:space="preserve">
     <value>Envenom Weapon</value>
   </data>
+  <data name="HeavyAttack_Description" xml:space="preserve">
+    <value />
+  </data>
+  <data name="HeavyAttack_DualWield_Description" xml:space="preserve">
+    <value>Your Heavy Attacks gain an extra damage multiplier for every time you have used your Default Attack this fight</value>
+  </data>
+  <data name="HeavyAttack_DualWield_Name" xml:space="preserve">
+    <value>Finishing Move</value>
+  </data>
+  <data name="HeavyAttack_Name" xml:space="preserve">
+    <value>Heavy Attack</value>
+  </data>
+  <data name="HeavyAttack_Shielded_Description" xml:space="preserve">
+    <value>Damage from Heavy Attacks is increased by your total armor rating</value>
+  </data>
+  <data name="HeavyAttack_Shielded_Name" xml:space="preserve">
+    <value>The Best Offense...</value>
+  </data>
+  <data name="HeavyAttack_SingleHanded_Description" xml:space="preserve">
+    <value>Your Heavy Attacks deal significantly increased damage to opponents that are on low life</value>
+  </data>
+  <data name="HeavyAttack_SingleHanded_Name" xml:space="preserve">
+    <value>Culling Strike</value>
+  </data>
+  <data name="HeavyAttack_TwoHanded_Description" xml:space="preserve">
+    <value>Your Heavy Attacks cause stuns</value>
+  </data>
+  <data name="HeavyAttack_TwoHanded_Name" xml:space="preserve">
+    <value>Smash!</value>
+  </data>
   <data name="MeleeAttackSpeed" xml:space="preserve">
     <value>Melee Attack Speed</value>
   </data>

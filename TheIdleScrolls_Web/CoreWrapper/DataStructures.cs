@@ -1,6 +1,7 @@
 ﻿using TheIdleScrolls_Core;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Web.CoreWrapper
 {
@@ -18,7 +19,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
 
     public class CharacterStats
     {
-        public double Damage { get; set; } = 0.0;
+        public DamageCluster Damage { get; set; } = new();
         public double CooldownRemaining { get; set; } = 0.0;
         public double Cooldown { get; set; } = 0.0;
         public double Armor { get; set; } = 0.0;

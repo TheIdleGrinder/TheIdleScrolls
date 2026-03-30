@@ -401,4 +401,7 @@ Time to finish: {0}</value>
   <data name="Skill_Trick" xml:space="preserve">
     <value>Trick</value>
   </data>
+  <data name="VsLowLife" xml:space="preserve">
+    <value>against enemies on low life</value>
+  </data>
 </root>

@@ -152,8 +152,8 @@ namespace TheIdleScrolls_Core.Systems
                     triggers.Add(UpdateTrigger.BattleStarted);
                 if (messageType == typeof(DeathMessage))
                     triggers.Add(UpdateTrigger.BattleFinished);
-                if (messageType == typeof(DamageDoneMessage))
-                    triggers.Add(UpdateTrigger.AttackPerformed);
+                if (messageType == typeof(SkillStateChangedMessage))
+                    triggers.Add(UpdateTrigger.SkillStateChanged);
                 if (messageType == typeof(LevelUpMessage))
                     triggers.Add(UpdateTrigger.LevelUp);
                 if (messageType == typeof(AbilityImprovedMessage) || messageType == typeof(AbilityAddedMessage))

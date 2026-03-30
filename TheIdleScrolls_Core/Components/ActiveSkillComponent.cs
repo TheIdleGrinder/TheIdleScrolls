@@ -66,7 +66,7 @@ namespace TheIdleScrolls_Core.Components
 		{
 			foreach (var skill in Skills)
 			{
-				skill?.Timer.Reset();
+				skill?.Reset();
 			}
 			// Select first available skill
 			Index = -1;

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Skills.SkillEffects;
 using TheIdleScrolls_Core.Utility;
 using static TheIdleScrolls_Core.Skills.ISkillEffect;
@@ -14,31 +15,35 @@ namespace TheIdleScrolls_Core.Skills.Skills
 {
     public class DefaultAttack : ActiveSkillDefinition
     {
+        public const string SkillId = "DfltAttack";
+
         public static DefaultAttack Skill { get; } = new();
 
         private DefaultAttack() { }
 
-        public override string Id => "DfltAttack";
+        public override string Id => SkillId;
 
         public override string Name => "Default Attack";
 
-        public static void SetupPlayerAttackComponent(Entity user)
+        public static void SetupAttackComponent(Entity user, AttackComponent attackComp, List<Modifier>? additionalMods = null)
         {
-            var attackComp = user.GetComponent<AttackComponent>();
             if (attackComp == null)
                 return;
 
             List<string> AdditionalTags = [Tags.Attack, Skill.Id];
 
             var equipComp = user.GetComponent<EquipmentComponent>();
-            var modComp = user.GetComponent<ModifierComponent>();
+            
+            List<Modifier> modifiers = user.GetComponent<ModifierComponent>()?.GetModifiers().ToList() ?? [];
+            if (additionalMods != null)
+                modifiers.AddRange(additionalMods);
 
             double cooldown = 1.0;
             int weaponCount = 0;
             double encumbrance = 0.0;
 
             var globalTags = user.GetTags();
-            attackComp.Reset();
+            attackComp.Reset();            
 
             if (equipComp != null)
             {
@@ -62,15 +67,12 @@ namespace TheIdleScrolls_Core.Skills.Skills
                         double localCD = weaponComp.Cooldown;
                         weaponCount++;
 
-                        if (modComp != null)
-                        {
-                            localDmg = weaponComp.Damage.ScaleWithModifiers(
-                                modComp.GetModifiers(),
-                                localTags, globalTags);
-                            localCD = 1.0 / modComp.ApplyApplicableModifiers(1.0 / localCD,
-                                localTags.Append(Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
-                                globalTags);
-                        }
+                        localDmg = weaponComp.Damage.ScaleWithModifiers(
+                            modifiers,
+                            localTags, globalTags);
+                        localCD = 1.0 / modifiers.ApplyAllApplicable(1.0 / localCD,
+                            localTags.Append(Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
+                            globalTags);
 
                         attackComp.AddAttackVector(localDmg, localCD);
                     }
@@ -82,12 +84,12 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 DamageCluster damage = new();
                 damage.AddDamage(DamageType.Physical, Stats.UnarmedBaseDamage); // Base unarmed damage
                 damage = damage.ScaleWithModifiers(
-                    modComp?.GetModifiers() ?? [],
+                    modifiers,
                     [Abilities.Unarmed, Tags.Melee, .. AdditionalTags],
                     globalTags);
                 // invert attack speed due to speed/cooldown mismatch
-                cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
-                    [Tags.AttackSpeed, Abilities.Unarmed, .. AdditionalTags], globalTags) ?? cooldown;
+                cooldown = 1.0 / modifiers.ApplyAllApplicable(1.0 / cooldown,
+                    [Tags.AttackSpeed, Abilities.Unarmed, .. AdditionalTags], globalTags);
                 attackComp.AddAttackVector(damage, cooldown);
             }
 
@@ -140,7 +142,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             {
                 attackComp = new();
                 user.AddComponent(attackComp);
-                SetupPlayerAttackComponent(user);
+                SetupAttackComponent(user, attackComp);
             }
 
             List<string> AdditionalTags = [Tags.Attack, Skill.Id];

@@ -134,7 +134,13 @@ namespace TheIdleScrolls_Core.Systems
             var skillComp = player.GetComponent<ActiveSkillComponent>();
             if (skillComp != null)
             {
-                DefaultAttack.SetupPlayerAttackComponent(player);
+                var attackComp = player.GetComponent<AttackComponent>();
+                if (attackComp is null)
+                {
+                    attackComp = new AttackComponent();
+                    player.AddComponent(attackComp);
+                }
+                DefaultAttack.SetupAttackComponent(player, attackComp);
 
                 foreach (var skill in skillComp.Skills)
                 {
@@ -204,8 +210,10 @@ namespace TheIdleScrolls_Core.Systems
                 comp.AddTag(Tags.Unarmored);
             }
 
-            AddOrRemoveTag(Tags.FirstStrike, 
-                player.GetComponent<BattlerComponent>()?.Battle?.Mob?.GetComponent<LifePoolComponent>()?.IsFull ?? false);
+            double lowLifeLimit = 0.35;
+            var lifeComp = player.GetComponent<BattlerComponent>()?.Battle?.Mob?.GetComponent<LifePoolComponent>();
+            AddOrRemoveTag(Tags.FirstStrike, lifeComp?.IsFull ?? false);
+            AddOrRemoveTag(Tags.VsLowLife, (lifeComp?.Percentage ?? 1.0) <= lowLifeLimit);
             AddOrRemoveTag(Tags.Evading, player.GetComponent<EvaderComponent>()?.Active ?? false);
         }
     }

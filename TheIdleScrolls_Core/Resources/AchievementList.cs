@@ -6,6 +6,7 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
+using TheIdleScrolls_Core.Perks;
 using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Core.Utility;
 
@@ -196,7 +197,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("BLN", 25) => new($"{id}{level}", "Stunning Blow",
                                 $"Gain +{1} global armor per level of the {Properties.LocalizedStrings.BLN} ability " +
                                 $"while using {id.Localize()} after first strike",
-                                [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
+                                [UpdateTrigger.SkillStateChanged, UpdateTrigger.BattleStarted],
                                 (_, e, w, c) =>
                                 {
                                     bool firstStrike = (e.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
@@ -240,7 +241,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("AXE", 75) => new($"{id}{level}", "Frenzy",
                                 $"Gain {0.02:0.#%}/{0.04:0.#%}/{0.06:0.#%} increased attack speed with {id.Localize()}s " +
                                     $"after every attack (up to {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%})",
-                                [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
+                                [UpdateTrigger.SkillStateChanged, UpdateTrigger.BattleStarted],
                                 (l, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0;
@@ -253,7 +254,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("BLN", 75) => new($"{id}{level}", "Armor Breaker",
                                 $"Gain {0.05:0.#%}/{0.1:0.#%}/{0.15:0.#%} increased damage with {id.Localize()}s " +
                                     $"after every attack (up to {0.25:0.#%}/{0.5:0.#%}/{0.75:0.#%})",
-                                [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
+                                [UpdateTrigger.SkillStateChanged, UpdateTrigger.BattleStarted],
                                 (l, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0;
@@ -266,7 +267,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("LBL", 75) => new($"{id}{level}", "Fluent Technique",
                                 $"Gain {0.15:0.#%}/{0.3:0.#%}/{0.45:0.#%} increased damage or attack speed with {id.Localize()}s " +
                                     $"(changes after each attack)",
-                                [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
+                                [UpdateTrigger.SkillStateChanged, UpdateTrigger.BattleStarted],
                                 (l, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0;
@@ -285,7 +286,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("POL", 75) => new($"{id}{level}", "Skewering Thrusts",
                                 $"Gain {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%} increased damage with {id.Localize()}s. Gets reduced " +
                                     $"by {0.02:0.#%}/{0.04:0.#%}/{0.06:0.#%} after every attack",
-                                [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
+                                [UpdateTrigger.SkillStateChanged, UpdateTrigger.BattleStarted],
                                 (l, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0;
@@ -299,7 +300,7 @@ namespace TheIdleScrolls_Core.Resources
                 { MaxLevel = 3 },
                 ("SBL", 75) => new($"{id}{level}", "Critical Strikes",
                                 $"Deal {1.0:0.#%}/{1.5:0.#%}/{2.0:0.#%} increased damage with {id.Localize()}s once every {5}/{4}/{3} attacks",
-                                [UpdateTrigger.AttackPerformed, UpdateTrigger.BattleStarted],
+                                [UpdateTrigger.SkillStateChanged, UpdateTrigger.BattleStarted],
                                 (l, e, w, c) =>
                                 {
                                     int attacks = e.GetComponent<BattlerComponent>()?.SkillsUsed ?? 0;
@@ -438,20 +439,21 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     MaxLevel = 5
                 },
-                (Abilities.DualWield, 75) => new($"{id}{level}", "Assassin",
-                                    $"Gain {DualWieldKeystone} base damage per level of the {Properties.LocalizedStrings.ABL_DUALWIELD} ability",
-                                    [UpdateTrigger.AbilityIncreased],
-                                    (_, e, w, c) =>
-                                    {
-                                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
-                                        return
-                                        [
-                                            new($"{id}{level}_dmg", ModifierType.AddBase, DualWieldKeystone * lvl,
-                                                [ Tags.Damage ],
-                                                []
-                                            )
-                                        ];
-                                    }),
+                //(Abilities.DualWield, 75) => new($"{id}{level}", "Assassin",
+                //                    $"Gain {DualWieldKeystone} base damage per level of the {Properties.LocalizedStrings.ABL_DUALWIELD} ability",
+                //                    [UpdateTrigger.AbilityIncreased],
+                //                    (_, e, w, c) =>
+                //                    {
+                //                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                //                        return
+                //                        [
+                //                            new($"{id}{level}_dmg", ModifierType.AddBase, DualWieldKeystone * lvl,
+                //                                [ Tags.Damage ],
+                //                                []
+                //                            )
+                //                        ];
+                //                    }),
+                (Abilities.DualWield, 75) => HeavyAttack.DualWieldPerk,
                 (Abilities.DualWield, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_DUALWIELD} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} attack speed multiplier",
@@ -470,23 +472,24 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     MaxLevel = 5
                 },
-                (Abilities.Shielded, 75) => new($"{id}{level}", "Juggernaut",
-                                    $"Gain {ShieldedKeystone:0.###%} increased damage per {1000} points of armor rating per level of " +
-                                    $"the {Properties.LocalizedStrings.ABL_SHIELDED} ability",
-                                    [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
-                                        UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
-                                    (_, e, w, c) =>
-                                    {
-                                        double armor = e.GetComponent<DefenseComponent>()?.Armor ?? 0;
-                                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
-                                        return
-                                        [
-                                            new($"{id}{level}_dmg", ModifierType.Increase, ShieldedKeystone * (lvl * armor / 1000.0),
-                                                [ Tags.Damage ],
-                                                []
-                                            )
-                                        ];
-                                    }),
+                //(Abilities.Shielded, 75) => new($"{id}{level}", "Juggernaut",
+                //                    $"Gain {ShieldedKeystone:0.###%} increased damage per {1000} points of armor rating per level of " +
+                //                    $"the {Properties.LocalizedStrings.ABL_SHIELDED} ability",
+                //                    [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
+                //                        UpdateTrigger.BattleStarted, UpdateTrigger.SkillStateChanged],
+                //                    (_, e, w, c) =>
+                //                    {
+                //                        double armor = e.GetComponent<DefenseComponent>()?.Armor ?? 0;
+                //                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                //                        return
+                //                        [
+                //                            new($"{id}{level}_dmg", ModifierType.Increase, ShieldedKeystone * (lvl * armor / 1000.0),
+                //                                [ Tags.Damage ],
+                //                                []
+                //                            )
+                //                        ];
+                //                    }),
+                (Abilities.Shielded, 75) => HeavyAttack.ShieldedPerk,
                 (Abilities.Shielded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_SHIELDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} defense multiplier",
@@ -516,21 +519,22 @@ namespace TheIdleScrolls_Core.Resources
                                         ];
                                     })
                 { MaxLevel = 5 },
-                (Abilities.SingleHanded, 75) => new($"{id}{level}", "Duelist",
-                                    $"Gain {SingleHandedKeystone:0.#%} increased damage per level of the " +
-                                        $"{Properties.LocalizedStrings.ABL_SINGLEHANDED} ability while evading",
-                                    [UpdateTrigger.AbilityIncreased],
-                                    (_, e, w, c) =>
-                                    {
-                                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
-                                        return
-                                        [
-                                            new($"{id}{level}_dmg", ModifierType.Increase, SingleHandedKeystone * lvl,
-                                                [Tags.Damage],
-                                                [Tags.Evading]
-                                            )
-                                        ];
-                                    }),
+                //(Abilities.SingleHanded, 75) => new($"{id}{level}", "Duelist",
+                //                    $"Gain {SingleHandedKeystone:0.#%} increased damage per level of the " +
+                //                        $"{Properties.LocalizedStrings.ABL_SINGLEHANDED} ability while evading",
+                //                    [UpdateTrigger.AbilityIncreased],
+                //                    (_, e, w, c) =>
+                //                    {
+                //                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                //                        return
+                //                        [
+                //                            new($"{id}{level}_dmg", ModifierType.Increase, SingleHandedKeystone * lvl,
+                //                                [Tags.Damage],
+                //                                [Tags.Evading]
+                //                            )
+                //                        ];
+                //                    }),
+                (Abilities.SingleHanded, 75) => HeavyAttack.SingleHandedPerk,
                 (Abilities.SingleHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_SINGLEHANDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} time limit multiplier",
@@ -549,23 +553,24 @@ namespace TheIdleScrolls_Core.Resources
                 {
                     MaxLevel = 5
                 },
-                (Abilities.TwoHanded, 75) => new($"{id}{level}", "Executioner",
-                                    $"Gain {TwoHandedKeystone:0.#%} increased damage per second of attack time per level of " +
-                                    $"{Properties.LocalizedStrings.ABL_TWOHANDED} ability",
-                                    [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
-                                        UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
-                                    (_, e, w, c) =>
-                                    {
-                                        double cooldown = e.GetComponent<AttackComponent>()?.AverageCooldown ?? 0.0;
-                                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
-                                        return
-                                        [
-                                            new($"{id}{level}_dmg", ModifierType.Increase, TwoHandedKeystone * cooldown * lvl,
-                                                [ Tags.Damage ],
-                                                []
-                                            )
-                                        ];
-                                    }),
+                //(Abilities.TwoHanded, 75) => new($"{id}{level}", "Executioner",
+                //                    $"Gain {TwoHandedKeystone:0.#%} increased damage per second of attack time per level of " +
+                //                    $"{Properties.LocalizedStrings.ABL_TWOHANDED} ability",
+                //                    [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
+                //                        UpdateTrigger.BattleStarted, UpdateTrigger.SkillStateChanged],
+                //                    (_, e, w, c) =>
+                //                    {
+                //                        double cooldown = e.GetComponent<AttackComponent>()?.AverageCooldown ?? 0.0;
+                //                        int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
+                //                        return
+                //                        [
+                //                            new($"{id}{level}_dmg", ModifierType.Increase, TwoHandedKeystone * cooldown * lvl,
+                //                                [ Tags.Damage ],
+                //                                []
+                //                            )
+                //                        ];
+                //                    }),
+                (Abilities.TwoHanded, 75) => HeavyAttack.TwoHandedPerk,
                 (Abilities.TwoHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_TWOHANDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} damage multiplier",
@@ -595,7 +600,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("oALL", 100) => new($"{id}{level}", "Ascendant",
                                     $"Gain half the bonuses of the Assassin, Juggernaut, Duelist and Executioner perks",
                                     [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
-                                        UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
+                                        UpdateTrigger.BattleStarted, UpdateTrigger.SkillStateChanged],
                                     (_, e, w, c) =>
                                     {
                                         double cooldown = e.GetComponent<AttackComponent>()?.AverageCooldown ?? 0.0;

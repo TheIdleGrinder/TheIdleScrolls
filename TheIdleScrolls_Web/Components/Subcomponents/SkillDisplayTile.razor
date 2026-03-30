@@ -7,6 +7,10 @@
 @inject CoreWrapperModel CoreWrapper
 
 <div class="skill-display-frame">
+    @if (Skill.NotUsableReason != "")
+    {
+        <span class="skill-display-not-usable-reason">@Skill.NotUsableReason</span>
+    }
     <span class="skill-display-name">@Skill.Name</span>
     <span class="skill-display-tags">@(String.Join(", ", Skill.Tags.Select(t => t.Localize())))</span>
     <div class="skill-display-main">
@@ -176,6 +180,12 @@
         display: inherit;
         font-weight: bold;
         font-size: 1rem;
+        align-self: center;
+    }
+
+    .skill-display-not-usable-reason {
+        display: inherit;
+        color: red;
         align-self: center;
     }
 

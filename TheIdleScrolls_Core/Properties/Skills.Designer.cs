@@ -250,6 +250,96 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string HeavyAttack_Description {
+            get {
+                return ResourceManager.GetString("HeavyAttack_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Your Heavy Attacks gain an extra damage multiplier for every time you have used your Default Attack this fight ähnelt.
+        /// </summary>
+        internal static string HeavyAttack_DualWield_Description {
+            get {
+                return ResourceManager.GetString("HeavyAttack_DualWield_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Finishing Move ähnelt.
+        /// </summary>
+        internal static string HeavyAttack_DualWield_Name {
+            get {
+                return ResourceManager.GetString("HeavyAttack_DualWield_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Heavy Attack ähnelt.
+        /// </summary>
+        internal static string HeavyAttack_Name {
+            get {
+                return ResourceManager.GetString("HeavyAttack_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Damage from Heavy Attacks is increased by your total armor rating ähnelt.
+        /// </summary>
+        internal static string HeavyAttack_Shielded_Description {
+            get {
+                return ResourceManager.GetString("HeavyAttack_Shielded_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Best Offense... ähnelt.
+        /// </summary>
+        internal static string HeavyAttack_Shielded_Name {
+            get {
+                return ResourceManager.GetString("HeavyAttack_Shielded_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Your Heavy Attacks deal significantly increased damage to opponents that are on low life ähnelt.
+        /// </summary>
+        internal static string HeavyAttack_SingleHanded_Description {
+            get {
+                return ResourceManager.GetString("HeavyAttack_SingleHanded_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Culling Strike ähnelt.
+        /// </summary>
+        internal static string HeavyAttack_SingleHanded_Name {
+            get {
+                return ResourceManager.GetString("HeavyAttack_SingleHanded_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Your Heavy Attacks cause stuns ähnelt.
+        /// </summary>
+        internal static string HeavyAttack_TwoHanded_Description {
+            get {
+                return ResourceManager.GetString("HeavyAttack_TwoHanded_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Smash! ähnelt.
+        /// </summary>
+        internal static string HeavyAttack_TwoHanded_Name {
+            get {
+                return ResourceManager.GetString("HeavyAttack_TwoHanded_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Melee Attack Speed ähnelt.
         /// </summary>
         internal static string MeleeAttackSpeed {

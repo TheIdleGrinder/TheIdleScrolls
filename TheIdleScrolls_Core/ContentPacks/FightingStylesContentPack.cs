@@ -70,7 +70,7 @@ namespace TheIdleScrolls_Core.ContentPacks
                 {
                     Reward = new PerkReward(new("Adv" + Abilities.Shielded, "Shield Bash", 
                         $"Every third attack, gain {4}/{7}/{10} base damage + {1}/{2}/{4} per level of quality on your shield", 
-                        [UpdateTrigger.EquipmentChanged, UpdateTrigger.AttackPerformed],
+                        [UpdateTrigger.EquipmentChanged, UpdateTrigger.SkillStateChanged],
                         (l, e, w, c) => {
                             int quality = e.GetComponent<EquipmentComponent>()
                                             ?.GetItems()?.FirstOrDefault(i => i.IsShield())

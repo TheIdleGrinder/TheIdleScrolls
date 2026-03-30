@@ -907,5 +907,14 @@ namespace TheIdleScrolls_Core.Properties {
                 return ResourceManager.GetString("UNARMORED", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die against enemies on low life ähnelt.
+        /// </summary>
+        internal static string VsLowLife {
+            get {
+                return ResourceManager.GetString("VsLowLife", resourceCulture);
+            }
+        }
     }
 }

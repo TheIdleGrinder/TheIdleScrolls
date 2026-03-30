@@ -15,7 +15,7 @@ namespace TheIdleScrolls_Core.Modifiers
     {
         BattleStarted,
         BattleFinished,
-        AttackPerformed,
+        SkillStateChanged,
         LevelUp,
         AbilityIncreased,
         EquipmentChanged,

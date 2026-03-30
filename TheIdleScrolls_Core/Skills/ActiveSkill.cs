@@ -35,14 +35,29 @@ namespace TheIdleScrolls_Core.Skills
 		readonly ActiveSkillDefinition Definition = definition;
 		Entity? User = null;
 
-		public readonly SkillTimer Timer = new(1.0, 0.0, 0.0);
+        public int UseCount { get; private set; } = 0;
 
-		EffectsForState ChargingEffects { get; set; } = new();
+        public readonly SkillTimer Timer = new(1.0, 0.0, 0.0);
+
+        EffectsForState ChargingEffects { get; set; } = new();
         EffectsForState ActiveEffects { get; set; } = new();
 		EffectsForState CooldownEffects { get; set; } = new();
 		public SkillTimer.State CurrentState => Timer.CurrentState;
 
-		public List<ISkillEffect> ChargingStartEffects
+		public string NotUsableReason
+		{
+			get
+			{
+				if (User is null || !Definition.IsAvailableTo(User))
+					return "";
+				var (usable, reason) = Definition.IsUsableBy(User);
+				if (!usable)
+					return reason;
+				return "";
+			}
+        }
+
+        public List<ISkillEffect> ChargingStartEffects
 		{
 			get => ChargingEffects.OnEnter;
 			set
@@ -142,6 +157,12 @@ namespace TheIdleScrolls_Core.Skills
 			Definition.SetupForUser(user, this);
 		}
 
+		public void Reset()
+		{
+			Timer.Reset();
+			UseCount = 0;
+        }
+
 		public bool IsInUse()
 		{
 			return !HasState([State.Unavailable, State.Disabled, State.NotUsable]);
@@ -204,6 +225,7 @@ namespace TheIdleScrolls_Core.Skills
 				effects.AddRange(ActiveEffects.OnEnter);
 				if (User is not null)
 					ActiveEffects.WhileIn.ForEach(se => se.ActivateOnEntity(User));
+				UseCount++;
             }
             // Handle effects that are repeated while active
             if (timerResult.SpentActive > 0.0 && ActiveEffects.RepeatedWhileIn is not null)

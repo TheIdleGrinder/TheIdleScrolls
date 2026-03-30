@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Messages;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core
 {
@@ -14,7 +15,7 @@ namespace TheIdleScrolls_Core
     public delegate void ItemsChangedHandler(List<IItemEntity> items);
     public delegate void EncumbranceChangedHandler(double encumbrance);
     public delegate void CoinsChangedHandler(int coins);
-    public delegate void OffenseChangedHandler(double damage, double cooldown);
+    public delegate void OffenseChangedHandler(DamageCluster damage, double cooldown);
     public delegate void DefenseChangedHandler(double armor, double evasion, double defenseRating);
     public delegate void AbilitiesChangedHandler(List<AbilityRepresentation> abilities);
     public delegate void PerksChangedHandler(List<PerkRepresentation> perks);
