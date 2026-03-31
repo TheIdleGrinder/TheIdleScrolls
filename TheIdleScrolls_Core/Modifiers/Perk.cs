@@ -33,6 +33,7 @@ namespace TheIdleScrolls_Core.Modifiers
         public string Id { get; init; }
         public string Name { get; init; } = "??";
         public string Description { get; private set; } = "??";
+        public List<string> Categories { get; set; } = [];
         public List<Modifier> Modifiers { get; private set; } = [];
         public HashSet<UpdateTrigger> UpdateTriggers { get; init; } = [];
         public bool Permanent { get; init; } = false;

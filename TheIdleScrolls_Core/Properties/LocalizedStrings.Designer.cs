@@ -610,6 +610,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fighting Styles ähnelt.
+        /// </summary>
+        internal static string FightingStyles {
+            get {
+                return ResourceManager.GetString("FightingStyles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die First Strike ähnelt.
         /// </summary>
         internal static string FirstStrike {

@@ -5,6 +5,7 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
+using TheIdleScrolls_Core.Properties;
 using TheIdleScrolls_Core.Systems;
 using TheIdleScrolls_Core.Utility;
 
@@ -435,7 +436,8 @@ namespace TheIdleScrolls_Core.Resources
                                         new($"{id}{level}_def", ModifierType.More, Math.Pow(Stats.TradeoffPerkMalus, l) - 1.0, [ Tags.Defense ], [])
                                     ])
                 {
-                    MaxLevel = 5
+                    MaxLevel = 5,
+                    Categories = [LocalizedStrings.FightingStyles]
                 },
                 (Abilities.DualWield, 75) => new($"{id}{level}", "Assassin",
                                     $"Gain {DualWieldKeystone} base damage per level of the {Properties.LocalizedStrings.ABL_DUALWIELD} ability",
@@ -450,7 +452,10 @@ namespace TheIdleScrolls_Core.Resources
                                                 []
                                             )
                                         ];
-                                    }),
+                                    })
+                {
+                    Categories = [LocalizedStrings.FightingStyles]
+                },
                 (Abilities.DualWield, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_DUALWIELD} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} attack speed multiplier",
@@ -467,7 +472,8 @@ namespace TheIdleScrolls_Core.Resources
                                         new($"{id}{level}_dmg", ModifierType.More, Math.Pow(Stats.TradeoffPerkMalus, l) - 1.0, [ Tags.Damage ], [])
                                     ])
                 {
-                    MaxLevel = 5
+                    MaxLevel = 5,
+                    Categories = [LocalizedStrings.FightingStyles]
                 },
                 (Abilities.Shielded, 75) => new($"{id}{level}", "Juggernaut",
                                     $"Gain {ShieldedKeystone:0.###%} increased damage per {1000} points of armor rating per level of " +
@@ -485,7 +491,10 @@ namespace TheIdleScrolls_Core.Resources
                                                 []
                                             )
                                         ];
-                                    }),
+                                    })
+                {
+                    Categories = [LocalizedStrings.FightingStyles]
+                },
                 (Abilities.Shielded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_SHIELDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} defense multiplier",
@@ -514,7 +523,10 @@ namespace TheIdleScrolls_Core.Resources
                                             )
                                         ];
                                     })
-                { MaxLevel = 5 },
+                { 
+                    MaxLevel = 5, 
+                    Categories = [LocalizedStrings.FightingStyles] 
+                },
                 (Abilities.SingleHanded, 75) => new($"{id}{level}", "Duelist",
                                     $"Gain {SingleHandedKeystone:0.#%} increased damage per level of the " +
                                         $"{Properties.LocalizedStrings.ABL_SINGLEHANDED} ability while evading",
@@ -529,7 +541,10 @@ namespace TheIdleScrolls_Core.Resources
                                                 [Tags.Evading]
                                             )
                                         ];
-                                    }),
+                                    })
+                {
+                    Categories = [LocalizedStrings.FightingStyles]
+                },
                 (Abilities.SingleHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_SINGLEHANDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} time limit multiplier",
@@ -546,7 +561,8 @@ namespace TheIdleScrolls_Core.Resources
                                         new($"{id}{level}_as", ModifierType.More, Math.Pow(Stats.TradeoffPerkMalus, l) - 1.0, [ Tags.AttackSpeed ], [])
                                     ])
                 {
-                    MaxLevel = 5
+                    MaxLevel = 5,
+                    Categories = [LocalizedStrings.FightingStyles]
                 },
                 (Abilities.TwoHanded, 75) => new($"{id}{level}", "Executioner",
                                     $"Gain {TwoHandedKeystone:0.#%} increased damage per second of attack time per level of " +
@@ -564,7 +580,10 @@ namespace TheIdleScrolls_Core.Resources
                                                 []
                                             )
                                         ];
-                                    }),
+                                    })
+                                    {
+                                        Categories = [LocalizedStrings.FightingStyles]
+                                    },
                 (Abilities.TwoHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{Properties.LocalizedStrings.ABL_TWOHANDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} damage multiplier",
@@ -611,7 +630,10 @@ namespace TheIdleScrolls_Core.Resources
                                             new($"{id}{level}_Si", ModifierType.Increase, SingleHandedKeystone / 2 * lvlSi, [Tags.Damage], [Tags.Evading]),
                                             new($"{id}{level}_TH", ModifierType.Increase, TwoHandedKeystone / 2 * cooldown * lvlTH, [Tags.Damage], [])
                                         ];
-                                    }),
+                                    })
+                                    {
+                                        Categories = [LocalizedStrings.FightingStyles]
+                                    },
                 _ => null
             };
             return perk != null ? new PerkReward(perk) as dynamic : null;

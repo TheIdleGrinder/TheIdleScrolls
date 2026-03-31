@@ -10,12 +10,30 @@
 
 <div id="perks-container">
 
-    <div class="perks-list">
-        @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
+    <div class="perk-categories-list">
+        @foreach (var (category, perks) in GetPerksByCategory())
         {
-            <PerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) />
+            <div class="perk-category-container">
+                @if (category != "")
+                {
+                    <div class="perk-category-header">@category</div>
+                }
+                <div class="perks-list">
+                    @foreach (var perk in perks.Where(p => p.Modifiers.Count > 0))
+                    {
+                        <SmallPerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) />
+                    }
+                </div>
+            </div>
         }
     </div>
+
+    @* <div class="perks-list">
+        @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
+        {
+            <SmallPerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) />
+        }
+    </div> *@
 
     <div id="perks-header">
         @if ((SkillsComponent?.Skills?.Count ?? 0) > 1)
@@ -64,6 +82,24 @@
         justify-content: space-between;
     }
 
+    .perk-categories-list
+    {
+        display: flex;
+        flex-direction: column;
+
+        padding: 5px;
+        max-height: 100%;
+        overflow-y: auto;
+        /* scrollbar-gutter: stable; */
+    }
+
+    .perk-category-container
+    {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
     #perks-new-indicator {
         position: absolute;
         top: 1rem;
@@ -85,9 +121,12 @@
     }
 
     .perks-list {
-        padding: 5px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
+        /* padding: 5px;
         max-height: 100%;
-        overflow-y: auto;
+        overflow-y: auto; */
     }
 
     .play-area-frame.perks-skill-list-container {
@@ -138,6 +177,19 @@
     int PerksUsed => PerksComponent?.GetUsedPerkPoints() ?? 0;
     int PerksLimit => PerksComponent?.PerkPointLimit ?? 0;
     int FreePerkPoints => PerksLimit - PerksUsed;
+
+    List<(string Category, List<Perk> Perks)> GetPerksByCategory()
+    {
+        Dictionary<string, List<Perk>> result = [];
+        foreach (var perk in Perks)
+        {
+            string category = String.Join(": ", perk.Categories) ?? "";
+            if (!result.ContainsKey(category))
+                result[category] = [];
+            result[category].Add(perk);
+        }
+        return result.OrderBy(t => t.Key).Select(t => (t.Key, t.Value)).ToList();
+    }
 
     List<string> SeenPerks = [];
     int NewPerks => Perks.Count - SeenPerks.Count;

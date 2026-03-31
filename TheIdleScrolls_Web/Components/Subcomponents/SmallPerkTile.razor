@@ -1,0 +1,136 @@
+﻿@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Modifiers
+@using TheIdleScrolls_Core.Skills
+@using TheIdleScrolls_Web.Components.Subcomponents
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="small-perk @PerkClasses() withTooltip" @onclick="IncreaseLevel">
+    <div class="small-perk-name">@GetTitleLine()</div>
+
+    @* <div class="barTooltip">
+        <PerkTile PerkId="@PerkId" PerksComp="@PerksComp"></PerkTile>
+    </div> *@
+</div>
+
+<style>
+    .small-perk {
+        margin: 5px;
+        padding: 5px;
+        border: 1px solid var(--frame-color);
+        position: relative;
+    }
+
+    .perk-name {
+        font-weight: bold;
+    }
+
+    .perk-active {
+        color: black;
+        background-color: var(--back-color-special);
+    }
+
+    .perk-inactive {
+        color: gray;
+        font-style: italic;
+        background-color: white;
+    }
+
+    .perk-new {
+        border-width: 3px;
+    }
+
+    .perk-new.perk-active {
+        border-color: mediumseagreen;
+    }
+
+    .perk-new.perk-inactive {
+        border-color: limegreen;
+    }
+
+    .perk-always-active {
+        border: solid 2px var(--frame-color);
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string PerkId { get; set; } = "";
+    [Parameter]
+    public PerksComponent? PerksComp { get; set; } = null;
+    [Parameter]
+    public bool IsNew { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+        CoreWrapper.GameRunner.GetEventEmitter().PerkUpdated += (string id) => {
+            if (id == PerkId)
+                StateHasChanged();
+        };
+
+        if (Perk?.Skill is not null)
+        {
+            // CornerCut: Use PlayerDefenseChanged as a proxy for stat changes
+            CoreWrapper.GameRunner.GetEventEmitter().PlayerDefenseChanged += (_, _, _) =>
+            {
+                StateHasChanged();
+            };
+        }
+
+        base.OnInitialized();
+    }
+
+    const string HiddenStyle = "visibility: hidden";
+    const string UnavailableStyle = "background-color: lightgray";
+
+    Perk? Perk => PerksComp?.GetPerks()?.FirstOrDefault(p => p.Id == PerkId);
+
+    int PerkLevel => PerksComp?.GetPerkLevel(PerkId) ?? 0;
+    bool IsActive => PerksComp?.IsPerkActive(PerkId) ?? false;
+    int FreePerkPoints => PerksComp?.GetAvailablePerkPoints() ?? 0;
+
+    string GetTitleLine() => Perk == null ? "" : $"{Perk.Name}" 
+        + (Perk.MaxLevel > 1 ? $" ({PerksComp?.GetPerkLevel(Perk.Id) ?? 0}/{Perk.MaxLevel})" : "");
+
+    bool CanIncreaseLevel()
+    {
+        if (Perk == null)
+            return false;
+        return PerkLevel < Perk.MaxLevel;
+    }
+
+    string PerkClasses()
+    {
+        if (Perk == null)
+            return "";
+        string classes = IsActive ? "perk-active" : "perk-inactive";
+        if (Perk.Permanent)
+            classes += " perk-always-active";
+        if (IsNew)
+            classes += " perk-new";
+        return classes;
+    }
+
+    void IncreaseLevel()
+    {
+        if (CoreWrapper.PlayerCharacter == null || !CanIncreaseLevel())
+            return;
+        SetLevel(PerkLevel + 1);
+    }
+
+    void DecreaseLevel()
+    {
+        if (CoreWrapper.PlayerCharacter == null || PerkLevel <= 0)
+            return;
+        SetLevel(PerkLevel - 1);
+    }
+
+    void SetLevel(int level)
+    {
+        if (CoreWrapper.PlayerCharacter == null)
+            return;
+        CoreWrapper.InputHandler.SetPerkLevel(CoreWrapper.PlayerCharacter.Id, PerkId, level);
+    }
+}
