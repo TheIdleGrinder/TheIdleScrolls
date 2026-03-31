@@ -1,0 +1,58 @@
+@using TheIdleScrolls_Web.Services
+@using System.Globalization
+@inject TooltipService TooltipService
+@implements IDisposable
+
+@if (_request != null)
+{
+    <div class="global-tooltip" style="@GetPositionStyle()">
+        @_request.Content
+    </div>
+}
+
+<style>
+    .global-tooltip {
+        position: fixed;
+        z-index: 10000;
+        pointer-events: none;
+        background-color: var(--back-color, white);
+        border: 2px solid var(--frame-color, black);
+        padding: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        max-width: 400px;
+    }
+</style>
+
+@code {
+    private TooltipRequest? _request;
+
+    protected override void OnInitialized()
+    {
+        TooltipService.OnTooltipRequested += HandleTooltipRequest;
+    }
+
+    private void HandleTooltipRequest(TooltipRequest? request)
+    {
+        _request = request;
+        StateHasChanged();
+    }
+    
+    private string GetPositionStyle()
+    {
+        if (_request == null) return "";
+        
+        var pos = _request.Position;
+        var left = pos.Left + (pos.Width / 2);
+        var top = pos.Top;
+        
+        return string.Create(
+            CultureInfo.InvariantCulture,
+            $"left: {left}px; top: {top}px; transform: translate(-50%, -100%); margin-top: -10px;"
+        );
+    }
+
+    public void Dispose()
+    {
+        TooltipService.OnTooltipRequested -= HandleTooltipRequest;
+    }
+}

@@ -3,12 +3,16 @@
 @using TheIdleScrolls_Core.Modifiers
 @using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Web.Components.Subcomponents
+@using TheIdleScrolls_Web.Services
 
 @implements IDisposable
 
 @inject CoreWrapperModel CoreWrapper
+@inject TooltipService TooltipService
 
-<div id="perks-container">
+<div id="perks-container" 
+     @onmouseenter="() => TooltipService.SetContainerActive(true)"
+     @onmouseleave="ContainerLeave">
 
     <div class="perk-categories-list">
         @foreach (var (category, perks) in GetPerksByCategory())
@@ -195,4 +199,14 @@
     int NewPerks => Perks.Count - SeenPerks.Count;
 
     bool ShowSkills = false;
+
+    private void HideTooltipImmediate()
+    {
+        TooltipService.HideImmediate();
+    }
+
+    private void ContainerLeave()
+    {
+        TooltipService.SetContainerActive(false);
+    }
 }

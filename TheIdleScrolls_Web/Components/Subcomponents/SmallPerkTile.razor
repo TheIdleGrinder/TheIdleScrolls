@@ -4,15 +4,16 @@
 @using TheIdleScrolls_Core.Skills
 @using TheIdleScrolls_Web.Components.Subcomponents
 @using TheIdleScrolls_Web.CoreWrapper
+@using TheIdleScrolls_Web.Services
 
 @inject CoreWrapperModel CoreWrapper
+@inject TooltipService TooltipService
 
-<div class="small-perk @PerkClasses() withTooltip" @onclick="IncreaseLevel">
+<div class="small-perk @PerkClasses()"
+     @ref="_element"
+     @onmouseenter="ShowTooltip"
+     @onmouseleave="HideTooltip">
     <div class="small-perk-name">@GetTitleLine()</div>
-
-    @* <div class="barTooltip">
-        <PerkTile PerkId="@PerkId" PerksComp="@PerksComp"></PerkTile>
-    </div> *@
 </div>
 
 <style>
@@ -62,6 +63,8 @@
     public PerksComponent? PerksComp { get; set; } = null;
     [Parameter]
     public bool IsNew { get; set; } = false;
+
+    private ElementReference _element;
 
     protected override void OnInitialized()
     {
@@ -132,5 +135,19 @@
         if (CoreWrapper.PlayerCharacter == null)
             return;
         CoreWrapper.InputHandler.SetPerkLevel(CoreWrapper.PlayerCharacter.Id, PerkId, level);
+    }
+
+    private async Task ShowTooltip()
+    {
+        // Kein Delay mehr nötig - Container-Status wird im Service geprüft
+        await TooltipService.ShowAsync(
+            @<PerkTile PerkId="@PerkId" PerksComp="@PerksComp" />,
+            _element
+        );
+    }
+
+    private void HideTooltip()
+    {
+        TooltipService.Hide();
     }
 }
