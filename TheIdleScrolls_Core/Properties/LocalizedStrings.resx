@@ -374,4 +374,13 @@ Time to finish: {0}</value>
   <data name="FightingStyles" xml:space="preserve">
     <value>Fighting Styles</value>
   </data>
+  <data name="BasicPerks" xml:space="preserve">
+    <value>Basic</value>
+  </data>
+  <data name="Armours" xml:space="preserve">
+    <value>Armours</value>
+  </data>
+  <data name="Weapons" xml:space="preserve">
+    <value>Weapons</value>
+  </data>
 </root>

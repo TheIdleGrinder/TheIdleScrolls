@@ -53,7 +53,8 @@ namespace TheIdleScrolls_Core.ContentPacks
                             ];
                         })
                     {
-                        MaxLevel = 3
+                        MaxLevel = 3,
+                        Categories = [LocalizedStrings.FightingStyles, LocalizedStrings.ABL_DUALWIELD]
                     })
                 });
                 achievements.Add(new(Abilities.Shielded, "Shieldbearer",
@@ -88,7 +89,8 @@ namespace TheIdleScrolls_Core.ContentPacks
                             ];
                         })
                     { 
-                        MaxLevel = 3 
+                        MaxLevel = 3,
+                        Categories = [LocalizedStrings.FightingStyles, LocalizedStrings.ABL_SHIELDED]
                     })
                 });
                 achievements.Add(new(Abilities.SingleHanded, "Fencer",
@@ -112,7 +114,8 @@ namespace TheIdleScrolls_Core.ContentPacks
                             [Tags.AttackSpeed], [Tags.SingleHanded, Tags.Evading])    
                         ])
                     {
-                        MaxLevel = 3
+                        MaxLevel = 3,
+                        Categories = [LocalizedStrings.FightingStyles, LocalizedStrings.ABL_SINGLEHANDED]
                     })
                 });
                 achievements.Add(new(Abilities.TwoHanded, "Wide Swings",
@@ -146,7 +149,8 @@ namespace TheIdleScrolls_Core.ContentPacks
                             ];
                         })
                     {
-                        MaxLevel = 3
+                        MaxLevel = 3,
+                        Categories = [LocalizedStrings.FightingStyles, LocalizedStrings.ABL_TWOHANDED]
                     })
                 });
 

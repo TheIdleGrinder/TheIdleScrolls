@@ -1,7 +1,8 @@
 using TheIdleScrolls_Core.Achievements;
+using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Modifiers;
-using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Properties;
 
 namespace TheIdleScrolls_Core.ContentPacks
 {
@@ -34,7 +35,8 @@ namespace TheIdleScrolls_Core.ContentPacks
                                 new($"WellDressed_dmg", ModifierType.Increase, 0.005 * total, [Tags.Damage],  []),
                                 new($"WellDressed_def", ModifierType.Increase, 0.005 * total, [Tags.Defense], [])
                             ];
-                        }))
+                        })
+                        .WithCategories(LocalizedStrings.BasicPerks))
                 })
 		];
 	}

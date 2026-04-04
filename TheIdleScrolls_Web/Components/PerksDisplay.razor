@@ -187,12 +187,14 @@
         Dictionary<string, List<Perk>> result = [];
         foreach (var perk in Perks)
         {
-            string category = String.Join(": ", perk.Categories) ?? "";
+            string category = GetOrderPrefix(perk) + String.Join(": ", perk.Categories) ?? "";
             if (!result.ContainsKey(category))
                 result[category] = [];
             result[category].Add(perk);
         }
-        return result.OrderBy(t => t.Key).Select(t => (t.Key, t.Value)).ToList();
+        return result
+            .OrderBy(t => t.Key)
+            .Select(t => (RemoveOrderPrefix(t.Key), t.Value)).ToList();
     }
 
     List<string> SeenPerks = [];
@@ -208,5 +210,18 @@
     private void ContainerLeave()
     {
         TooltipService.SetContainerActive(false);
+    }
+
+    private string GetOrderPrefix(Perk perk)
+    {
+        return $"{perk.GetCategoryOrderPrefix():D4}#";
+    }
+
+    private string RemoveOrderPrefix(string category)
+    {
+        int index = category.IndexOf('#');
+        if (index >= 0)
+            return category.Substring(index + 1);
+        return category;
     }
 }

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Properties;
 
 namespace TheIdleScrolls_Core.Modifiers
 {
@@ -216,6 +217,38 @@ namespace TheIdleScrolls_Core.Modifiers
             {
                 Permanent = true
             };
+        }
+    }
+
+    public static class PerkExtensions
+    {
+        public static Perk WithCategories(this Perk perk, params string[] categories)
+        {
+            perk.Categories.AddRange(categories.Where(c => !string.IsNullOrEmpty(c)));
+            return perk;
+        }
+
+        static string[] CategoryLookup = 
+        [
+            LocalizedStrings.BasicPerks,
+            LocalizedStrings.Weapons,
+            LocalizedStrings.Armours,
+            LocalizedStrings.FightingStyles,
+            LocalizedStrings.UNARMED,
+            LocalizedStrings.UNARMORED,
+            "Monk"
+        ];
+
+        public static int GetCategoryOrderPrefix(this Perk perk)
+        {
+            if (perk.Categories.Count == 0)
+                return 0;
+
+            string category = perk.Categories[0];
+            int index = Array.IndexOf(CategoryLookup, category);
+            if (index == -1)
+                return 0;
+            return index + 1;
         }
     }
 }

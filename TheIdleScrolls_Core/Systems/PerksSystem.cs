@@ -4,6 +4,7 @@ using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
+using TheIdleScrolls_Core.Properties;
 using static TheIdleScrolls_Core.Systems.LevelUpSystem;
 
 namespace TheIdleScrolls_Core.Systems
@@ -171,7 +172,8 @@ namespace TheIdleScrolls_Core.Systems
             perksComponent.AddPerk(PerkFactory.MakeStaticPerk("Ambidextrous", "Ambidextrous", "", 
                 ModifierType.More, 
                 Stats.DualWieldAttackSpeedMulti,
-                [Tags.AttackSpeed], [Tags.DualWield], true), 0);
+                [Tags.AttackSpeed], [Tags.DualWield], true)
+                    .WithCategories(LocalizedStrings.FightingStyles, LocalizedStrings.ABL_DUALWIELD), 0);
 
             // Create perk that bundles the bonuses to ability experience gains
             perksComponent.AddPerk(new("NaturalAffinities", "Natural Affinity",
@@ -235,7 +237,8 @@ namespace TheIdleScrolls_Core.Systems
                     return modifiers;
                 })
             {
-                Permanent = true
+                Permanent = true,
+                Categories = [LocalizedStrings.FightingStyles]                
             },
             0);
 
@@ -308,16 +311,20 @@ namespace TheIdleScrolls_Core.Systems
 
             perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Dmg", $"Basic Damage", "",
                     ModifierType.Increase, Stats.BasicDamageIncrease,
-                    [Tags.Damage], [], maxLevel: 10), index);
+                    [Tags.Damage], [], maxLevel: 10)
+                .WithCategories(LocalizedStrings.BasicPerks), index);
             perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}As", $"Basic Attack Speed", "",
-                ModifierType.Increase, Stats.BasicAttackSpeedIncrease,
-                [Tags.AttackSpeed], [], maxLevel: 10), index + 1);
+                    ModifierType.Increase, Stats.BasicAttackSpeedIncrease,
+                    [Tags.AttackSpeed], [], maxLevel: 10)
+                .WithCategories(LocalizedStrings.BasicPerks ), index + 1);
             perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Def", $"Basic Defense", "",
-                ModifierType.Increase, Stats.BasicDefenseIncrease,
-                [Tags.Defense], [], maxLevel: 10), index + 2);
+                    ModifierType.Increase, Stats.BasicDefenseIncrease,
+                    [Tags.Defense], [], maxLevel: 10)
+                .WithCategories(LocalizedStrings.BasicPerks), index + 2);
             perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Time", $"Basic Time Limit", "",
-                ModifierType.Increase, Stats.BasicTimeIncrease,
-                [Tags.TimeShield], [], maxLevel: 10), index + 3);
+                    ModifierType.Increase, Stats.BasicTimeIncrease,
+                    [Tags.TimeShield], [], maxLevel: 10)
+                .WithCategories(LocalizedStrings.BasicPerks), index + 3);
 
             //perksComponent.AddPerk(Perks.ExposeWeaknessPerks.BasePerk);
             //perksComponent.AddPerk(Perks.ExposeWeaknessPerks.DamageTaken);

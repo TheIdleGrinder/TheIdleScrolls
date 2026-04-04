@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Modifiers;
+using TheIdleScrolls_Core.Properties;
 using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.Utility;
 
@@ -41,7 +42,8 @@ namespace TheIdleScrolls_Core.ContentPacks
 						NoArmorBaseEvasion,
 						[Tags.EvasionRating, Tags.Global],
 						[Tags.Unarmored]
-					))
+					)
+						.WithCategories(LocalizedStrings.UNARMORED))
 				}
 			),
 			new AchievementContent(new(
@@ -69,7 +71,8 @@ namespace TheIdleScrolls_Core.ContentPacks
 						NoArmorBaseEvasion1,
 						[Tags.EvasionRating, Tags.Global],
 						[]
-					))
+					)
+						.WithCategories(LocalizedStrings.UNARMORED))
 				}
 			),
 			new AchievementContent(new(
@@ -87,8 +90,9 @@ namespace TheIdleScrolls_Core.ContentPacks
 						NoArmorBaseEvasion2,
 						[Tags.EvasionRating, Tags.Global],
 						[]
-					))
-				}
+					)
+						.WithCategories(LocalizedStrings.UNARMORED))
+                }
 			),
 			new AchievementContent(new(
 				"NOWEAPON",
@@ -105,8 +109,9 @@ namespace TheIdleScrolls_Core.ContentPacks
 						NoWeaponBaseDamageBonus,
 						[Tags.Damage],
 						[Tags.Unarmed]
-					))
-				}
+					)
+						.WithCategories(LocalizedStrings.UNARMED))
+                }
 			),
 			new AchievementContent(new(
 				"NOWEAPON_DMG",
@@ -135,7 +140,8 @@ namespace TheIdleScrolls_Core.ContentPacks
 						NoWeaponLevelDamageBonus,
 						[Tags.Damage],
 						[]
-					))
+					)
+						.WithCategories(LocalizedStrings.UNARMED))
 				}
 			),
 			new AchievementContent(new(
@@ -154,7 +160,8 @@ namespace TheIdleScrolls_Core.ContentPacks
 						Stats.AttackBonusPerLevel,
 						[Tags.Damage],
 						[]
-					))
+					)
+                        .WithCategories(LocalizedStrings.UNARMED))
 				}
 			),
 			new AchievementContent(new(
@@ -172,7 +179,8 @@ namespace TheIdleScrolls_Core.ContentPacks
 						[0.5, 0.5],
 						[[Tags.Damage], [Tags.Defense]],
 						[[Tags.Unarmed, Tags.Unarmored], [Tags.Unarmed, Tags.Unarmored]]
-					))
+					)
+                        .WithCategories("Monk"))
 				}
 			)
 		];
