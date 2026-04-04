@@ -5,7 +5,7 @@
 
 @if (_request != null)
 {
-    <div class="global-tooltip" style="@GetPositionStyle()">
+    <div class="global-tooltip" style="@_currentStyle" @ref="_tooltipElement">
         @_request.Content
     </div>
 }
@@ -20,34 +20,83 @@
         padding: 10px;
         box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         max-width: 400px;
+        min-width: 200px; /* Verhindere zu schmale Tooltips */
+        width: max-content; /* Lasse Inhalt die Breite bestimmen */
+        box-sizing: border-box;
     }
 </style>
 
 @code {
     private TooltipRequest? _request;
+    private ElementReference _tooltipElement;
+    private string _currentStyle = "";
+    private bool _needsRepositioning = false;
 
     protected override void OnInitialized()
     {
         TooltipService.OnTooltipRequested += HandleTooltipRequest;
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_needsRepositioning && _request != null)
+        {
+            _needsRepositioning = false;
+            await CalculatePositionAsync();
+        }
+    }
+
     private void HandleTooltipRequest(TooltipRequest? request)
     {
         _request = request;
+        
+        if (request != null)
+        {
+            // Initiale Position (zentriert über Element)
+            _currentStyle = GetInitialPositionStyle(request.Position);
+            _needsRepositioning = true; // Flag setzen für Neuberechnung
+        }
+        else
+        {
+            _currentStyle = "";
+            _needsRepositioning = false;
+        }
+        
         StateHasChanged();
     }
     
-    private string GetPositionStyle()
+    private async Task CalculatePositionAsync()
     {
-        if (_request == null) return "";
+        if (_request == null) return;
         
-        var pos = _request.Position;
+        try
+        {
+            var position = await TooltipService.CalculatePositionAsync(_request.Position, _tooltipElement);
+            
+            if (position != null)
+            {
+                _currentStyle = string.Create(
+                    CultureInfo.InvariantCulture,
+                    $"left: {position.Left}px; top: {position.Top}px; transform: {position.Transform}; margin-top: {position.MarginTop}px;"
+                );
+                StateHasChanged();
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Tooltip positioning error: {ex.Message}");
+        }
+    }
+    
+    private string GetInitialPositionStyle(BoundingRect pos)
+    {
+        // Einfache initiale Position (kann kurz sichtbar sein)
         var left = pos.Left + (pos.Width / 2);
         var top = pos.Top;
         
         return string.Create(
             CultureInfo.InvariantCulture,
-            $"left: {left}px; top: {top}px; transform: translate(-50%, -100%); margin-top: -10px;"
+            $"left: {left}px; top: {top}px; transform: translate(-50%, -100%); margin-top: -10px; opacity: 0.5;"
         );
     }
 

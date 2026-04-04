@@ -65,15 +65,37 @@ public class TooltipService : IAsyncDisposable
                 {
                     if (_containerActive && _currentTooltipId == _activeTooltipId)
                     {
+                        // Speichere Viewport-Informationen im Request
                         OnTooltipRequested?.Invoke(new TooltipRequest(content, rect));
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Silently fail - tooltip is non-critical
                 System.Diagnostics.Debug.WriteLine($"Tooltip error: {ex.Message}");
             }
+        }
+    }
+
+    // Neue Methode für Positions-Berechnung nach Tooltip-Render
+    public async Task<TooltipPosition?> CalculatePositionAsync(BoundingRect elementRect, ElementReference tooltipElement)
+    {
+        try
+        {
+            await EnsureModuleAsync();
+            var tooltipRect = await _module!.InvokeAsync<BoundingRect>("getElementPosition", tooltipElement);
+            
+            var position = await _module!.InvokeAsync<TooltipPosition>(
+                "calculateTooltipPosition", 
+                elementRect, 
+                tooltipRect
+            );
+            
+            return position;
+        }
+        catch
+        {
+            return null;
         }
     }
     
@@ -143,4 +165,14 @@ public class BoundingRect
     public double Height { get; set; }
     public double Right { get; set; }
     public double Bottom { get; set; }
+    public double ViewportWidth { get; set; }
+    public double ViewportHeight { get; set; }
+}
+
+public class TooltipPosition
+{
+    public double Left { get; set; }
+    public double Top { get; set; }
+    public string Transform { get; set; } = "";
+    public double MarginTop { get; set; }
 }
