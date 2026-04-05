@@ -12,7 +12,9 @@
 <div class="small-perk @PerkClasses()"
      @ref="_element"
      @onmouseenter="ShowTooltip"
-     @onmouseleave="HideTooltip">
+     @onmouseleave="HideTooltip"
+     @onclick="() => { if (Refund) DecreaseLevel(); else IncreaseLevel(); }">
+
     <div class="small-perk-name">@GetTitleLine()</div>
 </div>
 
@@ -54,6 +56,14 @@
     .perk-always-active {
         border: solid 2px var(--frame-color);
     }
+
+    .perk-can-interact {
+        cursor: pointer;
+    }
+
+    .perk-cant-interact {
+        cursor: default;
+    }
 </style>
 
 @code {
@@ -63,6 +73,8 @@
     public PerksComponent? PerksComp { get; set; } = null;
     [Parameter]
     public bool IsNew { get; set; } = false;
+    [Parameter]
+    public bool Refund { get; set; } = false;
 
     private ElementReference _element;
 
@@ -104,6 +116,13 @@
         return PerkLevel < Perk.MaxLevel;
     }
 
+    bool CanDecreaseLevel()
+    {
+        if (Perk == null)
+            return false;
+        return PerkLevel > 0;
+    }
+
     string PerkClasses()
     {
         if (Perk == null)
@@ -113,6 +132,10 @@
             classes += " perk-always-active";
         if (IsNew)
             classes += " perk-new";
+        if ((Refund && CanDecreaseLevel()) || (!Refund && CanIncreaseLevel()))
+            classes += " perk-can-interact";
+        else
+            classes += " perk-cant-interact";
         return classes;
     }
 
@@ -125,7 +148,7 @@
 
     void DecreaseLevel()
     {
-        if (CoreWrapper.PlayerCharacter == null || PerkLevel <= 0)
+        if (CoreWrapper.PlayerCharacter == null || !CanDecreaseLevel())
             return;
         SetLevel(PerkLevel - 1);
     }

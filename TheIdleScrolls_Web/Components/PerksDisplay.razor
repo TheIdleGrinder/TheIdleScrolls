@@ -25,7 +25,7 @@
                 <div class="perks-list">
                     @foreach (var perk in perks.Where(p => p.Modifiers.Count > 0))
                     {
-                        <SmallPerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) />
+                        <SmallPerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) Refund=@RefundMode />
                     }
                 </div>
             </div>
@@ -44,11 +44,19 @@
         {
             <button @onclick="@(() => ShowSkills = !ShowSkills)">@(ShowSkills ? ">>" : "<<") Skills</button>
         }
+
         <p style="margin-bottom: 0">Points Spent: @PerksUsed / @PerksLimit</p>
-        @if (FreePerkPoints > 0)
-        {   
-            <p id="perks-available-points">@FreePerkPoints Point@(FreePerkPoints == 1 ? "" : "s") Available</p>
-        }
+        
+        <span style="display:flex; flex-direction:row; align-items: center; gap: 0.5rem;">
+            @if (FreePerkPoints > 0)
+            {
+                <p id="perks-available-points">@FreePerkPoints Point@(FreePerkPoints == 1 ? "" : "s") Available</p>
+            }
+            @if (PerksUsed > 0)
+            {
+                <button @onclick="(() => RefundMode = !RefundMode)">@(RefundMode ? "Finish Refunding" : "Refund Points")</button>
+            }
+        </span>
 
         @if (ShowSkills)
         {
@@ -174,6 +182,8 @@
     {
         CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged -= PerksHandler;
     }
+
+    bool RefundMode = false;
 
     PerksComponent? PerksComponent = null;
     ActiveSkillComponent? SkillsComponent = null;
