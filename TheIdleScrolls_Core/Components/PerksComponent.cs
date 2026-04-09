@@ -24,8 +24,8 @@ namespace TheIdleScrolls_Core.Components
         public int NewBonusPoints = 0;
 
         readonly HashSet<string> ChangedPerks = []; // Holds list of perks that need to be processed by the PerksSystem
-
-        static List<string> OrderedPerkIds = []; // Holds the order of perks, which is used when adding new perks
+        static List<string> OrderedPerkIds { get; set; } = []; // Holds the order of perks, which is used when adding new perks
+        Dictionary<string, (string TargetId, int Level)> Dependencies { get; } = [];
 
         public void AddPerk(Perk perk, int index = -1)
         {
@@ -86,6 +86,7 @@ namespace TheIdleScrolls_Core.Components
         {
             ChangedPerks.Add(perk.Id);
             PerkLevels.Remove(perk.Id);
+            Dependencies.Remove(perk.Id);
             return Perks.Remove(perk);
         }
 
@@ -152,12 +153,62 @@ namespace TheIdleScrolls_Core.Components
         public void MarkPerkAsUpdated(Perk perk)
         {
             ChangedPerks.Remove(perk.Id);
+            Dependencies.Remove(perk.Id);
+            var condition = perk.ConditionFunc(perk.CurrentLevel) as PerkLevelPerkCondition;
+            if (condition != null)
+            {
+                Dependencies[perk.Id] = (condition.PerkId, condition.Level);
+            }
         }
 
         public bool AddBonusPerkPoint(string id)
         {
             NewBonusPoints++;
             return BonusPerkPointIds.Add(id);
+        }
+
+        public (bool works, string text) CanSetPerkLevel(Entity owner, string id, int level)
+        {
+            if (!HasPerk(id))
+                return (false, "Perk not found");
+            var perk = GetPerk(id);
+            if (perk == null)
+                return (false, "Perk not found");
+            if (level < 0 || level > perk.MaxLevel)
+                return (false, "Invalid perk level");
+            int currentLevel = GetPerkLevel(id);
+
+            if (level < currentLevel)
+            {
+                // Check if any other perk depends on the perk being at a level above the new level
+                foreach (var dep in Dependencies)
+                {
+                    if (dep.Value.TargetId == id && dep.Value.Level > level)
+                    {
+                        Perk dependingPerk = GetPerk(dep.Key) ?? throw new InvalidOperationException("Dependency not found");
+                        return (false, $"Perk '{dependingPerk.Name}' requires level {dep.Value.Level}");
+                    }
+                }
+            }
+            else if (level > currentLevel)
+            {
+                var condition = perk.ConditionFunc(level);
+                if (condition is null)
+                {
+                    return (true, "");
+                }
+
+                if (condition.IsSatisfied(owner))
+                {
+                    return (true, condition.Description);
+                }
+                else
+                {
+                    return (false, "Dependency not satisfied");
+                }
+            }
+
+            return (true, "");
         }
 
         public bool SetPerkLevel(string id, int level)

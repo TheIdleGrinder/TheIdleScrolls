@@ -228,6 +228,12 @@ namespace TheIdleScrolls_Core.Modifiers
             return perk;
         }
 
+        public static Perk WithConditionFunc(this Perk perk, Func<int, IPerkCondition?> conditionFunc)
+        {
+            perk.ConditionFunc = conditionFunc;
+            return perk;
+        }
+
         static string[] CategoryLookup = 
         [
             LocalizedStrings.BasicPerks,
