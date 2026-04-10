@@ -15,13 +15,13 @@
         position: fixed;
         z-index: 10000;
         pointer-events: none;
-        background-color: var(--back-color, white);
-        border: 2px solid var(--frame-color, black);
-        padding: 10px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        max-width: 400px;
-        min-width: 200px; /* Verhindere zu schmale Tooltips */
-        width: max-content; /* Lasse Inhalt die Breite bestimmen */
+        /* background-color: var(--back-color, white); */
+        /* border: 2px solid var(--frame-color, black); */
+        /* padding: 10px; */
+        box-shadow: 1px 1px 4px 4px rgba(0,0,0,0.3);
+        /* max-width: 400px; */
+        min-width: 200px;
+        width: max-content;
         box-sizing: border-box;
     }
 </style>
@@ -52,9 +52,9 @@
         
         if (request != null)
         {
-            // Initiale Position (zentriert über Element)
+            // Initial Position (centered over element)
             _currentStyle = GetInitialPositionStyle(request.Position);
-            _needsRepositioning = true; // Flag setzen für Neuberechnung
+            _needsRepositioning = true; // Flag for recalculation
         }
         else
         {
@@ -90,7 +90,7 @@
     
     private string GetInitialPositionStyle(BoundingRect pos)
     {
-        // Einfache initiale Position (kann kurz sichtbar sein)
+        // Simple initial position (can be briefly visible)
         var left = pos.Left + (pos.Width / 2);
         var top = pos.Top;
         

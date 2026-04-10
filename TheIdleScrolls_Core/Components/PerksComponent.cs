@@ -198,14 +198,7 @@ namespace TheIdleScrolls_Core.Components
                     return (true, "");
                 }
 
-                if (condition.IsSatisfied(owner))
-                {
-                    return (true, condition.Description);
-                }
-                else
-                {
-                    return (false, "Dependency not satisfied");
-                }
+                return (condition.IsSatisfied(owner), condition.Description);
             }
 
             return (true, "");

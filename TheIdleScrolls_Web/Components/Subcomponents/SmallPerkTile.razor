@@ -157,14 +157,15 @@
     {
         if (CoreWrapper.PlayerCharacter == null)
             return;
-        CoreWrapper.InputHandler.SetPerkLevel(CoreWrapper.PlayerCharacter.Id, PerkId, level);
+        if (PerksComp?.CanSetPerkLevel(CoreWrapper!.PlayerCharacter, PerkId, level).works ?? false)
+            CoreWrapper.InputHandler.SetPerkLevel(CoreWrapper.PlayerCharacter.Id, PerkId, level);
     }
 
     private async Task ShowTooltip()
     {
         // Kein Delay mehr nötig - Container-Status wird im Service geprüft
         await TooltipService.ShowAsync(
-            @<PerkTile PerkId="@PerkId" PerksComp="@PerksComp" />,
+            @<PerkTile PerkId="@PerkId" PerksComp="@PerksComp" Refund="@Refund" />,
             _element
         );
     }

@@ -316,7 +316,7 @@ namespace TheIdleScrolls_Core.Systems
             perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}As", $"Basic Attack Speed", "",
                     ModifierType.Increase, Stats.BasicAttackSpeedIncrease,
                     [Tags.AttackSpeed], [], maxLevel: 10)
-                .WithCategories(LocalizedStrings.BasicPerks ), index + 1);
+                .WithCategories(LocalizedStrings.BasicPerks), index + 1);
             perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Def", $"Basic Defense", "",
                     ModifierType.Increase, Stats.BasicDefenseIncrease,
                     [Tags.Defense], [], maxLevel: 10)
