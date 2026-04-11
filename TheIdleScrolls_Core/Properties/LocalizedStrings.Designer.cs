@@ -133,6 +133,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Armours ähnelt.
+        /// </summary>
+        internal static string Armours {
+            get {
+                return ResourceManager.GetString("Armours", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Attack Speed ähnelt.
         /// </summary>
         internal static string AttackSpeed {
@@ -147,6 +156,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string AXE {
             get {
                 return ResourceManager.GetString("AXE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Basic ähnelt.
+        /// </summary>
+        internal static string BasicPerks {
+            get {
+                return ResourceManager.GetString("BasicPerks", resourceCulture);
             }
         }
         
@@ -610,6 +628,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fighting Styles ähnelt.
+        /// </summary>
+        internal static string FightingStyles {
+            get {
+                return ResourceManager.GetString("FightingStyles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die First Strike ähnelt.
         /// </summary>
         internal static string FirstStrike {
@@ -914,6 +941,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string VsLowLife {
             get {
                 return ResourceManager.GetString("VsLowLife", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Weapons ähnelt.
+        /// </summary>
+        internal static string Weapons {
+            get {
+                return ResourceManager.GetString("Weapons", resourceCulture);
             }
         }
     }
