@@ -3,30 +3,60 @@
 @using TheIdleScrolls_Core.Modifiers
 @using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Web.Components.Subcomponents
+@using TheIdleScrolls_Web.Services
 
 @implements IDisposable
 
 @inject CoreWrapperModel CoreWrapper
+@inject TooltipService TooltipService
 
-<div id="perks-container">
+<div id="perks-container" 
+     @onmouseenter="() => TooltipService.SetContainerActive(true)"
+     @onmouseleave="ContainerLeave">
 
-    <div class="perks-list">
-        @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
+    <div class="perk-categories-list">
+        @foreach (var (category, perks) in GetPerksByCategory())
         {
-            <PerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) />
+            <div class="perk-category-container">
+                @if (category != "")
+                {
+                    <div class="perk-category-header">@category</div>
+                }
+                <div class="perks-list">
+                    @foreach (var perk in perks.Where(p => p.Modifiers.Count > 0))
+                    {
+                        <SmallPerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) Refund=@RefundMode />
+                    }
+                </div>
+            </div>
         }
     </div>
+
+    @* <div class="perks-list">
+        @foreach (var perk in Perks.Where(p => p.Modifiers.Count > 0))
+        {
+            <SmallPerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) />
+        }
+    </div> *@
 
     <div id="perks-header">
         @if ((SkillsComponent?.Skills?.Count ?? 0) > 1)
         {
             <button @onclick="@(() => ShowSkills = !ShowSkills)">@(ShowSkills ? ">>" : "<<") Skills</button>
         }
+
         <p style="margin-bottom: 0">Points Spent: @PerksUsed / @PerksLimit</p>
-        @if (FreePerkPoints > 0)
-        {   
-            <p id="perks-available-points">@FreePerkPoints Point@(FreePerkPoints == 1 ? "" : "s") Available</p>
-        }
+        
+        <span style="display:flex; flex-direction:row; align-items: center; gap: 0.5rem;">
+            @if (FreePerkPoints > 0)
+            {
+                <p id="perks-available-points">@FreePerkPoints Point@(FreePerkPoints == 1 ? "" : "s") Available</p>
+            }
+            @if (PerksUsed > 0)
+            {
+                <button @onclick="(() => RefundMode = !RefundMode)">@(RefundMode ? "Finish Refunding" : "Refund Points")</button>
+            }
+        </span>
 
         @if (ShowSkills)
         {
@@ -64,6 +94,24 @@
         justify-content: space-between;
     }
 
+    .perk-categories-list
+    {
+        display: flex;
+        flex-direction: column;
+
+        padding: 5px;
+        max-height: 100%;
+        overflow-y: auto;
+        /* scrollbar-gutter: stable; */
+    }
+
+    .perk-category-container
+    {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
     #perks-new-indicator {
         position: absolute;
         top: 1rem;
@@ -85,9 +133,12 @@
     }
 
     .perks-list {
-        padding: 5px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+
+        /* padding: 5px;
         max-height: 100%;
-        overflow-y: auto;
+        overflow-y: auto; */
     }
 
     .play-area-frame.perks-skill-list-container {
@@ -106,18 +157,23 @@
 </style>
 
 @code {
-    PerksChangedHandler PerksHandler => (_) =>
-    {
-        if (PerksComponent == null)
-            PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
-        CoreWrapper.SeenPerks = Perks.Select(p => p.Id).ToList();
-        StateHasChanged();
-    };
+    private PerksChangedHandler? _perksHandler;
+    private AvailablePerkPointsChangedHandler? _perkPointsChangedHandler;
 
     protected override void OnInitialized()
     {
-        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged += PerksHandler;
-        CoreWrapper.GameRunner.GetEventEmitter().AvailablePerkPointsChanged += (_) => StateHasChanged();
+        _perksHandler = (_) =>
+        {
+            if (PerksComponent == null)
+                PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
+            CoreWrapper.SeenPerks = Perks.Select(p => p.Id).ToList();
+            StateHasChanged();
+        };
+        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged += _perksHandler;
+
+        _perkPointsChangedHandler = (_) => StateHasChanged();
+        CoreWrapper.GameRunner.GetEventEmitter().AvailablePerkPointsChanged += _perkPointsChangedHandler;
+
         base.OnInitialized();
         PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
         SkillsComponent = CoreWrapper.PlayerCharacter?.GetComponent<ActiveSkillComponent>();
@@ -129,8 +185,18 @@
 
     void IDisposable.Dispose()
     {
-        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged -= PerksHandler;
+        if (_perksHandler is not null)
+        {
+            CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged -= _perksHandler;
+        }
+
+        if (_perkPointsChangedHandler is not null)
+        {
+            CoreWrapper.GameRunner.GetEventEmitter().AvailablePerkPointsChanged -= _perkPointsChangedHandler;
+        }
     }
+    
+    bool RefundMode = false;
 
     PerksComponent? PerksComponent = null;
     ActiveSkillComponent? SkillsComponent = null;
@@ -139,8 +205,46 @@
     int PerksLimit => PerksComponent?.PerkPointLimit ?? 0;
     int FreePerkPoints => PerksLimit - PerksUsed;
 
+    List<(string Category, List<Perk> Perks)> GetPerksByCategory()
+    {
+        Dictionary<string, List<Perk>> result = [];
+        foreach (var perk in Perks)
+        {
+            string category = GetOrderPrefix(perk) + String.Join(": ", perk.Categories) ?? "";
+            if (!result.ContainsKey(category))
+                result[category] = [];
+            result[category].Add(perk);
+        }
+        return result
+            .OrderBy(t => t.Key)
+            .Select(t => (RemoveOrderPrefix(t.Key), t.Value)).ToList();
+    }
+
     List<string> SeenPerks = [];
     int NewPerks => Perks.Count - SeenPerks.Count;
 
     bool ShowSkills = false;
+
+    private void HideTooltipImmediate()
+    {
+        TooltipService.HideImmediate();
+    }
+
+    private void ContainerLeave()
+    {
+        TooltipService.SetContainerActive(false);
+    }
+
+    private string GetOrderPrefix(Perk perk)
+    {
+        return $"{perk.GetCategoryOrderPrefix():D4}#";
+    }
+
+    private string RemoveOrderPrefix(string category)
+    {
+        int index = category.IndexOf('#');
+        if (index >= 0)
+            return category.Substring(index + 1);
+        return category;
+    }
 }

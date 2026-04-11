@@ -4,13 +4,14 @@ using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Utility;
 using TheIdleScrolls_Core.Resources;
+using TheIdleScrolls_Core.Properties;
 
 namespace TheIdleScrolls_Core.ContentPacks
 {
 	internal class FightingStylesContentPack : IContentPack
 	{
 		public string Id => "CP_FightingStyles";
-		public string Name => "Fighting Styles";
+		public string Name => LocalizedStrings.FightingStyles;
 		public string Description => "This pack contains content that is related to unlocking and using fighting styles";
 		public List<IContentPiece> ContentPieces
         {
@@ -52,7 +53,8 @@ namespace TheIdleScrolls_Core.ContentPacks
                             ];
                         })
                     {
-                        MaxLevel = 3
+                        MaxLevel = 3,
+                        Categories = [LocalizedStrings.FightingStyles, LocalizedStrings.ABL_DUALWIELD]
                     })
                 });
                 achievements.Add(new(Abilities.Shielded, "Shieldbearer",
@@ -87,7 +89,8 @@ namespace TheIdleScrolls_Core.ContentPacks
                             ];
                         })
                     { 
-                        MaxLevel = 3 
+                        MaxLevel = 3,
+                        Categories = [LocalizedStrings.FightingStyles, LocalizedStrings.ABL_SHIELDED]
                     })
                 });
                 achievements.Add(new(Abilities.SingleHanded, "Fencer",
@@ -111,7 +114,8 @@ namespace TheIdleScrolls_Core.ContentPacks
                             [Tags.AttackSpeed], [Tags.SingleHanded, Tags.Evading])    
                         ])
                     {
-                        MaxLevel = 3
+                        MaxLevel = 3,
+                        Categories = [LocalizedStrings.FightingStyles, LocalizedStrings.ABL_SINGLEHANDED]
                     })
                 });
                 achievements.Add(new(Abilities.TwoHanded, "Wide Swings",
@@ -145,7 +149,8 @@ namespace TheIdleScrolls_Core.ContentPacks
                             ];
                         })
                     {
-                        MaxLevel = 3
+                        MaxLevel = 3,
+                        Categories = [LocalizedStrings.FightingStyles, LocalizedStrings.ABL_TWOHANDED]
                     })
                 });
 

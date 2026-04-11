@@ -33,6 +33,7 @@ namespace TheIdleScrolls_Core.Modifiers
         public string Id { get; init; }
         public string Name { get; init; } = "??";
         public string Description { get; private set; } = "??";
+        public List<string> Categories { get; set; } = [];
         public List<Modifier> Modifiers { get; private set; } = [];
         public HashSet<UpdateTrigger> UpdateTriggers { get; init; } = [];
         public bool Permanent { get; init; } = false;
@@ -47,7 +48,8 @@ namespace TheIdleScrolls_Core.Modifiers
         public int CurrentLevel { get; private set; } = 1; 
         public ModifierGenerator ModifiersFunc { get; private set; } 
             = (int lvl, Entity e, World w, Coordinator c) => { return []; };
-
+        public Func<int, IPerkCondition?> ConditionFunc { get; set; } = level => null;
+        public IPerkCondition? ConditionForLevel(int level) => ConditionFunc(level);
         public Perk(string id, string name, string description, 
             HashSet<UpdateTrigger> updateTriggers,
             ModifierGenerator modifiersFunc)
