@@ -7,6 +7,8 @@
 
 @inject CoreWrapperModel CoreWrapper
 
+@implements IDisposable
+
 <div class="perk @PerkClasses()">
     <div class="perk-top-row">
         <span class="perk-name">@GetTitleLine()</span>
@@ -136,23 +138,41 @@
     [Parameter]
     public bool Refund { get; set; } = false;
 
+    private PerkUpdatedHandler? _perkUpdatedHandler;
+    private DefenseChangedHandler? _playerDefenseChangedHandler;
+
     protected override void OnInitialized()
     {
-        CoreWrapper.GameRunner.GetEventEmitter().PerkUpdated += (string id) => {
+        _perkUpdatedHandler = (string id) => {
             if (id == PerkId)
                 StateHasChanged();
         };
+        CoreWrapper.GameRunner.GetEventEmitter().PerkUpdated += _perkUpdatedHandler;
 
         if (Perk?.Skill is not null)
         {
             // CornerCut: Use PlayerDefenseChanged as a proxy for stat changes
-            CoreWrapper.GameRunner.GetEventEmitter().PlayerDefenseChanged += (_, _, _) =>
+            _playerDefenseChangedHandler = (_, _, _) =>
             {
                 StateHasChanged();
             };
+            CoreWrapper.GameRunner.GetEventEmitter().PlayerDefenseChanged += _playerDefenseChangedHandler;
         }
 
         base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        if (_perkUpdatedHandler is not null)
+        {
+            CoreWrapper.GameRunner.GetEventEmitter().PerkUpdated -= _perkUpdatedHandler;
+        }
+
+        if (_playerDefenseChangedHandler is not null)
+        {
+            CoreWrapper.GameRunner.GetEventEmitter().PlayerDefenseChanged -= _playerDefenseChangedHandler;
+        }
     }
 
     Perk? Perk => PerksComp?.GetPerks()?.FirstOrDefault(p => p.Id == PerkId);

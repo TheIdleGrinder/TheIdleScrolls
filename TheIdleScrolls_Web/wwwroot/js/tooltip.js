@@ -26,7 +26,7 @@ export function calculateTooltipPosition(elementRect, tooltipRect) {
     console.log('Tooltip size:', tooltipWidth, 'x', tooltipHeight);
     console.log('Viewport:', elementRect.viewportWidth, 'x', elementRect.viewportHeight);
     
-    // Prüfe vertikale Position
+    // Check vertical position first
     if (top - tooltipHeight - margin < 0) {
         console.log('Not enough space above, placing below');
         top = elementRect.bottom;
@@ -34,39 +34,39 @@ export function calculateTooltipPosition(elementRect, tooltipRect) {
         marginTop = margin;
     }
     
-    // Prüfe horizontale Position mit zentrierter Ausrichtung
+    // Check horizontal position with centered alignment
     const halfWidth = tooltipWidth / 2;
-    let horizontalTransform = '-50%'; // Standard: zentriert
+    let horizontalTransform = '-50%'; // Default: centered
     
-    // Berechne wo der Tooltip hinwill
+    // Calculate desired tooltip position
     const desiredLeft = left - halfWidth;
     const desiredRight = left + halfWidth;
     
     if (desiredLeft < margin) {
-        // Tooltip würde links rausgehen -> verschiebe nach rechts
+        // Tooltip would go out of bounds on the left -> shift to the right
         console.log('Shifting right: desiredLeft', desiredLeft, '< margin', margin);
-        left = margin + halfWidth; // Zentriere auf der verschobenen Position
+        left = margin + halfWidth; // Center on the shifted position
         
-        // Prüfe ob dadurch rechts rausgeht
+        // Check if it goes out of bounds on the right
         if (left + halfWidth > elementRect.viewportWidth - margin) {
-            // Tooltip ist breiter als Viewport -> linksbündig
+            // Tooltip is wider than viewport -> align left
             left = margin;
             horizontalTransform = '0';
         }
     } else if (desiredRight > elementRect.viewportWidth - margin) {
-        // Tooltip würde rechts rausgehen -> verschiebe nach links
+        // Tooltip would go out of bounds on the right -> shift to the left
         console.log('Shifting left: desiredRight', desiredRight, '> viewport', elementRect.viewportWidth - margin);
-        left = elementRect.viewportWidth - margin - halfWidth; // Zentriere auf der verschobenen Position
+        left = elementRect.viewportWidth - margin - halfWidth; // Center on the shifted position
         
-        // Prüfe ob dadurch links rausgeht
+        // Check if it goes out of bounds on the left
         if (left - halfWidth < margin) {
-            // Tooltip ist breiter als Viewport -> linksbündig
+            // Tooltip is wider than viewport -> align left
             left = margin;
             horizontalTransform = '0';
         }
     }
     
-    // Konstruiere Transform-String
+    // Construct transform string
     const verticalTransform = transform.includes('-100%') ? '-100%' : '0';
     transform = `translate(${horizontalTransform}, ${verticalTransform})`;
     
@@ -81,7 +81,7 @@ export function calculateTooltipPosition(elementRect, tooltipRect) {
     return result;
 }
 
-// Globaler Mousemove-Handler als Fallback
+// Global mousemove handler as a fallback
 let lastMouseX = 0;
 let lastMouseY = 0;
 

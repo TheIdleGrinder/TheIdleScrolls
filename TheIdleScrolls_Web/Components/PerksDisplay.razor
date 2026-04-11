@@ -157,18 +157,23 @@
 </style>
 
 @code {
-    PerksChangedHandler PerksHandler => (_) =>
-    {
-        if (PerksComponent == null)
-            PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
-        CoreWrapper.SeenPerks = Perks.Select(p => p.Id).ToList();
-        StateHasChanged();
-    };
+    private PerksChangedHandler? _perksHandler;
+    private AvailablePerkPointsChangedHandler? _perkPointsChangedHandler;
 
     protected override void OnInitialized()
     {
-        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged += PerksHandler;
-        CoreWrapper.GameRunner.GetEventEmitter().AvailablePerkPointsChanged += (_) => StateHasChanged();
+        _perksHandler = (_) =>
+        {
+            if (PerksComponent == null)
+                PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
+            CoreWrapper.SeenPerks = Perks.Select(p => p.Id).ToList();
+            StateHasChanged();
+        };
+        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged += _perksHandler;
+
+        _perkPointsChangedHandler = (_) => StateHasChanged();
+        CoreWrapper.GameRunner.GetEventEmitter().AvailablePerkPointsChanged += _perkPointsChangedHandler;
+
         base.OnInitialized();
         PerksComponent = CoreWrapper.PlayerCharacter?.GetComponent<PerksComponent>();
         SkillsComponent = CoreWrapper.PlayerCharacter?.GetComponent<ActiveSkillComponent>();
@@ -180,9 +185,17 @@
 
     void IDisposable.Dispose()
     {
-        CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged -= PerksHandler;
-    }
+        if (_perksHandler is not null)
+        {
+            CoreWrapper.GameRunner.GetEventEmitter().PlayerPerksChanged -= _perksHandler;
+        }
 
+        if (_perkPointsChangedHandler is not null)
+        {
+            CoreWrapper.GameRunner.GetEventEmitter().AvailablePerkPointsChanged -= _perkPointsChangedHandler;
+        }
+    }
+    
     bool RefundMode = false;
 
     PerksComponent? PerksComponent = null;

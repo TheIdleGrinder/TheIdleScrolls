@@ -65,37 +65,15 @@ public class TooltipService : IAsyncDisposable
                 {
                     if (_containerActive && _currentTooltipId == _activeTooltipId)
                     {
-                        // Speichere Viewport-Informationen im Request
                         OnTooltipRequested?.Invoke(new TooltipRequest(content, rect));
                     }
                 }
             }
             catch (Exception ex)
             {
+                // Silently fail - tooltip is non-critical
                 System.Diagnostics.Debug.WriteLine($"Tooltip error: {ex.Message}");
             }
-        }
-    }
-
-    // Neue Methode für Positions-Berechnung nach Tooltip-Render
-    public async Task<TooltipPosition?> CalculatePositionAsync(BoundingRect elementRect, ElementReference tooltipElement)
-    {
-        try
-        {
-            await EnsureModuleAsync();
-            var tooltipRect = await _module!.InvokeAsync<BoundingRect>("getElementPosition", tooltipElement);
-            
-            var position = await _module!.InvokeAsync<TooltipPosition>(
-                "calculateTooltipPosition", 
-                elementRect, 
-                tooltipRect
-            );
-            
-            return position;
-        }
-        catch
-        {
-            return null;
         }
     }
     
@@ -113,6 +91,7 @@ public class TooltipService : IAsyncDisposable
             {
                 lock (_lock)
                 {
+                    // Only hide if no new tooltip was shown in the meantime
                     if (tooltipIdToHide == _activeTooltipId)
                     {
                         OnTooltipRequested?.Invoke(null);
@@ -133,6 +112,27 @@ public class TooltipService : IAsyncDisposable
             _currentTooltipId = 0;
             
             OnTooltipRequested?.Invoke(null);
+        }
+    }
+
+    public async Task<TooltipPosition?> CalculatePositionAsync(BoundingRect elementRect, ElementReference tooltipElement)
+    {
+        try
+        {
+            await EnsureModuleAsync();
+            var tooltipRect = await _module!.InvokeAsync<BoundingRect>("getElementPosition", tooltipElement);
+            
+            var position = await _module!.InvokeAsync<TooltipPosition>(
+                "calculateTooltipPosition", 
+                elementRect, 
+                tooltipRect
+            );
+            
+            return position;
+        }
+        catch
+        {
+            return null;
         }
     }
     

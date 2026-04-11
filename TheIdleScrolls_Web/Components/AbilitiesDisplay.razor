@@ -2,6 +2,8 @@
 @using TheIdleScrolls_Core
 @using TheIdleScrolls_Core.Components
 
+@implements IDisposable
+
 @inject CoreWrapperModel CoreWrapper
 
 <div class="scrolling-table" id="abilitiesTable">
@@ -76,5 +78,10 @@
     {
         CoreWrapper.StateChanged += StateHasChanged;
         base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        CoreWrapper.StateChanged -= StateHasChanged;
     }
 }

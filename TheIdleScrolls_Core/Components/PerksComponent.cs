@@ -154,10 +154,14 @@ namespace TheIdleScrolls_Core.Components
         {
             ChangedPerks.Remove(perk.Id);
             Dependencies.Remove(perk.Id);
-            var condition = perk.ConditionFunc(perk.CurrentLevel) as PerkLevelPerkCondition;
-            if (condition != null)
+            int level = GetPerkLevel(perk.Id);
+            if (level >= 1)
             {
-                Dependencies[perk.Id] = (condition.PerkId, condition.Level);
+                var condition = perk.ConditionFunc(level) as PerkLevelPerkCondition;
+                if (condition != null)
+                {
+                    Dependencies[perk.Id] = (condition.PerkId, condition.Level);
+                }
             }
         }
 
