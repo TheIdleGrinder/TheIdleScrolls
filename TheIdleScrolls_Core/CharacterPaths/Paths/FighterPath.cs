@@ -9,6 +9,7 @@ using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Perks;
+using TheIdleScrolls_Core.Properties;
 
 namespace TheIdleScrolls_Core.CharacterPaths.Paths
 {
@@ -43,7 +44,8 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 new($"{RootId}_arm", ModifierType.Increase, 0.25, [Tags.ArmorRating], [])
             ])
         {
-            Permanent = true
+            Permanent = true,
+            Categories = [Properties.Skills.PathFighter]
         };
 
         readonly static Perk OneHandDamagePerk = new(OneHandDmgPerkId, Properties.Skills.OneHandMeleeDamage, "", [],
@@ -53,7 +55,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 new($"{OneHandDmgPerkId}_dmg", ModifierType.Increase, l * Stats.BasicDamageIncrease * 1.5, 
                     [Tags.Damage, Tags.Melee, Tags.OneHandedWeapon], [])
             ])
-            { MaxLevel = 10 };
+            { MaxLevel = 10, Categories = [Properties.Skills.PathFighter] };
 
         readonly static Perk TwoHandDamagePerk = new(TwoHandDmgPerkId, Properties.Skills.TwoHandMeleeDamage, "", [],
             (l, e, w, c) => [
@@ -62,7 +64,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 new($"{TwoHandDmgPerkId}_dmg", ModifierType.Increase, l * Stats.BasicDamageIncrease * 1.5,
                     [Tags.Damage, Tags.Melee, Tags.TwoHandedWeapon], [])
             ])
-            { MaxLevel = 10 };
+            { MaxLevel = 10, Categories = [Properties.Skills.PathFighter] };
 
         readonly static Perk AttackSpeedPerk = new(AtkSpeedPerkId, Properties.Skills.MeleeAttackSpeed, "", [],
             (l, e, w, c) => [
@@ -71,7 +73,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 new($"{AtkSpeedPerkId}_speed", ModifierType.Increase, l * Stats.BasicAttackSpeedIncrease * 1.5,
                     [Tags.AttackSpeed, Tags.Melee], [])
             ])
-            { MaxLevel = 10 };
+            { MaxLevel = 10, Categories = [Properties.Skills.PathFighter] };
 
         readonly static Perk ShieldDefensePerk = new(ShieldDefensePerkId, Properties.Skills.ShieldDefense, "", [],
             (l, e, w, c) => [
@@ -80,7 +82,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 new($"{ShieldDefensePerkId}_shield", ModifierType.Increase, l * Stats.BasicDefenseIncrease * 2.5,
                     [Tags.Defense, Tags.Shield], [])
             ])
-            { MaxLevel = 10 };
+            { MaxLevel = 10, Categories = [Properties.Skills.PathFighter] };
 
         static MultiReward StarterItems()
         {
@@ -102,7 +104,10 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
         {
             Path.AddStep(new CharacterPathStep(RootId, Properties.Skills.PathFighterRoot, "")
             {
-                Reward = new MultiReward([new PerkReward(RootPerk), new PerkReward(HeavyAttack.BasePerk), StarterItems()]),
+                Reward = new MultiReward([new PerkReward(RootPerk), 
+                    new PerkReward(HeavyAttack.BasePerk
+                        .WithCategories(Properties.Skills.PathFighter, Properties.Skills.HeavyAttack_Name)), 
+                    StarterItems()]),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 0)
             });
 
@@ -118,7 +123,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             });
             Path.AddStep(new CharacterPathStep(DualWield3Id, Properties.Skills.DualWield3, "")
             {
-                Reward = new PerkReward(DoubleStrike.BasePerk),
+                Reward = new PerkReward(DoubleStrike.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.DoubleStrike_Name)),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(DualWield2Id, 1)
             });
 
@@ -134,7 +139,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             });
             Path.AddStep(new CharacterPathStep(Shield3Id, Properties.Skills.Shield3, "")
             {
-                Reward = new PerkReward(ShieldCharge.BasePerk),
+                Reward = new PerkReward(ShieldCharge.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.ShieldCharge_Name)),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(Shield2Id, 1)
             });
 
@@ -150,7 +155,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             });
             Path.AddStep(new CharacterPathStep(Single3Id, Properties.Skills.SingleHanded3, "")
             {
-                Reward = new PerkReward(VitalStrike.BasePerk),
+                Reward = new PerkReward(VitalStrike.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.VitalStrike_Name)),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(Single2Id, 1)
             });
 
@@ -166,45 +171,45 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             });
             Path.AddStep(new CharacterPathStep(TwoHand3Id, Properties.Skills.TwoHanded3, "")
             {
-                Reward = new PerkReward(CrushingBlow.BasePerk),
+                Reward = new PerkReward(CrushingBlow.BasePerk.WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_TWOHANDED)),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(TwoHand2Id, 1)
             });
 
             Path.AddStep(new CharacterPathStep(EnvenomWeapon.BasePerkId, EnvenomWeapon.BasePerk.Name, EnvenomWeapon.BasePerk.Description)
             {
-                Reward = new PerkReward(EnvenomWeapon.BasePerk),
+                Reward = new PerkReward(EnvenomWeapon.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.EnvWeapon_Name)),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 2)
             }); 
             Path.AddStep(new CharacterPathStep(EnvenomWeapon.DurationPerkId, EnvenomWeapon.SupportPerk.Name, EnvenomWeapon.SupportPerk.Description)
             {
-                Reward = new PerkReward(EnvenomWeapon.SupportPerk),
+                Reward = new PerkReward(EnvenomWeapon.SupportPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.EnvWeapon_Name)),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(EnvenomWeapon.BasePerkId, 3)
             }); 
 
             Path.AddStep(new CharacterPathStep(BlazingWeapon.BasePerkId, BlazingWeapon.BasePerk.Name, BlazingWeapon.BasePerk.Description)
             {
-                Reward = new PerkReward(BlazingWeapon.BasePerk),
+                Reward = new PerkReward(BlazingWeapon.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BlazingWeapon_Name)),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 2)
             });
             Path.AddStep(new CharacterPathStep(BlazingWeapon.SupportPerkId, BlazingWeapon.SupportPerk.Name, BlazingWeapon.SupportPerk.Description)
             {
-                Reward = new PerkReward(BlazingWeapon.SupportPerk),
+                Reward = new PerkReward(BlazingWeapon.SupportPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BlazingWeapon_Name)),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(BlazingWeapon.BasePerkId, 3)
             });
 
             Path.AddStep(new CharacterPathStep(BattleCry.BasePerkId, BattleCry.BasePerk.Name, BattleCry.BasePerk.Description)
             {
-                Reward = new PerkReward(BattleCry.BasePerk),
+                Reward = new PerkReward(BattleCry.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BattleCry_Name)),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements("", 3)
             });
             Path.AddStep(new CharacterPathStep(BattleCry.BuffPerkId, BattleCry.BuffPerk.Name, BattleCry.BuffPerk.Description)
             {
-                Reward = new PerkReward(BattleCry.BuffPerk),
+                Reward = new PerkReward(BattleCry.BuffPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BattleCry_Name)),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(BattleCry.BasePerkId, 4)
             });
             Path.AddStep(new CharacterPathStep(BattleCry.DebuffPerkId, BattleCry.DebuffPerk.Name, BattleCry.DebuffPerk.Description)
             {
-                Reward = new PerkReward(BattleCry.DebuffPerk),
+                Reward = new PerkReward(BattleCry.DebuffPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BattleCry_Name)),
                 SpecificAccess = CharacterPathStep.MakeStandardRequirements(BattleCry.BasePerkId, 5)
             });
         }

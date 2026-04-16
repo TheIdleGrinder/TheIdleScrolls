@@ -28,6 +28,10 @@
         position: relative;
     }
 
+    .small-perk-with-skill {
+        border-radius: 0.5rem;
+    }
+
     .perk-name {
         font-weight: bold;
     }
@@ -155,6 +159,10 @@
             classes += " perk-can-interact";
         else
             classes += " perk-cant-interact";
+        
+        if (Perk?.Skill is not null)
+            classes += " small-perk-with-skill";
+
         return classes;
     }
 

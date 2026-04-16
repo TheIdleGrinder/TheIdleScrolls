@@ -416,4 +416,7 @@ Time to finish: {0}</value>
   <data name="Weapons" xml:space="preserve">
     <value>Weapons</value>
   </data>
+  <data name="Gearless" xml:space="preserve">
+    <value>Monk</value>
+  </data>
 </root>

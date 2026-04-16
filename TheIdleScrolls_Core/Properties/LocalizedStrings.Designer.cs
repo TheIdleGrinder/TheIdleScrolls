@@ -646,6 +646,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Monk ähnelt.
+        /// </summary>
+        internal static string Gearless {
+            get {
+                return ResourceManager.GetString("Gearless", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die global ähnelt.
         /// </summary>
         internal static string Global {

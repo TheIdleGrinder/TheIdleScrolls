@@ -225,6 +225,7 @@ namespace TheIdleScrolls_Core.Modifiers
     {
         public static Perk WithCategories(this Perk perk, params string[] categories)
         {
+            perk.Categories = [];
             perk.Categories.AddRange(categories.Where(c => !string.IsNullOrEmpty(c)));
             return perk;
         }
@@ -243,7 +244,7 @@ namespace TheIdleScrolls_Core.Modifiers
             LocalizedStrings.FightingStyles,
             LocalizedStrings.UNARMED,
             LocalizedStrings.UNARMORED,
-            "Monk"
+            LocalizedStrings.Gearless
         ];
 
         public static int GetCategoryOrderPrefix(this Perk perk)
@@ -254,7 +255,7 @@ namespace TheIdleScrolls_Core.Modifiers
             string category = perk.Categories[0];
             int index = Array.IndexOf(CategoryLookup, category);
             if (index == -1)
-                return 0;
+                return 99;
             return index + 1;
         }
     }

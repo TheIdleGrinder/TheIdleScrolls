@@ -466,7 +466,7 @@ namespace TheIdleScrolls_Core.Resources
                                     Enumerable.Repeat(0.05, 3).ToList(),
                                     [[Tags.Damage], [Tags.AttackSpeed], [Tags.Defense]],
                                     Enumerable.Repeat<IEnumerable<string>>([Tags.DualWield], 3).ToList())
-                                .WithCategories(LocalizedStrings.FightingStyles, LocalizedStrings.ABL_DUALWIELD),
+                                .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_DUALWIELD),
                 (Abilities.DualWield, 50) => new($"{id}{level}", "Reckless Assault",
                                     $"Sacrifice some defense to gain an exponentially increasing multiplier to attack speed",
                                     [],
@@ -477,7 +477,7 @@ namespace TheIdleScrolls_Core.Resources
                                     ])
                 {
                     MaxLevel = 5,
-                    Categories = [LocalizedStrings.FightingStyles, LocalizedStrings.ABL_DUALWIELD]
+                    Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_DUALWIELD]
                 },
                 //(Abilities.DualWield, 75) => new($"{id}{level}", "Assassin",
                 //                    $"Gain {DualWieldKeystone} base damage per level of the {Properties.LocalizedStrings.ABL_DUALWIELD} ability",
@@ -493,7 +493,8 @@ namespace TheIdleScrolls_Core.Resources
                 //                            )
                 //                        ];
                 //                    }),
-                (Abilities.DualWield, 75) => HeavyAttack.DualWieldPerk,
+                (Abilities.DualWield, 75) => HeavyAttack.DualWieldPerk
+                    .WithCategories(Properties.Skills.PathFighter, Properties.Skills.HeavyAttack_Name),
                 (Abilities.DualWield, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{LocalizedStrings.ABL_DUALWIELD} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} attack speed multiplier",
@@ -501,7 +502,7 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.MasterPerkMultiplier,
                                     [Tags.AttackSpeed],
                                     [])
-                .WithCategories(LocalizedStrings.FightingStyles, LocalizedStrings.ABL_DUALWIELD),
+                .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_DUALWIELD),
                 (Abilities.Shielded, 50) => new($"{id}{level}", "Methodical",
                                     $"Sacrifice some damage to gain an exponentially increasing multiplier to defense",
                                     [],
@@ -512,7 +513,7 @@ namespace TheIdleScrolls_Core.Resources
                                     ])
                 {
                     MaxLevel = 5,
-                    Categories = [LocalizedStrings.FightingStyles, LocalizedStrings.ABL_SHIELDED]
+                    Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_SHIELDED]
                 },
                 //(Abilities.Shielded, 75) => new($"{id}{level}", "Juggernaut",
                 //                    $"Gain {ShieldedKeystone:0.###%} increased damage per {1000} points of armor rating per level of " +
@@ -531,7 +532,8 @@ namespace TheIdleScrolls_Core.Resources
                 //                            )
                 //                        ];
                 //                    }),
-                (Abilities.Shielded, 75) => HeavyAttack.ShieldedPerk,
+                (Abilities.Shielded, 75) => HeavyAttack.ShieldedPerk
+                    .WithCategories(Properties.Skills.PathFighter, Properties.Skills.HeavyAttack_Name),
                 (Abilities.Shielded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{LocalizedStrings.ABL_SHIELDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} defense multiplier",
@@ -539,14 +541,14 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.MasterPerkMultiplier,
                                     [Tags.Defense],
                                     [])
-                .WithCategories(LocalizedStrings.FightingStyles, LocalizedStrings.ABL_SHIELDED),
+                .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_SHIELDED),
                 (Abilities.SingleHanded, 25) => PerkFactory.MakeStaticPerk($"{id}{level}", $"Fire Dancing",
                                     $"{0.2:0.#%} more damage in single-handed style",
                                     ModifierType.More,
                                     0.2,
                                     [Tags.Damage],
                                     [Tags.SingleHanded])
-                .WithCategories(LocalizedStrings.FightingStyles, LocalizedStrings.ABL_SINGLEHANDED),
+                .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_SINGLEHANDED),
                 (Abilities.SingleHanded, 50) => new($"{id}{level}", "Fleet-footed",
                                     $"Gain base evasion rating per level of the {LocalizedStrings.ABL_SINGLEHANDED} " +
                                         $"ability while fighting single-handed",
@@ -562,7 +564,7 @@ namespace TheIdleScrolls_Core.Resources
                                             )
                                         ];
                                     })
-                { MaxLevel = 5 },
+                { MaxLevel = 5, Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_SINGLEHANDED] },
                 //(Abilities.SingleHanded, 75) => new($"{id}{level}", "Duelist",
                 //                    $"Gain {SingleHandedKeystone:0.#%} increased damage per level of the " +
                 //                        $"{Properties.LocalizedStrings.ABL_SINGLEHANDED} ability while evading",
@@ -578,7 +580,8 @@ namespace TheIdleScrolls_Core.Resources
                 //                            )
                 //                        ];
                 //                    }),
-                (Abilities.SingleHanded, 75) => HeavyAttack.SingleHandedPerk,
+                (Abilities.SingleHanded, 75) => HeavyAttack.SingleHandedPerk
+                    .WithCategories(Properties.Skills.PathFighter, Properties.Skills.HeavyAttack_Name),
                 (Abilities.SingleHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{LocalizedStrings.ABL_SINGLEHANDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} time limit multiplier",
@@ -586,7 +589,7 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.MasterPerkMultiplier,
                                     [Tags.TimeShield],
                                     [])
-                .WithCategories(LocalizedStrings.FightingStyles, LocalizedStrings.ABL_SINGLEHANDED),
+                .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_SINGLEHANDED),
                 (Abilities.TwoHanded, 50) => new($"{id}{level}", "Precise Attacks",
                                     $"Sacrifice some attack speed to gain an exponentially increasing multiplier to damage",
                                     [],
@@ -597,7 +600,7 @@ namespace TheIdleScrolls_Core.Resources
                                     ])
                 {
                     MaxLevel = 5,
-                    Categories = [LocalizedStrings.FightingStyles, LocalizedStrings.ABL_TWOHANDED]
+                    Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_TWOHANDED]
                 },
                 //(Abilities.TwoHanded, 75) => new($"{id}{level}", "Executioner",
                 //                    $"Gain {TwoHandedKeystone:0.#%} increased damage per second of attack time per level of " +
@@ -616,7 +619,8 @@ namespace TheIdleScrolls_Core.Resources
                 //                            )
                 //                        ];
                 //                    }),
-                (Abilities.TwoHanded, 75) => HeavyAttack.TwoHandedPerk,
+                (Abilities.TwoHanded, 75) => HeavyAttack.TwoHandedPerk
+                    .WithCategories(Properties.Skills.PathFighter, Properties.Skills.HeavyAttack_Name),
                 (Abilities.TwoHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{LocalizedStrings.ABL_TWOHANDED} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} damage multiplier",
@@ -624,7 +628,7 @@ namespace TheIdleScrolls_Core.Resources
                                     Stats.MasterPerkMultiplier,
                                     [Tags.Damage],
                                     [])
-                .WithCategories(LocalizedStrings.FightingStyles, LocalizedStrings.ABL_TWOHANDED),
+                .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_TWOHANDED),
                 ("oALL", 25) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", "Fighting Affinity",
                                     $"{Stats.SavantXpMultiplier:0.#%} increased experience gain for fighting style abilities",
                                     Enumerable.Repeat(ModifierType.Increase, 4).ToList(),
@@ -637,7 +641,7 @@ namespace TheIdleScrolls_Core.Resources
                                     ],
                                     [[], [], [], []],
                                     alwaysActive: true)
-                .WithCategories(LocalizedStrings.FightingStyles),
+                .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.FightingStyles),
                 ("oALL", 50) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", "Allrounder", 
                                     "",
                                     Enumerable.Repeat(ModifierType.Increase, 4).ToList(),
@@ -645,7 +649,7 @@ namespace TheIdleScrolls_Core.Resources
                                     [[Tags.Damage], [Tags.AttackSpeed], [Tags.Defense], [Tags.TimeShield]],
                                     [[], [], [], []],
                                     maxLevel: 3)
-                .WithCategories(LocalizedStrings.FightingStyles),
+                .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.FightingStyles),
                 ("oALL", 100) => new($"{id}{level}", "Ascendant",
                                     $"Gain half the bonuses of the Assassin, Juggernaut, Duelist and Executioner perks",
                                     [UpdateTrigger.AbilityIncreased, UpdateTrigger.EquipmentChanged,
@@ -668,7 +672,7 @@ namespace TheIdleScrolls_Core.Resources
                                         ];
                                     })
                                     {
-                                        Categories = [LocalizedStrings.FightingStyles]
+                                        Categories = [Properties.Skills.PathFighter, LocalizedStrings.FightingStyles]
                                     },
                 _ => null
             };

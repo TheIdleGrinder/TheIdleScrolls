@@ -180,7 +180,7 @@ namespace TheIdleScrolls_Core.ContentPacks
 						[[Tags.Damage], [Tags.Defense]],
 						[[Tags.Unarmed, Tags.Unarmored], [Tags.Unarmed, Tags.Unarmored]]
 					)
-                        .WithCategories("Monk"))
+                        .WithCategories(LocalizedStrings.Gearless))
 				}
 			)
 		];

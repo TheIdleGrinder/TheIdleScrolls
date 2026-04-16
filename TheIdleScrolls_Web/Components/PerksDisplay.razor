@@ -15,19 +15,26 @@
      @onmouseleave="ContainerLeave">
 
     <div class="perk-categories-list">
-        @foreach (var (category, perks) in GetPerksByCategory())
+        @foreach (var (category, subcategories) in GetPerksByCategory())
         {
             <div class="perk-category-container">
                 @if (category != "")
                 {
                     <div class="perk-category-header">@category</div>
                 }
-                <div class="perks-list">
-                    @foreach (var perk in perks.Where(p => p.Modifiers.Count > 0))
+                @foreach (var (subcategory, perks) in subcategories)
+                {
+                    @if (subcategory != "")
                     {
-                        <SmallPerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) Refund=@RefundMode />
+                        <div class="perk-subcategory-header">@subcategory</div>
                     }
-                </div>
+                    <div class="perks-list">
+                        @foreach (var perk in perks.Where(p => p.Modifiers.Count > 0))
+                        {
+                            <SmallPerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) Refund=@RefundMode />
+                        }
+                    </div>
+                }
             </div>
         }
     </div>
@@ -110,6 +117,11 @@
         display: flex;
         flex-direction: column;
         min-width: 0;
+    }
+
+    .perk-category-header {
+        font-size: large;
+        font-weight: bold;
     }
 
     #perks-new-indicator {
@@ -195,7 +207,7 @@
             CoreWrapper.GameRunner.GetEventEmitter().AvailablePerkPointsChanged -= _perkPointsChangedHandler;
         }
     }
-    
+
     bool RefundMode = false;
 
     PerksComponent? PerksComponent = null;
@@ -205,19 +217,40 @@
     int PerksLimit => PerksComponent?.PerkPointLimit ?? 0;
     int FreePerkPoints => PerksLimit - PerksUsed;
 
-    List<(string Category, List<Perk> Perks)> GetPerksByCategory()
+    // List<(string Category, List<Perk> Perks)> GetPerksByCategory()
+    // {
+    //     Dictionary<string, List<Perk>> result = [];
+    //     foreach (var perk in Perks)
+    //     {
+    //         string category = GetOrderPrefix(perk) + String.Join(": ", perk.Categories) ?? "";
+    //         if (!result.ContainsKey(category))
+    //             result[category] = [];
+    //         result[category].Add(perk);
+    //     }
+    //     return result
+    //         .OrderBy(t => t.Key)
+    //         .Select(t => (RemoveOrderPrefix(t.Key), t.Value)).ToList();
+    // }
+
+    List<(string MainCategory, List<(string SubCategory, List<Perk> Perks)>)> GetPerksByCategory()
     {
-        Dictionary<string, List<Perk>> result = [];
+        Dictionary<string, Dictionary<string, List<Perk>>> result = [];
         foreach (var perk in Perks)
         {
-            string category = GetOrderPrefix(perk) + String.Join(": ", perk.Categories) ?? "";
-            if (!result.ContainsKey(category))
-                result[category] = [];
-            result[category].Add(perk);
+            string mainCategory = GetOrderPrefix(perk) + (perk.Categories.Count > 0 ? perk.Categories[0] : "");
+            string subCategory = String.Join(": ", perk.Categories.Skip(1)) ?? "";
+            if (!result.ContainsKey(mainCategory))
+                result[mainCategory] = [];
+            if (!result[mainCategory].ContainsKey(subCategory))
+                result[mainCategory][subCategory] = [];
+            result[mainCategory][subCategory].Add(perk);
         }
         return result
             .OrderBy(t => t.Key)
-            .Select(t => (RemoveOrderPrefix(t.Key), t.Value)).ToList();
+            .Select(t => (RemoveOrderPrefix(t.Key), t.Value
+                .OrderBy(st => st.Key)
+                .Select(st => (RemoveOrderPrefix(st.Key), st.Value)).ToList()))
+            .ToList();
     }
 
     List<string> SeenPerks = [];
