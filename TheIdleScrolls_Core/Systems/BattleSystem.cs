@@ -88,15 +88,14 @@ namespace TheIdleScrolls_Core.Systems
 
                 // Player may have been defeated through a status effect (e.g. poison). In that case, don't process skills, but
                 // let the player win the fight if the mob was defeated during the same frame (also from a status effect).
-                bool playerDefeated = player.GetComponent<TimeShieldComponent>()?.IsDepleted ?? false;
+                bool playerDefeated = player.IsDefeated();
 
                 if (!playerDefeated)
                 {
                     ProcessSkills(player, mob, dt, coordinator);
                 }
 
-                bool mobDefeated = mob.GetComponent<LifePoolComponent>()?.IsDead 
-                    ?? throw new Exception($"Mob {mob.GetName()} has no life pool");
+                bool mobDefeated = mob.IsDefeated();
 
                 if (mobDefeated)
                 {
@@ -109,25 +108,27 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     ProcessSkills(mob, player, dt, coordinator);
 
-                    // Apply time loss
-                    double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
-                    double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
-                    double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, mob.GetLevel(), damage);
-                    // Scale mob damage with charge speed (mostly to allow for stuns)
-                    double speed = mob.ApplyAllApplicableModifiers(1.0, [Tags.ChargeSpeed], mob.GetTags());
-                    double timeLoss = dt * speed * damage / armorBonus;
+                    // Apply HP loss
+                    //double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
+                    //double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
+                    //double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, mob.GetLevel(), damage);
+                    //// Scale mob damage with charge speed (mostly to allow for stuns)
+                    //double speed = mob.ApplyAllApplicableModifiers(1.0, [Tags.ChargeSpeed], mob.GetTags());
+                    //double health = dt * speed * damage / armorBonus;
 
-                    timeLoss = player.GetComponent<ModifierComponent>()
-                        ?.ApplyApplicableModifiers(timeLoss, [Tags.TimeLoss], player.GetTags())
-                        ?? timeLoss;
-                    mob.GetComponent<BattlerComponent>()!.DamageDealt += timeLoss;
+                    //health = player.GetComponent<ModifierComponent>()
+                    //    ?.ApplyApplicableModifiers(health, [Tags.DamageTaken], player.GetTags())
+                    //    ?? health;
+                    //mob.GetComponent<BattlerComponent>()!.DamageDealt += health;
 
-                    var shieldComp = player.GetComponent<TimeShieldComponent>();
-                    if (shieldComp != null) // Players without time shield are invincible
-                    {
-                        shieldComp.Drain(timeLoss);
-                        playerDefeated = shieldComp.IsDepleted;
-                    }
+                    var hpComp = player.GetComponent<LifePoolComponent>();
+                    // Players without HP are invincible
+                    playerDefeated = hpComp is not null && hpComp.IsDead;
+                    //if (hpComp != null) // Players without HP are invincible
+                    //{
+                    //    hpComp.ApplyDamage(health);
+                    //    playerDefeated = hpComp.IsDead;
+                    //}
                 }
 
                 // Update battle state
@@ -162,7 +163,7 @@ namespace TheIdleScrolls_Core.Systems
                 player.AddComponent(new BattlerComponent(battle));
                 coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
 
-                SetupPlayerTimeShield(player, zone);
+                player.GetComponent<LifePoolComponent>()?.HealToFull();
                 player.GetComponent<TimeShieldComponent>()?.Refill();
                 player.GetComponent<ActiveSkillComponent>()?.ResetSkills();
                 player.GetComponent<StatusEffectComponent>()?.DeactivateAll();

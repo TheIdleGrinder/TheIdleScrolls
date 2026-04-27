@@ -44,7 +44,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
         public Entity? PlayerCharacter { get; set; } = null;
         public int XpCurrent { get; set; } = 0;
         public int XpTarget { get; set; } = 0;
-        public TimeLimit TimeLimit { get; private set; } = new();
+        public HitPoints HitPoints { get; private set; } = new();
         public AreaRepresentation Area { get; private set; } = new("", 0, false);
         public MobRepresentation Mob { get; private set; } = new(0, "", "", 0, 0, 0, 0.0);
         public AccessibleAreas Accessible { get; } = new();
@@ -176,10 +176,10 @@ namespace TheIdleScrolls_Web.CoreWrapper
                 XpCurrent = current;
                 XpTarget = target;
             };
-            emitter.TimeLimitChanged += (double remaining, double max) => 
+            emitter.HitPointsChanged += (int remaining, int max) => 
             {
-                TimeLimit.Remaining = remaining;
-                TimeLimit.Maximum = max;
+                HitPoints.Remaining = remaining;
+                HitPoints.Maximum = max;
             };
             emitter.MobChanged += (MobRepresentation mob) => Mob = mob;
             emitter.PlayerAreaChanged += (string name, int level, bool isDungeon) => Area = new(name, level, isDungeon);

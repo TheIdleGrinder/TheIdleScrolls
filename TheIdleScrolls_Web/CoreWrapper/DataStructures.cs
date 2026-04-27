@@ -4,7 +4,7 @@ using TheIdleScrolls_Core.Items;
 
 namespace TheIdleScrolls_Web.CoreWrapper
 {
-    public class TimeLimit
+    public class HitPoints
     {
         public double Remaining { get; set; } = 0.0;
         public double Maximum { get; set; } = 0.0;

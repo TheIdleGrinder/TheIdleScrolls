@@ -9,6 +9,7 @@ using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Skills;
 using TheIdleScrolls_Core.StatusEffects;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core
 {
@@ -56,16 +57,29 @@ namespace TheIdleScrolls_Core
 
             double damage = CalculateDamage(description, level);
             if (damage > 0.0)
-                mob.AddComponent(new MobDamageComponent(damage));
+            {
+                AttackComponent attackComp = new();
+                attackComp.AddAttackVector(new DamageCluster(Definitions.DamageType.Physical, damage), 1.0);
+                mob.AddComponent(attackComp);
+                var skillComp = new ActiveSkillComponent();
+                var defaultAttack = new ActiveSkill(Skills.Skills.DefaultAttack.Skill);
+                defaultAttack.SetupForUser(mob);
+                skillComp.Add(defaultAttack);
+                mob.AddComponent(skillComp);
+            }
 
             if (description.ActiveSkills.Count > 0)
             {
-                var skillComp = new ActiveSkillComponent();
+                var skillComp = mob.GetComponent<ActiveSkillComponent>();
+                if (skillComp is null)
+                {
+                    skillComp = new ActiveSkillComponent();
+                    mob.AddComponent(skillComp);
+                }
                 foreach (var skill in description.ActiveSkills)
                 {
                     skillComp.Add(new(skill));
                 }
-                mob.AddComponent(skillComp);
             }
 
             if (description.Perks.Count > 0)
@@ -98,8 +112,7 @@ namespace TheIdleScrolls_Core
 
         public static double CalculateDamage(MobDescription description, int level)
         {
-            _ = level; // unused
-            return description.Damage;
+            return description.Damage * Functions.CalculateMobDamage(level, description.Damage);
         }
     }
 }

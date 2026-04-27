@@ -22,7 +22,7 @@ namespace TheIdleScrolls_Core.Systems
 
         public event PlayerCharacterChangedHandler? PlayerCharacterChanged;
         public event CharacterXpChangedHandler? PlayerXpChanged;
-        public event TimeLimitChangedHandler? TimeLimitChanged;
+        public event HitPointsChangedHandler? HitPointsChanged;
         public event ItemsChangedHandler? PlayerInventoryChanged;
         public event ItemsChangedHandler? PlayerEquipmentChanged;
         public event EncumbranceChangedHandler? PlayerEncumbranceChanged;
@@ -296,11 +296,11 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
 
-            // Update time limit
-            var shieldComp = player.GetComponent<TimeShieldComponent>();
-            if (shieldComp != null)
+            // Update hit points
+            var hpComp = player.GetComponent<LifePoolComponent>();
+            if (hpComp != null)
             {
-                TimeLimitChanged?.Invoke(shieldComp.Remaining, shieldComp.Maximum);
+                HitPointsChanged?.Invoke(hpComp.Current, hpComp.Maximum);
             }
 
             // Update auto proceed
@@ -381,7 +381,7 @@ namespace TheIdleScrolls_Core.Systems
             var mobLevel = mob.GetComponent<LevelComponent>()?.Level ?? 0;
             var mobHp = mob.GetComponent<LifePoolComponent>()?.Current ?? 0;
             var mobHpMax = mob.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
-            var mobDamage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
+            var mobDamage = mob.GetComponent<AttackComponent>()?.AverageDamage.TotalDamage ?? 0.0;
             return new MobRepresentation(mob.Id, mobId, mobName, mobLevel, mobHp, mobHpMax, mobDamage);
         }
 

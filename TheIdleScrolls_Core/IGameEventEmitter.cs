@@ -23,7 +23,7 @@ namespace TheIdleScrolls_Core
     public delegate void MobChangedHandler(MobRepresentation mob);
     public delegate void AreaChangedHandler(string name, int level, bool isDungeon);
     public delegate void AutoProceedStateChangedHandler(bool autoProceed);
-    public delegate void TimeLimitChangedHandler(double remaining, double duration);
+    public delegate void HitPointsChangedHandler(int remaining, int maximum);
     public delegate void FeatureAvailabilityChangedHandler(GameFeature feature, bool available);
     public delegate void AccessibleAreasChangedHandler(int maxWilderness, List<DungeonRepresentation> dungeons);
     public delegate void AvailableCraftingRecipesChangedHandler(List<IItemEntity> prototypes);
@@ -52,7 +52,7 @@ namespace TheIdleScrolls_Core
         event MobChangedHandler MobChanged;
         event AreaChangedHandler PlayerAreaChanged;
         event AutoProceedStateChangedHandler PlayerAutoProceedStateChanged;
-        event TimeLimitChangedHandler TimeLimitChanged;
+        event HitPointsChangedHandler HitPointsChanged;
         event FeatureAvailabilityChangedHandler FeatureAvailabilityChanged;
         event AccessibleAreasChangedHandler AccessibleAreasChanged;
         event AvailableCraftingRecipesChangedHandler AvailableCraftingRecipesChanged;

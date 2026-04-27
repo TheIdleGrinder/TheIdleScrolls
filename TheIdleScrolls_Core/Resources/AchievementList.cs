@@ -586,10 +586,10 @@ namespace TheIdleScrolls_Core.Resources
                 },
                 (Abilities.SingleHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{LocalizedStrings.ABL_SINGLEHANDED} Master",
-                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} time limit multiplier",
+                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} hit point multiplier",
                                     ModifierType.More,
                                     Stats.MasterPerkMultiplier,
-                                    [Tags.TimeShield],
+                                    [Tags.HitPoints],
                                     [])
                 .WithCategories(LocalizedStrings.FightingStyles, LocalizedStrings.ABL_SINGLEHANDED),
                 (Abilities.TwoHanded, 50) => new($"{id}{level}", "Precise Attacks",
@@ -649,7 +649,7 @@ namespace TheIdleScrolls_Core.Resources
                                     "",
                                     Enumerable.Repeat(ModifierType.Increase, 4).ToList(),
                                     [Stats.BasicDamageIncrease, Stats.BasicAttackSpeedIncrease, Stats.BasicDefenseIncrease, Stats.BasicTimeIncrease],
-                                    [[Tags.Damage], [Tags.AttackSpeed], [Tags.Defense], [Tags.TimeShield]],
+                                    [[Tags.Damage], [Tags.AttackSpeed], [Tags.Defense], [Tags.HitPoints]],
                                     [[], [], [], []],
                                     maxLevel: 3)
                 .WithCategories(LocalizedStrings.FightingStyles),

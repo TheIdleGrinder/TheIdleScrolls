@@ -148,12 +148,12 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         public override bool IsAvailableTo(Entity user)
         {
-            return user.IsPlayer();
+            return user.HasComponent<AttackComponent>();
         }
 
         public override (bool available, string reason) IsUsableBy(Entity user)
         {
-            return (IsAvailableTo(user), string.Empty);
+            return (user.IsInBattle(), "Not in battle");
         }
     }
 }

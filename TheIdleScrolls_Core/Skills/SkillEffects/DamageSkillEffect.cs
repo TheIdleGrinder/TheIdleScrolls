@@ -30,11 +30,25 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 				return;
             }
 
-			var modComp = target.GetComponent<ModifierComponent>();
-			double tmpDamage = Damage;
+            double tmpDamage = Damage;
+
+            // Consider armor for physical damage
+            if (DamageType == DamageType.Physical)
+			{
+				double armor = target.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
+                double multi = Math.Max(tmpDamage / (tmpDamage + armor), 1.0 - Stats.MaxResistanceFromArmor);
+                if (armor > 0.0)
+                    tmpDamage *= multi;
+            }
+
+            var modComp = target.GetComponent<ModifierComponent>();
 			if (modComp is not null)
 			{
-				tmpDamage = modComp.ApplyApplicableModifiers(tmpDamage, [Definitions.Tags.DamageTaken, ..Tags], target.GetTags());
+				var tags = Tags.ToHashSet();
+				tags.UnionWith(DamageType.GetMatchingTags());
+				tags.Remove(Definitions.Tags.Damage);
+                tmpDamage = modComp.ApplyApplicableModifiers(tmpDamage, 
+					[Definitions.Tags.DamageTaken, ..tags], target.GetTags());
                 double resistance = modComp.ApplyApplicableModifiers(0.0,
 					[Definitions.Tags.Resistance, .. DamageType.GetMatchingTags(), .. Tags], target.GetTags());
                 resistance = Math.Min(resistance, Stats.MaxResistances);

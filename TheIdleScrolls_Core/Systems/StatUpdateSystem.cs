@@ -58,6 +58,13 @@ namespace TheIdleScrolls_Core.Systems
 
             UpdatePlayerTags(player);
 
+            var hpComp = player.GetComponent<LifePoolComponent>();
+            if (hpComp is not null)
+            {
+                double hp = player.ApplyAllApplicableModifiers(Stats.BasePlayerHitPoints, [Tags.HitPoints], player.GetTags());
+                hpComp.SetMaximum((int)Math.Ceiling(hp));
+            }
+
             var equipComp = player.GetComponent<EquipmentComponent>();
 
             double armor = 0.0;
