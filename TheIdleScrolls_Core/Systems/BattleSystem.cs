@@ -180,22 +180,25 @@ namespace TheIdleScrolls_Core.Systems
             player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 
-        void ProcessSkillEffects(Entity entity, Entity opponent, List<ISkillEffect> effects, Coordinator coordinator)
+        void ProcessSkillEffects(Entity entity, Entity opponent, List<SkillEffectBundle> effects, Coordinator coordinator)
         {
             double damage = 0;
             double damagePrevented = 0;
             foreach (var effect in effects)
             {
-                if (effect.Target == ISkillEffect.TargetingMode.SingleEnemy)
+                if (effect.Target == TargetingMode.SingleEnemy)
                 {
                     effect.ApplyToTarget(opponent);
-                    if (effect is DamageSkillEffect dmgEffect)
+                    foreach (var subEffect in effect.Effects)
                     {
-                        damage += dmgEffect.DamageDone;
-                        damagePrevented += dmgEffect.Damage - dmgEffect.DamageDone;
+                        if (subEffect is DamageSkillEffect dmgEffect)
+                        {
+                            damage += dmgEffect.DamageDone;
+                            damagePrevented += dmgEffect.Damage - dmgEffect.DamageDone;
 
-                        if (!dmgEffect.Tags.Contains(Tags.DamageOverTime))
-                            coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
+                            if (!dmgEffect.Tags.Contains(Tags.DamageOverTime))
+                                coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
+                        }
                     }
                 }
                 else
@@ -215,7 +218,7 @@ namespace TheIdleScrolls_Core.Systems
                 return;
 
 			double totalElapsed = 0.0;
-            List<ISkillEffect> collectedSkillEffects = [];
+            List<SkillEffectBundle> collectedSkillEffects = [];
 			while (totalElapsed < dt)
 			{
 				double previouslyRemaining = dt - totalElapsed;
@@ -224,7 +227,7 @@ namespace TheIdleScrolls_Core.Systems
 				{
 					skillComp.CurrentSkill.Timer.Start();
 				}
-                (SkillTimer.TimerUpdateResult updateResult, List<ISkillEffect> effects) 
+                (SkillTimer.TimerUpdateResult updateResult, List<SkillEffectBundle> effects) 
                     = skillComp.CurrentSkill?.Update(previouslyRemaining) ?? (new(), []);
                 collectedSkillEffects.AddRange(effects);
                 if (updateResult.ChargingComplete || updateResult.ActivityComplete || updateResult.CooldownComplete)

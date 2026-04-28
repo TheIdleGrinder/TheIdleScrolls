@@ -20,9 +20,9 @@ namespace TheIdleScrolls_Core.Skills.SkillEffectGenerators
             Cooldown.Reset();
         }
 
-        public List<ISkillEffect> Update(double dt)
+        public List<SkillEffectBundle> Update(double dt)
         {
-            return (Cooldown.Update(dt) > 0) ? [Effect] : []; // CornerCut: Only one trigger per frame
+            return (Cooldown.Update(dt) > 0) ? [new SkillEffectBundle([Effect], TargetingMode.SingleEnemy)] : []; // CornerCut: Only one trigger per frame
         }
     }
 }

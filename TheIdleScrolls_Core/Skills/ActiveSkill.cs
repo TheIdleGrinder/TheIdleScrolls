@@ -26,7 +26,7 @@ namespace TheIdleScrolls_Core.Skills
 
 		public class EffectsForState
 		{
-			public List<ISkillEffect> OnEnter { get; set; } = [];
+			public List<SkillEffectBundle> OnEnter { get; set; } = [];
 			public ISkillEffectGenerator? RepeatedWhileIn { get; set; } = null;
 			public List<StatusEffect> WhileIn { get; set; } = [];
         }
@@ -89,7 +89,7 @@ namespace TheIdleScrolls_Core.Skills
 			};
 		}
 
-		public List<ISkillEffect> StartCharging()
+		public List<SkillEffectBundle> StartCharging()
         {
             Timer.Start();
             if (User is not null)
@@ -100,10 +100,10 @@ namespace TheIdleScrolls_Core.Skills
         /// <summary>
         /// Updates the internal timer of the skill. Returns the time that remained after fully charging.
         /// </summary>
-        public (SkillTimer.TimerUpdateResult, List<ISkillEffect>) Update(double dt)
+        public (SkillTimer.TimerUpdateResult, List<SkillEffectBundle>) Update(double dt)
 		{
 			var timerResult = Timer.Update(dt);
-			List<ISkillEffect> effects = [];
+			List<SkillEffectBundle> effects = [];
 
 			StatusEffectComponent? statComp = User?.GetComponent<StatusEffectComponent>();
 

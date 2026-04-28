@@ -123,8 +123,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
 
                 ISkillEffect effect = (duration > 0.0)
-                    ? new DoTSkillEffect(type, damage, duration, TargetingMode.SingleEnemy, [Tags.DamageOverTime, .. tags]) { StackLimit = stackLimit }
-                    : new DamageSkillEffect(type, damage, TargetingMode.SingleEnemy, [Tags.Damage, .. tags]);
+                    ? new DoTSkillEffect(type, damage, duration, [Tags.DamageOverTime, .. tags]) { StackLimit = stackLimit }
+                    : new DamageSkillEffect(type, damage, [Tags.Damage, .. tags]);
                 
                 effects.Add(effect);
             }
@@ -142,7 +142,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
             }
 
             List<string> AdditionalTags = [Tags.Attack, Skill.Id];
-            skill.ActiveEffects.OnEnter = CreateDefaultSkillEffectsForDamage(attackComp.AverageDamage, [.. AdditionalTags]);
+            skill.ActiveEffects.OnEnter = [
+                new(CreateDefaultSkillEffectsForDamage(attackComp.AverageDamage, [.. AdditionalTags]), TargetingMode.SingleEnemy)
+            ];
             skill.ChargingTime = attackComp.AverageCooldown;
         }
 

@@ -10,6 +10,6 @@ namespace TheIdleScrolls_Core.Skills
     {
         public string Description { get; }
         public void Reset();
-        public List<ISkillEffect> Update(double dt);
+        public List<SkillEffectBundle> Update(double dt);
     }
 }

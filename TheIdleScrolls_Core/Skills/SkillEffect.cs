@@ -9,11 +9,7 @@ namespace TheIdleScrolls_Core.Skills
 {
 	public interface ISkillEffect
 	{
-		public enum TargetingMode { Self, SingleEnemy }
-
 		public string Description { get; }
-
-		public TargetingMode Target { get; }
 
 		public void ApplyToTarget(Entity target);
 	}
