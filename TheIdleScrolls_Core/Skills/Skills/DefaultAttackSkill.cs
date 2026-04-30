@@ -142,8 +142,12 @@ namespace TheIdleScrolls_Core.Skills.Skills
             }
 
             List<string> AdditionalTags = [Tags.Attack, Skill.Id];
+            SkillEffectBundle damage = new(CreateDefaultSkillEffectsForDamage(attackComp.AverageDamage, [.. AdditionalTags]), 
+                                            TargetingMode.SingleEnemy);
+            damage.Accuracy = user.GetComponent<AccuracyComponent>()?.Accuracy;
+
             skill.ActiveEffects.OnEnter = [
-                new(CreateDefaultSkillEffectsForDamage(attackComp.AverageDamage, [.. AdditionalTags]), TargetingMode.SingleEnemy)
+                damage
             ];
             skill.ChargingTime = attackComp.AverageCooldown;
         }

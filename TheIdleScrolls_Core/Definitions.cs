@@ -292,12 +292,10 @@ namespace TheIdleScrolls_Core
             return 1.0 - (1.0 / multiplier);
         }
 
-        public static double CalculateEvasionBonusMultiplier(double evasion, double enemyAccuracy = 1.0)
+        public static double CalculateEvasionBonusMultiplier(double evasion, double enemyAccuracy)
         {
-            if (enemyAccuracy == 0.0)
-                enemyAccuracy = 1.0;
-            double effectiveEvasion = evasion / enemyAccuracy;
-            return Math.Min(1.0 + effectiveEvasion * Stats.EvasionBonusPerPoint, 1.0 / (1.0 - Stats.MaxResistanceFromEvasion));
+            double evasionChance = Math.Min(evasion / (evasion + enemyAccuracy), Stats.MaxResistanceFromEvasion);
+            return 1.0 / (1.0 - evasionChance);
         }
 
         public static double CalculateArmorBonusMultiplier(double armor, int enemyLevel, double incomingDamage = 1.0)
@@ -340,8 +338,8 @@ namespace TheIdleScrolls_Core
 
         public static double CalculateMobAccuracy(int mobLevel)
         {
-            // First implementation: Accuracy rating is identical to default armor pierce
-            return CalculateMobArmorPierce(mobLevel, 1.0);
+            // First implementation: Accuracy rating is identical to default damage value
+            return CalculateMobDamage(mobLevel);
         }
 
         public static double CalculateBaseTimeLimit(int playerLevel, int areaLevel)

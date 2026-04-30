@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core.Skills
 {
@@ -34,7 +36,26 @@ namespace TheIdleScrolls_Core.Skills
 
         public void ApplyToTarget(Entity target)
         {
-            // TODO: Handle accuracy vs evasion
+            // Handle accuracy
+            if (Accuracy.HasValue)
+            {
+                double evasion = target.GetComponent<DefenseComponent>()?.Evasion ?? 0.0;
+                double charge = Math.Min(Stats.MaxResistanceFromEvasion, evasion / (evasion + Accuracy.Value));
+                var chanceComp = target.GetComponent<ChanceChargeComponent>();
+                if (chanceComp is null)
+                {
+                    chanceComp = new ChanceChargeComponent();
+                    target.AddComponent(chanceComp);
+                }
+                int chargeCount = chanceComp.GetFullChargeCount(Tags.Evasion);
+                if (chargeCount > 0)
+                {
+                    chanceComp.RemoveCharge(Tags.Evasion, chargeCount);
+                }
+                chanceComp.AddCharge(Tags.Evasion, charge);
+                if (chargeCount > 0)
+                    return; // Attack was evaded, so we don't apply the effects
+            }
 
             foreach (var effect in Effects)
             {

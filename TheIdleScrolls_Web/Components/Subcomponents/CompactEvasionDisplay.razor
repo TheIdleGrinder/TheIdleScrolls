@@ -11,7 +11,7 @@
             <div class="compact-bar-fill @(EvasionClass)" style="width: @($"{GetEvasionPct():0%}");"></div>
         </div>
         <span class="barTooltip">
-            Evade for @($"{Evader?.EvasionDuration:0.##}") sec. after charging for @($"{Evader?.ChargeDuration:0.##}") sec.
+            ??
         </span>
     </div>
 }
@@ -32,18 +32,16 @@
     [Parameter]
     public Entity? Entity { get; set; }
 
-    EvaderComponent? Evader => Entity?.GetComponent<EvaderComponent>();
-    bool Evasion => Evader != null;
-    bool EvasionActive => Evader?.Active ?? false;
-    double EvasionPct => Evader != null ? (1.0 - Evader.Duration.Remaining / Evader.Duration.Duration) : 0.0;
+    ChanceChargeComponent? ChanceChargeComp => Entity?.GetComponent<ChanceChargeComponent>();
+    bool Evasion => Entity?.GetComponent<DefenseComponent>() != null;
+    double EvasionPct => ChanceChargeComp?.GetCharge("Evasion") ?? 0.0;
+    bool EvasionActive => EvasionPct > 1.0;
     string EvasionClass => EvasionActive ? "evasion-bar-active" : "evasion-bar-inactive";
 
     double GetEvasionPct()
     {
-        if (Evader == null)
+        if (!Evasion)
             return 0.0;
-        return !EvasionActive
-            ? (1.0 - Evader.Duration.Remaining / Evader.Duration.Duration)
-            : Evader.Duration.Remaining / Evader.Duration.Duration;
+        return Math.Clamp(EvasionPct, 0.0, 1.0);
     }
 }
