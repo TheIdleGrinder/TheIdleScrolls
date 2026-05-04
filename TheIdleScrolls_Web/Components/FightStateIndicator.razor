@@ -152,8 +152,8 @@
 </style>
 
 @code {
-    bool MobPresent => CoreWrapper.Mob.HpMax > 0;
-    bool TimeActive => CoreWrapper.HitPoints.Maximum > 0 && CoreWrapper.Mob.Damage > 0.0;
+    bool MobPresent => Mob is not null;
+    bool TimeActive => !MobPresent || CoreWrapper.Mob.Damage > 0.0;
 
     bool BigImage => CurrentMobImage.Length > 1000;
     int ImageSize => BigImage ? 224 : 112;

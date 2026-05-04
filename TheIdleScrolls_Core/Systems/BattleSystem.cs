@@ -9,6 +9,7 @@ using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Skills;
 using TheIdleScrolls_Core.Skills.SkillEffects;
+using TheIdleScrolls_Core.StatusEffects;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace TheIdleScrolls_Core.Systems
@@ -52,6 +53,7 @@ namespace TheIdleScrolls_Core.Systems
                 if (battle.IsFinished)
                 {
                     battler.RemoveComponent<BattlerComponent>();
+                    battler.GetComponent<AdventurerComponent>()?.SetState(AdventurerState.Idle);
                     if (battler.IsMob()) // Despawn mobs from finished battles
                     {
                         coordinator.RemoveEntity(battler.Id);
@@ -108,27 +110,9 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     ProcessSkills(mob, player, dt, coordinator);
 
-                    // Apply HP loss
-                    //double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
-                    //double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
-                    //double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, mob.GetLevel(), damage);
-                    //// Scale mob damage with charge speed (mostly to allow for stuns)
-                    //double speed = mob.ApplyAllApplicableModifiers(1.0, [Tags.ChargeSpeed], mob.GetTags());
-                    //double health = dt * speed * damage / armorBonus;
-
-                    //health = player.GetComponent<ModifierComponent>()
-                    //    ?.ApplyApplicableModifiers(health, [Tags.DamageTaken], player.GetTags())
-                    //    ?? health;
-                    //mob.GetComponent<BattlerComponent>()!.DamageDealt += health;
-
                     var hpComp = player.GetComponent<LifePoolComponent>();
                     // Players without HP are invincible
-                    playerDefeated = hpComp is not null && hpComp.IsDead;
-                    //if (hpComp != null) // Players without HP are invincible
-                    //{
-                    //    hpComp.ApplyDamage(health);
-                    //    playerDefeated = hpComp.IsDead;
-                    //}
+                    playerDefeated = hpComp?.IsDead ?? false;
                 }
 
                 // Update battle state
@@ -154,19 +138,46 @@ namespace TheIdleScrolls_Core.Systems
                 if (player.HasComponent<BattlerComponent>())
                     continue; // Player is already in a battle
 
-                LocationComponent locationComp = player.GetComponent<LocationComponent>() 
-                    ?? throw new Exception("Players lacks location component");
-                ZoneDescription zone = locationComp.GetCurrentZone(world.Map) 
-                    ?? throw new Exception($"{player.GetName()} is not in a valid zone");
+                var adventureComp = player.GetComponent<AdventurerComponent>();
+                if (adventureComp is null)
+                {
+                    continue; // Player does not have an AdventurerComponent
+                }
+                AdventurerState state = adventureComp.State;
 
-                Battle battle = new(player, zone.MobCount);
-                player.AddComponent(new BattlerComponent(battle));
-                coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
 
-                player.GetComponent<LifePoolComponent>()?.HealToFull();
-                player.GetComponent<TimeShieldComponent>()?.Refill();
-                player.GetComponent<ActiveSkillComponent>()?.ResetSkills();
-                player.GetComponent<StatusEffectComponent>()?.DeactivateAll();
+                if (state == AdventurerState.Idle)
+                {
+                    if (player.GetComponent<LifePoolComponent>()?.IsFull ?? true)
+                    {
+                        LocationComponent locationComp = player.GetComponent<LocationComponent>()
+                            ?? throw new Exception("Players lacks location component");
+                        ZoneDescription zone = locationComp.GetCurrentZone(world.Map)
+                            ?? throw new Exception($"{player.GetName()} is not in a valid zone");
+
+                        Battle battle = new(player, zone.MobCount);
+                        player.AddComponent(new BattlerComponent(battle));
+                        adventureComp.SetState(AdventurerState.Fighting);
+                        coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
+
+                        player.GetComponent<ActiveSkillComponent>()?.ResetSkills();
+                        player.GetComponent<StatusEffectComponent>()?.DeactivateAll();
+                    }
+                    else
+                    {
+                        adventureComp?.SetState(AdventurerState.Resting);
+                        var restEffect = new RestingStatusEffect();
+                        restEffect.ActivateOnEntity(player);
+                    }
+                }
+                else if (state == AdventurerState.Resting && (player.GetComponent<LifePoolComponent>()?.IsFull ?? true))
+                {
+                    adventureComp.SetState(AdventurerState.Idle);
+                    var effects = player.GetComponent<StatusEffectComponent>()?.StatusEffects ?? [];
+                    var effect = effects.FirstOrDefault(e => e is RestingStatusEffect);
+                    if (effect is not null)
+                        effect.Deactivate();
+                }
             }
         }
 

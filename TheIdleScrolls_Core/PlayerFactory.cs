@@ -23,6 +23,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new PlayerComponent());
             player.AddComponent(new NameComponent(name));
             player.AddComponent(new LevelComponent { Level = 1 });
+            player.AddComponent(new AdventurerComponent());
             player.AddComponent(new AttackComponent());
             player.AddComponent(new DefenseComponent());
             player.AddComponent(new LifePoolComponent(Definitions.Stats.BasePlayerHitPoints));
