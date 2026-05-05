@@ -22,7 +22,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         public override string Name => "Default Attack";
 
-        public static void SetupPlayerAttackComponent(Entity user)
+        public static void SetupAttackComponent(Entity user, double baseDamage)
         {
             var attackComp = user.GetComponent<AttackComponent>();
             if (attackComp == null)
@@ -80,7 +80,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             if (weaponCount == 0)
             {
                 DamageCluster damage = new();
-                damage.AddDamage(DamageType.Physical, 2.0); // Base unarmed damage
+                damage.AddDamage(DamageType.Physical, baseDamage); // Base unarmed damage
                 damage = damage.ScaleWithModifiers(
                     modComp?.GetModifiers() ?? [],
                     [Abilities.Unarmed, .. AdditionalTags],
@@ -134,11 +134,11 @@ namespace TheIdleScrolls_Core.Skills.Skills
         protected override void SetupStats(Entity user, ActiveSkill skill)
         {
             var attackComp = user.GetComponent<AttackComponent>();
-            if (attackComp == null)
+            if (attackComp == null) // should never happen
             {
                 attackComp = new();
                 user.AddComponent(attackComp);
-                SetupPlayerAttackComponent(user);
+                SetupAttackComponent(user, 2.0); // Example base damage value
             }
 
             List<string> AdditionalTags = [Tags.Attack, Skill.Id];

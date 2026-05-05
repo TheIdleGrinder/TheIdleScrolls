@@ -54,33 +54,24 @@ namespace TheIdleScrolls_Core
             mob.AddComponent(new LifePoolComponent(CalculateHP(description, level)));
             mob.AddComponent(new XpGiverComponent { Amount = CalculateXpValue(description, level) });
             mob.AddComponent(new AccuracyComponent(Functions.CalculateMobAccuracy(level)));
+            mob.AddComponent(new AttackComponent());
 
-            double damage = CalculateDamage(description, level);
-            if (damage > 0.0)
+            var modComp = new ModifierComponent();
+            mob.AddComponent(modComp);
+
+            double damageMulti = description.Damage - 1.0;
+            if (damageMulti != 0)
+                modComp.AddModifier(new Modifier("BaseDamageMulti", ModifierType.More, damageMulti, [Definitions.Tags.Damage], []));
+
+            var skillComp = new ActiveSkillComponent();
+            skillComp.Add(new ActiveSkill(Skills.Skills.DefaultAttack.Skill));
+            mob.AddComponent(skillComp);
+
+            foreach (var skill in description.ActiveSkills)
             {
-                AttackComponent attackComp = new();
-                attackComp.AddAttackVector(new DamageCluster(Definitions.DamageType.Physical, damage), 1.0);
-                mob.AddComponent(attackComp);
-                var skillComp = new ActiveSkillComponent();
-                var defaultAttack = new ActiveSkill(Skills.Skills.DefaultAttack.Skill);
-                defaultAttack.SetupForUser(mob);
-                skillComp.Add(defaultAttack);
-                mob.AddComponent(skillComp);
+                skillComp.Add(new(skill));
             }
 
-            if (description.ActiveSkills.Count > 0)
-            {
-                var skillComp = mob.GetComponent<ActiveSkillComponent>();
-                if (skillComp is null)
-                {
-                    skillComp = new ActiveSkillComponent();
-                    mob.AddComponent(skillComp);
-                }
-                foreach (var skill in description.ActiveSkills)
-                {
-                    skillComp.Add(new(skill));
-                }
-            }
 
             if (description.Perks.Count > 0)
             {

@@ -61,6 +61,8 @@ namespace TheIdleScrolls_Core.Components
 
         public void SetMaximum(int newMax)
         {
+            if (newMax == Maximum)
+                return;
             double ratio = (_Maximum > 0) ? _Current / _Maximum : 1.0;
             _Maximum = newMax;
             _Current = ratio * _Maximum;

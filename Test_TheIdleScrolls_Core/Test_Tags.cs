@@ -104,7 +104,7 @@ namespace Test_TheIdleScrolls_Core
             EquipmentComponent equipComp = new();
             player.AddComponent(equipComp);
 
-            StatUpdateSystem.UpdatePlayerTags(player);
+            StatUpdateSystem.UpdateTags(player);
             Assert.That(player.HasTag(Tags.Unarmored));
             Assert.That(player.HasTag(Tags.Unarmed));
 
@@ -112,33 +112,33 @@ namespace Test_TheIdleScrolls_Core
             var sword = ItemFactory.MakeItem(new(ItemFamilies.ShortSword, 1, MaterialId.Metal3));
             Assert.That(sword, Is.Not.Null);
             Assert.That(equipComp.EquipItem(sword));
-            StatUpdateSystem.UpdatePlayerTags(player);
+            StatUpdateSystem.UpdateTags(player);
             Assert.That(!player.HasTag(Tags.Unarmed));
 
             var sword2 = ItemFactory.MakeItem(new(ItemFamilies.ShortSword, 1, MaterialId.Metal3));
             Assert.That(sword2, Is.Not.Null);
             Assert.That(equipComp.EquipItem(sword2));
-            StatUpdateSystem.UpdatePlayerTags(player);
+            StatUpdateSystem.UpdateTags(player);
             Assert.That(player.HasTag(Tags.DualWield));
 
             var axe = ItemFactory.MakeItem(new(ItemFamilies.OneHandedAxe, 1, MaterialId.Metal1));
             Assert.That(axe, Is.Not.Null);
             Assert.That(equipComp.UnequipItem(sword2));
             Assert.That(equipComp.EquipItem(axe));
-            StatUpdateSystem.UpdatePlayerTags(player);
+            StatUpdateSystem.UpdateTags(player);
             Assert.That(player.HasTag(Tags.DualWield));
             Assert.That(player.HasTag(Tags.MixedWeapons));
 
             var chest = ItemFactory.MakeItem(new(ItemFamilies.HeavyChest, 2, MaterialId.Metal2));
             Assert.That(chest, Is.Not.Null);
             Assert.That(equipComp.EquipItem(chest));
-            StatUpdateSystem.UpdatePlayerTags(player);
+            StatUpdateSystem.UpdateTags(player);
             Assert.That(!player.HasTag(Tags.Unarmored));
 
             var helmet = ItemFactory.MakeItem(new(ItemFamilies.LightHelmet, 0, MaterialId.Leather2));
             Assert.That(helmet, Is.Not.Null);
             Assert.That(equipComp.EquipItem(helmet));
-            StatUpdateSystem.UpdatePlayerTags(player);
+            StatUpdateSystem.UpdateTags(player);
             Assert.That(player.HasTag(Tags.MixedArmor));
         }
     }
