@@ -1,0 +1,40 @@
+﻿@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Web.CoreWrapper
+
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="fight-settings-container">
+    Rest HP Threshold: @_selectedValue.ToString("0")%
+    <input type="range" id="dungeonLevelSlider"
+           min="0" max="99" step="1"
+           value="@_selectedValue"
+           @oninput="@(args => SetRestHpThreshold(args))" />
+</div>
+
+<style>
+    .fight-settings-container {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+
+@code {
+    double _selectedValue = 50;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        _selectedValue = CoreWrapper.PlayerCharacter?.GetComponent<AdventurerComponent>()?.RestHpThreshold * 100 ?? 0.0;
+    }
+
+    void SetRestHpThreshold(ChangeEventArgs args)
+    {
+        string threshold = args?.Value?.ToString() ?? "50";
+        if (double.TryParse(threshold, out double value))
+        {
+            _selectedValue = value;
+            CoreWrapper.InputHandler.SetRestingHpThreshold(CoreWrapper.PlayerCharacter?.Id ?? 0, _selectedValue / 100);
+        }
+    }
+}

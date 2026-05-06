@@ -117,5 +117,10 @@ namespace TheIdleScrollsApp
         {
             m_requests.Add(new SkillOrderChangeRequest(playerId, skillId, moveUp));
         }
+
+        public void SetRestingHpThreshold(uint playerId, double threshold)
+        {
+            m_requests.Add(new SetRestingHpThresholdRequest(playerId, threshold));
+        }
     }
 }

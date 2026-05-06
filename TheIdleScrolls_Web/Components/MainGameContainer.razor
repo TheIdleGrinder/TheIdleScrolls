@@ -52,6 +52,7 @@
             {
                 <div id="travelPage">
                     <DungeonSelector></DungeonSelector>
+                    <PlayerFightSettingsDisplay/>
                 </div>
             }
             @if (m_activeTab == Tab.Inventory)
@@ -180,6 +181,7 @@
 
     #travelPage {
         display: grid;
+        grid-template-columns: 2fr 1fr;
         position: absolute;
         width: 100%;
         max-height: 100%;

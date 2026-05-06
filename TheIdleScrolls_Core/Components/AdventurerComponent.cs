@@ -18,6 +18,8 @@ namespace TheIdleScrolls_Core.Components
     {
         public AdventurerState State { get; set; } = AdventurerState.Idle;
 
+        public double RestHpThreshold { get; set; } = 0.5;
+
         public void SetState(AdventurerState newState)
         {
             State = newState;

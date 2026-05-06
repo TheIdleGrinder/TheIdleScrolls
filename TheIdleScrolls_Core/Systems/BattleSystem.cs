@@ -27,6 +27,19 @@ namespace TheIdleScrolls_Core.Systems
                 return;
             }
 
+            foreach (var restThresholdRequest in coordinator.FetchMessagesByType<SetRestingHpThresholdRequest>())
+            {
+                var player = coordinator.GetEntity(restThresholdRequest.Player);
+                if (player is not null)
+                {
+                    var adventureComp = player.GetComponent<AdventurerComponent>();
+                    if (adventureComp is not null)
+                    {
+                        adventureComp.RestHpThreshold = restThresholdRequest.Threshold;
+                    }
+                }
+            }
+
             // Remove previously defeated mobs from coordinator
             coordinator.GetEntities<MobComponent, KilledComponent>()
                 .Select(e => e.Id).ToList()
@@ -148,7 +161,9 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (state == AdventurerState.Idle)
                 {
-                    if (player.GetComponent<LifePoolComponent>()?.IsFull ?? true)
+                    var hpComp = player.GetComponent<LifePoolComponent>();
+                    double hpRatio = (1.0 * hpComp?.Current / hpComp?.Maximum) ?? 1.0;
+                    if (hpRatio > adventureComp.RestHpThreshold)
                     {
                         LocationComponent locationComp = player.GetComponent<LocationComponent>()
                             ?? throw new Exception("Players lacks location component");
@@ -165,7 +180,7 @@ namespace TheIdleScrolls_Core.Systems
                     }
                     else
                     {
-                        adventureComp?.SetState(AdventurerState.Resting);
+                        adventureComp.SetState(AdventurerState.Resting);
                         var restEffect = new RestingStatusEffect();
                         restEffect.ActivateOnEntity(player);
                     }
@@ -317,5 +332,11 @@ namespace TheIdleScrolls_Core.Systems
     {
         string IMessage.BuildMessage() => $"{Player.GetName()} lost the fight against {MobName} (Level {Level})";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
+    }
+
+    public record SetRestingHpThresholdRequest(uint Player, double Threshold) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Set resting HP threshold to {Threshold} for player with ID {Player}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 }
