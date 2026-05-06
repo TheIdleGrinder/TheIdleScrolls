@@ -45,7 +45,7 @@ namespace TheIdleScrolls_Core
 
     public class MobFactory
     {
-        public static Entity MakeMob(MobDescription description, int level)
+        public static Entity MakeMob(MobDescription description, int level, double zoneDamageMulti = 1.0)
         {
             var mob = new Entity();
             mob.AddComponent(new MobComponent(description.Id));
@@ -59,7 +59,7 @@ namespace TheIdleScrolls_Core
             var modComp = new ModifierComponent();
             mob.AddComponent(modComp);
 
-            double damageMulti = description.Damage - 1.0;
+            double damageMulti = description.Damage * zoneDamageMulti - 1.0;
             if (damageMulti != 0)
                 modComp.AddModifier(new Modifier("BaseDamageMulti", ModifierType.More, damageMulti, [Definitions.Tags.Damage], []));
 
