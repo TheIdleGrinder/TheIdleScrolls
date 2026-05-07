@@ -159,7 +159,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         public override (bool available, string reason) IsUsableBy(Entity user)
         {
-            return (user.IsInBattle(), "Not in battle");
+            bool available = user.IsInBattle();
+            return (available, available ? "" : "Only usable in battle");
         }
     }
 }

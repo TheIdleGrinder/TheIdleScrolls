@@ -11,7 +11,7 @@
             <div class="compact-bar-fill @(EvasionClass)" style="width: @($"{GetEvasionPct():0%}");"></div>
         </div>
         <span class="barTooltip">
-            ??
+            Evasion @EvasionPct.ToString("0%") charged
         </span>
     </div>
 }
@@ -35,7 +35,7 @@
     ChanceChargeComponent? ChanceChargeComp => Entity?.GetComponent<ChanceChargeComponent>();
     bool Evasion => Entity?.GetComponent<DefenseComponent>() != null;
     double EvasionPct => ChanceChargeComp?.GetCharge("Evasion") ?? 0.0;
-    bool EvasionActive => EvasionPct > 1.0;
+    bool EvasionActive => EvasionPct >= 1.0;
     string EvasionClass => EvasionActive ? "evasion-bar-active" : "evasion-bar-inactive";
 
     double GetEvasionPct()

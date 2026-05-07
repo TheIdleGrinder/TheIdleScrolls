@@ -6,7 +6,7 @@
 
 <div class="fight-settings-container">
     Rest HP Threshold: @_selectedValue.ToString("0")%
-    <input type="range" id="dungeonLevelSlider"
+    <input type="range" id="autoRestThresholdSlider"
            min="0" max="99" step="1"
            value="@_selectedValue"
            @oninput="@(args => SetRestHpThreshold(args))" />
