@@ -264,7 +264,16 @@ namespace TheIdleScrolls_Storage
             };
         }
 
-		public static JsonObject JsonFromSth<T>(T thing)
+        public static JsonObject? ToJson(this AdventurerComponent component)
+        {
+            JsonObject json = new()
+            {
+                { "RestHpThreshold", component.RestHpThreshold }
+            };
+            return json;
+        }
+
+        public static JsonObject JsonFromSth<T>(T thing)
         {
             return (JsonObject)JsonObject.Parse(JsonSerializer.Serialize(thing))!;
         }

@@ -22,7 +22,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         public override string Name => "Default Attack";
 
-        public static void SetupPlayerAttackComponent(Entity user)
+        public static void SetupAttackComponent(Entity user, double baseDamage)
         {
             var attackComp = user.GetComponent<AttackComponent>();
             if (attackComp == null)
@@ -80,7 +80,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             if (weaponCount == 0)
             {
                 DamageCluster damage = new();
-                damage.AddDamage(DamageType.Physical, 2.0); // Base unarmed damage
+                damage.AddDamage(DamageType.Physical, baseDamage); // Base unarmed damage
                 damage = damage.ScaleWithModifiers(
                     modComp?.GetModifiers() ?? [],
                     [Abilities.Unarmed, .. AdditionalTags],
@@ -123,8 +123,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
 
                 ISkillEffect effect = (duration > 0.0)
-                    ? new DoTSkillEffect(type, damage, duration, TargetingMode.SingleEnemy, [Tags.DamageOverTime, .. tags]) { StackLimit = stackLimit }
-                    : new DamageSkillEffect(type, damage, TargetingMode.SingleEnemy, [Tags.Damage, .. tags]);
+                    ? new DoTSkillEffect(type, damage, duration, [Tags.DamageOverTime, .. tags]) { StackLimit = stackLimit }
+                    : new DamageSkillEffect(type, damage, [Tags.Damage, .. tags]);
                 
                 effects.Add(effect);
             }
@@ -134,26 +134,33 @@ namespace TheIdleScrolls_Core.Skills.Skills
         protected override void SetupStats(Entity user, ActiveSkill skill)
         {
             var attackComp = user.GetComponent<AttackComponent>();
-            if (attackComp == null)
+            if (attackComp == null) // should never happen
             {
                 attackComp = new();
                 user.AddComponent(attackComp);
-                SetupPlayerAttackComponent(user);
+                SetupAttackComponent(user, 2.0); // Example base damage value
             }
 
             List<string> AdditionalTags = [Tags.Attack, Skill.Id];
-            skill.ActiveEffects.OnEnter = CreateDefaultSkillEffectsForDamage(attackComp.AverageDamage, [.. AdditionalTags]);
+            SkillEffectBundle damage = new(CreateDefaultSkillEffectsForDamage(attackComp.AverageDamage, [.. AdditionalTags]), 
+                                            TargetingMode.SingleEnemy);
+            damage.Accuracy = user.GetComponent<AccuracyComponent>()?.Accuracy;
+
+            skill.ActiveEffects.OnEnter = [
+                damage
+            ];
             skill.ChargingTime = attackComp.AverageCooldown;
         }
 
         public override bool IsAvailableTo(Entity user)
         {
-            return user.IsPlayer();
+            return user.HasComponent<AttackComponent>();
         }
 
         public override (bool available, string reason) IsUsableBy(Entity user)
         {
-            return (IsAvailableTo(user), string.Empty);
+            bool available = user.IsInBattle();
+            return (available, available ? "" : "Only usable in battle");
         }
     }
 }

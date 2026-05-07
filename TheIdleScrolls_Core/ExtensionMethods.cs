@@ -29,6 +29,23 @@ namespace TheIdleScrolls_Core
             return entity.HasComponent<MobComponent>();
         }
 
+        public static bool IsInBattle(this Entity entity)
+        {
+            return entity.HasComponent<BattlerComponent>();
+        }
+
+        public static bool IsDefeated(this Entity entity)
+        {
+            var lifePool = entity.GetComponent<LifePoolComponent>();
+            if (lifePool != null)
+                return lifePool.IsDead;
+
+            var timeComp = entity.GetComponent<TimeShieldComponent>();
+            if (timeComp != null)
+                return timeComp.IsDepleted;
+            return false;
+        }
+
         public static int GetLevel(this Entity entity)
         {
             return entity.GetComponent<LevelComponent>()?.Level ?? 0;

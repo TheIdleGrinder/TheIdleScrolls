@@ -67,7 +67,7 @@ namespace TheIdleScrolls_Core.Systems
             if (validMobs == null || !validMobs.Any())
                 throw new Exception($"No valid mobs for area level {level}");
             int index = new Random().Next(validMobs.Count());
-            return MobFactory.MakeMob(validMobs.ElementAt(index), level);
+            return MobFactory.MakeMob(validMobs.ElementAt(index), level, 1.0 / zone.TimeMultiplier);
         }
     }
 

@@ -32,14 +32,13 @@ namespace TheIdleScrolls_Core.Systems
 			// Handle life reg here until there is a more fitting system
 			foreach (var entity in coordinator.GetEntities<LifePoolComponent>())
 			{
-				var lifeComp = entity.GetComponent<LifePoolComponent>();
-				if (lifeComp?.IsDead ?? true)
+				var lifeComp = entity.GetComponent<LifePoolComponent>()!;
+				if (lifeComp.IsDead && entity.HasComponent<BattlerComponent>())
 					continue;
 				double lifeReg = entity.ApplyAllApplicableModifiers(0.0, [Tags.LifeRegeneration], entity.GetTags());
 				if (lifeReg > 0)
 				{
-					lifeComp?.AddPoints(lifeReg * dt);
-					Console.WriteLine($"{entity.GetName()} regenerated {lifeReg * dt:0.##} HP ({lifeReg:0.##}/s)");
+					lifeComp.AddPoints(lifeReg * dt);
 				}
 			}
 

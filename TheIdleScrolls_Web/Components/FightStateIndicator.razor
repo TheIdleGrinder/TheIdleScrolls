@@ -152,8 +152,8 @@
 </style>
 
 @code {
-    bool MobPresent => CoreWrapper.Mob.HpMax > 0;
-    bool TimeActive => CoreWrapper.TimeLimit.Maximum > 0 && CoreWrapper.Mob.Damage > 0.0;
+    bool MobPresent => Mob is not null;
+    bool TimeActive => !MobPresent || CoreWrapper.Mob.Damage > 0.0;
 
     bool BigImage => CurrentMobImage.Length > 1000;
     int ImageSize => BigImage ? 224 : 112;
@@ -167,8 +167,8 @@
     List<ActiveSkill>? MobSkills => Mob?.GetComponent<ActiveSkillComponent>()?.Skills;
     List<StatusEffect>? MobEffects => Mob?.GetComponent<StatusEffectComponent>()?.StatusEffects;
 
-    double Time => CoreWrapper.TimeLimit.Remaining;
-    double TimeMax => CoreWrapper.TimeLimit.Maximum;
+    double Time => CoreWrapper.HitPoints.Remaining;
+    double TimeMax => CoreWrapper.HitPoints.Maximum;
 
     List<ActiveSkill>? PlayerSkills => CoreWrapper.PlayerCharacter?.GetComponent<ActiveSkillComponent>()?.Skills;
     List<StatusEffect>? PlayerEffects => CoreWrapper.PlayerCharacter?.GetComponent<StatusEffectComponent>()?.StatusEffects;

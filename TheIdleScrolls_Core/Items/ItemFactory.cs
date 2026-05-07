@@ -141,7 +141,7 @@ namespace TheIdleScrolls_Core.Items
             }
             if (item.IsWeapon())
             {
-                tagsComp.AddTags(new List<string>() { Tags.Weapon, Tags.Melee }); // CornerCut: no ranged weapons exist yet
+                tagsComp.AddTags([Tags.Weapon, Tags.Melee]); // CornerCut: no ranged weapons exist yet
             }
             if (item.IsArmor())
             {

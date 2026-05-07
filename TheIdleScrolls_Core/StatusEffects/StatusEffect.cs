@@ -18,7 +18,8 @@ namespace TheIdleScrolls_Core.StatusEffects
         abstract public string Description { get; }
         abstract protected void ActivateEffect(Entity target);
 		abstract protected void DeactivateEffect(Entity target);
-		
+		virtual protected void UpdateEffect(Entity target, double dt) { } 
+
 
         public bool IsExpired => Timer?.HasFinished ?? false;
 
@@ -72,7 +73,11 @@ namespace TheIdleScrolls_Core.StatusEffects
 
 		public void Update(double dt)
 		{
-			Timer?.Update(dt);
+			if (Target is not null)
+			{
+				UpdateEffect(Target, dt);
+            }
+            Timer?.Update(dt);
 			if (IsExpired)
 				Deactivate();
 		}

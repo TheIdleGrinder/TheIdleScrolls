@@ -9,6 +9,7 @@ using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Skills;
 using TheIdleScrolls_Core.Skills.SkillEffects;
+using TheIdleScrolls_Core.StatusEffects;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace TheIdleScrolls_Core.Systems
@@ -24,6 +25,19 @@ namespace TheIdleScrolls_Core.Systems
             {
                 _SkipFrames--;
                 return;
+            }
+
+            foreach (var restThresholdRequest in coordinator.FetchMessagesByType<SetRestingHpThresholdRequest>())
+            {
+                var player = coordinator.GetEntity(restThresholdRequest.Player);
+                if (player is not null)
+                {
+                    var adventureComp = player.GetComponent<AdventurerComponent>();
+                    if (adventureComp is not null)
+                    {
+                        adventureComp.RestHpThreshold = restThresholdRequest.Threshold;
+                    }
+                }
             }
 
             // Remove previously defeated mobs from coordinator
@@ -52,6 +66,7 @@ namespace TheIdleScrolls_Core.Systems
                 if (battle.IsFinished)
                 {
                     battler.RemoveComponent<BattlerComponent>();
+                    battler.GetComponent<AdventurerComponent>()?.SetState(AdventurerState.Idle);
                     if (battler.IsMob()) // Despawn mobs from finished battles
                     {
                         coordinator.RemoveEntity(battler.Id);
@@ -88,15 +103,14 @@ namespace TheIdleScrolls_Core.Systems
 
                 // Player may have been defeated through a status effect (e.g. poison). In that case, don't process skills, but
                 // let the player win the fight if the mob was defeated during the same frame (also from a status effect).
-                bool playerDefeated = player.GetComponent<TimeShieldComponent>()?.IsDepleted ?? false;
+                bool playerDefeated = player.IsDefeated();
 
                 if (!playerDefeated)
                 {
                     ProcessSkills(player, mob, dt, coordinator);
                 }
 
-                bool mobDefeated = mob.GetComponent<LifePoolComponent>()?.IsDead 
-                    ?? throw new Exception($"Mob {mob.GetName()} has no life pool");
+                bool mobDefeated = mob.IsDefeated();
 
                 if (mobDefeated)
                 {
@@ -109,25 +123,9 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     ProcessSkills(mob, player, dt, coordinator);
 
-                    // Apply time loss
-                    double damage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
-                    double armor = player.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
-                    double armorBonus = Functions.CalculateArmorBonusMultiplier(armor, mob.GetLevel(), damage);
-                    // Scale mob damage with charge speed (mostly to allow for stuns)
-                    double speed = mob.ApplyAllApplicableModifiers(1.0, [Tags.ChargeSpeed], mob.GetTags());
-                    double timeLoss = dt * speed * damage / armorBonus;
-
-                    timeLoss = player.GetComponent<ModifierComponent>()
-                        ?.ApplyApplicableModifiers(timeLoss, [Tags.TimeLoss], player.GetTags())
-                        ?? timeLoss;
-                    mob.GetComponent<BattlerComponent>()!.DamageDealt += timeLoss;
-
-                    var shieldComp = player.GetComponent<TimeShieldComponent>();
-                    if (shieldComp != null) // Players without time shield are invincible
-                    {
-                        shieldComp.Drain(timeLoss);
-                        playerDefeated = shieldComp.IsDepleted;
-                    }
+                    var hpComp = player.GetComponent<LifePoolComponent>();
+                    // Players without HP are invincible
+                    playerDefeated = hpComp?.IsDead ?? false;
                 }
 
                 // Update battle state
@@ -153,19 +151,48 @@ namespace TheIdleScrolls_Core.Systems
                 if (player.HasComponent<BattlerComponent>())
                     continue; // Player is already in a battle
 
-                LocationComponent locationComp = player.GetComponent<LocationComponent>() 
-                    ?? throw new Exception("Players lacks location component");
-                ZoneDescription zone = locationComp.GetCurrentZone(world.Map) 
-                    ?? throw new Exception($"{player.GetName()} is not in a valid zone");
+                var adventureComp = player.GetComponent<AdventurerComponent>();
+                if (adventureComp is null)
+                {
+                    continue; // Player does not have an AdventurerComponent
+                }
+                AdventurerState state = adventureComp.State;
 
-                Battle battle = new(player, zone.MobCount);
-                player.AddComponent(new BattlerComponent(battle));
-                coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
 
-                SetupPlayerTimeShield(player, zone);
-                player.GetComponent<TimeShieldComponent>()?.Refill();
-                player.GetComponent<ActiveSkillComponent>()?.ResetSkills();
-                player.GetComponent<StatusEffectComponent>()?.DeactivateAll();
+                if (state == AdventurerState.Idle)
+                {
+                    var hpComp = player.GetComponent<LifePoolComponent>();
+                    double hpRatio = (1.0 * hpComp?.Current / hpComp?.Maximum) ?? 1.0;
+                    if (hpRatio > adventureComp.RestHpThreshold)
+                    {
+                        LocationComponent locationComp = player.GetComponent<LocationComponent>()
+                            ?? throw new Exception("Players lacks location component");
+                        ZoneDescription zone = locationComp.GetCurrentZone(world.Map)
+                            ?? throw new Exception($"{player.GetName()} is not in a valid zone");
+
+                        Battle battle = new(player, zone.MobCount);
+                        player.AddComponent(new BattlerComponent(battle));
+                        adventureComp.SetState(AdventurerState.Fighting);
+                        coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
+
+                        player.GetComponent<ActiveSkillComponent>()?.ResetSkills();
+                        player.GetComponent<StatusEffectComponent>()?.DeactivateAll();
+                    }
+                    else
+                    {
+                        adventureComp.SetState(AdventurerState.Resting);
+                        var restEffect = new RestingStatusEffect();
+                        restEffect.ActivateOnEntity(player);
+                    }
+                }
+                else if (state == AdventurerState.Resting && (player.GetComponent<LifePoolComponent>()?.IsFull ?? true))
+                {
+                    adventureComp.SetState(AdventurerState.Idle);
+                    var effects = player.GetComponent<StatusEffectComponent>()?.StatusEffects ?? [];
+                    var effect = effects.FirstOrDefault(e => e is RestingStatusEffect);
+                    if (effect is not null)
+                        effect.Deactivate();
+                }
             }
         }
 
@@ -179,22 +206,25 @@ namespace TheIdleScrolls_Core.Systems
             player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 
-        void ProcessSkillEffects(Entity entity, Entity opponent, List<ISkillEffect> effects, Coordinator coordinator)
+        void ProcessSkillEffects(Entity entity, Entity opponent, List<SkillEffectBundle> effects, Coordinator coordinator)
         {
             double damage = 0;
             double damagePrevented = 0;
             foreach (var effect in effects)
             {
-                if (effect.Target == ISkillEffect.TargetingMode.SingleEnemy)
+                if (effect.Target == TargetingMode.SingleEnemy)
                 {
                     effect.ApplyToTarget(opponent);
-                    if (effect is DamageSkillEffect dmgEffect)
+                    foreach (var subEffect in effect.Effects)
                     {
-                        damage += dmgEffect.DamageDone;
-                        damagePrevented += dmgEffect.Damage - dmgEffect.DamageDone;
+                        if (subEffect is DamageSkillEffect dmgEffect)
+                        {
+                            damage += dmgEffect.DamageDone;
+                            damagePrevented += dmgEffect.Damage - dmgEffect.DamageDone;
 
-                        if (!dmgEffect.Tags.Contains(Tags.DamageOverTime))
-                            coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
+                            if (!dmgEffect.Tags.Contains(Tags.DamageOverTime))
+                                coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
+                        }
                     }
                 }
                 else
@@ -214,7 +244,7 @@ namespace TheIdleScrolls_Core.Systems
                 return;
 
 			double totalElapsed = 0.0;
-            List<ISkillEffect> collectedSkillEffects = [];
+            List<SkillEffectBundle> collectedSkillEffects = [];
 			while (totalElapsed < dt)
 			{
 				double previouslyRemaining = dt - totalElapsed;
@@ -223,7 +253,7 @@ namespace TheIdleScrolls_Core.Systems
 				{
 					skillComp.CurrentSkill.Timer.Start();
 				}
-                (SkillTimer.TimerUpdateResult updateResult, List<ISkillEffect> effects) 
+                (SkillTimer.TimerUpdateResult updateResult, List<SkillEffectBundle> effects) 
                     = skillComp.CurrentSkill?.Update(previouslyRemaining) ?? (new(), []);
                 collectedSkillEffects.AddRange(effects);
                 if (updateResult.ChargingComplete || updateResult.ActivityComplete || updateResult.CooldownComplete)
@@ -302,5 +332,11 @@ namespace TheIdleScrolls_Core.Systems
     {
         string IMessage.BuildMessage() => $"{Player.GetName()} lost the fight against {MobName} (Level {Level})";
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.High;
+    }
+
+    public record SetRestingHpThresholdRequest(uint Player, double Threshold) : IMessage
+    {
+        string IMessage.BuildMessage() => $"Set resting HP threshold to {Threshold} for player with ID {Player}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
     }
 }

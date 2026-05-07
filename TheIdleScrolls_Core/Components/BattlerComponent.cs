@@ -13,7 +13,7 @@ namespace TheIdleScrolls_Core.Components
         public int SkillsUsed { get; set; } = 0;
         public double DamageDealt { get; set; } = 0.0;
 
-        public bool FirstStrike => SkillsUsed == 0;
+        public bool FirstStrike => DamageDealt == 0.0;
     }
 
     public class Battle(Entity player, int mobs)
@@ -48,12 +48,12 @@ namespace TheIdleScrolls_Core.Components
         {
             double dmgDealt = battle.Player.GetComponent<BattlerComponent>()!.DamageDealt;
             int mobHp = battle.Mob?.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
-            TimeShieldComponent timeLimit = battle.Player.GetComponent<TimeShieldComponent>()!;
-            double timePctLost = timeLimit.Maximum > 0.0 ? 1.0 - (timeLimit.Remaining / timeLimit.Maximum) : 0.0;
+            LifePoolComponent hpComp = battle.Player.GetComponent<LifePoolComponent>()!;
+            double hpPctLost = hpComp.Maximum > 0.0 ? 1.0 - (1.0 * hpComp.Current / hpComp.Maximum) : 0.0;
 
             double edps = battle.Duration > 0.0 ? dmgDealt / battle.Duration : 0.0;
             double timeToKill = edps > 0.0 ? mobHp / edps : 0.0;
-            double timeToDie = timePctLost > 0.0 ? battle.Duration / timePctLost : 0.0;
+            double timeToDie = hpPctLost > 0.0 ? battle.Duration / hpPctLost : 0.0;
             double dmgPotential = timeToDie > 0.0 ? edps * timeToDie : 0.0;
 
             return new BattleData(battle.Duration, edps, timeToKill, timeToDie, dmgPotential);

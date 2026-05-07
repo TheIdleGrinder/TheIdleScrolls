@@ -45,6 +45,8 @@ namespace TheIdleScrolls_Core
         public void SetSkillEnabled(uint playerId, string skillId, bool enabled);
 
         public void ChangeSkillOrder(uint playerId, string skillId, bool moveUp);
+
+        public void SetRestingHpThreshold(uint playerId, double threshold);
     }
 
 }

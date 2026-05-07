@@ -23,7 +23,7 @@ namespace TheIdleScrolls_Core.Components
         public int Maximum
         {
             get => (int) Math.Ceiling(_Maximum);
-            set => _Maximum = value;
+            set => SetMaximum(value);
         }
 
         public bool IsAlive => _Current > 0.0;
@@ -52,6 +52,20 @@ namespace TheIdleScrolls_Core.Components
         public void ApplyDamage(double points)
         {
             AddPoints(-points);
+        }
+
+        public void HealToFull()
+        {
+            _Current = _Maximum;
+        }
+
+        public void SetMaximum(int newMax)
+        {
+            if (newMax == Maximum)
+                return;
+            double ratio = (_Maximum > 0) ? _Current / _Maximum : 1.0;
+            _Maximum = newMax;
+            _Current = ratio * _Maximum;
         }
     }
 
