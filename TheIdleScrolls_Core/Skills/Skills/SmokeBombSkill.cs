@@ -30,9 +30,11 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return user.GetComponent<PerksComponent>()?.IsPerkActive(Perks.SmokeBombPerks.BasePerkId) ?? false;
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
-            return (IsAvailableTo(user), string.Empty);
+            if (!IsAvailableTo(user))
+                return (UsePrevention.MissingPerk, "You haven't unlocked this skill yet.");
+            return (user.IsInBattle() ? UsePrevention.None : UsePrevention.NotInBattle, string.Empty);
         }
 
         protected override void SetupStats(Entity user, ActiveSkill skill)

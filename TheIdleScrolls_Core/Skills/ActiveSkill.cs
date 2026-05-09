@@ -60,7 +60,7 @@ namespace TheIdleScrolls_Core.Skills
 
 		public bool IsInUse()
 		{
-			return !HasState([State.Unavailable, State.Disabled, State.NotUsable]);
+			return !HasState([State.Unavailable, State.Disabled]);
 		}
 
 		public bool HasState(HashSet<State> states)
@@ -75,8 +75,8 @@ namespace TheIdleScrolls_Core.Skills
 
 			if (!Enabled)
 				return State.Disabled;
-			var (usable, _) = Definition.IsUsableBy(User);
-			if (!usable)
+			var (prevention, _) = Definition.IsUsableBy(User);
+			if (prevention != UsePrevention.None)
 				return State.NotUsable;
 
 			return CurrentState switch

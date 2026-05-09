@@ -157,10 +157,11 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return user.HasComponent<AttackComponent>();
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
             bool available = user.IsInBattle();
-            return (available, available ? "" : "Only usable in battle");
+            return (available ? UsePrevention.None : UsePrevention.NotInBattle, 
+                    available ? "" : "Only usable in battle");
         }
     }
 }

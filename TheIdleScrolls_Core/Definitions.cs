@@ -302,8 +302,6 @@ namespace TheIdleScrolls_Core
         {
             if (incomingDamage == 0.0)
                 incomingDamage = 1.0;
-            //double effectiveArmor = armor / CalculateMobArmorPierce(enemyLevel, incomingDamage);
-            //return Math.Min(1.0 + effectiveArmor * Stats.ArmorSlowdownPerPoint, 1.0 / (1.0 - Stats.MaxResistanceFromArmor));
             double damage = CalculateMobDamage(enemyLevel, incomingDamage);
             if (armor == 0.0)
                 return 1.0;
