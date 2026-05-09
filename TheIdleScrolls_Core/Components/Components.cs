@@ -220,20 +220,17 @@ namespace TheIdleScrolls_Core.Components
 
     public class WeaponComponent : IComponent
     {
-        //public string Family = "";
-        //public string Genus = "";
-        public DamageCluster Damage = new();
-        public double Cooldown = 1.0;
+        public DamageCluster Damage { get; set; } = new();
+        public double AttackTime { get; set; } = 1.0;
+        public double Range { get; set; } = 1.0;
 
-        public WeaponComponent()
-        {
+        public WeaponComponent() { }
 
-        }
-
-        public WeaponComponent(DamageCluster baseDamage, double baseCooldown)
+        public WeaponComponent(DamageCluster baseDamage, double baseCooldown, double range)
         {
             Damage = baseDamage;
-            Cooldown = baseCooldown;
+            AttackTime = baseCooldown;
+            Range = range;
         }
     }
 

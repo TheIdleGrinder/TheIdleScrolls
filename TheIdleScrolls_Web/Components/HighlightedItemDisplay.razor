@@ -27,7 +27,7 @@
                 </span>
                 <span>
                     Attack Time: @(HighlightedItem?.WeaponAspect?.BaseCooldown) s
-                    @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareCooldown) ?? [])
+                    @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareAttackTime) ?? [])
                     {
                         <ItemStatComparison ComparisonResult=@comp Suffix=" s"></ItemStatComparison>
                     }

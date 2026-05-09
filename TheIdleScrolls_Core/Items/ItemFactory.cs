@@ -45,7 +45,8 @@ namespace TheIdleScrolls_Core.Items
             {
                 item.AddComponent(new WeaponComponent(
                     description.Weapon.BaseDamage,
-                    description.Weapon.BaseCooldown));
+                    description.Weapon.BaseCooldown,
+                    description.Weapon.Range));
             }
             if (description.Armor != null)
             {
@@ -242,7 +243,7 @@ namespace TheIdleScrolls_Core.Items
                 {
                     dmg.SetDamage(type, Math.Round(dmg.DamageOfType(type), 1));
                 }
-                item.AddComponent(new WeaponComponent(dmg, description.Weapon.BaseCooldown));
+                item.AddComponent(new WeaponComponent(dmg, description.Weapon.BaseCooldown, description.Weapon.Range));
             }
 
             if (description.Armor != null)

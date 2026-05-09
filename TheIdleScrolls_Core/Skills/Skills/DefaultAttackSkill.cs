@@ -59,7 +59,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                     if (itemComp != null && weaponComp != null)
                     {
                         DamageCluster localDmg = weaponComp.Damage;
-                        double localCD = weaponComp.Cooldown;
+                        double localCD = weaponComp.AttackTime;
                         weaponCount++;
 
                         if (modComp != null)
