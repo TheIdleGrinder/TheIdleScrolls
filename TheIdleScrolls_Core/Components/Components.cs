@@ -117,39 +117,6 @@ namespace TheIdleScrolls_Core.Components
         }
     }
 
-    public class AttackComponent : IComponent
-    {
-        public class AttackVector(DamageCluster dmg, double cd, double range)
-        {
-            public DamageCluster RawDamage = dmg;
-            public double Cooldown = cd;
-            public double Range = range;
-        }
-
-        public List<AttackVector> AttackVectors = [];
-
-        public void Reset()
-        {
-            AttackVectors.Clear();
-        }
-
-        public void AddAttackVector(DamageCluster rawDamage, double cooldown, double range)
-        {
-            AttackVectors.Add(new AttackVector(rawDamage, cooldown, range));
-        }
-
-        public DamageCluster AverageDamage => AttackVectors.Average();
-        public double AverageCooldown => AttackVectors.Average(av => av.Cooldown);
-        public double AverageDps => (AverageCooldown != 0) ? AverageDamage.TotalDamage / AverageCooldown : 0.0;
-        public double AverageRange => AttackVectors.Average(av => av.Range);
-    }
-
-    public class DefenseComponent : IComponent
-    {
-        public double Armor = 0.0;
-        public double Evasion = 0.0;
-    }
-
     public class MovementSpeedComponent : IComponent
     {
         public double Speed { get; set; } = Stats.BaseMovementSpeed;

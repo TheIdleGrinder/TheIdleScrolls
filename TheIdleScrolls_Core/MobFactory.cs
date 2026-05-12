@@ -54,14 +54,17 @@ namespace TheIdleScrolls_Core
             mob.AddComponent(new LifePoolComponent(CalculateHP(description, level)));
             mob.AddComponent(new XpGiverComponent { Amount = CalculateXpValue(description, level) });
             mob.AddComponent(new AccuracyComponent(Functions.CalculateMobAccuracy(level)));
-            mob.AddComponent(new AttackComponent());
-
+            
             var modComp = new ModifierComponent();
             mob.AddComponent(modComp);
 
-            double damageMulti = description.Damage * zoneDamageMulti - 1.0;
-            if (damageMulti != 0)
-                modComp.AddModifier(new Modifier("BaseDamageMulti", ModifierType.More, damageMulti, [Definitions.Tags.Damage], []));
+            
+            double damage = CalculateDamage(description, level) * zoneDamageMulti;
+            double attackTime = 1.0; // will depend on mob description in the future
+            double range = 0.0;
+            var statsComp = new BattleStatsComponent(new(new(Definitions.DamageType.Physical, damage), attackTime, range));
+
+            mob.AddComponent(statsComp);
 
             var skillComp = new ActiveSkillComponent();
             skillComp.Add(new ActiveSkill(Skills.Skills.DefaultAttack.Skill));

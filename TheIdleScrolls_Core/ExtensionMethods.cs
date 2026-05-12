@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
-using static TheIdleScrolls_Core.Components.AttackComponent;
 using TheIdleScrolls_Core.Utility;
+using static TheIdleScrolls_Core.Components.BattleStatsComponent;
 
 namespace TheIdleScrolls_Core
 {

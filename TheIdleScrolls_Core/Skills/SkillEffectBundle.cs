@@ -39,7 +39,7 @@ namespace TheIdleScrolls_Core.Skills
             // Handle accuracy
             if (Accuracy.HasValue)
             {
-                double evasion = target.GetComponent<DefenseComponent>()?.Evasion ?? 0.0;
+                double evasion = target.GetComponent<BattleStatsComponent>()?.Evasion ?? 0.0;
                 double charge = Math.Min(Stats.MaxResistanceFromEvasion, evasion / (evasion + Accuracy.Value));
                 var chanceComp = target.GetComponent<ChanceChargeComponent>();
                 if (chanceComp is null)

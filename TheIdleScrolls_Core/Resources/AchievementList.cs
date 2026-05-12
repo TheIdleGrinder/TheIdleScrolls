@@ -519,7 +519,7 @@ namespace TheIdleScrolls_Core.Resources
                                         UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
                                     (_, e, w, c) =>
                                     {
-                                        double armor = e.GetComponent<DefenseComponent>()?.Armor ?? 0;
+                                        double armor = e.GetComponent<BattleStatsComponent>()?.Armor ?? 0;
                                         int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
                                         return
                                         [
@@ -611,7 +611,7 @@ namespace TheIdleScrolls_Core.Resources
                                         UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
                                     (_, e, w, c) =>
                                     {
-                                        double cooldown = e.GetComponent<AttackComponent>()?.AverageCooldown ?? 0.0;
+                                        double cooldown = e.GetComponent<BattleStatsComponent>()?.AverageCooldown ?? 0.0;
                                         int lvl = e.GetComponent<AbilitiesComponent>()?.GetAbility(id)?.Level ?? 0;
                                         return
                                         [
@@ -659,8 +659,9 @@ namespace TheIdleScrolls_Core.Resources
                                         UpdateTrigger.BattleStarted, UpdateTrigger.AttackPerformed],
                                     (_, e, w, c) =>
                                     {
-                                        double cooldown = e.GetComponent<AttackComponent>()?.AverageCooldown ?? 0.0;
-                                        double armor = e.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
+                                        var statsComp = e.GetComponent<BattleStatsComponent>();
+                                        double cooldown = statsComp?.AverageCooldown ?? 0.0;
+                                        double armor = statsComp?.Armor ?? 0.0;
                                         var abilitiesComp = e.GetComponent<AbilitiesComponent>();
                                         int lvlDW = abilitiesComp?.GetAbility(Abilities.DualWield)?.Level ?? 0;
                                         int lvlSh = abilitiesComp?.GetAbility(Abilities.Shielded)?.Level ?? 0;

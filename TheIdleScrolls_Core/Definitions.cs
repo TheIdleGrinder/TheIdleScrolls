@@ -312,6 +312,11 @@ namespace TheIdleScrolls_Core
             return 1.0 / multiplier;
         }
 
+        public static double CalculateEncumbranceSlowdown(double encumbrance)
+        {
+            return 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
+        }
+
         public static int CalculateMobHp(int mobLevel, double multiplier = 1.0)
         {
             double mobBaseHpMultiplier = 0.9;

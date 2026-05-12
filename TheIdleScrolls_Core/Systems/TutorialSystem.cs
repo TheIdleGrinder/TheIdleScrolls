@@ -134,7 +134,7 @@ namespace TheIdleScrolls_Core.Systems
                     $"\n  - Received '{itemName}'"));
             }
             if (!globalProgress.Data.TutorialProgress.Contains(TutorialStep.Evasion)
-                && (m_player.GetComponent<DefenseComponent>()?.Evasion ?? 0) > 0)
+                && (m_player.GetComponent<BattleStatsComponent>()?.Evasion ?? 0) > 0)
             {
                 globalProgress.Data.TutorialProgress.Add(TutorialStep.Evasion);
                 coordinator.PostMessage(this,
