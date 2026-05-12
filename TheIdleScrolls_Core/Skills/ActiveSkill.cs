@@ -51,8 +51,10 @@ namespace TheIdleScrolls_Core.Skills
 		public string Id => Definition.Id;
 		public string Name => Definition.Name;
 		public HashSet<string> Tags { get; set; } = [];
+		public UsePrevention Prevention { get; private set; } = UsePrevention.None;
+		public double Range { get; set; } = 0.0;
 
-		public void SetupForUser(Entity user)
+        public void SetupForUser(Entity user)
 		{
 			User = user;
 			Definition.SetupForUser(user, this);
@@ -76,6 +78,7 @@ namespace TheIdleScrolls_Core.Skills
 			if (!Enabled)
 				return State.Disabled;
 			var (prevention, _) = Definition.IsUsableBy(User);
+			Prevention = prevention;
 			if (prevention != UsePrevention.None)
 				return State.NotUsable;
 
@@ -165,6 +168,17 @@ namespace TheIdleScrolls_Core.Skills
         public int GetPerkLevel(string perkId)
 		{
 			return User?.GetComponent<PerksComponent>()?.GetPerkLevel(perkId) ?? 0;
+        }
+
+		public static List<Entity> GetEnemiesInRange(Entity user, double range)
+		{
+			var battleComp = user.GetComponent<BattlerComponent>();
+			if (battleComp is null || battleComp.Battle is null)
+				return [];
+			if (user.IsPlayer() && battleComp.Battle.Mob is null)
+				return [];
+            List<Entity> enemies = [user.IsPlayer() ? battleComp.Battle.Mob : battleComp.Battle.Player];
+			return enemies.Where(e => e.GetComponent<BattlerComponent>()?.Position.DistanceTo(battleComp.Position) <= range).ToList();
         }
     }
 }

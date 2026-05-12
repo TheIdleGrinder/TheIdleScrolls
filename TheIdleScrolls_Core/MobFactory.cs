@@ -71,6 +71,7 @@ namespace TheIdleScrolls_Core
             {
                 skillComp.Add(new(skill));
             }
+            skillComp.ResetSkills();
 
 
             if (description.Perks.Count > 0)

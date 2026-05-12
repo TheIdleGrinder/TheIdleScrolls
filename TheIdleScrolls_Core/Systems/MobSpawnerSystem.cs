@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Systems
@@ -40,7 +41,10 @@ namespace TheIdleScrolls_Core.Systems
 
                     battle.Mob = mob;
                     battle.MobsRemaining--;
-                    mob.AddComponent(new BattlerComponent(battle));
+                    var battleComp = new BattlerComponent(battle);
+                    BattlePosition playerPos = player.GetComponent<BattlerComponent>()?.Position ?? new BattlePosition(0.0, 0.0);
+                    battleComp.Position = new BattlePosition(playerPos.X + Stats.BattleBaseDistance, playerPos.Y);
+                    mob.AddComponent(battleComp);
 
                     if (locationComp.InDungeon && zone.MobCount > 1)
                     {

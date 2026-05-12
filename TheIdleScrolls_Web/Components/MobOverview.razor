@@ -32,6 +32,7 @@
                     <div class="fight-bar-fill healthBar" style="width: @(PctString(Hp, HpMax));"></div>
                 </div>
                 <p class="healthText">HP: @Hp.ToBigIntString() / @HpMax.ToBigIntString()</p>
+                <span class="distanceText">Distance: @Distance m</span>
             }
         </div>
         <div class="mob-perks-skill-status">
@@ -73,9 +74,9 @@
     }
 
     .mob-main-area {
+        position: relative;
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
     }
 
     .mob-name {
@@ -123,6 +124,13 @@
         margin-bottom: 0px;
     }
 
+    .distanceText {
+        right: 0.5rem;
+        top: 0.5rem;
+        color: cornflowerblue;
+        margin-bottom: 0px;
+    }
+
     .mob-image-container {
         width: 100%;
         display: flex;
@@ -162,6 +170,15 @@
     int Level => Mob?.GetComponent<LevelComponent>()?.Level ?? 0;
     int Hp => Mob?.GetComponent<LifePoolComponent>()?.Current ?? 0;
     int HpMax => Mob?.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
+    double Distance
+    {
+        get
+        {
+            var battler = Mob?.GetComponent<BattlerComponent>()!;
+            double distance = battler.Position.DistanceTo(CoreWrapper.PlayerCharacter!.GetComponent<BattlerComponent>()!.Position);
+            return Math.Round(distance, 1);
+        }
+    }
     List<Perk> MobPerks => Mob?.GetComponent<PerksComponent>()?.GetPerks() ?? [];
     List<ActiveSkill> Skills => Mob?.GetComponent<ActiveSkillComponent>()?.Skills ?? [];
     List<StatusEffect> StatusEffects => Mob?.GetComponent<StatusEffectComponent>()?.StatusEffects ?? [];

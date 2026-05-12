@@ -72,7 +72,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                                 globalTags);
                         }
 
-                        attackComp.AddAttackVector(localDmg, localCD);
+                        attackComp.AddAttackVector(localDmg, localCD, weaponComp.Range);
                     }
                 }
             }
@@ -88,7 +88,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 // invert attack speed due to speed/cooldown mismatch
                 cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
                     [Tags.AttackSpeed, Abilities.Unarmed, .. AdditionalTags], globalTags) ?? cooldown;
-                attackComp.AddAttackVector(damage, cooldown);
+                attackComp.AddAttackVector(damage, cooldown, 0.0);
             }
 
             double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
@@ -146,6 +146,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                                             TargetingMode.SingleEnemy);
             damage.Accuracy = user.GetComponent<AccuracyComponent>()?.Accuracy;
 
+            skill.Range = attackComp.AverageRange;
             skill.ActiveEffects.OnEnter = [
                 damage
             ];
@@ -160,8 +161,11 @@ namespace TheIdleScrolls_Core.Skills.Skills
         public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
             bool available = user.IsInBattle();
-            return (available ? UsePrevention.None : UsePrevention.NotInBattle, 
-                    available ? "" : "Only usable in battle");
+            if (!available)
+                return (UsePrevention.NotInBattle, "Only usable in battle");
+            if (ActiveSkill.GetEnemiesInRange(user, user.GetComponent<AttackComponent>()?.AverageRange ?? 0.0).Count == 0)
+                return (UsePrevention.NoTargetInRange, "No target in range");
+            return (UsePrevention.None, "");
         }
     }
 }

@@ -16,6 +16,9 @@ namespace TheIdleScrolls_Core
             public const int    BasePlayerHitPoints = 50;
             public const double PlayerHitPointPerLevel = 10;
 
+            public const double BattleBaseDistance = 10.0;
+            public const double BaseMovementSpeed = 3.0;
+
             public const double AttackBonusPerLevel = 0.02;
             public const double HitPointsBonusPerLevel = 0.02;
             public const double TimeShieldBonusPerLevel = 0.02;
