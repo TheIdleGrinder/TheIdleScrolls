@@ -67,7 +67,8 @@ namespace TheIdleScrolls_Core
             mob.AddComponent(statsComp);
 
             var skillComp = new ActiveSkillComponent();
-            skillComp.Add(new ActiveSkill(Skills.Skills.DefaultAttack.Skill));
+            if (description.Damage > 0)
+                skillComp.Add(new ActiveSkill(Skills.Skills.DefaultAttack.Skill));
             mob.AddComponent(skillComp);
 
             foreach (var skill in description.ActiveSkills)

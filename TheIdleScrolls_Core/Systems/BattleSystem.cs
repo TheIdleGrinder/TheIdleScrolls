@@ -243,7 +243,7 @@ namespace TheIdleScrolls_Core.Systems
             dt = entity.ApplyAllApplicableModifiers(dt, [Tags.ChargeSpeed], entity.GetTags());
             // Process player skills
             var skillComp = entity.GetComponent<ActiveSkillComponent>();
-			if (skillComp is null)
+			if (skillComp is null || skillComp.Skills.Count == 0)
                 return;
 
 			double totalElapsed = 0.0;
