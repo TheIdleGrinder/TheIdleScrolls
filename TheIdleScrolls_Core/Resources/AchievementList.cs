@@ -222,11 +222,11 @@ namespace TheIdleScrolls_Core.Resources
                                 [[Tags.FirstStrike], [Tags.FirstStrike]])
                                 .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.LBL),
                 ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
-                                $"{1.0:0.#%} more defenses during first attack with {id.Localize()}s",
-                                ModifierType.More,
-                                1.0,
-                                [Tags.Defense],
-                                [Tags.FirstStrike, Abilities.Polearm])
+                                $"Adds {2.0:0.#%} base range to attacks with {id.Localize()}s",
+                                ModifierType.AddBase,
+                                2.0,
+                                [Tags.Range],
+                                [Abilities.Polearm])
                                 .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.POL),
                 ("SBL", 25) => new Perk($"{id}{level}", "Sneak Attack",
                                 $"Deal 100% more damage per 25 levels of the {LocalizedStrings.SBL} ability with short blades on " +

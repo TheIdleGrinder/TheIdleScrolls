@@ -41,9 +41,8 @@ namespace TheIdleScrolls_Core.Systems
 
                     battle.Mob = mob;
                     battle.MobsRemaining--;
+
                     var battleComp = new BattlerComponent(battle);
-                    BattlePosition playerPos = player.GetComponent<BattlerComponent>()?.Position ?? new BattlePosition(0.0, 0.0);
-                    battleComp.Position = new BattlePosition(playerPos.X + Stats.BattleBaseDistance, playerPos.Y);
                     mob.AddComponent(battleComp);
 
                     if (locationComp.InDungeon && zone.MobCount > 1)

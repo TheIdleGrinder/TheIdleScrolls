@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Components
@@ -27,12 +28,14 @@ namespace TheIdleScrolls_Core.Components
         public double Armor { get; set; } = 0.0;
         public double Evasion { get; set; } = 0.0;
         public double Encumbrance { get; set; } = 0.0;
+        public double MovementSpeed { get; set; } = Stats.BaseMovementSpeed;
 
         public bool CanAttack => AttackVectors.Count > 0;
         public DamageCluster AverageDamage => AttackVectors.Average();
         public double AverageCooldown => AttackVectors.Average(av => av.AttackTime);
         public double AverageDps => (AverageCooldown != 0) ? AverageDamage.TotalDamage / AverageCooldown : 0.0;
         public double AverageRange => AttackVectors.Average(av => av.Range);
+        public double EncumbranceSlowdown => Functions.CalculateEncumbranceSlowdown(Encumbrance);
 
         public void ResetAttacks()
         {

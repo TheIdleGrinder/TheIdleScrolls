@@ -59,6 +59,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                     {
                         DamageCluster localDmg = weaponComp.Damage;
                         double localCD = weaponComp.AttackTime;
+                        double localRange = weaponComp.Range;
                         weaponCount++;
 
                         if (modComp != null)
@@ -69,9 +70,10 @@ namespace TheIdleScrolls_Core.Skills.Skills
                             localCD = 1.0 / modComp.ApplyApplicableModifiers(1.0 / localCD,
                                 localTags.Append(Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
                                 globalTags);
+                            localRange = modComp.ApplyApplicableModifiers(weaponComp.Range, [..localTags, Tags.Range], globalTags);
                         }
 
-                        statsComp.AddAttackVector(localDmg, localCD, weaponComp.Range);
+                        statsComp.AddAttackVector(localDmg, localCD, localRange);
                     }
                 }
             }
@@ -90,10 +92,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 statsComp.AddAttackVector(damage, cooldown, statsComp.BaseAttack.Range);
             }
 
-            double encumbranceSlowdown = Functions.CalculateEncumbranceSlowdown(statsComp.Encumbrance);
             foreach (var vector in statsComp.AttackVectors)
             {
-                vector.AttackTime *= encumbranceSlowdown;
+                vector.AttackTime *= statsComp.EncumbranceSlowdown;
                 vector.AttackTime = Math.Max(vector.AttackTime, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
             }
         }

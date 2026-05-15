@@ -51,6 +51,11 @@ namespace TheIdleScrolls_Core
             return entity.GetComponent<LevelComponent>()?.Level ?? 0;
         }
 
+        public static double GetRange(this Entity entity)
+        {
+            return entity.GetComponent<ActiveSkillComponent>()?.Skills.FirstOrDefault()?.Range ?? 0.0;
+        }
+
         public static bool IsItem(this Entity entity)
         {
             return entity.HasComponent<ItemComponent>();

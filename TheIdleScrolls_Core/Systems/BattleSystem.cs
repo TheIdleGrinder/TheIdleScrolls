@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
+using TheIdleScrolls_Core.Properties;
 using TheIdleScrolls_Core.Skills;
 using TheIdleScrolls_Core.Skills.SkillEffects;
 using TheIdleScrolls_Core.StatusEffects;
@@ -87,6 +89,8 @@ namespace TheIdleScrolls_Core.Systems
                 if ((battle.State == Battle.BattleState.Initialized || battle.State == Battle.BattleState.BetweenFights) 
                     && battle.Mob != null)
                 {
+                    PositionMob(battle);
+
                     battle.State = Battle.BattleState.InProgress;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
                     battle.Mob.GetComponent<ActiveSkillComponent>()?.Skills.ForEach(s => s.SetupForUser(battle.Mob));
@@ -194,6 +198,17 @@ namespace TheIdleScrolls_Core.Systems
                         effect.Deactivate();
                 }
             }
+        }
+
+        private static void PositionMob(Battle battle)
+        {
+            var battleComp = battle.Mob?.GetComponent<BattlerComponent>();
+            if (battle.Mob is null || battleComp is null)
+                return;
+            BattlePosition playerPos = battle.Player.GetComponent<BattlerComponent>()?.Position ?? new BattlePosition(0.0, 0.0);
+            // Distance is maximum of individual ranges and base distance
+            double distance = new[] { Stats.BattleBaseDistance, battle.Player.GetRange(), battle.Mob.GetRange() }.Max();
+            battleComp.Position = new BattlePosition(playerPos.X + distance, playerPos.Y);
         }
 
         static void SetupPlayerTimeShield(Entity player, ZoneDescription zone)
