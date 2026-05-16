@@ -180,6 +180,8 @@ namespace TheIdleScrolls_Core
 
         public static class DropRestrictions
         {
+            public const string MasterKey = "MasterKey"; // Used when generating the full list of items to override restrictions
+
             public const string MaterialT4 = "MaterialT4";
         }
 

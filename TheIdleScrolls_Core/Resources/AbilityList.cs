@@ -169,7 +169,7 @@ namespace TheIdleScrolls_Core.Resources
 
         public Ability GetAbility()
         {
-            return new(key) 
+            return new(Key) 
             { 
                 Name = Name,
                 MaxLevel = MaxLevel

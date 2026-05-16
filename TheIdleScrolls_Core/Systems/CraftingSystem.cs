@@ -17,9 +17,11 @@ namespace TheIdleScrolls_Core.Systems
     {
         bool FirstUpdate = true;
 		readonly Cooldown UpdateCrafts = new(0.5);
-        List<Entity> ItemPrototypes = new();
         double UpdateCraftsTime = 0.0;
 
+        List<Entity> ItemPrototypes = new();
+        
+        
 		readonly Random Rng = new();
 
         public override void Update(World world, Coordinator coordinator, double dt)
@@ -53,9 +55,10 @@ namespace TheIdleScrolls_Core.Systems
 
                     int availableCraftCount = craftingBench.AvailablePrototypes.Count;
                     craftingBench.MaxCraftingLevel = maxLevel;
+                    HashSet<string> unlocks = crafter.GetComponent<PlayerComponent>()?.Unlocked ?? [];
                     craftingBench.AvailablePrototypes = GetPrototypes()
-                        .Where(i => (i.GetComponent<LevelComponent>()?.Level ?? 0) <= craftingBench.MaxCraftingLevel 
-                                    && i.GetComponent<ItemComponent>()!.Blueprint.GetDropRestrictions().Length == 0)
+                        .Where(i => (i.GetComponent<LevelComponent>()?.Level ?? 0) <= craftingBench.MaxCraftingLevel
+                            && i.GetComponent<ItemComponent>()!.Blueprint.GetDropRestrictions().All(r => unlocks.Contains(r)))
                         .ToList();
                     if (!FirstUpdate && craftingBench.AvailablePrototypes.Count > availableCraftCount)
                     {
@@ -217,7 +220,7 @@ namespace TheIdleScrolls_Core.Systems
         {
             if (ItemPrototypes.Count == 0)
             {
-                ItemPrototypes = LootTable.Generate(new(999, 999, 0.0, []))
+                ItemPrototypes = LootTable.Generate(new(999, 999, 0.0, [DropRestrictions.MasterKey]))
                                         .GetItemCodes()
                                         .Select(c => ItemFactory.MakeItem(ItemBlueprint.Parse(c)))
                                         .Where(i => i is not null)

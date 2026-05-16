@@ -51,10 +51,9 @@ namespace TheIdleScrolls_Core.Items
     {
         public string Id { get; set; } = "";
         public string Name { get; set; } = "Missing family name";
-
-        public List<ItemGenusDescription> Genera { get; set; } = new();
-
+        public List<ItemGenusDescription> Genera { get; set; } = [];
         public string RelatedAbilityId { get; set; } = "";
+        public HashSet<string> DropRestrictions { get; set; } = [];
 
         public ItemFamilyDescription()
         {

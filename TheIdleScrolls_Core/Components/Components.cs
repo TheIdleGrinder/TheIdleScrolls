@@ -106,7 +106,8 @@ namespace TheIdleScrolls_Core.Components
 
     public class PlayerComponent : IComponent
     {
-        public HashSet<GameFeature> AvailableFeatures { get; set; } = new();
+        public HashSet<GameFeature> AvailableFeatures { get; set; } = [];
+        public HashSet<string> Unlocked { get; set; } = [];
 
         public void SetFeatureState(GameFeature feature, bool available)
         {
@@ -114,6 +115,11 @@ namespace TheIdleScrolls_Core.Components
                 AvailableFeatures.Add(feature);
             else
                 AvailableFeatures.Remove(feature);
+        }
+
+        public void AddUnlock(string id)
+        {
+            Unlocked.Add(id);
         }
     }
 

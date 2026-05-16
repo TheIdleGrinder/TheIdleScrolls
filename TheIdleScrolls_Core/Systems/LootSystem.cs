@@ -30,6 +30,7 @@ namespace TheIdleScrolls_Core.Systems
 
             foreach (var _ in coordinator.FetchMessagesByType<DeathMessage>())
             {
+                var unlocks = m_player?.GetComponent<PlayerComponent>()?.Unlocked ?? [];
                 double dropChance = WildDropChance * world.QuantityMultiplier;
                 if (new Random().NextDouble() < dropChance)
                 {
@@ -38,7 +39,7 @@ namespace TheIdleScrolls_Core.Systems
                     // -9: only include the most recent tiers of items
                     int range = 20;
                     // 0.0 rarity => no improved items from normal mobs
-                    LootTableParameters parameters = new(zone.Level, range, 0.0, zone.SpecialDrops);
+                    LootTableParameters parameters = new(zone.Level, range, 0.0, [.. zone.SpecialDrops, .. unlocks]);
                     GiveRandomLoot(parameters, coordinator);
                 }
             }
@@ -51,11 +52,12 @@ namespace TheIdleScrolls_Core.Systems
 
         void GiveDungeonReward(string dungeonId, int level, World world, Coordinator coordinator, bool firstClear)
         {
+            var unlocks = m_player?.GetComponent<PlayerComponent>()?.Unlocked ?? [];
             double rarity = world.RarityMultiplier * (firstClear ? FirstClearRarityBonus : 1.0);
             var dungeon = world.AreaKingdom.GetDungeon(dungeonId) ?? throw new Exception($"Invalid dungeon id: {dungeonId}");
             // CornerCut: Scaling dungeons should have scaling reward levels, so use -1 as a shortcut for "drop highest available tiers"
             int levelRange = dungeon.Rewards.DropLevelRange;
-            LootTableParameters parameters = new(level, levelRange, rarity, dungeon.Rewards.SpecialRewards);
+            LootTableParameters parameters = new(level, levelRange, rarity, [.. dungeon.Rewards.SpecialRewards, .. unlocks]);
             GiveRandomLoot(parameters, coordinator);
         }
 
@@ -79,7 +81,7 @@ namespace TheIdleScrolls_Core.Systems
         int ItemLevel, 
         int LevelRange,
         double RarityMultiplier,
-        List<string> FulfilledRestrictions);
+        HashSet<string> FulfilledRestrictions);
 
     public class LootTable
     {
@@ -156,9 +158,9 @@ namespace TheIdleScrolls_Core.Systems
             // 2. Find highest level item that can drop
             // 3. Calculate lower limit for item level
             // 4. Filter for items that are in range
-
+            bool skipRestrictions = parameters.FulfilledRestrictions.Contains(DropRestrictions.MasterKey);
             var validDrops = _blueprints.Where(b => b.GetDropLevel() <= parameters.ItemLevel
-                                && b.GetDropRestrictions().All(r => parameters.FulfilledRestrictions.Contains(r)));
+                                && (skipRestrictions || b.GetDropRestrictions().All(r => parameters.FulfilledRestrictions.Contains(r))));
 
             int highestDropLevel = validDrops.Max(b => b.GetDropLevel());
             int minLevel = Math.Max(0, highestDropLevel - parameters.LevelRange);
