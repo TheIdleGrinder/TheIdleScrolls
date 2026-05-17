@@ -64,6 +64,11 @@ namespace TheIdleScrolls_Core.Items
             return [..GetMaterial().Restrictions, ..GetFamilyDescription().DropRestrictions];
         }
 
+        public bool RestrictionsFulfilled(HashSet<string> fulfilledRestrictions)
+        {
+            return GetDropRestrictions().All(r => fulfilledRestrictions.Contains(r));
+        }
+
         public int GetDropLevel()
         {
             return GetMaterial().MinimumLevel + GetGenusDescription().DropLevel;

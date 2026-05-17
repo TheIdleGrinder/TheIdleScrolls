@@ -383,4 +383,7 @@ Time to finish: {0}</value>
   <data name="Weapons" xml:space="preserve">
     <value>Weapons</value>
   </data>
+  <data name="ARC" xml:space="preserve">
+    <value>Archery</value>
+  </data>
 </root>

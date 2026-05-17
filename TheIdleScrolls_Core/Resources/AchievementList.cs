@@ -121,6 +121,7 @@ namespace TheIdleScrolls_Core.Resources
             // Ability achievements
             (int Level, string Rank)[] ranks =
             [
+                ( 0,  "Beginner"),
                 ( 25, "Apprentice"),
                 ( 50, "Adept"),
                 ( 75, "Expert"),
@@ -129,19 +130,38 @@ namespace TheIdleScrolls_Core.Resources
             ];
             foreach (string weapFamily in Abilities.Weapons)
             {
+                bool hasBeginnerLevel = weapFamily == Abilities.Archery; // Only archery has a beginner rank
                 for (int i = 0; i < ranks.Length; i++)
                 {
                     int level = ranks[i].Level;
-                    Achievement achievement = new(
-                        $"{weapFamily}{level}",
-                        $"{weapFamily.Localize()} {ranks[i].Rank}",
-                        $"Reach ability level {level} for {weapFamily.Localize()} weapons",
-                        (i > 0) ? ExpressionParser.ParseToFunction($"{weapFamily}{ranks[i - 1].Level}") : tautology,
-                        ExpressionParser.ParseToFunction($"abl:{weapFamily} >= {level}"))
+                    if (level > 0)
                     {
-                        Reward = GetRewardForLeveledAchievement(weapFamily, level)
-                    };
-                    achievements.Add(achievement);
+                        Achievement achievement = new(
+                            $"{weapFamily}{level}",
+                            $"{weapFamily.Localize()} {ranks[i].Rank}",
+                            $"Reach ability level {level} for {weapFamily.Localize()} weapons",
+                            (i > (hasBeginnerLevel ? 0 : 1)) ? ExpressionParser.ParseToFunction($"{weapFamily}{ranks[i - 1].Level}") : tautology,
+                            ExpressionParser.ParseToFunction($"abl:{weapFamily} >= {level}"))
+                        {
+                            Reward = GetRewardForLeveledAchievement(weapFamily, level)
+                        };
+                        achievements.Add(achievement);
+                    }
+                    else
+                    {
+                        if (!hasBeginnerLevel)
+                            continue; // Skip the 0 level achievement for weapon families that don't have a beginner rank
+                        Achievement achievement = new(
+                            $"{weapFamily}{level}",
+                            $"{weapFamily.Localize()} {ranks[i].Rank}",
+                            $"Defeat {20} enemies with {weapFamily.Localize()} weapons",
+                            tautology,
+                            Conditions.MobsDefeatedConditionallyCondition(weapFamily, 20))
+                        {
+                            Reward = new AbilityReward(weapFamily)
+                        };
+                        achievements.Add(achievement);
+                    }
                 }
             }
             foreach (string armorFamily in Abilities.Armors)

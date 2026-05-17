@@ -142,7 +142,8 @@ namespace TheIdleScrolls_Core.Items
             }
             if (item.IsWeapon())
             {
-                tagsComp.AddTags([Tags.Weapon, Tags.Melee]); // CornerCut: no ranged weapons exist yet
+                bool ranged = blueprint.GetGenusDescription()?.Weapon?.Range > 2.0;
+                tagsComp.AddTags([Tags.Weapon, ranged ? Tags.Ranged : Tags.Melee]);
             }
             if (item.IsArmor())
             {

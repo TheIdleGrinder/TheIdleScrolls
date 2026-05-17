@@ -9,6 +9,7 @@ using TheIdleScrolls_Core.Utility;
 using TheIdleScrollsApp;
 using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.ContentPacks;
+using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core
 {
@@ -85,6 +86,7 @@ namespace TheIdleScrolls_Core
             GameWorld.GlobalEntity = globalEntity;
 
             var player = await PlayerFactory.MakeOrLoadPlayer(playerName, m_dataHandler);
+            player.GetComponent<PlayerComponent>()?.Unlocked?.Add(DropRestrictions.Bow);
             AddPlayerToCoordinator(player);
 
             Logger.LogMessage($"Player '{player.GetName()}' (Level {player.GetComponent<LevelComponent>()?.Level ?? 0}) spawned (#{player.Id})");

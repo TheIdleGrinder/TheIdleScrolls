@@ -39,6 +39,13 @@
                         <ItemStatComparison ComparisonResult=@comp></ItemStatComparison>
                     }
                 </span>
+                <span>
+                    Range: @($"{HighlightedItem?.WeaponAspect?.Range ?? 0.0:0.##}")
+                    @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareRange) ?? [])
+                    {
+                        <ItemStatComparison ComparisonResult=@comp></ItemStatComparison>
+                    }
+                </span>
             }
             @if (HighlightedItem?.ArmorAspect != null)
             {

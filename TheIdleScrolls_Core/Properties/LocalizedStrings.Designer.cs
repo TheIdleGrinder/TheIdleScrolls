@@ -124,6 +124,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Archery ähnelt.
+        /// </summary>
+        internal static string ARC {
+            get {
+                return ResourceManager.GetString("ARC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Armor Rating ähnelt.
         /// </summary>
         internal static string ArmorRating {

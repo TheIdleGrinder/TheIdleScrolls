@@ -21,6 +21,12 @@ namespace TheIdleScrolls_Core.Resources
             int slowMaxLevel                 = 100;
 
             // Offense
+            abilities.Add(new AbilityDefinition(Abilities.Archery)
+            {
+                Name = Properties.LocalizedStrings.ARC,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = regularXpCurve
+            });
             abilities.Add(new AbilityDefinition(Abilities.Axe)
             {
                 Name = Properties.LocalizedStrings.AXE,
