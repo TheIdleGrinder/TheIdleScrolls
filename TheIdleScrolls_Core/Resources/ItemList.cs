@@ -91,9 +91,9 @@ namespace TheIdleScrolls_Core.Resources
                 new(Definitions.ItemFamilies.ShortBow, Properties.Items.Family_ShortBow, Abilities.Archery,
                     new()
                     {
-                        MakeWeapon(Properties.Items.Genus_ShortBow0, ItemTiers.LevelT0,  true,  9.0, 2.05, simple, 9.0),
-                        MakeWeapon(Properties.Items.Genus_ShortBow1, ItemTiers.LevelT2,  true, 14.0, 1.4 , woods,  9.0),
-                        MakeWeapon(Properties.Items.Genus_ShortBow2, ItemTiers.LevelT3,  true, 25.0, 2.35, [.. woods.Skip(2)], 10.0),
+                        MakeWeapon(Properties.Items.Genus_ShortBow0, ItemTiers.LevelT0,  true,  7.0, 1.9, simple, 7.0),
+                        MakeWeapon(Properties.Items.Genus_ShortBow1, ItemTiers.LevelT1,  true, 13.0, 1.75 , woods,  9.0),
+                        MakeWeapon(Properties.Items.Genus_ShortBow2, ItemTiers.LevelT3,  true, 17.0, 1.9 , [.. woods.Skip(2)], 10.0),
                     }
                 )
                 {
@@ -102,7 +102,7 @@ namespace TheIdleScrolls_Core.Resources
                 new(Definitions.ItemFamilies.LongBow, Properties.Items.Family_LongBow, Abilities.Archery,
                     new()
                     {
-                        MakeWeapon(Properties.Items.Genus_LongBow1, ItemTiers.LevelT1, true, 20.0, 2.2, woods, 12.0),
+                        MakeWeapon(Properties.Items.Genus_LongBow1, ItemTiers.LevelT2, true, 20.0, 2.35, woods, 12.0),
                     }
                 )
                 {

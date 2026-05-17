@@ -151,11 +151,16 @@ namespace TheIdleScrolls_Core.Resources
                     {
                         if (!hasBeginnerLevel)
                             continue; // Skip the 0 level achievement for weapon families that don't have a beginner rank
+                        var condition = tautology;
+                        if (weapFamily == Abilities.Archery)
+                        {
+                            condition = (e, w) => e.GetComponent<PlayerComponent>()?.Unlocked?.Contains(DropRestrictions.Bow) ?? false;
+                        }
                         Achievement achievement = new(
                             $"{weapFamily}{level}",
                             $"{weapFamily.Localize()} {ranks[i].Rank}",
                             $"Defeat {20} enemies with {weapFamily.Localize()} weapons",
-                            tautology,
+                            condition,
                             Conditions.MobsDefeatedConditionallyCondition(weapFamily, 20))
                         {
                             Reward = new AbilityReward(weapFamily)
@@ -263,6 +268,13 @@ namespace TheIdleScrolls_Core.Resources
                                     ];
                                 })
                                 .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.SBL),
+                ("ARC", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Pre-Notched Arrow",
+                                $"Your first attack every battle is twice as quick when using an {id.Localize()} weapon",
+                                ModifierType.More,
+                                1.0,
+                                [Tags.AttackSpeed],
+                                [Abilities.Archery, Tags.FirstStrike])
+                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.ARC),
                 ("AXE", 75) => new($"{id}{level}", "Frenzy",
                                 $"Gain {0.02:0.#%}/{0.04:0.#%}/{0.06:0.#%} increased attack speed with {id.Localize()}s " +
                                     $"after every attack (up to {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%})",
@@ -353,16 +365,16 @@ namespace TheIdleScrolls_Core.Resources
                     MaxLevel = 3,
                     Categories = [LocalizedStrings.Weapons, LocalizedStrings.SBL]
                 },
-                ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 50)
+                ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "ARC", 50)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Adept",
-                                $"Gain {Stats.BigPerkFactor * Stats.BasicDamageIncrease:0.#%} increased damage with {id.Localize()}s",
+                                $"Gain {Stats.BigPerkFactor * Stats.BasicDamageIncrease:0.#%} increased damage with {id.Localize()} weapons",
                                 ModifierType.Increase,
                                 Stats.BigPerkFactor * Stats.BasicDamageIncrease,
                                 [Tags.Damage, id, DamageType.Physical.ToTag()],
                                 [],
                                 maxLevel: 3)
                             .WithCategories(LocalizedStrings.Weapons, id.Localize()),
-                ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 100)
+                ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "ARC", 100)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
                                 $"Gain a {Stats.MasterPerkMultiplier:0.#%} multiplier to ALL damage",
                                 ModifierType.More,
@@ -466,7 +478,7 @@ namespace TheIdleScrolls_Core.Resources
                                     [Tags.ActiveCrafts],
                                     [], true)
                                 .WithCategories(id.Localize()),
-                ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "LAR" or "HAR" or "ABL_CRAFT", 150)
+                ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "ARC" or "LAR" or "HAR" or "ABL_CRAFT", 150)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Savant",
                                     $"{Stats.SavantXpMultiplier:0.#%} increased experience gain for {id.Localize()} ability",
                                     ModifierType.Increase,

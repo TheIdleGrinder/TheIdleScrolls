@@ -67,6 +67,11 @@ namespace TheIdleScrolls_Core.Skills.Skills
                             localDmg = weaponComp.Damage.ScaleWithModifiers(
                                 modComp.GetModifiers(),
                                 localTags, globalTags);
+                            // Ranged attacks have their damage reduced by encumbrance
+                            if (localTags.Contains(Tags.Ranged))
+                            {
+                                localDmg = localDmg.Multiply(1.0 / statsComp.EncumbranceSlowdown);
+                            }
                             localCD = 1.0 / modComp.ApplyApplicableModifiers(1.0 / localCD,
                                 localTags.Append(Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
                                 globalTags);
@@ -84,11 +89,11 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 DamageCluster damage = new(statsComp.BaseAttack.RawDamage);
                 damage = damage.ScaleWithModifiers(
                     modComp?.GetModifiers() ?? [],
-                    [Abilities.Unarmed, .. AdditionalTags],
+                    [Abilities.Unarmed, Tags.Melee, .. AdditionalTags],
                     globalTags);
                 // invert attack speed due to speed/cooldown mismatch
                 cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / statsComp.BaseAttack.AttackTime,
-                    [Tags.AttackSpeed, Abilities.Unarmed, .. AdditionalTags], globalTags) ?? cooldown;
+                    [Tags.AttackSpeed, Tags.Melee,Abilities.Unarmed, .. AdditionalTags], globalTags) ?? cooldown;
                 statsComp.AddAttackVector(damage, cooldown, statsComp.BaseAttack.Range);
             }
 
