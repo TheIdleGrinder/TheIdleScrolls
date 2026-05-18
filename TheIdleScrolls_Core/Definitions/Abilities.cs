@@ -9,6 +9,7 @@ namespace TheIdleScrolls_Core.Definitions
     public static class Abilities
     {
         // Offense
+        public const string Archery     = "ARC";
         public const string Axe         = "AXE";
         public const string Blunt       = "BLN";
         public const string LongBlade   = "LBL";
@@ -30,8 +31,7 @@ namespace TheIdleScrolls_Core.Definitions
         public const string Shielded      = "ABL_SHIELDED";
         public const string SingleHanded  = "ABL_SINGLEHANDED";
 
-
-        public static List<string> Weapons { get; } = [Axe, Blunt, LongBlade, Polearm, ShortBlade];
+        public static List<string> Weapons { get; } = [Archery, Axe, Blunt, LongBlade, Polearm, ShortBlade];
         public static List<string> Attack { get; } = [.. Weapons, Unarmed];
 
         public static List<string> Armors { get; } = [LightArmor, HeavyArmor];

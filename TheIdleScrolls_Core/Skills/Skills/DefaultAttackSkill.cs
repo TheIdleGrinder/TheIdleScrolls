@@ -1,6 +1,7 @@
 ﻿using MiniECS;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,10 +23,10 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         public override string Name => "Default Attack";
 
-        public static void SetupAttackComponent(Entity user, double baseDamage)
+        public static void SetupAttackComponent(Entity user)
         {
-            var attackComp = user.GetComponent<AttackComponent>();
-            if (attackComp == null)
+            var statsComp = user.GetComponent<BattleStatsComponent>();
+            if (statsComp == null)
                 return;
 
             List<string> AdditionalTags = [Tags.Attack, Skill.Id];
@@ -35,10 +36,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
             double cooldown = 1.0;
             int weaponCount = 0;
-            double encumbrance = 0.0;
 
             var globalTags = user.GetTags();
-            attackComp.Reset();
+            statsComp.ResetAttacks();
 
             if (equipComp != null)
             {
@@ -47,7 +47,6 @@ namespace TheIdleScrolls_Core.Skills.Skills
                     var itemComp = item.GetComponent<ItemComponent>();
                     var weaponComp = item.GetComponent<WeaponComponent>();
                     var localTags = item.GetTags().Concat(AdditionalTags).ToList();
-                    encumbrance += item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
 
                     // Add situational local tags 
                     var slots = item.GetRequiredSlots();
@@ -59,7 +58,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
                     if (itemComp != null && weaponComp != null)
                     {
                         DamageCluster localDmg = weaponComp.Damage;
-                        double localCD = weaponComp.Cooldown;
+                        double localCD = weaponComp.AttackTime;
+                        double localRange = weaponComp.Range;
                         weaponCount++;
 
                         if (modComp != null)
@@ -67,35 +67,40 @@ namespace TheIdleScrolls_Core.Skills.Skills
                             localDmg = weaponComp.Damage.ScaleWithModifiers(
                                 modComp.GetModifiers(),
                                 localTags, globalTags);
+                            // Ranged attacks have their damage reduced by encumbrance
+                            if (localTags.Contains(Tags.Ranged))
+                            {
+                                localDmg = localDmg.Multiply(1.0 / statsComp.EncumbranceSlowdown);
+                            }
                             localCD = 1.0 / modComp.ApplyApplicableModifiers(1.0 / localCD,
                                 localTags.Append(Tags.AttackSpeed),  // invert due to speed/cooldown mismatch
                                 globalTags);
+                            localRange = modComp.ApplyApplicableModifiers(weaponComp.Range, [..localTags, Tags.Range], globalTags);
                         }
 
-                        attackComp.AddAttackVector(localDmg, localCD);
+                        statsComp.AddAttackVector(localDmg, localCD, localRange);
                     }
                 }
             }
 
             if (weaponCount == 0)
             {
-                DamageCluster damage = new();
-                damage.AddDamage(DamageType.Physical, baseDamage); // Base unarmed damage
+                // use base attack from BattleStatsComponent if no weapons equipped, modified by unarmed and generic attack modifiers
+                DamageCluster damage = new(statsComp.BaseAttack.RawDamage);
                 damage = damage.ScaleWithModifiers(
                     modComp?.GetModifiers() ?? [],
-                    [Abilities.Unarmed, .. AdditionalTags],
+                    [Abilities.Unarmed, Tags.Melee, .. AdditionalTags],
                     globalTags);
                 // invert attack speed due to speed/cooldown mismatch
-                cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / cooldown,
-                    [Tags.AttackSpeed, Abilities.Unarmed, .. AdditionalTags], globalTags) ?? cooldown;
-                attackComp.AddAttackVector(damage, cooldown);
+                cooldown = 1.0 / modComp?.ApplyApplicableModifiers(1.0 / statsComp.BaseAttack.AttackTime,
+                    [Tags.AttackSpeed, Tags.Melee,Abilities.Unarmed, .. AdditionalTags], globalTags) ?? cooldown;
+                statsComp.AddAttackVector(damage, cooldown, statsComp.BaseAttack.Range);
             }
 
-            double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
-            foreach (var vector in attackComp.AttackVectors)
+            foreach (var vector in statsComp.AttackVectors)
             {
-                vector.Cooldown *= encumbranceSlowdown;
-                vector.Cooldown = Math.Max(vector.Cooldown, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
+                vector.AttackTime *= statsComp.EncumbranceSlowdown;
+                vector.AttackTime = Math.Max(vector.AttackTime, 1.0 / Stats.MaxAttacksPerSecond); // Cap attack speed
             }
         }
 
@@ -133,12 +138,11 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
         {
-            var attackComp = user.GetComponent<AttackComponent>();
+            var attackComp = user.GetComponent<BattleStatsComponent>();
             if (attackComp == null) // should never happen
             {
-                attackComp = new();
-                user.AddComponent(attackComp);
-                SetupAttackComponent(user, 2.0); // Example base damage value
+                Debug.WriteLine($"BattleStatsComponent is missing for entity '{user.GetName()}'");
+                return;
             }
 
             List<string> AdditionalTags = [Tags.Attack, Skill.Id];
@@ -146,6 +150,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                                             TargetingMode.SingleEnemy);
             damage.Accuracy = user.GetComponent<AccuracyComponent>()?.Accuracy;
 
+            skill.Range = attackComp.AverageRange;
             skill.ActiveEffects.OnEnter = [
                 damage
             ];
@@ -154,13 +159,17 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         public override bool IsAvailableTo(Entity user)
         {
-            return user.HasComponent<AttackComponent>();
+            return user.HasComponent<BattleStatsComponent>();
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
             bool available = user.IsInBattle();
-            return (available, available ? "" : "Only usable in battle");
+            if (!available)
+                return (UsePrevention.NotInBattle, "Only usable in battle");
+            if (ActiveSkill.GetEnemiesInRange(user, user.GetComponent<BattleStatsComponent>()?.AverageRange ?? 0.0).Count == 0)
+                return (UsePrevention.NoTargetInRange, "No target in range");
+            return (UsePrevention.None, "");
         }
     }
 }

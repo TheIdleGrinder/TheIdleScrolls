@@ -10,6 +10,7 @@ namespace TheIdleScrolls_Core.Components
     public class BattlerComponent(Battle battle) : IComponent
     {
         public Battle Battle { get; set; } = battle;
+        public BattlePosition Position { get; set; } = new(0.0, 0.0);
         public int SkillsUsed { get; set; } = 0;
         public double DamageDealt { get; set; } = 0.0;
 
@@ -40,6 +41,18 @@ namespace TheIdleScrolls_Core.Components
 
         public bool IsFinished => State == BattleState.PlayerWon || State == BattleState.PlayerLost || State == BattleState.Cancelled;
         public bool NeedsMob => (State == BattleState.Initialized || State == BattleState.BetweenFights) && MobsRemaining > 0;
+    }
+
+    public class BattlePosition(double x, double y)
+    {
+        public double X { get; set; } = x;
+        public double Y { get; set; } = y;
+        public double DistanceTo(BattlePosition other)
+        {
+            double dx = X - other.X;
+            double dy = Y - other.Y;
+            return Math.Sqrt(dx * dx + dy * dy);
+        }
     }
 
     public record BattleData(double Duration, double EDPS, double TimeToKill, double TimeToDie, double DamagePotential)

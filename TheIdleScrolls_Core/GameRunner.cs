@@ -9,6 +9,7 @@ using TheIdleScrolls_Core.Utility;
 using TheIdleScrollsApp;
 using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.ContentPacks;
+using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core
 {

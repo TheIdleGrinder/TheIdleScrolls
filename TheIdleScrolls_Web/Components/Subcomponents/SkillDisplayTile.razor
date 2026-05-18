@@ -22,6 +22,10 @@
         {
             <span>Cooldown Duration: <em>@Skill.Timer.CooldownDuration.ToString("0.##") seconds</em></span>
         }
+        @if (Skill.Range > 0)
+        {
+            <span>Range: <em>@Skill.Range.ToString("0.#") m</em></span>
+        }
 
         @if (Skill.ActiveEffects.OnEnter.Count > 0)
         {

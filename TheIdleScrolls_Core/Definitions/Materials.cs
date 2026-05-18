@@ -23,11 +23,11 @@ namespace TheIdleScrolls_Core.Definitions
         Wood4           = 0x34
     }
 
-    public record ItemMaterial(MaterialId Id, string Name, double PowerMultiplier, int MinimumLevel, string[]? NullableRestrictions = null)
+    public record ItemMaterial(MaterialId Id, string Name, double PowerMultiplier, int MinimumLevel, HashSet<string>? NullableRestrictions = null)
     {
         public int Tier => (int)Id & 0x0F;
 
-        public string[] Restrictions => NullableRestrictions ?? [];
+        public HashSet<string> Restrictions => NullableRestrictions ?? [];
     }
 
     public static class Materials

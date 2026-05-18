@@ -26,9 +26,9 @@ namespace TheIdleScrolls_Core.Skills
             return true;
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
-            return (true, string.Empty);
+            return (UsePrevention.None, string.Empty);
         }
     }
 }

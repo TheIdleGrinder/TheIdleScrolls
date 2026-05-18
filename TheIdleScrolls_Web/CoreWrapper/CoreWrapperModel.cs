@@ -203,7 +203,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
             emitter.PlayerOffenseChanged += (double dmg, double cdMax) =>
             {
                 CharacterStats.Damage = dmg;
-                CharacterStats.Cooldown = cdMax;
+                CharacterStats.AttackTime = cdMax;
             };
             emitter.PlayerDefenseChanged += (double armor, double evasion, double defenseRating) =>
             {

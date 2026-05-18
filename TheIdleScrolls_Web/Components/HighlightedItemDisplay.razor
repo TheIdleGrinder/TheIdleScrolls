@@ -27,7 +27,7 @@
                 </span>
                 <span>
                     Attack Time: @(HighlightedItem?.WeaponAspect?.BaseCooldown) s
-                    @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareCooldown) ?? [])
+                    @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareAttackTime) ?? [])
                     {
                         <ItemStatComparison ComparisonResult=@comp Suffix=" s"></ItemStatComparison>
                     }
@@ -35,6 +35,13 @@
                 <span>
                     DPS: @($"{HighlightedItem?.WeaponAspect?.Dps ?? 0.0:0.##}")
                     @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareDps) ?? [])
+                    {
+                        <ItemStatComparison ComparisonResult=@comp></ItemStatComparison>
+                    }
+                </span>
+                <span>
+                    Range: @($"{HighlightedItem?.WeaponAspect?.Range ?? 0.0:0.##}") m
+                    @foreach (ComparisonResult comp in HighlightedItem?.CompareToEquipment(ItemComparator.CompareRange) ?? [])
                     {
                         <ItemStatComparison ComparisonResult=@comp></ItemStatComparison>
                     }

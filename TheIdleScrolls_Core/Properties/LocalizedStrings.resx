@@ -181,7 +181,7 @@
     <value>Wasteland</value>
   </data>
   <data name="BLN" xml:space="preserve">
-    <value>Blunt Weapon</value>
+    <value>Blunt</value>
   </data>
   <data name="CharacterXpGain" xml:space="preserve">
     <value>experience gain</value>
@@ -382,5 +382,8 @@ Time to finish: {0}</value>
   </data>
   <data name="Weapons" xml:space="preserve">
     <value>Weapons</value>
+  </data>
+  <data name="ARC" xml:space="preserve">
+    <value>Archery</value>
   </data>
 </root>

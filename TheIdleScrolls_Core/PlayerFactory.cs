@@ -24,8 +24,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new NameComponent(name));
             player.AddComponent(new LevelComponent { Level = 1 });
             player.AddComponent(new AdventurerComponent());
-            player.AddComponent(new AttackComponent());
-            player.AddComponent(new DefenseComponent());
+            player.AddComponent(new BattleStatsComponent(new(new(Definitions.DamageType.Physical, 2.0), 1.0, 0.0)));
             player.AddComponent(new LifePoolComponent(Definitions.Stats.BasePlayerHitPoints));
             player.AddComponent(new XpGainerComponent());
             player.AddComponent(new PlayerProgressComponent());

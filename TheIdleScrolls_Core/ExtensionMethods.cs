@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
-using static TheIdleScrolls_Core.Components.AttackComponent;
 using TheIdleScrolls_Core.Utility;
+using static TheIdleScrolls_Core.Components.BattleStatsComponent;
 
 namespace TheIdleScrolls_Core
 {
@@ -49,6 +49,11 @@ namespace TheIdleScrolls_Core
         public static int GetLevel(this Entity entity)
         {
             return entity.GetComponent<LevelComponent>()?.Level ?? 0;
+        }
+
+        public static double GetRange(this Entity entity)
+        {
+            return entity.GetComponent<ActiveSkillComponent>()?.Skills.FirstOrDefault()?.Range ?? 0.0;
         }
 
         public static bool IsItem(this Entity entity)

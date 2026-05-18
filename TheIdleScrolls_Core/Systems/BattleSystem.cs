@@ -1,16 +1,10 @@
 ﻿using MiniECS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Skills;
 using TheIdleScrolls_Core.Skills.SkillEffects;
 using TheIdleScrolls_Core.StatusEffects;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -87,9 +81,10 @@ namespace TheIdleScrolls_Core.Systems
                 if ((battle.State == Battle.BattleState.Initialized || battle.State == Battle.BattleState.BetweenFights) 
                     && battle.Mob != null)
                 {
+                    PositionMob(battle);
+
                     battle.State = Battle.BattleState.InProgress;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
-                    battle.Mob.GetComponent<ActiveSkillComponent>()?.Skills.ForEach(s => s.SetupForUser(battle.Mob));
                 }
                 
                 // All battles that exist at this point should be in progress
@@ -107,7 +102,7 @@ namespace TheIdleScrolls_Core.Systems
 
                 if (!playerDefeated)
                 {
-                    ProcessSkills(player, mob, dt, coordinator);
+                    ProcessSkills(player, dt, coordinator);
                 }
 
                 bool mobDefeated = mob.IsDefeated();
@@ -121,7 +116,7 @@ namespace TheIdleScrolls_Core.Systems
                 // Process mob skills and time loss if mob has not been defeated
                 if (!mobDefeated)
                 {
-                    ProcessSkills(mob, player, dt, coordinator);
+                    ProcessSkills(mob, dt, coordinator);
 
                     var hpComp = player.GetComponent<LifePoolComponent>();
                     // Players without HP are invincible
@@ -196,6 +191,17 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
+        private static void PositionMob(Battle battle)
+        {
+            var battleComp = battle.Mob?.GetComponent<BattlerComponent>();
+            if (battle.Mob is null || battleComp is null)
+                return;
+            BattlePosition playerPos = battle.Player.GetComponent<BattlerComponent>()?.Position ?? new BattlePosition(0.0, 0.0);
+            // Distance is maximum of individual ranges and base distance
+            double distance = new[] { Stats.BattleBaseDistance, battle.Player.GetRange(), battle.Mob.GetRange() }.Max();
+            battleComp.Position = new BattlePosition(playerPos.X + distance, playerPos.Y);
+        }
+
         static void SetupPlayerTimeShield(Entity player, ZoneDescription zone)
         {
             if (player.GetComponent<BattlerComponent>()?.Battle?.CustomTimeLimit ?? false)
@@ -206,14 +212,17 @@ namespace TheIdleScrolls_Core.Systems
             player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
         }
 
-        void ProcessSkillEffects(Entity entity, Entity opponent, List<SkillEffectBundle> effects, Coordinator coordinator)
+        void ProcessSkillEffects(Entity entity, List<(SkillEffectBundle Effects, double Range)> effects, Coordinator coordinator)
         {
             double damage = 0;
             double damagePrevented = 0;
-            foreach (var effect in effects)
+            foreach (var (effect, range) in effects)
             {
                 if (effect.Target == TargetingMode.SingleEnemy)
                 {
+                    Entity? opponent = ActiveSkill.GetEnemiesInRange(entity, range).FirstOrDefault();
+                    if (opponent is null)
+                        continue; // No valid target in range, skip effect
                     effect.ApplyToTarget(opponent);
                     foreach (var subEffect in effect.Effects)
                     {
@@ -235,16 +244,16 @@ namespace TheIdleScrolls_Core.Systems
             entity.GetComponent<BattlerComponent>()!.DamageDealt += (int)damage;
         }
 
-        void ProcessSkills(Entity entity, Entity opponent, double dt, Coordinator coordinator)
+        void ProcessSkills(Entity entity, double dt, Coordinator coordinator)
         {
             dt = entity.ApplyAllApplicableModifiers(dt, [Tags.ChargeSpeed], entity.GetTags());
             // Process player skills
             var skillComp = entity.GetComponent<ActiveSkillComponent>();
-			if (skillComp is null)
+			if (skillComp is null || skillComp.Skills.Count == 0)
                 return;
 
 			double totalElapsed = 0.0;
-            List<SkillEffectBundle> collectedSkillEffects = [];
+            List<(SkillEffectBundle Effects, double Range)> collectedSkillEffects = [];
 			while (totalElapsed < dt)
 			{
 				double previouslyRemaining = dt - totalElapsed;
@@ -253,14 +262,21 @@ namespace TheIdleScrolls_Core.Systems
 				{
 					skillComp.CurrentSkill.Timer.Start();
 				}
+                double remaining = previouslyRemaining;
+
                 (SkillTimer.TimerUpdateResult updateResult, List<SkillEffectBundle> effects) 
-                    = skillComp.CurrentSkill?.Update(previouslyRemaining) ?? (new(), []);
-                collectedSkillEffects.AddRange(effects);
+                    = skillComp.CurrentSkill?.Update(previouslyRemaining) ?? (new() { RemainingTime = previouslyRemaining }, []);
+                collectedSkillEffects.AddRange(effects.Select(e => (e, skillComp.CurrentSkill!.Range)));
                 if (updateResult.ChargingComplete || updateResult.ActivityComplete || updateResult.CooldownComplete)
                 {
+                    if (updateResult.ChargingComplete)
+                    {
+                        entity.GetComponent<BattlerComponent>()!.SkillsUsed++;
+                    }
                     coordinator.PostMessage(this, new SkillStateChangedMessage(entity, skillComp.CurrentSkill!, updateResult));
                 }
-                double remaining = updateResult.RemainingTime;
+                remaining = updateResult.RemainingTime;
+
 				double elapsed = previouslyRemaining - remaining;
 				totalElapsed += elapsed;
 				// Also update timer for all other skills
@@ -270,7 +286,7 @@ namespace TheIdleScrolls_Core.Systems
                     if (skill != skillComp.CurrentSkill)
                     {
                         (result, effects) = skill.Update(elapsed);
-                        collectedSkillEffects.AddRange(effects);
+                        collectedSkillEffects.AddRange(effects.Select(e => (e, skill.Range)));
                         if (result.ChargingComplete || result.ActivityComplete || result.CooldownComplete)
                         {
                             coordinator.PostMessage(this, new SkillStateChangedMessage(entity, skill, result));
@@ -281,18 +297,60 @@ namespace TheIdleScrolls_Core.Systems
                         // switch to a skill that finished cooldown if no skill is currently selected
                         skillComp.SwitchToNext();
                         if (skillComp.CurrentSkill is not null)
-                            collectedSkillEffects.AddRange(skillComp.CurrentSkill.StartCharging());
+                            collectedSkillEffects.AddRange(skillComp.CurrentSkill.StartCharging().Select(e => (e, skillComp.CurrentSkill!.Range)));
                     }
                 }
-				if (remaining > 0.0) // Means that the skill has finished charging
-				{
-                    entity.GetComponent<BattlerComponent>()!.SkillsUsed++;
+
+				if (remaining > 0.0) // Means that the skill has finished charging or no skill is active
+				{   
 					skillComp.SwitchToNext();
-					if (skillComp.CurrentSkill is not null)
-                        collectedSkillEffects.AddRange(skillComp.CurrentSkill.StartCharging());
+                    if (skillComp.CurrentSkill is null)
+                    {
+                        bool outOfRange = skillComp.Skills.Any(s => s.Prevention == UsePrevention.NoTargetInRange);
+                        if (outOfRange)
+                        {
+                            MoveTowardsClosestEnemy(entity, remaining); //CornerCut: Use entire rest of frame to move
+                            totalElapsed += remaining;
+                        }
+                    }
+                    else
+                    {
+                        collectedSkillEffects.AddRange(skillComp.CurrentSkill.StartCharging().Select(e => (e, skillComp.CurrentSkill!.Range)));
+                    }
                 }
 			}
-            ProcessSkillEffects(entity, opponent, collectedSkillEffects, coordinator);
+            ProcessSkillEffects(entity, collectedSkillEffects, coordinator);
+        }
+
+        private static void MoveTowardsClosestEnemy(Entity entity, double dt)
+        {
+            double moveSpeed = entity.GetComponent<BattleStatsComponent>()?.MovementSpeed ?? Stats.BaseMovementSpeed;
+            double coveredDistance = moveSpeed * dt;
+            // Find closest enemy
+            var position = entity.GetComponent<BattlerComponent>()!.Position;
+            var enemies = ActiveSkill.GetEnemiesInRange(entity, double.MaxValue);
+            if (enemies.Count == 0)
+                return; // No enemies, no movement
+            BattlePosition closest = new(double.MaxValue, double.MaxValue);
+            foreach (var enemy in enemies)
+            {
+                var enemyPosition = enemy.GetComponent<BattlerComponent>()!.Position;
+                if (position.DistanceTo(enemyPosition) < position.DistanceTo(closest))
+                {
+                    closest = enemyPosition;
+                }
+            }
+            if (position.DistanceTo(closest) <= coveredDistance)
+            {
+                position.X = closest.X;
+                position.Y = closest.Y;
+            }
+            else
+            {
+                double angle = Math.Atan2(closest.Y - position.Y, closest.X - position.X);
+                position.X += coveredDistance * Math.Cos(angle);
+                position.Y += coveredDistance * Math.Sin(angle);
+            }
         }
     }
 

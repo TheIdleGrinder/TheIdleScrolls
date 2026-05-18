@@ -23,16 +23,18 @@ namespace TheIdleScrolls_Core.Items
     public static class ItemComparator
     {
         private static ValueExtractor GetDamage => item => item.GetComponent<WeaponComponent>()?.Damage.TotalDamage ?? 0.0;
-        private static ValueExtractor GetCooldown => item => item.GetComponent<WeaponComponent>()?.Cooldown ?? 0.0;
+        private static ValueExtractor GetAttackTime => item => item.GetComponent<WeaponComponent>()?.AttackTime ?? 0.0;
         private static ValueExtractor GetDps => item => (item.GetComponent<WeaponComponent>()?.Damage.TotalDamage ?? 0.0) /
-                                                        (item.GetComponent<WeaponComponent>()?.Cooldown ?? 1.0);
+                                                        (item.GetComponent<WeaponComponent>()?.AttackTime ?? 1.0);
+        private static ValueExtractor GetRange => item => item.GetComponent<WeaponComponent>()?.Range ?? 0.0;
         private static ValueExtractor GetArmor => item => item.GetComponent<ArmorComponent>()?.Armor ?? 0.0;
         private static ValueExtractor GetEvasion => item => item.GetComponent<ArmorComponent>()?.Evasion ?? 0.0;
         private static ValueExtractor GetEncumbrance => item => item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
 
         public static CandidateComparator CompareDamage      => (a, b) => Compare(a, b, GetDamage);
-        public static CandidateComparator CompareCooldown    => (a, b) => Compare(a, b, GetCooldown, false);
+        public static CandidateComparator CompareAttackTime  => (a, b) => Compare(a, b, GetAttackTime, false);
         public static CandidateComparator CompareDps         => (a, b) => Compare(a, b, GetDps);
+        public static CandidateComparator CompareRange       => (a, b) => Compare(a, b, GetRange);
         public static CandidateComparator CompareArmor       => (a, b) => Compare(a, b, GetArmor);
         public static CandidateComparator CompareEvasion     => (a, b) => Compare(a, b, GetEvasion);
         public static CandidateComparator CompareEncumbrance => (a, b) => Compare(a, b, GetEncumbrance, false);

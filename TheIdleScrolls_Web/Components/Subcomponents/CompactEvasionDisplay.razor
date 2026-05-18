@@ -33,7 +33,7 @@
     public Entity? Entity { get; set; }
 
     ChanceChargeComponent? ChanceChargeComp => Entity?.GetComponent<ChanceChargeComponent>();
-    bool Evasion => Entity?.GetComponent<DefenseComponent>() != null;
+    bool Evasion => Entity?.GetComponent<BattleStatsComponent>() != null;
     double EvasionPct => ChanceChargeComp?.GetCharge("Evasion") ?? 0.0;
     bool EvasionActive => EvasionPct >= 1.0;
     string EvasionClass => EvasionActive ? "evasion-bar-active" : "evasion-bar-inactive";

@@ -41,7 +41,7 @@ namespace TheIdleScrolls_Core.Systems
                 || coordinator.MessageTypeIsOnBoard<AbilityImprovedMessage>()
                 || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>()
                 || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
-                || coordinator.MessageTypeIsOnBoard<TextMessage>() // CornerCut: This is a hack to force an update at the start of a battle
+                || coordinator.MessageTypeIsOnBoard<MobSpawnMessage>() // CornerCut: Force an update at the start of a battle and for new mobs
                 || coordinator.MessageTypeIsOnBoard<SkillStateChangedMessage>()
                 || coordinator.MessageTypeIsOnBoard<StatusEffectExpiredMessage>()
                 || coordinator.MessageTypeIsOnBoard<PerkLevelChangedMessage>();
@@ -61,11 +61,11 @@ namespace TheIdleScrolls_Core.Systems
                 UpdateDefenses(entity);
 
 
+
                 var skillComp = entity.GetComponent<ActiveSkillComponent>();
                 if (skillComp != null)
                 {
-                    double baseDamage = entity.IsPlayer() ? 2.0 : Functions.CalculateMobDamage(entity.GetLevel());
-                    DefaultAttack.SetupAttackComponent(entity, baseDamage);
+                    DefaultAttack.SetupAttackComponent(entity);
 
                     foreach (var skill in skillComp.Skills)
                     {
@@ -150,8 +150,8 @@ namespace TheIdleScrolls_Core.Systems
 
         static void UpdateDefenses(Entity entity)
         {
-            var defenseComp = entity.GetComponent<DefenseComponent>();
-            if (defenseComp is null)
+            var statsComp = entity.GetComponent<BattleStatsComponent>();
+            if (statsComp is null)
                 return;
 
             double armor = 0.0;
@@ -209,11 +209,12 @@ namespace TheIdleScrolls_Core.Systems
             }
             armor += modComp?.ApplyApplicableModifiers(0.0, globalDefTags.Append(Tags.ArmorRating), globalTags) ?? 0.0;
             evasion += modComp?.ApplyApplicableModifiers(0.0, globalDefTags.Append(Tags.EvasionRating), globalTags) ?? 0.0;
+            double moveSpeed = modComp?.ApplyApplicableModifiers(Stats.BaseMovementSpeed, [Tags.MovementSpeed], globalTags) ?? Stats.BaseMovementSpeed;
 
-            double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
-
-            defenseComp.Evasion = evasion / encumbranceSlowdown;
-            defenseComp.Armor = armor;
+            statsComp.Encumbrance = encumbrance;
+            statsComp.Evasion = evasion / statsComp.EncumbranceSlowdown;
+            statsComp.Armor = armor;
+            statsComp.MovementSpeed = moveSpeed / statsComp.EncumbranceSlowdown;
         }
     }
 

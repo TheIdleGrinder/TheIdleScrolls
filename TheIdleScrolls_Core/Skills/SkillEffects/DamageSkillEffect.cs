@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
             // Consider armor for physical damage
             if (DamageType == DamageType.Physical)
 			{
-				double armor = target.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
+				double armor = target.GetComponent<BattleStatsComponent>()?.Armor ?? 0.0;
                 double multi = Math.Max(tmpDamage / (tmpDamage + armor), 1.0 - Stats.MaxResistanceFromArmor);
                 if (armor > 0.0)
                     tmpDamage *= multi;

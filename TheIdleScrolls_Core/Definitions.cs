@@ -16,6 +16,9 @@ namespace TheIdleScrolls_Core
             public const int    BasePlayerHitPoints = 50;
             public const double PlayerHitPointPerLevel = 10;
 
+            public const double BattleBaseDistance = 5.0;
+            public const double BaseMovementSpeed = 3.0;
+
             public const double AttackBonusPerLevel = 0.02;
             public const double HitPointsBonusPerLevel = 0.02;
             public const double TimeShieldBonusPerLevel = 0.02;
@@ -111,6 +114,8 @@ namespace TheIdleScrolls_Core
             public const string DamageReduction = "DamageReduction";
             public const string DefensiveLayers = "DefensiveLayers";
             public const string TimeShield = "TimeShield";
+            public const string MovementSpeed = "MovementSpeed";
+            public const string Range = "Range";
 
             public const string CharacterXpGain = "CharacterXpGain";
             public const string AbilityXpGain = "AbilityXpGain";
@@ -175,7 +180,10 @@ namespace TheIdleScrolls_Core
 
         public static class DropRestrictions
         {
-            public const string MaterialT4 = "MaterialT4";
+            public const string MasterKey   = "MasterKey"; // Used when generating the full list of items to override restrictions
+
+            public const string MaterialT4  = "MaterialT4";
+            public const string Bow         = "Bow";
         }
 
         public enum DamageType
@@ -302,13 +310,16 @@ namespace TheIdleScrolls_Core
         {
             if (incomingDamage == 0.0)
                 incomingDamage = 1.0;
-            //double effectiveArmor = armor / CalculateMobArmorPierce(enemyLevel, incomingDamage);
-            //return Math.Min(1.0 + effectiveArmor * Stats.ArmorSlowdownPerPoint, 1.0 / (1.0 - Stats.MaxResistanceFromArmor));
             double damage = CalculateMobDamage(enemyLevel, incomingDamage);
             if (armor == 0.0)
                 return 1.0;
             double multiplier = Math.Max(damage / (damage + armor), 1.0 - Stats.MaxResistanceFromArmor);
             return 1.0 / multiplier;
+        }
+
+        public static double CalculateEncumbranceSlowdown(double encumbrance)
+        {
+            return 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
         }
 
         public static int CalculateMobHp(int mobLevel, double multiplier = 1.0)
