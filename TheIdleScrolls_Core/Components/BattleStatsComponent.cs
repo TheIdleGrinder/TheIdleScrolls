@@ -32,9 +32,9 @@ namespace TheIdleScrolls_Core.Components
 
         public bool CanAttack => AttackVectors.Count > 0;
         public DamageCluster AverageDamage => AttackVectors.Average();
-        public double AverageCooldown => AttackVectors.Average(av => av.AttackTime);
+        public double AverageCooldown => (AttackVectors.Count != 0) ? AttackVectors.Average(av => av.AttackTime) : BaseAttack.AttackTime;
         public double AverageDps => (AverageCooldown != 0) ? AverageDamage.TotalDamage / AverageCooldown : 0.0;
-        public double AverageRange => AttackVectors.Average(av => av.Range);
+        public double AverageRange => (AttackVectors.Count != 0) ? AttackVectors.Average(av => av.Range) : BaseAttack.Range;
         public double EncumbranceSlowdown => Functions.CalculateEncumbranceSlowdown(Encumbrance);
 
         public void ResetAttacks()

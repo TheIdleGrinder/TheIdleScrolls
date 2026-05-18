@@ -1,18 +1,10 @@
 ﻿using MiniECS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
-using TheIdleScrolls_Core.Properties;
 using TheIdleScrolls_Core.Skills;
 using TheIdleScrolls_Core.Skills.SkillEffects;
 using TheIdleScrolls_Core.StatusEffects;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace TheIdleScrolls_Core.Systems
 {
@@ -93,7 +85,6 @@ namespace TheIdleScrolls_Core.Systems
 
                     battle.State = Battle.BattleState.InProgress;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
-                    battle.Mob.GetComponent<ActiveSkillComponent>()?.Skills.ForEach(s => s.SetupForUser(battle.Mob));
                 }
                 
                 // All battles that exist at this point should be in progress
@@ -318,7 +309,7 @@ namespace TheIdleScrolls_Core.Systems
                         bool outOfRange = skillComp.Skills.Any(s => s.Prevention == UsePrevention.NoTargetInRange);
                         if (outOfRange)
                         {
-                            MoveTowardsClostestEnemy(entity, remaining); //CornerCut: Use entire rest of frame to move
+                            MoveTowardsClosestEnemy(entity, remaining); //CornerCut: Use entire rest of frame to move
                             totalElapsed += remaining;
                         }
                     }
@@ -331,9 +322,9 @@ namespace TheIdleScrolls_Core.Systems
             ProcessSkillEffects(entity, collectedSkillEffects, coordinator);
         }
 
-        private static void MoveTowardsClostestEnemy(Entity entity, double dt)
+        private static void MoveTowardsClosestEnemy(Entity entity, double dt)
         {
-            double moveSpeed = 3.0;
+            double moveSpeed = entity.GetComponent<BattleStatsComponent>()?.MovementSpeed ?? Stats.BaseMovementSpeed;
             double coveredDistance = moveSpeed * dt;
             // Find closest enemy
             var position = entity.GetComponent<BattlerComponent>()!.Position;
