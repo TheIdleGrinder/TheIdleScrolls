@@ -322,7 +322,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Blunt Weapon ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Blunt ähnelt.
         /// </summary>
         internal static string BLN {
             get {

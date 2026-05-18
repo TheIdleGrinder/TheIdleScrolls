@@ -268,7 +268,7 @@ namespace TheIdleScrolls_Core.Resources
                                     ];
                                 })
                                 .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.SBL),
-                ("ARC", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Pre-Notched Arrow",
+                ("ARC", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Pre-Nocked Arrow",
                                 $"Your first attack every battle is twice as quick when using an {id.Localize()} weapon",
                                 ModifierType.More,
                                 1.0,

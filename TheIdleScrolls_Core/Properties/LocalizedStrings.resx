@@ -181,7 +181,7 @@
     <value>Wasteland</value>
   </data>
   <data name="BLN" xml:space="preserve">
-    <value>Blunt Weapon</value>
+    <value>Blunt</value>
   </data>
   <data name="CharacterXpGain" xml:space="preserve">
     <value>experience gain</value>
