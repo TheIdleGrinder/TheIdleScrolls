@@ -92,7 +92,7 @@ namespace TheIdleScrolls_Core.Systems
             if (evadeComp == null)
                 return;
             double evasion = battle.Player.GetComponent<BattleStatsComponent>()?.Evasion ?? 0.0;
-            double accuracy = battle.Mob?.GetComponent<AccuracyComponent>()?.Accuracy ?? 1.0;
+            double accuracy = battle.Mobs?.FirstOrDefault()?.GetComponent<AccuracyComponent>()?.Accuracy ?? 1.0; // Deprecated
             double bonus = Functions.CalculateEvasionBonusMultiplier(evasion, accuracy) - 1.0;
             if (bonus <= 0.0)
             {

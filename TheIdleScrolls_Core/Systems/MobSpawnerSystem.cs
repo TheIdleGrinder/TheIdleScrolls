@@ -26,7 +26,7 @@ namespace TheIdleScrolls_Core.Systems
             foreach (Entity player in coordinator.GetEntities<PlayerComponent, BattlerComponent>())
             {
                 var battle = player.GetComponent<BattlerComponent>()!.Battle;
-                if (battle.NeedsMob)
+                while (battle.NeedsMob)
                 {
                     var locationComp = player.GetComponent<LocationComponent>() 
                         ?? throw new Exception($"{player.GetName()} is not in a valid location");
@@ -39,7 +39,7 @@ namespace TheIdleScrolls_Core.Systems
                         : new();
                     var mob = CreateRandomMob(zone, additionalMobs);
 
-                    battle.Mob = mob;
+                    battle.Mobs.Add(mob);
                     battle.MobsRemaining--;
 
                     var battleComp = new BattlerComponent(battle);
