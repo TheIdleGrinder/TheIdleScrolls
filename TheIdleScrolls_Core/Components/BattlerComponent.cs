@@ -40,7 +40,8 @@ namespace TheIdleScrolls_Core.Components
         public BattleState State { get; set; } = BattleState.Initialized;
 
         public bool IsFinished => State == BattleState.PlayerWon || State == BattleState.PlayerLost || State == BattleState.Cancelled;
-        public bool NeedsMob => (State == BattleState.Initialized || State == BattleState.BetweenFights) && MobsRemaining > 0;
+        public bool CanAddMob => (State == BattleState.Initialized || State == BattleState.BetweenFights) 
+                                    && MobsRemaining > 0;
     }
 
     public class BattlePosition(double x, double y)

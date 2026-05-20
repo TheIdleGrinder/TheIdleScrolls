@@ -26,17 +26,16 @@ namespace TheIdleScrolls_Core.Systems
             foreach (Entity player in coordinator.GetEntities<PlayerComponent, BattlerComponent>())
             {
                 var battle = player.GetComponent<BattlerComponent>()!.Battle;
-                while (battle.NeedsMob)
-                {
-                    var locationComp = player.GetComponent<LocationComponent>() 
-                        ?? throw new Exception($"{player.GetName()} is not in a valid location");
-                    
-                    var zone = locationComp.GetCurrentZone(world.Map)
-                        ?? throw new Exception($"Player {player.GetName()} is not in a valid zone");
-
-                    List<MobDescription> additionalMobs = (locationComp.InDungeon)
+                var locationComp = player.GetComponent<LocationComponent>()
+                    ?? throw new Exception($"{player.GetName()} is not in a valid location");
+                var zone = locationComp.GetCurrentZone(world.Map)
+                    ?? throw new Exception($"Player {player.GetName()} is not in a valid zone");
+                List<MobDescription> additionalMobs = (locationComp.InDungeon)
                         ? world.AreaKingdom.GetLocalEnemies(locationComp.DungeonId)
                         : new();
+
+                while (battle.CanAddMob && battle.Mobs.Count < zone.PackSize)
+                {    
                     var mob = CreateRandomMob(zone, additionalMobs);
 
                     battle.Mobs.Add(mob);
