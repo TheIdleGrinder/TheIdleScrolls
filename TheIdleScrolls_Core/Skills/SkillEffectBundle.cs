@@ -41,12 +41,7 @@ namespace TheIdleScrolls_Core.Skills
             {
                 double evasion = target.GetComponent<BattleStatsComponent>()?.Evasion ?? 0.0;
                 double charge = Math.Min(Stats.MaxResistanceFromEvasion, evasion / (evasion + Accuracy.Value));
-                var chanceComp = target.GetComponent<ChanceChargeComponent>();
-                if (chanceComp is null)
-                {
-                    chanceComp = new ChanceChargeComponent();
-                    target.AddComponent(chanceComp);
-                }
+                var chanceComp = target.GetOrAddComponent<ChanceChargeComponent>();
                 int chargeCount = chanceComp.GetFullChargeCount(Tags.Evasion);
                 if (chargeCount > 0)
                 {

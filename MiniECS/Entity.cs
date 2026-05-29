@@ -41,6 +41,18 @@ namespace MiniECS
             return null;
         }
 
+        public T GetOrAddComponent<T>() where T : class, IComponent, new()
+        {
+            var component = GetComponent<T>();
+            if (component != null)
+                return component;
+            // Let's not do this (for now) because it does not allow compile time checking of the constructor parameters.
+            //component = (T)Activator.CreateInstance(typeof(T), args)!;
+            component = new T();
+            AddComponent(component);
+            return component;
+        }
+
         public bool HasComponent<T>() where T : class, IComponent
         {
             return GetComponent<T>() != null;

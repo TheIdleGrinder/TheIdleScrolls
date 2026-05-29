@@ -89,7 +89,7 @@ namespace TheIdleScrolls_Core.ContentPacks
 				Description = Places.Dungeon_MercenaryCamp_Description,
 				Floors = new()
 				{
-					new(15, 9.0, [ "MOB_MERCENARY", "MOB_MERCENARY2" ]),
+					new(15, 9.0, [ "MOB_MERCENARY", "MOB_MERCENARY2" ]) { PackSize = 1.5 },
 					new(1, 4.0, [ "BOSS_MERCENARY" ])
 				},
 				LocalMobs = new()

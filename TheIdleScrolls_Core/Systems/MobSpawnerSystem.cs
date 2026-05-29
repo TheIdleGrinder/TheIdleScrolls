@@ -27,7 +27,7 @@ namespace TheIdleScrolls_Core.Systems
             {
                 var battle = player.GetComponent<BattlerComponent>()!.Battle;
 
-                if (!battle.CanAddMob)
+                if (!battle.CanAddMob || battle.Mobs.Count > 0) // Don't spawn additional mobs during active battle
                     continue;
 
                 var locationComp = player.GetComponent<LocationComponent>()
@@ -38,7 +38,11 @@ namespace TheIdleScrolls_Core.Systems
                         ? world.AreaKingdom.GetLocalEnemies(locationComp.DungeonId)
                         : new();
 
-                while (battle.CanAddMob && battle.Mobs.Count < zone.PackSize)
+                var chanceComp = player.GetOrAddComponent<ChanceChargeComponent>();
+                int targetMobCount = chanceComp.AddCharge("PackSize", zone.PackSize);
+                chanceComp.RemoveCharge("PackSize", targetMobCount);
+
+                while (battle.CanAddMob && battle.Mobs.Count < targetMobCount)
                 {    
                     var mob = CreateRandomMob(zone, additionalMobs);
 
