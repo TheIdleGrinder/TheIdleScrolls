@@ -26,6 +26,10 @@ namespace TheIdleScrolls_Core.Systems
             foreach (Entity player in coordinator.GetEntities<PlayerComponent, BattlerComponent>())
             {
                 var battle = player.GetComponent<BattlerComponent>()!.Battle;
+
+                if (!battle.CanAddMob)
+                    continue;
+
                 var locationComp = player.GetComponent<LocationComponent>()
                     ?? throw new Exception($"{player.GetName()} is not in a valid location");
                 var zone = locationComp.GetCurrentZone(world.Map)

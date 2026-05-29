@@ -12,7 +12,7 @@
             <hr class="thick" style="margin: 0.1rem 0.5rem;">
             @foreach (var mob in Mobs)
             {
-                <MobOverview Mob="@mob"></MobOverview>
+                <MobOverview @key="@mob.Id" Mob="@mob"></MobOverview>
             }
         </div>
         

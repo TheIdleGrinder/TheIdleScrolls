@@ -35,7 +35,7 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             // Remove previously defeated mobs from battle and coordinator
-            var defeatedMobs = coordinator.GetEntities<MobComponent>().Where(mob => mob.IsDefeated());
+            var defeatedMobs = coordinator.GetEntities<MobComponent, KilledComponent>();
             foreach (var mob in defeatedMobs)
             {
                 var battleComp = mob.GetComponent<BattlerComponent>();
@@ -207,8 +207,8 @@ namespace TheIdleScrolls_Core.Systems
             foreach (var mob in battle.Mobs)
             {
                 var battleComp = mob.GetComponent<BattlerComponent>();
-                if (mob is null || battleComp is null)
-                    return;
+                if (battleComp is null)
+                    continue;
                 BattlePosition playerPos = battle.Player.GetComponent<BattlerComponent>()?.Position ?? new BattlePosition(0.0, 0.0);
                 // Distance is maximum of individual ranges and base distance
                 double distance = new[] { Stats.BattleBaseDistance, battle.Player.GetRange(), mob.GetRange() }.Max();
