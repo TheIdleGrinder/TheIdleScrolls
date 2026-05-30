@@ -175,9 +175,9 @@ namespace TheIdleScrolls_Core.Skills
 			var battleComp = user.GetComponent<BattlerComponent>();
 			if (battleComp is null || battleComp.Battle is null)
 				return [];
-			if (user.IsPlayer() && battleComp.Battle.Mob is null)
+			if (user.IsPlayer() && battleComp.Battle.Mobs.Count == 0)
 				return [];
-            List<Entity> enemies = [user.IsPlayer() ? battleComp.Battle.Mob : battleComp.Battle.Player];
+            List<Entity> enemies = user.IsPlayer() ? battleComp.Battle.Mobs : [battleComp.Battle.Player];
 			return enemies.Where(e => e.GetComponent<BattlerComponent>()?.Position.DistanceTo(battleComp.Position) <= range).ToList();
         }
     }

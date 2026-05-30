@@ -34,10 +34,18 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
 
-            // Remove previously defeated mobs from coordinator
-            coordinator.GetEntities<MobComponent, KilledComponent>()
-                .Select(e => e.Id).ToList()
-                .ForEach(id => coordinator.RemoveEntity(id));
+            // Remove previously defeated mobs from battle and coordinator
+            var defeatedMobs = coordinator.GetEntities<MobComponent, KilledComponent>();
+            foreach (var mob in defeatedMobs)
+            {
+                var battleComp = mob.GetComponent<BattlerComponent>();
+                if (battleComp is not null)
+                {
+                    var battle = battleComp.Battle;
+                    battle.Mobs.Remove(mob);
+                    coordinator.RemoveEntity(mob.Id);
+                }
+            }
 
             // Cancel battles if player moved to different area
             if (coordinator.MessageTypeIsOnBoard<AreaChangedMessage>())
@@ -79,9 +87,9 @@ namespace TheIdleScrolls_Core.Systems
 
                 // Mob was spawned and the fight can begin
                 if ((battle.State == Battle.BattleState.Initialized || battle.State == Battle.BattleState.BetweenFights) 
-                    && battle.Mob != null)
+                    && battle.Mobs.Count > 0)
                 {
-                    PositionMob(battle);
+                    PositionMobs(battle);
 
                     battle.State = Battle.BattleState.InProgress;
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
@@ -94,7 +102,6 @@ namespace TheIdleScrolls_Core.Systems
                 }
 
                 battle.Duration += dt;
-                Entity mob = battle.Mob!; // has to be present if battle is in progress
 
                 // Player may have been defeated through a status effect (e.g. poison). In that case, don't process skills, but
                 // let the player win the fight if the mob was defeated during the same frame (also from a status effect).
@@ -105,26 +112,28 @@ namespace TheIdleScrolls_Core.Systems
                     ProcessSkills(player, dt, coordinator);
                 }
 
-                bool mobDefeated = mob.IsDefeated();
-
-                if (mobDefeated)
+                foreach (var mob in battle.Mobs)
                 {
-                    coordinator.PostMessage(this, new DeathMessage(mob));
-                    mob.AddComponent(new KilledComponent { Killer = player.Id });
-                }
-
-                // Process mob skills and time loss if mob has not been defeated
-                if (!mobDefeated)
-                {
-                    ProcessSkills(mob, dt, coordinator);
-
-                    var hpComp = player.GetComponent<LifePoolComponent>();
-                    // Players without HP are invincible
-                    playerDefeated = hpComp?.IsDead ?? false;
+                    if (mob.IsDefeated())
+                    {
+                        coordinator.PostMessage(this, new DeathMessage(mob));
+                        mob.AddComponent(new KilledComponent { Killer = player.Id });
+                    }
+                    else
+                    {
+                        ProcessSkills(mob, dt, coordinator);
+                        var hpComp = player.GetComponent<LifePoolComponent>();
+                        // Players without HP are invincible
+                        playerDefeated = hpComp?.IsDead ?? false;
+                        if (playerDefeated)
+                        {
+                            break; // No need to process further mobs if player is already defeated
+                        }
+                    }
                 }
 
                 // Update battle state
-                if (mobDefeated)
+                if (battle.Mobs.All(mob => mob.IsDefeated()))
                 {
                     battle.State = (battle.MobsRemaining == 0) 
                         ? Battle.BattleState.PlayerWon 
@@ -135,7 +144,9 @@ namespace TheIdleScrolls_Core.Systems
                 else if (playerDefeated)
                 {
                     battle.State = Battle.BattleState.PlayerLost;
-                    coordinator.PostMessage(this, new BattleLostMessage(player, mob.GetName(), mob.GetLevel()));
+                    coordinator.PostMessage(this, new BattleLostMessage(player, 
+                                                    battle.Mobs.FirstOrDefault()?.GetName() ?? "??", 
+                                                    battle.Mobs.FirstOrDefault()?.GetLevel() ?? 0));
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
                 }                
             }
@@ -191,15 +202,18 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        private static void PositionMob(Battle battle)
+        private static void PositionMobs(Battle battle)
         {
-            var battleComp = battle.Mob?.GetComponent<BattlerComponent>();
-            if (battle.Mob is null || battleComp is null)
-                return;
-            BattlePosition playerPos = battle.Player.GetComponent<BattlerComponent>()?.Position ?? new BattlePosition(0.0, 0.0);
-            // Distance is maximum of individual ranges and base distance
-            double distance = new[] { Stats.BattleBaseDistance, battle.Player.GetRange(), battle.Mob.GetRange() }.Max();
-            battleComp.Position = new BattlePosition(playerPos.X + distance, playerPos.Y);
+            foreach (var mob in battle.Mobs)
+            {
+                var battleComp = mob.GetComponent<BattlerComponent>();
+                if (battleComp is null)
+                    continue;
+                BattlePosition playerPos = battle.Player.GetComponent<BattlerComponent>()?.Position ?? new BattlePosition(0.0, 0.0);
+                // Distance is maximum of individual ranges and base distance
+                double distance = new[] { Stats.BattleBaseDistance, battle.Player.GetRange(), mob.GetRange() }.Max();
+                battleComp.Position = new BattlePosition(playerPos.X + distance, playerPos.Y);
+            }
         }
 
         static void SetupPlayerTimeShield(Entity player, ZoneDescription zone)

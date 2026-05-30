@@ -72,7 +72,7 @@ namespace TheIdleScrolls_Core.ContentPacks
 					new(3, 2.9, [ "MOB_CULTIST", "MOB_WARLOCK" ]),
 					new(3, 2.7, [ "MOB_CULTIST", "MOB_WARLOCK" ]),
 					new(3, 3.5, [ "BOSS_VOIDPRIEST" ])
-				},
+                },
 				LocalMobs = new()
 				{
 					new("MOB_CULTIST", MobNames.MOB_CULTIST, hP: 1.2, damage: 1.2),

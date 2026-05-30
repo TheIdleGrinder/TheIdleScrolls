@@ -31,7 +31,7 @@ namespace TheIdleScrolls_Core.Components
 
         public double Duration { get; set; } = 0.0;
         public Entity Player { get; set; } = player;
-        public Entity? Mob { get; set; } = null;
+        public List<Entity> Mobs { get; set; } = [];
         public int MobsRemaining { get; set; } = mobs;
 
         // Prevents time limit of final battle from being reset
@@ -40,7 +40,8 @@ namespace TheIdleScrolls_Core.Components
         public BattleState State { get; set; } = BattleState.Initialized;
 
         public bool IsFinished => State == BattleState.PlayerWon || State == BattleState.PlayerLost || State == BattleState.Cancelled;
-        public bool NeedsMob => (State == BattleState.Initialized || State == BattleState.BetweenFights) && MobsRemaining > 0;
+        public bool CanAddMob => (State == BattleState.Initialized || State == BattleState.BetweenFights) 
+                                    && MobsRemaining > 0;
     }
 
     public class BattlePosition(double x, double y)
@@ -60,7 +61,7 @@ namespace TheIdleScrolls_Core.Components
         public static BattleData FromBattle(Battle battle)
         {
             double dmgDealt = battle.Player.GetComponent<BattlerComponent>()!.DamageDealt;
-            int mobHp = battle.Mob?.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
+            int mobHp = battle.Mobs.Sum(mob => mob.GetComponent<LifePoolComponent>()?.Maximum ?? 0);
             LifePoolComponent hpComp = battle.Player.GetComponent<LifePoolComponent>()!;
             double hpPctLost = hpComp.Maximum > 0.0 ? 1.0 - (1.0 * hpComp.Current / hpComp.Maximum) : 0.0;
 

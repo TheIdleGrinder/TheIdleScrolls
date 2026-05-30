@@ -30,6 +30,7 @@ namespace TheIdleScrolls_Core.GameWorld
         public string? Name { get; set; } = string.Empty;
         public int MobCount { get; set; } = 1;
         public double TimeMultiplier { get; set; } = 1.0;
+        public double PackSize { get; set; } = 1.0;
         public List<string> MobTypes { get; set; } = [];
 
         public DungeonFloorDescription() { }
