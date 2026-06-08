@@ -1,0 +1,92 @@
+@using TheIdleScrolls_Core.CharacterPaths
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Web.Services
+
+@inject TooltipService TooltipService
+
+<div class="path-step-allocator-item @AvailabilityClass" 
+     @onclick="OnClick"
+     @onmouseenter="ShowTooltip"
+     @onmouseleave="HideTooltip"
+     @ref="_element">
+    <span class="path-step-allocator-title">@Step.Name</span>
+</div>
+
+<style>
+    .path-step-item-available {
+        border-color: black;
+        background-color: white;
+        font-weight: bold;
+    }
+
+    .path-step-item-available:hover {
+        background-color: var(--back-color-special);
+        cursor: pointer;
+    }
+
+    .path-step-item-taken {
+        border-color: green;
+        background-color: lightgreen;
+        font-weight: bold;
+    }
+
+    .path-step-item-taken:hover {
+        background-color: lightgreen;
+        cursor: default;
+    }
+
+    .path-step-item-unavailable {
+        color: slategray;
+        border-color: slategray;
+        background-color: lightgray;
+        font-style: italic;
+    }
+
+    .path-step-item-unavailable:hover {
+        background-color: lightgray;
+        cursor: not-allowed;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public CharacterPathStep Step { get; set; } = null!;
+
+    [Parameter]
+    public CharacterPathComponent? PathComp { get; set; }
+    
+    [Parameter]
+    public EventCallback<CharacterPathStep> OnStepTaken { get; set; }
+
+    public bool IsAvailable => (Step.PathId is null) ? true :
+        PathComp?.AvailableSteps(Step.PathId)?.Any(s => s.Id == Step.Id) ?? false;
+
+    public bool IsTaken => (Step.PathId is null) ? false :
+        PathComp?.StepsTakenOnPath(Step.PathId)?.Any(s => s.Id == Step.Id) ?? false;
+
+    private ElementReference _element;
+
+    private string AvailabilityClass => "path-step-item-" + (IsTaken ? "taken" : (IsAvailable ? "available" : "unavailable"));
+
+    private async Task OnClick()
+    {
+        if (IsAvailable)
+        {
+            await OnStepTaken.InvokeAsync(Step);
+            HideTooltip();
+        }
+    }
+    
+    private async Task ShowTooltip()
+    {
+        await TooltipService.ShowAsync(
+            @<CharPathStepTile Step="@Step" PathComp="@PathComp" />,
+            _element
+        );
+    }
+    
+    private void HideTooltip()
+    {
+        TooltipService.Hide();
+    }
+}

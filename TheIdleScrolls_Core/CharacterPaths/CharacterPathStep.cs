@@ -15,18 +15,23 @@ namespace TheIdleScrolls_Core.CharacterPaths
         public string Name { get { return name; } }
         public string Description { get { return description; } }
         public HashSet<string> StepTags { get; init; } = [];
-        public CharacterPath? Path { get; set; }
-        public Func<List<CharacterPathStep>, bool> SpecificAccess { get; init; } = (_) => true ;
+        public string? PathId { get; set; }
+        public int StepNumber { get; init; } = 0;
+        public string? PrerequisiteId { get; init; }
         public IAchievementReward Reward { get; init; }
 
         public bool CanBeTaken(List<CharacterPathStep> previousSteps)
         {
-            return !previousSteps.Any(s => s.Id == Id) && SpecificAccess(previousSteps);
+            return !previousSteps.Any(s => s.Id == Id)
+                && (PrerequisiteId is null || previousSteps.Any(s => s.Id == PrerequisiteId))
+                && StepsTakenOnPath(PathId, previousSteps) >= StepNumber;
         }
 
-        public static int StepsTakenOnPath(CharacterPath path, List<CharacterPathStep> previousSteps)
+        public static int StepsTakenOnPath(string? pathId, List<CharacterPathStep> previousSteps)
         {
-            return previousSteps.Count(s => s.Path == path);
+            if (pathId is null)
+                return 0;
+            return previousSteps.Count(s => s.PathId == pathId);
         }
 
         public static bool StepIsTaken(CharacterPathStep step, List<CharacterPathStep> steps)

@@ -2,8 +2,10 @@
 @using TheIdleScrolls_Core.Components
 @using TheIdleScrolls_Web.Components.Subcomponents
 @using TheIdleScrolls_Web.CoreWrapper
+@using TheIdleScrolls_Web.Services
 
 @inject CoreWrapperModel CoreWrapper
+@inject TooltipService TooltipService
 
 <div class="main-outer-container @GameEndAnimationClass">
     <div class="main-container-column main-left-column">
@@ -120,7 +122,9 @@
 @if (CoreWrapper.ShowCharacterPathDisplay)
 {
     <div class="bigShadowBackground">
-        <div class="path-allocation-container">
+        <div class="path-allocation-container"
+             @onmouseenter="() => TooltipService.SetContainerActive(true)"
+             @onmouseleave="() => TooltipService.SetContainerActive(false)">
             <CharPathStepAllocationDisplay Entity="@CoreWrapper.PlayerCharacter"/>
         </div>
     </div>
@@ -242,19 +246,19 @@
 
     .path-allocation-container {
         padding: 0.25rem;
-        overflow-y: auto;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 50%;
-        max-height: 50%;
+        width: 70%;
+        height: 70%;
         justify-content: center;
         align-items: center;
         border: 3px solid var(--frame-color);
         border-radius: var(--border-radius);
         background-color: var(--back-color);
-        overflow-y: visible;
+        box-sizing: border-box;
+        overflow: hidden;
     }
 
     .tabPage {

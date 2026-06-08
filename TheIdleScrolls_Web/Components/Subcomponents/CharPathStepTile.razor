@@ -1,0 +1,139 @@
+﻿@using TheIdleScrolls_Core.CharacterPaths
+@using TheIdleScrolls_Core.Components
+
+<div class="char-path-step-tile">
+    <div class="char-path-step-tile-header">
+        <span class="char-path-step-tile-title">@Step.Name</span>
+        @if (IsTaken)
+        {
+            <span class="char-path-step-tile-status">Taken</span>
+        }
+        else if (IsAvailable)
+        {
+            <span class="char-path-step-tile-status char-path-step-tile-available">Available</span>
+        }
+    </div>
+    
+    <div class="char-path-step-tile-description">
+        @if (!IsTaken && !IsAvailable)
+        {
+            @if (StepsTakenOnPath.Count < Step.StepNumber)
+            {
+                @if (Step.StepNumber == 1)
+                {
+                    <span class="char-path-step-tile-unavailable">Requires initial step to be taken</span>
+                }
+                else
+                {
+                    <span class="char-path-step-tile-unavailable">Requires @Step.StepNumber steps on path</span>
+                }
+            }
+            @if (Step.PrerequisiteId is not null && !StepsTakenOnPath.Any(s => s.Id == Step.PrerequisiteId))
+            {
+                string prereqName = PathComp?.GetStep(Step.PathId ?? "", Step.PrerequisiteId)?.Name ?? "Unknown Step";
+                <span class="char-path-step-tile-unavailable">Requires '@prereqName'</span>
+            }
+        }
+        <span>@Step.Description</span>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Step.Reward.Description))
+    {
+        <div class="char-path-step-tile-rewards">
+            <span class="char-path-step-tile-rewards-title">Grants:</span>
+            @foreach (string rewardLine in Step.Reward.Description.Split('\n'))
+            {
+                <div class="char-path-step-tile-reward-line">➤ @rewardLine</div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .char-path-step-tile {
+        display: flex;
+        flex-direction: column;
+        background-color: white;
+        padding: 0.75rem;
+        gap: 0.5rem;
+        min-width: 20rem;
+        max-width: 30rem;
+        border: 2px solid var(--frame-color);
+        border-radius: 0.25rem;
+    }
+
+    .char-path-step-tile-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--frame-color);
+        padding-bottom: 0.25rem;
+    }
+
+    .char-path-step-tile-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: var(--text-color);
+    }
+
+    .char-path-step-tile-status {
+        font-size: 0.875rem;
+        font-style: italic;
+        color: green;
+        font-weight: bold;
+    }
+
+    .char-path-step-tile-available {
+        color: goldenrod;
+    }
+
+    .char-path-step-tile-unavailable {
+        color: orangered;
+    }
+
+    .char-path-step-tile-description {
+        display: flex;
+        flex-direction: column;
+        font-size: 1rem;
+        color: var(--text-color);
+        line-height: 1.4;
+    }
+
+    .char-path-step-tile-rewards {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid lightgray;
+    }
+
+    .char-path-step-tile-rewards-title {
+        font-weight: bold;
+        color: var(--frame-color);
+        margin-bottom: 0.25rem;
+    }
+
+    .char-path-step-tile-reward-line {
+        font-size: 0.9rem;
+        margin-left: 0.5rem;
+        color: var(--text-color);
+    }
+</style>
+
+@code {
+    [Parameter]
+    public CharacterPathStep Step { get; set; } = null!;
+
+    [Parameter]
+    public CharacterPathComponent? PathComp { get; set; }
+
+    public List<CharacterPathStep> StepsTakenOnPath => Step.PathId is null ? [] : PathComp?.StepsTakenOnPath(Step.PathId) ?? [];
+
+    public bool IsAvailable => (Step.PathId is null) ? true :
+        PathComp?.AvailableSteps(Step.PathId)?.Any(s => s.Id == Step.Id) ?? false;
+
+    public bool IsTaken => (Step.PathId is null) ? false :
+        PathComp?.StepsTakenOnPath(Step.PathId)?.Any(s => s.Id == Step.Id) ?? false;
+}

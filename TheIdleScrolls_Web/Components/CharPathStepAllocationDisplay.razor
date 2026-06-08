@@ -1,60 +1,67 @@
 ﻿@using MiniECS
 @using TheIdleScrolls_Core
 @using TheIdleScrolls_Core.CharacterPaths
+@using TheIdleScrolls_Core.CharacterPaths.Paths
 @using TheIdleScrolls_Core.Components
 @using TheIdleScrolls_Web.Components.Subcomponents
 @using TheIdleScrolls_Web.CoreWrapper
+@using TheIdleScrolls_Web.Services
 
 @inject CoreWrapperModel CoreWrapper
+@inject TooltipService TooltipService
 
-<div class="path-step-allocator-container" onclick="(() => { })">
     @if (SelectedPath is null)
     {
-        <div class="path-step-allocator-headline">
-            Choose a path
-        </div>
-        <div class="path-step-allocator-items-container">
-            @foreach (var path in PathsWithAvailableSteps(PathComp?.CharacterPaths ?? []))
-            {
-                <div class="path-step-allocator-item withTooltip" @onclick="@(() => SelectedPath = path)">
-                    <span class="path-step-allocator-title">@path.Name</span>
-                    <span>Steps taken: @(PathComp?.StepsTakenOnPath(path.Id).Count)</span>
-                    <div class="barTooltip path-step-allocator-tooltip">
-                        <span class="path-step-allocator-headline">@path.Name</span>
-                        <span>@path.Description</span>
-                    </div>
-                </div>
-            }
-        </div>
+        <div class="path-step-allocator-container" onclick="(() => { })">
+            <div class="path-step-allocator-headline">
+                Choose a path
+            </div>
+            <div class="path-step-allocator-items-container">
+                @foreach (var path in PathsWithAvailableSteps(PathComp?.CharacterPaths ?? []))
+                {
+                    <CharPathItem Path="@path" 
+                                  PathComp="@PathComp" 
+                                  OnSelected="SelectPath" />
+                }
+            </div>
+            <button id="path-step-allocator-close-button" @onclick="@(() => { CoreWrapper.ShowCharacterPathDisplay = false; })">
+                x
+            </button>
+        </div>        
     }
     else
     {
-        <div class="path-step-allocator-headline" @onclick="@(() => SelectedPath = null)">
-            @SelectedPath.Name
-        </div>
-        <div class="path-step-allocator-items-container">
-            @foreach (var step in (PathComp?.AvailableSteps(SelectedPath.Id) ?? []))
-            {
-                <div class="path-step-allocator-item withTooltip" @onclick="@(() => TakeStep(SelectedPath.Id, step.Id))">
-                    <span class="path-step-allocator-title">@step.Name</span>
-                    <div class="barTooltip path-step-allocator-tooltip">
-                        <span class="path-step-allocator-headline">@step.Name</span>
-                        <span>@step.Description</span>
-                        @foreach (string rewardLine in step.Reward.Description.Split('\n'))
+        <div class="path-step-allocator-container" onclick="(() => { })">
+            <div class="path-step-allocator-headline" @onclick="@(() => SelectedPath = null)">
+                @SelectedPath.Name
+            </div>
+            <div class="path-step-allocator-items-container">
+                @foreach (var row in SelectedPath.BuildTopology(FighterPath.RootId))
+                {
+                    <div class="path-step-allocator-item-row">
+                    @foreach (var node in row)
+                    {
+                        if (node is null)
                         {
-                            <span>- @rewardLine</span>
+                            <div class="path-step-allocator-item" style="visibility: hidden"></div>
                         }
+                        else
+                        {
+                            bool isAvailable = PathComp?.AvailableSteps(SelectedPath.Id)?.Any(s => s.Id == node.Id) ?? false;
+                            bool isTaken = PathComp?.StepsTakenOnPath(SelectedPath.Id)?.Any(s => s.Id == node.Id) ?? false;
+                            <CharPathStepItem PathComp="@PathComp"
+                                              Step="@node"
+                                              OnStepTaken="@(step => TakeStep(SelectedPath.Id, step.Id))" />
+                        }  
+                    }
                     </div>
-                </div>
-            }
+                }
+            </div>
+            <button id="path-step-allocator-close-button" @onclick="@(() => { SelectedPath = null; })">
+                Back
+            </button>
         </div>
     }
-
-    <button id="path-step-allocator-close-button" @onclick="@(() => { CoreWrapper.ShowCharacterPathDisplay = false; })">
-        x
-    </button>
-</div>
-
 <style>
     .path-step-allocator-container {
         position: relative;
@@ -64,7 +71,21 @@
         text-align: center;
         gap: 1rem;
         padding: 0.5rem;
-        overflow-y: visible;
+        height: 100%;
+        box-sizing: border-box;
+    }
+
+    .path-step-allocator-items-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        overflow: auto;
+        width: 100%;
+        border: 1px solid gray;
+        padding: 1rem;
+        flex: 1 1 0;
+        min-height: 0;
+        box-sizing: border-box;
     }
 
     #path-step-allocator-close-button {
@@ -73,26 +94,28 @@
         right: 0.25rem;
         width: 2rem;
         height: 2rem;
+        flex-shrink: 0;
     }
 
-    .path-step-allocator-items-container {
+    .path-step-allocator-container .path-step-allocator-item-row {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
         gap: 1rem;
+        justify-content: start;
+        width: fit-content;
     }
 
     .path-step-allocator-headline {
         font-size: 1.25rem;
         font-weight: bold;
+        flex-shrink: 0;
     }
 
     .path-step-allocator-title {
         font-size: 1.0rem;
-        font-weight: bold;
     }
 
-    .path-step-allocator-item {
+    .path-allocator-item {
         padding: 0.25rem;
         border: 2px solid black;
         border-radius: 0.25rem;
@@ -102,17 +125,31 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height: 8rem;
-        width: 8rem;
+        height: 5rem;
+        width: 10rem;
     }
 
-    .path-step-allocator-item:hover {
-        background-color: var(--back-color-special);
+    .path-step-allocator-item {
+        padding: 0.25rem;
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        user-select: none;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 3rem;
+        width: 12rem;
     }
 
     .path-step-allocator-tooltip {
         display: flex;
         flex-direction: column;
+        background-color: white;
+        padding: 0.5rem;
+        max-width: 32rem;
     }
 </style>
 
@@ -127,6 +164,11 @@
     List<CharacterPath> PathsWithAvailableSteps(List<CharacterPath> paths)
     {
         return paths.Where(p => (PathComp?.AvailableSteps(p.Id)?.Count ?? 0) > 0).ToList();
+    }
+
+    void SelectPath(CharacterPath path)
+    {
+        SelectedPath = path;
     }
 
     void TakeStep(string pathId, string stepId)

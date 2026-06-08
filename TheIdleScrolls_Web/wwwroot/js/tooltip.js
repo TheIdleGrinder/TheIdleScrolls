@@ -22,10 +22,6 @@ export function calculateTooltipPosition(elementRect, tooltipRect) {
     const tooltipWidth = tooltipRect.width;
     const tooltipHeight = tooltipRect.height;
     
-    console.log('Element:', elementRect);
-    console.log('Tooltip size:', tooltipWidth, 'x', tooltipHeight);
-    console.log('Viewport:', elementRect.viewportWidth, 'x', elementRect.viewportHeight);
-    
     // Check vertical position first
     if (top - tooltipHeight - margin < 0) {
         console.log('Not enough space above, placing below');
@@ -44,7 +40,7 @@ export function calculateTooltipPosition(elementRect, tooltipRect) {
     
     if (desiredLeft < margin) {
         // Tooltip would go out of bounds on the left -> shift to the right
-        console.log('Shifting right: desiredLeft', desiredLeft, '< margin', margin);
+        //console.log('Shifting right: desiredLeft', desiredLeft, '< margin', margin);
         left = margin + halfWidth; // Center on the shifted position
         
         // Check if it goes out of bounds on the right
@@ -55,7 +51,7 @@ export function calculateTooltipPosition(elementRect, tooltipRect) {
         }
     } else if (desiredRight > elementRect.viewportWidth - margin) {
         // Tooltip would go out of bounds on the right -> shift to the left
-        console.log('Shifting left: desiredRight', desiredRight, '> viewport', elementRect.viewportWidth - margin);
+        //console.log('Shifting left: desiredRight', desiredRight, '> viewport', elementRect.viewportWidth - margin);
         left = elementRect.viewportWidth - margin - halfWidth; // Center on the shifted position
         
         // Check if it goes out of bounds on the left
@@ -77,7 +73,7 @@ export function calculateTooltipPosition(elementRect, tooltipRect) {
         marginTop: marginTop
     };
     
-    console.log('Calculated position:', result);
+    //console.log('Calculated position:', result);
     return result;
 }
 

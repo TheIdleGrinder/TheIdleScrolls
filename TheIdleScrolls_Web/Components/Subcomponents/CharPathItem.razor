@@ -1,0 +1,48 @@
+@using TheIdleScrolls_Core.CharacterPaths
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Web.Services
+
+@inject TooltipService TooltipService
+
+<div class="path-allocator-item" 
+     @onclick="OnClick"
+     @onmouseenter="ShowTooltip"
+     @onmouseleave="HideTooltip"
+     @ref="_element">
+    <span class="path-step-allocator-title">@Path.Name</span>
+    <span>Steps taken: @(PathComp?.StepsTakenOnPath(Path.Id).Count)</span>
+</div>
+
+@code {
+    [Parameter]
+    public CharacterPath Path { get; set; } = null!;
+
+    [Parameter]
+    public EventCallback<CharacterPath> OnSelected { get; set; }
+
+    [Parameter]
+    public CharacterPathComponent? PathComp { get; set; }
+
+    private ElementReference _element;
+
+    private async Task OnClick()
+    {
+        await OnSelected.InvokeAsync(Path);
+    }
+    
+    private async Task ShowTooltip()
+    {
+        await TooltipService.ShowAsync(
+            @<div class="path-step-allocator-tooltip">
+                <span class="path-step-allocator-headline">@Path.Name</span>
+                <span>@Path.Description</span>
+            </div>,
+            _element
+        );
+    }
+    
+    private void HideTooltip()
+    {
+        TooltipService.Hide();
+    }
+}
