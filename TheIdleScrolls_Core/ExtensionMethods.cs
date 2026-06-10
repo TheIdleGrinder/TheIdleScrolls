@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
-using static TheIdleScrolls_Core.Components.AttackComponent;
 using TheIdleScrolls_Core.Utility;
+using static TheIdleScrolls_Core.Components.BattleStatsComponent;
 
 namespace TheIdleScrolls_Core
 {
@@ -29,9 +29,31 @@ namespace TheIdleScrolls_Core
             return entity.HasComponent<MobComponent>();
         }
 
+        public static bool IsInBattle(this Entity entity)
+        {
+            return entity.HasComponent<BattlerComponent>();
+        }
+
+        public static bool IsDefeated(this Entity entity)
+        {
+            var lifePool = entity.GetComponent<LifePoolComponent>();
+            if (lifePool != null)
+                return lifePool.IsDead;
+
+            var timeComp = entity.GetComponent<TimeShieldComponent>();
+            if (timeComp != null)
+                return timeComp.IsDepleted;
+            return false;
+        }
+
         public static int GetLevel(this Entity entity)
         {
             return entity.GetComponent<LevelComponent>()?.Level ?? 0;
+        }
+
+        public static double GetRange(this Entity entity)
+        {
+            return entity.GetComponent<ActiveSkillComponent>()?.Skills.FirstOrDefault()?.Range ?? 0.0;
         }
 
         public static bool IsItem(this Entity entity)

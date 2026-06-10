@@ -23,12 +23,12 @@ namespace TheIdleScrolls_JSON
 {
     public static class ComponentFromJson
     {
-        #pragma warning disable IDE0060
+#pragma warning disable IDE0060
         public static bool SetFromJson(this MiniECS.IComponent component, JsonNode json)
         {
             return false;
         }
-        #pragma warning restore IDE0060
+#pragma warning restore IDE0060
 
         static List<Entity> ItemListFromJsonArray(JsonArray jsonItems)
         {
@@ -57,10 +57,10 @@ namespace TheIdleScrolls_JSON
                             {
                                 var refineComp = item.GetComponent<ItemRefinableComponent>();
                                 if (refineComp != null)
-                                    refineComp.Refined = true; 
+                                    refineComp.Refined = true;
                                 break;
                             }
-                        default: 
+                        default:
                             continue;
                     }
                 }
@@ -116,7 +116,7 @@ namespace TheIdleScrolls_JSON
                     int level = Int32.Parse(fields[1]);
                     int xp = Int32.Parse(fields[2]);
 
-                    var abilityDef = AbilityList.GetAbility(key) 
+                    var abilityDef = AbilityList.GetAbility(key)
                                     ?? AbilityList.GetAbility("ABL_" + key); // Backwards compatibility
                     if (abilityDef == null)
                     {
@@ -200,7 +200,7 @@ namespace TheIdleScrolls_JSON
             {
                 var features = JsonSerializer.Deserialize<List<GameFeature>>(json["Features"]!)!.ToHashSet();
                 if (features != null)
-                   component.AvailableFeatures = features;
+                    component.AvailableFeatures = features;
                 return true;
             }
             catch (Exception)
@@ -237,7 +237,7 @@ namespace TheIdleScrolls_JSON
 
         public static bool SetFromJson(this PlayerProgressComponent component, JsonNode json)
         {
-            try 
+            try
             {
                 component.Data = JsonSerializer.Deserialize<ProgressData>(json["Data"]!)!;
                 return true;
@@ -292,33 +292,33 @@ namespace TheIdleScrolls_JSON
 
         public static bool SetFromJson(this CraftingBenchComponent component, JsonNode json)
         {
-			try
+            try
             {
-				component.CraftingSlots = json["Slots"]!.GetValue<int>();
-				var jsonCrafts = json["ActiveCrafts"]!.AsArray();
-				foreach (var jsonCraft in jsonCrafts)
+                component.CraftingSlots = json["Slots"]!.GetValue<int>();
+                var jsonCrafts = json["ActiveCrafts"]!.AsArray();
+                foreach (var jsonCraft in jsonCrafts)
                 {
                     string[] parts = jsonCraft!.ToString().Split('/');
                     if (parts.Length != 6)
-						throw new Exception($"Invalid number of fields in stored craft: {jsonCraft}");
+                        throw new Exception($"Invalid number of fields in stored craft: {jsonCraft}");
                     CraftingType type = (CraftingType)Int32.Parse(parts[0]);
-					Entity item = ItemFactory.MakeItem(ItemBlueprint.Parse(parts[1])) 
+                    Entity item = ItemFactory.MakeItem(ItemBlueprint.Parse(parts[1]))
                         ?? throw new Exception($"Unable to make item from code {parts[1]}");
                     double duration = Double.Parse(parts[2]);
                     double remaining = Double.Parse(parts[3]);
                     double roll = Double.Parse(parts[4]);
                     int cost = Int32.Parse(parts[5]);
-					CraftingProcess process = new(type, item, duration, roll, cost);
+                    CraftingProcess process = new(type, item, duration, roll, cost);
                     process.Update(duration - remaining);
                     component.ActiveCrafts.Add(process);
-				}
-				return true;
-			}
-			catch (Exception)
+                }
+                return true;
+            }
+            catch (Exception)
             {
-				return false;
-			}
-		}
+                return false;
+            }
+        }
 
         public static bool SetFromJson(this BountyHunterComponent component, JsonNode json)
         {
@@ -373,23 +373,23 @@ namespace TheIdleScrolls_JSON
         }
 
         public static bool SetFromJson(this MetaDataComponent component, JsonNode json)
-		{
-			try
-			{
-				var metaComp = JsonSerializer.Deserialize<MetaDataComponent>(json)!;
+        {
+            try
+            {
+                var metaComp = JsonSerializer.Deserialize<MetaDataComponent>(json)!;
                 component.Name = metaComp.Name;
-				component.NameWithSuffixTitle = metaComp.NameWithSuffixTitle;
-				component.PrefixTitle = metaComp.PrefixTitle;
-				component.Level = metaComp.Level;
-				component.DisplayClass = metaComp.DisplayClass;
-				component.AdventureId = metaComp.AdventureId;
-				return true;
-			}
-			catch (Exception)
-			{
-				return false;
-			}
-		}
+                component.NameWithSuffixTitle = metaComp.NameWithSuffixTitle;
+                component.PrefixTitle = metaComp.PrefixTitle;
+                component.Level = metaComp.Level;
+                component.DisplayClass = metaComp.DisplayClass;
+                component.AdventureId = metaComp.AdventureId;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
         public static bool SetFromJson(this ActiveSkillComponent component, JsonNode json)
         {
@@ -448,6 +448,19 @@ namespace TheIdleScrolls_JSON
             catch (Exception)
             {
                 return false; 
+            }
+        }
+
+        public static bool SetFromJson(this AdventurerComponent component, JsonNode json)
+        {
+            try
+            {
+                component.RestHpThreshold = json["RestHpThreshold"]!.GetValue<double>();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
     }

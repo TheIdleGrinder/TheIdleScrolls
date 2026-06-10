@@ -9,22 +9,15 @@ using static TheIdleScrolls_Core.Skills.ISkillEffect;
 
 namespace TheIdleScrolls_Core.Skills.SkillEffects
 {
-    public class StatusSkillEffect(TargetingMode targetingMode, StatusEffect effect) : ISkillEffect
+    public class StatusSkillEffect(StatusEffect effect) : ISkillEffect
     {
         public string Description
         {
             get
             {
-                string result = $"Apply to {(targetingMode == TargetingMode.Self ? "self" : "target")}:";
-                foreach (string line in effect.Description.Split('\n'))
-                {
-                    result += $"\n\t{line}";
-                }
-                return result;
+                return effect.Description;
             }
         }
-
-        public TargetingMode Target => targetingMode;
 
         public void ApplyToTarget(Entity target)
         {

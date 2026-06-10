@@ -26,6 +26,8 @@ namespace TheIdleScrolls_Core.Definitions
         public const string Polearm         = "POL";
         public const string Dagger          = "DAG";
         public const string ShortSword      = "SSW";
+        public const string ShortBow        = "SBW";
+        public const string LongBow         = "LBW";
 
         public const string HeavyChest      = "HCH";
         public const string HeavyHelmet     = "HHE";
@@ -39,11 +41,12 @@ namespace TheIdleScrolls_Core.Definitions
         public const string LightBoots      = "LBT";
         public const string LightShield     = "LSH";
 
-        public readonly static string[] Weapons = [ OneHandedAxe,  TwoHandedAxe, 
+        public static string[] Weapons { get; } = [ OneHandedAxe,  TwoHandedAxe, 
                                                     OneHandedMace, TwoHandedMace, 
                                                     LongSword,     TwoHandedSword, 
                                                     Spear,         Polearm,
-                                                    Dagger,        ShortSword ];
+                                                    Dagger,        ShortSword, 
+                                                    ShortBow,      LongBow ];
         public readonly static string[] Armors  = [ HeavyChest, HeavyHelmet, HeavyGloves, HeavyBoots, HeavyShield,
                                                     LightChest, LightHelmet, LightGloves, LightBoots, LightShield ];
     }

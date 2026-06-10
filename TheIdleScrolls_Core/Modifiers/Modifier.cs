@@ -128,7 +128,7 @@ namespace TheIdleScrolls_Core.Modifiers
 
             string whileString = String.Join(" and ", whileTags.Select(s => s.Localize()));
             string withString = String.Join(", ", withTags
-                .Select(s => s.Localize() + (Abilities.Weapons.Contains(s) ? "s" : "")));
+                .Select(s => s.Localize() + (Abilities.Weapons.Contains(s) ? " weapons" : "")));
 
             return $"{idString}{valueString} {localGlobalString}{damageTypeString}{target}" +
                 $"{((withString.Length > 0) ? " with " : "")}{withString}" +

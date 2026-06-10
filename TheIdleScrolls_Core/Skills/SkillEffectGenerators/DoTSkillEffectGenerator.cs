@@ -19,9 +19,14 @@ namespace TheIdleScrolls_Core.Skills.SkillEffectGenerators
             
         }
 
-        public List<ISkillEffect> Update(double dt)
+        public List<SkillEffectBundle> Update(double dt)
         {
-            return [new DamageSkillEffect(DamageType, dt * DPS, ISkillEffect.TargetingMode.SingleEnemy, [Tags.DamageOverTime])];
+            SkillEffectBundle bundle = new SkillEffectBundle
+            {
+                Target = TargetingMode.SingleEnemy,
+                Effects = [new DamageSkillEffect(DamageType, dt * DPS, [Tags.DamageOverTime])]
+            };
+            return [bundle];
         }
     }
 }

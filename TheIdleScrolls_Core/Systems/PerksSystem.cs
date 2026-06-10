@@ -286,7 +286,7 @@ namespace TheIdleScrolls_Core.Systems
               
             // Create perk for damage per level
             Perk damagePerLevel = new("dpl", "Experienced Adventurer",
-                $"Gain {Stats.AttackBonusPerLevel:0.#%} increased damage and time limit per level",
+                $"Gain damage and hit points for every character level",
                 new() { UpdateTrigger.LevelUp },
                 delegate (int _, Entity entity, World world, Coordinator coordinator)
                 {
@@ -295,8 +295,8 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         new("dpl_dmg", ModifierType.Increase, (level - 1) * Stats.AttackBonusPerLevel,
                             new() { Tags.Damage }, new()),
-                        new("dpl_time", ModifierType.Increase, (level - 1) * Stats.TimeShieldBonusPerLevel,
-                            new() { Tags.TimeShield }, new())
+                        new("dpl_life", ModifierType.AddBase, (level - 1) * Stats.PlayerHitPointPerLevel,
+                            new() { Tags.HitPoints }, new())
                     };
                 }
             )
@@ -322,9 +322,9 @@ namespace TheIdleScrolls_Core.Systems
                     ModifierType.Increase, Stats.BasicDefenseIncrease,
                     [Tags.Defense], [], maxLevel: 10)
                 .WithCategories(LocalizedStrings.BasicPerks), index + 2);
-            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Time", $"Basic Time Limit", "",
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Time", $"Basic Hit Points", "",
                     ModifierType.Increase, Stats.BasicTimeIncrease,
-                    [Tags.TimeShield], [], maxLevel: 10)
+                    [Tags.HitPoints], [], maxLevel: 10)
                 .WithCategories(LocalizedStrings.BasicPerks), index + 3);
 
             //perksComponent.AddPerk(Perks.ExposeWeaknessPerks.BasePerk);

@@ -36,14 +36,13 @@
         <button id="btnLeave" class="@(GetLeaveButtonClass())" @onclick=@(() => CoreWrapper.InputHandler.LeaveDungeon())>Leave</button>
     </div>
 
-    @if (TimeActive)
+    @if (HitPointsActive)
     {
         <div class="fightInner">
-            <p class="timeText">Time Limit</p>
             <div class="fight-bar-frame">
-                <div class="fight-bar-fill timeBar" style="width: @(PctString(Time, TimeMax));"></div>
+                <div class="fight-bar-fill timeBar" style="width: @(PctString(HitPoints, HitPointsMax));"></div>
             </div>
-            <p class="timeText">@(GetTimeString(Time)) / @(GetTimeString(TimeMax))</p>
+            <p class="timeText">HP: @(HitPoints) / @(HitPointsMax)</p>
         </div>
     }
 
@@ -142,9 +141,9 @@
     bool IsAtMin => AreaLevel == 1;
     bool IsAtMax => AreaLevel >= CoreWrapper.Accessible.MaxWilderness;
 
-    bool TimeActive => CoreWrapper.TimeLimit.Maximum > 0 && CoreWrapper.Mob.Damage > 0.0;
-    double Time => CoreWrapper.TimeLimit.Remaining;
-    double TimeMax => CoreWrapper.TimeLimit.Maximum;
+    bool HitPointsActive => CoreWrapper.HitPoints.Maximum > 0 && CoreWrapper.Mob.Damage > 0.0;
+    double HitPoints => CoreWrapper.HitPoints.Remaining;
+    double HitPointsMax => CoreWrapper.HitPoints.Maximum;
 
     protected override void OnInitialized()
     {

@@ -45,7 +45,8 @@ namespace TheIdleScrolls_Core.Items
             {
                 item.AddComponent(new WeaponComponent(
                     description.Weapon.BaseDamage,
-                    description.Weapon.BaseCooldown));
+                    description.Weapon.BaseCooldown,
+                    description.Weapon.Range));
             }
             if (description.Armor != null)
             {
@@ -141,7 +142,8 @@ namespace TheIdleScrolls_Core.Items
             }
             if (item.IsWeapon())
             {
-                tagsComp.AddTags(new List<string>() { Tags.Weapon, Tags.Melee }); // CornerCut: no ranged weapons exist yet
+                bool ranged = blueprint.GetGenusDescription()?.Weapon?.Range > 2.0;
+                tagsComp.AddTags([Tags.Weapon, ranged ? Tags.Ranged : Tags.Melee]);
             }
             if (item.IsArmor())
             {
@@ -245,7 +247,7 @@ namespace TheIdleScrolls_Core.Items
                 {
                     dmg.SetDamage(type, Math.Round(dmg.DamageOfType(type), 1));
                 }
-                item.AddComponent(new WeaponComponent(dmg, description.Weapon.BaseCooldown));
+                item.AddComponent(new WeaponComponent(dmg, description.Weapon.BaseCooldown, description.Weapon.Range));
             }
 
             if (description.Armor != null)

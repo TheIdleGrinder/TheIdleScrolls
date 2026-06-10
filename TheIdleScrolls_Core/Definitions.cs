@@ -13,8 +13,14 @@ namespace TheIdleScrolls_Core
     {
         public static class Stats
         {
-            public const double UnarmedBaseDamage = 2.0;
+            public const int    BasePlayerHitPoints = 50;
+            public const double PlayerHitPointPerLevel = 10;
+
+            public const double BattleBaseDistance = 5.0;
+            public const double BaseMovementSpeed = 3.0;
+
             public const double AttackBonusPerLevel = 0.02;
+            public const double HitPointsBonusPerLevel = 0.02;
             public const double TimeShieldBonusPerLevel = 0.02;
             public const double AttackDamagePerAbilityLevel = 0.02;
             public const double AttackSpeedPerAbilityLevel = 0.005;
@@ -95,6 +101,7 @@ namespace TheIdleScrolls_Core
         public static class Tags
         {
             // Scaling targets
+            public const string HitPoints = "HitPoints";
             public const string Speed = "Speed";
             public const string ChargeSpeed = "ChargeSpeed";
             public const string Damage = "Damage";
@@ -109,6 +116,8 @@ namespace TheIdleScrolls_Core
             public const string DamageReduction = "DamageReduction";
             public const string DefensiveLayers = "DefensiveLayers";
             public const string TimeShield = "TimeShield";
+            public const string MovementSpeed = "MovementSpeed";
+            public const string Range = "Range";
 
             public const string CooldownRecovery = "CooldownRecovery";
 
@@ -196,7 +205,10 @@ namespace TheIdleScrolls_Core
 
         public static class DropRestrictions
         {
-            public const string MaterialT4 = "MaterialT4";
+            public const string MasterKey   = "MasterKey"; // Used when generating the full list of items to override restrictions
+
+            public const string MaterialT4  = "MaterialT4";
+            public const string Bow         = "Bow";
         }
 
         public enum DamageType
@@ -286,6 +298,12 @@ namespace TheIdleScrolls_Core
                 ;
         }
 
+        public static double CalculateAssumedPlayerHitPoints(int level)
+        {
+            return (Stats.BasePlayerHitPoints + Stats.PlayerHitPointPerLevel * (level - 1))
+                * (1.0 + level * Stats.HitPointsBonusPerLevel); // Rough estimate for bonuses from perks and equipment
+        }
+
         public static double CalculateAssumedPlayerDefenseMultiplier(int level)
         {
             var maxGearLevel = Stats.ScalingSwitchLevel;
@@ -293,7 +311,9 @@ namespace TheIdleScrolls_Core
 				* Math.Pow(MaterialBonusPerLevel, Math.Min(level, maxGearLevel))    // Material scaling (4 tiers)
 				* (1.0 + (0.2 / maxGearLevel * Math.Min(maxGearLevel, level)))      // Smooth transition to highest tier of armor
 				* QualityBonusAtLevel(level)
-                * (1.0 + 2 * (level - 1) * Stats.TimeShieldBonusPerLevel)           // Account for time shield bonus from levelling (x2 for perks)
+                // Account for growth of player health pool
+                * (1.0 + (level - 1) * (1.0 * Stats.PlayerHitPointPerLevel / Stats.BasePlayerHitPoints))
+                //* (1.0 + (level - 1) * Stats.HitPointsBonusPerLevel) // Rough estimate for bonuses from perks and equipment
                 ;
         }
 
@@ -305,20 +325,26 @@ namespace TheIdleScrolls_Core
             return 1.0 - (1.0 / multiplier);
         }
 
-        public static double CalculateEvasionBonusMultiplier(double evasion, double enemyAccuracy = 1.0)
+        public static double CalculateEvasionBonusMultiplier(double evasion, double enemyAccuracy)
         {
-            if (enemyAccuracy == 0.0)
-                enemyAccuracy = 1.0;
-            double effectiveEvasion = evasion / enemyAccuracy;
-            return Math.Min(1.0 + effectiveEvasion * Stats.EvasionBonusPerPoint, 1.0 / (1.0 - Stats.MaxResistanceFromEvasion));
+            double evasionChance = Math.Min(evasion / (evasion + enemyAccuracy), Stats.MaxResistanceFromEvasion);
+            return 1.0 / (1.0 - evasionChance);
         }
 
         public static double CalculateArmorBonusMultiplier(double armor, int enemyLevel, double incomingDamage = 1.0)
         {
             if (incomingDamage == 0.0)
                 incomingDamage = 1.0;
-            double effectiveArmor = armor / CalculateMobArmorPierce(enemyLevel, incomingDamage);
-            return Math.Min(1.0 + effectiveArmor * Stats.ArmorSlowdownPerPoint, 1.0 / (1.0 - Stats.MaxResistanceFromArmor));
+            double damage = CalculateMobDamage(enemyLevel, incomingDamage);
+            if (armor == 0.0)
+                return 1.0;
+            double multiplier = Math.Max(damage / (damage + armor), 1.0 - Stats.MaxResistanceFromArmor);
+            return 1.0 / multiplier;
+        }
+
+        public static double CalculateEncumbranceSlowdown(double encumbrance)
+        {
+            return 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
         }
 
         public static int CalculateMobHp(int mobLevel, double multiplier = 1.0)
@@ -331,16 +357,25 @@ namespace TheIdleScrolls_Core
             );
         }
 
+        public static double CalculateMobDamage(int mobLevel, double multiplier = 1.0)
+        {
+            const double mobBaseDamage = Stats.BasePlayerHitPoints / 10.0;
+            double hpMulti = CalculateAssumedPlayerHitPoints(mobLevel) / Stats.BasePlayerHitPoints;
+            double assumedMitigationMulti = 1.0 + 0.02 * Math.Max(mobLevel - 6, 0);
+
+            return mobBaseDamage * multiplier * hpMulti * assumedMitigationMulti;
+        }
+
         public static double CalculateMobArmorPierce(int mobLevel, double multiplier = 1.0)
         {
             return multiplier
-                * Math.Sqrt(CalculateAssumedPlayerDefenseMultiplier(mobLevel));
+                * Math.Sqrt(CalculateMobDamage(mobLevel));
         }
 
         public static double CalculateMobAccuracy(int mobLevel)
         {
-            // First implementation: Accuracy rating is identical to default armor pierce
-            return CalculateMobArmorPierce(mobLevel, 1.0);
+            // First implementation: Accuracy rating is identical to default damage value
+            return CalculateMobDamage(mobLevel);
         }
 
         public static double CalculateBaseTimeLimit(int playerLevel, int areaLevel)

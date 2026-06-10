@@ -10,14 +10,10 @@ namespace TheIdleScrolls_Core.Systems
 {
     public class StatUpdateSystem : AbstractSystem
     {
-        uint m_player = 0;
         int m_initialFullUpdates = 2; // CornerCut: Do a full update on the first two frames to give all other systems time to setup all components
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            if (m_player == 0)
-                m_player = coordinator.GetEntities<PlayerComponent>().FirstOrDefault()?.Id ?? 0;
-
             // Handle changes in skill order here for now
             foreach (var message in coordinator.FetchMessagesByType<SkillOrderChangeRequest>())
             {
@@ -32,6 +28,7 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
 
+            // Same with requests to enable/disable skills
             foreach (var message in coordinator.FetchMessagesByType<SetSkillEnabledRequest>())
             {
                 var comp = coordinator.GetEntity(message.EntityId)?.GetComponent<ActiveSkillComponent>();
@@ -44,7 +41,7 @@ namespace TheIdleScrolls_Core.Systems
                 || coordinator.MessageTypeIsOnBoard<AbilityImprovedMessage>()
                 || coordinator.MessageTypeIsOnBoard<AchievementStatusMessage>()
                 || coordinator.MessageTypeIsOnBoard<PerkUpdatedMessage>()
-                || coordinator.MessageTypeIsOnBoard<TextMessage>() // CornerCut: This is a hack to force an update at the start of a battle
+                || coordinator.MessageTypeIsOnBoard<MobSpawnMessage>() // CornerCut: Force an update at the start of a battle and for new mobs
                 || coordinator.MessageTypeIsOnBoard<SkillStateChangedMessage>()
                 || coordinator.MessageTypeIsOnBoard<StatusEffectExpiredMessage>()
                 || coordinator.MessageTypeIsOnBoard<PerkLevelChangedMessage>();
@@ -52,114 +49,42 @@ namespace TheIdleScrolls_Core.Systems
             if (!doUpdate)
                 return;
 
-            var player = coordinator.GetEntity(m_player);
-            if (player == null)
-                return;
+            var entities = coordinator.GetEntities<PlayerComponent>()
+                    .Concat(coordinator.GetEntities<MobComponent>());
 
-            UpdatePlayerTags(player);
-
-            var equipComp = player.GetComponent<EquipmentComponent>();
-
-            double armor = 0.0;
-            double evasion = 0.0;
-            double encumbrance = 0.0;
-            int armorCount = 0;
-
-            int weaponCount = 0;
-
-            var globalTags = player.GetTags();
-            var modComp = player.GetComponent<ModifierComponent>();
-
-            if (equipComp != null)
+            foreach (var entity in entities)
             {
-                foreach (var item in equipComp.GetItems())
+                UpdateTags(entity);
+
+                if (entity.IsPlayer())
+                    UpdateLifePool(entity, Stats.BasePlayerHitPoints);
+                UpdateDefenses(entity);
+
+
+
+                var skillComp = entity.GetComponent<ActiveSkillComponent>();
+                if (skillComp != null)
                 {
-                    var itemComp = item.GetComponent<ItemComponent>();
-                    var weaponComp = item.GetComponent<WeaponComponent>();
-                    var armorComp = item.GetComponent<ArmorComponent>();
-                    encumbrance += item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
-                    var localTags = item.GetTags();
+                    DefaultAttack.SetupAttackComponent(entity);
 
-                    // Add situational local tags 
-                    var slots = item.GetRequiredSlots();
-                    if (slots.Count == 1 && slots[0] == EquipmentSlot.Hand)
+                    foreach (var skill in skillComp.Skills)
                     {
-                        localTags.Add((item.IsShield() || weaponCount > 0) ? Tags.OffHand : Tags.MainHand);
+                        skill.SetupForUser(entity);
                     }
-
-                    if (itemComp != null && weaponComp != null)
-                    {
-                        weaponCount++;
-                    }
-
-                    if (itemComp != null && armorComp != null)
-                    {
-                        var localArmor = armorComp.Armor;
-                        var localEvasion = armorComp.Evasion;
-                        armorCount++;
-
-                        if (modComp != null)
-                        {
-                            var tags = localTags.Append(Tags.Defense);
-                            localArmor = modComp.ApplyApplicableModifiers(localArmor, 
-                                tags.Append(Tags.ArmorRating), globalTags);
-                            localEvasion = modComp.ApplyApplicableModifiers(localEvasion, 
-                                tags.Append(Tags.EvasionRating), globalTags);
-                        }
-
-                        armor += localArmor;
-                        evasion += localEvasion;
-                    }
-                }          
-            }
-
-            // Handle global armor and evasion bonuses
-            List<string> globalDefTags = [Tags.Global, Tags.Defense];
-            if (player.HasTag(Tags.Unarmored))
-            {
-                globalDefTags.Add(Abilities.Unarmored); // Bonuses from unarmored ability apply here if unarmored
-            }
-            armor   += modComp?.ApplyApplicableModifiers(0.0, globalDefTags.Append(Tags.ArmorRating),   globalTags) ?? 0.0;
-            evasion += modComp?.ApplyApplicableModifiers(0.0, globalDefTags.Append(Tags.EvasionRating), globalTags) ?? 0.0;
-
-            double encumbranceSlowdown = 1.0 + Math.Max(encumbrance, 0.0) / 100.0;
-
-            var defenseComp = player.GetComponent<DefenseComponent>();
-            if (defenseComp != null)
-            {
-                defenseComp.Evasion = evasion / encumbranceSlowdown; 
-                defenseComp.Armor = armor;
-            }
-
-            var skillComp = player.GetComponent<ActiveSkillComponent>();
-            if (skillComp != null)
-            {
-                var attackComp = player.GetComponent<AttackComponent>();
-                if (attackComp is null)
-                {
-                    attackComp = new AttackComponent();
-                    player.AddComponent(attackComp);
-                }
-                DefaultAttack.SetupAttackComponent(player, attackComp);
-
-                foreach (var skill in skillComp.Skills)
-                {
-                    skill.SetupForUser(player);
                 }
             }
-
 			coordinator.PostMessage(this, new StatsUpdatedMessage());
             if (m_initialFullUpdates > 0)
                 m_initialFullUpdates--;
         }
 
-        public static void UpdatePlayerTags(Entity player)
+        public static void UpdateTags(Entity entity)
         {
-            if (!player.HasComponent<TagsComponent>())
+            if (!entity.HasComponent<TagsComponent>())
             {
-                player.AddComponent<TagsComponent>(new());
+                entity.AddComponent<TagsComponent>(new());
             }
-            TagsComponent comp = player.GetComponent<TagsComponent>()!;
+            TagsComponent comp = entity.GetComponent<TagsComponent>()!;
             comp.Reset(Array.Empty<string>());
 
             void AddOrRemoveTag(string tag, bool add)
@@ -174,7 +99,7 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
 
-            var equipComp = player.GetComponent<EquipmentComponent>();
+            var equipComp = entity.GetComponent<EquipmentComponent>();
             if (equipComp != null)
             {
                 var items = equipComp.GetItems();
@@ -210,15 +135,94 @@ namespace TheIdleScrolls_Core.Systems
                 comp.AddTag(Tags.Unarmored);
             }
 
+            AddOrRemoveTag(Tags.FirstStrike, entity.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
+            AddOrRemoveTag(Tags.Evading, entity.GetComponent<EvaderComponent>()?.Active ?? false);
+        }
+
+        static void UpdateLifePool(Entity entity, int baseHitPoints)
+        {
+            var lifeComp = entity.GetComponent<LifePoolComponent>();
+            if (lifeComp is null)
+                return;
+            double hp = entity.ApplyAllApplicableModifiers(baseHitPoints, [Tags.HitPoints], entity.GetTags());
+            lifeComp.SetMaximum((int)Math.Ceiling(hp));
+        }
+
+        static void UpdateDefenses(Entity entity)
+        {
+            var statsComp = entity.GetComponent<BattleStatsComponent>();
+            if (statsComp is null)
+                return;
+
+            double armor = 0.0;
+            double evasion = 0.0;
+            double encumbrance = 0.0;
+            int armorCount = 0;
+
+            var globalTags = entity.GetTags();
+            var modComp = entity.GetComponent<ModifierComponent>();
+
+            var equipComp = entity.GetComponent<EquipmentComponent>();
+            if (equipComp != null)
+            {
+                foreach (var item in equipComp.GetItems())
+                {
+                    var itemComp = item.GetComponent<ItemComponent>();
+                    var weaponComp = item.GetComponent<WeaponComponent>();
+                    var armorComp = item.GetComponent<ArmorComponent>();
+                    encumbrance += item.GetComponent<EquippableComponent>()?.Encumbrance ?? 0.0;
+                    var localTags = item.GetTags();
+
+                    // Add situational local tags 
+                    var slots = item.GetRequiredSlots();
+                    if (item.IsShield())
+                    {
+                        localTags.Add(Tags.OffHand);
+                    }
+
+                    if (itemComp != null && armorComp != null)
+                    {
+                        var localArmor = armorComp.Armor;
+                        var localEvasion = armorComp.Evasion;
+                        armorCount++;
+
+                        if (modComp != null)
+                        {
+                            var tags = localTags.Append(Tags.Defense);
+                            localArmor = modComp.ApplyApplicableModifiers(localArmor,
+                                tags.Append(Tags.ArmorRating), globalTags);
+                            localEvasion = modComp.ApplyApplicableModifiers(localEvasion,
+                                tags.Append(Tags.EvasionRating), globalTags);
+                        }
+
+                        armor += localArmor;
+                        evasion += localEvasion;
+                    }
+                }
+            }
+
+            // Handle global armor and evasion bonuses
+            List<string> globalDefTags = [Tags.Global, Tags.Defense];
+            if (entity.HasTag(Tags.Unarmored))
+            {
+                globalDefTags.Add(Abilities.Unarmored); // Bonuses from unarmored ability apply here if unarmored
+            }
+            armor += modComp?.ApplyApplicableModifiers(0.0, globalDefTags.Append(Tags.ArmorRating), globalTags) ?? 0.0;
+            evasion += modComp?.ApplyApplicableModifiers(0.0, globalDefTags.Append(Tags.EvasionRating), globalTags) ?? 0.0;
+            double moveSpeed = modComp?.ApplyApplicableModifiers(Stats.BaseMovementSpeed, [Tags.MovementSpeed], globalTags) ?? Stats.BaseMovementSpeed;
+
             double lowLifeLimit = 0.35;
             var lifeComp = player.GetComponent<BattlerComponent>()?.Battle?.Mob?.GetComponent<LifePoolComponent>();
             AddOrRemoveTag(Tags.FirstStrike, lifeComp?.IsFull ?? false);
             AddOrRemoveTag(Tags.VsLowLife, (lifeComp?.Percentage ?? 1.0) <= lowLifeLimit);
             AddOrRemoveTag(Tags.Evading, player.GetComponent<EvaderComponent>()?.Active ?? false);
+            statsComp.Encumbrance = encumbrance;
+            statsComp.Evasion = evasion / statsComp.EncumbranceSlowdown;
+            statsComp.Armor = armor;
+            statsComp.MovementSpeed = moveSpeed / statsComp.EncumbranceSlowdown;
         }
     }
 
-    record AttackStats(double Damage, double Cooldown, List<string> WeaponFamilyIds);
 
     public class StatsUpdatedMessage : IMessage
     {

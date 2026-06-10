@@ -26,17 +26,6 @@
                     </div>
                     <p class="healthText">HP: @Hp.ToBigIntString() / @HpMax.ToBigIntString()</p>
                 </div>
-    
-@*                 @if (TimeActive)
-                {
-                    <div class="fightInner">
-                        <p class="timeText">Time Limit</p>
-                        <div class="fight-bar-frame">
-                            <div class="fight-bar-fill timeBar" style="width: @(PctString(Time, TimeMax));"></div>
-                        </div>
-                        <p class="timeText">Remaining: @(GetTimeString(Time)) / @(GetTimeString(TimeMax))</p>
-                    </div>
-                } *@
             </div>
         </div>
 
@@ -152,13 +141,13 @@
 </style>
 
 @code {
-    bool MobPresent => CoreWrapper.Mob.HpMax > 0;
-    bool TimeActive => CoreWrapper.TimeLimit.Maximum > 0 && CoreWrapper.Mob.Damage > 0.0;
+    bool MobPresent => Mob is not null;
+    bool TimeActive => !MobPresent || CoreWrapper.Mob.Damage > 0.0;
 
     bool BigImage => CurrentMobImage.Length > 1000;
     int ImageSize => BigImage ? 224 : 112;
 
-    Entity? Mob => CoreWrapper.PlayerCharacter?.GetComponent<BattlerComponent>()?.Battle?.Mob;
+    Entity? Mob => CoreWrapper.PlayerCharacter?.GetComponent<BattlerComponent>()?.Battle?.Mobs?.FirstOrDefault();
     string MobName => Mob?.GetComponent<NameComponent>()?.Name ?? "???";
     int MobLevel => Mob?.GetComponent<LevelComponent>()?.Level ?? 0;
     int Hp => Mob?.GetComponent<LifePoolComponent>()?.Current ?? 0;
@@ -167,8 +156,8 @@
     List<ActiveSkill>? MobSkills => Mob?.GetComponent<ActiveSkillComponent>()?.Skills;
     List<StatusEffect>? MobEffects => Mob?.GetComponent<StatusEffectComponent>()?.StatusEffects;
 
-    double Time => CoreWrapper.TimeLimit.Remaining;
-    double TimeMax => CoreWrapper.TimeLimit.Maximum;
+    double Time => CoreWrapper.HitPoints.Remaining;
+    double TimeMax => CoreWrapper.HitPoints.Maximum;
 
     List<ActiveSkill>? PlayerSkills => CoreWrapper.PlayerCharacter?.GetComponent<ActiveSkillComponent>()?.Skills;
     List<StatusEffect>? PlayerEffects => CoreWrapper.PlayerCharacter?.GetComponent<StatusEffectComponent>()?.StatusEffects;

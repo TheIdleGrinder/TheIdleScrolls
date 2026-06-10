@@ -26,7 +26,7 @@ namespace TheIdleScrolls_Core.Skills
 
 		public class EffectsForState
 		{
-			public List<ISkillEffect> OnEnter { get; set; } = [];
+			public List<SkillEffectBundle> OnEnter { get; set; } = [];
 			public ISkillEffectGenerator? RepeatedWhileIn { get; set; } = null;
 			public List<StatusEffect> WhileIn { get; set; } = [];
         }
@@ -150,8 +150,10 @@ namespace TheIdleScrolls_Core.Skills
 		public string Id => Definition.Id;
 		public string Name => Definition.Name;
 		public HashSet<string> Tags { get; set; } = [];
+		public UsePrevention Prevention { get; private set; } = UsePrevention.None;
+		public double Range { get; set; } = 0.0;
 
-		public void SetupForUser(Entity user)
+        public void SetupForUser(Entity user)
 		{
 			User = user;
 			Definition.SetupForUser(user, this);
@@ -165,7 +167,7 @@ namespace TheIdleScrolls_Core.Skills
 
 		public bool IsInUse()
 		{
-			return !HasState([State.Unavailable, State.Disabled, State.NotUsable]);
+			return !HasState([State.Unavailable, State.Disabled]);
 		}
 
 		public bool HasState(HashSet<State> states)
@@ -180,8 +182,9 @@ namespace TheIdleScrolls_Core.Skills
 
 			if (!Enabled)
 				return State.Disabled;
-			var (usable, _) = Definition.IsUsableBy(User);
-			if (!usable)
+			var (prevention, _) = Definition.IsUsableBy(User);
+			Prevention = prevention;
+			if (prevention != UsePrevention.None)
 				return State.NotUsable;
 
 			return CurrentState switch
@@ -194,7 +197,7 @@ namespace TheIdleScrolls_Core.Skills
 			};
 		}
 
-		public List<ISkillEffect> StartCharging()
+		public List<SkillEffectBundle> StartCharging()
         {
             Timer.Start();
             if (User is not null)
@@ -205,10 +208,10 @@ namespace TheIdleScrolls_Core.Skills
         /// <summary>
         /// Updates the internal timer of the skill. Returns the time that remained after fully charging.
         /// </summary>
-        public (SkillTimer.TimerUpdateResult, List<ISkillEffect>) Update(double dt)
+        public (SkillTimer.TimerUpdateResult, List<SkillEffectBundle>) Update(double dt)
 		{
 			var timerResult = Timer.Update(dt);
-			List<ISkillEffect> effects = [];
+			List<SkillEffectBundle> effects = [];
 
 			StatusEffectComponent? statComp = User?.GetComponent<StatusEffectComponent>();
 
@@ -290,6 +293,17 @@ namespace TheIdleScrolls_Core.Skills
         public int GetPerkLevel(string perkId)
 		{
 			return User?.GetComponent<PerksComponent>()?.GetPerkLevel(perkId) ?? 0;
+        }
+
+		public static List<Entity> GetEnemiesInRange(Entity user, double range)
+		{
+			var battleComp = user.GetComponent<BattlerComponent>();
+			if (battleComp is null || battleComp.Battle is null)
+				return [];
+			if (user.IsPlayer() && battleComp.Battle.Mobs.Count == 0)
+				return [];
+            List<Entity> enemies = user.IsPlayer() ? battleComp.Battle.Mobs : [battleComp.Battle.Player];
+			return enemies.Where(e => e.GetComponent<BattlerComponent>()?.Position.DistanceTo(battleComp.Position) <= range).ToList();
         }
     }
 }

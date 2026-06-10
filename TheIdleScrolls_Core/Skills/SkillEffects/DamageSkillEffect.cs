@@ -10,17 +10,15 @@ using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core.Skills.SkillEffects
 {
-	public class DamageSkillEffect(DamageType damageType, double damage, TargetingMode target, HashSet<string> tags) : ISkillEffect
+	public class DamageSkillEffect(DamageType damageType, double damage, HashSet<string> tags) : ISkillEffect
 	{
 		public DamageType DamageType = damageType;
-        public double Damage = damage;
+        public double Damage = Math.Round(damage);
 		public HashSet<string> Tags = tags;
 
 		public double DamageDone { get; private set; } = 0.0;
 
-        public string Description => $"{Damage:0.##} {DamageType.ToTag()} damage to {(Target == TargetingMode.Self ? "self" : "target")}";
-
-		public TargetingMode Target => target;
+        public string Description => $"{Damage:0.##} {DamageType.ToTag()} damage";
 
 		public void ApplyToTarget(Entity target)
 		{
@@ -30,11 +28,25 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 				return;
             }
 
-			var modComp = target.GetComponent<ModifierComponent>();
-			double tmpDamage = Damage;
+            double tmpDamage = Damage;
+
+            // Consider armor for physical damage
+            if (DamageType == DamageType.Physical)
+			{
+				double armor = target.GetComponent<BattleStatsComponent>()?.Armor ?? 0.0;
+                double multi = Math.Max(tmpDamage / (tmpDamage + armor), 1.0 - Stats.MaxResistanceFromArmor);
+                if (armor > 0.0)
+                    tmpDamage *= multi;
+            }
+
+            var modComp = target.GetComponent<ModifierComponent>();
 			if (modComp is not null)
 			{
-				tmpDamage = modComp.ApplyApplicableModifiers(tmpDamage, [Definitions.Tags.DamageTaken, ..Tags], target.GetTags());
+				var tags = Tags.ToHashSet();
+				tags.UnionWith(DamageType.GetMatchingTags());
+				tags.Remove(Definitions.Tags.Damage);
+                tmpDamage = modComp.ApplyApplicableModifiers(tmpDamage, 
+					[Definitions.Tags.DamageTaken, ..tags], target.GetTags());
                 double resistance = modComp.ApplyApplicableModifiers(0.0,
 					[Definitions.Tags.Resistance, .. DamageType.GetMatchingTags(), .. Tags], target.GetTags());
                 resistance = Math.Min(resistance, Stats.MaxResistances);

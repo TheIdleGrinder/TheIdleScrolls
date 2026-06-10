@@ -123,5 +123,10 @@ namespace TheIdleScrollsApp
         {
             m_requests.Add(new TakeCharacterPathStepRequest(playerId, pathId, stepId));
         }
+
+        public void SetRestingHpThreshold(uint playerId, double threshold)
+        {
+            m_requests.Add(new SetRestingHpThresholdRequest(playerId, threshold));
+        }
     }
 }

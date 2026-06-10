@@ -201,22 +201,21 @@ namespace TheIdleScrolls_Core.Quests
             double mobDamage = 10.0;
             mob.AddComponent(new MobDamageComponent(mobDamage));
             // Set HP high enough to prevent deafeating the boss
-            var attackComp = player.GetComponent<AttackComponent>();
-            if (attackComp != null)
+            var statsComp = player.GetComponent<BattleStatsComponent>();
+            if (statsComp != null)
             {
                 var hpComp = mob.GetComponent<LifePoolComponent>() ?? new LifePoolComponent();
                 double remaining = 1.0 * hpComp.Current / hpComp.Maximum;
-                double dps = attackComp.AverageDps;
+                double dps = statsComp.AverageDps;
                 hpComp.Maximum = (int)(baseMultiplier * dps * assumedDpsBonus * SlopeDuration);
                 hpComp.Current = (int)(remaining * hpComp.Maximum);
                 mob.AddComponent(hpComp);
             }
 
             // Set time limit to prevent the player from losing
-            var defenseComp = player.GetComponent<DefenseComponent>();
-            if (defenseComp != null)
+            if (statsComp != null)
             {
-                double multi = Functions.CalculateArmorBonusMultiplier(defenseComp.Armor, mob.GetLevel(), mobDamage);
+                double multi = Functions.CalculateArmorBonusMultiplier(statsComp.Armor, mob.GetLevel(), mobDamage);
                 double targetDuration = SlopeDuration / multi;
                 player.GetComponent<TimeShieldComponent>()?.Rescale(baseMultiplier * targetDuration * mobDamage);
                 player.GetComponent<BattlerComponent>()!.Battle!.CustomTimeLimit = true; // Player has to be in the final battle

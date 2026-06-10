@@ -9,6 +9,7 @@ using TheIdleScrolls_Core.Utility;
 using TheIdleScrollsApp;
 using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.ContentPacks;
+using TheIdleScrolls_Core.Definitions;
 
 namespace TheIdleScrolls_Core
 {
@@ -60,7 +61,6 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new CharacterPathSystem());
             m_systems.Add(new PerksSystem());
             m_systems.Add(new StatUpdateSystem());
-            m_systems.Add(new EvasionSystem());
             m_systems.Add(new DungeonSystem());
             m_systems.Add(new LootSystem());
             m_systems.Add(new CraftingSystem());

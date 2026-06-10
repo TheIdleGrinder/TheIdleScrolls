@@ -54,7 +54,8 @@ namespace TheIdleScrolls_Core.GameWorld
                 MobTypes = dungeonFloor.MobTypes,
                 MobCount = dungeonFloor.MobCount,
                 TimeMultiplier = dungeonFloor.TimeMultiplier,
-                SpecialDrops = dungeon.Rewards.SpecialRewards
+                SpecialDrops = dungeon.Rewards.SpecialRewards,
+                PackSize = dungeonFloor.PackSize
             };
         }
 

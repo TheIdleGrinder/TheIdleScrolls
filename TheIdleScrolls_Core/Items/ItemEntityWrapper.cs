@@ -30,7 +30,7 @@ namespace TheIdleScrolls_Core.Items
             get 
             { 
                 var weaponComp = Item.GetComponent<WeaponComponent>();
-                return weaponComp != null ? new WeaponGenus(weaponComp.Damage, weaponComp.Cooldown) : null;
+                return weaponComp != null ? new WeaponGenus(weaponComp.Damage, weaponComp.AttackTime, weaponComp.Range) : null;
             } 
         }
         public ArmorGenus? ArmorAspect

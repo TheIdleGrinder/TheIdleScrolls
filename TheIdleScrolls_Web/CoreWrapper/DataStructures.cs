@@ -5,7 +5,7 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Web.CoreWrapper
 {
-    public class TimeLimit
+    public class HitPoints
     {
         public double Remaining { get; set; } = 0.0;
         public double Maximum { get; set; } = 0.0;
@@ -21,7 +21,7 @@ namespace TheIdleScrolls_Web.CoreWrapper
     {
         public DamageCluster Damage { get; set; } = new();
         public double CooldownRemaining { get; set; } = 0.0;
-        public double Cooldown { get; set; } = 0.0;
+        public double AttackTime { get; set; } = 0.0;
         public double Armor { get; set; } = 0.0;
         public double Evasion { get; set; } = 0.0;
         public double DefenseRating { get; set; } = 0.0;

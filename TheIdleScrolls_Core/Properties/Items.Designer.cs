@@ -187,6 +187,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Long Bow ähnelt.
+        /// </summary>
+        internal static string Family_LongBow {
+            get {
+                return ResourceManager.GetString("Family_LongBow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Long Sword ähnelt.
         /// </summary>
         internal static string Family_LongSword {
@@ -228,6 +237,15 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string Family_ShortBlade {
             get {
                 return ResourceManager.GetString("Family_ShortBlade", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Short Bow ähnelt.
+        /// </summary>
+        internal static string Family_ShortBow {
+            get {
+                return ResourceManager.GetString("Family_ShortBow", resourceCulture);
             }
         }
         
@@ -576,6 +594,33 @@ namespace TheIdleScrolls_Core.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
+        internal static string Genus_LongBow0 {
+            get {
+                return ResourceManager.GetString("Genus_LongBow0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Long Bow ähnelt.
+        /// </summary>
+        internal static string Genus_LongBow1 {
+            get {
+                return ResourceManager.GetString("Genus_LongBow1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string Genus_LongBow2 {
+            get {
+                return ResourceManager.GetString("Genus_LongBow2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
         internal static string Genus_LongSword0 {
             get {
                 return ResourceManager.GetString("Genus_LongSword0", resourceCulture);
@@ -678,6 +723,33 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string Genus_Polearm2 {
             get {
                 return ResourceManager.GetString("Genus_Polearm2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Short Bow ähnelt.
+        /// </summary>
+        internal static string Genus_ShortBow0 {
+            get {
+                return ResourceManager.GetString("Genus_ShortBow0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hunting Bow ähnelt.
+        /// </summary>
+        internal static string Genus_ShortBow1 {
+            get {
+                return ResourceManager.GetString("Genus_ShortBow1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Battle Bow ähnelt.
+        /// </summary>
+        internal static string Genus_ShortBow2 {
+            get {
+                return ResourceManager.GetString("Genus_ShortBow2", resourceCulture);
             }
         }
         

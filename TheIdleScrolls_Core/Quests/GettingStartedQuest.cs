@@ -80,7 +80,9 @@ namespace TheIdleScrolls_Core.Quests
                 {
                     InventoryComponent invComp = new();
                     List<ItemBlueprint> weapons = ItemFamilies.Weapons
-                        .Select(i => new ItemBlueprint(i, 0, MaterialId.Simple)).ToList();
+                        .Select(i => new ItemBlueprint(i, 0, MaterialId.Simple))
+                        .Where(i => i.RestrictionsFulfilled(entity.GetComponent<PlayerComponent>()?.Unlocked ?? []))
+                        .ToList();
 
                     entity.AddComponent(invComp);
                     entity.AddComponent(new EquipmentComponent());

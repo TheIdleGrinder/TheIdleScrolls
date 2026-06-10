@@ -9,6 +9,7 @@ using TheIdleScrolls_Core.GameWorld;
 using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Skills;
 using TheIdleScrolls_Core.StatusEffects;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core
 {
@@ -44,7 +45,7 @@ namespace TheIdleScrolls_Core
 
     public class MobFactory
     {
-        public static Entity MakeMob(MobDescription description, int level)
+        public static Entity MakeMob(MobDescription description, int level, double zoneDamageMulti = 1.0)
         {
             var mob = new Entity();
             mob.AddComponent(new MobComponent(description.Id));
@@ -53,20 +54,29 @@ namespace TheIdleScrolls_Core
             mob.AddComponent(new LifePoolComponent(CalculateHP(description, level)));
             mob.AddComponent(new XpGiverComponent { Amount = CalculateXpValue(description, level) });
             mob.AddComponent(new AccuracyComponent(Functions.CalculateMobAccuracy(level)));
+            
+            var modComp = new ModifierComponent();
+            mob.AddComponent(modComp);
 
-            double damage = CalculateDamage(description, level);
-            if (damage > 0.0)
-                mob.AddComponent(new MobDamageComponent(damage));
+            
+            double damage = CalculateDamage(description, level) * zoneDamageMulti;
+            double attackTime = 1.0; // will depend on mob description in the future
+            double range = 0.0;
+            var statsComp = new BattleStatsComponent(new(new(Definitions.DamageType.Physical, damage), attackTime, range));
 
-            if (description.ActiveSkills.Count > 0)
+            mob.AddComponent(statsComp);
+
+            var skillComp = new ActiveSkillComponent();
+            if (description.Damage > 0)
+                skillComp.Add(new ActiveSkill(Skills.Skills.DefaultAttack.Skill));
+            mob.AddComponent(skillComp);
+
+            foreach (var skill in description.ActiveSkills)
             {
-                var skillComp = new ActiveSkillComponent();
-                foreach (var skill in description.ActiveSkills)
-                {
-                    skillComp.Add(new(skill));
-                }
-                mob.AddComponent(skillComp);
+                skillComp.Add(new(skill));
             }
+            skillComp.ResetSkills();
+
 
             if (description.Perks.Count > 0)
             {
@@ -98,8 +108,7 @@ namespace TheIdleScrolls_Core
 
         public static double CalculateDamage(MobDescription description, int level)
         {
-            _ = level; // unused
-            return description.Damage;
+            return description.Damage * Functions.CalculateMobDamage(level, description.Damage);
         }
     }
 }

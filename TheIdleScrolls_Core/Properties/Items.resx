@@ -408,4 +408,28 @@
   <data name="Material_W4" xml:space="preserve">
     <value>Ebony</value>
   </data>
+  <data name="Family_LongBow" xml:space="preserve">
+    <value>Long Bow</value>
+  </data>
+  <data name="Family_ShortBow" xml:space="preserve">
+    <value>Short Bow</value>
+  </data>
+  <data name="Genus_LongBow0" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_LongBow1" xml:space="preserve">
+    <value>Long Bow</value>
+  </data>
+  <data name="Genus_LongBow2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_ShortBow0" xml:space="preserve">
+    <value>Short Bow</value>
+  </data>
+  <data name="Genus_ShortBow1" xml:space="preserve">
+    <value>Hunting Bow</value>
+  </data>
+  <data name="Genus_ShortBow2" xml:space="preserve">
+    <value>Battle Bow</value>
+  </data>
 </root>

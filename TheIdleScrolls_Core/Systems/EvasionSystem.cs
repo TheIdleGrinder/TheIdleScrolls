@@ -10,18 +10,21 @@ using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Systems
 {
+    /// <summary>
+    /// Deprecated system. Evasion is now handled in the ChanceChargeComponent.
+    /// </summary>
     public class EvasionSystem : AbstractSystem
     {
         static readonly string ModifierId = "EvaderComponent:Evasion";
 
         public override void Update(World world, Coordinator coordinator, double dt)
         {
-            foreach (var entity in coordinator.GetEntities<DefenseComponent>())
+            foreach (var entity in coordinator.GetEntities<BattleStatsComponent>())
             {
-                var defenseComponent = entity.GetComponent<DefenseComponent>()!;
+                var statsComponent = entity.GetComponent<BattleStatsComponent>()!;
                 var evaderComponent = entity.GetComponent<EvaderComponent>();
 
-                if (defenseComponent.Evasion <= 0)
+                if (statsComponent.Evasion <= 0)
                 {
                     if (evaderComponent != null)
                     {
@@ -88,8 +91,8 @@ namespace TheIdleScrolls_Core.Systems
             var evadeComp = battle.Player.GetComponent<EvaderComponent>();
             if (evadeComp == null)
                 return;
-            double evasion = battle.Player.GetComponent<DefenseComponent>()?.Evasion ?? 0.0;
-            double accuracy = battle.Mob?.GetComponent<AccuracyComponent>()?.Accuracy ?? 1.0;
+            double evasion = battle.Player.GetComponent<BattleStatsComponent>()?.Evasion ?? 0.0;
+            double accuracy = battle.Mobs?.FirstOrDefault()?.GetComponent<AccuracyComponent>()?.Accuracy ?? 1.0; // Deprecated
             double bonus = Functions.CalculateEvasionBonusMultiplier(evasion, accuracy) - 1.0;
             if (bonus <= 0.0)
             {

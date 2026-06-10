@@ -19,6 +19,11 @@ namespace TheIdleScrolls_Core.Utility
             DamageComponents[type] = amount;
         }
 
+        public DamageCluster(DamageCluster original)
+        {
+            DamageComponents = new Dictionary<DamageType, double>(original.DamageComponents);
+        }
+
         public List<DamageType> Types => [.. DamageComponents.Keys];
 
         public double TotalDamage => DamageComponents.Values.Sum();

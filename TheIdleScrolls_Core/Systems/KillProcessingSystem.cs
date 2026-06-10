@@ -39,10 +39,10 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
 
-            foreach (uint victim in deaths)
-            {
-                coordinator.RemoveEntity(victim);
-            }
+            //foreach (uint victim in deaths)
+            //{
+            //    coordinator.RemoveEntity(victim);
+            //}
         }
     }
 

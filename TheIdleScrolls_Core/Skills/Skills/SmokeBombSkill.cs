@@ -30,9 +30,11 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return user.GetComponent<PerksComponent>()?.IsPerkActive(Perks.SmokeBombPerks.BasePerkId) ?? false;
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
-            return (IsAvailableTo(user), string.Empty);
+            if (!IsAvailableTo(user))
+                return (UsePrevention.MissingPerk, "You haven't unlocked this skill yet.");
+            return (user.IsInBattle() ? UsePrevention.None : UsePrevention.NotInBattle, string.Empty);
         }
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
@@ -61,8 +63,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 Perk explosionPerk = skill.GetPerk(Perks.SmokeBombPerks.DamageOnActivityEndId)!; // level > 0 => must not be null
                 double dmg = explosionPerk.Modifiers[0].Value; // CornerCut: Assume that that perk only has one modifier
                 dmg = skill.ScaleValue(dmg, [Tags.Damage]);
-                ISkillEffect dmgEffect = new DamageSkillEffect(DamageType.Fire, dmg, ISkillEffect.TargetingMode.SingleEnemy, [Tags.Damage]);
-                skill.CooldownStartEffects = [dmgEffect];
+                ISkillEffect dmgEffect = new DamageSkillEffect(DamageType.Fire, dmg, [Tags.Damage]);
+                skill.CooldownEffects.OnEnter = [new(dmgEffect, TargetingMode.SingleEnemy)];
                 skill.Tags.Add(Tags.Damage);
             }
             else

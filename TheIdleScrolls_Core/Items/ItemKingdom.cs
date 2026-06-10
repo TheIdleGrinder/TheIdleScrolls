@@ -12,7 +12,7 @@ namespace TheIdleScrolls_Core.Items
 {
     public record EquippableDescription(List<EquipmentSlot> Slots, double Encumbrance);
 
-    public record WeaponGenus(DamageCluster BaseDamage, double BaseCooldown)
+    public record WeaponGenus(DamageCluster BaseDamage, double BaseCooldown, double Range = 0.0)
     {
         public double Dps => (BaseCooldown != 0.0) ? BaseDamage.TotalDamage / BaseCooldown : 0.0;
     }
@@ -38,16 +38,22 @@ namespace TheIdleScrolls_Core.Items
             DropLevel = dropLevel;
             ValidMaterials = validMaterials;
         }
+
+        public ItemGenusDescription(string name, int dropLevel, List<MaterialId> validMaterials)
+        {
+            Name = name;
+            DropLevel = dropLevel;
+            ValidMaterials = validMaterials;
+        }
     }
 
     public class ItemFamilyDescription
     {
         public string Id { get; set; } = "";
         public string Name { get; set; } = "Missing family name";
-
-        public List<ItemGenusDescription> Genera { get; set; } = new();
-
+        public List<ItemGenusDescription> Genera { get; set; } = [];
         public string RelatedAbilityId { get; set; } = "";
+        public HashSet<string> DropRestrictions { get; set; } = [];
 
         public ItemFamilyDescription()
         {

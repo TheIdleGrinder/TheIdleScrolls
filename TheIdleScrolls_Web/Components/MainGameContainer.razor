@@ -12,8 +12,10 @@
         <div class="play-area-frame main-fight-status">
             <CurrentAreaSelector></CurrentAreaSelector>
             <hr class="thick" style="margin: 0.1rem 0.5rem;">
-            <MobOverview Mob="@Mob"></MobOverview>
-            
+            @foreach (var mob in Mobs)
+            {
+                <MobOverview @key="@mob.Id" Mob="@mob"></MobOverview>
+            }
         </div>
         
         <BattleDataDisplay></BattleDataDisplay>
@@ -54,6 +56,7 @@
             {
                 <div id="travelPage">
                     <DungeonSelector></DungeonSelector>
+                    <PlayerFightSettingsDisplay/>
                 </div>
             }
             @if (m_activeTab == Tab.Inventory)
@@ -202,6 +205,7 @@
 
     #travelPage {
         display: grid;
+        grid-template-columns: 2fr 1fr;
         position: absolute;
         width: 100%;
         max-height: 100%;
@@ -331,7 +335,7 @@
 
     string GameEndAnimation => CoreWrapper.GameWorld.GameEndAnimation ? "inherit" : "none";
     string GameEndAnimationClass => CoreWrapper.GameWorld.GameEndAnimation ? "spinning" : "";
-    Entity? Mob => CoreWrapper.PlayerCharacter?.GetComponent<BattlerComponent>()?.Battle?.Mob;
+    List<Entity> Mobs => CoreWrapper.PlayerCharacter?.GetComponent<BattlerComponent>()?.Battle?.Mobs ?? [];
 
     string PerkTabTitle()
     {

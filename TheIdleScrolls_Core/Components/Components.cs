@@ -23,7 +23,7 @@ namespace TheIdleScrolls_Core.Components
         public int Maximum
         {
             get => (int) Math.Ceiling(_Maximum);
-            set => _Maximum = value;
+            set => SetMaximum(value);
         }
 
         public bool IsAlive => _Current > 0.0;
@@ -53,6 +53,20 @@ namespace TheIdleScrolls_Core.Components
         public void ApplyDamage(double points)
         {
             AddPoints(-points);
+        }
+
+        public void HealToFull()
+        {
+            _Current = _Maximum;
+        }
+
+        public void SetMaximum(int newMax)
+        {
+            if (newMax == Maximum)
+                return;
+            double ratio = (_Maximum > 0) ? _Current / _Maximum : 1.0;
+            _Maximum = newMax;
+            _Current = ratio * _Maximum;
         }
     }
 
@@ -93,7 +107,8 @@ namespace TheIdleScrolls_Core.Components
 
     public class PlayerComponent : IComponent
     {
-        public HashSet<GameFeature> AvailableFeatures { get; set; } = new();
+        public HashSet<GameFeature> AvailableFeatures { get; set; } = [];
+        public HashSet<string> Unlocked { get; set; } = [];
 
         public void SetFeatureState(GameFeature feature, bool available)
         {
@@ -102,37 +117,16 @@ namespace TheIdleScrolls_Core.Components
             else
                 AvailableFeatures.Remove(feature);
         }
+
+        public void AddUnlock(string id)
+        {
+            Unlocked.Add(id);
+        }
     }
 
-    public class AttackComponent : IComponent
+    public class MovementSpeedComponent : IComponent
     {
-        public class AttackVector(DamageCluster dmg, double cd)
-        {
-            public DamageCluster RawDamage = dmg;
-            public double Cooldown = cd;
-        }
-
-        public List<AttackVector> AttackVectors = [];
-
-        public void Reset()
-        {
-            AttackVectors.Clear();
-        }
-
-        public void AddAttackVector(DamageCluster rawDamage, double cooldown)
-        {
-            AttackVectors.Add(new AttackVector(rawDamage, cooldown));
-        }
-
-        public DamageCluster AverageDamage => AttackVectors.Average();
-        public double AverageCooldown => (AttackVectors.Count > 0) ? AttackVectors.Average(av => av.Cooldown) : 0.0;
-        public double AverageDps => (AverageCooldown != 0) ? AverageDamage.TotalDamage / AverageCooldown : 0.0;
-    }
-
-    public class DefenseComponent : IComponent
-    {
-        public double Armor = 0.0;
-        public double Evasion = 0.0;
+        public double Speed { get; set; } = Stats.BaseMovementSpeed;
     }
 
     public class KilledComponent : IComponent
@@ -207,20 +201,17 @@ namespace TheIdleScrolls_Core.Components
 
     public class WeaponComponent : IComponent
     {
-        //public string Family = "";
-        //public string Genus = "";
-        public DamageCluster Damage = new();
-        public double Cooldown = 1.0;
+        public DamageCluster Damage { get; set; } = new();
+        public double AttackTime { get; set; } = 1.0;
+        public double Range { get; set; } = 1.0;
 
-        public WeaponComponent()
-        {
+        public WeaponComponent() { }
 
-        }
-
-        public WeaponComponent(DamageCluster baseDamage, double baseCooldown)
+        public WeaponComponent(DamageCluster baseDamage, double baseCooldown, double range)
         {
             Damage = baseDamage;
-            Cooldown = baseCooldown;
+            AttackTime = baseCooldown;
+            Range = range;
         }
     }
 

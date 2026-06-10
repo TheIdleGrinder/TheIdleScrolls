@@ -91,7 +91,7 @@
     [Parameter]
     public Entity? Entity { get; set; }
 
-    bool HasEvasion => Entity?.GetComponent<EvaderComponent>() != null;
+    bool HasEvasion => (Entity?.GetComponent<BattleStatsComponent>()?.Evasion ?? 0.0) > 0.0;
     List<ActiveSkill> Skills => Entity?.GetComponent<ActiveSkillComponent>()?.Skills.Where(s => s.IsInUse()).ToList() ?? [];
     List<StatusEffect> Status => Entity?.GetComponent<StatusEffectComponent>()?.StatusEffects ?? [];
     DoTComponent? DoTs => Entity?.GetComponent<DoTComponent>();

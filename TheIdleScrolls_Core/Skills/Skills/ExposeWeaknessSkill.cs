@@ -28,9 +28,11 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return HasPerkActive(user, Perks.ExposeWeaknessPerks.BasePerkId);
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
-            return (IsAvailableTo(user), string.Empty);
+            if (!IsAvailableTo(user))
+                return (UsePrevention.MissingPerk, "You haven't unlocked this skill yet.");
+            return (user.IsInBattle() ? UsePrevention.None : UsePrevention.NotInBattle, string.Empty);
         }
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
@@ -61,7 +63,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
             skill.Timer.ChargingDuration = chargeTime;
             skill.Timer.CooldownDuration = cooldown;
-            skill.ActivityStartEffects = [new StatusSkillEffect(ISkillEffect.TargetingMode.SingleEnemy, effect)];
+            skill.ActiveEffects.OnEnter = [
+                new([new StatusSkillEffect(effect)], TargetingMode.SingleEnemy)
+            ];
         }
     }
 }

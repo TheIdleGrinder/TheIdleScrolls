@@ -22,7 +22,7 @@ namespace TheIdleScrolls_Core.Systems
 
         public event PlayerCharacterChangedHandler? PlayerCharacterChanged;
         public event CharacterXpChangedHandler? PlayerXpChanged;
-        public event TimeLimitChangedHandler? TimeLimitChanged;
+        public event HitPointsChangedHandler? HitPointsChanged;
         public event ItemsChangedHandler? PlayerInventoryChanged;
         public event ItemsChangedHandler? PlayerEquipmentChanged;
         public event EncumbranceChangedHandler? PlayerEncumbranceChanged;
@@ -119,16 +119,16 @@ namespace TheIdleScrolls_Core.Systems
             var skillComp = player.GetComponent<ActiveSkillComponent>();
             if (skillComp is not null && skillComp.CurrentSkill is not null)
             {
-                var attackComp = player.GetComponent<AttackComponent>();
-                PlayerOffenseChanged?.Invoke(attackComp?.AverageDamage ?? new(), attackComp?.AverageCooldown ?? 0.0);
+                var attackComp = player.GetComponent<BattleStatsComponent>();
+                PlayerOffenseChanged?.Invoke((int)Math.Round(attackComp?.AverageDamage.TotalDamage ?? 0.0), attackComp?.AverageCooldown ?? 0.0);
 			}
 
             // Update defenses
-            var defenseComp = player.GetComponent<DefenseComponent>();
-            if (defenseComp != null && (m_firstUpdate || coordinator.MessageTypeIsOnBoard<StatsUpdatedMessage>()))
+            var statsComp = player.GetComponent<BattleStatsComponent>();
+            if (statsComp != null && (m_firstUpdate || coordinator.MessageTypeIsOnBoard<StatsUpdatedMessage>()))
             {
-                PlayerDefenseChanged?.Invoke(defenseComp.Armor, defenseComp.Evasion, 
-                    Functions.CalculateDefenseRating(defenseComp.Armor, defenseComp.Evasion, player.GetLevel()));
+                PlayerDefenseChanged?.Invoke(statsComp.Armor, statsComp.Evasion, 
+                    Functions.CalculateDefenseRating(statsComp.Armor, statsComp.Evasion, player.GetLevel()));
             }
 
             // Update Abilities
@@ -296,11 +296,11 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
 
-            // Update time limit
-            var shieldComp = player.GetComponent<TimeShieldComponent>();
-            if (shieldComp != null)
+            // Update hit points
+            var hpComp = player.GetComponent<LifePoolComponent>();
+            if (hpComp != null)
             {
-                TimeLimitChanged?.Invoke(shieldComp.Remaining, shieldComp.Maximum);
+                HitPointsChanged?.Invoke(hpComp.Current, hpComp.Maximum);
             }
 
             // Update auto proceed
@@ -381,7 +381,7 @@ namespace TheIdleScrolls_Core.Systems
             var mobLevel = mob.GetComponent<LevelComponent>()?.Level ?? 0;
             var mobHp = mob.GetComponent<LifePoolComponent>()?.Current ?? 0;
             var mobHpMax = mob.GetComponent<LifePoolComponent>()?.Maximum ?? 0;
-            var mobDamage = mob.GetComponent<MobDamageComponent>()?.Multiplier ?? 0.0;
+            var mobDamage = mob.GetComponent<BattleStatsComponent>()?.AverageDamage.TotalDamage ?? 0.0;
             return new MobRepresentation(mob.Id, mobId, mobName, mobLevel, mobHp, mobHpMax, mobDamage);
         }
 

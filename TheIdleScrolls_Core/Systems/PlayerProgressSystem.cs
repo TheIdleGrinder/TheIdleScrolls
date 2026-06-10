@@ -46,7 +46,7 @@ namespace TheIdleScrolls_Core.Systems
                 }
                 List<string> tagsOfInterest = [Tags.DualWield, Tags.Shielded, Tags.SingleHanded, Tags.TwoHanded, 
                     Tags.Unarmed, Tags.Unarmored, 
-                    Abilities.Axe, Abilities.Blunt, Abilities.LongBlade, Abilities.Polearm, Abilities.ShortBlade];
+                    .. Abilities.Weapons];
                 var playerTags = m_player.GetTags().ToHashSet();
                 foreach (var tag in tagsOfInterest)
                 {

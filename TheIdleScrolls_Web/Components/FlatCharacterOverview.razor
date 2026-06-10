@@ -23,7 +23,7 @@
             <table id="character-stat-table">
                 <tr class="normal-font">
                     <th title="Damage per second">DPS</th>
-                    <td>@(FormatValue(Stats.Damage.TotalDamage / Stats.Cooldown))</td>
+                    <td>@(FormatValue(Stats.Damage / Stats.AttackTime))</td>
                     <th class="withTooltip">Resistance
                         <span class="barTooltip">Against a standard level @CoreWrapper.Character.Level enemy</span>
                     </th>
@@ -37,7 +37,7 @@
                 </tr>
                 <tr class="small-font">
                     <th>Attack Time</th>
-                    <td>@FormatValue(Stats.Cooldown) s</td>
+                    <td>@FormatValue(Stats.AttackTime) s</td>
                     <th>Evasion</th>
                     <td>@(FormatValue(Stats.Evasion))</td>
                 </tr>
@@ -123,8 +123,8 @@
 
     double xpPct => 1.0 * CoreWrapper.XpCurrent / CoreWrapper.XpTarget;
 
-    int AttackCooldown => CooldownToInt(Stats.Cooldown);
-    int AttackProgress => CooldownToInt(Stats.Cooldown) - CooldownToInt(Stats.CooldownRemaining);
+    int AttackCooldown => CooldownToInt(Stats.AttackTime);
+    int AttackProgress => CooldownToInt(Stats.AttackTime) - CooldownToInt(Stats.CooldownRemaining);
 
     string FormatValue(double value) => value.ToBigIntString();
     int CooldownToInt(double time) => (int)(time * 1000);    

@@ -123,6 +123,7 @@ namespace TheIdleScrolls_Core.Resources
             // Ability achievements
             (int Level, string Rank)[] ranks =
             [
+                ( 0,  "Beginner"),
                 ( 25, "Apprentice"),
                 ( 50, "Adept"),
                 ( 75, "Expert"),
@@ -131,19 +132,43 @@ namespace TheIdleScrolls_Core.Resources
             ];
             foreach (string weapFamily in Abilities.Weapons)
             {
+                bool hasBeginnerLevel = weapFamily == Abilities.Archery; // Only archery has a beginner rank
                 for (int i = 0; i < ranks.Length; i++)
                 {
                     int level = ranks[i].Level;
-                    Achievement achievement = new(
-                        $"{weapFamily}{level}",
-                        $"{weapFamily.Localize()} {ranks[i].Rank}",
-                        $"Reach ability level {level} for {weapFamily.Localize()} weapons",
-                        (i > 0) ? ExpressionParser.ParseToFunction($"{weapFamily}{ranks[i - 1].Level}") : tautology,
-                        ExpressionParser.ParseToFunction($"abl:{weapFamily} >= {level}"))
+                    if (level > 0)
                     {
-                        Reward = GetRewardForLeveledAchievement(weapFamily, level)
-                    };
-                    achievements.Add(achievement);
+                        Achievement achievement = new(
+                            $"{weapFamily}{level}",
+                            $"{weapFamily.Localize()} {ranks[i].Rank}",
+                            $"Reach ability level {level} for {weapFamily.Localize()} weapons",
+                            (i > (hasBeginnerLevel ? 0 : 1)) ? ExpressionParser.ParseToFunction($"{weapFamily}{ranks[i - 1].Level}") : tautology,
+                            ExpressionParser.ParseToFunction($"abl:{weapFamily} >= {level}"))
+                        {
+                            Reward = GetRewardForLeveledAchievement(weapFamily, level)
+                        };
+                        achievements.Add(achievement);
+                    }
+                    else
+                    {
+                        if (!hasBeginnerLevel)
+                            continue; // Skip the 0 level achievement for weapon families that don't have a beginner rank
+                        var condition = tautology;
+                        if (weapFamily == Abilities.Archery)
+                        {
+                            condition = (e, w) => e.GetComponent<PlayerComponent>()?.Unlocked?.Contains(DropRestrictions.Bow) ?? false;
+                        }
+                        Achievement achievement = new(
+                            $"{weapFamily}{level}",
+                            $"{weapFamily.Localize()} {ranks[i].Rank}",
+                            $"Defeat {20} enemies with {weapFamily.Localize()} weapons",
+                            condition,
+                            Conditions.MobsDefeatedConditionallyCondition(weapFamily, 20))
+                        {
+                            Reward = new AbilityReward(weapFamily)
+                        };
+                        achievements.Add(achievement);
+                    }
                 }
             }
             foreach (string armorFamily in Abilities.Armors)
@@ -224,11 +249,11 @@ namespace TheIdleScrolls_Core.Resources
                                 [[Tags.FirstStrike], [Tags.FirstStrike]])
                                 .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.LBL),
                 ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
-                                $"{1.0:0.#%} more defenses during first attack with {id.Localize()}s",
-                                ModifierType.More,
-                                1.0,
-                                [Tags.Defense],
-                                [Tags.FirstStrike, Abilities.Polearm])
+                                $"Adds {2.0:0.#%} base range to attacks with {id.Localize()}s",
+                                ModifierType.AddBase,
+                                2.0,
+                                [Tags.Range],
+                                [Abilities.Polearm])
                                 .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.POL),
                 ("SBL", 25) => new Perk($"{id}{level}", "Sneak Attack",
                                 $"Deal 100% more damage per 25 levels of the {LocalizedStrings.SBL} ability with short blades on " +
@@ -245,6 +270,13 @@ namespace TheIdleScrolls_Core.Resources
                                     ];
                                 })
                                 .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.SBL),
+                ("ARC", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Pre-Nocked Arrow",
+                                $"Your first attack every battle is twice as quick when using an {id.Localize()} weapon",
+                                ModifierType.More,
+                                1.0,
+                                [Tags.AttackSpeed],
+                                [Abilities.Archery, Tags.FirstStrike])
+                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.ARC),
                 ("AXE", 75) => new($"{id}{level}", "Frenzy",
                                 $"Gain {0.02:0.#%}/{0.04:0.#%}/{0.06:0.#%} increased attack speed with {id.Localize()}s " +
                                     $"after every attack (up to {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%})",
@@ -335,16 +367,16 @@ namespace TheIdleScrolls_Core.Resources
                     MaxLevel = 3,
                     Categories = [LocalizedStrings.Weapons, LocalizedStrings.SBL]
                 },
-                ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 50)
+                ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "ARC", 50)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Adept",
-                                $"Gain {Stats.BigPerkFactor * Stats.BasicDamageIncrease:0.#%} increased damage with {id.Localize()}s",
+                                $"Gain {Stats.BigPerkFactor * Stats.BasicDamageIncrease:0.#%} increased damage with {id.Localize()} weapons",
                                 ModifierType.Increase,
                                 Stats.BigPerkFactor * Stats.BasicDamageIncrease,
                                 [Tags.Damage, id, DamageType.Physical.ToTag()],
                                 [],
                                 maxLevel: 3)
                             .WithCategories(LocalizedStrings.Weapons, id.Localize()),
-                ("AXE" or "BLN" or "LBL" or "POL" or "SBL", 100)
+                ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "ARC", 100)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
                                 $"Gain a {Stats.MasterPerkMultiplier:0.#%} multiplier to ALL damage",
                                 ModifierType.More,
@@ -448,7 +480,7 @@ namespace TheIdleScrolls_Core.Resources
                                     [Tags.ActiveCrafts],
                                     [], true)
                                 .WithCategories(id.Localize()),
-                ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "LAR" or "HAR" or "ABL_CRAFT", 150)
+                ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "ARC" or "LAR" or "HAR" or "ABL_CRAFT", 150)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Savant",
                                     $"{Stats.SavantXpMultiplier:0.#%} increased experience gain for {id.Localize()} ability",
                                     ModifierType.Increase,
@@ -584,10 +616,10 @@ namespace TheIdleScrolls_Core.Resources
                     .WithCategories(Properties.Skills.PathFighter, Properties.Skills.HeavyAttack_Name),
                 (Abilities.SingleHanded, 100) => PerkFactory.MakeStaticPerk($"{id}{level}",
                                     $"{LocalizedStrings.ABL_SINGLEHANDED} Master",
-                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} time limit multiplier",
+                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} hit point multiplier",
                                     ModifierType.More,
                                     Stats.MasterPerkMultiplier,
-                                    [Tags.TimeShield],
+                                    [Tags.HitPoints],
                                     [])
                 .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_SINGLEHANDED),
                 (Abilities.TwoHanded, 50) => new($"{id}{level}", "Precise Attacks",
@@ -646,7 +678,7 @@ namespace TheIdleScrolls_Core.Resources
                                     "",
                                     Enumerable.Repeat(ModifierType.Increase, 4).ToList(),
                                     [Stats.BasicDamageIncrease, Stats.BasicAttackSpeedIncrease, Stats.BasicDefenseIncrease, Stats.BasicTimeIncrease],
-                                    [[Tags.Damage], [Tags.AttackSpeed], [Tags.Defense], [Tags.TimeShield]],
+                                    [[Tags.Damage], [Tags.AttackSpeed], [Tags.Defense], [Tags.HitPoints]],
                                     [[], [], [], []],
                                     maxLevel: 3)
                 .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.FightingStyles),
@@ -656,8 +688,9 @@ namespace TheIdleScrolls_Core.Resources
                                         UpdateTrigger.BattleStarted, UpdateTrigger.SkillStateChanged],
                                     (_, e, w, c) =>
                                     {
-                                        double cooldown = e.GetComponent<AttackComponent>()?.AverageCooldown ?? 0.0;
-                                        double armor = e.GetComponent<DefenseComponent>()?.Armor ?? 0.0;
+                                        var statsComp = e.GetComponent<BattleStatsComponent>();
+                                        double cooldown = statsComp?.AverageCooldown ?? 0.0;
+                                        double armor = statsComp?.Armor ?? 0.0;
                                         var abilitiesComp = e.GetComponent<AbilitiesComponent>();
                                         int lvlDW = abilitiesComp?.GetAbility(Abilities.DualWield)?.Level ?? 0;
                                         int lvlSh = abilitiesComp?.GetAbility(Abilities.Shielded)?.Level ?? 0;

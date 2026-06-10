@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Systems
@@ -25,22 +26,31 @@ namespace TheIdleScrolls_Core.Systems
             foreach (Entity player in coordinator.GetEntities<PlayerComponent, BattlerComponent>())
             {
                 var battle = player.GetComponent<BattlerComponent>()!.Battle;
-                if (battle.NeedsMob)
-                {
-                    var locationComp = player.GetComponent<LocationComponent>() 
-                        ?? throw new Exception($"{player.GetName()} is not in a valid location");
-                    
-                    var zone = locationComp.GetCurrentZone(world.Map)
-                        ?? throw new Exception($"Player {player.GetName()} is not in a valid zone");
 
-                    List<MobDescription> additionalMobs = (locationComp.InDungeon)
+                if (!battle.CanAddMob || battle.Mobs.Count > 0) // Don't spawn additional mobs during active battle
+                    continue;
+
+                var locationComp = player.GetComponent<LocationComponent>()
+                    ?? throw new Exception($"{player.GetName()} is not in a valid location");
+                var zone = locationComp.GetCurrentZone(world.Map)
+                    ?? throw new Exception($"Player {player.GetName()} is not in a valid zone");
+                List<MobDescription> additionalMobs = (locationComp.InDungeon)
                         ? world.AreaKingdom.GetLocalEnemies(locationComp.DungeonId)
                         : new();
+
+                var chanceComp = player.GetOrAddComponent<ChanceChargeComponent>();
+                int targetMobCount = chanceComp.AddCharge("PackSize", zone.PackSize);
+                chanceComp.RemoveCharge("PackSize", targetMobCount);
+
+                while (battle.CanAddMob && battle.Mobs.Count < targetMobCount)
+                {    
                     var mob = CreateRandomMob(zone, additionalMobs);
 
-                    battle.Mob = mob;
+                    battle.Mobs.Add(mob);
                     battle.MobsRemaining--;
-                    mob.AddComponent(new BattlerComponent(battle));
+
+                    var battleComp = new BattlerComponent(battle);
+                    mob.AddComponent(battleComp);
 
                     if (locationComp.InDungeon && zone.MobCount > 1)
                     {
@@ -67,7 +77,7 @@ namespace TheIdleScrolls_Core.Systems
             if (validMobs == null || !validMobs.Any())
                 throw new Exception($"No valid mobs for area level {level}");
             int index = new Random().Next(validMobs.Count());
-            return MobFactory.MakeMob(validMobs.ElementAt(index), level);
+            return MobFactory.MakeMob(validMobs.ElementAt(index), level, 1.0 / zone.TimeMultiplier);
         }
     }
 
