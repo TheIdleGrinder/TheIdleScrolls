@@ -13,7 +13,7 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 	public class DamageSkillEffect(DamageType damageType, double damage, HashSet<string> tags) : ISkillEffect
 	{
 		public DamageType DamageType = damageType;
-        public double Damage = Math.Round(damage);
+        public double Damage = Functions.ApplyDamageRounding(damage);
 		public HashSet<string> Tags = tags;
 
 		public double DamageDone { get; private set; } = 0.0;

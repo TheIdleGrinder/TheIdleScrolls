@@ -245,7 +245,7 @@ namespace TheIdleScrolls_Core.Items
                 DamageCluster dmg = description.Weapon.BaseDamage.Multiply(Math.Pow(Stats.QualityMultiplier, qualityLevel) * materialMulti);
                 foreach (var type in dmg.Types)
                 {
-                    dmg.SetDamage(type, Math.Round(dmg.DamageOfType(type), 1));
+                    dmg.SetDamage(type, Functions.ApplyDamageRounding(dmg.DamageOfType(type)));
                 }
                 item.AddComponent(new WeaponComponent(dmg, description.Weapon.BaseCooldown, description.Weapon.Range));
             }
@@ -254,7 +254,8 @@ namespace TheIdleScrolls_Core.Items
             {
                 double armor = Math.Round(description.Armor.BaseArmor * Math.Pow(Stats.QualityMultiplier, qualityLevel) * materialMulti, 1);
                 double evasion = Math.Round(description.Armor.BaseEvasion * Math.Pow(Stats.QualityMultiplier, qualityLevel) * materialMulti, 1);
-                item.AddComponent(new ArmorComponent(armor, evasion));
+                item.AddComponent(new ArmorComponent(Functions.ApplyDefenseRounding(armor), 
+                                                     Functions.ApplyDefenseRounding(evasion)));
             }
         }
 

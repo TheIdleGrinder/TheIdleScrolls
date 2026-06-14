@@ -217,8 +217,8 @@ namespace TheIdleScrolls_Core.Systems
             double moveSpeed = modComp?.ApplyApplicableModifiers(Stats.BaseMovementSpeed, [Tags.MovementSpeed], globalTags) ?? Stats.BaseMovementSpeed;
 
             statsComp.Encumbrance = encumbrance;
-            statsComp.Evasion = evasion / statsComp.EncumbranceSlowdown;
-            statsComp.Armor = armor;
+            statsComp.Evasion = Functions.ApplyDefenseRounding(evasion / statsComp.EncumbranceSlowdown);
+            statsComp.Armor = Functions.ApplyDefenseRounding(armor);
             statsComp.MovementSpeed = moveSpeed / statsComp.EncumbranceSlowdown;
         }
     }

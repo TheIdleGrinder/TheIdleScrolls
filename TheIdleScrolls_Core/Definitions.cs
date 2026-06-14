@@ -416,5 +416,15 @@ namespace TheIdleScrolls_Core
                 crafter.GetTags()) ?? 1.0;
             return (int)Math.Ceiling(Math.Max(baseCost / ((efficiency == 0) ? 0.1 : efficiency), 1.0));
         }
+
+        public static double ApplyDamageRounding(double damage)
+        {
+            return Math.Round(damage);
+        }
+
+        public static double ApplyDefenseRounding(double defense)
+        {
+            return Math.Round(defense);
+        }
     }
 }

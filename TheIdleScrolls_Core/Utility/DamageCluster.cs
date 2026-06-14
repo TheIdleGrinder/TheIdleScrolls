@@ -95,7 +95,7 @@ namespace TheIdleScrolls_Core.Utility
                     globalTags);
                 if (value > 0.0)
                 {
-                    result.AddDamage(type, value);
+                    result.AddDamage(type, Functions.ApplyDamageRounding(value));
                 }
             }
             return result;
