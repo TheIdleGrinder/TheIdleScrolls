@@ -29,12 +29,19 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return HasPerkActive(user, CrushingBlow.BasePerkId);
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
             if (!IsAvailableTo(user))
-                return (false, "");
-            var weapon2H = user.HasTag(Tags.TwoHanded);
-            return (weapon2H, weapon2H ? "" : "Requires two-handed weapon");
+                return (UsePrevention.MissingPerk, "You haven't unlocked this skill yet.");
+            if (!user.IsInBattle())
+                return (UsePrevention.NotInBattle, "You can only use this skill in battle.");
+            bool weapon2H = user.HasTag(Tags.TwoHanded);
+            if (!weapon2H)
+                return (UsePrevention.WrongEquipment, "Requires two-handed weapon");
+            if (ActiveSkill.GetEnemiesInRange(user, user.GetComponent<BattleStatsComponent>()?.AverageRange ?? 0.0).Count == 0)
+                return (UsePrevention.NoTargetInRange, "No target in range");
+
+            return (UsePrevention.None, string.Empty);
         }
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
@@ -42,7 +49,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
             skill.Tags = [Tags.AttackSkill];
 
             Entity? weapon = user.GetComponent<EquipmentComponent>()?.GetItems()?.FirstOrDefault(i => i.IsWeapon());
-            DamageCluster baseDamage = new(DamageType.Physical, Stats.UnarmedBaseDamage);
+            var battleStatsComp = user.GetComponent<BattleStatsComponent>();
+            DamageCluster baseDamage = battleStatsComp?.BaseAttack.RawDamage ?? new(DamageType.Physical, 2.0);
             HashSet<string> tags = [];
             if (weapon is null)
             {
@@ -53,10 +61,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 tags = weapon.GetTags().ToHashSet();
                 baseDamage = weapon.GetComponent<WeaponComponent>()?.Damage ?? baseDamage;
             }
-
-            var attackComp = user.GetComponent<AttackComponent>();
+            
             var perk = user.GetComponent<PerksComponent>()?.GetPerk(CrushingBlow.BasePerkId);
-            if (attackComp is null || attackComp.AttackVectors.Count == 0 || perk is null)
+            if (battleStatsComp is null || battleStatsComp.AttackVectors.Count == 0 || perk is null)
             {
                 return;
             }
@@ -66,14 +73,14 @@ namespace TheIdleScrolls_Core.Skills.Skills
             var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. skill.Tags]);
             GenericModifierStatusEffect crushedEffect = new("Crushed", DebuffDuration, 
                 [perk!.GetModifier(CrushingBlow.BasePerkAntiDefenseModId)!], [Tags.Debuff]);
-            effects.Add(new SkillEffects.StatusSkillEffect(ISkillEffect.TargetingMode.SingleEnemy, crushedEffect));
+            effects.Add(new SkillEffects.StatusSkillEffect(crushedEffect));
 
             double cooldownRecovery = skill.ScaleValue(1.0, [Tags.CooldownRecovery]);
             if (cooldownRecovery == 0.0)
                 cooldownRecovery = 1.0;
 
-            skill.ActivityStartEffects = effects;
-            skill.ChargingTime = attackComp.AttackVectors[0].Cooldown;
+            skill.ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
+            skill.ChargingTime = battleStatsComp.AttackVectors[0].AttackTime;
             skill.Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
         }
     }

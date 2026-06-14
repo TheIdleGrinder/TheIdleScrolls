@@ -51,13 +51,13 @@ namespace TheIdleScrolls_Core.Skills
 				if (User is null || !Definition.IsAvailableTo(User))
 					return "";
 				var (usable, reason) = Definition.IsUsableBy(User);
-				if (!usable)
+				if (usable != UsePrevention.None)
 					return reason;
 				return "";
 			}
         }
 
-        public List<ISkillEffect> ChargingStartEffects
+        public List<SkillEffectBundle> ChargingStartEffects
 		{
 			get => ChargingEffects.OnEnter;
 			set
@@ -84,7 +84,7 @@ namespace TheIdleScrolls_Core.Skills
 					ChargingEffects.WhileIn = value;
             }
         }
-        public List<ISkillEffect> ActivityStartEffects
+        public List<SkillEffectBundle> ActivityStartEffects
         {
             get => ActiveEffects.OnEnter;
             set
@@ -111,7 +111,7 @@ namespace TheIdleScrolls_Core.Skills
                     ActiveEffects.WhileIn = value;
             }
         }
-        public List<ISkillEffect> CooldownStartEffects
+        public List<SkillEffectBundle> CooldownStartEffects
         {
             get => CooldownEffects.OnEnter;
             set

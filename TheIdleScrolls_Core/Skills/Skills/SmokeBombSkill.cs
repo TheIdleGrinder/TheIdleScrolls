@@ -64,7 +64,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 double dmg = explosionPerk.Modifiers[0].Value; // CornerCut: Assume that that perk only has one modifier
                 dmg = skill.ScaleValue(dmg, [Tags.Damage]);
                 ISkillEffect dmgEffect = new DamageSkillEffect(DamageType.Fire, dmg, [Tags.Damage]);
-                skill.CooldownEffects.OnEnter = [new(dmgEffect, TargetingMode.SingleEnemy)];
+                skill.CooldownStartEffects = [new(dmgEffect, TargetingMode.SingleEnemy)];
                 skill.Tags.Add(Tags.Damage);
             }
             else

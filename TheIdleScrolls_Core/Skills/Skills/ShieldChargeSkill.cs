@@ -26,24 +26,28 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return HasPerkActive(user, ShieldCharge.BasePerkId);
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
             if (!IsAvailableTo(user))
-            {
-                return (false, string.Empty);
-            }
-
+                return (UsePrevention.MissingPerk, "You haven't unlocked this skill yet.");
+            if (!user.IsInBattle())
+                return (UsePrevention.NotInBattle, "You can only use this skill in battle.");
             bool hasShield = user.HasTag(Tags.Shielded);
+            if (!hasShield)
+                return (UsePrevention.WrongEquipment, "Requires Shield");
+            if (ActiveSkill.GetEnemiesInRange(user, user.GetComponent<BattleStatsComponent>()?.AverageRange ?? 0.0).Count == 0)
+                return (UsePrevention.NoTargetInRange, "No target in range");
 
-            return (hasShield, hasShield ? "" : "Requires Shield");
+            return (UsePrevention.None, string.Empty);
         }
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
         {
             skill.Tags = [Tags.AttackSkill];
+            var battleStatsComp = user.GetComponent<BattleStatsComponent>();
 
             Entity? weapon = user.GetComponent<EquipmentComponent>()?.GetItems()?.FirstOrDefault(i => i.IsWeapon());
-            DamageCluster baseDamage = new(DamageType.Physical, Stats.UnarmedBaseDamage);
+            DamageCluster baseDamage = battleStatsComp?.BaseAttack.RawDamage ?? new(DamageType.Physical, 2.0);
             HashSet<string> tags = [];
             if (weapon is null)
             {
@@ -55,9 +59,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 baseDamage = weapon.GetComponent<WeaponComponent>()?.Damage ?? baseDamage;
             }
 
-            var attackComp = user.GetComponent<AttackComponent>();
             var perk = user.GetComponent<PerksComponent>()?.GetPerk(ShieldCharge.BasePerkId);
-            if (attackComp is null || attackComp.AttackVectors.Count == 0 || perk is null)
+            if (battleStatsComp is null || battleStatsComp.AttackVectors.Count == 0 || perk is null)
             {
                 return;
             }
@@ -68,8 +71,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
             if (cooldownRecovery == 0.0)
                 cooldownRecovery = 1.0;
 
-            skill.ActivityStartEffects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. skill.Tags]);
-            skill.ChargingTime = attackComp.AttackVectors[0].Cooldown;
+            var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. skill.Tags]);
+            skill.ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
+            skill.ChargingTime = battleStatsComp.AttackVectors[0].AttackTime;
             skill.Timer.CooldownDuration = 5.0 / cooldownRecovery;
 
             Modifier defMod = perk?.GetModifier(ShieldCharge.BasePerkArmorModId)!;

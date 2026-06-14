@@ -65,7 +65,8 @@ namespace TheIdleScrolls_Core.Systems
                 var skillComp = entity.GetComponent<ActiveSkillComponent>();
                 if (skillComp != null)
                 {
-                    DefaultAttack.SetupAttackComponent(entity);
+                    var statsComp = entity.GetComponent<BattleStatsComponent>()!;
+                    DefaultAttack.SetupAttackComponent(entity, statsComp);
 
                     foreach (var skill in skillComp.Skills)
                     {
@@ -136,7 +137,11 @@ namespace TheIdleScrolls_Core.Systems
             }
 
             AddOrRemoveTag(Tags.FirstStrike, entity.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
-            AddOrRemoveTag(Tags.Evading, entity.GetComponent<EvaderComponent>()?.Active ?? false);
+
+            double lowLifeLimit = 0.35;
+            //var lifeComp = entity.GetComponent<BattlerComponent>()?.Battle?.Mob?.GetComponent<LifePoolComponent>();
+            //AddOrRemoveTag(Tags.FirstStrike, lifeComp?.IsFull ?? false);
+            //AddOrRemoveTag(Tags.VsLowLife, (lifeComp?.Percentage ?? 1.0) <= lowLifeLimit);
         }
 
         static void UpdateLifePool(Entity entity, int baseHitPoints)
@@ -211,11 +216,6 @@ namespace TheIdleScrolls_Core.Systems
             evasion += modComp?.ApplyApplicableModifiers(0.0, globalDefTags.Append(Tags.EvasionRating), globalTags) ?? 0.0;
             double moveSpeed = modComp?.ApplyApplicableModifiers(Stats.BaseMovementSpeed, [Tags.MovementSpeed], globalTags) ?? Stats.BaseMovementSpeed;
 
-            double lowLifeLimit = 0.35;
-            var lifeComp = player.GetComponent<BattlerComponent>()?.Battle?.Mob?.GetComponent<LifePoolComponent>();
-            AddOrRemoveTag(Tags.FirstStrike, lifeComp?.IsFull ?? false);
-            AddOrRemoveTag(Tags.VsLowLife, (lifeComp?.Percentage ?? 1.0) <= lowLifeLimit);
-            AddOrRemoveTag(Tags.Evading, player.GetComponent<EvaderComponent>()?.Active ?? false);
             statsComp.Encumbrance = encumbrance;
             statsComp.Evasion = evasion / statsComp.EncumbranceSlowdown;
             statsComp.Armor = armor;

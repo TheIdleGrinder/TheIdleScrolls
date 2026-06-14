@@ -25,14 +25,17 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return HasPerkActive(user, EnvenomWeapon.BasePerkId);
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
             if (!IsAvailableTo(user))
-                return (false, "");
-            bool hasWeapon = user.GetComponent<EquipmentComponent>()?.GetItems()?.Any(i => i.GetTags().Contains(Definitions.Tags.Weapon)) ?? false;
+                return (UsePrevention.MissingPerk, "You haven't unlocked this skill yet.");
+            if (!user.IsInBattle())
+                return (UsePrevention.NotInBattle, "You can only use this skill in battle.");
+            bool hasWeapon = user.GetComponent<EquipmentComponent>()?.GetItems()?.Any(i => i.IsWeapon()) ?? false;
             if (!hasWeapon)
-                return (false, "Requires equipped weapon");
-            return (true, "");
+                return (UsePrevention.WrongEquipment, "Requires equipped weapon");
+
+            return (UsePrevention.None, string.Empty);
         }
 
         protected override void SetupStats(Entity user, ActiveSkill skill)

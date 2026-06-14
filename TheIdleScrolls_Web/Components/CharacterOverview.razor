@@ -21,7 +21,7 @@
         <table id="character-stat-table">
             <tr class="normal-font">
                 <th title="Damage per second">DPS</th>
-                <td>@(FormatValue(Stats.Damage / Stats.AttackTime))</td>
+                <td>@(FormatValue(Stats.Damage.TotalDamage / Stats.AttackTime))</td>
                 <th class="withTooltip">Resistance
                     <span class="barTooltip">Against a standard level @CoreWrapper.Character.Level enemy</span>
                 </th>

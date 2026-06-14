@@ -29,17 +29,30 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return HasPerkActive(user, VitalStrike.BasePerkId);
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
             if (!IsAvailableTo(user))
-                return (false, "");
+                return (UsePrevention.MissingPerk, "You haven't unlocked this skill yet.");
+            if (!user.IsInBattle())
+                return (UsePrevention.NotInBattle, "You can only use this skill in battle.");
             var singleHanded = user.HasTag(Tags.SingleHanded);
-            return (singleHanded, singleHanded ? "" : "Requires single-handed style");
+            if (!singleHanded)
+                return (UsePrevention.WrongEquipment, "Requires single-handed style");
+            if (ActiveSkill.GetEnemiesInRange(user, user.GetComponent<BattleStatsComponent>()?.AverageRange ?? 0.0).Count == 0)
+                return (UsePrevention.NoTargetInRange, "No target in range");
+            return (UsePrevention.None, string.Empty);
         }
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
         {
             skill.Tags = [Tags.AttackSkill];
+
+            var attackComp = user.GetComponent<BattleStatsComponent>();
+            var perk = user.GetComponent<PerksComponent>()?.GetPerk(VitalStrike.BasePerkId);
+            if (attackComp is null || attackComp.AttackVectors.Count == 0 || perk is null)
+            {
+                return;
+            }
 
             //Entity? weapon = user.GetComponent<EquipmentComponent>()?.GetItems()?.FirstOrDefault(i => i.IsWeapon());
             //DamageCluster baseDamage = new(DamageType.Physical, Stats.UnarmedBaseDamage);
@@ -54,17 +67,12 @@ namespace TheIdleScrolls_Core.Skills.Skills
             //    baseDamage = weapon.GetComponent<WeaponComponent>()?.Damage ?? baseDamage;
             //}
 
-            var attackComp = user.GetComponent<AttackComponent>();
-            var perk = user.GetComponent<PerksComponent>()?.GetPerk(VitalStrike.BasePerkId);
-            if (attackComp is null || attackComp.AttackVectors.Count == 0 || perk is null)
-            {
-                return;
-            }
+
             //DamageCluster damage = skill.ScaleDamage(baseDamage, tags, perk?.Modifiers);
 
             DamageCluster damage = attackComp.AverageDamage;
 
-            ISkillEffect pruningEffect = new PruningSkillEffect(Stats.PruningBaseEffect, ISkillEffect.TargetingMode.SingleEnemy);
+            ISkillEffect pruningEffect = new PruningSkillEffect(Stats.PruningBaseEffect);
             var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. skill.Tags]);
             effects.Insert(0, pruningEffect);
 
@@ -75,7 +83,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 cooldownRecovery = 1.0;
             cooldownRecovery *= 1.0 + cooldownBonus;
 
-            skill.ActivityStartEffects = effects;
+            skill.ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
             skill.ChargingTime = attackComp.AverageCooldown;
             skill.Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
         }

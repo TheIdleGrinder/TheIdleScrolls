@@ -26,9 +26,11 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return HasPerkActive(user, BattleCry.BasePerkId);
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
-            return (IsAvailableTo(user), "");
+            if (!IsAvailableTo(user))
+                return (UsePrevention.MissingPerk, "You haven't unlocked this skill yet.");
+            return (user.IsInBattle() ? UsePrevention.None : UsePrevention.NotInBattle, string.Empty);
         }
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
@@ -58,7 +60,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             {
                 Perk debuffPerk = skill.GetPerk(BattleCry.DebuffPerkId)!;
                 SlowStatusEffect debuff = new(skill.Timer.ActiveDuration, debuffPerk.Modifiers[0].Value);
-                skill.ActivityStartEffects = [new StatusSkillEffect(ISkillEffect.TargetingMode.SingleEnemy, debuff)];
+                skill.ActivityStartEffects = [new([new StatusSkillEffect(debuff)], TargetingMode.SingleEnemy)];
             }
         }
     }

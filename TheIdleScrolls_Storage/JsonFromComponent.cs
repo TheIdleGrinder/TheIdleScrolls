@@ -285,7 +285,6 @@ namespace TheIdleScrolls_Storage
             };
         }
 
-		public static JsonObject JsonFromSth<T>(T thing)
         public static JsonObject? ToJson(this AdventurerComponent component)
         {
             JsonObject json = new()

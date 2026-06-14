@@ -29,9 +29,15 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return HasPerkActive(user, HeavyAttack.BasePerkId);
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
-            return (IsAvailableTo(user), string.Empty);
+            if (!IsAvailableTo(user))
+                return (UsePrevention.MissingPerk, "You haven't unlocked this skill yet.");
+            if (!user.IsInBattle())
+                return (UsePrevention.NotInBattle, "You can only use this skill in battle.");
+            if (ActiveSkill.GetEnemiesInRange(user, user.GetComponent<BattleStatsComponent>()?.AverageRange ?? 0.0).Count == 0)
+                return (UsePrevention.NoTargetInRange, "No target in range");
+            return (UsePrevention.None, "");
         }
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
@@ -76,15 +82,15 @@ namespace TheIdleScrolls_Core.Skills.Skills
             {
                 var thPerk = skill.GetPerk(HeavyAttack.TwoHandedBonusPerkId)!;
                 double stunMod = thPerk.GetModifier(HeavyAttack.TwoHandedBonusStunModId)?.Value ?? 0.0;
-                additionalEffects.Add(new StatusSkillEffect(ISkillEffect.TargetingMode.SingleEnemy, new StunStatusEffect(stunMod)));
+                additionalEffects.Add(new StatusSkillEffect(new StunStatusEffect(stunMod)));
             }
 
-            AttackComponent attackComp = new();
+            BattleStatsComponent attackComp = new(new(new(DamageType.Physical, 2.0), 1.0, 0.0));
             DefaultAttack.SetupAttackComponent(user, attackComp, additionalMods);
                         
-            skill.ActivityStartEffects = DefaultAttack
+            skill.ActivityStartEffects = [new(DefaultAttack
                 .CreateDefaultSkillEffectsForDamage(attackComp.AverageDamage, [.. AdditionalTags])
-                .Concat(additionalEffects).ToList();
+                .Concat(additionalEffects).ToList(), TargetingMode.SingleEnemy)];
             skill.ChargingTime = attackComp.AverageCooldown;
             skill.Timer.CooldownDuration = BaseCooldown;
         }

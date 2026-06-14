@@ -24,7 +24,7 @@ namespace TheIdleScrolls_Core.Perks
                 UpdateTrigger.AbilityIncreased],
             (l, e, w, c) =>
             {
-                double attackSpeed = e.GetComponent<AttackComponent>()?.AverageCooldown ?? 1.0;
+                double attackSpeed = e.GetComponent<BattleStatsComponent>()?.AverageCooldown ?? 1.0;
                 double multi = 0.7 + 0.3 * l;
 
                 return [

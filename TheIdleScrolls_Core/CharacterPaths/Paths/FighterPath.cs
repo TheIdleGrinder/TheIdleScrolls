@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Achievements.Rewards;
+using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Modifiers;
@@ -15,34 +16,39 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
 {
     public static class FighterPath
     {
-        const string PathId             = "fighter";
-        public const string RootId             = "fighter_root";
-        const string DualWield1Id       = "dualwield1";
-        const string DualWield2Id       = "dualwield2";
-        const string DualWield3Id       = "dualwield3";
-        const string DualWield4Id       = "dualwield4";
-        const string Shield1Id          = "shielded1";
-        const string Shield2Id          = "shielded2";
-        const string Shield3Id          = "shielded3";
-        const string Single1Id          = "singlehanded1";
-        const string Single2Id          = "singlehanded2";
-        const string Single3Id          = "singlehanded3";
-        const string TwoHand1Id         = "twohanded1";
-        const string TwoHand2Id         = "twohanded2";
-        const string TwoHand3Id         = "twohanded3";
+        const string PathId = "fighter";
+        public const string RootId = "fighter_root";
+        const string DualWield1Id = "dualwield1";
+        const string DualWield2Id = "dualwield2";
+        const string DualWield3Id = "dualwield3";
+        const string DualWield4Id = "dualwield4";
+        const string Shield1Id = "shielded1";
+        const string Shield2Id = "shielded2";
+        const string Shield3Id = "shielded3";
+        const string Single1Id = "singlehanded1";
+        const string Single2Id = "singlehanded2";
+        const string Single3Id = "singlehanded3";
+        const string TwoHand1Id = "twohanded1";
+        const string TwoHand2Id = "twohanded2";
+        const string TwoHand3Id = "twohanded3";
 
-        const string OneHandDmgPerkId   = "fighter_onehanddmg";
-        const string TwoHandDmgPerkId   = "fighter_twohanddmg";
-        const string AtkSpeedPerkId     = "fighter_atkspeed";
-        const string ShieldDefensePerkId= "fighter_shielddefense";
+        const string OneHandDmgPerkId = "fighter_onehanddmg";
+        const string TwoHandDmgPerkId = "fighter_twohanddmg";
+        const string AtkSpeedPerkId = "fighter_atkspeed";
+        const string ShieldDefensePerkId = "fighter_shielddefense";
 
         public static CharacterPath Path { get; } = new CharacterPath(PathId, Properties.Skills.PathFighter, Properties.Skills.PathFighter);
-    
-        readonly static Perk RootPerk = new(RootId, Properties.Skills.PathFighterRoot, "", [], 
-            (l, e, w, c) => [
-                new($"{RootId}_dmg", ModifierType.Increase, 0.25, [Tags.Damage, Tags.Melee], []),
-                new($"{RootId}_arm", ModifierType.Increase, 0.25, [Tags.ArmorRating], [])
-            ])
+
+        readonly static Perk RootPerk = new(RootId, Properties.Skills.PathFighterRoot,
+            "Grants increased melee damage and armor for each step taken on this path", [],
+            (l, e, w, c) => 
+            {
+                int steps = e.GetComponent<CharacterPathComponent>()!.StepsTakenOnPath(PathId).Count;
+                return [
+                new($"{RootId}_dmg", ModifierType.Increase, 0.1 * steps, [Tags.Damage, Tags.Melee], []),
+                new($"{RootId}_arm", ModifierType.Increase, 0.1 * steps, [Tags.ArmorRating], [])];
+            }
+        )
         {
             Permanent = true,
             Categories = [Properties.Skills.PathFighter]

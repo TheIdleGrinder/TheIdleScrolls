@@ -28,19 +28,26 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return HasPerkActive(user, DoubleStrike.BasePerkId);
         }
 
-        public override (bool available, string reason) IsUsableBy(Entity user)
+        public override (UsePrevention prevention, string details) IsUsableBy(Entity user)
         {
             if (!IsAvailableTo(user))
-                return (false, "");
-            var twoWeapons = user.HasTag(Tags.DualWield);
-            return (twoWeapons, twoWeapons ? "" : "Requires two weapons");
+                return (UsePrevention.MissingPerk, "You haven't unlocked this skill yet.");
+            if (!user.IsInBattle())
+                return (UsePrevention.NotInBattle, "You can only use this skill in battle.");
+            bool twoWeapons = user.HasTag(Tags.DualWield);
+            if (!twoWeapons)
+                return (UsePrevention.WrongEquipment, "Requires two weapons");
+            if (ActiveSkill.GetEnemiesInRange(user, user.GetComponent<BattleStatsComponent>()?.AverageRange ?? 0.0).Count == 0)
+                return (UsePrevention.NoTargetInRange, "No target in range");
+
+            return (UsePrevention.None, string.Empty);
         }
 
         protected override void SetupStats(Entity user, ActiveSkill skill)
         {
             skill.Tags = [Tags.AttackSkill];
 
-            var attackComp = user.GetComponent<AttackComponent>();
+            var attackComp = user.GetComponent<BattleStatsComponent>();
             var perk = user.GetComponent<PerksComponent>()?.GetPerk(DoubleStrike.BasePerkId);
             if (attackComp is null || attackComp.AttackVectors.Count == 0 || perk is null)
             {
@@ -61,7 +68,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             if (cooldownRecovery == 0.0)
                 cooldownRecovery = 1.0;
 
-            skill.ActivityStartEffects = effects;
+            skill.ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
             skill.ChargingTime = attackComp.AverageCooldown;
             skill.Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
         }

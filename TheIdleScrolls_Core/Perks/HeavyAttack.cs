@@ -78,7 +78,7 @@ namespace TheIdleScrolls_Core.Perks
                 UpdateTrigger.AbilityIncreased, UpdateTrigger.BattleStarted],
             (l, e, w, c) =>
             {
-                double armor = e.GetComponent<DefenseComponent>()?.Armor ?? 0;
+                double armor = e.GetComponent<BattleStatsComponent>()?.Armor ?? 0;
                 double multi = 0.00005 * (l + 1);
                 return [
                     new Modifier(ShieldedBonusDmgModId, ModifierType.Increase, multi * armor, [Tags.Damage], [])

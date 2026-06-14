@@ -10,14 +10,11 @@ using static TheIdleScrolls_Core.Skills.ISkillEffect;
 
 namespace TheIdleScrolls_Core.Skills.SkillEffects
 {
-    public class PruningSkillEffect(double magnitude, TargetingMode target) : ISkillEffect
+    public class PruningSkillEffect(double magnitude) : ISkillEffect
     {
         public double Magnitude => magnitude;
 
-        public string Description => $"Remove {magnitude:0.##%} of current " +
-            $"HP from {(Target == TargetingMode.Self ? "self" : "target")}";
-
-        public ISkillEffect.TargetingMode Target => target;
+        public string Description => $"Remove {magnitude:0.##%} of current HP";
 
         public double DamageDone { get; private set; } = 0.0;
 
