@@ -18,6 +18,10 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
     {
         const string PathId = "fighter";
         public const string RootId = "fighter_root";
+        public const string Life1Id = "fighter_hp1";
+        public const string Life2Id = "fighter_hp2";
+        public const string Life3Id = "fighter_hp3";
+        public const string Life4Id = "fighter_hp4";
         const string DualWield1Id = "dualwield1";
         const string DualWield2Id = "dualwield2";
         const string DualWield3Id = "dualwield3";
@@ -41,7 +45,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
 
         readonly static Perk RootPerk = new(RootId, Properties.Skills.PathFighterRoot,
             "Grants increased melee damage and armor for each step taken on this path", [],
-            (l, e, w, c) => 
+            (l, e, w, c) =>
             {
                 int steps = e.GetComponent<CharacterPathComponent>()!.StepsTakenOnPath(PathId).Count;
                 return [
@@ -53,6 +57,40 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             Permanent = true,
             Categories = [Properties.Skills.PathFighter]
         };
+
+        readonly static Perk LifePerLevelPerk = new(Life1Id, Properties.Skills.FighterHP1,
+            "Gain 2 additional hit points per character level", [],
+            (l, e, w, c) => [
+                new($"{Life1Id}", ModifierType.AddBase, 2 * e.GetLevel(), [Tags.HitPoints], [])
+            ])
+        { Permanent = true, Categories = [Properties.Skills.PathFighter] };
+        readonly static Perk FighterIncLife = new(Life2Id, Properties.Skills.FighterHP2,
+            "Gain increased hit points for each level and an additional multiplier at maximum level", [],
+            (l, e, w, c) => 
+            {
+                double perLevel = Math.Round(Stats.BasicTimeIncrease * 1.25, 2);
+                List<Modifier> result = [new($"{Life2Id}_inc", ModifierType.Increase, perLevel * l, [Tags.HitPoints], [])];
+                if (l == 5)
+                {
+                    result.Add(new($"{Life2Id}_more", ModifierType.More, 0.05, [Tags.HitPoints], []));
+                }
+                return result;
+            })
+        { MaxLevel = 5, Categories = [Properties.Skills.PathFighter] };
+        readonly static Perk FighterIncLifeAndReg = new(Life3Id, Properties.Skills.FighterHP3,
+            "Gain increased hit points and life regeneration for each level", [UpdateTrigger.LevelUp, UpdateTrigger.EquipmentChanged],
+            (l, e, w, c) =>
+            {
+                double incPerLevel = Math.Round(Stats.BasicTimeIncrease * 1.25, 2);
+                double reg = 0.003 * l;
+                if (l == 5)
+                    reg += 0.005;
+                return [
+                    new($"{Life3Id}_inc", ModifierType.Increase, incPerLevel * l, [Tags.HitPoints], []),
+                    new($"{Life3Id}_reg", ModifierType.AddBase, reg, [Tags.LifeRegeneration], [])
+                ];
+            })
+        { MaxLevel = 5, Categories = [Properties.Skills.PathFighter] };
 
         readonly static Perk OneHandDamagePerk = new(OneHandDmgPerkId, Properties.Skills.OneHandMeleeDamage, "", [],
             (l, e, w, c) => [
@@ -116,6 +154,10 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                     StarterItems()]),
                 StepNumber = 0
             });
+
+            Path.AddStep(SimplePerkStep(LifePerLevelPerk,     1));
+            Path.AddStep(SimplePerkStep(FighterIncLife,       2, LifePerLevelPerk.Id));
+            Path.AddStep(SimplePerkStep(FighterIncLifeAndReg, 3, FighterIncLife.Id));
 
             Path.AddStep(new CharacterPathStep(DualWield1Id, Properties.Skills.DualWield1, "")
             {
@@ -232,6 +274,16 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             });
 
             Path.BuildTopology(RootId);
+        }
+
+        static CharacterPathStep SimplePerkStep(Perk perk, int stepNumber, string? prerequisiteId = null)
+        {
+            return new CharacterPathStep(perk.Id, perk.Name, perk.Description)
+            {
+                Reward = new PerkReward(perk),
+                StepNumber = stepNumber,
+                PrerequisiteId = prerequisiteId
+            };
         }
     }
 }

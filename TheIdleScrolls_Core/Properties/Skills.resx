@@ -180,6 +180,18 @@
   <data name="EnvWeapon_Name" xml:space="preserve">
     <value>Envenom Weapon</value>
   </data>
+  <data name="FighterHP1" xml:space="preserve">
+    <value>Fighter's Constitution</value>
+  </data>
+  <data name="FighterHP2" xml:space="preserve">
+    <value>Beefed Up</value>
+  </data>
+  <data name="FighterHP3" xml:space="preserve">
+    <value>Toughness</value>
+  </data>
+  <data name="FighterHP4" xml:space="preserve">
+    <value>Tougherness</value>
+  </data>
   <data name="HeavyAttack_Description" xml:space="preserve">
     <value />
   </data>

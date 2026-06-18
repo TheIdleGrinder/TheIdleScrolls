@@ -250,6 +250,42 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fighter&apos;s Constitution ähnelt.
+        /// </summary>
+        internal static string FighterHP1 {
+            get {
+                return ResourceManager.GetString("FighterHP1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Beefed Up ähnelt.
+        /// </summary>
+        internal static string FighterHP2 {
+            get {
+                return ResourceManager.GetString("FighterHP2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Toughness ähnelt.
+        /// </summary>
+        internal static string FighterHP3 {
+            get {
+                return ResourceManager.GetString("FighterHP3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tougherness ähnelt.
+        /// </summary>
+        internal static string FighterHP4 {
+            get {
+                return ResourceManager.GetString("FighterHP4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string HeavyAttack_Description {
