@@ -88,6 +88,11 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 return [
                     new($"{Life3Id}_inc", ModifierType.Increase, incPerLevel * l, [Tags.HitPoints], []),
                     new($"{Life3Id}_reg", ModifierType.AddBase, reg, [Tags.LifeRegeneration], [])
+                    {
+                        AlwaysPercentage = true,
+                        CoverValue = reg,
+                        CoverText = "Regenerate {0} HP per second"
+                    }
                 ];
             })
         { MaxLevel = 5, Categories = [Properties.Skills.PathFighter] };

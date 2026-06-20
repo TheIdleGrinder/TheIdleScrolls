@@ -23,6 +23,11 @@ namespace TheIdleScrolls_Core.Modifiers
         public double Value { get; set; }
         public HashSet<string> RequiredLocalTags { get; set; } = new();
         public HashSet<string> RequiredGlobalTags { get; set; } = new();
+        
+        // Used only for display string. Makes AddBase and AddFlat show as percentages
+        public bool AlwaysPercentage { get; set; } = false;
+        public double? CoverValue { get; set; } = null;
+        public string? CoverText { get; set; } = null;
 
         public Modifier() { }
 
@@ -99,22 +104,30 @@ namespace TheIdleScrolls_Core.Modifiers
 
             List<string> targetTags = allTags.Except(withTags).Except(whileTags).Except(localGlobal).Except(damageTypes).ToList();
 
-            
-
-            double absValue = Math.Abs(modifier.Value);
-            string valueString = (modifier.Type, modifier.Value >= 0) switch
+            double absValue = Math.Abs(modifier.CoverValue ?? modifier.Value);
+            string valueString = (modifier.Type, modifier.Value >= 0, modifier.AlwaysPercentage) switch
             {
-                (ModifierType.AddBase, true) => $"+{absValue:0.##}",
-                (ModifierType.AddBase, false) => $"-{absValue:0.##}",
-                (ModifierType.Increase, true) => $"{absValue:0.##%} increased",
-                (ModifierType.Increase, false) => $"{absValue:0.##%} reduced",
-                (ModifierType.More, true) => $"{absValue:0.##%} more",
-                (ModifierType.More, false) => $"{absValue:0.##%} less",
-                (ModifierType.AddFlat, _) => $"{modifier.Value:0.##} additional",
+                (ModifierType.AddBase, true, false) => $"+{absValue:0.##}",
+                (ModifierType.AddBase, false, false) => $"-{absValue:0.##}",
+                (ModifierType.AddBase, true, true) => $"+{absValue:0.##%}",
+                (ModifierType.AddBase, false, true) => $"-{absValue:0.##%}",
+                (ModifierType.Increase, true, _) => $"{absValue:0.##%} increased",
+                (ModifierType.Increase, false, _) => $"{absValue:0.##%} reduced",
+                (ModifierType.More, true, _) => $"{absValue:0.##%} more",
+                (ModifierType.More, false, _) => $"{absValue:0.##%} less",
+                (ModifierType.AddFlat, _, true) => $"{absValue:0.##%} additional",
+                (ModifierType.AddFlat, _, false) => $"{absValue:0.##} additional",
                 _ => "??"
             };
             
             string idString = showId ? $"[{modifier.Id}] " : "";
+
+            if (modifier.CoverText != null)
+            {
+                valueString = modifier.CoverText.Replace("{0}", valueString);
+                return valueString;
+            }
+
             string target = String.Join(", ", targetTags.Select(s => s.Localize()));
             if (target == String.Empty)
                 target = "???";
