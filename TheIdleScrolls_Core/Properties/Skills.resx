@@ -193,7 +193,7 @@
     <value>Tougherness</value>
   </data>
   <data name="HeavyAttack_Description" xml:space="preserve">
-    <value />
+    <value>Perform a slow but powerful attack with your main hand.</value>
   </data>
   <data name="HeavyAttack_DualWield_Description" xml:space="preserve">
     <value>Your Heavy Attacks gain an extra damage multiplier for every time you have used your Default Attack this fight</value>

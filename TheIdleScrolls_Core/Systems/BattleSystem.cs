@@ -286,6 +286,11 @@ namespace TheIdleScrolls_Core.Systems
                     if (updateResult.ChargingComplete)
                     {
                         entity.GetComponent<BattlerComponent>()!.SkillsUsed++;
+                        // Switch hands after performing an attack
+                        if (skillComp.CurrentSkill?.Tags.Contains(Tags.AttackSkill) ?? false)
+                        {
+                            entity.GetComponent<BattleStatsComponent>()?.SwitchHand();
+                        }
                     }
                     coordinator.PostMessage(this, new SkillStateChangedMessage(entity, skillComp.CurrentSkill!, updateResult));
                 }

@@ -144,14 +144,15 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 return;
             }
 
-            List<string> AdditionalTags = [Tags.Attack, Skill.Id];
-            SkillEffectBundle damage = new(CreateDefaultSkillEffectsForDamage(attackComp.AverageDamage, [.. AdditionalTags]),
+            skill.Tags = [Tags.AttackSkill];
+            List<string> AdditionalTags = [.. skill.Tags, Skill.Id];
+            SkillEffectBundle damage = new(CreateDefaultSkillEffectsForDamage(attackComp.CurrentAttack.RawDamage, [.. AdditionalTags]),
                                             TargetingMode.SingleEnemy);
             damage.Accuracy = user.GetComponent<AccuracyComponent>()?.Accuracy;
 
-            skill.Range = attackComp.AverageRange;
+            skill.Range = attackComp.CurrentAttack.Range;
             skill.ActivityStartEffects = [damage];
-            skill.ChargingTime = attackComp.AverageCooldown;
+            skill.ChargingTime = attackComp.CurrentAttack.AttackTime;
         }
 
         public override bool IsAvailableTo(Entity user)

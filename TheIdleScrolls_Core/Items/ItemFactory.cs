@@ -131,7 +131,7 @@ namespace TheIdleScrolls_Core.Items
         {
             var tagsComp = new TagsComponent();
 
-            ItemBlueprint blueprint = item.GetComponent<ItemComponent>()!.Blueprint; // CornerCut: better pass an item...
+            ItemBlueprint blueprint = item.GetComponent<ItemComponent>()!.Blueprint;
             tagsComp.AddTag(blueprint.FamilyId);
             tagsComp.AddTag(blueprint.GetMaterial().Name);
             tagsComp.AddTag(blueprint.GetFamilyDescription().RelatedAbilityId);
@@ -142,7 +142,7 @@ namespace TheIdleScrolls_Core.Items
             }
             if (item.IsWeapon())
             {
-                bool ranged = blueprint.GetGenusDescription()?.Weapon?.Range > 2.0;
+                bool ranged = blueprint.GetGenusDescription()?.Weapon?.Range >= 3.0;
                 tagsComp.AddTags([Tags.Weapon, ranged ? Tags.Ranged : Tags.Melee]);
             }
             if (item.IsArmor())

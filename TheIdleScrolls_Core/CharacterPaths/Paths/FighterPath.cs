@@ -81,13 +81,14 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             "Gain increased hit points and life regeneration for each level", [UpdateTrigger.LevelUp, UpdateTrigger.EquipmentChanged],
             (l, e, w, c) =>
             {
+                int totalHp = e.GetComponent<LifePoolComponent>()!.Maximum;
                 double incPerLevel = Math.Round(Stats.BasicTimeIncrease * 1.25, 2);
                 double reg = 0.003 * l;
                 if (l == 5)
                     reg += 0.005;
                 return [
                     new($"{Life3Id}_inc", ModifierType.Increase, incPerLevel * l, [Tags.HitPoints], []),
-                    new($"{Life3Id}_reg", ModifierType.AddBase, reg, [Tags.LifeRegeneration], [])
+                    new($"{Life3Id}_reg", ModifierType.AddBase, reg * totalHp, [Tags.LifeRegeneration], [])
                     {
                         AlwaysPercentage = true,
                         CoverValue = reg,

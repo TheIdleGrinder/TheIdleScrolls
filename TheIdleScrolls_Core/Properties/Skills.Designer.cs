@@ -286,7 +286,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Perform a slow but powerful attack with your main hand. ähnelt.
         /// </summary>
         internal static string HeavyAttack_Description {
             get {
