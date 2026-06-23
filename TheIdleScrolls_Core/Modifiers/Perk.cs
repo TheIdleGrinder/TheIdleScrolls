@@ -43,13 +43,17 @@ namespace TheIdleScrolls_Core.Modifiers
         // Indicates that this perk is not supposed to show up in the GUI
         public bool Hidden { get; init; } = false;
         public ActiveSkillDefinition? Skill { get; init; } = null;
-
-        // Corner cut: should this be part of the perk? Also, this is always at least 1, so that the modifiers are not 0
-        public int CurrentLevel { get; private set; } = 1;
+        public int CurrentLevel { get; private set; } = 0;
         public ModifierGenerator ModifiersFunc { get; private set; }
             = (int lvl, Entity e, World w, Coordinator c) => { return []; };
         public Func<int, IPerkCondition?> ConditionFunc { get; set; } = level => null;
         public IPerkCondition? ConditionForLevel(int level) => ConditionFunc(level);
+
+        // Store references to objects that were used for last update. Allows to easily calculate modifiers for levels other than the current one.
+        Entity? Owner { get; set; } = null;
+        World? World { get; set; } = null;
+        Coordinator? Coordinator { get; set; } = null;
+
         public Perk(string id, string name, string description, 
             HashSet<UpdateTrigger> updateTriggers,
             ModifierGenerator modifiersFunc)
@@ -64,7 +68,18 @@ namespace TheIdleScrolls_Core.Modifiers
         public void UpdateModifiers(int level, Entity owner, World world, Coordinator coordinator)
         {
             CurrentLevel = level;
-            Modifiers = ModifiersFunc(level, owner, world, coordinator);
+            Owner = owner;
+            World = world;
+            Coordinator = coordinator;
+            Modifiers = ModifiersAtLevel(level);
+        }
+
+        public List<Modifier> ModifiersAtLevel(int level)
+        {
+            if (Owner == null || World == null || Coordinator == null
+                || level <= 0 || level > MaxLevel)
+                return [];
+            return ModifiersFunc(level, Owner, World, Coordinator);
         }
 
         public Modifier? GetModifier(string modifierId)

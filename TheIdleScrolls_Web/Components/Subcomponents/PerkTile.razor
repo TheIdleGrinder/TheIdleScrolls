@@ -20,12 +20,27 @@
     
     <div class="perk-description">@Perk?.Description</div>
 
-    <div class="perk-modifiers">
-        @foreach (var modifier in Perk?.Modifiers ?? [])
-        {
-            <div class="perk-modifier">➤ @ModifierPreface()@modifier.ToPrettyString()</div>
-        }
-    </div>
+    @if (Perk?.Modifiers.Count > 0)
+    {
+        <span>Current Level:</span>
+        <div class="perk-modifiers">
+            @foreach (var modifier in Perk?.Modifiers ?? [])
+            {
+                <div class="perk-modifier">➤ @ModifierPreface()@modifier.ToPrettyString()</div>
+            }
+        </div>
+    }
+
+    @if (Perk?.CurrentLevel < Perk?.MaxLevel)
+    {
+        <span>Next Level:</span>
+        <div class="perk-modifiers">
+            @foreach (var modifier in Perk!.ModifiersAtLevel(Perk!.CurrentLevel + 1))
+            {
+                <div class="perk-modifier">➤ @ModifierPreface()@modifier.ToPrettyString()</div>
+            }
+        </div>
+    }
 
     @if (GetPerkSkill() is not null)
     {

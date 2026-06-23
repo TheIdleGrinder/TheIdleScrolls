@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Core.Systems
                     // Update inactive perks as well because their state is shown in the UI
                     // Minimum level is 1, so that the modifiers are not 0
                     // CornerCut: this line makes me anxious, it's a future problem waiting to happen
-                    perk.UpdateModifiers(Math.Max(perksComp.GetPerkLevel(perk.Id), 1), entity, world, coordinator); 
+                    perk.UpdateModifiers(perksComp.GetPerkLevel(perk.Id), entity, world, coordinator); 
                     if (isActive && perk.ApplyModifiersToOwner && modsComp != null)
                     {
                         perk.Modifiers.ForEach(m => modsComp.AddModifier(m));
@@ -129,12 +129,6 @@ namespace TheIdleScrolls_Core.Systems
                 var modsComp = owner.GetComponent<ModifierComponent>();
                 if (modsComp == null)
                     continue;
-
-                // Remove modifiers if the perk is deactivated, because UpdatePerk is not called in this case
-                if (setLevelRequest.Level <= 0 && perk.ApplyModifiersToOwner)
-                {
-                    perk.Modifiers.ForEach(m => modsComp.RemoveModifier(m.Id));
-                }
 
                 coordinator.PostMessage(this, new PerkLevelChangedMessage(owner, perk, setLevelRequest.Level));
             }

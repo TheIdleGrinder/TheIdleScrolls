@@ -29,7 +29,7 @@
                         <div class="perk-subcategory-header">@subcategory</div>
                     }
                     <div class="perks-list">
-                        @foreach (var perk in perks.Where(p => p.Modifiers.Count > 0))
+                        @foreach (var perk in perks.Where(p => p.Modifiers.Count > 0 || !p.Permanent)) // Hide permanent perks without modifiers
                         {
                             <SmallPerkTile PerkId=@perk.Id PerksComp=@PerksComponent IsNew=@(!SeenPerks.Contains(perk.Id)) Refund=@RefundMode />
                         }
