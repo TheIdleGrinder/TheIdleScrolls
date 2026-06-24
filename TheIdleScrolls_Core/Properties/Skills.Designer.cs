@@ -376,6 +376,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Heavy Weapons Expert ähnelt.
+        /// </summary>
+        internal static string HeavyWeapons {
+            get {
+                return ResourceManager.GetString("HeavyWeapons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Melee Attack Speed ähnelt.
         /// </summary>
         internal static string MeleeAttackSpeed {

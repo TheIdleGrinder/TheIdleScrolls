@@ -22,6 +22,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
         public const string Life2Id = "fighter_hp2";
         public const string Life3Id = "fighter_hp3";
         public const string Life4Id = "fighter_hp4";
+        public const string HeavyWeaponsId = "heavyWeapons";
         const string DualWield1Id = "dualwield1";
         const string DualWield2Id = "dualwield2";
         const string DualWield3Id = "dualwield3";
@@ -98,6 +99,24 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             })
         { MaxLevel = 5, Categories = [Properties.Skills.PathFighter] };
 
+        readonly static Perk HeavyWeaponsPerk = new(HeavyWeaponsId, Properties.Skills.HeavyWeapons, 
+            "Deal more damage with the heavier weapon types", [],
+            (l, e, w, c) =>
+            {
+                double value = l * 1.5 * Stats.BasicDamageIncrease;
+                List<Modifier> returnList = [
+                    new($"{HeavyWeaponsId}_axe", ModifierType.Increase, value, [Tags.Damage, Abilities.Axe], []),
+                    new($"{HeavyWeaponsId}_bln", ModifierType.Increase, value, [Tags.Damage, Abilities.Blunt], []),
+                    new($"{HeavyWeaponsId}_lbl", ModifierType.Increase, value, [Tags.Damage, Abilities.LongBlade], [])
+                ];
+                if (l == 5)
+                {
+                    returnList.Add(new($"{HeavyWeaponsId}_more", ModifierType.More, 0.05, [Tags.Damage, Tags.Melee], []));
+                }
+                return returnList;
+            })
+        { MaxLevel = 5, Categories = [Properties.Skills.PathFighter] };
+
         readonly static Perk OneHandDamagePerk = new(OneHandDmgPerkId, Properties.Skills.OneHandMeleeDamage, "", [],
             (l, e, w, c) => [
                 new($"{OneHandDmgPerkId}_more", ModifierType.More, 0.1, 
@@ -165,16 +184,13 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             Path.AddStep(SimplePerkStep(FighterIncLife,       2, LifePerLevelPerk.Id));
             Path.AddStep(SimplePerkStep(FighterIncLifeAndReg, 3, FighterIncLife.Id));
 
-            Path.AddStep(new CharacterPathStep(DualWield1Id, Properties.Skills.DualWield1, "")
-            {
-                Reward = new AbilityReward(Abilities.DualWield),
-                StepNumber = 1
-            });
+            Path.AddStep(SimplePerkStep(HeavyWeaponsPerk, 1));
+
             Path.AddStep(new CharacterPathStep(DualWield2Id, Properties.Skills.DualWield2, "")
             {
                 Reward = new PerkReward(OneHandDamagePerk),
-                StepNumber = 2,
-                PrerequisiteId = DualWield1Id
+                StepNumber = 1,
+                PrerequisiteId = null
             });
             Path.AddStep(new CharacterPathStep(DualWield3Id, Properties.Skills.DualWield3, "")
             {
@@ -183,16 +199,11 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 PrerequisiteId = DualWield2Id
             });
 
-            Path.AddStep(new CharacterPathStep(Shield1Id, Properties.Skills.Shield1, "")
-            {
-                Reward = new AbilityReward(Abilities.Shielded),
-                StepNumber = 1
-            });
             Path.AddStep(new CharacterPathStep(Shield2Id, Properties.Skills.Shield2, "")
             {
                 Reward = new PerkReward(ShieldDefensePerk),
-                StepNumber = 2,
-                PrerequisiteId = Shield1Id
+                StepNumber = 1,
+                PrerequisiteId = null
             });
             Path.AddStep(new CharacterPathStep(Shield3Id, Properties.Skills.Shield3, "")
             {
@@ -201,16 +212,11 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 PrerequisiteId = Shield2Id
             });
 
-            Path.AddStep(new CharacterPathStep(Single1Id, Properties.Skills.SingleHanded1, "")
-            {
-                Reward = new AbilityReward(Abilities.SingleHanded),
-                StepNumber = 1
-            });
             Path.AddStep(new CharacterPathStep(Single2Id, Properties.Skills.SingleHanded2, "")
             {
                 Reward = new PerkReward(AttackSpeedPerk),
-                StepNumber = 2,
-                PrerequisiteId = Single1Id
+                StepNumber = 1,
+                PrerequisiteId = null
             });
             Path.AddStep(new CharacterPathStep(Single3Id, Properties.Skills.SingleHanded3, "")
             {
@@ -219,16 +225,11 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 PrerequisiteId = Single2Id
             });
 
-            Path.AddStep(new CharacterPathStep(TwoHand1Id, Properties.Skills.TwoHanded1, "")
-            {
-                Reward = new AbilityReward(Abilities.TwoHanded),
-                StepNumber = 1
-            });
             Path.AddStep(new CharacterPathStep(TwoHand2Id, Properties.Skills.TwoHanded2, "")
             {
                 Reward = new PerkReward(TwoHandDamagePerk),
-                StepNumber = 2,
-                PrerequisiteId = TwoHand1Id
+                StepNumber = 1,
+                PrerequisiteId = null
             });
             Path.AddStep(new CharacterPathStep(TwoHand3Id, Properties.Skills.TwoHanded3, "")
             {

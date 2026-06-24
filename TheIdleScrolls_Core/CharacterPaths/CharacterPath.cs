@@ -78,7 +78,14 @@ namespace TheIdleScrolls_Core.CharacterPaths
                 if (prereqRow.Count >= step.StepNumber)
                 {
                     if (prereqRow[step.StepNumber - 1] is not null)
-                        throw new Exception($"Step '{step.Name}' can't be integrated into path '{Name}'");
+                    {
+                        int index = topology.IndexOf(prereqRow);
+                        List<CharacterPathStep?> newRow = [];
+                        if (step.StepNumber > 1)
+                            newRow = [.. Enumerable.Repeat<CharacterPathStep?>(null, step.StepNumber - 1)];
+                        newRow.Add(step);
+                        topology.Insert(index + 1, newRow);
+                    }
                     prereqRow[step.StepNumber - 1] = step;
                 }
                 prereqRow.Add(step);
