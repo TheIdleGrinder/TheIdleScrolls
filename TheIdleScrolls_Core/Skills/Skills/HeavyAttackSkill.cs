@@ -15,7 +15,7 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
-    public class HeavyAttackSkill : ActiveSkillDefinition
+    public class HeavyAttackSkill : ActiveSkill
     {
         const double BaseCooldown = 5.0;
 
@@ -40,9 +40,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return (UsePrevention.None, "");
         }
 
-        protected override void SetupStats(Entity user, ActiveSkill skill)
+        protected override void SetupStats(Entity user)
         {
-            skill.Tags = [Tags.AttackSkill];
+            SkillTags = [Tags.AttackSkill];
 
             List<string> AdditionalTags = [Tags.Attack, Skill.Id];
 
@@ -56,31 +56,31 @@ namespace TheIdleScrolls_Core.Skills.Skills
             }            
             additionalMods.AddRange(basePerk.Modifiers);
 
-            int dwLevel = skill.GetPerkLevel(HeavyAttack.DualWieldingBonusPerkId);
+            int dwLevel = GetPerkLevel(HeavyAttack.DualWieldingBonusPerkId);
             if (dwLevel > 0)
             {
-                var dwPerk = skill.GetPerk(HeavyAttack.DualWieldingBonusPerkId)!;
+                var dwPerk = GetPerk(HeavyAttack.DualWieldingBonusPerkId)!;
                 additionalMods.AddRange(dwPerk.Modifiers);
             }
 
-            int shieldLevel = skill.GetPerkLevel(HeavyAttack.ShieldedBonusPerkId);
+            int shieldLevel = GetPerkLevel(HeavyAttack.ShieldedBonusPerkId);
             if (shieldLevel > 0)
             {
-                var shieldPerk = skill.GetPerk(HeavyAttack.ShieldedBonusPerkId)!;
+                var shieldPerk = GetPerk(HeavyAttack.ShieldedBonusPerkId)!;
                 additionalMods.AddRange(shieldPerk.Modifiers);
             }
 
-            int shLevel = skill.GetPerkLevel(HeavyAttack.SingleHandedBonusPerkId);
+            int shLevel = GetPerkLevel(HeavyAttack.SingleHandedBonusPerkId);
             if (shLevel > 0)
             {
-                var shPerk = skill.GetPerk(HeavyAttack.SingleHandedBonusPerkId)!;
+                var shPerk = GetPerk(HeavyAttack.SingleHandedBonusPerkId)!;
                 additionalMods.AddRange(shPerk.Modifiers);
             }
 
-            int thLevel = skill.GetPerkLevel(HeavyAttack.TwoHandedBonusPerkId);
+            int thLevel = GetPerkLevel(HeavyAttack.TwoHandedBonusPerkId);
             if (thLevel > 0)
             {
-                var thPerk = skill.GetPerk(HeavyAttack.TwoHandedBonusPerkId)!;
+                var thPerk = GetPerk(HeavyAttack.TwoHandedBonusPerkId)!;
                 double stunMod = thPerk.GetModifier(HeavyAttack.TwoHandedBonusStunModId)?.Value ?? 0.0;
                 additionalEffects.Add(new StatusSkillEffect(new StunStatusEffect(stunMod)));
             }
@@ -88,11 +88,11 @@ namespace TheIdleScrolls_Core.Skills.Skills
             BattleStatsComponent attackComp = new(new(new(DamageType.Physical, 2.0), 1.0, 0.0));
             DefaultAttack.SetupAttackComponent(user, attackComp, additionalMods);
                         
-            skill.ActivityStartEffects = [new(DefaultAttack
+            ActivityStartEffects = [new(DefaultAttack
                 .CreateDefaultSkillEffectsForDamage(attackComp.AttackVectors[0].RawDamage, [.. AdditionalTags])
                 .Concat(additionalEffects).ToList(), TargetingMode.SingleEnemy)];
-            skill.ChargingTime = attackComp.AverageCooldown;
-            skill.Timer.CooldownDuration = BaseCooldown;
+            ChargingTime = attackComp.AverageCooldown;
+            Timer.CooldownDuration = BaseCooldown;
         }
     }
 }

@@ -38,7 +38,7 @@ namespace TheIdleScrolls_Core.Perks
         {
             MaxLevel = 6,
             ApplyModifiersToOwner = false,
-            Skill = CrushingBlowSkill.Skill
+            Skill = new CrushingBlowSkill()
         };
     }
 }

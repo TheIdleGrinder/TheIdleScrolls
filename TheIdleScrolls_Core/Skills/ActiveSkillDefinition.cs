@@ -20,7 +20,7 @@ namespace TheIdleScrolls_Core.Skills
 		WrongEquipment
     }
 
-    public abstract class ActiveSkillDefinition
+	public abstract class ActiveSkillDefinition
 	{
 		public abstract string Id { get; }
 		public abstract string Name { get; }

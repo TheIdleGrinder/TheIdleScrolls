@@ -14,15 +14,13 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
-    public class DoubleStrikeSkill : ActiveSkillDefinition
+    public class DoubleStrikeSkill : ActiveSkill
     {
         const double BaseCooldown = 2.0;
 
         public static DoubleStrikeSkill Skill { get; } = new();
         public override string Id => DoubleStrike.BasePerkId;
-
         public override string Name => Properties.Skills.DoubleStrike_Name;
-
         public override bool IsAvailableTo(Entity user)
         {
             return HasPerkActive(user, DoubleStrike.BasePerkId);
@@ -43,9 +41,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return (UsePrevention.None, string.Empty);
         }
 
-        protected override void SetupStats(Entity user, ActiveSkill skill)
+        protected override void SetupStats(Entity user)
         {
-            skill.Tags = [Tags.AttackSkill];
+            SkillTags = [Tags.AttackSkill];
 
             var attackComp = user.GetComponent<BattleStatsComponent>();
             var perk = user.GetComponent<PerksComponent>()?.GetPerk(DoubleStrike.BasePerkId);
@@ -62,15 +60,15 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 damage.Add(offHandDamage);
             }
 
-            var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. skill.Tags]);
+            var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. SkillTags]);
 
-            double cooldownRecovery = skill.ScaleValue(1.0, [Tags.CooldownRecovery]);
+            double cooldownRecovery = ScaleValue(1.0, [Tags.CooldownRecovery]);
             if (cooldownRecovery == 0.0)
                 cooldownRecovery = 1.0;
 
-            skill.ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
-            skill.ChargingTime = attackComp.AverageCooldown;
-            skill.Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
+            ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
+            ChargingTime = attackComp.AverageCooldown;
+            Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
         }
     }
 }

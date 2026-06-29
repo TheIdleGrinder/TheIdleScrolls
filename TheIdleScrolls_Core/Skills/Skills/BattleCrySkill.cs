@@ -13,7 +13,7 @@ using TheIdleScrolls_Core.StatusEffects;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
-    public class BattleCrySkill : ActiveSkillDefinition
+    public class BattleCrySkill : ActiveSkill
     {
         public static BattleCrySkill Skill { get; } = new();
 
@@ -33,34 +33,33 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return (user.IsInBattle() ? UsePrevention.None : UsePrevention.NotInBattle, string.Empty);
         }
 
-        protected override void SetupStats(Entity user, ActiveSkill skill)
+        protected override void SetupStats(Entity user)
         {
-            skill.Tags = [Tags.BuffSkill, Tags.DurationSkill];
+            SkillTags = [Tags.BuffSkill, Tags.DurationSkill];
 
-            Perk basePerk = skill.GetPerk(BattleCry.BasePerkId)!;
+            Perk basePerk = GetPerk(BattleCry.BasePerkId)!;
             int baseLevel = basePerk.CurrentLevel;
-            Perk? buffPerk = skill.GetPerk(BattleCry.BuffPerkId);
+            Perk? buffPerk = GetPerk(BattleCry.BuffPerkId);
             List<Modifier> mods = [];
 
-            double chargeSpeed = skill.ScaleValue(1.0, [.. skill.Tags, Tags.Speed], mods);
-            double duration = skill.ScaleValue(1.0, [.. skill.Tags, Tags.Duration], mods);
-            double recovery = skill.ScaleValue(1.0, [.. skill.Tags, Tags.CooldownRecovery], mods);
+            double chargeSpeed = ScaleValue(1.0, [.. SkillTags, Tags.Speed], mods);
+            double duration = ScaleValue(1.0, [.. SkillTags, Tags.Duration], mods);
+            double recovery = ScaleValue(1.0, [.. SkillTags, Tags.CooldownRecovery], mods);
 
-            skill.Timer.ChargingDuration = 0.5 / (chargeSpeed != 0.0 ? chargeSpeed : 1.0);
-            skill.Timer.ActiveDuration = (3.0 + baseLevel) * duration;
-            skill.Timer.CooldownDuration = 5.0 / (recovery != 0.0 ? recovery : 1.0);
-
+            Timer.ChargingDuration = 0.5 / (chargeSpeed != 0.0 ? chargeSpeed : 1.0);
+            Timer.ActiveDuration = (3.0 + baseLevel) * duration;
+            Timer.CooldownDuration = 5.0 / (recovery != 0.0 ? recovery : 1.0);
             List<Modifier> buffEffectMods = basePerk.Modifiers.ToList();
-            if (skill.GetPerkLevel(BattleCry.BuffPerkId) > 0)
+            if (GetPerkLevel(BattleCry.BuffPerkId) > 0)
                 buffEffectMods.AddRange(buffPerk!.Modifiers);
             StatusEffect buff = new GenericModifierStatusEffect(Properties.Skills.BattleCry_Name, 0.0, buffEffectMods, []);
-            skill.ActivityWhileInEffects = [buff];
+            ActivityWhileInEffects = [buff];
 
-            if (skill.GetPerkLevel(BattleCry.DebuffPerkId) > 0)
+            if (GetPerkLevel(BattleCry.DebuffPerkId) > 0)
             {
-                Perk debuffPerk = skill.GetPerk(BattleCry.DebuffPerkId)!;
-                SlowStatusEffect debuff = new(skill.Timer.ActiveDuration, debuffPerk.Modifiers[0].Value);
-                skill.ActivityStartEffects = [new([new StatusSkillEffect(debuff)], TargetingMode.SingleEnemy)];
+                Perk debuffPerk = GetPerk(BattleCry.DebuffPerkId)!;
+                SlowStatusEffect debuff = new(Timer.ActiveDuration, debuffPerk.Modifiers[0].Value);
+                ActivityStartEffects = [new([new StatusSkillEffect(debuff)], TargetingMode.SingleEnemy)];
             }
         }
     }

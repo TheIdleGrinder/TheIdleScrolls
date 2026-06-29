@@ -10,15 +10,15 @@ using TheIdleScrolls_Core.Skills.SkillEffects;
 
 namespace TheIdleScrolls_Core.Skills
 {
-	public class GenericSkillDefinition(string id, string name, Action<Entity, ActiveSkill> updateFunction) : ActiveSkillDefinition
+	public class GenericSkill(string id, string name, Action<Entity, ActiveSkill> updateFunction) : ActiveSkill
 	{
         public override string Id => id;
 
         public override string Name => name;
 
-		protected override void SetupStats(Entity user, ActiveSkill skill)
+		protected override void SetupStats(Entity user)
 		{
-			updateFunction(user, skill);
+			updateFunction(user, this);
 		}
 
         public override bool IsAvailableTo(Entity user)

@@ -20,7 +20,7 @@ namespace TheIdleScrolls_Core
         public double HP { get; set; } = 1.0;
         public double Damage { get; set; } = 1.0;
         public Func<ZoneDescription, bool> CanSpawn { get; set; } = (zone) => true;
-        public List<ActiveSkillDefinition> ActiveSkills { get; set; } = [];
+        public Func<List<ActiveSkill>> ActiveSkills { get; set; } = () => [];
         public List<Perk> Perks { get; set; } = [];
 
         public MobDescription() { }
@@ -68,12 +68,12 @@ namespace TheIdleScrolls_Core
 
             var skillComp = new ActiveSkillComponent();
             if (description.Damage > 0)
-                skillComp.Add(new ActiveSkill(Skills.Skills.DefaultAttack.Skill));
+                skillComp.Add(new Skills.Skills.DefaultAttack());
             mob.AddComponent(skillComp);
 
-            foreach (var skill in description.ActiveSkills)
+            foreach (var skill in description.ActiveSkills())
             {
-                skillComp.Add(new(skill));
+                skillComp.Add(skill);
             }
             skillComp.ResetSkills();
 

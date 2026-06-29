@@ -15,7 +15,7 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
-    public class VitalStrikeSkill : ActiveSkillDefinition
+    public class VitalStrikeSkill : ActiveSkill
     {
         const double BaseCooldown = 3.0;
 
@@ -43,9 +43,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return (UsePrevention.None, string.Empty);
         }
 
-        protected override void SetupStats(Entity user, ActiveSkill skill)
+        protected override void SetupStats(Entity user)
         {
-            skill.Tags = [Tags.AttackSkill];
+            SkillTags = [Tags.AttackSkill];
 
             var attackComp = user.GetComponent<BattleStatsComponent>();
             var perk = user.GetComponent<PerksComponent>()?.GetPerk(VitalStrike.BasePerkId);
@@ -73,19 +73,19 @@ namespace TheIdleScrolls_Core.Skills.Skills
             DamageCluster damage = attackComp.AverageDamage;
 
             ISkillEffect pruningEffect = new PruningSkillEffect(Stats.PruningBaseEffect);
-            var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. skill.Tags]);
+            var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. SkillTags]);
             effects.Insert(0, pruningEffect);
 
             // Since the mod provides more cooldown, we can take a shortcut here
             double cooldownBonus = perk.GetModifier(VitalStrike.BasePerkCooldownModId)?.Value ?? 0.0;
-            double cooldownRecovery = skill.ScaleValue(1.0, [Tags.CooldownRecovery], []);
+            double cooldownRecovery = ScaleValue(1.0, [Tags.CooldownRecovery], []);
             if (cooldownRecovery == 0.0)
                 cooldownRecovery = 1.0;
             cooldownRecovery *= 1.0 + cooldownBonus;
 
-            skill.ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
-            skill.ChargingTime = attackComp.AverageCooldown;
-            skill.Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
+            ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
+            ChargingTime = attackComp.AverageCooldown;
+            Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
         }
     }
 }

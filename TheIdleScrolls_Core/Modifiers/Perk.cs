@@ -42,7 +42,7 @@ namespace TheIdleScrolls_Core.Modifiers
         public bool ApplyModifiersToOwner { get; init; } = true;
         // Indicates that this perk is not supposed to show up in the GUI
         public bool Hidden { get; init; } = false;
-        public ActiveSkillDefinition? Skill { get; init; } = null;
+        public ActiveSkill? Skill { get; init; } = null;
         public int CurrentLevel { get; private set; } = 0;
         public ModifierGenerator ModifiersFunc { get; private set; }
             = (int lvl, Entity e, World w, Coordinator c) => { return []; };

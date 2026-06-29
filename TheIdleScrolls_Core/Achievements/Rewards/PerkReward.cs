@@ -30,7 +30,7 @@ namespace TheIdleScrolls_Core.Achievements.Rewards
                 }
                 if (Perk.Skill is not null)
                 {
-                    entity.GetComponent<ActiveSkillComponent>()?.Add(new(Perk.Skill));
+                    entity.GetComponent<ActiveSkillComponent>()?.Add(Perk.Skill);
                 }
             }
             return true;

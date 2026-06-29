@@ -287,7 +287,7 @@ namespace TheIdleScrolls_Core.Systems
                     {
                         entity.GetComponent<BattlerComponent>()!.SkillsUsed++;
                         // Switch hands after performing an attack
-                        if (skillComp.CurrentSkill?.Tags.Contains(Tags.AttackSkill) ?? false)
+                        if (skillComp.CurrentSkill?.SkillTags.Contains(Tags.AttackSkill) ?? false)
                         {
                             entity.GetComponent<BattleStatsComponent>()?.SwitchHand();
                         }
@@ -325,7 +325,7 @@ namespace TheIdleScrolls_Core.Systems
 					skillComp.SwitchToNext();
                     if (skillComp.CurrentSkill is null)
                     {
-                        bool outOfRange = skillComp.Skills.Any(s => s.Prevention == UsePrevention.NoTargetInRange);
+                        bool outOfRange = skillComp.Skills.Any(s => s.Prevention == ActiveSkill.UsePrevention.NoTargetInRange);
                         if (outOfRange)
                         {
                             MoveTowardsClosestEnemy(entity, remaining); //CornerCut: Use entire rest of frame to move

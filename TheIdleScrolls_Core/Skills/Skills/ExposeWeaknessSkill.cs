@@ -13,7 +13,7 @@ using TheIdleScrolls_Core.StatusEffects;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
-    public class ExposeWeaknessSkill : ActiveSkillDefinition
+    public class ExposeWeaknessSkill : ActiveSkill
     {
         public static ExposeWeaknessSkill Skill { get; } = new();
 
@@ -35,14 +35,13 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return (user.IsInBattle() ? UsePrevention.None : UsePrevention.NotInBattle, string.Empty);
         }
 
-        protected override void SetupStats(Entity user, ActiveSkill skill)
+        protected override void SetupStats(Entity user)
         {
-            skill.Tags = [Tags.Insight];
+            SkillTags = [Tags.Insight];
 
             double cooldown = 10.0;
             double chargeTime = 2.0;
-            chargeTime = user.ApplyAllApplicableModifiers(chargeTime, [Tags.ChargeSpeed, Id, .. skill.Tags], user.GetTags());
-
+            chargeTime = user.ApplyAllApplicableModifiers(chargeTime, [Tags.ChargeSpeed, Id, .. SkillTags], user.GetTags());
             var perksComp = user.GetComponent<PerksComponent>();
             if (perksComp is null)
                 return;
@@ -61,9 +60,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
             GenericModifierStatusEffect effect = new("Exposed", 12.0, mods, []);
 
-            skill.Timer.ChargingDuration = chargeTime;
-            skill.Timer.CooldownDuration = cooldown;
-            skill.ActivityStartEffects = [
+            Timer.ChargingDuration = chargeTime;
+            Timer.CooldownDuration = cooldown;
+            ActivityStartEffects = [
                 new([new StatusSkillEffect(effect)], TargetingMode.SingleEnemy)
             ];
         }

@@ -15,8 +15,8 @@ namespace TheIdleScrolls_Core.Resources
     {
         private static Biome[] LushBiomes = [Biome.Grassland, Biome.Forest, Biome.Coast];
 
-        private readonly static GenericSkillDefinition Skill_StunningBlow 
-            = new ("Stun", "Stunning Blow",
+        private static GenericSkill Skill_StunningBlow 
+            => new ("Stun", "Stunning Blow",
                 SkillFactory.GetGenericUpdater(2.0, 5.0, [
                     SkillFactory.GetStunScaler(1.0)
                 ]));
@@ -33,7 +33,7 @@ namespace TheIdleScrolls_Core.Resources
             new("OGRE",         MobNames.OGRE,      BiomeLevelCondition([Biome.Grassland, Biome.Coast], 35,  70)),
             new("BEAR",         MobNames.BEAR,      BiomeLevelCondition([Biome.Grassland, Biome.Forest], 60, 130))
             {
-                ActiveSkills = [ Skill_StunningBlow ]
+                ActiveSkills = () => [ Skill_StunningBlow ]
             },
             new("HILLGIANT",    MobNames.HillGiant, BiomeLevelCondition([Biome.Grassland], 130,  199)),
             new("WYVERN",       MobNames.WYVERN,    BiomeLevelCondition([Biome.Grassland, Biome.Coast], 149)),

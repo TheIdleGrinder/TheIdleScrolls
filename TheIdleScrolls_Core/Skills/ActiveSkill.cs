@@ -11,7 +11,7 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills
 {
-	public class ActiveSkill(ActiveSkillDefinition definition)
+	public abstract class ActiveSkill()
 	{
 		public enum State
 		{
@@ -31,9 +31,18 @@ namespace TheIdleScrolls_Core.Skills
 			public List<StatusEffect> WhileIn { get; set; } = [];
         }
 
+        public enum UsePrevention
+        {
+            None,
+            NotInBattle,
+            NotResting,
+            NoTargetPresent,
+            NoTargetInRange,
+            MissingPerk,
+            WrongEquipment
+        }
 
-		readonly ActiveSkillDefinition Definition = definition;
-		Entity? User = null;
+        Entity? User = null;
 
         public int UseCount { get; private set; } = 0;
 
@@ -44,13 +53,38 @@ namespace TheIdleScrolls_Core.Skills
 		EffectsForState CooldownEffects { get; set; } = new();
 		public SkillTimer.State CurrentState => Timer.CurrentState;
 
-		public string NotUsableReason
+        public abstract string Id { get; }
+        public abstract string Name { get; }
+        protected abstract void SetupStats(Entity user);
+        public abstract (UsePrevention prevention, string details) IsUsableBy(Entity user);
+        public abstract bool IsAvailableTo(Entity user);
+
+        public HashSet<string> SkillTags { get; set; } = [];
+        public UsePrevention Prevention { get; private set; } = UsePrevention.None;
+        public double Range { get; set; } = 0.0;
+
+        public void SetupForUser(Entity user)
+        {
+            User = user;
+            SetupStats(user);
+        }
+
+        protected static bool HasPerkActive(Entity user, string perkId)
+        {
+            var perksComp = user.GetComponent<PerksComponent>();
+            if (perksComp is null)
+                return false;
+
+            return perksComp.IsPerkActive(perkId);
+        }
+
+        public string NotUsableReason
 		{
 			get
 			{
-				if (User is null || !Definition.IsAvailableTo(User))
+				if (User is null || !IsAvailableTo(User))
 					return "";
-				var (usable, reason) = Definition.IsUsableBy(User);
+				var (usable, reason) = IsUsableBy(User);
 				if (usable != UsePrevention.None)
 					return reason;
 				return "";
@@ -145,19 +179,8 @@ namespace TheIdleScrolls_Core.Skills
 			get => Timer.ChargingDuration;
 			set => Timer.ChargingDuration = value;
 		}
+
 		public bool Enabled = true;
-
-		public string Id => Definition.Id;
-		public string Name => Definition.Name;
-		public HashSet<string> Tags { get; set; } = [];
-		public UsePrevention Prevention { get; private set; } = UsePrevention.None;
-		public double Range { get; set; } = 0.0;
-
-        public void SetupForUser(Entity user)
-		{
-			User = user;
-			Definition.SetupForUser(user, this);
-		}
 
 		public void Reset()
 		{
@@ -177,12 +200,12 @@ namespace TheIdleScrolls_Core.Skills
 
 		public State GetState()
 		{
-			if (User is null || !Definition.IsAvailableTo(User))
+			if (User is null || !IsAvailableTo(User))
 				return State.Unavailable;
 
 			if (!Enabled)
 				return State.Disabled;
-			var (prevention, _) = Definition.IsUsableBy(User);
+			var (prevention, _) = IsUsableBy(User);
 			Prevention = prevention;
 			if (prevention != UsePrevention.None)
 				return State.NotUsable;
@@ -265,13 +288,13 @@ namespace TheIdleScrolls_Core.Skills
 		{
 			if (exclusiveMods is null || exclusiveMods.Count == 0)
 			{
-				return User!.ApplyAllApplicableModifiers(baseValue, [Id, .. Tags, .. situationalTags], User!.GetTags());
+				return User!.ApplyAllApplicableModifiers(baseValue, [Id, .. SkillTags, .. situationalTags], User!.GetTags());
 			}
 			else
 			{
 				List<Modifier> mods = User!.GetComponent<ModifierComponent>()?.GetModifiers()?.Concat(exclusiveMods)?.ToList() 
 										?? exclusiveMods;
-				return mods.ApplyAllApplicable(baseValue, [Id, .. Tags, .. situationalTags], User!.GetTags());
+				return mods.ApplyAllApplicable(baseValue, [Id, .. SkillTags, .. situationalTags], User!.GetTags());
 			}
         }
 
@@ -282,7 +305,7 @@ namespace TheIdleScrolls_Core.Skills
 			{
 				mods.AddRange(exclusiveMods);
 			}
-            return baseDamage.ScaleWithModifiers(mods, [Id, .. Tags, .. situationalTags], User!.GetTags());
+            return baseDamage.ScaleWithModifiers(mods, [Id, .. SkillTags, .. situationalTags], User!.GetTags());
         }
 
         public Perk? GetPerk(string perkId)

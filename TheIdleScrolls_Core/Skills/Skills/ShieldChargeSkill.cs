@@ -14,7 +14,7 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
-    public class ShieldChargeSkill : ActiveSkillDefinition
+    public class ShieldChargeSkill : ActiveSkill
     {
         public static ShieldChargeSkill Skill { get; } = new();
         public override string Id => ShieldCharge.BasePerkId;
@@ -41,9 +41,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return (UsePrevention.None, string.Empty);
         }
 
-        protected override void SetupStats(Entity user, ActiveSkill skill)
+        protected override void SetupStats(Entity user)
         {
-            skill.Tags = [Tags.AttackSkill];
+            SkillTags = [Tags.AttackSkill];
             var battleStatsComp = user.GetComponent<BattleStatsComponent>();
 
             Entity? weapon = user.GetComponent<EquipmentComponent>()?.GetItems()?.FirstOrDefault(i => i.IsWeapon());
@@ -65,19 +65,19 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 return;
             }
 
-            DamageCluster damage = skill.ScaleDamage(baseDamage, tags, perk?.Modifiers);
+            DamageCluster damage = ScaleDamage(baseDamage, tags, perk?.Modifiers);
 
-            double cooldownRecovery = skill.ScaleValue(1.0, [Tags.CooldownRecovery]);
+            double cooldownRecovery = ScaleValue(1.0, [Tags.CooldownRecovery]);
             if (cooldownRecovery == 0.0)
                 cooldownRecovery = 1.0;
 
-            var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. skill.Tags]);
-            skill.ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
-            skill.ChargingTime = battleStatsComp.AttackVectors[0].AttackTime;
-            skill.Timer.CooldownDuration = 5.0 / cooldownRecovery;
+            var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. SkillTags]);
+            ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
+            ChargingTime = battleStatsComp.AttackVectors[0].AttackTime;
+            Timer.CooldownDuration = 5.0 / cooldownRecovery;
 
             Modifier defMod = perk?.GetModifier(ShieldCharge.BasePerkArmorModId)!;
-            skill.ChargingWhileInEffects = [new GenericModifierStatusEffect("Raised Shield", 0.0, [defMod], [])];
+            ChargingWhileInEffects = [new GenericModifierStatusEffect("Raised Shield", 0.0, [defMod], [])];
         }
     }
 }

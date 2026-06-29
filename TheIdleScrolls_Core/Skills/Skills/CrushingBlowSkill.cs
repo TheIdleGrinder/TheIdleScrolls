@@ -14,12 +14,11 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
-    public class CrushingBlowSkill : ActiveSkillDefinition
+    public class CrushingBlowSkill : ActiveSkill
     {
         const double BaseCooldown = 5.0;
         const double DebuffDuration = 5.0;
 
-        public static CrushingBlowSkill Skill { get; } = new();
         public override string Id => CrushingBlow.BasePerkId;
 
         public override string Name => Properties.Skills.CrushingBlow_Name;
@@ -44,9 +43,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return (UsePrevention.None, string.Empty);
         }
 
-        protected override void SetupStats(Entity user, ActiveSkill skill)
+        protected override void SetupStats(Entity user)
         {
-            skill.Tags = [Tags.AttackSkill];
+            SkillTags = [Tags.AttackSkill];
 
             Entity? weapon = user.GetComponent<EquipmentComponent>()?.GetItems()?.FirstOrDefault(i => i.IsWeapon());
             var battleStatsComp = user.GetComponent<BattleStatsComponent>();
@@ -68,20 +67,20 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 return;
             }
 
-            DamageCluster damage = skill.ScaleDamage(baseDamage, tags, perk?.Modifiers);
+            DamageCluster damage = ScaleDamage(baseDamage, tags, perk?.Modifiers);
 
-            var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. skill.Tags]);
+            var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. SkillTags]);
             GenericModifierStatusEffect crushedEffect = new("Crushed", DebuffDuration, 
                 [perk!.GetModifier(CrushingBlow.BasePerkAntiDefenseModId)!], [Tags.Debuff]);
             effects.Add(new SkillEffects.StatusSkillEffect(crushedEffect));
 
-            double cooldownRecovery = skill.ScaleValue(1.0, [Tags.CooldownRecovery]);
+            double cooldownRecovery = ScaleValue(1.0, [Tags.CooldownRecovery]);
             if (cooldownRecovery == 0.0)
                 cooldownRecovery = 1.0;
 
-            skill.ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
-            skill.ChargingTime = battleStatsComp.AttackVectors[0].AttackTime;
-            skill.Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
+            ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
+            ChargingTime = battleStatsComp.AttackVectors[0].AttackTime;
+            Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
         }
     }
 }

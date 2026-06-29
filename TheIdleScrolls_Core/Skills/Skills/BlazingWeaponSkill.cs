@@ -12,7 +12,7 @@ using TheIdleScrolls_Core.StatusEffects;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
-    public class BlazingWeaponSkill : ActiveSkillDefinition
+    public class BlazingWeaponSkill : ActiveSkill
     {
         public static BlazingWeaponSkill Skill { get; } = new();
 
@@ -38,26 +38,25 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return (UsePrevention.None, string.Empty);
         }
 
-        protected override void SetupStats(Entity user, ActiveSkill skill)
+        protected override void SetupStats(Entity user)
         {
-            skill.Tags = [Tags.BuffSkill, Tags.DurationSkill, DamageType.Fire.ToTag()];
+            SkillTags = [Tags.BuffSkill, Tags.DurationSkill, DamageType.Fire.ToTag()];
 
-            Perk basePerk = skill.GetPerk(BlazingWeapon.BasePerkId)!;
-            Perk? supportPerk = skill.GetPerk(BlazingWeapon.SupportPerkId);
+            Perk basePerk = GetPerk(BlazingWeapon.BasePerkId)!;
+            Perk? supportPerk = GetPerk(BlazingWeapon.SupportPerkId);
             List<Modifier> mods = [];
-            if (skill.GetPerkLevel(BlazingWeapon.SupportPerkId) > 0)
+            if (GetPerkLevel(BlazingWeapon.SupportPerkId) > 0)
                 mods = supportPerk?.Modifiers ?? [];
 
-            double chargeSpeed = skill.ScaleValue(1.0, [.. skill.Tags, Tags.Speed], mods);
-            double duration = skill.ScaleValue(1.0, [.. skill.Tags, Tags.Duration], mods);
-            double recovery = skill.ScaleValue(1.0, [.. skill.Tags, Tags.CooldownRecovery], mods);
+            double chargeSpeed = ScaleValue(1.0, [.. SkillTags, Tags.Speed], mods);
+            double duration = ScaleValue(1.0, [.. SkillTags, Tags.Duration], mods);
+            double recovery = ScaleValue(1.0, [.. SkillTags, Tags.CooldownRecovery], mods);
 
-            skill.ChargingTime = 1.0 / (chargeSpeed != 0.0 ? chargeSpeed : 1.0);
-            skill.Timer.ActiveDuration = 10.0 * duration;
-            skill.Timer.CooldownDuration = 3.0 / (recovery != 0.0 ? recovery : 1.0);
-
+            Timer.ChargingDuration = 1.0 / (chargeSpeed != 0.0 ? chargeSpeed : 1.0);
+            Timer.ActiveDuration = 10.0 * duration;
+            Timer.CooldownDuration = 3.0 / (recovery != 0.0 ? recovery : 1.0);
             StatusEffect fireDamage = new GenericModifierStatusEffect("Blazing Weapon", 0.0, basePerk.Modifiers, []);
-            skill.ActivityWhileInEffects = [fireDamage];
+            ActivityWhileInEffects = [fireDamage];
         }
     }
 }

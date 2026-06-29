@@ -56,7 +56,7 @@ namespace TheIdleScrolls_Core.Systems
                         {
                             if (perk.Skill is not null)
                             {
-                                skillComp.Add(new(perk.Skill));
+                                skillComp.Add(perk.Skill);
                             }
                         }
                     }

@@ -14,13 +14,11 @@ using static TheIdleScrolls_Core.Skills.ISkillEffect;
 
 namespace TheIdleScrolls_Core.Skills.Skills
 {
-    public class DefaultAttack : ActiveSkillDefinition
+    public class DefaultAttack : ActiveSkill
     {
         public const string SkillId = "DfltAttack";
 
-        public static DefaultAttack Skill { get; } = new();
-
-        private DefaultAttack() { }
+        public DefaultAttack() { }
 
         public override string Id => SkillId;
 
@@ -28,7 +26,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         public static void SetupAttackComponent(Entity user, BattleStatsComponent statsComp, List<Modifier>? additionalMods = null)
         {
-            List<string> AdditionalTags = [Tags.Attack, Skill.Id];
+            List<string> AdditionalTags = [Tags.Attack, SkillId];
 
             var equipComp = user.GetComponent<EquipmentComponent>();
 
@@ -135,7 +133,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             return effects;
         }
 
-        protected override void SetupStats(Entity user, ActiveSkill skill)
+        protected override void SetupStats(Entity user)
         {
             var attackComp = user.GetComponent<BattleStatsComponent>();
             if (attackComp == null) // should never happen
@@ -144,15 +142,15 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 return;
             }
 
-            skill.Tags = [Tags.AttackSkill];
-            List<string> AdditionalTags = [.. skill.Tags, Skill.Id];
+            SkillTags = [Tags.AttackSkill];
+            List<string> AdditionalTags = [.. SkillTags, Id];
             SkillEffectBundle damage = new(CreateDefaultSkillEffectsForDamage(attackComp.CurrentAttack.RawDamage, [.. AdditionalTags]),
                                             TargetingMode.SingleEnemy);
             damage.Accuracy = user.GetComponent<AccuracyComponent>()?.Accuracy;
 
-            skill.Range = attackComp.CurrentAttack.Range;
-            skill.ActivityStartEffects = [damage];
-            skill.ChargingTime = attackComp.CurrentAttack.AttackTime;
+            Range = attackComp.CurrentAttack.Range;
+            ActivityStartEffects = [damage];
+            ChargingTime = attackComp.CurrentAttack.AttackTime;
         }
 
         public override bool IsAvailableTo(Entity user)

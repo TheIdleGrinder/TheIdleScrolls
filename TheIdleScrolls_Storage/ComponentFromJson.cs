@@ -409,8 +409,8 @@ namespace TheIdleScrolls_JSON
                 }
                 component.SetStoredSkills(skills);
                 // CornerCut: Add default attack to ensure it's always present
-                if (component.StoredSkills.Any(s => s.Item1 == DefaultAttack.Skill.Id))
-                    component.Add(new(DefaultAttack.Skill));
+                if (component.StoredSkills.Any(s => s.Item1 == DefaultAttack.SkillId))
+                    component.Add(new DefaultAttack());
 
                 return true;
             }

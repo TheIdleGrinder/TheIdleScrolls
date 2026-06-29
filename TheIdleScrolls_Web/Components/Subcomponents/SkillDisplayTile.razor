@@ -12,7 +12,7 @@
         <span class="skill-display-not-usable-reason">@Skill.NotUsableReason</span>
     }
     <span class="skill-display-name">@Skill.Name</span>
-    <span class="skill-display-tags">@(String.Join(", ", Skill.Tags.Select(t => t.Localize())))</span>
+    <span class="skill-display-tags">@(String.Join(", ", Skill.SkillTags.Select(t => t.Localize())))</span>
     <div class="skill-display-main">
         @if (Skill.ChargingTime > 0)
         {
