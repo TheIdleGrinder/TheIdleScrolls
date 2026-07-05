@@ -285,9 +285,19 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     if (updateResult.ChargingComplete)
                     {
+                        var skillTags = skillComp.CurrentSkill?.SkillTags ?? [];
+                        // Trigger skills that are set to trigger on attack or cast
+                        if (skillTags.Contains(Tags.AttackSkill))
+                        {
+                            ChargeTriggeredSkills(ActiveSkill.UseTrigger.OnAttack, entity);
+                        }
+                        else if (skillTags.Contains(Tags.SpellSkill))
+                        {
+                            ChargeTriggeredSkills(ActiveSkill.UseTrigger.OnCast, entity);
+                        }
                         entity.GetComponent<BattlerComponent>()!.SkillsUsed++;
                         // Switch hands after performing an attack
-                        if (skillComp.CurrentSkill?.SkillTags.Contains(Tags.AttackSkill) ?? false)
+                        if (skillTags.Contains(Tags.AttackSkill))
                         {
                             entity.GetComponent<BattleStatsComponent>()?.SwitchHand();
                         }
@@ -369,6 +379,33 @@ namespace TheIdleScrolls_Core.Systems
                 double angle = Math.Atan2(closest.Y - position.Y, closest.X - position.X);
                 position.X += coveredDistance * Math.Cos(angle);
                 position.Y += coveredDistance * Math.Sin(angle);
+            }
+        }
+
+        private void ChargeTriggeredSkills(ActiveSkill.UseTrigger trigger, Entity user)
+        {
+            var skillComp = user.GetComponent<ActiveSkillComponent>();
+            if (skillComp is null)
+                return;
+            foreach (var skill in skillComp.Skills)
+            {
+                if (skill.Trigger == trigger)
+                {
+                    ChargeTriggeredSkill(skill);
+                }
+            }
+        }
+
+        private void ChargeTriggeredSkill(ActiveSkill skill)
+        {
+            if (!skill.IsTriggered || skill.CurrentState != SkillTimer.State.NotStarted)
+                return;
+            var chargeComp = skill.User!.GetOrAddComponent<ChanceChargeComponent>();
+            int charges = chargeComp.AddCharge(skill.Id, skill.TriggerChance);
+            if (charges > 0)
+            {
+                chargeComp.RemoveCharge(skill.Id, charges);
+                skill.StartCharging();
             }
         }
     }

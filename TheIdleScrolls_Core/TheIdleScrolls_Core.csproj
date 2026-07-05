@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Skills\ActiveSkillDefinition.cs" />
     <Compile Remove="Systems\AttackProcessingSystem.cs" />
     <Compile Remove="Systems\ConsoleLoggerSystem.cs" />
     <Compile Remove="Systems\ModifierSystem.cs" />

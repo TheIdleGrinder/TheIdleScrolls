@@ -42,7 +42,17 @@ namespace TheIdleScrolls_Core.Skills
             WrongEquipment
         }
 
-        Entity? User = null;
+        public enum UseTrigger
+        {
+            None,
+            OnAttack,
+            OnCast,
+            OnHit,
+            OnBlock,
+            OnKill
+        }
+
+        public Entity? User = null;
 
         public int UseCount { get; private set; } = 0;
 
@@ -58,10 +68,13 @@ namespace TheIdleScrolls_Core.Skills
         protected abstract void SetupStats(Entity user);
         public abstract (UsePrevention prevention, string details) IsUsableBy(Entity user);
         public abstract bool IsAvailableTo(Entity user);
+        public virtual UseTrigger Trigger => UseTrigger.None;
+        public double TriggerChance { get; set; } = 0.0;
 
         public HashSet<string> SkillTags { get; set; } = [];
         public UsePrevention Prevention { get; private set; } = UsePrevention.None;
         public double Range { get; set; } = 0.0;
+        public bool IsTriggered => Trigger != UseTrigger.None;
 
         public void SetupForUser(Entity user)
         {
