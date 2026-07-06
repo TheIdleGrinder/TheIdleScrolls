@@ -14,6 +14,10 @@
     <span class="skill-display-name">@Skill.Name</span>
     <span class="skill-display-tags">@(String.Join(", ", Skill.SkillTags.Select(t => t.Localize())))</span>
     <div class="skill-display-main">
+        @if (Skill.Trigger != ActiveSkill.UseTrigger.None)
+        {
+            <span><em>@Skill.TriggerChance.ToString("0.#%")</em> chance to activate @Skill.Trigger.ToString().Localize()</span>
+        }
         @if (Skill.ChargingTime > 0)
         {
             <span>Charging Time: <em>@Skill.ChargingTime.ToString("0.##") seconds</em></span>

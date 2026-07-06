@@ -187,6 +187,24 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die While fighting with two weapons, you occasionally hit your enemy with both of them at once. ähnelt.
+        /// </summary>
+        internal static string DoubleSwing_Description {
+            get {
+                return ResourceManager.GetString("DoubleSwing_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Double Swing ähnelt.
+        /// </summary>
+        internal static string DoubleSwing_Name {
+            get {
+                return ResourceManager.GetString("DoubleSwing_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Two Weapons I ähnelt.
         /// </summary>
         internal static string DualWield1 {

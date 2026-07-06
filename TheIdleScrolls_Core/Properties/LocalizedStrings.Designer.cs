@@ -115,6 +115,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die chance to activate ähnelt.
+        /// </summary>
+        internal static string ActivationChanceDummy {
+            get {
+                return ResourceManager.GetString("ActivationChanceDummy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Active Craft(s) ähnelt.
         /// </summary>
         internal static string ActiveCraftingSlot {
@@ -723,6 +732,51 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string OffHand {
             get {
                 return ResourceManager.GetString("OffHand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die on Attack ähnelt.
+        /// </summary>
+        internal static string OnAttack {
+            get {
+                return ResourceManager.GetString("OnAttack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die on blocking a hit ähnelt.
+        /// </summary>
+        internal static string OnBlock {
+            get {
+                return ResourceManager.GetString("OnBlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die on casting a spell ähnelt.
+        /// </summary>
+        internal static string OnCast {
+            get {
+                return ResourceManager.GetString("OnCast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die on being hit ähnelt.
+        /// </summary>
+        internal static string OnHit {
+            get {
+                return ResourceManager.GetString("OnHit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die on defeating an enemy ähnelt.
+        /// </summary>
+        internal static string OnKill {
+            get {
+                return ResourceManager.GetString("OnKill", resourceCulture);
             }
         }
         

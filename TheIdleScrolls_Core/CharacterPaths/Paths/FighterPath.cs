@@ -186,11 +186,13 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
 
             Path.AddStep(SimplePerkStep(HeavyWeaponsPerk, 1));
 
+            Path.AddStep(SimplePerkStep(DoubleSwing.BasePerk.WithCategories(Properties.Skills.PathFighter), 1));
+
             Path.AddStep(new CharacterPathStep(DualWield2Id, Properties.Skills.DualWield2, "")
             {
                 Reward = new PerkReward(OneHandDamagePerk),
-                StepNumber = 1,
-                PrerequisiteId = null
+                StepNumber = 2,
+                PrerequisiteId = DoubleSwing.BasePerkId
             });
             Path.AddStep(new CharacterPathStep(DualWield3Id, Properties.Skills.DualWield3, "")
             {

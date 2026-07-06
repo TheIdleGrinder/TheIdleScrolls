@@ -118,9 +118,11 @@ namespace TheIdleScrolls_Core
             public const string TimeShield = "TimeShield";
             public const string MovementSpeed = "MovementSpeed";
             public const string Range = "Range";
-
             public const string CooldownRecovery = "CooldownRecovery";
 
+            // Dummy tag used in modifiers scaling activation chance of triggered skills
+            public const string ActivationChanceDummy = "ActivationChanceDummy"; 
+            
             public const string CharacterXpGain = "CharacterXpGain";
             public const string AbilityXpGain = "AbilityXpGain";
 

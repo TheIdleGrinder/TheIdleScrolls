@@ -159,6 +159,12 @@
   <data name="DoubleStrike_Name" xml:space="preserve">
     <value>Double Strike</value>
   </data>
+  <data name="DoubleSwing_Description" xml:space="preserve">
+    <value>While fighting with two weapons, you occasionally hit your enemy with both of them at once.</value>
+  </data>
+  <data name="DoubleSwing_Name" xml:space="preserve">
+    <value>Double Swing</value>
+  </data>
   <data name="DualWield1" xml:space="preserve">
     <value>Two Weapons I</value>
   </data>

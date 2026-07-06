@@ -422,4 +422,22 @@ Time to finish: {0}</value>
   <data name="ARC" xml:space="preserve">
     <value>Archery</value>
   </data>
+  <data name="ActivationChanceDummy" xml:space="preserve">
+    <value>chance to activate</value>
+  </data>
+  <data name="OnAttack" xml:space="preserve">
+    <value>on Attack</value>
+  </data>
+  <data name="OnBlock" xml:space="preserve">
+    <value>on blocking a hit</value>
+  </data>
+  <data name="OnCast" xml:space="preserve">
+    <value>on casting a spell</value>
+  </data>
+  <data name="OnHit" xml:space="preserve">
+    <value>on being hit</value>
+  </data>
+  <data name="OnKill" xml:space="preserve">
+    <value>on defeating an enemy</value>
+  </data>
 </root>
