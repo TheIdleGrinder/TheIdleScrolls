@@ -117,9 +117,9 @@ namespace TheIdleScrolls_Core.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die chance to activate ähnelt.
         /// </summary>
-        internal static string ActivationChanceDummy {
+        internal static string ActivationChance {
             get {
-                return ResourceManager.GetString("ActivationChanceDummy", resourceCulture);
+                return ResourceManager.GetString("ActivationChance", resourceCulture);
             }
         }
         

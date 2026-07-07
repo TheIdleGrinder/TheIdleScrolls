@@ -26,7 +26,7 @@ namespace TheIdleScrolls_Core.Perks
 
                 return [
                     new Modifier(BasePerkActivationId, ModifierType.AddBase, chance,
-                        [Tags.ActivationChanceDummy], [])
+                        [Tags.ActivationChance], [])
                     {
                         AlwaysPercentage = true
                     }

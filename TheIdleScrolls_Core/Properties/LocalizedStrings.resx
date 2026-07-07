@@ -422,7 +422,7 @@ Time to finish: {0}</value>
   <data name="ARC" xml:space="preserve">
     <value>Archery</value>
   </data>
-  <data name="ActivationChanceDummy" xml:space="preserve">
+  <data name="ActivationChance" xml:space="preserve">
     <value>chance to activate</value>
   </data>
   <data name="OnAttack" xml:space="preserve">
