@@ -16,11 +16,24 @@ namespace TheIdleScrolls_Core.Systems
     /// </summary>
     public class EquipmentManagementSystem : AbstractSystem
     {
-
+        bool FirstFrame = true;
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             HashSet<Entity> changedInventories = new();
             HashSet<Entity> changedEquipments = new();
+
+            if (FirstFrame)
+            {
+                foreach (var entity in coordinator.GetEntities<EquipmentComponent>())
+                {
+                    var modComp = entity.GetOrAddComponent<ModifierComponent>();
+                    foreach (var item in entity.GetComponent<EquipmentComponent>()!.GetItems())
+                    {
+                        item.GetComponent<ModifierComponent>()?.GetModifiers()?.ForEach(modComp.AddModifier);
+                    }
+                }
+                FirstFrame = false;
+            }
 
             foreach (var itemMessage in coordinator.FetchMessagesByType<ItemReceivedMessage>())
             {
@@ -60,7 +73,7 @@ namespace TheIdleScrolls_Core.Systems
                                
                             if (prevItem != null)
                             {
-                                if (equipmentComp.UnequipItem(prevItem, false))
+                                if (UnequipItem(owner, prevItem, false))
                                     inventoryComp.AddItem(prevItem);
                             }
                             else
@@ -73,6 +86,11 @@ namespace TheIdleScrolls_Core.Systems
                         bool couldEquip = equipmentComp.EquipItem(item);
                         if (couldEquip)
                         {
+                            if ((item.GetComponent<ModifierComponent>()?.GetModifiers()?.Count ?? 0) > 0)
+                            {
+                                var modComp = owner.GetOrAddComponent<ModifierComponent>();
+                                item.GetComponent<ModifierComponent>()?.GetModifiers()?.ForEach(modComp.AddModifier);
+                            }
                             inventoryComp.RemoveItem(item);
                             coordinator.PostMessage(this, new ItemMovedMessage(owner, item, move.Equip));
                         }
@@ -80,7 +98,7 @@ namespace TheIdleScrolls_Core.Systems
                 }
                 else
                 {
-                    bool unequipped = equipmentComp.UnequipItem(item);
+                    bool unequipped = UnequipItem(owner, item);
                     if (unequipped)
                     {
                         inventoryComp.AddItem(item);
@@ -130,6 +148,21 @@ namespace TheIdleScrolls_Core.Systems
                 // CornerCut: The whole handling of encumbrance is not very elegant. How do we inform the app in a smoother way?
                 coordinator.PostMessage(this, new EncumbranceChangedMessage(entity, equipComp.TotalEncumbrance)); 
             }
+        }
+
+        private bool UnequipItem(Entity owner, Entity item, bool moveNextItemUp = true)
+        {
+            var equipmentComp = owner.GetComponent<EquipmentComponent>() ?? throw new Exception($"Entity {owner.GetName()} has no Equipment component");
+            if (!equipmentComp.UnequipItem(item, moveNextItemUp))
+                return false;
+
+            if ((item.GetComponent<ModifierComponent>()?.GetModifiers()?.Count ?? 0) > 0)
+            {
+                var modComp = owner.GetOrAddComponent<ModifierComponent>();
+                item.GetComponent<ModifierComponent>()?.GetModifiers()?.ForEach(m => modComp.RemoveModifier(m.Id));
+            }
+
+            return true;
         }
 
         /// <summary>

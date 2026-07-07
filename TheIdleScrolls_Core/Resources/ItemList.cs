@@ -213,7 +213,11 @@ namespace TheIdleScrolls_Core.Resources
             ItemGenusDescription descr = new(name, level, materials)
             {
                 Equippable = new(slots, 0.0),
-                Weapon = new(new(DamageType.Physical, damage), attackTime, range)
+                Weapon = new(new(DamageType.Physical, damage), attackTime, range),
+                InherentModifiers =
+                [
+                    //new("+eva", Modifiers.ModifierType.AddFlat, 100.0, [Tags.EvasionRating], [])
+                ]
             };
             return descr;
         }
