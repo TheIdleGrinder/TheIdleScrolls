@@ -20,6 +20,8 @@ namespace TheIdleScrolls_Core.Items
 
     public record ArmorGenus(double BaseArmor, double BaseEvasion);
 
+    public record ModifierTemplate(Modifier BaseModifier, double QualityBase, double MaterialBase);
+
     public class ItemGenusDescription
     {
         public string Name { get; set; } = "Missing genus name";
@@ -28,7 +30,7 @@ namespace TheIdleScrolls_Core.Items
         public ArmorGenus? Armor { get; set; } = null;
         public int DropLevel { get; set; } = 1;
         public List<MaterialId> ValidMaterials { get; set; } = [];
-        public List<Modifier> InherentModifiers { get; set; } = [];
+        public List<ModifierTemplate> InherentModifiers { get; set; } = [];
 
         public ItemGenusDescription(string name, int dropLevel, List<MaterialId> validMaterials)
         {
@@ -37,7 +39,7 @@ namespace TheIdleScrolls_Core.Items
             ValidMaterials = validMaterials;
         }
 
-        public ItemGenusDescription WithModifiers(List<Modifier> modifiers)
+        public ItemGenusDescription WithModifiers(List<ModifierTemplate> modifiers)
         {
             InherentModifiers = modifiers;
             return this;

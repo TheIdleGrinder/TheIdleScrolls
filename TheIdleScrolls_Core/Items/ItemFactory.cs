@@ -104,8 +104,10 @@ namespace TheIdleScrolls_Core.Items
             modComp.Clear(); // CornerCut: Assume that the item is not currently equipped
             foreach (var mod in mods)
             {
-                var newMod = mod.Clone($"{mod.Id}-{item.Id}");
-                newMod.Value = Math.Round(mod.Value * Math.Pow(1.1, itemComp.Blueprint.Quality), 2);
+                var newMod = mod.BaseModifier.Clone($"{mod.BaseModifier.Id}-{item.Id}");
+                newMod.Value = Math.Round(mod.BaseModifier.Value 
+                    * Math.Pow(mod.QualityBase, itemComp.Blueprint.Quality)
+                    * Math.Pow(mod.MaterialBase, Math.Max(0, itemComp.Blueprint.GetMaterial().Tier - 1)), 2);
                 modComp.AddModifier(newMod);
             }
         }

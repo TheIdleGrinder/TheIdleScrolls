@@ -18,8 +18,8 @@ namespace TheIdleScrolls_Core.Resources
             List<MaterialId> woods    = [ MaterialId.Wood1,    MaterialId.Wood2,    MaterialId.Wood3,    MaterialId.Wood4 ];
             List<MaterialId> cloths   = [ MaterialId.Cloth1,   MaterialId.Cloth2,   MaterialId.Cloth3,   MaterialId.Cloth4 ];
 
-            var SpellCooldownMod = (double value) => new Modifier("+spell_cooldown", ModifierType.More, value, 
-                [Tags.SpellSkill, Tags.CooldownRecovery], []);
+            var SpellCooldownMod = (double value) => new ModifierTemplate(new Modifier("+spell_cooldown", ModifierType.More, value, 
+                [Tags.SpellSkill, Tags.CooldownRecovery], []), 1.1, 1.25);
 
             return new()
             {
