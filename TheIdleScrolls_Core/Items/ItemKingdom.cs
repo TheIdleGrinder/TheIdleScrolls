@@ -36,6 +36,12 @@ namespace TheIdleScrolls_Core.Items
             DropLevel = dropLevel;
             ValidMaterials = validMaterials;
         }
+
+        public ItemGenusDescription WithModifiers(List<Modifier> modifiers)
+        {
+            InherentModifiers = modifiers;
+            return this;
+        }
     }
 
     public class ItemFamilyDescription

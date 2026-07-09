@@ -79,6 +79,42 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cloth Boots ähnelt.
+        /// </summary>
+        internal static string Family_ClothBoots {
+            get {
+                return ResourceManager.GetString("Family_ClothBoots", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cloth Body Armor ähnelt.
+        /// </summary>
+        internal static string Family_ClothChest {
+            get {
+                return ResourceManager.GetString("Family_ClothChest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cloth Gloves ähnelt.
+        /// </summary>
+        internal static string Family_ClothGloves {
+            get {
+                return ResourceManager.GetString("Family_ClothGloves", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cloth Helmet ähnelt.
+        /// </summary>
+        internal static string Family_ClothHelmet {
+            get {
+                return ResourceManager.GetString("Family_ClothHelmet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Dagger ähnelt.
         /// </summary>
         internal static string Family_Dagger {
@@ -295,6 +331,114 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string Genus_ClothBoots0 {
+            get {
+                return ResourceManager.GetString("Genus_ClothBoots0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Slippers ähnelt.
+        /// </summary>
+        internal static string Genus_ClothBoots1 {
+            get {
+                return ResourceManager.GetString("Genus_ClothBoots1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Leggings ähnelt.
+        /// </summary>
+        internal static string Genus_ClothBoots2 {
+            get {
+                return ResourceManager.GetString("Genus_ClothBoots2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cloth Armor ähnelt.
+        /// </summary>
+        internal static string Genus_ClothChest0 {
+            get {
+                return ResourceManager.GetString("Genus_ClothChest0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shirt ähnelt.
+        /// </summary>
+        internal static string Genus_ClothChest1 {
+            get {
+                return ResourceManager.GetString("Genus_ClothChest1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Robe ähnelt.
+        /// </summary>
+        internal static string Genus_ClothChest2 {
+            get {
+                return ResourceManager.GetString("Genus_ClothChest2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string Genus_ClothGloves0 {
+            get {
+                return ResourceManager.GetString("Genus_ClothGloves0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wrist Band ähnelt.
+        /// </summary>
+        internal static string Genus_ClothGloves1 {
+            get {
+                return ResourceManager.GetString("Genus_ClothGloves1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Arm Wrap ähnelt.
+        /// </summary>
+        internal static string Genus_ClothGloves2 {
+            get {
+                return ResourceManager.GetString("Genus_ClothGloves2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        /// </summary>
+        internal static string Genus_ClothHelmet0 {
+            get {
+                return ResourceManager.GetString("Genus_ClothHelmet0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hat ähnelt.
+        /// </summary>
+        internal static string Genus_ClothHelmet1 {
+            get {
+                return ResourceManager.GetString("Genus_ClothHelmet1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hood ähnelt.
+        /// </summary>
+        internal static string Genus_ClothHelmet2 {
+            get {
+                return ResourceManager.GetString("Genus_ClothHelmet2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Knife ähnelt.
         /// </summary>
         internal static string Genus_Dagger0 {
@@ -412,7 +556,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Helmet ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Chain Coif ähnelt.
         /// </summary>
         internal static string Genus_HeavyHelmet1 {
             get {
@@ -556,7 +700,7 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hood ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Helmet ähnelt.
         /// </summary>
         internal static string Genus_LightHelmet2 {
             get {
@@ -885,6 +1029,42 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string Genus_TwoHandSword2 {
             get {
                 return ResourceManager.GetString("Genus_TwoHandSword2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Linen ähnelt.
+        /// </summary>
+        internal static string Material_C1 {
+            get {
+                return ResourceManager.GetString("Material_C1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Cotton ähnelt.
+        /// </summary>
+        internal static string Material_C2 {
+            get {
+                return ResourceManager.GetString("Material_C2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wool ähnelt.
+        /// </summary>
+        internal static string Material_C3 {
+            get {
+                return ResourceManager.GetString("Material_C3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Silk ähnelt.
+        /// </summary>
+        internal static string Material_C4 {
+            get {
+                return ResourceManager.GetString("Material_C4", resourceCulture);
             }
         }
         

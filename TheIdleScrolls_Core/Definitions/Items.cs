@@ -29,6 +29,11 @@ namespace TheIdleScrolls_Core.Definitions
         public const string ShortBow        = "SBW";
         public const string LongBow         = "LBW";
 
+        public const string ClothChest      = "CCH";
+        public const string ClothHelmet     = "CHE";
+        public const string ClothGloves     = "CGL";
+        public const string ClothBoots      = "CBT";
+
         public const string HeavyChest      = "HCH";
         public const string HeavyHelmet     = "HHE";
         public const string HeavyGloves     = "HGL";
@@ -48,7 +53,8 @@ namespace TheIdleScrolls_Core.Definitions
                                                     Dagger,        ShortSword, 
                                                     ShortBow,      LongBow ];
         public readonly static string[] Armors  = [ HeavyChest, HeavyHelmet, HeavyGloves, HeavyBoots, HeavyShield,
-                                                    LightChest, LightHelmet, LightGloves, LightBoots, LightShield ];
+                                                    LightChest, LightHelmet, LightGloves, LightBoots, LightShield,
+                                                    ClothChest, ClothHelmet, ClothGloves, ClothBoots ];
     }
 
     public static class ItemTiers

@@ -209,6 +209,7 @@ namespace TheIdleScrolls_Core
 
             public const string MaterialT4  = "MaterialT4";
             public const string Bow         = "Bow";
+            public const string ClothItems  = "ClothItems";
         }
 
         public enum DamageType

@@ -20,7 +20,11 @@ namespace TheIdleScrolls_Core.Definitions
         Wood1           = 0x31,
         Wood2           = 0x32,
         Wood3           = 0x33,
-        Wood4           = 0x34
+        Wood4           = 0x34,
+        Cloth1          = 0x41,
+        Cloth2          = 0x42,
+        Cloth3          = 0x43,
+        Cloth4          = 0x44
     }
 
     public record ItemMaterial(MaterialId Id, string Name, double PowerMultiplier, int MinimumLevel, HashSet<string>? NullableRestrictions = null)
@@ -55,7 +59,12 @@ namespace TheIdleScrolls_Core.Definitions
             new(MaterialId.Wood1,    Properties.Items.Material_W1,     1.0,  LevelT1),
             new(MaterialId.Wood2,    Properties.Items.Material_W2,     1.5,  LevelT2),
             new(MaterialId.Wood3,    Properties.Items.Material_W3,     2.25, LevelT3),
-            new(MaterialId.Wood4,    Properties.Items.Material_W4,     3.3,  LevelT4, [ DropRestrictions.MaterialT4 ])
+            new(MaterialId.Wood4,    Properties.Items.Material_W4,     3.3,  LevelT4, [ DropRestrictions.MaterialT4 ]),
+
+            new(MaterialId.Cloth1,   Properties.Items.Material_C1,     1.0,  LevelT1),
+            new(MaterialId.Cloth2,   Properties.Items.Material_C2,     1.5,  LevelT2),
+            new(MaterialId.Cloth3,   Properties.Items.Material_C3,     2.25, LevelT3),
+            new(MaterialId.Cloth4,   Properties.Items.Material_C4,     3.3,  LevelT4, [ DropRestrictions.MaterialT4 ])
         };
     }
 }

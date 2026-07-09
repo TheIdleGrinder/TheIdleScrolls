@@ -229,7 +229,7 @@
     <value />
   </data>
   <data name="Genus_HeavyHelmet1" xml:space="preserve">
-    <value>Helmet</value>
+    <value>Chain Coif</value>
   </data>
   <data name="Genus_HeavyHelmet2" xml:space="preserve">
     <value>Full Helmet</value>
@@ -277,7 +277,7 @@
     <value>Cap</value>
   </data>
   <data name="Genus_LightHelmet2" xml:space="preserve">
-    <value>Hood</value>
+    <value>Helmet</value>
   </data>
   <data name="Genus_LightShield0" xml:space="preserve">
     <value>Light Shield</value>
@@ -431,5 +431,65 @@
   </data>
   <data name="Genus_ShortBow2" xml:space="preserve">
     <value>Battle Bow</value>
+  </data>
+  <data name="Genus_ClothBoots0" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_ClothBoots1" xml:space="preserve">
+    <value>Slippers</value>
+  </data>
+  <data name="Genus_ClothChest0" xml:space="preserve">
+    <value>Cloth Armor</value>
+  </data>
+  <data name="Genus_ClothChest1" xml:space="preserve">
+    <value>Shirt</value>
+  </data>
+  <data name="Genus_ClothChest2" xml:space="preserve">
+    <value>Robe</value>
+  </data>
+  <data name="Genus_ClothGloves0" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_ClothGloves1" xml:space="preserve">
+    <value>Wrist Band</value>
+  </data>
+  <data name="Genus_ClothBoots2" xml:space="preserve">
+    <value>Leggings</value>
+  </data>
+  <data name="Genus_ClothGloves2" xml:space="preserve">
+    <value>Arm Wrap</value>
+  </data>
+  <data name="Genus_ClothHelmet0" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Genus_ClothHelmet1" xml:space="preserve">
+    <value>Hat</value>
+  </data>
+  <data name="Genus_ClothHelmet2" xml:space="preserve">
+    <value>Hood</value>
+  </data>
+  <data name="Family_ClothBoots" xml:space="preserve">
+    <value>Cloth Boots</value>
+  </data>
+  <data name="Family_ClothChest" xml:space="preserve">
+    <value>Cloth Body Armor</value>
+  </data>
+  <data name="Family_ClothGloves" xml:space="preserve">
+    <value>Cloth Gloves</value>
+  </data>
+  <data name="Family_ClothHelmet" xml:space="preserve">
+    <value>Cloth Helmet</value>
+  </data>
+  <data name="Material_C1" xml:space="preserve">
+    <value>Linen</value>
+  </data>
+  <data name="Material_C2" xml:space="preserve">
+    <value>Cotton</value>
+  </data>
+  <data name="Material_C3" xml:space="preserve">
+    <value>Wool</value>
+  </data>
+  <data name="Material_C4" xml:space="preserve">
+    <value>Silk</value>
   </data>
 </root>
