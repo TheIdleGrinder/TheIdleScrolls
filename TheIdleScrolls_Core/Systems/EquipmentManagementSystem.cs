@@ -16,7 +16,7 @@ namespace TheIdleScrolls_Core.Systems
     /// </summary>
     public class EquipmentManagementSystem : AbstractSystem
     {
-        bool FirstFrame = true;
+        private bool FirstFrame = true;
         public override void Update(World world, Coordinator coordinator, double dt)
         {
             HashSet<Entity> changedInventories = new();
@@ -86,10 +86,11 @@ namespace TheIdleScrolls_Core.Systems
                         bool couldEquip = equipmentComp.EquipItem(item);
                         if (couldEquip)
                         {
-                            if ((item.GetComponent<ModifierComponent>()?.GetModifiers()?.Count ?? 0) > 0)
+                            var mods = item.GetComponent<ModifierComponent>()?.GetModifiers() ?? [];
+                            if (mods.Count > 0)
                             {
                                 var modComp = owner.GetOrAddComponent<ModifierComponent>();
-                                item.GetComponent<ModifierComponent>()?.GetModifiers()?.ForEach(modComp.AddModifier);
+                                mods.ForEach(modComp.AddModifier);
                             }
                             inventoryComp.RemoveItem(item);
                             coordinator.PostMessage(this, new ItemMovedMessage(owner, item, move.Equip));
@@ -156,10 +157,11 @@ namespace TheIdleScrolls_Core.Systems
             if (!equipmentComp.UnequipItem(item, moveNextItemUp))
                 return false;
 
-            if ((item.GetComponent<ModifierComponent>()?.GetModifiers()?.Count ?? 0) > 0)
+            var mods = item.GetComponent<ModifierComponent>()?.GetModifiers() ?? [];
+            if (mods.Count > 0)
             {
                 var modComp = owner.GetOrAddComponent<ModifierComponent>();
-                item.GetComponent<ModifierComponent>()?.GetModifiers()?.ForEach(m => modComp.RemoveModifier(m.Id));
+                mods.ForEach(m => modComp.RemoveModifier(m.Id));
             }
 
             return true;

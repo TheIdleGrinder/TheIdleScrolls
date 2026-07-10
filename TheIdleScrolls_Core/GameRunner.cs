@@ -92,8 +92,6 @@ namespace TheIdleScrolls_Core
             var player = await PlayerFactory.MakeOrLoadPlayer(playerName, m_dataHandler);
             AddPlayerToCoordinator(player);
 
-            player.GetComponent<PlayerComponent>()?.AddUnlock(DropRestrictions.ClothItems);
-
             Logger.LogMessage($"Player '{player.GetName()}' (Level {player.GetComponent<LevelComponent>()?.Level ?? 0}) spawned (#{player.Id})");
             
             GetSystem<MobSpawnerSystem>()?.SetMobList(MobList.Mobs);
