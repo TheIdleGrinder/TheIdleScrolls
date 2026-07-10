@@ -1,5 +1,6 @@
 ﻿@using TheIdleScrolls_Core
 @using TheIdleScrolls_Core.Items
+@using TheIdleScrolls_Core.Modifiers
 @using TheIdleScrolls_Web.Components.Subcomponents
 @using TheIdleScrolls_Web.CoreWrapper
 
@@ -16,6 +17,10 @@
             <span>@HighlightedItem?.Type</span>
             <span>Level @HighlightedItem?.DropLevel</span>
             <span>Ability: @HighlightedItem?.RelatedAbility</span>
+            @foreach (var mod in HighlightedItem?.Modifiers ?? [])
+            {
+                <span class="item-modifier">@mod.ToPrettyString()</span>
+            }
             @if (HighlightedItem?.WeaponAspect != null)
             {
                 <span style="margin-top: 0.5rem">
@@ -168,6 +173,10 @@
     #crafted-line {
         font-style: italic;
         color: slategray;
+    }
+
+    .item-modifier {
+        color: blue
     }
 
     #description-lines {

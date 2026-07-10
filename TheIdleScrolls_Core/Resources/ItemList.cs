@@ -1,5 +1,6 @@
 ﻿using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Modifiers;
 
 namespace TheIdleScrolls_Core.Resources
 {
@@ -15,6 +16,10 @@ namespace TheIdleScrolls_Core.Resources
             List<MaterialId> leathers = [ MaterialId.Leather1, MaterialId.Leather2, MaterialId.Leather3, MaterialId.Leather4 ];
             List<MaterialId> metals   = [ MaterialId.Metal1,   MaterialId.Metal2,   MaterialId.Metal3,   MaterialId.Metal4 ];
             List<MaterialId> woods    = [ MaterialId.Wood1,    MaterialId.Wood2,    MaterialId.Wood3,    MaterialId.Wood4 ];
+            List<MaterialId> cloths   = [ MaterialId.Cloth1,   MaterialId.Cloth2,   MaterialId.Cloth3,   MaterialId.Cloth4 ];
+
+            var spellCooldownMod = (double value) => new ModifierTemplate(new Modifier("spell_cooldown_", ModifierType.More, value, 
+                [Tags.SpellSkill, Tags.CooldownRecovery], []), 1.1, 1.25);
 
             return new()
             {
@@ -203,7 +208,65 @@ namespace TheIdleScrolls_Core.Resources
                         MakeArmor(Properties.Items.Genus_HeavyShield2, ItemTiers.LevelT2 + ItemTiers.LevelOffsetShield, 
                             EquipmentSlot.Hand,   19.0,  9.0, woods),
                     }
+                ),
+                new(Definitions.ItemFamilies.ClothChest, Properties.Items.Family_ClothChest, Abilities.LightArmor,
+                    new()
+                    {
+                        MakeArmor(Properties.Items.Genus_ClothChest0, ItemTiers.LevelT0, EquipmentSlot.Chest,  5.0,  0.0, simple)
+                            .WithModifiers([spellCooldownMod(0.08)]),
+                        MakeArmor(Properties.Items.Genus_ClothChest1, ItemTiers.LevelT1 + ItemTiers.LevelOffsetChest,
+                            EquipmentSlot.Chest,  9.0,  6.0, cloths)
+                            .WithModifiers([spellCooldownMod(0.1)]),
+                        MakeArmor(Properties.Items.Genus_ClothChest2, ItemTiers.LevelT2 + ItemTiers.LevelOffsetChest,
+                            EquipmentSlot.Chest,  11.0,  6.0, cloths)
+                            .WithModifiers([spellCooldownMod(0.12)]),
+                    }
                 )
+                {
+                    DropRestrictions = [DropRestrictions.ClothItems]
+                },
+                new(Definitions.ItemFamilies.ClothHelmet, Properties.Items.Family_ClothHelmet, Abilities.LightArmor,
+                    new()
+                    {
+                        MakeArmor(Properties.Items.Genus_ClothHelmet1, ItemTiers.LevelT1 + ItemTiers.LevelOffsetHelmet,
+                            EquipmentSlot.Head,   6.0,  0.0, cloths)
+                            .WithModifiers([spellCooldownMod(0.08)]),
+                        MakeArmor(Properties.Items.Genus_ClothHelmet2, ItemTiers.LevelT2 + ItemTiers.LevelOffsetHelmet,
+                            EquipmentSlot.Head,   7.0,  0.0, cloths)
+                            .WithModifiers([spellCooldownMod(0.1)]),
+                    }
+                )
+                {
+                    DropRestrictions = [DropRestrictions.ClothItems]
+                },
+                new(Definitions.ItemFamilies.ClothGloves, Properties.Items.Family_ClothGloves, Abilities.LightArmor,
+                    new()
+                    {
+                        MakeArmor(Properties.Items.Genus_ClothGloves1, ItemTiers.LevelT1 + ItemTiers.LevelOffsetGloves,
+                            EquipmentSlot.Arms,   5.0,  0.0, cloths)
+                            .WithModifiers([spellCooldownMod(0.08)]),
+                        MakeArmor(Properties.Items.Genus_ClothGloves2, ItemTiers.LevelT2 + ItemTiers.LevelOffsetGloves,
+                            EquipmentSlot.Arms,   6.0,  0.0, cloths)
+                            .WithModifiers([spellCooldownMod(0.1)]),
+                    }
+                )
+                {
+                    DropRestrictions = [DropRestrictions.ClothItems]
+                },
+                new(Definitions.ItemFamilies.ClothBoots, Properties.Items.Family_ClothBoots, Abilities.LightArmor,
+                    new()
+                    {
+                        MakeArmor(Properties.Items.Genus_ClothBoots1, ItemTiers.LevelT1 + ItemTiers.LevelOffsetBoots,
+                            EquipmentSlot.Legs,   5.0,  0.0, cloths)
+                            .WithModifiers([spellCooldownMod(0.08)]),
+                        MakeArmor(Properties.Items.Genus_ClothBoots2, ItemTiers.LevelT2 + ItemTiers.LevelOffsetBoots,
+                            EquipmentSlot.Legs,   6.0,  0.0, cloths)
+                            .WithModifiers([spellCooldownMod(0.1)]),
+                    }
+                )
+                {
+                    DropRestrictions = [DropRestrictions.ClothItems]
+                }
             };
         }
 
@@ -213,7 +276,11 @@ namespace TheIdleScrolls_Core.Resources
             ItemGenusDescription descr = new(name, level, materials)
             {
                 Equippable = new(slots, 0.0),
-                Weapon = new(new(DamageType.Physical, damage), attackTime, range)
+                Weapon = new(new(DamageType.Physical, damage), attackTime, range),
+                InherentModifiers =
+                [
+                    //new("+eva", Modifiers.ModifierType.AddFlat, 100.0, [Tags.EvasionRating], [])
+                ]
             };
             return descr;
         }

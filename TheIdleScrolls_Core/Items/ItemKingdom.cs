@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.Utility;
 
@@ -19,6 +20,8 @@ namespace TheIdleScrolls_Core.Items
 
     public record ArmorGenus(double BaseArmor, double BaseEvasion);
 
+    public record ModifierTemplate(Modifier BaseModifier, double QualityBase, double MaterialBase);
+
     public class ItemGenusDescription
     {
         public string Name { get; set; } = "Missing genus name";
@@ -26,24 +29,20 @@ namespace TheIdleScrolls_Core.Items
         public WeaponGenus? Weapon { get; set; } = null;
         public ArmorGenus? Armor { get; set; } = null;
         public int DropLevel { get; set; } = 1;
-        public List<MaterialId> ValidMaterials { get; set; } = new();
-
-        public ItemGenusDescription(string name, EquippableDescription? equippable, 
-            WeaponGenus? weapon, ArmorGenus? armor, int dropLevel, List<MaterialId> validMaterials)
-        {
-            Name = name;
-            Equippable = equippable;
-            Weapon = weapon;
-            Armor = armor;
-            DropLevel = dropLevel;
-            ValidMaterials = validMaterials;
-        }
+        public List<MaterialId> ValidMaterials { get; set; } = [];
+        public List<ModifierTemplate> InherentModifiers { get; set; } = [];
 
         public ItemGenusDescription(string name, int dropLevel, List<MaterialId> validMaterials)
         {
             Name = name;
             DropLevel = dropLevel;
             ValidMaterials = validMaterials;
+        }
+
+        public ItemGenusDescription WithModifiers(List<ModifierTemplate> modifiers)
+        {
+            InherentModifiers = modifiers;
+            return this;
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using MiniECS;
 using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Modifiers;
 
 namespace TheIdleScrolls_Core.Items
 {
@@ -21,6 +22,7 @@ namespace TheIdleScrolls_Core.Items
         public bool Crafted { get; }
         public WeaponGenus? WeaponAspect { get; }
         public ArmorGenus? ArmorAspect { get; }
+        public List<Modifier> Modifiers { get; }
         public bool IsEquipped { get; }
 
         public List<ComparisonResult> CompareToEquipment(CandidateComparator comparator);

@@ -45,6 +45,16 @@ namespace TheIdleScrolls_Core.Modifiers
             return RequiredLocalTags.All(t => localTags.Contains(t)) 
                     && (globalTags == null || RequiredGlobalTags.All(t => globalTags.Contains(t)));
         }
+
+        public Modifier Clone(string newId)
+        {
+            return new Modifier(newId, Type, Value, [.. RequiredLocalTags], [.. RequiredGlobalTags])
+            {
+                AlwaysPercentage = AlwaysPercentage,
+                CoverValue = CoverValue,
+                CoverText = CoverText
+            };
+        }
     }
 
     public static class Modifiers

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Properties;
 
 namespace TheIdleScrolls_Core.Items
@@ -47,6 +48,8 @@ namespace TheIdleScrolls_Core.Items
         
         private Entity Item { get; }
         private Entity? Owner { get; }
+
+        public List<Modifier> Modifiers => Item.GetComponent<ModifierComponent>()?.GetModifiers() ?? [];
 
         public ItemEntityWrapper(Entity item, Entity? owner)
         {

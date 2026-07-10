@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.Utility;
 
@@ -92,6 +93,23 @@ namespace TheIdleScrolls_Core.Items
             CalculateItemStats(item);
             UpdateItemName(item);
             UpdateItemValue(item);
+        }
+
+        public static void SetupModifiers(Entity item)
+        {
+            var itemComp = item.GetComponent<ItemComponent>() ?? throw new Exception($"Entity {item.GetName()} is not an item");
+            var mods = itemComp.Blueprint.GetGenusDescription()?.InherentModifiers ?? [];
+
+            var modComp = item.GetOrAddComponent<ModifierComponent>();
+            modComp.Clear(); // CornerCut: Assume that the item is not currently equipped
+            foreach (var mod in mods)
+            {
+                var newMod = mod.BaseModifier.Clone($"{mod.BaseModifier.Id}-{item.Id}");
+                newMod.Value = Math.Round(mod.BaseModifier.Value 
+                    * Math.Pow(mod.QualityBase, itemComp.Blueprint.Quality)
+                    * Math.Pow(mod.MaterialBase, Math.Max(0, itemComp.Blueprint.GetMaterial().Tier - 1)), 2);
+                modComp.AddModifier(newMod);
+            }
         }
 
         public static void UpdateItemValue(Entity item)
@@ -256,6 +274,11 @@ namespace TheIdleScrolls_Core.Items
                 double evasion = Math.Round(description.Armor.BaseEvasion * Math.Pow(Stats.QualityMultiplier, qualityLevel) * materialMulti, 1);
                 item.AddComponent(new ArmorComponent(Functions.ApplyDefenseRounding(armor), 
                                                      Functions.ApplyDefenseRounding(evasion)));
+            }
+
+            if (description.InherentModifiers.Count > 0)
+            {
+                SetupModifiers(item);
             }
         }
 
