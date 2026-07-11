@@ -20,12 +20,12 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 
         public string Description => $"{Damage:0.##} {DamageType.ToTag()} damage";
 
-		public void ApplyToTarget(Entity target)
+		public List<ISkillEffectOutcome> ApplyToTarget(Entity target)
 		{
 			var hpComp = target.GetComponent<LifePoolComponent>();
 			if (hpComp is null)
             {
-				return;
+				return [];
             }
 
             double tmpDamage = Damage;
@@ -64,6 +64,17 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 
             hpComp.ApplyDamage(tmpDamage);
             DamageDone = tmpDamage;
+
+            List<ISkillEffectOutcome> outcomes = [];
+            if (tmpDamage > 0.0)
+            {
+                outcomes.Add(new DamageApplied(target, DamageType, tmpDamage));
+            }
+            if (tmpDamage < Damage)
+            {
+                outcomes.Add(new DamagePrevented(target, DamageType, Damage - tmpDamage));
+            }
+            return outcomes;
         }
 	}
 }

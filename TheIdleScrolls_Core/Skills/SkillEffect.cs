@@ -11,6 +11,6 @@ namespace TheIdleScrolls_Core.Skills
 	{
 		public string Description { get; }
 
-		public void ApplyToTarget(Entity target);
+		public List<ISkillEffectOutcome> ApplyToTarget(Entity target);
 	}
 }

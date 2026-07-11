@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills
 {
@@ -34,7 +35,7 @@ namespace TheIdleScrolls_Core.Skills
             $"To {TargetToString()}:\n" +
             string.Join("\n", Effects.Select(e => "\t" + e.Description));
 
-        public void ApplyToTarget(Entity target)
+        public List<ISkillEffectOutcome> ApplyToTarget(Entity target)
         {
             // Handle accuracy
             if (Accuracy.HasValue)
@@ -49,13 +50,40 @@ namespace TheIdleScrolls_Core.Skills
                 }
                 chanceComp.AddCharge(Tags.Evasion, charge);
                 if (chargeCount > 0)
-                    return; // Attack was evaded, so we don't apply the effects
+                    return [new HitEvaded(target)]; // Attack was evaded, so we don't apply the effects
             }
 
+            List<ISkillEffectOutcome> returnOutcomes = [];
+            DamageCluster doneDamage = new();
+            DamageCluster preventedDamage = new();
             foreach (var effect in Effects)
             {
-                effect.ApplyToTarget(target);
+                var outcomes = effect.ApplyToTarget(target);
+                foreach (var outcome in outcomes)
+                {
+                    if (outcome is DamageApplied damageOutcome)
+                    {
+                        doneDamage.AddDamage(damageOutcome.Type, damageOutcome.Amount);
+                    }
+                    else if (outcome is DamagePrevented preventOutcome)
+                    {
+                        preventedDamage.AddDamage(preventOutcome.Type, preventOutcome.Amount);
+                    }
+                    else
+                    {
+                        returnOutcomes.Add(outcome);
+                    }
+                }
             }
+            if (doneDamage.TotalDamage > 0)
+            {
+                returnOutcomes.Add(new DamageClusterApplied(target, doneDamage));
+            }
+            if (preventedDamage.TotalDamage > 0)
+            {
+                returnOutcomes.Add(new DamageClusterPrevented(target, preventedDamage));
+            }
+            return returnOutcomes;
         }
 
         string TargetToString()
