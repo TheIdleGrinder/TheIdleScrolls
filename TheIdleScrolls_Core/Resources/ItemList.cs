@@ -18,8 +18,10 @@ namespace TheIdleScrolls_Core.Resources
             List<MaterialId> woods    = [ MaterialId.Wood1,    MaterialId.Wood2,    MaterialId.Wood3,    MaterialId.Wood4 ];
             List<MaterialId> cloths   = [ MaterialId.Cloth1,   MaterialId.Cloth2,   MaterialId.Cloth3,   MaterialId.Cloth4 ];
 
-            var spellCooldownMod = (double value) => new ModifierTemplate(new Modifier("spell_cooldown_", ModifierType.More, value, 
+            var spellCooldownMod = (double value) => new ModifierTemplate(new Modifier("spellCooldown_", ModifierType.More, value, 
                 [Tags.SpellSkill, Tags.CooldownRecovery], []), 1.1, 1.25);
+            var blockMod = (double value) => new ModifierTemplate(new Modifier("blockChance_", ModifierType.AddBase, value,
+                [Tags.BlockChance], []) { AlwaysPercentage = true }, 1.1, 1.25);
 
             return new()
             {
@@ -154,11 +156,14 @@ namespace TheIdleScrolls_Core.Resources
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_LightShield0, ItemTiers.LevelT0,
-                            EquipmentSlot.Hand,   8.0,  2.0, simple),
+                            EquipmentSlot.Hand,   4.0,  2.0, simple)
+                            .WithModifiers([blockMod(0.12)]),
                         MakeArmor(Properties.Items.Genus_LightShield1, ItemTiers.LevelT1 + ItemTiers.LevelOffsetShield, 
-                            EquipmentSlot.Hand,  12.0,  3.0, woods),
+                            EquipmentSlot.Hand,  6.0,  3.0, woods)
+                            .WithModifiers([blockMod(0.16)]),
                         MakeArmor(Properties.Items.Genus_LightShield2, ItemTiers.LevelT2 + ItemTiers.LevelOffsetShield, 
-                            EquipmentSlot.Hand,  14.0,  3.0, woods),
+                            EquipmentSlot.Hand,  7.0,  3.0, woods)
+                            .WithModifiers([blockMod(0.2)])
                     }
                 ),
                 new(Definitions.ItemFamilies.HeavyChest, Properties.Items.Family_HeavyChest, Abilities.HeavyArmor,
@@ -202,11 +207,14 @@ namespace TheIdleScrolls_Core.Resources
                     new()
                     {
                         MakeArmor(Properties.Items.Genus_HeavyShield0, ItemTiers.LevelT0,
-                            EquipmentSlot.Hand,   11.0,  6.0, simple),
+                            EquipmentSlot.Hand,   6.0,  6.0, simple)
+                            .WithModifiers([blockMod(0.12)]),
                         MakeArmor(Properties.Items.Genus_HeavyShield1, ItemTiers.LevelT1 + ItemTiers.LevelOffsetShield, 
-                            EquipmentSlot.Hand,   16.0,  9.0, woods),
+                            EquipmentSlot.Hand,   8.0,  9.0, woods)
+                            .WithModifiers([blockMod(0.16)]),
                         MakeArmor(Properties.Items.Genus_HeavyShield2, ItemTiers.LevelT2 + ItemTiers.LevelOffsetShield, 
-                            EquipmentSlot.Hand,   19.0,  9.0, woods),
+                            EquipmentSlot.Hand,   10.0,  9.0, woods)
+                            .WithModifiers([blockMod(0.20)])
                     }
                 ),
                 new(Definitions.ItemFamilies.ClothChest, Properties.Items.Family_ClothChest, Abilities.LightArmor,
