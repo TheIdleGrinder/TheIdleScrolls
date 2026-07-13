@@ -35,7 +35,9 @@ namespace TheIdleScrolls_Core
             public const double MaxResistanceFromArmor = 0.9;
             public const double MaxResistanceFromEvasion = 0.9;
             public const double MaxResistances = 80.0;
+            
             public const double BaseBlockMitigation = 0.3;
+            public const double BaseBlockCooldown = 2.0;
 
             public const double ItemBaseValue = 5.0;
             public const double ItemValueQualityMultiplier = 1.25;
@@ -162,7 +164,6 @@ namespace TheIdleScrolls_Core
 
             public const string Hit = "Hit";
             public const string Projectile = "Projectile";
-            public const string Block = "Block";
 
             public const string Resistance = "Resistance";
             public const string Evasion = "Evasion";

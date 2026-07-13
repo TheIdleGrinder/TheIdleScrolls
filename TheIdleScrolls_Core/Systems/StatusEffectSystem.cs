@@ -42,7 +42,13 @@ namespace TheIdleScrolls_Core.Systems
 				}
 			}
 
-			foreach (var entity in coordinator.GetEntities<DoTComponent>())
+            // Handle block cooldowns here until there is a more fitting system
+			foreach (var entity in coordinator.GetEntities<BlockerComponent>())
+			{
+				entity.GetComponent<BlockerComponent>()?.UpdateCooldown(dt);
+            }
+
+                foreach (var entity in coordinator.GetEntities<DoTComponent>())
 			{
 				var dotComp = entity.GetComponent<DoTComponent>()!;
                 double damage = dotComp.Update(dt);

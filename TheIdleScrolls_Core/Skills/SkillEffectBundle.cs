@@ -65,15 +65,19 @@ namespace TheIdleScrolls_Core.Skills
             // Only skill effect bundles that deal damage have the Attack or Projectile tags can be blocked.
             // The tag Unblockable removes any chance of blocking
             double blockMitigation = 0.0;
-            if ((BundleTags.Contains(Tags.AttackSkill) || BundleTags.Contains(Tags.Projectile)) && !BundleTags.Contains(Tags.Unblockable))
+            BlockerComponent blockComp = target.GetOrAddComponent<BlockerComponent>();
+            if (blockComp.IsReady
+                && (BundleTags.Contains(Tags.AttackSkill) || BundleTags.Contains(Tags.Projectile)) 
+                && !BundleTags.Contains(Tags.Unblockable))
             {
                 double blockChance = target.ApplyAllApplicableModifiers(0.0, [Tags.BlockChance, ..BundleTags], target.GetTags());
-                int blocks = target.GetComponent<ChanceChargeComponent>()?.AddCharge(Tags.Block, blockChance) ?? 0;
+                int blocks = target.GetComponent<ChanceChargeComponent>()?.AddCharge(Tags.BlockChance, blockChance) ?? 0;
                 if (blocks > 0)
                 {
-                    blockMitigation = 1.0 - Math.Pow(1.0 - Stats.BaseBlockMitigation, blocks);
-                    target.GetComponent<ChanceChargeComponent>()?.RemoveCharge(Tags.Block, blocks);
+                    blockMitigation = 1.0 - Math.Pow(1.0 - blockComp.BlockMitigation, blocks);
+                    target.GetComponent<ChanceChargeComponent>()?.RemoveCharge(Tags.BlockChance, blocks);
                     returnOutcomes.Add(new HitBlocked(target, blockMitigation));
+                    blockComp.StartCooldown();
                 }
             }
             Modifier? blockMulti = null;
