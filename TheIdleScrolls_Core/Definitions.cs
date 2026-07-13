@@ -34,7 +34,8 @@ namespace TheIdleScrolls_Core
             public const double MaxEvasionEffectDuration = 1.0;
             public const double MaxResistanceFromArmor = 0.9;
             public const double MaxResistanceFromEvasion = 0.9;
-            public const double MaxResistances = 80.0; // multiplied by 100 to make stuff like "+5 base fire resistance" more readable
+            public const double MaxResistances = 80.0;
+            public const double BaseBlockMitigation = 0.3;
 
             public const double ItemBaseValue = 5.0;
             public const double ItemValueQualityMultiplier = 1.25;
@@ -110,6 +111,7 @@ namespace TheIdleScrolls_Core
             public const string Defense = "Defense";
             public const string ArmorRating = "ArmorRating";
             public const string EvasionRating = "EvasionRating";
+            public const string DamageTakenMultiplier = "DamageTakenMultiplier";
             public const string DamageTaken = "DamageTaken";
             public const string TimeLoss = "TimeLoss";
             public const string LifeRegeneration = "LifeRegeneration";
@@ -120,7 +122,8 @@ namespace TheIdleScrolls_Core
             public const string Range = "Range";
             public const string CooldownRecovery = "CooldownRecovery";
             public const string ActivationChance = "ActivationChance"; 
-            
+            public const string BlockChance = "BlockChance";
+
             public const string CharacterXpGain = "CharacterXpGain";
             public const string AbilityXpGain = "AbilityXpGain";
 
@@ -143,6 +146,7 @@ namespace TheIdleScrolls_Core
 
             // Skill Attributes
             public const string Duration = "Duration";
+            public const string Unblockable = "Unblockable";
 
             // Situational modifiers
             public const string Local = "Local";
@@ -157,6 +161,8 @@ namespace TheIdleScrolls_Core
             public const string Debuff = "Debuff";
 
             public const string Hit = "Hit";
+            public const string Projectile = "Projectile";
+            public const string Block = "Block";
 
             public const string Resistance = "Resistance";
             public const string Evasion = "Evasion";

@@ -8,10 +8,11 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills.SkillEffectGenerators
 {
-    public class ChargingDamageSkillEffectGenerator(DamageSkillEffect effect, double chargeTime) : ISkillEffectGenerator
+    public class ChargingDamageSkillEffectGenerator(DamageSkillEffect effect, double chargeTime, HashSet<string> tags) : ISkillEffectGenerator
     {
         DamageSkillEffect Effect { get; set; } = effect;
         public Cooldown Cooldown { get; set; } = new(chargeTime);
+        public HashSet<string> Tags { get; set; } = tags;
 
         public string Description => $"Deal {Effect.Description} every {Cooldown.Duration:0.#}";
 
@@ -22,7 +23,9 @@ namespace TheIdleScrolls_Core.Skills.SkillEffectGenerators
 
         public List<SkillEffectBundle> Update(double dt)
         {
-            return (Cooldown.Update(dt) > 0) ? [new SkillEffectBundle([Effect], TargetingMode.SingleEnemy)] : []; // CornerCut: Only one trigger per frame
+            return (Cooldown.Update(dt) > 0) 
+                ? [new SkillEffectBundle([Effect], TargetingMode.SingleEnemy, Tags)] 
+                : []; // CornerCut: Only one trigger per frame
         }
     }
 }

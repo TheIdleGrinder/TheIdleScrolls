@@ -25,10 +25,15 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
             if (Duration == 0.0)
                 return [];
 
+            // Consider global damage taken modifiers first
+            // Currently, this is only used to 'inject' the damage reduction from blocking for the duration of 
+            // the evaluation of a skill effect bundle.
+            double tmpDamage = TotalDamage * target.ApplyAllApplicableModifiers(1.0, [Definitions.Tags.DamageTakenMultiplier], target.GetTags());
+
             double resistance = target.GetComponent<ModifierComponent>()
                 ?.ApplyApplicableModifiers(0.0, [Definitions.Tags.Resistance, .. DamageType.GetMatchingTags(), .. Tags], target.GetTags()) ?? 0.0;
             resistance = Math.Min(resistance, Stats.MaxResistances);
-            double damage = TotalDamage * (1.0 - resistance / 100.0);
+            double damage = tmpDamage * (1.0 - resistance / 100.0);
 
             var dotComp = target.GetComponent<DoTComponent>();
             if (dotComp is null)

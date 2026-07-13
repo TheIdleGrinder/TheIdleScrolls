@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills
@@ -15,20 +16,23 @@ namespace TheIdleScrolls_Core.Skills
     public class SkillEffectBundle
     {
         public TargetingMode Target { get; set; }
+        public HashSet<string> BundleTags { get; set; }
         public List<ISkillEffect> Effects { get; set; } = [];
         public double? Accuracy { get; set; } = null;
 
         public SkillEffectBundle() { }
-        public SkillEffectBundle(List<ISkillEffect> effects, TargetingMode target)
+        public SkillEffectBundle(List<ISkillEffect> effects, TargetingMode target, HashSet<string> tags)
         {
             Effects = effects;
             Target = target;
+            BundleTags = tags;
         }
 
-        public SkillEffectBundle(ISkillEffect effect, TargetingMode target)
+        public SkillEffectBundle(ISkillEffect effect, TargetingMode target, HashSet<string> tags)
         {
             Effects = [effect];
             Target = target;
+            BundleTags = tags;
         }
 
         public string Description =>
@@ -56,6 +60,29 @@ namespace TheIdleScrolls_Core.Skills
             List<ISkillEffectOutcome> returnOutcomes = [];
             DamageCluster doneDamage = new();
             DamageCluster preventedDamage = new();
+
+            // Handle blocking
+            // Only skill effect bundles that deal damage have the Attack or Projectile tags can be blocked.
+            // The tag Unblockable removes any chance of blocking
+            double blockMitigation = 0.0;
+            if ((BundleTags.Contains(Tags.AttackSkill) || BundleTags.Contains(Tags.Projectile)) && !BundleTags.Contains(Tags.Unblockable))
+            {
+                double blockChance = target.ApplyAllApplicableModifiers(0.0, [Tags.BlockChance, ..BundleTags], target.GetTags());
+                int blocks = target.GetComponent<ChanceChargeComponent>()?.AddCharge(Tags.Block, blockChance) ?? 0;
+                if (blocks > 0)
+                {
+                    blockMitigation = 1.0 - Math.Pow(1.0 - Stats.BaseBlockMitigation, blocks);
+                    target.GetComponent<ChanceChargeComponent>()?.RemoveCharge(Tags.Block, blocks);
+                    returnOutcomes.Add(new HitBlocked(target, blockMitigation));
+                }
+            }
+            Modifier? blockMulti = null;
+            if (blockMitigation > 0.0)
+            {
+                blockMulti = new("tmpBlockMulti", ModifierType.More, -blockMitigation, [Tags.DamageTakenMultiplier], []);
+                target.GetOrAddComponent<ModifierComponent>().AddModifier(blockMulti);
+            }
+
             foreach (var effect in Effects)
             {
                 var outcomes = effect.ApplyToTarget(target);
@@ -82,6 +109,11 @@ namespace TheIdleScrolls_Core.Skills
             if (preventedDamage.TotalDamage > 0)
             {
                 returnOutcomes.Add(new DamageClusterPrevented(target, preventedDamage));
+            }
+
+            if (blockMulti != null)
+            {
+                target.GetComponent<ModifierComponent>()!.RemoveModifier(blockMulti.Id);
             }
             return returnOutcomes;
         }

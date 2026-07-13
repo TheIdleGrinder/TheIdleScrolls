@@ -30,6 +30,11 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 
             double tmpDamage = Damage;
 
+            // Consider global damage taken modifiers first
+            // Currently, this is only used to 'inject' the damage reduction from blocking for the duration of 
+            // the evaluation of a skill effect bundle.
+            tmpDamage *= target.ApplyAllApplicableModifiers(1.0, [Definitions.Tags.DamageTakenMultiplier], target.GetTags());
+
             // Consider armor for physical damage
             if (DamageType == DamageType.Physical)
 			{

@@ -61,7 +61,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             
             var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. SkillTags]);
 
-            ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
+            ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy, SkillTags)];
             ChargingTime = 0.0;
             Timer.CooldownDuration = 0.0;
         }

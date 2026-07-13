@@ -78,7 +78,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             if (cooldownRecovery == 0.0)
                 cooldownRecovery = 1.0;
 
-            ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
+            ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy, SkillTags)];
             ChargingTime = battleStatsComp.AttackVectors[0].AttackTime;
             Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
         }

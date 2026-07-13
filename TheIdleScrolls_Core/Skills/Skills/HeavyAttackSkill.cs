@@ -90,7 +90,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                         
             ActivityStartEffects = [new(DefaultAttack
                 .CreateDefaultSkillEffectsForDamage(attackComp.AttackVectors[0].RawDamage, [.. AdditionalTags])
-                .Concat(additionalEffects).ToList(), TargetingMode.SingleEnemy)];
+                .Concat(additionalEffects).ToList(), TargetingMode.SingleEnemy, SkillTags)];
             ChargingTime = attackComp.AverageCooldown;
             Timer.CooldownDuration = BaseCooldown;
         }
