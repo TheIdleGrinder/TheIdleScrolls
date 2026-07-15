@@ -15,8 +15,9 @@ namespace TheIdleScrolls_Core.Resources
         private static void GenerateAbilities()
         {
             List<AbilityDefinition> abilities = [];
-            static int regularXpCurve(int x) => 60 * (int)Math.Pow(x, 1.5);
+            static int regularXpCurve(int x) => 60 * (int)Math.Pow(x, 1.5);     // standard XP curve for abilities that increase of time
             static int slowXpCurve(int x)    => 60 * (int)Math.Pow(2 * x, 1.5); // slower but uses lower cap
+            static int perUseXpCurve(int x)  =>  5 * (int)Math.Pow(x, 1.5);    // for abilities that gain XP for each use
             int regularMaxLevel              = 200;
             int slowMaxLevel                 = 100;
 
@@ -81,6 +82,12 @@ namespace TheIdleScrolls_Core.Resources
                 Name = Properties.LocalizedStrings.UNARMORED,
                 MaxLevel = regularMaxLevel,
                 RequiredXpForLevelUp = regularXpCurve
+            });
+            abilities.Add(new AbilityDefinition(Abilities.Blocking)
+            {
+                Name = Properties.LocalizedStrings.ABL_BLOCKING,
+                MaxLevel = regularMaxLevel,
+                RequiredXpForLevelUp = perUseXpCurve
             });
 
             // Crafting

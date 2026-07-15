@@ -1,0 +1,49 @@
+﻿@using MiniECS
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Modifiers
+@using TheIdleScrolls_Web.CoreWrapper
+
+<div class="compact-bar-container withTooltip">
+    <div class="compact-bar-frame">
+        <center>Blocking</center>
+        <div class="compact-bar-fill @(BlockClass)" style="width: @($"{GetBlockPct():0%}");"></div>
+    </div>
+    <div class="barTooltip">
+        Blocking Cooldown (@($"{BlockerComp?.CooldownDuration:0.0}s"))
+    </div>
+</div>
+
+
+<style>
+    .block-bar-active {
+        background-color: var(--color-active);
+    }
+
+    .block-bar-inactive {
+        background-color: var(--color-inactive);
+    }
+
+</style>
+
+@code {
+    [Parameter]
+    public Entity? Entity { get; set; }
+
+    ChanceChargeComponent? ChanceChargeComp => Entity?.GetComponent<ChanceChargeComponent>();
+    BlockerComponent? BlockerComp => Entity?.GetComponent<BlockerComponent>();
+
+    bool OnCooldown => !(BlockerComp?.IsReady ?? true);
+    string BlockClass => (BlockerComp?.IsReady ?? false) ? "block-bar-active" : "block-bar-inactive";
+
+    double GetBlockPct()
+    {
+        if (OnCooldown)
+        {
+            return (BlockerComp?.RemainingCooldown ?? 1.0) / (BlockerComp?.CooldownDuration ?? 1.0);
+        }
+        else
+        {
+            return ChanceChargeComp?.GetCharge("BlockChance") ?? 0.0;
+        }
+    }
+}

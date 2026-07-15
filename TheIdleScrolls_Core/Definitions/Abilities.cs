@@ -21,6 +21,7 @@ namespace TheIdleScrolls_Core.Definitions
         public const string LightArmor = "LAR";
         public const string HeavyArmor = "HAR";
         public const string Unarmored  = "UNARMORED";
+        public const string Blocking   = "ABL_BLOCKING";
 
         // Crafting
         public const string Crafting   = "ABL_CRAFT";

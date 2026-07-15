@@ -21,7 +21,7 @@ namespace TheIdleScrolls_Core.Resources
             var spellCooldownMod = (double value) => new ModifierTemplate(new Modifier("spellCooldown_", ModifierType.More, value, 
                 [Tags.SpellSkill, Tags.CooldownRecovery], []), 1.1, 1.25);
             var blockMod = (double value) => new ModifierTemplate(new Modifier("blockChance_", ModifierType.AddBase, value,
-                [Tags.BlockChance], []) { AlwaysPercentage = true }, 1.1, 1.25);
+                [Tags.BlockChance], []) { AlwaysPercentage = true }, 1.06, 1.15);
 
             return new()
             {

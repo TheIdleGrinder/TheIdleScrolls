@@ -59,6 +59,14 @@ namespace TheIdleScrolls_Core.Systems
                 }
             }
 
+            foreach (var block in coordinator.FetchMessagesByType<HitBlockedMessage>())
+            {
+                if (block.Target == m_player)
+                {
+                    progComp.Data.BlockedHits++;
+                }
+            }
+
             // Update losses
             progComp.Data.Losses += coordinator.FetchMessagesByType<BattleLostMessage>().Count;
 

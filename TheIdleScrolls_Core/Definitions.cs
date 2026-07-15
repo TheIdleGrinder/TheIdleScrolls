@@ -124,7 +124,10 @@ namespace TheIdleScrolls_Core
             public const string Range = "Range";
             public const string CooldownRecovery = "CooldownRecovery";
             public const string ActivationChance = "ActivationChance"; 
+            
             public const string BlockChance = "BlockChance";
+            public const string BlockRecovery = "BlockRecovery";
+            public const string BlockMitigation = "BlockMitigation";
 
             public const string CharacterXpGain = "CharacterXpGain";
             public const string AbilityXpGain = "AbilityXpGain";

@@ -70,6 +70,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Blocking ähnelt.
+        /// </summary>
+        internal static string ABL_BLOCKING {
+            get {
+                return ResourceManager.GetString("ABL_BLOCKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Crafting ähnelt.
         /// </summary>
         internal static string ABL_CRAFT {

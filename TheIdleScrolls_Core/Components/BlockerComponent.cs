@@ -18,6 +18,11 @@ namespace TheIdleScrolls_Core.Components
         public bool IsReady => Cooldown.HasFinished;
         public double BlockMitigation { get; set; } = Stats.BaseBlockMitigation;
 
+        public BlockerComponent() 
+        { 
+            Cooldown.Update(CooldownDuration); // Start ready
+        }
+
         public void StartCooldown()
         {
             Cooldown.Reset();
