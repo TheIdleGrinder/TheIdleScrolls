@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Components;
+using TheIdleScrolls_Core.Skills;
 using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.StatusEffects
@@ -37,17 +38,20 @@ namespace TheIdleScrolls_Core.StatusEffects
 
 		public virtual double ScaleDurationForTarget(Entity target, double duration) => duration;
 
-		public void ActivateOnEntity(Entity target)
+		public List<ISkillEffectOutcome> ActivateOnEntity(Entity target)
 		{
 			Target = target;
-			if (Timer is not null)
+			double originalDuration = Timer?.Duration ?? 0.0;
+			double scaledDuration = originalDuration;
+            if (Timer is not null)
 			{
-				double scaledDuration = ScaleDurationForTarget(Target, Timer.Duration);
+                scaledDuration = ScaleDurationForTarget(Target, Timer.Duration);
 				if (scaledDuration <= 0.0)
-					return;
+					return [new StatusEffectPrevented(target, this, 1.0)];
 				Timer?.Reset(scaledDuration);
 			}
-			var effectComp = Target.GetComponent<StatusEffectComponent>();
+			double durationRatio = originalDuration > 0.0 ? scaledDuration / originalDuration : 1.0;
+            var effectComp = Target.GetComponent<StatusEffectComponent>();
 			if (effectComp is null)
 			{
 				effectComp = new();
@@ -55,7 +59,14 @@ namespace TheIdleScrolls_Core.StatusEffects
 			}
 			effectComp.Add(this);
 			ActivateEffect(Target);
-		}
+            
+			List<ISkillEffectOutcome> outcomes = [new StatusEffectApplied(target, this, durationRatio)];
+			if (durationRatio < 1.0)
+			{
+				outcomes.Add(new StatusEffectPrevented(target, this, 1.0 - durationRatio));
+            }
+			return outcomes;
+        }
 
 		public void Deactivate()
 		{

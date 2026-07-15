@@ -19,9 +19,9 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
             }
         }
 
-        public void ApplyToTarget(Entity target)
+        public List<ISkillEffectOutcome> ApplyToTarget(Entity target)
         {
-            effect.ActivateOnEntity(target);
+            return effect.ActivateOnEntity(target);
         }
     }
 }

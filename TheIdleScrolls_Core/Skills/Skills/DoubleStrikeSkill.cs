@@ -43,7 +43,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
 
         protected override void SetupStats(Entity user)
         {
-            SkillTags = [Tags.AttackSkill];
+            SkillTags = [Tags.AttackSkill, Tags.Melee];
 
             var attackComp = user.GetComponent<BattleStatsComponent>();
             var perk = user.GetComponent<PerksComponent>()?.GetPerk(DoubleStrike.BasePerkId);
@@ -66,7 +66,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             if (cooldownRecovery == 0.0)
                 cooldownRecovery = 1.0;
 
-            ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy)];
+            ActivityStartEffects = [new(effects, TargetingMode.SingleEnemy, [.. SkillTags])];
             ChargingTime = attackComp.AverageCooldown;
             Timer.CooldownDuration = BaseCooldown / cooldownRecovery;
         }

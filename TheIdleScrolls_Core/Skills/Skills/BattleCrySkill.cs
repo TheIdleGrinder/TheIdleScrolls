@@ -59,7 +59,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             {
                 Perk debuffPerk = GetPerk(BattleCry.DebuffPerkId)!;
                 SlowStatusEffect debuff = new(Timer.ActiveDuration, debuffPerk.Modifiers[0].Value);
-                ActivityStartEffects = [new([new StatusSkillEffect(debuff)], TargetingMode.SingleEnemy)];
+                ActivityStartEffects = [new([new StatusSkillEffect(debuff)], TargetingMode.SingleEnemy, SkillTags)];
             }
         }
     }

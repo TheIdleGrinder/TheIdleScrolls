@@ -88,6 +88,16 @@ namespace TheIdleScrolls_Core.Systems
 
                 m_firstUpdate = false; // First update is not relevant for crafting etc., only for the fighting abilities
             }
+
+            if (abilitiesComp.GetAbility(Abilities.Blocking) is not null)
+            {
+                int blocks = coordinator.FetchMessagesByType<HitBlockedMessage>().Count(m => m.Target == m_player);
+                if (blocks > 0)
+                {
+                    int zoneLevel = m_player.GetComponent<LocationComponent>()?.GetCurrentZone(world.Map)?.Level ?? 1;
+                    AddXP([Abilities.Blocking], world.XpMultiplier * blocks * zoneLevel, coordinator);
+                }
+            }
         }
 
         void AddXP(List<string> abilityIds, double fullAmount, Coordinator coordinator)

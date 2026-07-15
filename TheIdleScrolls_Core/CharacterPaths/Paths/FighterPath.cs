@@ -79,7 +79,8 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             })
         { MaxLevel = 5, Categories = [Properties.Skills.PathFighter] };
         readonly static Perk FighterIncLifeAndReg = new(Life3Id, Properties.Skills.FighterHP3,
-            "Gain increased hit points and life regeneration for each level", [UpdateTrigger.LevelUp, UpdateTrigger.EquipmentChanged],
+            "Gain increased hit points and life regeneration for each level", 
+            [UpdateTrigger.BattleStarted, UpdateTrigger.BattleFinished, UpdateTrigger.LevelUp, UpdateTrigger.EquipmentChanged],
             (l, e, w, c) =>
             {
                 int totalHp = e.GetComponent<LifePoolComponent>()!.Maximum;

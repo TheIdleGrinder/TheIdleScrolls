@@ -39,6 +39,7 @@ namespace TheIdleScrolls_Core.Components
         public int BestG0Refine { get; set;} = 0;
         public Dictionary<string, int> DefeatedMobs { get; set; } = [];
         public Dictionary<string, int> ConditionalKills { get; set; } = [];
+        public int BlockedHits { get; set; } = 0;
 
         public HashSet<string> GetClearedDungeons()
         {

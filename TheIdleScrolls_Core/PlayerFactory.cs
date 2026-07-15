@@ -37,6 +37,7 @@ namespace TheIdleScrolls_Core
             player.AddComponent(new TitleBearerComponent());
             player.AddComponent(new MetaDataComponent());
             player.AddComponent(new ActiveSkillComponent() { Skills = [new DefaultAttack()] });
+            player.AddComponent(new BlockerComponent());
 
             CharacterPathComponent pathComp = new();
             pathComp.AddPath(CharacterPaths.Paths.FighterPath.Path);

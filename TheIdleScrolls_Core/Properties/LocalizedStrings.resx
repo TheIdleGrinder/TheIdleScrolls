@@ -422,6 +422,9 @@ Time to finish: {0}</value>
   <data name="ARC" xml:space="preserve">
     <value>Archery</value>
   </data>
+  <data name="ABL_BLOCKING" xml:space="preserve">
+    <value>Blocking</value>
+  </data>
   <data name="ActivationChance" xml:space="preserve">
     <value>chance to activate</value>
   </data>

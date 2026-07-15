@@ -188,7 +188,31 @@ namespace TheIdleScrolls_Core.Resources
                     achievements.Add(achievement);
                 }
             }
-            
+
+            // Blocking achievements
+            for (int i = 0; i < ranks.Length; i++)
+            {
+                string description = (i == 0) ? "Block 10 hits" : $"Reach ability level {ranks[i].Level} for {Abilities.Blocking.Localize()}";
+                
+                int level = ranks[i].Level;
+                Achievement achievement = new(
+                    $"{Abilities.Blocking}{level}",
+                    $"Blocking {ranks[i].Rank}",
+                    description,
+                    (i > 0) 
+                        ? ExpressionParser.ParseToFunction($"{Abilities.Blocking}{ranks[i - 1].Level}") 
+                        : tautology,
+                    (i > 0)
+                        ? ExpressionParser.ParseToFunction($"abl:{Abilities.Blocking} >= {level}")
+                        : (e, w) => { return (e.GetComponent<PlayerProgressComponent>()?.Data?.BlockedHits ?? 0) >= 10; })
+                {
+                    Reward = (i == 0) 
+                        ? new AbilityReward(Abilities.Blocking) 
+                        : GetRewardForLeveledAchievement(Abilities.Blocking, level)
+                };
+                achievements.Add(achievement);
+            }
+
             return achievements;
         }
 
@@ -439,6 +463,50 @@ namespace TheIdleScrolls_Core.Resources
                                     [Tags.Defense],
                                     [])
                                 .WithCategories(LocalizedStrings.Armours, id.Localize()),
+                //Blocking
+                (Abilities.Blocking, 25)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Blocking Apprentice",
+                                    $"Gain increased block chance",
+                                    ModifierType.Increase,
+                                    0.1,
+                                    [Tags.BlockChance],
+                                    [],
+                                    maxLevel: 5)
+                                .WithCategories(Abilities.Blocking.Localize()),
+                (Abilities.Blocking, 50)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Quick Block",
+                                    $"Your block cooldown recovers faster, allowing you to block more frequently",
+                                    ModifierType.Increase,
+                                    0.06,
+                                    [Tags.BlockRecovery],
+                                    [],
+                                    maxLevel: 5)
+                                .WithCategories(Abilities.Blocking.Localize()),
+                (Abilities.Blocking, 75)
+                                => new Perk($"{id}{level}", "Deflection",
+                                    $"Prevent a higher percentage of damage from blocked hits",
+                                    [],
+                                    (l, e, w, c) =>
+                                    {
+                                        return [ 
+                                            new($"{id}{level}", ModifierType.AddBase, 0.01 * l, [ Tags.BlockMitigation ], [])
+                                            {
+                                                AlwaysPercentage = true
+                                            }
+                                        ];
+                                    })
+                                {
+                                    MaxLevel = 3
+                                }
+                                .WithCategories(Abilities.Blocking.Localize()),
+                (Abilities.Blocking, 100)
+                                => PerkFactory.MakeStaticPerk($"{id}{level}", "Blocking Master",
+                                    $"Gain a {Stats.MasterPerkMultiplier:0.#%} hit point multiplier",
+                                    ModifierType.More,
+                                    Stats.MasterPerkMultiplier,
+                                    [Tags.HitPoints],
+                                    [])
+                                .WithCategories(Abilities.Blocking.Localize()),
                 ("ABL_CRAFT", 25)
                                 => new Perk($"{id}{level}", "Crafting Apprentice",
                                     $"Gain an additional slot in the crafting queue plus another one for every 25 levels of the Crafting ability",

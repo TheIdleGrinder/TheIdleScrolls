@@ -18,12 +18,12 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 
         public double DamageDone { get; private set; } = 0.0;
 
-        public void ApplyToTarget(Entity target)
+        public List<ISkillEffectOutcome> ApplyToTarget(Entity target)
         {
             var hpComp = target.GetComponent<LifePoolComponent>();
             if (hpComp is null)
             {
-                return;
+                return [];
             }
             var damage = hpComp.Current * Magnitude;
 
@@ -34,6 +34,10 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 
             hpComp.ApplyDamage(damage);
             DamageDone = damage;
+
+            // CornerCut: Treat pruning as physical damage for now
+            var outcome = new DamageApplied(target, DamageType.Physical, damage);
+            return [outcome];
         }
     }
 }

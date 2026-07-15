@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.StatusEffects;
 
 namespace TheIdleScrolls_Core.Skills
@@ -28,7 +29,8 @@ namespace TheIdleScrolls_Core.Skills
                     new SkillEffects.StatusSkillEffect(
                         new StunStatusEffect(user.ApplyAllApplicableModifiers(baseDuration, ["Stun", "Duration"], user.GetTags()))
                     )
-                ]
+                ],
+                BundleTags = [Tags.Stun, Tags.Attack]
             };
     }
 }

@@ -20,15 +20,20 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 
         public string Description => $"{Damage:0.##} {DamageType.ToTag()} damage";
 
-		public void ApplyToTarget(Entity target)
+		public List<ISkillEffectOutcome> ApplyToTarget(Entity target)
 		{
 			var hpComp = target.GetComponent<LifePoolComponent>();
 			if (hpComp is null)
             {
-				return;
+				return [];
             }
 
             double tmpDamage = Damage;
+
+            // Consider global damage taken modifiers first
+            // Currently, this is only used to 'inject' the damage reduction from blocking for the duration of 
+            // the evaluation of a skill effect bundle.
+            tmpDamage *= target.ApplyAllApplicableModifiers(1.0, [Definitions.Tags.DamageTakenMultiplier], target.GetTags());
 
             // Consider armor for physical damage
             if (DamageType == DamageType.Physical)
@@ -64,6 +69,17 @@ namespace TheIdleScrolls_Core.Skills.SkillEffects
 
             hpComp.ApplyDamage(tmpDamage);
             DamageDone = tmpDamage;
+
+            List<ISkillEffectOutcome> outcomes = [];
+            if (tmpDamage > 0.0)
+            {
+                outcomes.Add(new DamageApplied(target, DamageType, tmpDamage));
+            }
+            if (tmpDamage < Damage)
+            {
+                outcomes.Add(new DamagePrevented(target, DamageType, Damage - tmpDamage));
+            }
+            return outcomes;
         }
 	}
 }

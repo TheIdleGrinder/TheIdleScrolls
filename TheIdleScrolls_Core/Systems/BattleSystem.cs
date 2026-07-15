@@ -237,7 +237,7 @@ namespace TheIdleScrolls_Core.Systems
                     Entity? opponent = ActiveSkill.GetEnemiesInRange(entity, range).FirstOrDefault();
                     if (opponent is null)
                         continue; // No valid target in range, skip effect
-                    effect.ApplyToTarget(opponent);
+                    List<ISkillEffectOutcome> outcomes = effect.ApplyToTarget(opponent);
                     foreach (var subEffect in effect.Effects)
                     {
                         if (subEffect is DamageSkillEffect dmgEffect)
@@ -247,6 +247,13 @@ namespace TheIdleScrolls_Core.Systems
 
                             if (!dmgEffect.Tags.Contains(Tags.DamageOverTime))
                                 coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
+                        }
+                    }
+                    foreach (var outcome in outcomes)
+                    {
+                        if (outcome is HitBlocked blockedOutcome)
+                        {
+                            coordinator.PostMessage(this, new HitBlockedMessage(entity, opponent, blockedOutcome.PreventionPercentage));
                         }
                     }
                 }
@@ -434,6 +441,12 @@ namespace TheIdleScrolls_Core.Systems
         }
 
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.VeryLow;
+    }
+
+    public record HitBlockedMessage(Entity Attacker, Entity Target, double PreventionPercentage) : IMessage
+    {
+        string IMessage.BuildMessage() => $"{Target.GetName()} blocked {PreventionPercentage:0.##%} incoming damage";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.VeryHigh;
     }
 
     public record DeathMessage(Entity Victim) : IMessage
