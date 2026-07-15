@@ -223,7 +223,7 @@ namespace TheIdleScrolls_Core.Systems
             var blockComp = entity.GetComponent<BlockerComponent>();
             if (blockComp != null)
             {
-                double blockRecovery = modComp?.ApplyApplicableModifiers(1.0, [Tags.BlockRecovery], globalTags) ?? Stats.BaseBlockCooldown;
+                double blockRecovery = modComp?.ApplyApplicableModifiers(1.0, [Tags.BlockRecovery], globalTags) ?? 1.0;
                 double blockMitigation = modComp?.ApplyApplicableModifiers(Stats.BaseBlockMitigation, [Tags.BlockMitigation], globalTags) ?? Stats.BaseBlockMitigation;
                 blockComp.SetCooldownDuration(Stats.BaseBlockCooldown / (blockRecovery != 0 ? blockRecovery : 1.0));
                 blockComp.BlockMitigation = blockMitigation;

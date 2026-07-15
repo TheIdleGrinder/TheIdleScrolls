@@ -16,7 +16,7 @@ namespace TheIdleScrolls_Core.Skills
     public class SkillEffectBundle
     {
         public TargetingMode Target { get; set; }
-        public HashSet<string> BundleTags { get; set; }
+        public HashSet<string> BundleTags { get; set; } = [];
         public List<ISkillEffect> Effects { get; set; } = [];
         public double? Accuracy { get; set; } = null;
 
