@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheIdleScrolls_Core.Items;
+using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Resources;
 using TheIdleScrolls_Core.Systems;
 
@@ -81,12 +82,14 @@ namespace TheIdleScrolls_Core.Components
 
     public class Ability(string key)
     {
+        public AbilityDefinition? Definition { get; init; } = null;
         public string Key { get; set; } = key;
         public string Name { get; set; } = key;
         public int Level { get; set; } = 1;
         public int XP { get; set; } = 0;
         public int TargetXP { get; set; } = 100;
         public int MaxLevel { get; init; } = int.MaxValue;
+        public List<Modifier> Modifiers {get; set; } = [];
 
         public bool AddXP(int amount)
         {

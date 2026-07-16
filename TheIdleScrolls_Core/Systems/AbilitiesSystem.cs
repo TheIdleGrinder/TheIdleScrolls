@@ -30,6 +30,21 @@ namespace TheIdleScrolls_Core.Systems
             if (abilitiesComp == null)
                 return;
 
+            // Initialize modifiers for player on first update
+            if (m_firstUpdate || coordinator.MessageTypeIsOnBoard<AbilityAddedMessage>())
+            {
+                var modifierComp = m_player.GetOrAddComponent<ModifierComponent>();
+                foreach (var ability in abilitiesComp.GetAbilities().Where(a => a.Level > 0 && a.Modifiers.Count == 0))
+                {
+                    var mods = ability!.Definition?.ModifiersForLevel(ability.Level) ?? [];
+                    ability!.Modifiers = mods;
+                    foreach (var mod in mods)
+                    {
+                        modifierComp.AddModifier(mod);
+                    }
+                }
+            }
+
             // Update crafting ability
             var craftAbl = abilitiesComp.GetAbility(Abilities.Crafting);
             if (craftAbl != null)
@@ -97,6 +112,20 @@ namespace TheIdleScrolls_Core.Systems
                     int zoneLevel = m_player.GetComponent<LocationComponent>()?.GetCurrentZone(world.Map)?.Level ?? 1;
                     AddXP([Abilities.Blocking], world.XpMultiplier * blocks * zoneLevel, coordinator);
                 }
+            }
+
+            // Update modifiers of abilities if their level has changed
+            foreach (var lvlMessage in coordinator.FetchMessagesByType<AbilityImprovedMessage>())
+            {
+                var ability = abilitiesComp.GetAbility(lvlMessage.AbilityId);
+                if (ability == null)
+                    continue;
+                var modifierComp = m_player.GetOrAddComponent<ModifierComponent>();
+                ability.Modifiers.ForEach(m => modifierComp.RemoveModifier(m.Id));
+
+                var mods = ability.Definition?.ModifiersForLevel(ability.Level) ?? [];
+                ability.Modifiers = mods;
+                mods.ForEach(modifierComp.AddModifier);
             }
         }
 

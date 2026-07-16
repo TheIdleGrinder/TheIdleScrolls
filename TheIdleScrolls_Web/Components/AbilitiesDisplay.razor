@@ -1,4 +1,5 @@
-﻿@using TheIdleScrolls_Web.CoreWrapper
+﻿@using TheIdleScrolls_Core.Modifiers
+@using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Core
 @using TheIdleScrolls_Core.Components
 
@@ -18,7 +19,7 @@
         <tbody>
             @foreach (var ability in Abilities)
             {
-                <tr>
+                <tr class="withTooltip">
                     <td>@ability.Name</td>
                     <td>@ability.Level</td>
                     <td class="ability-progress">
@@ -30,6 +31,13 @@
                         </div>
                         <span class="progress-value">@(ProgressString(ability))</span>
                     </td>
+                    <div class="barTooltip">
+                        @ability.Name
+                        @foreach (var modifier in ability?.Modifiers ?? [])
+                        {
+                            <div class="perk-modifier">➤ @modifier.ToPrettyString()</div>
+                        }
+                    </div>
                 </tr>
             }
         </tbody>
