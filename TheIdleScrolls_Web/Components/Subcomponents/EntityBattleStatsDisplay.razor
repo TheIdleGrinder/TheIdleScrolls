@@ -1,0 +1,95 @@
+﻿@using MiniECS
+@using TheIdleScrolls_Core
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Web.CoreWrapper
+
+@inject CoreWrapperModel CoreWrapper
+
+<div class="battle-stats-display">
+    @if (BattleStats is not null)
+    {
+        <h5>Offense</h5>
+        @for (int i = 0; i < BattleStats.AttackVectors.Count; i++)
+        {
+            <div class="battle-stats-section">
+                <span>@(i == 0 ? (BattleStats.AttackVectors.Count == 1 ? "Attack" : "Main Hand") : "Off Hand")</span>
+                <span>Damage: @Rounded(BattleStats.AttackVectors[i].RawDamage.TotalDamage)</span>
+                <span>Attack Time: @Rounded(BattleStats.AttackVectors[i].AttackTime) s</span>
+                <span>DPS: @Rounded(BattleStats.AttackVectors[i].Dps)</span>
+                <span>Range: @Rounded(BattleStats.AttackVectors[i].Range)</span>
+            </div>
+        }
+
+        <h5>Defense</h5>
+        <div class="battle-stats-section">
+            <span>Basic</span>
+            <span>Armor: @Rounded(BattleStats.Armor)</span>
+            <span>Evasion: @Rounded(BattleStats.Evasion)</span>
+        </div>
+        @if (Blocker is not null)
+        {
+            <div class="battle-stats-section">
+                <span>Blocking</span>
+                <span>Block Chance: @RoundedPct(Blocker.BlockChance)</span>
+                <span>Block Chance vs Melee Attacks: @RoundedPct(Blocker.BlockChanceVsMeleeAttack)</span>
+                <span>Block Chance vs Projectile Attacks: @RoundedPct(Blocker.BlockChanceVsProjectileAttack)</span>
+                <span>Block Chance vs Spell Projectiles: @RoundedPct(Blocker.BlockChanceVsSpellProjectile)</span>
+                <span>Mitigation: @RoundedPct(Blocker.BlockMitigation)</span>
+                <span>Cooldown: @Rounded(Blocker.CooldownDuration) s</span>
+            </div>
+        }
+    }
+</div>
+
+<style>
+    .battle-stats-display {
+        display: flex;
+        flex-direction: column;
+        padding: 0.5rem;
+        /* gap: 0.5rem; */
+        background-color: var(--back-color);
+        width: 50%;
+        overflow-y: auto;
+    }
+
+    .battle-stats-display h5 {
+        margin-top: 0.5rem;
+        margin-bottom: 0px;
+    }
+
+    .battle-stats-section {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .battle-stats-section :first-child {
+        margin-left: 0;
+        font-size: medium;
+        font-weight: bold;
+    }
+
+    .battle-stats-section span {
+        margin: auto;
+        margin-left: 0.25rem;
+        font-size: smaller;
+    }
+</style>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public Entity Entity { get; set; }
+
+    BattleStatsComponent? BattleStats => Entity.GetComponent<BattleStatsComponent>();
+    BlockerComponent? Blocker => Entity.GetComponent<BlockerComponent>();
+
+    string Rounded(double value)
+    {
+        return $"{value:0.##}";
+    }
+
+    string RoundedPct(double value)
+    {
+        return $"{value:0.##%}";
+    }
+}

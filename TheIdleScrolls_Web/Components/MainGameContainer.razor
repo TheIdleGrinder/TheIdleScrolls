@@ -89,6 +89,7 @@
                             @onclick="(() => CoreWrapper.ShowCharacterPathDisplay = true)">Take step on character path</button>
                     }
                     <div id="characterPage-inner" class="inner">
+                        <EntityBattleStatsDisplay Entity="@CoreWrapper.PlayerCharacter" />
                         <AbilitiesDisplay/>
                     </div>
                 </div>
@@ -210,6 +211,12 @@
         width: 100%;
         max-height: 100%;
         padding: 0.5rem;
+    }
+
+    #characterPage-inner {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
     }
 
     #inventoryPage {

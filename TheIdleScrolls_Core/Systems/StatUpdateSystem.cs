@@ -221,12 +221,16 @@ namespace TheIdleScrolls_Core.Systems
 
             // Update block stats
             var blockComp = entity.GetComponent<BlockerComponent>();
-            if (blockComp != null)
+            if (blockComp != null && modComp != null)
             {
-                double blockRecovery = modComp?.ApplyApplicableModifiers(1.0, [Tags.BlockRecovery], globalTags) ?? 1.0;
-                double blockMitigation = modComp?.ApplyApplicableModifiers(Stats.BaseBlockMitigation, [Tags.BlockMitigation], globalTags) ?? Stats.BaseBlockMitigation;
+                double blockRecovery = modComp.ApplyApplicableModifiers(1.0, [Tags.BlockRecovery], globalTags);
+                double blockMitigation = modComp.ApplyApplicableModifiers(Stats.BaseBlockMitigation, [Tags.BlockMitigation], globalTags);
                 blockComp.SetCooldownDuration(Stats.BaseBlockCooldown / (blockRecovery != 0 ? blockRecovery : 1.0));
                 blockComp.BlockMitigation = blockMitigation;
+                blockComp.BlockChance = modComp.ApplyApplicableModifiers(0.0, [Tags.BlockChance], globalTags);
+                blockComp.BlockChanceVsMeleeAttack = modComp.ApplyApplicableModifiers(0.0, [Tags.BlockChance, Tags.Attack, Tags.Melee], globalTags);
+                blockComp.BlockChanceVsProjectileAttack = modComp.ApplyApplicableModifiers(0.0, [Tags.BlockChance, Tags.Attack, Tags.Projectile], globalTags);
+                blockComp.BlockChanceVsSpellProjectile = modComp.ApplyApplicableModifiers(0.0, [Tags.BlockChance, Tags.Spell, Tags.Projectile], globalTags);
             }
         }
     }

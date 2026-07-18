@@ -16,6 +16,8 @@ namespace TheIdleScrolls_Core.Components
             public DamageCluster RawDamage = dmg;
             public double AttackTime = cd;
             public double Range = range;
+
+            public double Dps => (AttackTime != 0) ? RawDamage.TotalDamage / AttackTime : 0.0;
         }
 
         public BattleStatsComponent(AttackVector baseAttack)

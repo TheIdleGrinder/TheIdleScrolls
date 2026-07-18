@@ -17,6 +17,10 @@ namespace TheIdleScrolls_Core.Components
         public double CooldownDuration => Cooldown.Duration;
         public bool IsReady => Cooldown.HasFinished;
         public double BlockMitigation { get; set; } = Stats.BaseBlockMitigation;
+        public double BlockChance { get; set; } = 0.0;
+        public double BlockChanceVsMeleeAttack { get; set; } = 0.0;
+        public double BlockChanceVsProjectileAttack { get; set; } = 0.0;
+        public double BlockChanceVsSpellProjectile { get; set; } = 0.0;
 
         public BlockerComponent() 
         { 
