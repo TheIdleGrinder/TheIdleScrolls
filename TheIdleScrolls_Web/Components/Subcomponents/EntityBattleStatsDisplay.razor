@@ -30,10 +30,32 @@
         {
             <div class="battle-stats-section">
                 <span>Blocking</span>
-                <span>Block Chance: @RoundedPct(Blocker.BlockChance)</span>
-                <span>Block Chance vs Melee Attacks: @RoundedPct(Blocker.BlockChanceVsMeleeAttack)</span>
-                <span>Block Chance vs Projectile Attacks: @RoundedPct(Blocker.BlockChanceVsProjectileAttack)</span>
-                <span>Block Chance vs Spell Projectiles: @RoundedPct(Blocker.BlockChanceVsSpellProjectile)</span>
+                @if (Blocker.BlockChance == Blocker.BlockChanceVsMeleeAttack 
+                    && Blocker.BlockChance == Blocker.BlockChanceVsProjectileAttack 
+                    && Blocker.BlockChance == Blocker.BlockChanceVsSpellProjectile)
+                {
+                    <span>Block Chance: @RoundedPct(Blocker.BlockChance)</span>
+                }
+                else
+                {
+                    <span>Block Chance</span>
+                    @if (Blocker.BlockChance > 0)
+                    {
+                        <span class="sub">Overall: @RoundedPct(Blocker.BlockChance)</span>
+                    }
+                    @if (Blocker.BlockChanceVsMeleeAttack != Blocker.BlockChance)
+                    {
+                        <span class="sub">vs Melee Attacks: @RoundedPct(Blocker.BlockChanceVsMeleeAttack)</span>
+                    }
+                    @if (Blocker.BlockChanceVsProjectileAttack != Blocker.BlockChance)
+                    {
+                        <span class="sub">vs Projectile Attacks: @RoundedPct(Blocker.BlockChanceVsProjectileAttack)</span>
+                    }
+                    @if (Blocker.BlockChanceVsSpellProjectile != Blocker.BlockChance)
+                    {
+                        <span class="sub">vs Spell Projectiles: @RoundedPct(Blocker.BlockChanceVsSpellProjectile)</span>
+                    }
+                }
                 <span>Mitigation: @RoundedPct(Blocker.BlockMitigation)</span>
                 <span>Cooldown: @Rounded(Blocker.CooldownDuration) s</span>
             </div>
@@ -73,6 +95,10 @@
         margin-left: 0.25rem;
         font-size: smaller;
     }
+
+    .battle-stats-section .sub {
+        margin-left: 0.5rem;
+    }
 </style>
 
 @code {
@@ -88,8 +114,9 @@
         return $"{value:0.##}";
     }
 
-    string RoundedPct(double value)
+    string RoundedPct(double value, int decimals = 0)
     {
-        return $"{value:0.##%}";
+        double roundedValue = Math.Round(value * 100, decimals);
+        return $"{roundedValue:0.##}%";
     }
 }
