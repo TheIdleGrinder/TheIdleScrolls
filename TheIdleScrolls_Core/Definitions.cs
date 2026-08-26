@@ -109,6 +109,7 @@ namespace TheIdleScrolls_Core
             public const string ChargeSpeed = "ChargeSpeed";
             public const string Damage = "Damage";
             public const string DamageOverTime = "DoT";
+            public const string Healing = "Healing";
             public const string AttackSpeed = "AttackSpeed";
             public const string Defense = "Defense";
             public const string ArmorRating = "ArmorRating";
@@ -132,6 +133,7 @@ namespace TheIdleScrolls_Core
             public const string CharacterXpGain = "CharacterXpGain";
             public const string AbilityXpGain = "AbilityXpGain";
 
+            public const string CraftingStrength = "CraftingStrength";
             public const string CraftingSlots = "CraftingSlot";
             public const string ActiveCrafts = "ActiveCraftingSlot";
             public const string CraftingSpeed = "CraftingSpeed";

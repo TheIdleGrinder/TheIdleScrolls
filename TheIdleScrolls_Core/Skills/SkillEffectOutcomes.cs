@@ -49,4 +49,9 @@ namespace TheIdleScrolls_Core.Skills
     {
         public string Description => $"{Target.GetName()} blocked {PreventionPercentage:0.##%} of a hit's damage";
     }
+
+    public record HealingApplied(Entity Target, double Amount) : ISkillEffectOutcome
+    {
+        public string Description => $"{Target.GetName()} was healed for {Amount} HP";
+    }
 }

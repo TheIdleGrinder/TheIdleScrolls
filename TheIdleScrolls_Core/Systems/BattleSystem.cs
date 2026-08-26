@@ -68,6 +68,7 @@ namespace TheIdleScrolls_Core.Systems
                 if (battle.IsFinished)
                 {
                     battler.RemoveComponent<BattlerComponent>();
+                    battler.RemoveComponent<KilledComponent>(); // Can only happen for player characters
                     battler.GetComponent<AdventurerComponent>()?.SetState(AdventurerState.Idle);
                     if (battler.IsMob()) // Despawn mobs from finished battles
                     {
@@ -116,8 +117,7 @@ namespace TheIdleScrolls_Core.Systems
                 {
                     if (mob.IsDefeated())
                     {
-                        coordinator.PostMessage(this, new DeathMessage(mob));
-                        mob.AddComponent(new KilledComponent { Killer = player.Id });
+                        
                     }
                     else
                     {
@@ -256,6 +256,12 @@ namespace TheIdleScrolls_Core.Systems
                             coordinator.PostMessage(this, new HitBlockedMessage(entity, opponent, blockedOutcome.PreventionPercentage));
                         }
                     }
+                    if (opponent.IsDefeated() || !opponent.HasComponent<KilledComponent>())
+                    {
+                        coordinator.PostMessage(this, new DeathMessage(opponent));
+                        opponent.AddComponent(new KilledComponent { Killer = entity.Id });
+                        ChargeTriggeredSkills(ActiveSkill.UseTrigger.OnKill, entity);
+                    }
                 }
                 else
                 {
@@ -346,8 +352,8 @@ namespace TheIdleScrolls_Core.Systems
                         if (outOfRange)
                         {
                             MoveTowardsClosestEnemy(entity, remaining); //CornerCut: Use entire rest of frame to move
-                            totalElapsed += remaining;
                         }
+                        totalElapsed += remaining;
                     }
                     else
                     {

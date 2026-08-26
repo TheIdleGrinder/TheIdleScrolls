@@ -92,7 +92,9 @@
     public Entity? Entity { get; set; }
 
     bool BlockBusy => !(Entity?.GetComponent<BlockerComponent>()?.IsReady ?? true);
-    List<ActiveSkill> Skills => Entity?.GetComponent<ActiveSkillComponent>()?.Skills.Where(s => s.IsInUse()).ToList() ?? [];
+    List<ActiveSkill> Skills => Entity?.GetComponent<ActiveSkillComponent>()
+        ?.Skills.Where(s => s.IsInUse() && !s.IsTriggered)
+        ?.ToList() ?? [];
     List<StatusEffect> Status => Entity?.GetComponent<StatusEffectComponent>()?.StatusEffects ?? [];
     DoTComponent? DoTs => Entity?.GetComponent<DoTComponent>();
 }

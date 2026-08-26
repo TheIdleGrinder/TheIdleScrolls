@@ -565,6 +565,15 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crafting success weight ähnelt.
+        /// </summary>
+        internal static string CraftingStrength {
+            get {
+                return ResourceManager.GetString("CraftingStrength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Damage Taken ähnelt.
         /// </summary>
         internal static string DamageTaken {

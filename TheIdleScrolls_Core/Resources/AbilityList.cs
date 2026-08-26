@@ -123,8 +123,10 @@ namespace TheIdleScrolls_Core.Resources
             {
                 Name = Properties.LocalizedStrings.ABL_CRAFT,
                 MaxLevel = regularMaxLevel,
-                RequiredXpForLevelUp = (int x) => 50 * x
-                // Crafting abilities does not have modifiers, the level itself is used in the calculation of crafting odds
+                RequiredXpForLevelUp = (int x) => 50 * x,
+                ModifiersForLevel = (x) => [
+                    new($"{Abilities.Crafting}_csw", ModifierType.AddBase, x, [Tags.CraftingStrength], [])
+                ]
             });
 
             // Fighting Styles

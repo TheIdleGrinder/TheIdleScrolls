@@ -48,12 +48,12 @@ namespace TheIdleScrolls_Core.Components
 			{
 				Index = (Index + 1) % Skills.Count;
 			} while (
-				(CurrentSkill?.IsTriggered ?? false) ||
+				((CurrentSkill?.IsTriggered ?? false) ||
 				(CurrentSkill?.GetState() != ActiveSkill.State.Ready
-				&& CurrentSkill?.GetState() != ActiveSkill.State.Charging
+				&& CurrentSkill?.GetState() != ActiveSkill.State.Charging))
 				&& Index != originalIndex
 				&& (originalIndex >= 0 || Index < Skills.Count - 1) // way out if we started with no skill selected
-                ));
+                );
 			if (CurrentSkill?.GetState() != ActiveSkill.State.Ready
                 && CurrentSkill?.GetState() != ActiveSkill.State.Charging)
 			{

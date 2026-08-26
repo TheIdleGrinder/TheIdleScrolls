@@ -184,6 +184,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             Path.AddStep(SimplePerkStep(LifePerLevelPerk,     1));
             Path.AddStep(SimplePerkStep(FighterIncLife,       2, LifePerLevelPerk.Id));
             Path.AddStep(SimplePerkStep(FighterIncLifeAndReg, 3, FighterIncLife.Id));
+            Path.AddStep(SimplePerkStep(Unrelenting.BasePerk, 4, FighterIncLifeAndReg.Id));
 
             Path.AddStep(SimplePerkStep(HeavyWeaponsPerk, 1));
 

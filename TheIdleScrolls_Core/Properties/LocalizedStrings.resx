@@ -443,4 +443,7 @@ Time to finish: {0}</value>
   <data name="OnKill" xml:space="preserve">
     <value>on defeating an enemy</value>
   </data>
+  <data name="CraftingStrength" xml:space="preserve">
+    <value>Crafting success weight</value>
+  </data>
 </root>

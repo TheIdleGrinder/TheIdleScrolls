@@ -27,7 +27,7 @@ namespace TheIdleScrolls_Storage
 			typeof(InventoryComponent),
 			typeof(ItemComponent),
 			typeof(LevelComponent),
-			typeof(LifePoolComponent),
+			//typeof(LifePoolComponent),
 			typeof(LocationComponent),
             typeof(MetaDataComponent),
 			typeof(NameComponent),

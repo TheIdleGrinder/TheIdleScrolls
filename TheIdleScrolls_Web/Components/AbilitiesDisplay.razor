@@ -2,13 +2,15 @@
 @using TheIdleScrolls_Web.CoreWrapper
 @using TheIdleScrolls_Core
 @using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Web.Services
 
 @implements IDisposable
 
 @inject CoreWrapperModel CoreWrapper
+@inject TooltipService TooltipService
 
 <div class="scrolling-table" id="abilitiesTable">
-    <table>
+    <table @ref="_element">
         <thead>
             <tr>
                 <th>Name</th>
@@ -19,7 +21,7 @@
         <tbody>
             @foreach (var ability in Abilities)
             {
-                <tr class="withTooltip">
+                <tr @onmouseover="() => ShowTooltip(ability)" @onmouseout="HideTooltip">
                     <td>@ability.Name</td>
                     <td>@ability.Level</td>
                     <td class="ability-progress">
@@ -31,13 +33,6 @@
                         </div>
                         <span class="progress-value">@(ProgressString(ability))</span>
                     </td>
-                    <div class="barTooltip">
-                        @ability.Name
-                        @foreach (var modifier in ability?.Modifiers ?? [])
-                        {
-                            <div class="perk-modifier">➤ @modifier.ToPrettyString()</div>
-                        }
-                    </div>
                 </tr>
             }
         </tbody>
@@ -74,6 +69,8 @@
 </style>
 
 @code {
+    private ElementReference _element;
+
     AbilitiesComponent? AbilityComp => CoreWrapper.PlayerCharacter?.GetComponent<AbilitiesComponent>();
     List<Ability> Abilities => AbilityComp?.GetAbilities() ?? [];
 
@@ -91,5 +88,25 @@
     public void Dispose()
     {
         CoreWrapper.StateChanged -= StateHasChanged;
+    }
+
+    private async Task ShowTooltip(Ability ability)
+    {
+        // No delay needed - container status is checked in service
+        await TooltipService.ShowAsync(
+            @<div style="background-color:var(--back-color); padding: 5px">
+            @ability.Name
+            @foreach (var modifier in ability?.Modifiers ?? [])
+            {
+                <div class="perk-modifier">➤ @modifier.ToPrettyString()</div>
+            }
+            </div>,
+            _element
+        );
+    }
+
+    private void HideTooltip()
+    {
+        TooltipService.Hide();
     }
 }
