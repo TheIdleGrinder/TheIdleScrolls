@@ -51,6 +51,7 @@ namespace TheIdleScrolls_Core
             m_systems.Add(new StatusEffectSystem());
             m_systems.Add(new BattleSystem());
             m_systems.Add(new MobSpawnerSystem());
+            m_systems.Add(new SkillProcessingSystem());
             m_systems.Add(new BountySystem());
             m_systems.Add(new KillProcessingSystem());
             m_systems.Add(new LevelUpSystem());

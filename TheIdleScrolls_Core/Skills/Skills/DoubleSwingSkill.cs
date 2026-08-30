@@ -57,7 +57,9 @@ namespace TheIdleScrolls_Core.Skills.Skills
             TriggerChance = activationMod?.Value ?? 0.0;
 
             int otherHand = 1 - attackComp.CurrentHand;
-            DamageCluster damage = attackComp.AttackVectors[otherHand].RawDamage * 1.0; // multiply to copy :see_no_evil:
+            DamageCluster damage = new();
+            if (otherHand < attackComp.AttackVectors.Count)
+                damage = attackComp.AttackVectors[otherHand].RawDamage * 1.0; // multiply to copy :see_no_evil:
             
             var effects = DefaultAttack.CreateDefaultSkillEffectsForDamage(damage, [.. SkillTags]);
 

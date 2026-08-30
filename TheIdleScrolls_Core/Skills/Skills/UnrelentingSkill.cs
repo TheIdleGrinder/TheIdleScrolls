@@ -40,7 +40,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 var effect = new HealingSkillEffect(toHeal, [Definitions.Tags.Healing]);
                 ActivityStartEffects = [new(effect, TargetingMode.Self, [Definitions.Tags.Healing])];
                 ChargingTime = 0.0;
-                Timer.CooldownDuration = 0.1;
+                Timer.CooldownDuration = 0.0;
             }
             else
             {

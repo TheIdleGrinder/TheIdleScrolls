@@ -106,31 +106,31 @@ namespace TheIdleScrolls_Core.Systems
 
                 // Player may have been defeated through a status effect (e.g. poison). In that case, don't process skills, but
                 // let the player win the fight if the mob was defeated during the same frame (also from a status effect).
-                bool playerDefeated = player.IsDefeated();
+                //bool playerDefeated = player.IsDefeated();
 
-                if (!playerDefeated)
-                {
-                    ProcessSkills(player, dt, coordinator);
-                }
+                //if (!playerDefeated)
+                //{
+                //    ProcessSkills(player, dt, coordinator);
+                //}
 
-                foreach (var mob in battle.Mobs)
-                {
-                    if (mob.IsDefeated())
-                    {
+                //foreach (var mob in battle.Mobs)
+                //{
+                //    if (mob.IsDefeated())
+                //    {
                         
-                    }
-                    else
-                    {
-                        ProcessSkills(mob, dt, coordinator);
-                        var hpComp = player.GetComponent<LifePoolComponent>();
-                        // Players without HP are invincible
-                        playerDefeated = hpComp?.IsDead ?? false;
-                        if (playerDefeated)
-                        {
-                            break; // No need to process further mobs if player is already defeated
-                        }
-                    }
-                }
+                //    }
+                //    else
+                //    {
+                //        ProcessSkills(mob, dt, coordinator);
+                //        var hpComp = player.GetComponent<LifePoolComponent>();
+                //        // Players without HP are invincible
+                //        playerDefeated = hpComp?.IsDead ?? false;
+                //        if (playerDefeated)
+                //        {
+                //            break; // No need to process further mobs if player is already defeated
+                //        }
+                //    }
+                //}
 
                 // Update battle state
                 if (battle.Mobs.All(mob => mob.IsDefeated()))
@@ -141,7 +141,7 @@ namespace TheIdleScrolls_Core.Systems
                     coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
                     player.GetComponent<BattlerComponent>()!.SkillsUsed = 0; // Reset attack counter to enable FirstStrike for next mob
                 }
-                else if (playerDefeated)
+                else if (battle.Player.IsDefeated())
                 {
                     battle.State = Battle.BattleState.PlayerLost;
                     coordinator.PostMessage(this, new BattleLostMessage(player, 
@@ -224,202 +224,6 @@ namespace TheIdleScrolls_Core.Systems
             double baseDuration = Functions.CalculateBaseTimeLimit(player.GetLevel(), zone.Level);
             double duration = zone.TimeMultiplier * player.ApplyAllApplicableModifiers(baseDuration, [Tags.TimeShield], player.GetTags());
             player.GetComponent<TimeShieldComponent>()?.Rescale(duration);
-        }
-
-        void ProcessSkillEffects(Entity entity, List<(SkillEffectBundle Effects, double Range)> effects, Coordinator coordinator)
-        {
-            double damage = 0;
-            double damagePrevented = 0;
-            foreach (var (effect, range) in effects)
-            {
-                if (effect.Target == TargetingMode.SingleEnemy)
-                {
-                    Entity? opponent = ActiveSkill.GetEnemiesInRange(entity, range).FirstOrDefault();
-                    if (opponent is null)
-                        continue; // No valid target in range, skip effect
-                    List<ISkillEffectOutcome> outcomes = effect.ApplyToTarget(opponent);
-                    foreach (var subEffect in effect.Effects)
-                    {
-                        if (subEffect is DamageSkillEffect dmgEffect)
-                        {
-                            damage += dmgEffect.DamageDone;
-                            damagePrevented += dmgEffect.Damage - dmgEffect.DamageDone;
-
-                            if (!dmgEffect.Tags.Contains(Tags.DamageOverTime))
-                                coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
-                        }
-                    }
-                    foreach (var outcome in outcomes)
-                    {
-                        if (outcome is HitBlocked blockedOutcome)
-                        {
-                            coordinator.PostMessage(this, new HitBlockedMessage(entity, opponent, blockedOutcome.PreventionPercentage));
-                        }
-                    }
-                    if (opponent.IsDefeated() || !opponent.HasComponent<KilledComponent>())
-                    {
-                        coordinator.PostMessage(this, new DeathMessage(opponent));
-                        opponent.AddComponent(new KilledComponent { Killer = entity.Id });
-                        ChargeTriggeredSkills(ActiveSkill.UseTrigger.OnKill, entity);
-                    }
-                }
-                else
-                {
-                    effect.ApplyToTarget(entity);
-                }
-            }
-            entity.GetComponent<BattlerComponent>()!.DamageDealt += (int)damage;
-        }
-
-        void ProcessSkills(Entity entity, double dt, Coordinator coordinator)
-        {
-            dt = entity.ApplyAllApplicableModifiers(dt, [Tags.ChargeSpeed], entity.GetTags());
-            // Process player skills
-            var skillComp = entity.GetComponent<ActiveSkillComponent>();
-			if (skillComp is null || skillComp.Skills.Count == 0)
-                return;
-
-			double totalElapsed = 0.0;
-            List<(SkillEffectBundle Effects, double Range)> collectedSkillEffects = [];
-			while (totalElapsed < dt)
-			{
-				double previouslyRemaining = dt - totalElapsed;
-				if (skillComp.CurrentSkill is not null
-					&& skillComp.CurrentSkill.CurrentState == SkillTimer.State.NotStarted)
-				{
-					skillComp.CurrentSkill.StartCharging();
-				}
-                double remaining = previouslyRemaining;
-
-                (SkillTimer.TimerUpdateResult updateResult, List<SkillEffectBundle> effects) 
-                    = skillComp.CurrentSkill?.Update(previouslyRemaining) ?? (new() { RemainingTime = previouslyRemaining }, []);
-                collectedSkillEffects.AddRange(effects.Select(e => (e, skillComp.CurrentSkill!.Range)));
-                if (updateResult.ChargingComplete || updateResult.ActivityComplete || updateResult.CooldownComplete)
-                {
-                    if (updateResult.ChargingComplete)
-                    {
-                        var skillTags = skillComp.CurrentSkill?.SkillTags ?? [];
-                        // Trigger skills that are set to trigger on attack or cast
-                        if (skillTags.Contains(Tags.AttackSkill))
-                        {
-                            ChargeTriggeredSkills(ActiveSkill.UseTrigger.OnAttack, entity);
-                        }
-                        else if (skillTags.Contains(Tags.SpellSkill))
-                        {
-                            ChargeTriggeredSkills(ActiveSkill.UseTrigger.OnCast, entity);
-                        }
-                        entity.GetComponent<BattlerComponent>()!.SkillsUsed++;
-                        // Switch hands after performing an attack
-                        if (skillTags.Contains(Tags.AttackSkill))
-                        {
-                            entity.GetComponent<BattleStatsComponent>()?.SwitchHand();
-                        }
-                    }
-                    coordinator.PostMessage(this, new SkillStateChangedMessage(entity, skillComp.CurrentSkill!, updateResult));
-                }
-                remaining = updateResult.RemainingTime;
-
-				double elapsed = previouslyRemaining - remaining;
-				totalElapsed += elapsed;
-				// Also update timer for all other skills
-				foreach (var skill in skillComp.Skills)
-				{
-                    SkillTimer.TimerUpdateResult result = new();
-                    if (skill != skillComp.CurrentSkill)
-                    {
-                        (result, effects) = skill.Update(elapsed);
-                        collectedSkillEffects.AddRange(effects.Select(e => (e, skill.Range)));
-                        if (result.ChargingComplete || result.ActivityComplete || result.CooldownComplete)
-                        {
-                            coordinator.PostMessage(this, new SkillStateChangedMessage(entity, skill, result));
-                        }
-                    }
-                    if (skillComp.CurrentSkill is null && result.CooldownComplete)
-                    {
-                        // switch to a skill that finished cooldown if no skill is currently selected
-                        skillComp.SwitchToNext();
-                        if (skillComp.CurrentSkill is not null)
-                            collectedSkillEffects.AddRange(skillComp.CurrentSkill.StartCharging().Select(e => (e, skillComp.CurrentSkill!.Range)));
-                    }
-                }
-
-				if (remaining > 0.0) // Means that the skill has finished charging or no skill is active
-				{   
-					skillComp.SwitchToNext();
-                    if (skillComp.CurrentSkill is null)
-                    {
-                        bool outOfRange = skillComp.Skills.Any(s => s.Prevention == ActiveSkill.UsePrevention.NoTargetInRange);
-                        if (outOfRange)
-                        {
-                            MoveTowardsClosestEnemy(entity, remaining); //CornerCut: Use entire rest of frame to move
-                        }
-                        totalElapsed += remaining;
-                    }
-                    else
-                    {
-                        collectedSkillEffects.AddRange(skillComp.CurrentSkill.StartCharging().Select(e => (e, skillComp.CurrentSkill!.Range)));
-                    }
-                }
-			}
-            ProcessSkillEffects(entity, collectedSkillEffects, coordinator);
-        }
-
-        private static void MoveTowardsClosestEnemy(Entity entity, double dt)
-        {
-            double moveSpeed = entity.GetComponent<BattleStatsComponent>()?.MovementSpeed ?? Stats.BaseMovementSpeed;
-            double coveredDistance = moveSpeed * dt;
-            // Find closest enemy
-            var position = entity.GetComponent<BattlerComponent>()!.Position;
-            var enemies = ActiveSkill.GetEnemiesInRange(entity, double.MaxValue);
-            if (enemies.Count == 0)
-                return; // No enemies, no movement
-            BattlePosition closest = new(double.MaxValue, double.MaxValue);
-            foreach (var enemy in enemies)
-            {
-                var enemyPosition = enemy.GetComponent<BattlerComponent>()!.Position;
-                if (position.DistanceTo(enemyPosition) < position.DistanceTo(closest))
-                {
-                    closest = enemyPosition;
-                }
-            }
-            if (position.DistanceTo(closest) <= coveredDistance)
-            {
-                position.X = closest.X;
-                position.Y = closest.Y;
-            }
-            else
-            {
-                double angle = Math.Atan2(closest.Y - position.Y, closest.X - position.X);
-                position.X += coveredDistance * Math.Cos(angle);
-                position.Y += coveredDistance * Math.Sin(angle);
-            }
-        }
-
-        private void ChargeTriggeredSkills(ActiveSkill.UseTrigger trigger, Entity user)
-        {
-            var skillComp = user.GetComponent<ActiveSkillComponent>();
-            if (skillComp is null)
-                return;
-            foreach (var skill in skillComp.Skills)
-            {
-                if (skill.Trigger == trigger)
-                {
-                    ChargeTriggeredSkill(skill);
-                }
-            }
-        }
-
-        private void ChargeTriggeredSkill(ActiveSkill skill)
-        {
-            if (!skill.IsTriggered || skill.CurrentState != SkillTimer.State.NotStarted)
-                return;
-            var chargeComp = skill.User!.GetOrAddComponent<ChanceChargeComponent>();
-            int charges = chargeComp.AddCharge(skill.Id, skill.TriggerChance);
-            if (charges > 0)
-            {
-                chargeComp.RemoveCharge(skill.Id, charges);
-                skill.StartCharging();
-            }
         }
     }
 
