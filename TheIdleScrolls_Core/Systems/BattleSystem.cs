@@ -253,6 +253,12 @@ namespace TheIdleScrolls_Core.Systems
         IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.VeryLow;
     }
 
+    public record HitLandedMessage(Entity Attacker, Entity Target, ActiveSkill Skill) : IMessage
+    {
+        string IMessage.BuildMessage() => $"{Attacker.GetName} hit {Target.GetName()} with hit from {Skill.Name}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Debug;
+    }
+
     public record HitBlockedMessage(Entity Attacker, Entity Target, double PreventionPercentage) : IMessage
     {
         string IMessage.BuildMessage() => $"{Target.GetName()} blocked {PreventionPercentage:0.##%} incoming damage";

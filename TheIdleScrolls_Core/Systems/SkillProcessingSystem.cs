@@ -26,15 +26,17 @@ namespace TheIdleScrolls_Core.Systems
             }
         }
 
-        void ProcessSkillEffects(Entity entity, List<(SkillEffectBundle Effects, double Range)> effects, Coordinator coordinator)
+        SkillTimer.TimerUpdateResult ProcessSkill(Entity entity, ActiveSkill skill, double dt, Coordinator coordinator)
         {
+            (SkillTimer.TimerUpdateResult updateResult, List<SkillEffectBundle> effects) = skill.Update(dt);
+
             double damage = 0;
             double damagePrevented = 0;
-            foreach (var (effect, range) in effects)
+            foreach (var effect in effects)
             {
                 if (effect.Target == TargetingMode.SingleEnemy)
                 {
-                    Entity? opponent = ActiveSkill.GetEnemiesInRange(entity, range).Where(e => !e.IsDefeated()).FirstOrDefault();
+                    Entity? opponent = ActiveSkill.GetEnemiesInRange(entity, skill.Range).Where(e => !e.IsDefeated()).FirstOrDefault();
                     if (opponent is null)
                         continue; // No valid target in range, skip effect
                     List<ISkillEffectOutcome> outcomes = effect.ApplyToTarget(opponent);
@@ -46,7 +48,10 @@ namespace TheIdleScrolls_Core.Systems
                             damagePrevented += dmgEffect.Damage - dmgEffect.DamageDone;
 
                             if (!dmgEffect.Tags.Contains(Tags.DamageOverTime))
+                            {
+                                coordinator.PostMessage(this, new HitLandedMessage(entity, opponent, skill));
                                 coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
+                            }
                         }
                     }
                     foreach (var outcome in outcomes)
@@ -73,6 +78,7 @@ namespace TheIdleScrolls_Core.Systems
             {
                 battlerComp.DamageDealt += (int)damage;
             }
+            return updateResult;
         }
 
         void ProcessSkills(Entity entity, double dt, Coordinator coordinator)
@@ -103,9 +109,11 @@ namespace TheIdleScrolls_Core.Systems
                 }
                 double remaining = previouslyRemaining;
 
-                (SkillTimer.TimerUpdateResult updateResult, List<SkillEffectBundle> effects)
-                    = skillComp.CurrentSkill?.Update(previouslyRemaining) ?? (new() { RemainingTime = previouslyRemaining }, []);
-                collectedSkillEffects.AddRange(effects.Select(e => (e, skillComp.CurrentSkill!.Range)));
+                SkillTimer.TimerUpdateResult updateResult = new() { RemainingTime = previouslyRemaining };
+                if (skillComp.CurrentSkill is not null)
+                {
+                    updateResult = ProcessSkill(entity, skillComp.CurrentSkill, previouslyRemaining, coordinator);
+                }
                 if (updateResult.ChargingComplete || updateResult.ActivityComplete || updateResult.CooldownComplete)
                 {
                     if (updateResult.ChargingComplete)
@@ -139,8 +147,7 @@ namespace TheIdleScrolls_Core.Systems
                     SkillTimer.TimerUpdateResult result = new();
                     if (skill != skillComp.CurrentSkill)
                     {
-                        (result, effects) = skill.Update(elapsed);
-                        collectedSkillEffects.AddRange(effects.Select(e => (e, skill.Range)));
+                        result = ProcessSkill(entity, skill, elapsed, coordinator);
                         if (result.ChargingComplete || result.ActivityComplete || result.CooldownComplete)
                         {
                             coordinator.PostMessage(this, new SkillStateChangedMessage(entity, skill, result));
@@ -172,7 +179,6 @@ namespace TheIdleScrolls_Core.Systems
                         collectedSkillEffects.AddRange(skillComp.CurrentSkill.StartCharging().Select(e => (e, skillComp.CurrentSkill!.Range)));
                     }
                 }
-                ProcessSkillEffects(entity, collectedSkillEffects, coordinator);
             } 
         }
 

@@ -48,7 +48,8 @@ namespace TheIdleScrolls_Core.Systems
 				entity.GetComponent<BlockerComponent>()?.UpdateCooldown(dt);
             }
 
-                foreach (var entity in coordinator.GetEntities<DoTComponent>())
+            // Handle DoT effects here until there is a more fitting system
+            foreach (var entity in coordinator.GetEntities<DoTComponent>())
 			{
 				var dotComp = entity.GetComponent<DoTComponent>()!;
                 double damage = dotComp.Update(dt);
@@ -70,13 +71,56 @@ namespace TheIdleScrolls_Core.Systems
 					shieldComp.Drain(damage);
 				}
 			}
-		}
-	}
 
-	public record StatusEffectExpiredMessage(Entity target, StatusEffect effect) : IMessage
+            // Handle Momentum here until there is a more fitting system
+			foreach (var entity in coordinator.GetEntities<MomentumComponent>())
+			{
+				var momentumComp = entity.GetComponent<MomentumComponent>()!;
+				momentumComp.UpdateTimer(dt);
+
+				var hitMessages = coordinator.FetchMessagesByType<HitLandedMessage>();
+				foreach (var hitMessage in hitMessages)
+				{
+					if (hitMessage.Attacker == entity && hitMessage.Skill.SkillTags.Contains(Tags.AttackSkill))
+					{
+						momentumComp.ScoreAttackHit();
+					}
+					else if (hitMessage.Target == entity)
+					{
+						momentumComp.TakeHit();
+					}
+				}
+
+                if (momentumComp.IsChanged)
+				{
+					// Generate modifiers when the entity first gains momentum
+					// The component is added by the StatUpdateSystem if an entity has a momentum limit above 0
+                    if (momentumComp.Modifiers.Count == 0)
+					{
+						momentumComp.Modifiers.Add(new Modifiers.Modifier("momentum_dmg", Modifiers.ModifierType.More, 0.0, [Tags.Damage, Tags.Attack], []));
+						foreach (var mod in momentumComp.Modifiers)
+						{
+							entity.GetOrAddComponent<ModifierComponent>().AddModifier(mod);
+						}
+					}
+					// Update modifiers
+					momentumComp.Modifiers[0].Value = Stats.DamagePerMomentum * momentumComp.Momentum;
+					coordinator.PostMessage(this, new MomentumChangedMessage(entity, momentumComp.Momentum, momentumComp.MomentumAtLastUpdate));
+					momentumComp.MarkAsUpdated();
+                }
+            }
+        }
+    }
+
+	public record StatusEffectExpiredMessage(Entity Target, StatusEffect Effect) : IMessage
 	{
-		string IMessage.BuildMessage() => $"'{effect.Name}' expired on {target.GetName()}";
-
+		string IMessage.BuildMessage() => $"'{Effect.Name}' expired on {Target.GetName()}";
 		IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Low;
 	}
+
+    public record MomentumChangedMessage(Entity Entity, int NewValue, int OldValue) : IMessage
+    {
+        string IMessage.BuildMessage() => $"{Entity.GetName()} momentum changed: {OldValue} -> {NewValue}";
+        IMessage.PriorityLevel IMessage.GetPriority() => IMessage.PriorityLevel.Low;
+    }
 }

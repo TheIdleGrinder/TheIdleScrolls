@@ -42,6 +42,8 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
         const string AtkSpeedPerkId = "fighter_atkspeed";
         const string ShieldDefensePerkId = "fighter_shielddefense";
 
+        const string MomentumPerkId = "fighter_momentum";
+
         public static CharacterPath Path { get; } = new CharacterPath(PathId, Properties.Skills.PathFighter, Properties.Skills.PathFighter);
 
         readonly static Perk RootPerk = new(RootId, Properties.Skills.PathFighterRoot,
@@ -154,6 +156,13 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             ])
             { MaxLevel = 10, Categories = [Properties.Skills.PathFighter] };
 
+        readonly static Perk MomentumPerk = new(MomentumPerkId, "Momentum", "Gain momentum every time you hit an enemy with attacks",
+            [],
+            (l, e, w, c) => [
+                new($"{MomentumPerkId}_limit", ModifierType.AddBase, l + 1, [Tags.MomentumLimit], [])
+            ])
+            { MaxLevel = 9, Categories = [Properties.Skills.PathFighter, "Momentum"] };
+
         static MultiReward StarterItems()
         {
             List<ItemReward> items = ItemFamilies.Weapons
@@ -241,6 +250,8 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 StepNumber = 3,
                 PrerequisiteId = TwoHand2Id
             });
+
+            Path.AddStep(SimplePerkStep(MomentumPerk, 1));
 
             Path.AddStep(new CharacterPathStep(EnvenomWeapon.BasePerkId, EnvenomWeapon.BasePerk.Name, EnvenomWeapon.BasePerk.Description)
             {

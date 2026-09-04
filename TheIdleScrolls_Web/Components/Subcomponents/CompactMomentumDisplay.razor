@@ -1,0 +1,37 @@
+﻿@using MiniECS
+@using TheIdleScrolls_Core.Components
+@using TheIdleScrolls_Core.Modifiers
+@using TheIdleScrolls_Web.CoreWrapper
+
+
+<div class="compact-bar-container withTooltip">
+    <div class="compact-bar-frame">
+        <center>Momentum x@(Momentum)</center>
+        <div class="compact-bar-fill momentum-bar-active" style="width: @($"{GetTimerPct():0%}");"></div>
+    </div>
+    <div class="barTooltip">
+        Momentum
+    </div>
+</div>
+
+<style>
+    .momentum-bar-active {
+        background-color: var(--color-active);
+    }
+</style>
+
+@code {
+    [Parameter]
+    public Entity? Entity { get; set; }
+
+    MomentumComponent? MomentumComp => Entity?.GetComponent<MomentumComponent>();
+
+    int Momentum => MomentumComp?.Momentum ?? 0;
+    double RemainingDuration => MomentumComp?.Timer?.Remaining ?? 0.0;
+    double MaxDuration => MomentumComp?.Timer?.Duration ?? 0.0;
+
+    double GetTimerPct()
+    {
+        return RemainingDuration / MaxDuration;
+    }
+}

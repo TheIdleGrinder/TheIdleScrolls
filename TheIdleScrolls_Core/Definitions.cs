@@ -39,6 +39,8 @@ namespace TheIdleScrolls_Core
             public const double BaseBlockMitigation = 0.3;
             public const double BaseBlockCooldown = 2.0;
 
+            public const double DamagePerMomentum = 0.02;
+
             public const double ItemBaseValue = 5.0;
             public const double ItemValueQualityMultiplier = 1.25;
 
@@ -129,6 +131,12 @@ namespace TheIdleScrolls_Core
             public const string BlockChance = "BlockChance";
             public const string BlockRecovery = "BlockRecovery";
             public const string BlockMitigation = "BlockMitigation";
+
+            public const string MomentumLimit = "MomentumLimit";
+            public const string MomentumGain = "MomentumGain";
+            public const string MomentumOnAttackHit = "MomentumOnAttackHit";
+            public const string MomentumOnEvade = "MomentumOnEvade";
+            public const string MomentumOnBlock = "MomentumOnBlock";
 
             public const string CharacterXpGain = "CharacterXpGain";
             public const string AbilityXpGain = "AbilityXpGain";

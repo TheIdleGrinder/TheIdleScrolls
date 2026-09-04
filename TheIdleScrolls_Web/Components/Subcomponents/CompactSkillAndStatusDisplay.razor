@@ -10,12 +10,16 @@
             <CompactSkillDisplayComponent Skill="@skill"></CompactSkillDisplayComponent>
         }
     </div>
-    @if (BlockBusy || (DoTs?.ActiveTypes ?? []).Count > 0)
+    @if (BlockBusy || (DoTs?.ActiveTypes ?? []).Count > 0 || Momentum > 0)
     {
         <div class="compact-partial-container">
             @if (BlockBusy)
             {
                 <CompactBlockStateDisplay Entity="@Entity"></CompactBlockStateDisplay>
+            }
+            @if (Momentum > 0)
+            {
+                <CompactMomentumDisplay Entity="@Entity"></CompactMomentumDisplay>
             }
             @foreach (var dotType in DoTs?.ActiveTypes ?? [])
             {
@@ -97,4 +101,5 @@
         ?.ToList() ?? [];
     List<StatusEffect> Status => Entity?.GetComponent<StatusEffectComponent>()?.StatusEffects ?? [];
     DoTComponent? DoTs => Entity?.GetComponent<DoTComponent>();
+    int Momentum => Entity?.GetComponent<MomentumComponent>()?.Momentum ?? 0;
 }

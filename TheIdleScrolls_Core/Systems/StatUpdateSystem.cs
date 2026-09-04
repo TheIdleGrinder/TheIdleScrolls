@@ -44,6 +44,7 @@ namespace TheIdleScrolls_Core.Systems
                 || coordinator.MessageTypeIsOnBoard<MobSpawnMessage>() // CornerCut: Force an update at the start of a battle and for new mobs
                 || coordinator.MessageTypeIsOnBoard<SkillStateChangedMessage>()
                 || coordinator.MessageTypeIsOnBoard<StatusEffectExpiredMessage>()
+                || coordinator.MessageTypeIsOnBoard<MomentumChangedMessage>()
                 || coordinator.MessageTypeIsOnBoard<PerkLevelChangedMessage>();
 
             if (!doUpdate)
@@ -59,6 +60,7 @@ namespace TheIdleScrolls_Core.Systems
                 if (entity.IsPlayer())
                     UpdateLifePool(entity, Stats.BasePlayerHitPoints);
                 UpdateDefenses(entity);
+                UpdateMomentum(entity);
 
                 var skillComp = entity.GetComponent<ActiveSkillComponent>();
                 if (skillComp != null)
@@ -231,6 +233,33 @@ namespace TheIdleScrolls_Core.Systems
                 blockComp.BlockChanceVsMeleeAttack = modComp.ApplyApplicableModifiers(0.0, [Tags.BlockChance, Tags.Attack, Tags.Melee], globalTags);
                 blockComp.BlockChanceVsProjectileAttack = modComp.ApplyApplicableModifiers(0.0, [Tags.BlockChance, Tags.Attack, Tags.Projectile], globalTags);
                 blockComp.BlockChanceVsSpellProjectile = modComp.ApplyApplicableModifiers(0.0, [Tags.BlockChance, Tags.Spell, Tags.Projectile], globalTags);
+            }
+        }
+
+        private void UpdateMomentum(Entity entity)
+        {
+            int maxMomentum = (int)entity.ApplyAllApplicableModifiers(0.0, [Tags.MomentumLimit], entity.GetTags());
+            var momentumComp = entity.GetComponent<MomentumComponent>();
+            if (maxMomentum > 0)
+            {
+                if (momentumComp is null)
+                {
+                    momentumComp = new();
+                    entity.AddComponent(momentumComp);
+                }
+                momentumComp.MaxMomentum = maxMomentum;
+            }
+            else
+            {
+                // Momentum was depleted due to time running out or losing the last point
+                if (momentumComp is null)
+                    return;
+                var modComp = entity.GetOrAddComponent<ModifierComponent>();
+                foreach (var modifier in momentumComp.Modifiers)
+                {
+                    modComp.RemoveModifier(modifier.Id);
+                }
+                entity.RemoveComponent<MomentumComponent>();
             }
         }
     }

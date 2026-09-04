@@ -117,11 +117,8 @@ namespace TheIdleScrolls_Core.Systems
 
             // Update current skill
             var skillComp = player.GetComponent<ActiveSkillComponent>();
-            if (skillComp is not null && skillComp.CurrentSkill is not null)
-            {
-                var attackComp = player.GetComponent<BattleStatsComponent>();
-                PlayerOffenseChanged?.Invoke(attackComp?.AverageDamage ?? new(), attackComp?.AverageCooldown ?? 0.0);
-			}
+            var attackComp = player.GetComponent<BattleStatsComponent>();
+            PlayerOffenseChanged?.Invoke(attackComp?.AverageDamage ?? new(), attackComp?.AverageCooldown ?? 0.0);
 
             // Update defenses
             var statsComp = player.GetComponent<BattleStatsComponent>();
