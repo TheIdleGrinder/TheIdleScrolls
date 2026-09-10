@@ -241,6 +241,15 @@ namespace TheIdleScrolls_Core.Skills
             return ChargingEffects.OnEnter;
         }
 
+        public void Deactivate()
+        {
+            if (CurrentState != SkillTimer.State.Active)
+                return;
+            ActiveEffects.RepeatedWhileIn?.Reset();
+            ActiveEffects.WhileIn.ForEach(se => se.Deactivate());
+            Timer.Reset();
+        }
+
         /// <summary>
         /// Updates the internal timer of the skill. Returns the time that remained after fully charging.
         /// </summary>
@@ -296,7 +305,7 @@ namespace TheIdleScrolls_Core.Skills
             return (timerResult, effects);
 		}
 
-		// Utility functions, might move somehwere else later
+		// Utility functions, might move somewhere else later
 		public double ScaleValue(double baseValue, List<string> situationalTags, List<Modifier>? exclusiveMods = null)
 		{
 			if (exclusiveMods is null || exclusiveMods.Count == 0)

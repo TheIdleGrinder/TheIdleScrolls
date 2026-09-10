@@ -115,6 +115,60 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Focus Skill - Juggernaut&apos;s Stance ähnelt.
+        /// </summary>
+        internal static string BerserkerDescription {
+            get {
+                return ResourceManager.GetString("BerserkerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Flat damage for attacks ähnelt.
+        /// </summary>
+        internal static string BerserkerFirstModDescription {
+            get {
+                return ResourceManager.GetString("BerserkerFirstModDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Brute Force ähnelt.
+        /// </summary>
+        internal static string BerserkerFirstModName {
+            get {
+                return ResourceManager.GetString("BerserkerFirstModName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Berserker&apos;s Stance ähnelt.
+        /// </summary>
+        internal static string BerserkerName {
+            get {
+                return ResourceManager.GetString("BerserkerName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Damage and Resistance on Low Life ähnelt.
+        /// </summary>
+        internal static string BerserkerSecondModDescription {
+            get {
+                return ResourceManager.GetString("BerserkerSecondModDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die On the Edge ähnelt.
+        /// </summary>
+        internal static string BerserkerSecondModName {
+            get {
+                return ResourceManager.GetString("BerserkerSecondModName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Imbue your weapon with the fiery energy. Grants a percentage of the weapons damage as extra base fire damage. ähnelt.
         /// </summary>
         internal static string BlazingWeapon_Description {
@@ -399,6 +453,60 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string HeavyWeapons {
             get {
                 return ResourceManager.GetString("HeavyWeapons", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Focus Skill - Juggernaut&apos;s Stance ähnelt.
+        /// </summary>
+        internal static string JuggernautDescription {
+            get {
+                return ResourceManager.GetString("JuggernautDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Better blocking ähnelt.
+        /// </summary>
+        internal static string JuggernautFirstModDescription {
+            get {
+                return ResourceManager.GetString("JuggernautFirstModDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Iron Without ähnelt.
+        /// </summary>
+        internal static string JuggernautFirstModName {
+            get {
+                return ResourceManager.GetString("JuggernautFirstModName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Juggernaut&apos;s Stance ähnelt.
+        /// </summary>
+        internal static string JuggernautName {
+            get {
+                return ResourceManager.GetString("JuggernautName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Resistance to Stun ähnelt.
+        /// </summary>
+        internal static string JuggernautSecondModDescription {
+            get {
+                return ResourceManager.GetString("JuggernautSecondModDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Iron Within ähnelt.
+        /// </summary>
+        internal static string JuggernautSecondModName {
+            get {
+                return ResourceManager.GetString("JuggernautSecondModName", resourceCulture);
             }
         }
         

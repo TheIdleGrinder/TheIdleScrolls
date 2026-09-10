@@ -32,12 +32,7 @@ namespace TheIdleScrolls_Core.StatusEffects
 
         protected override void ActivateEffect(Entity target)
         {
-            var modComp = target.GetComponent<ModifierComponent>();
-            if (modComp is null)
-            {
-                modComp = new();
-                target.AddComponent(modComp);
-            }
+            var modComp = target.GetOrAddComponent<ModifierComponent>();
             Modifiers.ForEach(m => modComp.AddModifier(m));
         }
 
@@ -47,6 +42,16 @@ namespace TheIdleScrolls_Core.StatusEffects
             if (modComp is null)
                 return;
             Modifiers.ForEach(m => modComp.RemoveModifier(m.Id));
+        }
+
+        public void UpdateModifiers(List<Modifier> newMods)
+        {
+            if (Target is not null)
+                DeactivateEffect(Target);
+            Modifiers.Clear();
+            Modifiers.AddRange(newMods);
+            if (Target is not null)
+                ActivateEffect(Target);
         }
     }
 }

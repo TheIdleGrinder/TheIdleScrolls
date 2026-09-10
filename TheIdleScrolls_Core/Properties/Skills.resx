@@ -231,6 +231,42 @@
   <data name="HeavyWeapons" xml:space="preserve">
     <value>Heavy Weapons Expert</value>
   </data>
+  <data name="JuggernautDescription" xml:space="preserve">
+    <value>Focus Skill - Juggernaut's Stance</value>
+  </data>
+  <data name="BerserkerDescription" xml:space="preserve">
+    <value>Focus Skill - Juggernaut's Stance</value>
+  </data>
+  <data name="JuggernautFirstModDescription" xml:space="preserve">
+    <value>Better blocking</value>
+  </data>
+  <data name="BerserkerFirstModDescription" xml:space="preserve">
+    <value>Flat damage for attacks</value>
+  </data>
+  <data name="JuggernautFirstModName" xml:space="preserve">
+    <value>Iron Without</value>
+  </data>
+  <data name="BerserkerFirstModName" xml:space="preserve">
+    <value>Brute Force</value>
+  </data>
+  <data name="JuggernautName" xml:space="preserve">
+    <value>Juggernaut's Stance</value>
+  </data>
+  <data name="BerserkerName" xml:space="preserve">
+    <value>Berserker's Stance</value>
+  </data>
+  <data name="JuggernautSecondModDescription" xml:space="preserve">
+    <value>Resistance to Stun</value>
+  </data>
+  <data name="BerserkerSecondModDescription" xml:space="preserve">
+    <value>Damage and Resistance on Low Life</value>
+  </data>
+  <data name="JuggernautSecondModName" xml:space="preserve">
+    <value>Iron Within</value>
+  </data>
+  <data name="BerserkerSecondModName" xml:space="preserve">
+    <value>On the Edge</value>
+  </data>
   <data name="MeleeAttackSpeed" xml:space="preserve">
     <value>Melee Attack Speed</value>
   </data>

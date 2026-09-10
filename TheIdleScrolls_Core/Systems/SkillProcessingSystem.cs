@@ -153,6 +153,10 @@ namespace TheIdleScrolls_Core.Systems
                             coordinator.PostMessage(this, new SkillStateChangedMessage(entity, skill, result));
                         }
                     }
+                    if (skill.CurrentState == SkillTimer.State.Active && (!skill.IsAvailableTo(entity) || !skill.IsInUse()))
+                    {
+                        skill.Deactivate();
+                    }
                     if (skillComp.CurrentSkill is null && result.CooldownComplete)
                     {
                         // switch to a skill that finished cooldown if no skill is currently selected

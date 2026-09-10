@@ -79,6 +79,7 @@ namespace TheIdleScrolls_Core.StatusEffects
 				{
 					Target.RemoveComponent<StatusEffectComponent>();
 				}
+				Target = null;
 			}
 		}
 

@@ -139,6 +139,11 @@ namespace TheIdleScrolls_Core.Systems
             AddOrRemoveTag(Tags.FirstStrike, entity.GetComponent<BattlerComponent>()?.FirstStrike ?? false);
 
             double lowLifeLimit = 0.35;
+            var lifeComp = entity.GetComponent<LifePoolComponent>();
+            if (lifeComp is not null)
+            {
+                AddOrRemoveTag(Tags.LowLife, lifeComp.Percentage <= lowLifeLimit);
+            }
             //var lifeComp = entity.GetComponent<BattlerComponent>()?.Battle?.Mob?.GetComponent<LifePoolComponent>();
             //AddOrRemoveTag(Tags.FirstStrike, lifeComp?.IsFull ?? false);
             //AddOrRemoveTag(Tags.VsLowLife, (lifeComp?.Percentage ?? 1.0) <= lowLifeLimit);

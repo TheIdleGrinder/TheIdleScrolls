@@ -10,6 +10,7 @@ using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Perks;
+using TheIdleScrolls_Core.Skills.Skills;
 using TheIdleScrolls_Core.Properties;
 
 namespace TheIdleScrolls_Core.CharacterPaths.Paths
@@ -252,6 +253,18 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             });
 
             Path.AddStep(SimplePerkStep(MomentumPerk, 1));
+
+            Path.AddStep(SimplePerkStep(JuggernautStance.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.JuggernautName), 2));
+            Path.AddStep(SimplePerkStep(JuggernautStance.FirstModPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.JuggernautName), 
+                3, JuggernautStance.BasePerkId));
+            Path.AddStep(SimplePerkStep(JuggernautStance.SecondModPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.JuggernautName), 
+                4, JuggernautStance.BasePerkId));
+
+            Path.AddStep(SimplePerkStep(BerserkerStance.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BerserkerName), 2));
+            Path.AddStep(SimplePerkStep(BerserkerStance.FirstModPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BerserkerName),
+                3, BerserkerStance.BasePerkId));
+            Path.AddStep(SimplePerkStep(BerserkerStance.SecondModPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BerserkerName),
+                4, BerserkerStance.BasePerkId));
 
             Path.AddStep(new CharacterPathStep(EnvenomWeapon.BasePerkId, EnvenomWeapon.BasePerk.Name, EnvenomWeapon.BasePerk.Description)
             {

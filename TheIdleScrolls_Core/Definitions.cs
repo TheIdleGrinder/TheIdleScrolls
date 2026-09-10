@@ -126,8 +126,9 @@ namespace TheIdleScrolls_Core
             public const string MovementSpeed = "MovementSpeed";
             public const string Range = "Range";
             public const string CooldownRecovery = "CooldownRecovery";
-            public const string ActivationChance = "ActivationChance"; 
-            
+            public const string ActivationChance = "ActivationChance";
+            public const string ActiveFocusSkillLimit = "ActiveFocusSkillLimit";
+
             public const string BlockChance = "BlockChance";
             public const string BlockRecovery = "BlockRecovery";
             public const string BlockMitigation = "BlockMitigation";
@@ -158,6 +159,7 @@ namespace TheIdleScrolls_Core
             public const string InsightSkill = "Skill_Insight";
             public const string SpellSkill = "Skill_Spell";
             public const string TrickSkill = "Skill_Trick";
+            public const string FocusSkill = "Skill_Focus";
 
             // Skill Attributes
             public const string Duration = "Duration";
@@ -209,6 +211,7 @@ namespace TheIdleScrolls_Core
             public const string SingleHanded = "SingleHanded";
             public const string MixedWeapons = "MixedWeapons";
             public const string MixedArmor = "MixedArmor";
+            public const string LowLife = "LowLife";
             public const string FirstStrike = "FirstStrike";
             public const string VsLowLife = "VsLowLife";
             public const string Evading = "Evading";
