@@ -67,7 +67,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             (l, e, w, c) => [
                 new($"{Life1Id}", ModifierType.AddBase, 2 * e.GetLevel(), [Tags.HitPoints], [])
             ])
-        { Permanent = true, Categories = [Properties.Skills.PathFighter] };
+        { Permanent = true };
         readonly static Perk FighterIncLife = new(Life2Id, Properties.Skills.FighterHP2,
             "Gain increased hit points for each level and an additional multiplier at maximum level", [],
             (l, e, w, c) => 
@@ -80,7 +80,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 }
                 return result;
             })
-        { MaxLevel = 5, Categories = [Properties.Skills.PathFighter] };
+        { MaxLevel = 5 };
         readonly static Perk FighterIncLifeAndReg = new(Life3Id, Properties.Skills.FighterHP3,
             "Gain increased hit points and life regeneration for each level", 
             [UpdateTrigger.BattleStarted, UpdateTrigger.BattleFinished, UpdateTrigger.LevelUp, UpdateTrigger.EquipmentChanged],
@@ -101,7 +101,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                     }
                 ];
             })
-        { MaxLevel = 5, Categories = [Properties.Skills.PathFighter] };
+        { MaxLevel = 5 };
 
         readonly static Perk HeavyWeaponsPerk = new(HeavyWeaponsId, Properties.Skills.HeavyWeapons, 
             "Deal more damage with the heavier weapon types", [],
@@ -119,7 +119,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 }
                 return returnList;
             })
-        { MaxLevel = 5, Categories = [Properties.Skills.PathFighter] };
+        { MaxLevel = 5 };
 
         readonly static Perk OneHandDamagePerk = new(OneHandDmgPerkId, Properties.Skills.OneHandMeleeDamage, "", [],
             (l, e, w, c) => [
@@ -157,12 +157,12 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             ])
             { MaxLevel = 10, Categories = [Properties.Skills.PathFighter] };
 
-        readonly static Perk MomentumPerk = new(MomentumPerkId, "Momentum", "Gain momentum every time you hit an enemy with attacks",
+        readonly static Perk MomentumPerk = new(MomentumPerkId, Properties.Skills.FighterMomentum_Name, Properties.Skills.FighterMomentum_Description,
             [],
             (l, e, w, c) => [
                 new($"{MomentumPerkId}_limit", ModifierType.AddBase, l + 1, [Tags.MomentumLimit], [])
             ])
-            { MaxLevel = 9, Categories = [Properties.Skills.PathFighter, "Momentum"] };
+            { MaxLevel = 9, Categories = [Properties.Skills.FighterMomentum_Name] };
 
         static MultiReward StarterItems()
         {
@@ -191,15 +191,14 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 StepNumber = 0
             });
 
-            Path.AddStep(SimplePerkStep(LifePerLevelPerk,     1));
-            Path.AddStep(SimplePerkStep(FighterIncLife,       2, LifePerLevelPerk.Id));
-            Path.AddStep(SimplePerkStep(FighterIncLifeAndReg, 3, FighterIncLife.Id));
-            Path.AddStep(SimplePerkStep(Unrelenting.BasePerk.WithCategories(Properties.Skills.PathFighter), 4, FighterIncLifeAndReg.Id));
+            Path.AddSimplePerkStep(LifePerLevelPerk,     1);
+            Path.AddSimplePerkStep(FighterIncLife,       2, LifePerLevelPerk.Id);
+            Path.AddSimplePerkStep(FighterIncLifeAndReg, 3, FighterIncLife.Id);
+            Path.AddSimplePerkStep(Unrelenting.BasePerk, 4, FighterIncLifeAndReg.Id);
 
-            Path.AddStep(SimplePerkStep(HeavyWeaponsPerk, 1));
+            Path.AddSimplePerkStep(HeavyWeaponsPerk, 1);
 
-            Path.AddStep(SimplePerkStep(DoubleSwing.BasePerk.WithCategories(Properties.Skills.PathFighter), 1));
-
+            Path.AddSimplePerkStep(DoubleSwing.BasePerk, 1);
             Path.AddStep(new CharacterPathStep(DualWield2Id, Properties.Skills.DualWield2, "")
             {
                 Reward = new PerkReward(OneHandDamagePerk),
@@ -252,73 +251,28 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 PrerequisiteId = TwoHand2Id
             });
 
-            Path.AddStep(SimplePerkStep(MomentumPerk, 1));
+            Path.AddSimplePerkStep(MomentumPerk, 1);
 
-            Path.AddStep(SimplePerkStep(JuggernautStance.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.JuggernautName), 2));
-            Path.AddStep(SimplePerkStep(JuggernautStance.FirstModPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.JuggernautName), 
-                3, JuggernautStance.BasePerkId));
-            Path.AddStep(SimplePerkStep(JuggernautStance.SecondModPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.JuggernautName), 
-                4, JuggernautStance.BasePerkId));
+            Path.AddSimplePerkStep(JuggernautStance.BasePerk, 2);
+            Path.AddSimplePerkStep(JuggernautStance.FirstModPerk, 3, JuggernautStance.BasePerkId);
+            Path.AddSimplePerkStep(JuggernautStance.SecondModPerk, 4, JuggernautStance.BasePerkId);
 
-            Path.AddStep(SimplePerkStep(BerserkerStance.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BerserkerName), 2));
-            Path.AddStep(SimplePerkStep(BerserkerStance.FirstModPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BerserkerName),
-                3, BerserkerStance.BasePerkId));
-            Path.AddStep(SimplePerkStep(BerserkerStance.SecondModPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BerserkerName),
-                4, BerserkerStance.BasePerkId));
+            Path.AddSimplePerkStep(BerserkerStance.BasePerk, 2);
+            Path.AddSimplePerkStep(BerserkerStance.FirstModPerk, 3, BerserkerStance.BasePerkId);
+            Path.AddSimplePerkStep(BerserkerStance.SecondModPerk, 4, BerserkerStance.BasePerkId);
 
-            Path.AddStep(new CharacterPathStep(EnvenomWeapon.BasePerkId, EnvenomWeapon.BasePerk.Name, EnvenomWeapon.BasePerk.Description)
-            {
-                Reward = new PerkReward(EnvenomWeapon.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.EnvWeapon_Name)),
-                StepNumber = 2
-            }); 
-            Path.AddStep(new CharacterPathStep(EnvenomWeapon.DurationPerkId, EnvenomWeapon.SupportPerk.Name, EnvenomWeapon.SupportPerk.Description)
-            {
-                Reward = new PerkReward(EnvenomWeapon.SupportPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.EnvWeapon_Name)),
-                StepNumber = 3,
-                PrerequisiteId = EnvenomWeapon.BasePerkId
-            }); 
 
-            Path.AddStep(new CharacterPathStep(BlazingWeapon.BasePerkId, BlazingWeapon.BasePerk.Name, BlazingWeapon.BasePerk.Description)
-            {
-                Reward = new PerkReward(BlazingWeapon.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BlazingWeapon_Name)),
-                StepNumber = 2
-            });
-            Path.AddStep(new CharacterPathStep(BlazingWeapon.SupportPerkId, BlazingWeapon.SupportPerk.Name, BlazingWeapon.SupportPerk.Description)
-            {
-                Reward = new PerkReward(BlazingWeapon.SupportPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BlazingWeapon_Name)),
-                StepNumber = 3,
-                PrerequisiteId = BlazingWeapon.BasePerkId
-            });
+            Path.AddSimplePerkStep(EnvenomWeapon.BasePerk, 2);
+            Path.AddSimplePerkStep(EnvenomWeapon.SupportPerk, 3, EnvenomWeapon.BasePerkId);
 
-            Path.AddStep(new CharacterPathStep(BattleCry.BasePerkId, BattleCry.BasePerk.Name, BattleCry.BasePerk.Description)
-            {
-                Reward = new PerkReward(BattleCry.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BattleCry_Name)),
-                StepNumber = 3
-            });
-            Path.AddStep(new CharacterPathStep(BattleCry.BuffPerkId, BattleCry.BuffPerk.Name, BattleCry.BuffPerk.Description)
-            {
-                Reward = new PerkReward(BattleCry.BuffPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BattleCry_Name)),
-                StepNumber = 4,
-                PrerequisiteId = BattleCry.BasePerkId
-            });
-            Path.AddStep(new CharacterPathStep(BattleCry.DebuffPerkId, BattleCry.DebuffPerk.Name, BattleCry.DebuffPerk.Description)
-            {
-                Reward = new PerkReward(BattleCry.DebuffPerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.BattleCry_Name)),
-                StepNumber = 5,
-                PrerequisiteId = BattleCry.BasePerkId
-            });
+            Path.AddSimplePerkStep(BlazingWeapon.BasePerk, 2);
+            Path.AddSimplePerkStep(BlazingWeapon.SupportPerk, 3, BlazingWeapon.BasePerkId);
 
+            Path.AddSimplePerkStep(BattleCry.BasePerk, 3);
+            Path.AddSimplePerkStep(BattleCry.BuffPerk, 4, BattleCry.BasePerkId);
+            Path.AddSimplePerkStep(BattleCry.DebuffPerk, 5, BattleCry.BasePerkId);
+            
             Path.BuildTopology(RootId);
-        }
-
-        static CharacterPathStep SimplePerkStep(Perk perk, int stepNumber, string? prerequisiteId = null)
-        {
-            return new CharacterPathStep(perk.Id, perk.Name, perk.Description)
-            {
-                Reward = new PerkReward(perk),
-                StepNumber = stepNumber,
-                PrerequisiteId = prerequisiteId
-            };
         }
     }
 }

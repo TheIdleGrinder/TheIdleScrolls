@@ -4,6 +4,8 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
+using TheIdleScrolls_Core.Achievements.Rewards;
+using TheIdleScrolls_Core.Modifiers;
 
 namespace TheIdleScrolls_Core.CharacterPaths
 {
@@ -79,6 +81,7 @@ namespace TheIdleScrolls_Core.CharacterPaths
                 {
                     if (prereqRow[step.StepNumber - 1] is not null)
                     {
+                        // There is already a step in this position => add a new row for this step
                         int index = topology.IndexOf(prereqRow);
                         List<CharacterPathStep?> newRow = [];
                         if (step.StepNumber > 1)
@@ -86,7 +89,10 @@ namespace TheIdleScrolls_Core.CharacterPaths
                         newRow.Add(step);
                         topology.Insert(index + 1, newRow);
                     }
-                    prereqRow[step.StepNumber - 1] = step;
+                    else
+                    {
+                        prereqRow[step.StepNumber - 1] = step;
+                    }
                 }
                 prereqRow.Add(step);
             }
@@ -101,6 +107,22 @@ namespace TheIdleScrolls_Core.CharacterPaths
             }
 
             return topology;
+        }
+
+        public void AddSimplePerkStep(Perk perk, int stepNumber, string? prerequisiteId = null)
+        {
+            perk.Categories.Insert(0, this.Name);
+            AddStep(SimplePerkStep(perk, stepNumber, prerequisiteId));
+        }
+
+        public static CharacterPathStep SimplePerkStep(Perk perk, int stepNumber, string? prerequisiteId = null)
+        {
+            return new CharacterPathStep(perk.Id, perk.Name, perk.Description)
+            {
+                Reward = new PerkReward(perk),
+                StepNumber = stepNumber,
+                PrerequisiteId = prerequisiteId
+            };
         }
     }
 }

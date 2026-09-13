@@ -32,7 +32,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
         {
             MaxLevel = 6,
             ApplyModifiersToOwner = false,
-            Skill = new BerserkerStanceSkill()
+            Skill = new BerserkerStanceSkill(),
+            Categories = [Properties.Skills.BerserkerName]
         };
 
         public static readonly Perk FirstModPerk = new(
@@ -49,7 +50,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
         )
         {
             MaxLevel = 5,
-            ApplyModifiersToOwner = false
+            ApplyModifiersToOwner = false,
+            Categories = [Properties.Skills.BerserkerName]
         };
 
         public static readonly Perk SecondModPerk = new(
@@ -67,7 +69,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
         )
         {
             MaxLevel = 5,
-            ApplyModifiersToOwner = false
+            ApplyModifiersToOwner = false,
+            Categories = [Properties.Skills.BerserkerName]
         };
     }
 

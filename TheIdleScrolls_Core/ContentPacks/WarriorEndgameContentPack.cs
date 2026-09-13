@@ -1,9 +1,4 @@
 ﻿using MiniECS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheIdleScrolls_Core.Achievements;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
@@ -225,6 +220,36 @@ namespace TheIdleScrolls_Core.ContentPacks
                 (e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges) 
                             || Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
                             || Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid)),
+            new("DNG:ENDGAME_SORCEROR",
+                $"Open the Path: {Properties.Skills.Class_Sorceror}",
+                $"Complete the {Places.Dungeon_EndgameMagic} before the other endgame dungeons",
+                Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
+                (e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges)
+                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
+                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid))
+			{
+				Reward = null
+			},
+            new("DNG:ENDGAME_RANGER",
+                $"Open the Path: {Properties.Skills.Class_Ranger}",
+                $"Complete the {Places.Dungeon_EndgamePyramid} before the other endgame dungeons",
+                Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
+                (e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges)
+                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
+                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid))
+            {
+                Reward = null
+            },
+            new("DNG:ENDGAME_TINKERER",
+                $"Open the Path: {Properties.Skills.Class_Tinkerer}",
+                $"Complete the {Places.Dungeon_EndgameAges} before the other endgame dungeons",
+                Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
+                (e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges)
+                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
+                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid))
+            {
+                Reward = null
+            },
             new("DNG:UBERENDGAME",
                 "Void Emperor",
                 $"Complete an endgame dungeon at area level {DungeonLevels.LevelUberEndgame}",

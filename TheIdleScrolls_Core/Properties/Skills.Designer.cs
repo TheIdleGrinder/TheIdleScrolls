@@ -205,6 +205,42 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fighter ähnelt.
+        /// </summary>
+        internal static string Class_Fighter {
+            get {
+                return ResourceManager.GetString("Class_Fighter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ranger ähnelt.
+        /// </summary>
+        internal static string Class_Ranger {
+            get {
+                return ResourceManager.GetString("Class_Ranger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sorceror ähnelt.
+        /// </summary>
+        internal static string Class_Sorceror {
+            get {
+                return ResourceManager.GetString("Class_Sorceror", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Tinkerer ähnelt.
+        /// </summary>
+        internal static string Class_Tinkerer {
+            get {
+                return ResourceManager.GetString("Class_Tinkerer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
         /// </summary>
         internal static string CrushingBlow_Description {
@@ -354,6 +390,24 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string FighterHP4 {
             get {
                 return ResourceManager.GetString("FighterHP4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gain momentum every time you hit an enemy with attacks ähnelt.
+        /// </summary>
+        internal static string FighterMomentum_Description {
+            get {
+                return ResourceManager.GetString("FighterMomentum_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Momentum ähnelt.
+        /// </summary>
+        internal static string FighterMomentum_Name {
+            get {
+                return ResourceManager.GetString("FighterMomentum_Name", resourceCulture);
             }
         }
         
@@ -543,6 +597,24 @@ namespace TheIdleScrolls_Core.Properties {
         internal static string PathFighterRoot {
             get {
                 return ResourceManager.GetString("PathFighterRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;Path of the Ranger&gt; ähnelt.
+        /// </summary>
+        internal static string PathRanger_Description {
+            get {
+                return ResourceManager.GetString("PathRanger_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Path of the Ranger ähnelt.
+        /// </summary>
+        internal static string PathRanger_Name {
+            get {
+                return ResourceManager.GetString("PathRanger_Name", resourceCulture);
             }
         }
         

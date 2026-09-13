@@ -28,7 +28,8 @@ namespace TheIdleScrolls_Core.Perks
         {
             MaxLevel = 8,
             ApplyModifiersToOwner = false,
-            Skill = EnvenomWeaponSkill.Skill
+            Skill = EnvenomWeaponSkill.Skill,
+            Categories = [Properties.Skills.EnvWeapon_Name]
         };
 
         public static readonly Perk SupportPerk = new(
@@ -47,7 +48,8 @@ namespace TheIdleScrolls_Core.Perks
         )
         {
             MaxLevel = 5,
-            ApplyModifiersToOwner = false
+            ApplyModifiersToOwner = false,
+            Categories = [Properties.Skills.EnvWeapon_Name]
         };
     }
 }

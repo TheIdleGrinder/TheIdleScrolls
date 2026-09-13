@@ -324,4 +324,28 @@
   <data name="VitalStrike_Name" xml:space="preserve">
     <value>Vital Strike</value>
   </data>
+  <data name="Class_Fighter" xml:space="preserve">
+    <value>Fighter</value>
+  </data>
+  <data name="Class_Ranger" xml:space="preserve">
+    <value>Ranger</value>
+  </data>
+  <data name="Class_Sorceror" xml:space="preserve">
+    <value>Sorceror</value>
+  </data>
+  <data name="Class_Tinkerer" xml:space="preserve">
+    <value>Tinkerer</value>
+  </data>
+  <data name="PathRanger_Name" xml:space="preserve">
+    <value>Path of the Ranger</value>
+  </data>
+  <data name="PathRanger_Description" xml:space="preserve">
+    <value>&lt;Path of the Ranger&gt;</value>
+  </data>
+  <data name="FighterMomentum_Name" xml:space="preserve">
+    <value>Momentum</value>
+  </data>
+  <data name="FighterMomentum_Description" xml:space="preserve">
+    <value>Gain momentum every time you hit an enemy with attacks</value>
+  </data>
 </root>
