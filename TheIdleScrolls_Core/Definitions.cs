@@ -24,6 +24,7 @@ namespace TheIdleScrolls_Core
             public const double TimeShieldBonusPerLevel = 0.02;
             public const double AttackDamagePerAbilityLevel = 0.02;
             public const double AttackSpeedPerAbilityLevel = 0.005;
+            public const double FightingStyleBonusPerAbilityLevel = 0.003;
             public const double DualWieldAttackSpeedMulti = 0.1;
             public const double DefensePerAbilityLevel = 0.02;
             public const double MaxAttacksPerSecond = 10.0;
@@ -62,7 +63,8 @@ namespace TheIdleScrolls_Core
 
             public const double QualityMultiplier   = 1.25;
 
-            public const int    LevelsPerPerkPoint          = 5;
+            public const int    FirstPerkPointLevel         = 5;
+            public const int    LevelsPerPerkPoint          = 1;
             public const int    PerkPointLevelLimit         = 200;
             public const double BasicDamageIncrease         = 0.12;
             public const double BasicAttackSpeedIncrease    = 0.05;
@@ -128,6 +130,8 @@ namespace TheIdleScrolls_Core
             public const string CooldownRecovery = "CooldownRecovery";
             public const string ActivationChance = "ActivationChance";
             public const string ActiveFocusSkillLimit = "ActiveFocusSkillLimit";
+
+            public const string AbilityEffect = "AbilityEffect";
 
             public const string BlockChance = "BlockChance";
             public const string BlockRecovery = "BlockRecovery";
