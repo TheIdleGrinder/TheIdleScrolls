@@ -121,6 +121,39 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             })
         { MaxLevel = 5 };
 
+        readonly static Perk DualWieldEffectPerk = new(DualWield1Id, Properties.Skills.DualWield1, "", [],
+            (l, e, w, c) => [
+                new($"{DualWield1Id}_effect", ModifierType.More, 1.0, [Tags.AbilityEffect, Abilities.DualWield], [])
+                {
+                    CoverText = $"Ability '{Abilities.DualWield.Localize()}' has double effect"
+                }
+            ])
+        { Permanent = true };
+        readonly static Perk ShieldedEffectPerk = new(Shield1Id, Properties.Skills.Shield1, "", [],
+            (l, e, w, c) => [
+                new($"{Shield1Id}_effect", ModifierType.More, 1.0, [Tags.AbilityEffect, Abilities.Shielded], [])
+                {
+                    CoverText = $"Ability '{Abilities.Shielded.Localize()}' has double effect"
+                }
+            ])
+        { Permanent = true };
+        readonly static Perk SingleHandedEffectPerk = new(Single1Id, Properties.Skills.SingleHanded1, "", [],
+            (l, e, w, c) => [
+                new($"{Single1Id}_effect", ModifierType.More, 1.0, [Tags.AbilityEffect, Abilities.SingleHanded], [])
+                {
+                    CoverText = $"Ability '{Abilities.SingleHanded.Localize()}' has double effect"
+                }
+            ])
+        { Permanent = true };
+        readonly static Perk TwoHandedEffectPerk = new(TwoHand1Id, Properties.Skills.TwoHanded1, "", [],
+            (l, e, w, c) => [
+                new($"{TwoHand1Id}_effect", ModifierType.More, 1.0, [Tags.AbilityEffect, Abilities.TwoHanded], [])
+                {
+                    CoverText = $"Ability '{Abilities.TwoHanded.Localize()}' has double effect"
+                }
+            ])
+        { Permanent = true };
+
         readonly static Perk OneHandDamagePerk = new(OneHandDmgPerkId, Properties.Skills.OneHandMeleeDamage, "", [],
             (l, e, w, c) => [
                 new($"{OneHandDmgPerkId}_more", ModifierType.More, 0.1, 
@@ -198,12 +231,13 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
 
             Path.AddSimplePerkStep(HeavyWeaponsPerk, 1);
 
-            Path.AddSimplePerkStep(DoubleSwing.BasePerk, 1);
+            Path.AddSimplePerkStep(DualWieldEffectPerk, 1);
+            Path.AddSimplePerkStep(DoubleSwing.BasePerk, 2, DualWield1Id);
             Path.AddStep(new CharacterPathStep(DualWield2Id, Properties.Skills.DualWield2, "")
             {
                 Reward = new PerkReward(OneHandDamagePerk),
                 StepNumber = 2,
-                PrerequisiteId = DoubleSwing.BasePerkId
+                PrerequisiteId = DualWield1Id
             });
             Path.AddStep(new CharacterPathStep(DualWield3Id, Properties.Skills.DualWield3, "")
             {
@@ -212,11 +246,12 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 PrerequisiteId = DualWield2Id
             });
 
+            Path.AddSimplePerkStep(ShieldedEffectPerk, 1);
             Path.AddStep(new CharacterPathStep(Shield2Id, Properties.Skills.Shield2, "")
             {
                 Reward = new PerkReward(ShieldDefensePerk),
-                StepNumber = 1,
-                PrerequisiteId = null
+                StepNumber = 2,
+                PrerequisiteId = Shield1Id
             });
             Path.AddStep(new CharacterPathStep(Shield3Id, Properties.Skills.Shield3, "")
             {
@@ -225,23 +260,25 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 PrerequisiteId = Shield2Id
             });
 
+            Path.AddSimplePerkStep(SingleHandedEffectPerk, 1);
             Path.AddStep(new CharacterPathStep(Single2Id, Properties.Skills.SingleHanded2, "")
             {
                 Reward = new PerkReward(AttackSpeedPerk),
-                StepNumber = 1,
-                PrerequisiteId = null
+                StepNumber = 2,
+                PrerequisiteId = Single1Id
             });
             Path.AddStep(new CharacterPathStep(Single3Id, Properties.Skills.SingleHanded3, "")
             {
                 Reward = new PerkReward(VitalStrike.BasePerk.WithCategories(Properties.Skills.PathFighter, Properties.Skills.VitalStrike_Name)),
-                StepNumber = 3,
-                PrerequisiteId = Single2Id
+                StepNumber = 2,
+                PrerequisiteId = Single1Id
             });
 
+            Path.AddSimplePerkStep(TwoHandedEffectPerk, 1);
             Path.AddStep(new CharacterPathStep(TwoHand2Id, Properties.Skills.TwoHanded2, "")
             {
                 Reward = new PerkReward(TwoHandDamagePerk),
-                StepNumber = 1,
+                StepNumber = 2,
                 PrerequisiteId = null
             });
             Path.AddStep(new CharacterPathStep(TwoHand3Id, Properties.Skills.TwoHanded3, "")

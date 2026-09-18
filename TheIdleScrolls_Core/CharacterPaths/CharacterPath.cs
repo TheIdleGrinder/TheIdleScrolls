@@ -94,7 +94,10 @@ namespace TheIdleScrolls_Core.CharacterPaths
                         prereqRow[step.StepNumber - 1] = step;
                     }
                 }
-                prereqRow.Add(step);
+                else
+                {
+                    prereqRow.Add(step);
+                }
             }
 
             foreach (var step in Steps)

@@ -36,12 +36,7 @@ namespace TheIdleScrolls_Core.Systems
                 var modifierComp = m_player.GetOrAddComponent<ModifierComponent>();
                 foreach (var ability in abilitiesComp.GetAbilities().Where(a => a.Level > 0 && a.Modifiers.Count == 0))
                 {
-                    var mods = ability!.Definition?.ModifiersForLevel(ability.Level) ?? [];
-                    ability!.Modifiers = mods;
-                    foreach (var mod in mods)
-                    {
-                        modifierComp.AddModifier(mod);
-                    }
+                    UpdateModifiers(ability);
                 }
             }
 
@@ -120,12 +115,16 @@ namespace TheIdleScrolls_Core.Systems
                 var ability = abilitiesComp.GetAbility(lvlMessage.AbilityId);
                 if (ability == null)
                     continue;
-                var modifierComp = m_player.GetOrAddComponent<ModifierComponent>();
-                ability.Modifiers.ForEach(m => modifierComp.RemoveModifier(m.Id));
-
-                var mods = ability.Definition?.ModifiersForLevel(ability.Level) ?? [];
-                ability.Modifiers = mods;
-                mods.ForEach(modifierComp.AddModifier);
+                UpdateModifiers(ability);
+            }
+            // Update modifiers if a perk was added
+            // CornerCut: Perks that scale ability effect are permanent, so updating here is enough
+            if (coordinator.MessageTypeIsOnBoard<PerkAddedMessage>())
+            {
+                foreach (var ability in abilitiesComp.GetAbilities())
+                {
+                    UpdateModifiers(ability);
+                }
             }
         }
 
@@ -159,6 +158,18 @@ namespace TheIdleScrolls_Core.Systems
                     }
                 }
             }
+        }
+
+        void UpdateModifiers(Ability ability)
+        {
+            if (m_player is null)
+                return;
+            var modifierComp = m_player.GetOrAddComponent<ModifierComponent>();
+            ability.Modifiers.ForEach(m => modifierComp.RemoveModifier(m.Id));
+
+            var mods = ability.Definition?.GetModifiers(ability.Level, m_player) ?? [];
+            ability.Modifiers = mods;
+            mods.ForEach(modifierComp.AddModifier);
         }
 
         double ApplyModifiers(string ability, double baseValue)

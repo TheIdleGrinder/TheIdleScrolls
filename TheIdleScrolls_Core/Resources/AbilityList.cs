@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MiniECS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -136,7 +137,8 @@ namespace TheIdleScrolls_Core.Resources
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve,
                 ModifiersForLevel = (x) => [
-                    new($"{Abilities.DualWield}_as", ModifierType.More, 0.005 * x, [Tags.AttackSpeed], [Tags.DualWield])
+                    new($"{Abilities.DualWield}_as", ModifierType.More, Stats.FightingStyleBonusPerAbilityLevel * x, 
+                        [Tags.AttackSpeed], [Tags.DualWield])
                 ]
             });
             abilities.Add(new AbilityDefinition(Abilities.Shielded)
@@ -145,7 +147,8 @@ namespace TheIdleScrolls_Core.Resources
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve,
                 ModifiersForLevel = (x) => [
-                    new($"{Abilities.Shielded}_def", ModifierType.More, 0.005 * x, [Tags.Defense], [Tags.Shielded])
+                    new($"{Abilities.Shielded}_def", ModifierType.More, Stats.FightingStyleBonusPerAbilityLevel * x, 
+                        [Tags.Defense], [Tags.Shielded])
                 ]
             });
             abilities.Add(new AbilityDefinition(Abilities.SingleHanded)
@@ -154,7 +157,8 @@ namespace TheIdleScrolls_Core.Resources
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve,
                 ModifiersForLevel = (x) => [
-                    new($"{Abilities.SingleHanded}_hp", ModifierType.More, 0.005 * x, [Tags.HitPoints], [Tags.SingleHanded])
+                    new($"{Abilities.SingleHanded}_hp", ModifierType.More, Stats.FightingStyleBonusPerAbilityLevel * x, 
+                        [Tags.HitPoints], [Tags.SingleHanded])
                 ]
             });
             abilities.Add(new AbilityDefinition(Abilities.TwoHanded)
@@ -163,7 +167,8 @@ namespace TheIdleScrolls_Core.Resources
                 MaxLevel = slowMaxLevel,
                 RequiredXpForLevelUp = slowXpCurve,
                 ModifiersForLevel = (x) => [
-                    new($"{Abilities.TwoHanded}_dmg", ModifierType.More, 0.005 * x, [Tags.Damage], [Tags.TwoHanded])
+                    new($"{Abilities.TwoHanded}_dmg", ModifierType.More, Stats.FightingStyleBonusPerAbilityLevel * x, 
+                        [Tags.Damage], [Tags.TwoHanded])
                 ]
             });
 
@@ -232,6 +237,21 @@ namespace TheIdleScrolls_Core.Resources
                 MaxLevel = MaxLevel,
                 Definition = this
             };
+        }
+
+        public List<Modifier> GetModifiers(int level, Entity? entity = null)
+        {
+            var mods = ModifiersForLevel(level);
+            if (mods.Count == 0 || entity is null)
+                return mods;
+
+            double effectMulti = entity.GetComponent<ModifierComponent>()
+                ?.ApplyApplicableModifiers(1.0, [Tags.AbilityEffect, Key], entity.GetTags()) ?? 1.0;
+            foreach (var mod in mods)
+            {
+                mod.Value *= effectMulti;
+            }
+            return mods;
         }
     }
 
