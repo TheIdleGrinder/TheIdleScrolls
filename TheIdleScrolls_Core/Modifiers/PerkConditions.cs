@@ -4,14 +4,14 @@ using TheIdleScrolls_Core.GameWorld;
 
 namespace TheIdleScrolls_Core.Modifiers
 {
-    public record PerkLevelPerkCondition(string PerkId, string PerkName, int Level) : IPerkCondition
+    public record PerkLevelPerkCondition(string PerkId, int Level) : IPerkCondition
     {
         public string GetDescription()
         {
             if (Level == 1)
-                return $"Requires '{PerkName}' perk";
+                return $"Requires '{PerkId.Localize()}' perk";
             else
-                return $"Requires level {Level} '{PerkName}' perk";
+                return $"Requires level {Level} '{PerkId.Localize()}' perk";
         }
 
         public bool IsSatisfied(Entity entity)
@@ -21,11 +21,11 @@ namespace TheIdleScrolls_Core.Modifiers
         }
     }
 
-    public record AbilityLevelPerkCondition(string AbilityId, string AbilityName, int Level) : IPerkCondition
+    public record AbilityLevelPerkCondition(string AbilityId, int Level) : IPerkCondition
     {
         public string GetDescription()
         {
-            return $"Requires level {Level} '{AbilityName}' ability";
+            return $"Requires level {Level} '{AbilityId.Localize()}' ability";
         }
         public bool IsSatisfied(Entity entity)
         {

@@ -37,7 +37,8 @@ namespace TheIdleScrolls_Core.ContentPacks
                                 new($"WellDressed_def", ModifierType.Increase, 0.005 * total, [Tags.Defense], [])
                             ];
                         })
-                        .WithCategories(LocalizedStrings.BasicPerks))
+                        //.WithCategories(LocalizedStrings.BasicPerks)
+                        )
                 })
 		];
 	}

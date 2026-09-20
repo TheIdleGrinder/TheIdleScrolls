@@ -230,10 +230,32 @@ namespace TheIdleScrolls_Core.Modifiers
             return perk;
         }
 
-        public static Perk WithConditionFunc(this Perk perk, Func<int, IPerkCondition?> conditionFunc)
+        public static Perk WithConditionFunc(this Perk perk, Func<int, IPerkCondition[]> conditionFunc)
         {
             perk.ConditionFunc = conditionFunc;
             return perk;
+        }
+
+        public static Perk WithFlatPerkLevelCondition(this Perk perk, string perkId, int level)
+        {
+            perk.ConditionFunc = FlatPerkLevelCondition(perkId, level);
+            return perk;
+        }
+
+        public static Perk WithFlatPerkLevelCondition(this Perk perk, List<(string Id, int Level)> perks)
+        {
+            perk.ConditionFunc = FlatPerkLevelCondition(perks);
+            return perk;
+        }
+
+        public static Func<int, IPerkCondition[]> FlatPerkLevelCondition(string perkId, int level)
+        {
+            return (int lvl) => [new PerkLevelPerkCondition(perkId, level)];
+        }
+
+        public static Func<int, IPerkCondition[]> FlatPerkLevelCondition(List<(string Id, int Level)> perks)
+        {
+            return (int lvl) => perks.Select(p => new AbilityLevelPerkCondition(p.Id, p.Level)).ToArray();
         }
 
         static string[] CategoryLookup =

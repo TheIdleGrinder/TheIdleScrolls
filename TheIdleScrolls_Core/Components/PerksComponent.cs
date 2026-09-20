@@ -157,10 +157,13 @@ namespace TheIdleScrolls_Core.Components
             int level = GetPerkLevel(perk.Id);
             if (level >= 1)
             {
-                var condition = perk.ConditionFunc(level) as PerkLevelPerkCondition;
-                if (condition != null)
+                foreach (var condition in perk.ConditionFunc(level))
                 {
-                    Dependencies[perk.Id] = (condition.PerkId, condition.Level);
+                    var levelCondition = condition as PerkLevelPerkCondition;
+                    if (levelCondition != null)
+                    {
+                        Dependencies[perk.Id] = (levelCondition.PerkId, levelCondition.Level);
+                    }
                 }
             }
         }
@@ -202,7 +205,17 @@ namespace TheIdleScrolls_Core.Components
                     return (true, "");
                 }
 
-                return (condition.IsSatisfied(owner), condition.Description);
+                bool allSatisfied = true;
+                List<string> notSatisfied = [];
+                foreach (var c in condition)
+                {
+                    allSatisfied &= c.IsSatisfied(owner);
+                    if (!c.IsSatisfied(owner))
+                    {
+                        notSatisfied.Add(c.Description);
+                    }
+                }
+                return (allSatisfied, string.Join(", ", notSatisfied));
             }
 
             return (true, "");

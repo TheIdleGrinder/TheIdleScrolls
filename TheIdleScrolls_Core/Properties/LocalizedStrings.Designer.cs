@@ -178,6 +178,51 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Agility ähnelt.
+        /// </summary>
+        internal static string AttributeAgi {
+            get {
+                return ResourceManager.GetString("AttributeAgi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Constitution ähnelt.
+        /// </summary>
+        internal static string AttributeCon {
+            get {
+                return ResourceManager.GetString("AttributeCon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dexterity ähnelt.
+        /// </summary>
+        internal static string AttributeDex {
+            get {
+                return ResourceManager.GetString("AttributeDex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Strength ähnelt.
+        /// </summary>
+        internal static string AttributeStr {
+            get {
+                return ResourceManager.GetString("AttributeStr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vitality ähnelt.
+        /// </summary>
+        internal static string AttributeVit {
+            get {
+                return ResourceManager.GetString("AttributeVit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Axe ähnelt.
         /// </summary>
         internal static string AXE {

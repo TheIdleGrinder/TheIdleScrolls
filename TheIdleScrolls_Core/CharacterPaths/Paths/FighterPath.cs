@@ -72,7 +72,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             "Gain increased hit points for each level and an additional multiplier at maximum level", [],
             (l, e, w, c) => 
             {
-                double perLevel = Math.Round(Stats.BasicTimeIncrease * 1.25, 2);
+                double perLevel = Math.Round(Stats.BasicHpIncrease * 1.25, 2);
                 List<Modifier> result = [new($"{Life2Id}_inc", ModifierType.Increase, perLevel * l, [Tags.HitPoints], [])];
                 if (l == 5)
                 {
@@ -87,7 +87,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             (l, e, w, c) =>
             {
                 int totalHp = e.GetComponent<LifePoolComponent>()!.Maximum;
-                double incPerLevel = Math.Round(Stats.BasicTimeIncrease * 1.25, 2);
+                double incPerLevel = Math.Round(Stats.BasicHpIncrease * 1.25, 2);
                 double reg = 0.003 * l;
                 if (l == 5)
                     reg += 0.005;

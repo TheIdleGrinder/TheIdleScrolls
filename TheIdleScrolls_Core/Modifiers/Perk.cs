@@ -46,8 +46,8 @@ namespace TheIdleScrolls_Core.Modifiers
         public int CurrentLevel { get; private set; } = 0;
         public ModifierGenerator ModifiersFunc { get; private set; }
             = (int lvl, Entity e, World w, Coordinator c) => { return []; };
-        public Func<int, IPerkCondition?> ConditionFunc { get; set; } = level => null;
-        public IPerkCondition? ConditionForLevel(int level) => ConditionFunc(level);
+        public Func<int, IPerkCondition[]> ConditionFunc { get; set; } = level => [];
+        public IPerkCondition[] ConditionForLevel(int level) => ConditionFunc(level);
 
         // Store references to objects that were used for last update. Allows to easily calculate modifiers for levels other than the current one.
         Entity? Owner { get; set; } = null;

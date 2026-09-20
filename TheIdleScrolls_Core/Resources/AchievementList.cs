@@ -238,7 +238,7 @@ namespace TheIdleScrolls_Core.Resources
                                 2 * Stats.BigPerkFactor * Stats.BasicDamageIncrease,
                                 [Tags.Damage],
                                 [])
-                .WithCategories(LocalizedStrings.BasicPerks),
+                /*.WithCategories(LocalizedStrings.BasicPerks)*/,
                 ("AXE", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Furious Swings",
                                 $"Gain {0.1:0.#} extra attacks per second with {id.Localize()}s",
                                 ModifierType.AddFlat,
@@ -745,7 +745,7 @@ namespace TheIdleScrolls_Core.Resources
                 ("oALL", 50) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", "Allrounder", 
                                     "",
                                     Enumerable.Repeat(ModifierType.Increase, 4).ToList(),
-                                    [Stats.BasicDamageIncrease, Stats.BasicAttackSpeedIncrease, Stats.BasicDefenseIncrease, Stats.BasicTimeIncrease],
+                                    [Stats.BasicDamageIncrease, Stats.BasicAttackSpeedIncrease, Stats.BasicDefenseIncrease, Stats.BasicHpIncrease],
                                     [[Tags.Damage], [Tags.AttackSpeed], [Tags.Defense], [Tags.HitPoints]],
                                     [[], [], [], []],
                                     maxLevel: 3)
