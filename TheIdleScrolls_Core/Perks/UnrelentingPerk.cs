@@ -46,6 +46,7 @@ namespace TheIdleScrolls_Core.Perks
         {
             ApplyModifiersToOwner = false,
             MaxLevel = 6,
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Vitality, 25),
             Skill = new UnrelentingSkill()
         };
     }

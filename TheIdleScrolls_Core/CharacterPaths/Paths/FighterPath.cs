@@ -70,7 +70,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
         { Permanent = true };
         readonly static Perk FighterIncLife = new(Life2Id, Properties.Skills.FighterHP2,
             "Gain increased hit points for each level and an additional multiplier at maximum level", [],
-            (l, e, w, c) => 
+            (l, e, w, c) =>
             {
                 double perLevel = Math.Round(Stats.BasicHpIncrease * 1.25, 2);
                 List<Modifier> result = [new($"{Life2Id}_inc", ModifierType.Increase, perLevel * l, [Tags.HitPoints], [])];
@@ -80,7 +80,10 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 }
                 return result;
             })
-        { MaxLevel = 5 };
+        {
+            MaxLevel = 5,
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Vitality, 5)
+        };
         readonly static Perk FighterIncLifeAndReg = new(Life3Id, Properties.Skills.FighterHP3,
             "Gain increased hit points and life regeneration for each level", 
             [UpdateTrigger.BattleStarted, UpdateTrigger.BattleFinished, UpdateTrigger.LevelUp, UpdateTrigger.EquipmentChanged],
@@ -101,7 +104,10 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                     }
                 ];
             })
-        { MaxLevel = 5 };
+        { 
+            MaxLevel = 5,
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Vitality, 15)
+        };
 
         readonly static Perk HeavyWeaponsPerk = new(HeavyWeaponsId, Properties.Skills.HeavyWeapons, 
             "Deal more damage with the heavier weapon types", [],
@@ -119,7 +125,10 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 }
                 return returnList;
             })
-        { MaxLevel = 5 };
+        { 
+            MaxLevel = 5,
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Strength, 5)
+        };
 
         readonly static Perk DualWieldEffectPerk = new(DualWield1Id, Properties.Skills.DualWield1, "", [],
             (l, e, w, c) => [
@@ -128,7 +137,9 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                     CoverText = $"Ability '{Abilities.DualWield.Localize()}' has double effect"
                 }
             ])
-        { Permanent = true };
+        { 
+            Permanent = true 
+        };
         readonly static Perk ShieldedEffectPerk = new(Shield1Id, Properties.Skills.Shield1, "", [],
             (l, e, w, c) => [
                 new($"{Shield1Id}_effect", ModifierType.More, 1.0, [Tags.AbilityEffect, Abilities.Shielded], [])
@@ -136,7 +147,9 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                     CoverText = $"Ability '{Abilities.Shielded.Localize()}' has double effect"
                 }
             ])
-        { Permanent = true };
+        { 
+            Permanent = true 
+        };
         readonly static Perk SingleHandedEffectPerk = new(Single1Id, Properties.Skills.SingleHanded1, "", [],
             (l, e, w, c) => [
                 new($"{Single1Id}_effect", ModifierType.More, 1.0, [Tags.AbilityEffect, Abilities.SingleHanded], [])
@@ -144,7 +157,9 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                     CoverText = $"Ability '{Abilities.SingleHanded.Localize()}' has double effect"
                 }
             ])
-        { Permanent = true };
+        { 
+            Permanent = true 
+        };
         readonly static Perk TwoHandedEffectPerk = new(TwoHand1Id, Properties.Skills.TwoHanded1, "", [],
             (l, e, w, c) => [
                 new($"{TwoHand1Id}_effect", ModifierType.More, 1.0, [Tags.AbilityEffect, Abilities.TwoHanded], [])
@@ -152,7 +167,9 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                     CoverText = $"Ability '{Abilities.TwoHanded.Localize()}' has double effect"
                 }
             ])
-        { Permanent = true };
+        { 
+            Permanent = true 
+        };
 
         readonly static Perk OneHandDamagePerk = new(OneHandDmgPerkId, Properties.Skills.OneHandMeleeDamage, "", [],
             (l, e, w, c) => [
@@ -161,7 +178,11 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 new($"{OneHandDmgPerkId}_dmg", ModifierType.Increase, l * Stats.BasicDamageIncrease * 1.5, 
                     [Tags.Damage, Tags.Melee, Tags.OneHandedWeapon], [])
             ])
-            { MaxLevel = 10, Categories = [Properties.Skills.PathFighter] };
+        { 
+            MaxLevel = 10, 
+            Categories = [Properties.Skills.PathFighter],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition([(PerkIds.Strength, 5), (PerkIds.Dexterity, 5)])
+        };
 
         readonly static Perk TwoHandDamagePerk = new(TwoHandDmgPerkId, Properties.Skills.TwoHandMeleeDamage, "", [],
             (l, e, w, c) => [
@@ -170,7 +191,11 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 new($"{TwoHandDmgPerkId}_dmg", ModifierType.Increase, l * Stats.BasicDamageIncrease * 1.5,
                     [Tags.Damage, Tags.Melee, Tags.TwoHandedWeapon], [])
             ])
-            { MaxLevel = 10, Categories = [Properties.Skills.PathFighter] };
+        { 
+            MaxLevel = 10, 
+            Categories = [Properties.Skills.PathFighter],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Strength, 10)
+        };
 
         readonly static Perk AttackSpeedPerk = new(AtkSpeedPerkId, Properties.Skills.MeleeAttackSpeed, "", [],
             (l, e, w, c) => [
@@ -179,7 +204,11 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 new($"{AtkSpeedPerkId}_speed", ModifierType.Increase, l * Stats.BasicAttackSpeedIncrease * 1.5,
                     [Tags.AttackSpeed, Tags.Melee], [])
             ])
-            { MaxLevel = 10, Categories = [Properties.Skills.PathFighter] };
+        { 
+            MaxLevel = 10, 
+            Categories = [Properties.Skills.PathFighter],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Dexterity, 10)
+        };
 
         readonly static Perk ShieldDefensePerk = new(ShieldDefensePerkId, Properties.Skills.ShieldDefense, "", [],
             (l, e, w, c) => [
@@ -188,14 +217,22 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
                 new($"{ShieldDefensePerkId}_shield", ModifierType.Increase, l * Stats.BasicDefenseIncrease * 2.5,
                     [Tags.Defense, Tags.Shield], [])
             ])
-            { MaxLevel = 10, Categories = [Properties.Skills.PathFighter] };
+        { 
+            MaxLevel = 10, 
+            Categories = [Properties.Skills.PathFighter],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition([(PerkIds.Fortitude, 5), (PerkIds.Vitality, 5)])
+        };
 
         readonly static Perk MomentumPerk = new(MomentumPerkId, Properties.Skills.FighterMomentum_Name, Properties.Skills.FighterMomentum_Description,
             [],
             (l, e, w, c) => [
                 new($"{MomentumPerkId}_limit", ModifierType.AddBase, l + 1, [Tags.MomentumLimit], [])
             ])
-            { MaxLevel = 9, Categories = [Properties.Skills.FighterMomentum_Name] };
+        { 
+            MaxLevel = 9, 
+            Categories = [Properties.Skills.FighterMomentum_Name],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Strength, 5)
+        };
 
         static MultiReward StarterItems()
         {

@@ -36,6 +36,7 @@ namespace TheIdleScrolls_Core.Perks
         {
             MaxLevel = 6,
             ApplyModifiersToOwner = false,
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Dexterity, 15),
             Skill = DoubleSwingSkill.Skill
         };
     }

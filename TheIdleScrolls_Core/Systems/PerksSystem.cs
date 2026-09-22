@@ -230,31 +230,30 @@ namespace TheIdleScrolls_Core.Systems
             perksComponent.AddPerk(damagePerLevel, 0);
 
             // Create basic minor perks
-            string prefix = "Attribute";
             int index = perksComponent.GetPermanentPerkCount();
 
-            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Str", LocalizedStrings.AttributeStr, "",
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk(PerkIds.Strength, LocalizedStrings.AttributeStr, "",
                     ModifierType.Increase, Stats.BasicDamageIncrease,
                     [Tags.Damage, Tags.Attack, DamageType.Physical.ToTag()], [], maxLevel: Stats.AttributePerkLevelLimit)
                 .WithCategories(LocalizedStrings.BasicPerks), index);
-            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Dex", LocalizedStrings.AttributeDex, "",
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk(PerkIds.Dexterity, LocalizedStrings.AttributeDex, "",
                     ModifierType.Increase, Stats.BasicAttackSpeedIncrease,
                     [Tags.AttackSpeed], [], maxLevel: Stats.AttributePerkLevelLimit)
                 .WithCategories(LocalizedStrings.BasicPerks), index + 1);
-            perksComponent.AddPerk(PerkFactory.MakeStaticMultiModPerk($"{prefix}Agi", LocalizedStrings.AttributeAgi, "",
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk(PerkIds.Vitality, LocalizedStrings.AttributeVit, "",
+                    ModifierType.Increase, Stats.BasicHpIncrease,
+                    [Tags.HitPoints], [], maxLevel: Stats.AttributePerkLevelLimit)
+                .WithCategories(LocalizedStrings.BasicPerks), index + 2);
+            perksComponent.AddPerk(PerkFactory.MakeStaticMultiModPerk(PerkIds.Agility, LocalizedStrings.AttributeAgi, "",
                     [ModifierType.Increase, ModifierType.Increase], 
                     [Stats.BasicDefenseIncrease, Stats.BasicMoveSpeedIncrease],
                     [[Tags.EvasionRating], [Tags.MovementSpeed]], 
                     [[], []], 
                     maxLevel: Stats.AttributePerkLevelLimit)
-                .WithCategories(LocalizedStrings.BasicPerks), index + 2);
-            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Con", LocalizedStrings.AttributeCon, "",
+                .WithCategories(LocalizedStrings.BasicPerks), index + 3);
+            perksComponent.AddPerk(PerkFactory.MakeStaticPerk(PerkIds.Fortitude, LocalizedStrings.AttributeFor, "",
                     ModifierType.Increase, Stats.BasicDefenseIncrease,
                     [Tags.ArmorRating], [], maxLevel: Stats.AttributePerkLevelLimit)
-                .WithCategories(LocalizedStrings.BasicPerks), index + 3);
-            perksComponent.AddPerk(PerkFactory.MakeStaticPerk($"{prefix}Vit", LocalizedStrings.AttributeVit, "",
-                    ModifierType.Increase, Stats.BasicHpIncrease,
-                    [Tags.HitPoints], [], maxLevel: Stats.AttributePerkLevelLimit)
                 .WithCategories(LocalizedStrings.BasicPerks), index + 4);
 
             //perksComponent.AddPerk(Perks.ExposeWeaknessPerks.BasePerk);

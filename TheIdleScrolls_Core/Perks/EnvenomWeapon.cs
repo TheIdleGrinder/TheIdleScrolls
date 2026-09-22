@@ -29,7 +29,8 @@ namespace TheIdleScrolls_Core.Perks
             MaxLevel = 8,
             ApplyModifiersToOwner = false,
             Skill = EnvenomWeaponSkill.Skill,
-            Categories = [Properties.Skills.EnvWeapon_Name]
+            Categories = [Properties.Skills.EnvWeapon_Name],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Dexterity, 10)
         };
 
         public static readonly Perk SupportPerk = new(
@@ -49,7 +50,8 @@ namespace TheIdleScrolls_Core.Perks
         {
             MaxLevel = 5,
             ApplyModifiersToOwner = false,
-            Categories = [Properties.Skills.EnvWeapon_Name]
+            Categories = [Properties.Skills.EnvWeapon_Name],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(BasePerkId, 1)
         };
     }
 }

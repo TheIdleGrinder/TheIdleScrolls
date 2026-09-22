@@ -245,7 +245,8 @@ namespace TheIdleScrolls_Core.Resources
                                 0.1,
                                 [Tags.AttackSpeed, Abilities.Axe],
                                 [])
-                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.AXE),
+                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.AXE)
+                                .WithFlatPerkLevelCondition(PerkIds.Strength, 5),
                 ("BLN", 25) => new Perk($"{id}{level}", "Stunning Blow",
                                 $"Gain +{1} global armor per level of the {LocalizedStrings.BLN} ability " +
                                 $"while using {id.Localize()} after first strike",
@@ -264,21 +265,24 @@ namespace TheIdleScrolls_Core.Resources
                                         )
                                     ];
                                 })
-                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.BLN),
+                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.BLN)
+                                .WithFlatPerkLevelCondition(PerkIds.Strength, 5),
                 ("LBL", 25) => PerkFactory.MakeStaticMultiModPerk($"{id}{level}", "Quick Slash",
                                 $"{1.0:0.#%} more damage and attack speed during first attack with {id.Localize()}s",
                                 [ModifierType.More, ModifierType.More],
                                 [1.0, 1.0],
                                 [[Tags.Damage, Abilities.LongBlade], [Tags.AttackSpeed, Abilities.LongBlade]],
                                 [[Tags.FirstStrike], [Tags.FirstStrike]])
-                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.LBL),
+                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.LBL)
+                                .WithFlatPerkLevelCondition(PerkIds.Strength, 5),
                 ("POL", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Range Advantage",
                                 $"Adds {2.0:0.#%} base range to attacks with {id.Localize()}s",
                                 ModifierType.AddBase,
                                 2.0,
                                 [Tags.Range],
                                 [Abilities.Polearm])
-                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.POL),
+                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.POL)
+                                .WithFlatPerkLevelCondition(PerkIds.Dexterity, 5),
                 ("SBL", 25) => new Perk($"{id}{level}", "Sneak Attack",
                                 $"Deal 100% more damage per 25 levels of the {LocalizedStrings.SBL} ability with short blades on " +
                                 $"your first attack every battle",
@@ -293,14 +297,16 @@ namespace TheIdleScrolls_Core.Resources
                                         )
                                     ];
                                 })
-                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.SBL),
+                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.SBL)
+                                .WithFlatPerkLevelCondition(PerkIds.Dexterity, 5),
                 ("ARC", 25) => PerkFactory.MakeStaticPerk($"{id}{level}", "Pre-Nocked Arrow",
                                 $"Your first attack every battle is twice as quick when using an {id.Localize()} weapon",
                                 ModifierType.More,
                                 1.0,
                                 [Tags.AttackSpeed],
                                 [Abilities.Archery, Tags.FirstStrike])
-                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.ARC),
+                                .WithCategories(LocalizedStrings.Weapons, LocalizedStrings.ARC)
+                                .WithFlatPerkLevelCondition(PerkIds.Dexterity, 5),
                 ("AXE", 75) => new($"{id}{level}", "Frenzy",
                                 $"Gain {0.02:0.#%}/{0.04:0.#%}/{0.06:0.#%} increased attack speed with {id.Localize()}s " +
                                     $"after every attack (up to {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%})",
@@ -315,7 +321,8 @@ namespace TheIdleScrolls_Core.Resources
                                 })
                 { 
                     MaxLevel = 3,
-                    Categories = [LocalizedStrings.Weapons, LocalizedStrings.AXE]
+                    Categories = [LocalizedStrings.Weapons, LocalizedStrings.AXE],
+                    ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Strength, 15)
                 },
                 ("BLN", 75) => new($"{id}{level}", "Armor Breaker",
                                 $"Gain {0.05:0.#%}/{0.1:0.#%}/{0.15:0.#%} increased damage with {id.Localize()}s " +
@@ -331,7 +338,8 @@ namespace TheIdleScrolls_Core.Resources
                                 })
                 { 
                     MaxLevel = 3,
-                    Categories = [LocalizedStrings.Weapons, LocalizedStrings.BLN]
+                    Categories = [LocalizedStrings.Weapons, LocalizedStrings.BLN],
+                    ConditionFunc = PerkExtensions.FlatPerkLevelCondition([(PerkIds.Strength, 10), (PerkIds.Fortitude, 5)])
                 },
                 ("LBL", 75) => new($"{id}{level}", "Fluent Technique",
                                 $"Gain {0.15:0.#%}/{0.3:0.#%}/{0.45:0.#%} increased damage or attack speed with {id.Localize()}s " +
@@ -353,7 +361,8 @@ namespace TheIdleScrolls_Core.Resources
                                 })
                 { 
                     MaxLevel = 3,
-                    Categories = [LocalizedStrings.Weapons, LocalizedStrings.LBL]
+                    Categories = [LocalizedStrings.Weapons, LocalizedStrings.LBL],
+                    ConditionFunc = PerkExtensions.FlatPerkLevelCondition([(PerkIds.Strength, 10), (PerkIds.Dexterity, 5)])
                 },
                 ("POL", 75) => new($"{id}{level}", "Skewering Thrusts",
                                 $"Gain {0.2:0.#%}/{0.4:0.#%}/{0.6:0.#%} increased damage with {id.Localize()}s. Gets reduced " +
@@ -371,7 +380,8 @@ namespace TheIdleScrolls_Core.Resources
                                 })
                 { 
                     MaxLevel = 3,
-                    Categories = [LocalizedStrings.Weapons, LocalizedStrings.POL]
+                    Categories = [LocalizedStrings.Weapons, LocalizedStrings.POL],
+                    ConditionFunc = PerkExtensions.FlatPerkLevelCondition([(PerkIds.Dexterity, 10), (PerkIds.Strength, 5)])
                 },
                 ("SBL", 75) => new($"{id}{level}", "Critical Strikes",
                                 $"Deal {1.0:0.#%}/{1.5:0.#%}/{2.0:0.#%} increased damage with {id.Localize()}s once every {5}/{4}/{3} attacks",
@@ -389,7 +399,8 @@ namespace TheIdleScrolls_Core.Resources
                                 })
                 { 
                     MaxLevel = 3,
-                    Categories = [LocalizedStrings.Weapons, LocalizedStrings.SBL]
+                    Categories = [LocalizedStrings.Weapons, LocalizedStrings.SBL],
+                    ConditionFunc = PerkExtensions.FlatPerkLevelCondition([(PerkIds.Dexterity, 10), (PerkIds.Agility, 5)])
                 },
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "ARC", 50)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Adept",
@@ -399,7 +410,8 @@ namespace TheIdleScrolls_Core.Resources
                                 [Tags.Damage, id, DamageType.Physical.ToTag()],
                                 [],
                                 maxLevel: 3)
-                            .WithCategories(LocalizedStrings.Weapons, id.Localize()),
+                            .WithCategories(LocalizedStrings.Weapons, id.Localize())
+                            .WithFlatPerkLevelCondition((id == "AXE" || id == "BLN" || id == "LBL") ? PerkIds.Strength : PerkIds.Dexterity, 10),
                 ("AXE" or "BLN" or "LBL" or "POL" or "SBL" or "ARC", 100)
                             => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
                                 $"Gain a {Stats.MasterPerkMultiplier:0.#%} multiplier to ALL damage",
@@ -422,7 +434,8 @@ namespace TheIdleScrolls_Core.Resources
                                         )
                                     ];
                                 })
-                                .WithCategories(LocalizedStrings.Armours, LocalizedStrings.LAR),
+                                .WithCategories(LocalizedStrings.Armours, LocalizedStrings.LAR)
+                                .WithFlatPerkLevelCondition([(PerkIds.Fortitude, 5), (PerkIds.Agility, 5)]),
                 ("HAR", 50) => new Perk($"{id}{level}", "Bulwark", $"{0.5:0.#%} multiplier to defenses from equipped heavy shield",
                                 [UpdateTrigger.EquipmentChanged],
                                 (_, e, w, c) =>
@@ -437,7 +450,8 @@ namespace TheIdleScrolls_Core.Resources
                                         )
                                     ];
                                 })
-                                .WithCategories(LocalizedStrings.Armours, LocalizedStrings.HAR),
+                                .WithCategories(LocalizedStrings.Armours, LocalizedStrings.HAR)
+                                .WithFlatPerkLevelCondition([(PerkIds.Fortitude, 5), (PerkIds.Strength, 5)]),
                 ("LAR" or "HAR", 25)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Apprentice",
                                     $"Gain increased defense with {id.Localize()}",
@@ -446,7 +460,8 @@ namespace TheIdleScrolls_Core.Resources
                                     [Tags.Defense, id],
                                     [],
                                     maxLevel: 5)
-                                .WithCategories(LocalizedStrings.Armours, id.Localize()),
+                                .WithCategories(LocalizedStrings.Armours, id.Localize())
+                                .WithFlatPerkLevelCondition(PerkIds.Fortitude, 5),
                 ("LAR" or "HAR", 75)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"Comfortable in {id.Localize()}",
                                     $"Gain increased attack speed while wearing {id.Localize()}",
@@ -454,7 +469,8 @@ namespace TheIdleScrolls_Core.Resources
                                     2 * Stats.BasicAttackSpeedIncrease,
                                     [Tags.AttackSpeed],
                                     [id])
-                                .WithCategories(LocalizedStrings.Armours, id.Localize()),
+                                .WithCategories(LocalizedStrings.Armours, id.Localize())
+                                .WithFlatPerkLevelCondition([(PerkIds.Fortitude, 10), (PerkIds.Dexterity, 5)]),
                 ("LAR" or "HAR", 100)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", $"{id.Localize()} Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} multiplier to ALL defenses",
@@ -472,7 +488,8 @@ namespace TheIdleScrolls_Core.Resources
                                     [Tags.BlockChance],
                                     [],
                                     maxLevel: 5)
-                                .WithCategories(Abilities.Blocking.Localize()),
+                                .WithCategories(Abilities.Blocking.Localize())
+                                .WithFlatPerkLevelCondition(PerkIds.Fortitude, 5),
                 (Abilities.Blocking, 50)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", "Quick Block",
                                     $"Your block cooldown recovers faster, allowing you to block more frequently",
@@ -481,7 +498,8 @@ namespace TheIdleScrolls_Core.Resources
                                     [Tags.BlockRecovery],
                                     [],
                                     maxLevel: 5)
-                                .WithCategories(Abilities.Blocking.Localize()),
+                                .WithCategories(Abilities.Blocking.Localize())
+                                .WithFlatPerkLevelCondition([(PerkIds.Fortitude, 5), (PerkIds.Dexterity, 5)]),
                 (Abilities.Blocking, 75)
                                 => new Perk($"{id}{level}", "Deflection",
                                     $"Prevent a higher percentage of damage from blocked hits",
@@ -498,7 +516,8 @@ namespace TheIdleScrolls_Core.Resources
                                 {
                                     MaxLevel = 3
                                 }
-                                .WithCategories(Abilities.Blocking.Localize()),
+                                .WithCategories(Abilities.Blocking.Localize())
+                                .WithFlatPerkLevelCondition([(PerkIds.Fortitude, 10), (PerkIds.Dexterity, 5)]),
                 (Abilities.Blocking, 100)
                                 => PerkFactory.MakeStaticPerk($"{id}{level}", "Blocking Master",
                                     $"Gain a {Stats.MasterPerkMultiplier:0.#%} hit point multiplier",
@@ -566,7 +585,8 @@ namespace TheIdleScrolls_Core.Resources
                                     Enumerable.Repeat(0.05, 3).ToList(),
                                     [[Tags.Damage], [Tags.AttackSpeed], [Tags.Defense]],
                                     Enumerable.Repeat<IEnumerable<string>>([Tags.DualWield], 3).ToList())
-                                .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_DUALWIELD),
+                                .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_DUALWIELD)
+                                .WithFlatPerkLevelCondition([(PerkIds.Strength, 5), (PerkIds.Dexterity, 5)]),
                 (Abilities.DualWield, 50) => new($"{id}{level}", "Reckless Assault",
                                     $"Sacrifice some defense to gain an exponentially increasing multiplier to attack speed",
                                     [],
@@ -577,7 +597,8 @@ namespace TheIdleScrolls_Core.Resources
                                     ])
                 {
                     MaxLevel = 5,
-                    Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_DUALWIELD]
+                    Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_DUALWIELD],
+                    ConditionFunc = PerkExtensions.FlatPerkLevelCondition([(PerkIds.Dexterity, 10), (PerkIds.Agility, 5)])
                 },
                 //(Abilities.DualWield, 75) => new($"{id}{level}", "Assassin",
                 //                    $"Gain {DualWieldKeystone} base damage per level of the {Properties.LocalizedStrings.ABL_DUALWIELD} ability",
@@ -613,7 +634,8 @@ namespace TheIdleScrolls_Core.Resources
                                     ])
                 {
                     MaxLevel = 5,
-                    Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_SHIELDED]
+                    Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_SHIELDED],
+                    ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Fortitude, 15)
                 },
                 //(Abilities.Shielded, 75) => new($"{id}{level}", "Juggernaut",
                 //                    $"Gain {ShieldedKeystone:0.###%} increased damage per {1000} points of armor rating per level of " +
@@ -648,7 +670,8 @@ namespace TheIdleScrolls_Core.Resources
                                     0.2,
                                     [Tags.Damage],
                                     [Tags.SingleHanded])
-                .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_SINGLEHANDED),
+                    .WithCategories(Properties.Skills.PathFighter, LocalizedStrings.ABL_SINGLEHANDED)
+                    .WithFlatPerkLevelCondition([(PerkIds.Strength, 5), (PerkIds.Dexterity, 5)]),
                 (Abilities.SingleHanded, 50) => new($"{id}{level}", "Fleet-footed",
                                     $"Gain base evasion rating per level of the {LocalizedStrings.ABL_SINGLEHANDED} " +
                                         $"ability while fighting single-handed",
@@ -664,7 +687,11 @@ namespace TheIdleScrolls_Core.Resources
                                             )
                                         ];
                                     })
-                { MaxLevel = 5, Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_SINGLEHANDED] },
+                    { 
+                        MaxLevel = 5, 
+                        Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_SINGLEHANDED],
+                        ConditionFunc = PerkExtensions.FlatPerkLevelCondition([(PerkIds.Strength, 5), (PerkIds.Dexterity, 5), (PerkIds.Agility, 5)])
+                },
                 //(Abilities.SingleHanded, 75) => new($"{id}{level}", "Duelist",
                 //                    $"Gain {SingleHandedKeystone:0.#%} increased damage per level of the " +
                 //                        $"{Properties.LocalizedStrings.ABL_SINGLEHANDED} ability while evading",
@@ -700,7 +727,8 @@ namespace TheIdleScrolls_Core.Resources
                                     ])
                 {
                     MaxLevel = 5,
-                    Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_TWOHANDED]
+                    Categories = [Properties.Skills.PathFighter, LocalizedStrings.ABL_TWOHANDED],
+                    ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Strength, 15)
                 },
                 //(Abilities.TwoHanded, 75) => new($"{id}{level}", "Executioner",
                 //                    $"Gain {TwoHandedKeystone:0.#%} increased damage per second of attack time per level of " +
@@ -766,7 +794,8 @@ namespace TheIdleScrolls_Core.Resources
                                         int lvlTH = abilitiesComp?.GetAbility(Abilities.TwoHanded)?.Level ?? 0;
                                         return
                                         [
-                                            new($"{id}{level}_DW", ModifierType.AddBase, DualWieldKeystone / 2 * lvlDW, [Tags.Damage], []),
+                                            new($"{id}{level}_DW", ModifierType.AddBase, DualWieldKeystone / 2 * lvlDW, 
+                                                [Tags.Damage, Tags.Attack, DamageType.Physical.ToTag()], []),
                                             new($"{id}{level}_Sh", ModifierType.Increase, ShieldedKeystone / 2 * (lvlSh * armor / 1000.0), [Tags.Damage], []),
                                             new($"{id}{level}_Si", ModifierType.Increase, SingleHandedKeystone / 2 * lvlSi, [Tags.Damage], [Tags.Evading]),
                                             new($"{id}{level}_TH", ModifierType.Increase, TwoHandedKeystone / 2 * cooldown * lvlTH, [Tags.Damage], [])

@@ -511,6 +511,24 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gain momentum every time you hit an enemy with attacks ähnelt.
+        /// </summary>
+        internal static string HunterMomentum_Description {
+            get {
+                return ResourceManager.GetString("HunterMomentum_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Momentum ähnelt.
+        /// </summary>
+        internal static string HunterMomentum_Name {
+            get {
+                return ResourceManager.GetString("HunterMomentum_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Focus Skill - Juggernaut&apos;s Stance ähnelt.
         /// </summary>
         internal static string JuggernautDescription {
@@ -601,20 +619,65 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;Path of the Ranger&gt; ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Path of the Hunter ähnelt.
         /// </summary>
-        internal static string PathRanger_Description {
+        internal static string PathHunter {
             get {
-                return ResourceManager.GetString("PathRanger_Description", resourceCulture);
+                return ResourceManager.GetString("PathHunter", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Path of the Ranger ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &lt;Path of the Hunter&gt; ähnelt.
         /// </summary>
-        internal static string PathRanger_Name {
+        internal static string PathHunter_Description {
             get {
-                return ResourceManager.GetString("PathRanger_Name", resourceCulture);
+                return ResourceManager.GetString("PathHunter_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hunter ähnelt.
+        /// </summary>
+        internal static string PathHunterRoot {
+            get {
+                return ResourceManager.GetString("PathHunterRoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Stamina ähnelt.
+        /// </summary>
+        internal static string RangerHP1 {
+            get {
+                return ResourceManager.GetString("RangerHP1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ? ähnelt.
+        /// </summary>
+        internal static string RangerHP2 {
+            get {
+                return ResourceManager.GetString("RangerHP2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ? ähnelt.
+        /// </summary>
+        internal static string RangerHP3 {
+            get {
+                return ResourceManager.GetString("RangerHP3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ? ähnelt.
+        /// </summary>
+        internal static string RangerHP4 {
+            get {
+                return ResourceManager.GetString("RangerHP4", resourceCulture);
             }
         }
         

@@ -33,7 +33,8 @@ namespace TheIdleScrolls_Core.Perks
             MaxLevel = 6,
             ApplyModifiersToOwner = false,
             Skill = BattleCrySkill.Skill,
-            Categories = [Properties.Skills.BattleCry_Name]
+            Categories = [Properties.Skills.BattleCry_Name],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition([(PerkIds.Strength, 10), (PerkIds.Fortitude, 5)])
         };
 
         public static readonly Perk BuffPerk = new(
@@ -55,7 +56,8 @@ namespace TheIdleScrolls_Core.Perks
         {
             MaxLevel = 5,
             ApplyModifiersToOwner = false,
-            Categories = [Properties.Skills.BattleCry_Name]
+            Categories = [Properties.Skills.BattleCry_Name],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(BasePerkId, 1)
         };
 
         public static readonly Perk DebuffPerk = new(
@@ -73,7 +75,8 @@ namespace TheIdleScrolls_Core.Perks
         {
             MaxLevel = 5,
             ApplyModifiersToOwner = false,
-            Categories = [Properties.Skills.BattleCry_Name]
+            Categories = [Properties.Skills.BattleCry_Name],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(BasePerkId, 1)
         };
     }
 }

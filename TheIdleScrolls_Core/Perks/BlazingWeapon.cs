@@ -43,7 +43,8 @@ namespace TheIdleScrolls_Core.Perks
             MaxLevel = 8,
             ApplyModifiersToOwner = false,
             Skill = BlazingWeaponSkill.Skill,
-            Categories = [Properties.Skills.BlazingWeapon_Name]
+            Categories = [Properties.Skills.BlazingWeapon_Name],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition([(PerkIds.Strength, 5), (PerkIds.Vitality, 5)])
         };
 
         public static readonly Perk SupportPerk = new(
@@ -62,7 +63,8 @@ namespace TheIdleScrolls_Core.Perks
         {
             MaxLevel = 5,
             ApplyModifiersToOwner = false,
-            Categories = [Properties.Skills.BlazingWeapon_Name]
+            Categories = [Properties.Skills.BlazingWeapon_Name],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(BasePerkId, 1)
         };
     }
 }

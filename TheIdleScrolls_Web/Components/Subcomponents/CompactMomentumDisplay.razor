@@ -10,7 +10,13 @@
         <div class="compact-bar-fill momentum-bar-active" style="width: @($"{GetTimerPct():0%}");"></div>
     </div>
     <div class="barTooltip">
-        Momentum
+        <span style="font-weight:bold;">Momentum</span><br />
+        <span>Charges: @(Momentum)</span><br />
+        @foreach (var line in MomentumComp?.Modifiers?.Select(m => m.ToPrettyString()) ?? [])
+        {
+            @("  ➤") @line
+            <br />
+        }
     </div>
 </div>
 

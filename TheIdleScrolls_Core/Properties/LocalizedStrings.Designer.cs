@@ -187,20 +187,20 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Constitution ähnelt.
-        /// </summary>
-        internal static string AttributeCon {
-            get {
-                return ResourceManager.GetString("AttributeCon", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Dexterity ähnelt.
         /// </summary>
         internal static string AttributeDex {
             get {
                 return ResourceManager.GetString("AttributeDex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fortitude ähnelt.
+        /// </summary>
+        internal static string AttributeFor {
+            get {
+                return ResourceManager.GetString("AttributeFor", resourceCulture);
             }
         }
         

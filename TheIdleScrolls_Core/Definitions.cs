@@ -87,7 +87,7 @@ namespace TheIdleScrolls_Core
             public const string Strength        = Attribute + "Str";
             public const string Dexterity       = Attribute + "Dex";
             public const string Agility         = Attribute + "Agi";
-            public const string Constitution    = Attribute + "Con";
+            public const string Fortitude       = Attribute + "For";
             public const string Vitality        = Attribute + "Vit";
         }
 

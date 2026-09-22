@@ -33,7 +33,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
             MaxLevel = 6,
             ApplyModifiersToOwner = false,
             Skill = new JuggernautStanceSkill(),
-            Categories = [Properties.Skills.JuggernautName]
+            Categories = [Properties.Skills.JuggernautName],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(PerkIds.Strength, 10)
         };
 
         public static readonly Perk FirstModPerk = new(
@@ -53,7 +54,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
         {
             MaxLevel = 5,
             ApplyModifiersToOwner = false,
-            Categories = [Properties.Skills.JuggernautName]
+            Categories = [Properties.Skills.JuggernautName],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(BasePerkId, 1)
         };
 
         public static readonly Perk SecondModPerk = new(
@@ -74,7 +76,8 @@ namespace TheIdleScrolls_Core.Skills.Skills
         {
             MaxLevel = 5,
             ApplyModifiersToOwner = false,
-            Categories = [Properties.Skills.JuggernautName]
+            Categories = [Properties.Skills.JuggernautName],
+            ConditionFunc = PerkExtensions.FlatPerkLevelCondition(BasePerkId, 1)
         };
     }
 

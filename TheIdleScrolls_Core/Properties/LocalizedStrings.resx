@@ -449,11 +449,11 @@ Time to finish: {0}</value>
   <data name="AttributeAgi" xml:space="preserve">
     <value>Agility</value>
   </data>
-  <data name="AttributeCon" xml:space="preserve">
-    <value>Constitution</value>
-  </data>
   <data name="AttributeDex" xml:space="preserve">
     <value>Dexterity</value>
+  </data>
+  <data name="AttributeFor" xml:space="preserve">
+    <value>Fortitude</value>
   </data>
   <data name="AttributeStr" xml:space="preserve">
     <value>Strength</value>

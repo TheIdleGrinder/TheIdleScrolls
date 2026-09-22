@@ -255,7 +255,7 @@ namespace TheIdleScrolls_Core.Modifiers
 
         public static Func<int, IPerkCondition[]> FlatPerkLevelCondition(List<(string Id, int Level)> perks)
         {
-            return (int lvl) => perks.Select(p => new AbilityLevelPerkCondition(p.Id, p.Level)).ToArray();
+            return (int lvl) => perks.Select(p => new PerkLevelPerkCondition(p.Id, p.Level)).ToArray();
         }
 
         static string[] CategoryLookup =

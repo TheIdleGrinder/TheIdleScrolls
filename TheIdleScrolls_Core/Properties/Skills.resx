@@ -336,16 +336,37 @@
   <data name="Class_Tinkerer" xml:space="preserve">
     <value>Tinkerer</value>
   </data>
-  <data name="PathRanger_Name" xml:space="preserve">
-    <value>Path of the Ranger</value>
+  <data name="PathHunter" xml:space="preserve">
+    <value>Path of the Hunter</value>
   </data>
-  <data name="PathRanger_Description" xml:space="preserve">
-    <value>&lt;Path of the Ranger&gt;</value>
+  <data name="PathHunter_Description" xml:space="preserve">
+    <value>&lt;Path of the Hunter&gt;</value>
   </data>
   <data name="FighterMomentum_Name" xml:space="preserve">
     <value>Momentum</value>
   </data>
   <data name="FighterMomentum_Description" xml:space="preserve">
+    <value>Gain momentum every time you hit an enemy with attacks</value>
+  </data>
+  <data name="PathHunterRoot" xml:space="preserve">
+    <value>Hunter</value>
+  </data>
+  <data name="RangerHP1" xml:space="preserve">
+    <value>Stamina</value>
+  </data>
+  <data name="RangerHP2" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="RangerHP3" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="RangerHP4" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="HunterMomentum_Name" xml:space="preserve">
+    <value>Momentum</value>
+  </data>
+  <data name="HunterMomentum_Description" xml:space="preserve">
     <value>Gain momentum every time you hit an enemy with attacks</value>
   </data>
 </root>
