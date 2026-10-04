@@ -24,7 +24,7 @@ namespace TheIdleScrolls_Core.Skills.SkillEffectGenerators
         public List<SkillEffectBundle> Update(double dt)
         {
             return (Cooldown.Update(dt) > 0) 
-                ? [new SkillEffectBundle([Effect], TargetingMode.SingleEnemy, Tags)] 
+                ? [new SkillEffectBundle([Effect], new(TargetType.Enemy), Tags)] 
                 : []; // CornerCut: Only one trigger per frame
         }
     }

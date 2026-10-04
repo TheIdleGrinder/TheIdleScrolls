@@ -66,12 +66,14 @@ namespace TheIdleScrolls_Core
             public const int    FirstPerkPointLevel         = 5;
             public const int    LevelsPerPerkPoint          = 1;
             public const int    PerkPointLevelLimit         = 200;
+
             public const int    AttributePerkLevelLimit     = 50;
-            public const double BasicDamageIncrease         = 0.12;
-            public const double BasicAttackSpeedIncrease    = 0.05;
-            public const double BasicDefenseIncrease        = 0.08;
+            public const double BasicDamageIncrease         = 0.06;
+            public const double BasicAttackSpeedIncrease    = 0.04;
+            public const double BasicDefenseIncrease        = 0.06;
             public const double BasicMoveSpeedIncrease      = 0.02;
-            public const double BasicHpIncrease             = 0.12;
+            public const double BasicHpIncrease             = 0.05;
+
             public const double BigPerkFactor               = 1.5;
             public const double MasterPerkMultiplier        = 0.1;
             public const double SavantXpMultiplier          = 0.3;

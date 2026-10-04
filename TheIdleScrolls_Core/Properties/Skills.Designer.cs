@@ -214,11 +214,11 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Ranger ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hunter ähnelt.
         /// </summary>
-        internal static string Class_Ranger {
+        internal static string Class_Hunter {
             get {
-                return ResourceManager.GetString("Class_Ranger", resourceCulture);
+                return ResourceManager.GetString("Class_Hunter", resourceCulture);
             }
         }
         

@@ -42,14 +42,14 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             Categories = [Properties.Skills.PathHunter]
         };
 
-        readonly static Perk LifeRegPerLevelPerk = new(Life1Id, Properties.Skills.FighterHP1,
+        readonly static Perk LifeRegPerLevelPerk = new(Life1Id, Properties.Skills.RangerHP1,
             "Regenerate one hit point per character level", [],
             (l, e, w, c) => [
                 new($"{Life1Id}", ModifierType.AddBase, e.GetLevel(), [Tags.LifeRegeneration], [])
             ])
         { Permanent = true };
 
-        readonly static Perk MomentumPerk = new(MomentumPerkId, Properties.Skills.FighterMomentum_Name, Properties.Skills.FighterMomentum_Description,
+        readonly static Perk MomentumPerk = new(MomentumPerkId, Properties.Skills.HunterMomentum_Name, Properties.Skills.HunterMomentum_Description,
             [],
             (l, e, w, c) => [
                 new($"{MomentumPerkId}_limit", ModifierType.AddBase, l + 1, [Tags.MomentumLimit], [])
@@ -80,7 +80,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
         }
         static HunterPath()
         {
-            Path.AddStep(new CharacterPathStep(RootId, Properties.Skills.PathFighterRoot, "")
+            Path.AddStep(new CharacterPathStep(RootId, Properties.Skills.PathHunterRoot, "")
             {
                 Reward = new MultiReward([new PerkReward(RootPerk),
                     new PerkReward(ExposeWeaknessPerks.BasePerk
@@ -90,6 +90,8 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             });
 
             Path.AddSimplePerkStep(LifeRegPerLevelPerk, 1);
+
+            Path.AddSimplePerkStep(ExposeWeaknessPerks.DamageTaken, 1);
 
             Path.AddSimplePerkStep(MomentumPerk, 1);
         }

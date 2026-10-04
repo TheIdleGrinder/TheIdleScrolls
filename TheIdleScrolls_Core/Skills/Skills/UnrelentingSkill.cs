@@ -38,7 +38,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
                 double totalHp = user.GetComponent<LifePoolComponent>()?.Maximum ?? 0.0;
                 double toHeal = totalHp * pct;
                 var effect = new HealingSkillEffect(toHeal, [Definitions.Tags.Healing]);
-                ActivityStartEffects = [new(effect, TargetingMode.Self, [Definitions.Tags.Healing])];
+                ActivityStartEffects = [new(effect, new(TargetType.Self), [Definitions.Tags.Healing])];
                 ChargingTime = 0.0;
                 Timer.CooldownDuration = 0.0;
             }

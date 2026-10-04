@@ -23,7 +23,7 @@ namespace TheIdleScrolls_Core.Skills.SkillEffectGenerators
         {
             SkillEffectBundle bundle = new SkillEffectBundle
             {
-                Target = TargetingMode.SingleEnemy,
+                Targeting = new(TargetType.Enemy),
                 Effects = [new DamageSkillEffect(DamageType, dt * DPS, [Tags.DamageOverTime])],
                 BundleTags = [Tags.DamageOverTime]
             };

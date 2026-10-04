@@ -145,7 +145,7 @@ namespace TheIdleScrolls_Core.Skills.Skills
             SkillTags = [Tags.AttackSkill];
             HashSet<string> AdditionalTags = [.. SkillTags, Id];
             SkillEffectBundle damage = new(CreateDefaultSkillEffectsForDamage(attackComp.CurrentAttack.RawDamage, [.. AdditionalTags]),
-                                            TargetingMode.SingleEnemy, [.. AdditionalTags]);
+                                            new(TargetType.Enemy), [.. AdditionalTags]);
             damage.Accuracy = user.GetComponent<AccuracyComponent>()?.Accuracy;
 
             Range = attackComp.CurrentAttack.Range;

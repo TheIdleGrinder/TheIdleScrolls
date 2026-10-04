@@ -327,8 +327,8 @@
   <data name="Class_Fighter" xml:space="preserve">
     <value>Fighter</value>
   </data>
-  <data name="Class_Ranger" xml:space="preserve">
-    <value>Ranger</value>
+  <data name="Class_Hunter" xml:space="preserve">
+    <value>Hunter</value>
   </data>
   <data name="Class_Sorceror" xml:space="preserve">
     <value>Sorceror</value>

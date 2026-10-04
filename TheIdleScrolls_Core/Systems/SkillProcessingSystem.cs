@@ -34,41 +34,48 @@ namespace TheIdleScrolls_Core.Systems
             double damagePrevented = 0;
             foreach (var effect in effects)
             {
-                if (effect.Target == TargetingMode.SingleEnemy)
+                if (effect.Targeting.TargetType == TargetType.Enemy)
                 {
-                    Entity? opponent = ActiveSkill.GetEnemiesInRange(entity, skill.Range).Where(e => !e.IsDefeated()).FirstOrDefault();
-                    if (opponent is null)
+                    List<Entity> opponents = ActiveSkill.GetEnemiesInRange(entity, skill.Range).Where(e => !e.IsDefeated()).ToList();
+                    if (opponents.Count == 0)
                         continue; // No valid target in range, skip effect
-                    List<ISkillEffectOutcome> outcomes = effect.ApplyToTarget(opponent);
-                    foreach (var subEffect in effect.Effects)
-                    {
-                        if (subEffect is DamageSkillEffect dmgEffect)
-                        {
-                            damage += dmgEffect.DamageDone;
-                            damagePrevented += dmgEffect.Damage - dmgEffect.DamageDone;
 
-                            if (!dmgEffect.Tags.Contains(Tags.DamageOverTime))
+                    if (opponents.Count > effect.Targeting.MaxTargets)
+                        opponents = opponents.Take(effect.Targeting.MaxTargets).ToList();
+
+                    foreach (Entity opponent in opponents)
+                    {
+                        List<ISkillEffectOutcome> outcomes = effect.ApplyToTarget(opponent);
+                        foreach (var subEffect in effect.Effects)
+                        {
+                            if (subEffect is DamageSkillEffect dmgEffect)
                             {
-                                coordinator.PostMessage(this, new HitLandedMessage(entity, opponent, skill));
-                                coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
+                                damage += dmgEffect.DamageDone;
+                                damagePrevented += dmgEffect.Damage - dmgEffect.DamageDone;
+
+                                if (!dmgEffect.Tags.Contains(Tags.DamageOverTime))
+                                {
+                                    coordinator.PostMessage(this, new HitLandedMessage(entity, opponent, skill));
+                                    coordinator.PostMessage(this, new DamageDoneMessage(entity, opponent, (int)damage, (int)damagePrevented));
+                                }
                             }
                         }
-                    }
-                    foreach (var outcome in outcomes)
-                    {
-                        if (outcome is HitBlocked blockedOutcome)
+                        foreach (var outcome in outcomes)
                         {
-                            coordinator.PostMessage(this, new HitBlockedMessage(entity, opponent, blockedOutcome.PreventionPercentage));
+                            if (outcome is HitBlocked blockedOutcome)
+                            {
+                                coordinator.PostMessage(this, new HitBlockedMessage(entity, opponent, blockedOutcome.PreventionPercentage));
+                            }
+                        }
+                        if (opponent.IsDefeated() && !opponent.HasComponent<KilledComponent>())
+                        {
+                            coordinator.PostMessage(this, new DeathMessage(opponent));
+                            opponent.AddComponent(new KilledComponent { Killer = entity.Id });
+                            ChargeTriggeredSkills(ActiveSkill.UseTrigger.OnKill, entity);
                         }
                     }
-                    if (opponent.IsDefeated() && !opponent.HasComponent<KilledComponent>())
-                    {
-                        coordinator.PostMessage(this, new DeathMessage(opponent));
-                        opponent.AddComponent(new KilledComponent { Killer = entity.Id });
-                        ChargeTriggeredSkills(ActiveSkill.UseTrigger.OnKill, entity);
-                    }
                 }
-                else
+                else if (effect.Targeting.TargetType == TargetType.Self)
                 {
                     effect.ApplyToTarget(entity);
                 }

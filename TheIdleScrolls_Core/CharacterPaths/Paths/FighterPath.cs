@@ -53,8 +53,8 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             {
                 int steps = e.GetComponent<CharacterPathComponent>()!.StepsTakenOnPath(PathId).Count;
                 return [
-                new($"{RootId}_dmg", ModifierType.Increase, 0.1 * steps, [Tags.Damage, Tags.Melee], []),
-                new($"{RootId}_arm", ModifierType.Increase, 0.1 * steps, [Tags.ArmorRating], [])];
+                new($"{RootId}_dmg", ModifierType.Increase, 2 * Stats.BasicDamageIncrease * steps, [Tags.Damage, Tags.Melee], []),
+                new($"{RootId}_arm", ModifierType.Increase, 2 * Stats.BasicDefenseIncrease * steps, [Tags.ArmorRating], [])];
             }
         )
         {
@@ -72,7 +72,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             "Gain increased hit points for each level and an additional multiplier at maximum level", [],
             (l, e, w, c) =>
             {
-                double perLevel = Math.Round(Stats.BasicHpIncrease * 1.25, 2);
+                double perLevel = Math.Round(Stats.BasicHpIncrease * 1.5, 2);
                 List<Modifier> result = [new($"{Life2Id}_inc", ModifierType.Increase, perLevel * l, [Tags.HitPoints], [])];
                 if (l == 5)
                 {
@@ -90,7 +90,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             (l, e, w, c) =>
             {
                 int totalHp = e.GetComponent<LifePoolComponent>()!.Maximum;
-                double incPerLevel = Math.Round(Stats.BasicHpIncrease * 1.25, 2);
+                double incPerLevel = Math.Round(Stats.BasicHpIncrease * 1.5, 2);
                 double reg = 0.003 * l;
                 if (l == 5)
                     reg += 0.005;
@@ -110,7 +110,7 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
         };
 
         readonly static Perk HeavyWeaponsPerk = new(HeavyWeaponsId, Properties.Skills.HeavyWeapons, 
-            "Deal more damage with the heavier weapon types", [],
+            "Deal more damage with the heavier weapon types and an additional multiplier at maximum level", [],
             (l, e, w, c) =>
             {
                 double value = l * 1.5 * Stats.BasicDamageIncrease;

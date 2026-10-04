@@ -1,5 +1,6 @@
 ﻿using MiniECS;
 using TheIdleScrolls_Core.Achievements;
+using TheIdleScrolls_Core.Achievements.Rewards;
 using TheIdleScrolls_Core.Components;
 using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.GameWorld;
@@ -204,65 +205,65 @@ namespace TheIdleScrolls_Core.ContentPacks
 				Conditions.DungeonAvailableCondition(DungeonIds.Void),
 				Conditions.DungeonCompletedCondition(DungeonIds.Void)),
 			new("DNG:VOID@100",
-                "Void Traveller",
-                $"Complete {Places.Dungeon_Void} at area level 100",
-                Conditions.AchievementUnlockedCondition("DNG:VOID"),
-                Conditions.DungeonLevelCompletedCondition(DungeonIds.Void, 100)),
+				"Void Traveller",
+				$"Complete {Places.Dungeon_Void} at area level 100",
+				Conditions.AchievementUnlockedCondition("DNG:VOID"),
+				Conditions.DungeonLevelCompletedCondition(DungeonIds.Void, 100)),
 			new("DNG:VOID@125",
-                "Void Explorer",
-                $"Complete {Places.Dungeon_Void} at area level 125",
-                Conditions.AchievementUnlockedCondition("DNG:VOID@100"),
-                Conditions.DungeonLevelCompletedCondition(DungeonIds.Void, 125)),
-            new("DNG:ENDGAME",
-                "Void Conqueror",
-                $"Complete an endgame dungeon",
-                Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
-                (e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges) 
-                            || Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
-                            || Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid)),
-            new("DNG:ENDGAME_SORCEROR",
-                $"Open the Path: {Properties.Skills.Class_Sorceror}",
-                $"Complete the {Places.Dungeon_EndgameMagic} before the other endgame dungeons",
-                Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
-                (e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges)
-                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
-                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid))
+				"Void Explorer",
+				$"Complete {Places.Dungeon_Void} at area level 125",
+				Conditions.AchievementUnlockedCondition("DNG:VOID@100"),
+				Conditions.DungeonLevelCompletedCondition(DungeonIds.Void, 125)),
+			new("DNG:ENDGAME",
+				"Void Conqueror",
+				$"Complete an endgame dungeon",
+				Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
+				(e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges)
+							|| Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
+							|| Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid)),
+			new("DNG:ENDGAME_SORCEROR",
+				$"Open the Path: {Properties.Skills.Class_Sorceror}",
+				$"Complete the {Places.Dungeon_EndgameMagic} before the other endgame dungeons",
+				Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
+				(e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges)
+							&& Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
+							&& Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid))
 			{
 				Reward = null
 			},
-            new("DNG:ENDGAME_RANGER",
-                $"Open the Path: {Properties.Skills.Class_Ranger}",
-                $"Complete the {Places.Dungeon_EndgamePyramid} before the other endgame dungeons",
-                Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
-                (e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges)
-                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
-                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid))
-            {
-                Reward = null
-            },
-            new("DNG:ENDGAME_TINKERER",
-                $"Open the Path: {Properties.Skills.Class_Tinkerer}",
-                $"Complete the {Places.Dungeon_EndgameAges} before the other endgame dungeons",
-                Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
-                (e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges)
-                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
-                            && Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid))
-            {
-                Reward = null
-            },
-            new("DNG:UBERENDGAME",
-                "Void Emperor",
-                $"Complete an endgame dungeon at area level {DungeonLevels.LevelUberEndgame}",
-                Conditions.DungeonLevelAvailableCondition(DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame),
-                (e, w) => Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame)
-                            || Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameMagic, DungeonLevels.LevelUberEndgame)
-                            || Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgamePyramid, DungeonLevels.LevelUberEndgame)),
+			new("DNG:ENDGAME_RANGER",
+				$"Open the Path: {Properties.Skills.Class_Hunter}",
+				$"Complete the {Places.Dungeon_EndgamePyramid} before the other endgame dungeons",
+				Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
+				(e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges)
+							&& Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
+							&& Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid))
+			{
+				Reward = new CharacterPathReward(CharacterPaths.Paths.HunterPath.Path)
+			},
+			new("DNG:ENDGAME_TINKERER",
+				$"Open the Path: {Properties.Skills.Class_Tinkerer}",
+				$"Complete the {Places.Dungeon_EndgameAges} before the other endgame dungeons",
+				Conditions.AchievementUnlockedCondition("DNG:VOID@125"),
+				(e, w) => Conditions.HasCompletedDungeon(e, DungeonIds.EndgameAges)
+							&& Conditions.HasCompletedDungeon(e, DungeonIds.EndgameMagic)
+							&& Conditions.HasCompletedDungeon(e, DungeonIds.EndgamePyramid))
+			{
+				Reward = null
+			},
+			new("DNG:UBERENDGAME",
+				"Void Emperor",
+				$"Complete an endgame dungeon at area level {DungeonLevels.LevelUberEndgame}",
+				Conditions.DungeonLevelAvailableCondition(DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame),
+				(e, w) => Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame)
+							|| Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameMagic, DungeonLevels.LevelUberEndgame)
+							|| Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgamePyramid, DungeonLevels.LevelUberEndgame)),
 
-            new("VOIDBOSSES",
-                "Void Duelist",
-                $"Defeat all different bosses in {Places.Dungeon_Void}",
-                Conditions.AchievementUnlockedCondition("DNG:VOID"),
-                Conditions.MobsDefeatedCondition(VoidBosses)),
+			new("VOIDBOSSES",
+				"Void Duelist",
+				$"Defeat all different bosses in {Places.Dungeon_Void}",
+				Conditions.AchievementUnlockedCondition("DNG:VOID"),
+				Conditions.MobsDefeatedCondition(VoidBosses)),
 
 			new($"HC:Endgame",
 				"Exalted Conqueror",
@@ -271,13 +272,13 @@ namespace TheIdleScrolls_Core.ContentPacks
 				ExpressionParser.ParseToFunction($"dng:{DungeonIds.EndgameMagic} > 0 && dng:{DungeonIds.EndgamePyramid} " +
 					$"&& dng:{DungeonIds.EndgameAges} && Losses == 0")),
 			new($"HC:UberEndgame",
-                "Exalted Emperor",
-                "Complete the endgame dungeons at area level 200 without ever losing a fight",
-                Conditions.AchievementUnlockedCondition($"HC:Endgame"),
-                (e, w) => Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame)
-                            && Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameMagic, DungeonLevels.LevelUberEndgame)
-                            && Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgamePyramid, DungeonLevels.LevelUberEndgame)
-                            && !Conditions.HasLostFights(e))
+				"Exalted Emperor",
+				"Complete the endgame dungeons at area level 200 without ever losing a fight",
+				Conditions.AchievementUnlockedCondition($"HC:Endgame"),
+				(e, w) => Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameAges, DungeonLevels.LevelUberEndgame)
+							&& Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgameMagic, DungeonLevels.LevelUberEndgame)
+							&& Conditions.HasCompletedDungeonLevel(e, DungeonIds.EndgamePyramid, DungeonLevels.LevelUberEndgame)
+							&& !Conditions.HasLostFights(e))
 		];
 	}
 }

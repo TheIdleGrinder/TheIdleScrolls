@@ -11,27 +11,41 @@ using TheIdleScrolls_Core.Utility;
 
 namespace TheIdleScrolls_Core.Skills
 {
-    public enum TargetingMode { Self, SingleEnemy }
+    public enum TargetType { Self, Enemy }
+
+    [Flags]
+    public enum TargetingMode { 
+        Standard        = 0, 
+        Skip1           = 1 
+    }
+
+    public class TargetingSettings(TargetType targetType)
+    {
+        public TargetType TargetType { get; set; } = targetType;
+        public double AreaRadius { get; set; } = 0.0;
+        public int MaxTargets { get; set; } = 1;
+        public TargetingMode TargetingMode { get; set; } = TargetingMode.Standard;
+    }
 
     public class SkillEffectBundle
     {
-        public TargetingMode Target { get; set; }
+        public TargetingSettings Targeting { get; set; } = new(TargetType.Enemy);
         public HashSet<string> BundleTags { get; set; } = [];
         public List<ISkillEffect> Effects { get; set; } = [];
         public double? Accuracy { get; set; } = null;
 
         public SkillEffectBundle() { }
-        public SkillEffectBundle(List<ISkillEffect> effects, TargetingMode target, HashSet<string> tags)
+        public SkillEffectBundle(List<ISkillEffect> effects, TargetingSettings target, HashSet<string> tags)
         {
             Effects = effects;
-            Target = target;
+            Targeting = target;
             BundleTags = tags;
         }
 
-        public SkillEffectBundle(ISkillEffect effect, TargetingMode target, HashSet<string> tags)
+        public SkillEffectBundle(ISkillEffect effect, TargetingSettings target, HashSet<string> tags)
         {
             Effects = [effect];
-            Target = target;
+            Targeting = target;
             BundleTags = tags;
         }
 
@@ -124,10 +138,10 @@ namespace TheIdleScrolls_Core.Skills
 
         string TargetToString()
         {
-            return Target switch
+            return Targeting.TargetType switch
             {
-                TargetingMode.Self => "self",
-                TargetingMode.SingleEnemy => "single enemy",
+                TargetType.Self => "self",
+                TargetType.Enemy => "single enemy",
                 _ => "unknown target"
             };
         }
