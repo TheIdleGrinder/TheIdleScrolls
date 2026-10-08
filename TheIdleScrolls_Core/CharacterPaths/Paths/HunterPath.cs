@@ -11,6 +11,7 @@ using TheIdleScrolls_Core.Definitions;
 using TheIdleScrolls_Core.Items;
 using TheIdleScrolls_Core.Modifiers;
 using TheIdleScrolls_Core.Perks;
+using TheIdleScrolls_Core.Skills.Skills;
 
 namespace TheIdleScrolls_Core.CharacterPaths.Paths
 {
@@ -94,6 +95,12 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             Path.AddSimplePerkStep(ExposeWeaknessPerks.DamageTaken, 1);
 
             Path.AddSimplePerkStep(MomentumPerk, 1);
+
+            Path.AddSimplePerkStep(EnvenomWeapon.BasePerk, 2);
+            Path.AddSimplePerkStep(EnvenomWeapon.SupportPerk, 3, EnvenomWeapon.BasePerkId);
+
+            Path.AddSimplePerkStep(HerbalMedicine.BasePerk, 1);
+            Path.AddSimplePerkStep(HerbalMedicine.FirstModPerk, 2, HerbalMedicine.BasePerkId);
         }
     }
 }

@@ -335,10 +335,6 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
             Path.AddSimplePerkStep(BerserkerStance.FirstModPerk, 3, BerserkerStance.BasePerkId);
             Path.AddSimplePerkStep(BerserkerStance.SecondModPerk, 4, BerserkerStance.BasePerkId);
 
-
-            Path.AddSimplePerkStep(EnvenomWeapon.BasePerk, 2);
-            Path.AddSimplePerkStep(EnvenomWeapon.SupportPerk, 3, EnvenomWeapon.BasePerkId);
-
             Path.AddSimplePerkStep(BlazingWeapon.BasePerk, 2);
             Path.AddSimplePerkStep(BlazingWeapon.SupportPerk, 3, BlazingWeapon.BasePerkId);
 

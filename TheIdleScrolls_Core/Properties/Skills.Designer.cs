@@ -511,6 +511,42 @@ namespace TheIdleScrolls_Core.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die While resting, apply ointments and bandages that let your wounds close much faster. ähnelt.
+        /// </summary>
+        internal static string HerbalMedicine_Description {
+            get {
+                return ResourceManager.GetString("HerbalMedicine_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Herbal Medicine ähnelt.
+        /// </summary>
+        internal static string HerbalMedicine_Name {
+            get {
+                return ResourceManager.GetString("HerbalMedicine_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Your knowledge of poisonous plants also allows you prepare powerful antidotes to the many poisons you might come contact with. ähnelt.
+        /// </summary>
+        internal static string HerbalMedicineFirstMod_Description {
+            get {
+                return ResourceManager.GetString("HerbalMedicineFirstMod_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Antidote ähnelt.
+        /// </summary>
+        internal static string HerbalMedicineFirstMod_Name {
+            get {
+                return ResourceManager.GetString("HerbalMedicineFirstMod_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Gain momentum every time you hit an enemy with attacks ähnelt.
         /// </summary>
         internal static string HunterMomentum_Description {

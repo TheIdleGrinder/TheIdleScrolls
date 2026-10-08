@@ -182,7 +182,7 @@ namespace TheIdleScrolls_Core.Systems
                         coordinator.PostMessage(this, new BattleStateChangedMessage(battle));
 
                         player.GetComponent<ActiveSkillComponent>()?.ResetSkills();
-                        player.GetComponent<StatusEffectComponent>()?.DeactivateAll();
+                        //player.GetComponent<StatusEffectComponent>()?.DeactivateAll();
                     }
                     else
                     {

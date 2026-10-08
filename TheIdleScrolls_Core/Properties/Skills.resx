@@ -369,4 +369,16 @@
   <data name="HunterMomentum_Description" xml:space="preserve">
     <value>Gain momentum every time you hit an enemy with attacks</value>
   </data>
+  <data name="HerbalMedicine_Name" xml:space="preserve">
+    <value>Herbal Medicine</value>
+  </data>
+  <data name="HerbalMedicine_Description" xml:space="preserve">
+    <value>While resting, apply ointments and bandages that let your wounds close much faster.</value>
+  </data>
+  <data name="HerbalMedicineFirstMod_Name" xml:space="preserve">
+    <value>Antidote</value>
+  </data>
+  <data name="HerbalMedicineFirstMod_Description" xml:space="preserve">
+    <value>Your knowledge of poisonous plants also allows you prepare powerful antidotes to the many poisons you might come contact with.</value>
+  </data>
 </root>
