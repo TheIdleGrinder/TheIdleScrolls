@@ -381,4 +381,10 @@
   <data name="HerbalMedicineFirstMod_Description" xml:space="preserve">
     <value>Your knowledge of poisonous plants also allows you prepare powerful antidotes to the many poisons you might come contact with.</value>
   </data>
+  <data name="WeaponThrow_Name" xml:space="preserve">
+    <value>Weapon Throw</value>
+  </data>
+  <data name="WeaponThrow_Description" xml:space="preserve">
+    <value>Throw a dagger or one-handed axe from your main hand at an enemy outside melee range. Don't think too hard about how it is also still in your hand...</value>
+  </data>
 </root>

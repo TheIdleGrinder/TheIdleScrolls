@@ -101,6 +101,8 @@ namespace TheIdleScrolls_Core.CharacterPaths.Paths
 
             Path.AddSimplePerkStep(HerbalMedicine.BasePerk, 1);
             Path.AddSimplePerkStep(HerbalMedicine.FirstModPerk, 2, HerbalMedicine.BasePerkId);
+
+            Path.AddSimplePerkStep(WeaponThrow.BasePerk, 1);
         }
     }
 }

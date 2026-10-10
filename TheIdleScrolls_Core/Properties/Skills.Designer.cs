@@ -851,5 +851,23 @@ namespace TheIdleScrolls_Core.Properties {
                 return ResourceManager.GetString("VitalStrike_Name", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Throw a dagger or one-handed axe from your main hand at an enemy outside melee range. Don&apos;t think too hard about how it is also still in your hand... ähnelt.
+        /// </summary>
+        internal static string WeaponThrow_Description {
+            get {
+                return ResourceManager.GetString("WeaponThrow_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Weapon Throw ähnelt.
+        /// </summary>
+        internal static string WeaponThrow_Name {
+            get {
+                return ResourceManager.GetString("WeaponThrow_Name", resourceCulture);
+            }
+        }
     }
 }
